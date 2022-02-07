@@ -3,12 +3,12 @@ import sys
 from datetime import datetime
 
 
-def create_file_from_terminal(arguments):
+def main(arguments):
     value_is_f = False
     value_is_d = False
-    path = str(os.getcwd()) + "\\"
+    path = os.getcwd() + "\\"
 
-    for iterator, value in enumerate(arguments):
+    for value in arguments:
         if value == "-f":
             value_is_d = False
             value_is_f = True
@@ -27,9 +27,6 @@ def create_file_from_terminal(arguments):
                     os.mkdir(path)
                 except OSError:
                     pass
-            else:
-                value_is_f = True
-                value_is_d = False
 
 
 def create_file(name_of_file, path):
@@ -47,8 +44,9 @@ def create_file(name_of_file, path):
                 break
 
             new_file.write(str(counter) + " " + line + "\n")
+            counter += 1
         new_file.write("\n")
 
 
 if __name__ == "__main__":
-    create_file_from_terminal(sys.argv)
+    main(sys.argv)
