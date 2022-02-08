@@ -31,7 +31,7 @@ def parse_sys_args():
         end_index = name_index if name_index > path_index else len(argv)
         parsed_argv['file_path'] = path.join(*argv[path_index + 1: end_index])
     if FILE_NAME_FLAG in argv:
-        parsed_argv['file_name'] = argv[argvg.index(FILE_NAME_FLAG) + 1]
+        parsed_argv['file_name'] = argv[argv.index(FILE_NAME_FLAG) + 1]
 
     return parsed_argv
 
