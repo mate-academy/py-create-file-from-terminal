@@ -29,9 +29,9 @@ def parse_sys_args():
         path_index = argv.index(FILE_PATH_FLAG)
         name_index = argv.index(FILE_NAME_FLAG)
         end_index = name_index if name_index > path_index else len(argv)
-        parsed_argv['file_path'] = '\\'.join(argv[path_index + 1: end_index])
+        parsed_argv['file_path'] = path.join(*argv[path_index + 1: end_index])
     if FILE_NAME_FLAG in argv:
-        parsed_argv['file_name'] = argv[argv.index(FILE_NAME_FLAG) + 1]
+        parsed_argv['file_name'] = argv[argvg.index(FILE_NAME_FLAG) + 1]
 
     return parsed_argv
 
@@ -44,7 +44,7 @@ def main():
     if file_dir and not path.isdir(file_dir):
         mkdir(file_dir)
 
-    with open(file=file_dir + '\\' + file_name, mode='a') as fout:
+    with open(file=path.join(file_dir, file_name), mode='a') as fout:
         content = get_content()
         fout.write(datetime.now().strftime('%Y-%m-%d %H:%M:%S\n'))
         fout.writelines(content)
