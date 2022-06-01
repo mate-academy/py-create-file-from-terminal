@@ -8,8 +8,7 @@ if "-d" in sys.argv and "-f" in sys.argv:
         path_string += f"{direction}/"
         if not os.path.isdir(path_string):
             os.mkdir(path_string)
-    print(path_string + sys.argv[-1])
-    # if os.path.isdir(path_string + sys.argv[0]):
+
     with open(path_string + sys.argv[-1], "a") as new_file:
         now = datetime.now()
         date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
