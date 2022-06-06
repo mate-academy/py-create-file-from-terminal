@@ -1,10 +1,3 @@
-# def collect_input(count: int, prefix: str):
-#     input_with_prefix = []
-#
-#     for _ in range(count):
-#         input_with_prefix.append(prefix + input(">>>"))
-#
-#     return input_with_prefix
 import os
 import sys
 from datetime import datetime
