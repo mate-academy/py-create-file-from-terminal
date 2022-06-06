@@ -8,13 +8,16 @@ def make_directory(path):
 
 
 def file_creator(name):
-    with open(f"{name}", 'a') as f:
-        f.write(datetime.datetime.now().strftime('\n%Y-%m-%d %H:%M:%S\n'))
+    with open(f"{name}", "a") as f:
+        f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
+        counter = 1
         while True:
             content = input("Enter content line: ")
             if content == "stop":
+                f.write("\n")
                 break
-            f.write(f"{content}\n")
+            f.write(f"{counter} {content}\n")
+            counter += 1
 
 
 def create_file():
