@@ -26,7 +26,8 @@ def write_content_to_file(name_file, dir_path):
         file.write(date_time)
         while True:
             new_content = input("Enter content line: ")
-            if new_content == "stop":
+            if new_content.lower() == "stop":
+                file.write("\n")
                 break
             file.write(f"{new_content}\n")
 
