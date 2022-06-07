@@ -3,6 +3,11 @@ import sys
 from datetime import datetime
 
 
+import os
+import sys
+from datetime import datetime
+
+
 def create_file_from_input():
     terminal = sys.argv
     path = ""
@@ -11,14 +16,14 @@ def create_file_from_input():
             write_content_to_file(terminal[i + 2], path)
             break
         elif command != "-d":
-            path += f"/{command}"
+            path += os.path.sep + command
 
 
 def write_content_to_file(name_file, dir_path):
     if dir_path:
         if not os.path.exists(f"app{dir_path}"):
             os.makedirs(f"app{dir_path}")
-        dir_path = "app" + dir_path + "/"
+        dir_path = "app" + dir_path + os.path.sep
 
     with open(dir_path + name_file, "a") as file:
         now = datetime.now()
@@ -26,8 +31,7 @@ def write_content_to_file(name_file, dir_path):
         file.write(date_time)
         while True:
             new_content = input("Enter content line: ")
-            if new_content.lower() == "stop":
-                file.write("\n")
+            if new_content == "stop":
                 break
             file.write(f"{new_content}\n")
 
