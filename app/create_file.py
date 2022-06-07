@@ -6,9 +6,9 @@ from datetime import datetime
 def create_file_from_input():
     terminal = sys.argv
     path = ""
-    for i, command in enumerate(terminal[1:]):
+    for index, command in enumerate(terminal[1:]):
         if command == "-f":
-            write_content_to_file(terminal[i + 2], path)
+            write_content_to_file(terminal[index + 2], path)
             break
         elif command != "-d":
             path += os.path.sep + command
