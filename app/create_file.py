@@ -15,7 +15,7 @@ def create_file():
             while True:
                 input_string = input("Enter content line: ")
                 if input_string == "stop":
-                    f.write(f"\n")
+                    f.write("\n")
                     break
                 f.write(f"{count} {input_string}\n")
                 count += 1
