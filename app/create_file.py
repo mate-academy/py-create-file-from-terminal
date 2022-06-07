@@ -29,6 +29,3 @@ def create_file():
             os.path.sep.join(sys.argv[sys.argv.index("-d") + 1:]))
     elif "-f" in sys.argv:
         create_full_path(os.path.curdir, sys.argv[-1])
-
-
-create_file()
