@@ -3,11 +3,6 @@ import sys
 from datetime import datetime
 
 
-import os
-import sys
-from datetime import datetime
-
-
 def create_file_from_input():
     terminal = sys.argv
     path = ""
