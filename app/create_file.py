@@ -17,7 +17,7 @@ if "-f" in sys.argv and "-d" in sys.argv:
     name = copy[f_index + 1]
     os.makedirs(path)
     final_path = path + '/' + name
-    with open(final_path, "w") as f:
+    with open(final_path, "a") as f:
         f.write(str(timee) + "\n")
         count = 1
         while True:
@@ -36,6 +36,13 @@ elif "-d" in sys.argv:
 
 elif "-f" in sys.argv:
     name = sys.argv[2]
-    current_name = name + '.txt'
-    with open(current_name, 'w') as f:
+    current_name = name
+    with open(current_name, 'a') as f:
         f.write(str(timee) + "\n")
+        count = 1
+        while True:
+            content = input('Enter the line content:')
+            if content == 'stop':
+                break
+            f.write(str(count) + " " + content + "\n")
+            count += 1
