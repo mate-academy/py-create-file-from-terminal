@@ -8,18 +8,16 @@ def create_file():
         print(path)
         if not os.path.exists(path):
             os.makedirs(path)
-        if os.path.exists(path + os.path.sep + name):
-            line = "Another line"
-        else:
-            line = "Line"
+
         with open(path + os.path.sep + name, "a") as f:
             f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
             count = 1
             while True:
                 input_string = input("Enter content line: ")
                 if input_string == "stop":
+                    f.write(f"\n")
                     break
-                f.write(f"{line}{count} {input_string}\n")
+                f.write(f"{count} {input_string}\n")
                 count += 1
 
     if "-d" in sys.argv and "-f" in sys.argv:
@@ -31,3 +29,6 @@ def create_file():
             os.path.sep.join(sys.argv[sys.argv.index("-d") + 1:]))
     elif "-f" in sys.argv:
         create_full_path(os.path.curdir, sys.argv[-1])
+
+
+create_file()
