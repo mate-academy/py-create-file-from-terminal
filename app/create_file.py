@@ -4,9 +4,9 @@ import sys
 
 
 def handle_file(file_root):
-    with open(f"{file_root}", "a") as file:
+    with open(f"{file_root}", "a") as f:
         counter = 1
-        file.write(
+        f.write(
             f'{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n'
         )
 
@@ -14,9 +14,9 @@ def handle_file(file_root):
             inputted_data = input("Enter content line: ")
             if inputted_data == "stop":
                 break
-            file.writelines(f"{counter} {inputted_data}\n")
+            f.writelines(f"{counter} {inputted_data}\n")
             counter += 1
-        file.write("\n")
+        f.write("\n")
 
 
 def make_dir(dirs):
