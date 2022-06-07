@@ -5,14 +5,12 @@ from datetime import datetime
 
 
 def create_path(dirs):
-    directory_to_add = ""
+    directories_to_add = "/".join(dirs)
 
-    for directory in dirs:
-        directory_to_add += directory + "/"
-        os.mkdir(directory_to_add)
-    print(directory_to_add)
+    if not os.path.exists(directories_to_add):
+        os.makedirs(directories_to_add)
 
-    return directory_to_add
+    return directories_to_add
 
 
 def create_file(path: str):
@@ -43,6 +41,4 @@ if "-f" in input_data and "-d" not in input_data:
 if "-d" in input_data and "-f" in input_data:
     filename = input_data[-1]
     directories = input_data[2:-2]
-    path = create_path(directories)
-    full_path = path + filename
-    create_file(full_path)
+    create_file(create_path(directories) + filename)
