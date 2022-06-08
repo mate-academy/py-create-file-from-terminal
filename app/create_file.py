@@ -16,13 +16,13 @@ def create_file_from_input(path_and_file_name):
         datatime_now = datetime.now().strftime("%m-%d-%Y, %H:%M:%S\n")
         file.write(datatime_now)
 
-        i = 1
+        number_line = 1
         while True:
             line = input("Enter content line: ")
             if line == "stop":
                 break
             file.write(f"{i} {line}\n")
-            i += 1
+            number_line += 1
 
 
 def create_file_from_terminal():
