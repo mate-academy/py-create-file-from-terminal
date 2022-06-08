@@ -27,18 +27,22 @@ def create_file(path: str):
             counter += 1
 
 
-input_data = sys.argv
+def main():
+    input_data = sys.argv
 
-if "-d" in input_data and "-f" not in input_data:
-    directories = input_data[2:]
-    create_path(directories)
+    if "-d" in input_data and "-f" in input_data:
+        filename = input_data[-1]
+        directories = input_data[2:-2]
+        create_file(create_path(directories) + filename)
+
+    if "-d" in input_data:
+        directories = input_data[2:]
+        create_path(directories)
+
+    if "-f" in input_data:
+        file_name = input_data[2]
+        create_file(file_name)
 
 
-if "-f" in input_data and "-d" not in input_data:
-    file_name = input_data[2]
-    create_file(file_name)
-
-if "-d" in input_data and "-f" in input_data:
-    filename = input_data[-1]
-    directories = input_data[2:-2]
-    create_file(create_path(directories) + filename)
+if __name__ == "__main__":
+    main()
