@@ -23,13 +23,15 @@ for i in range(1, len(arguments)):
             os.mkdir(dir_path)
 
     elif arguments[i - 1] == "-f":
+        line_number = 1
 
         if os.path.exists(arguments[i]):
             with open(arguments[i], "a") as f:
                 line_content = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
                 while line_content != "stop":
-                    f.writelines(f"{line_content}\n")
+                    f.writelines(f"{line_number} {line_content}\n")
+                    line_number += 1
                     line_content = input("Enter content line: ")
 
         else:
@@ -37,6 +39,7 @@ for i in range(1, len(arguments)):
                 line_content = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
                 while line_content != "stop":
-                    f.writelines(f"{line_content}\n")
+                    f.writelines(f"{line_number} {line_content}\n")
+                    line_number += 1
                     line_content = input("Enter content line: ")
                 f.writelines("\n")
