@@ -21,7 +21,7 @@ def create_file_from_input(path_and_file_name):
             line = input("Enter content line: ")
             if line == "stop":
                 break
-            file.write(f"{i} {line}\n")
+            file.write(f"{number_line} {line}\n")
             number_line += 1
 
 
