@@ -22,14 +22,16 @@ def create_full_dir():
 
 
 def create_file(path, name):
+    counter = 0
     with open(path + "\\" + name, "a+") as file:
         file.write(datetime.datetime.now().strftime("%m-%d-%Y, %H:%M:%S\n"))
         while True:
+            counter += 1
             content = input("Enter content line: ")
             if content.lower() == "stop":
                 file.write("\n")
                 break
-            file.write(f"{content}\n")
+            file.write(f"{counter} {content}\n")
 
 
 create_full_dir()
