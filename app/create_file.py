@@ -19,9 +19,10 @@ def create_input(directory, file_name):
         while True:
             input_content = input("Enter content line: ")
             if input_content == "stop":
+                f.write("\n")
                 break
             else:
-                f.write(f"Line{counter} {input_content}")
+                f.write(f"Line{counter} {input_content}\n")
                 counter += 1
 
 
@@ -37,3 +38,7 @@ def create_file():
     elif "-d" in sys.argv:
         path = check_directory(os.sep.join(sys.argv[2:]))
         os.mkdir(path)
+
+        
+if __name__ == "__main__":
+    create_file()        
