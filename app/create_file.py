@@ -28,7 +28,9 @@ def create_input(directory, file_name):
 
 def create_file():
     if "-d" in sys.argv and "-f" in sys.argv:
-        path = check_directory(os.sep.join(sys.argv[3:len(sys.argv) - 1]) + os.sep)
+        path = check_directory(
+            os.sep.join(sys.argv[3:len(sys.argv) - 1]) + os.sep
+        )
         file_name = sys.argv[-1]
         create_input(path, file_name)
     elif "-f" in sys.argv:
@@ -38,7 +40,6 @@ def create_file():
     elif "-d" in sys.argv:
         path = check_directory(os.sep.join(sys.argv[2:]))
         os.mkdir(path)
-
         
 if __name__ == "__main__":
     create_file()        
