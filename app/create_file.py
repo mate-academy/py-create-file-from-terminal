@@ -35,4 +35,3 @@ def create_file(file_name: str):
 
 
 terminal()
-
