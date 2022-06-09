@@ -27,11 +27,12 @@ def make_dir(dirs):
     return path
 
 
-sys_argv = sys.argv
+def main():
+    sys_argv = sys.argv
 
-if "-f" in sys_argv and "-d" not in sys_argv:
-    handle_file(f"{sys_argv[-1]}")
-elif "-f" in sys_argv and "-d" in sys_argv:
-    handle_file(f"{make_dir(sys_argv[2:-2])}{sys_argv[-1]}")
-elif "-d" in sys_argv and "-f" not in sys_argv:
-    make_dir(sys_argv[2:])
+    if "-f" in sys_argv and "-d" in sys_argv:
+        handle_file(f"{make_dir(sys_argv[2:-2])}{sys_argv[-1]}")
+    elif "-f" in sys_argv:
+        handle_file(f"{sys_argv[-1]}")
+    elif "-d" in sys_argv:
+        make_dir(sys_argv[2:])
