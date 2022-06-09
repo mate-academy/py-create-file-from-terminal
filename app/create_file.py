@@ -41,5 +41,5 @@ def create_file():
         path = check_directory(os.sep.join(sys.argv[2:]))
         os.mkdir(path)
 
-        
+
 create_file()
