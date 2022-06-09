@@ -44,5 +44,3 @@ def create_file_and_directories():
 
 
 create_file_and_directories()
-
-
