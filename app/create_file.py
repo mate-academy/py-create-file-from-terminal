@@ -16,8 +16,11 @@ def create_file(file_name):
         f.write(date_time)
         i = 0
         line = ""
-        while line != "stop":
-            f.write(f"{i} {line} \n")
+        while True:
+            if line == "stop":
+                f.write("\n")
+                break
+            f.write(f"{i} {line}\n")
             i += 1
             line = input("Enter content line: ")
 
