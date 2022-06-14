@@ -38,8 +38,7 @@ def create_file():
         file_name = sys.argv[-1]
         create_input(path, file_name)
     elif "-d" in sys.argv:
-        path = check_directory(os.sep.join(sys.argv[2:]))
-        os.mkdir(path)
+        check_directory(os.sep.join(sys.argv[2:]))
 
 
 create_file()
