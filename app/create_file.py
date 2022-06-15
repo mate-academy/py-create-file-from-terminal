@@ -11,21 +11,21 @@ def creating_path(ls: list) -> str:
 
 
 def creating_file(file: str):
-    with open(file, "a") as f:
+    with open(file, "a") as file:
         current_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        f.write(current_date + "\n")
+        file.write(current_date + "\n")
         number = 1
         while True:
             content = input("Enter content line: ")
             if content == "stop":
-                f.write("\n")
+                file.write("\n")
                 exit()
             else:
-                f.write(f"{number} {content}\n")
+                file.write(f"{number} {content}\n")
                 number += 1
 
 
-def control_function():
+def main():
     terminal = sys.argv
     if "-d" in terminal and "-f" in terminal:
         path_list = terminal[2:-2]
@@ -37,3 +37,6 @@ def control_function():
         creating_path(terminal[2:])
     if "-f" in terminal:
         creating_file(terminal[2])
+
+
+main()
