@@ -4,8 +4,7 @@ import sys
 
 
 def create_full_path(path, name):
-    if not os.path.exists(path):
-        os.makedirs(path)
+    create_dirs(path)
 
     with open(path + os.path.sep + name, "a") as f:
         f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
