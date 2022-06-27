@@ -27,7 +27,6 @@ def start_crate_file():
 
 
 def iterator_by_dir(argv, ind_d):
-    global directory
     for i in range(ind_d + 1, len(argv) - ind_d + 1):
         if argv[i] == "-f":
             break
