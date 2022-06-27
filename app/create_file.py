@@ -32,20 +32,18 @@ def iterator_by_dir(argv, ind_d, directory):
             break
         else:
             directory = directory + os.path.join(f"\\{argv[i]}")
-            if os.path.isdir(directory):
-                pass
-            else:
+            if not os.path.isdir(directory):
                 os.mkdir(directory)
 
 
 def file_a_and_w(content, directory, file="file.txt"):
     directory = directory + os.path.join(f"\\{file}")
     if os.path.isfile(directory):
-        with open(directory, "a") as f:
-            f.write(content)
+        with open(directory, "a") as file:
+            file.write(content)
     else:
-        with open(directory, "w") as f:
-            f.write(content)
+        with open(directory, "w") as file:
+            file.write(content)
 
 
 def file_by_directory_and_file(argv, content, directory):
