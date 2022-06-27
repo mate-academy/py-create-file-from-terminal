@@ -26,8 +26,7 @@ def start_crate_file():
         file_by_directory(argv, content, directory)
 
 
-def iterator_by_dir(argv, ind_d):
-    global directory
+def iterator_by_dir(argv, ind_d, directory):
     for i in range(ind_d + 1, len(argv) - ind_d + 1):
         if argv[i] == "-f":
             break
@@ -52,7 +51,7 @@ def file_a_and_w(content, directory, file="file.txt"):
 def file_by_directory_and_file(argv, content, directory):
     ind_d = argv.index("-d")
     ind_f = argv.index("-f")
-    iterator_by_dir(argv, ind_d)
+    iterator_by_dir(argv, ind_d, directory)
     file_a_and_w(content, directory, argv[ind_f + 1])
 
 
@@ -63,7 +62,7 @@ def file_by_file(argv, content, directory):
 
 def file_by_directory(argv, content, directory):
     ind_d = argv.index("-d")
-    iterator_by_dir(argv, ind_d)
+    iterator_by_dir(argv, ind_d, directory)
     file_a_and_w(content, directory)
 
 
