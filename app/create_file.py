@@ -2,8 +2,6 @@ import sys
 from datetime import datetime
 from os import makedirs
 
-print(sys.argv)
-
 
 def run(data):
     path = None
@@ -21,21 +19,21 @@ def run(data):
         index_f_flag = data.index("-f")
 
         if path is None:
-            file = data[index_f_flag + 1]
+            file_name = data[index_f_flag + 1]
         else:
-            file = path + "/" + data[index_f_flag + 1]
+            file_name = path + "/" + data[index_f_flag + 1]
 
-        with open(f"{file}", "a") as f:
-            f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
+        with open(f"{file_name}", "a") as file:
+            file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
             line = 1
 
             while True:
                 inp = input("Enter content line: ")
-                f.write(f"{line} {inp} \n")
+                file.write(f"{line} {inp} \n")
                 line += 1
 
                 if inp == "stop":
-                    f.write("\n")
+                    file.write("\n")
                     break
 
 
