@@ -1,43 +1,47 @@
-import os
 import sys
+import os
 from datetime import datetime
 
 
-def create_file():
-    if "-f" in sys.argv and "-d" in sys.argv:
-        directories = sys.argv[sys.argv.index("-d") + 1: sys.argv.index("-f")]
-        file = sys.argv[sys.argv.index("-f") + 1]
-        file_name = os.path.join(create_directory(directories), file)
-        file_generator(file_name)
-    elif "-d" in sys.argv:
-        directories = sys.argv[sys.argv.index("-d") + 1:]
-        create_directory(directories)
-    elif "-f" in sys.argv:
-        file = sys.argv[sys.argv.index("-f") + 1]
-        file_generator(file)
+def create_path(dirs):
+    directories_to_add = "/".join(dirs)
+
+    if not os.path.exists(directories_to_add):
+        os.makedirs(directories_to_add)
+
+    return directories_to_add
 
 
-def create_directory(directories):
-    path = os.getcwd()
-    for directory in directories:
-        path = os.path.join(path, directory)
-    os.makedirs(path)
-    return path
+def create_file(path: str):
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-
-def file_generator(file):
-    with open(file, "a") as f:
-        now = datetime.now()
-        f.write(now.strftime("%m-%d-%Y %H:%M:%S") + "\n")
-        i = 1
+    with open(path, "a") as file:
+        counter = 1
+        file.write(f"{now}\n")
         while True:
-            content = input("Enter content line: ")
-            if content != "stop":
-                f.write(f"{str(i)} content \n")
-                i += 1
-            else:
+            message = input("Enter content line: ")
+            if message == "stop":
                 break
+            file.writelines(f"{counter} {message}\n")
+            counter += 1
+
+
+def main():
+    input_data = sys.argv
+
+    if "-d" in input_data and "-f" in input_data:
+        filename = input_data[-1]
+        directories = input_data[2:-2]
+        create_file(create_path(directories) + filename)
+
+    if "-d" in input_data:
+        directories = input_data[2:]
+        create_path(directories)
+
+    if "-f" in input_data:
+        file_name = input_data[2]
+        create_file(file_name)
 
 
 if __name__ == "__main__":
-    create_file()
+    main()
