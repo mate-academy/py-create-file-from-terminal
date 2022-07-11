@@ -24,12 +24,12 @@ def create_file(command: list):
         file_name = command[-1]
 
     if "-f" in command:
-        with open(file_name, "a") as f:
-            f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
+        with open(file_name, "a") as new_file:
+            new_file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
             line = 1
             while True:
                 input_text = input("Enter content line: ")
-                f.write(f"{line} {input_text} \n")
+                new_file.write(f"{line} {input_text} \n")
                 line += 1
 
                 if input_text == "stop":
