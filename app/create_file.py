@@ -22,7 +22,6 @@ def file_creater():
                 if user_typing == "stop":
                     file.write("\n")
                     break
-
                 file.write(f"{count_lines} {user_typing}" + "\n")
                 count_lines += 1
 
