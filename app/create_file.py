@@ -17,6 +17,7 @@ def file_creater():
         with open(sys.argv[-1], "a") as file:
             file.write(f"{current.strftime('%Y-%m-%d %H:%M:%S')}\n")
             count_lines = 1
+
             while True:
                 user_typing = input("Enter content line:")
                 if user_typing == "stop":
