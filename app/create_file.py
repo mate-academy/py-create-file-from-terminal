@@ -22,17 +22,17 @@ def creater():
 
 
 if "-d" in sys.argv and "-f" not in sys.argv:
-    terminal_d = TERMINAL_STR.partition('-d ')[2]
-    terminal_d_ = str(terminal_d.replace(' ', '/'))
-    os.makedirs(terminal_d_)
+    TERMINAL_D = TERMINAL_STR.partition('-d ')[2]
+    TERMINAL_D_ = str(TERMINAL_D.replace(' ', '/'))
+    os.makedirs(TERMINAL_D_)
 
 if "-f" in sys.argv and "-d" not in sys.argv:
     creater()
 
 if "-d" in sys.argv and "-f" in sys.argv:
-    terminal_df = TERMINAL_STR.partition('-d ')[2]
-    terminal_df = terminal_df.partition(' -f')[0]
-    terminal_df_ = terminal_df.replace(' ', '/')
-    os.makedirs(terminal_df_)
-    os.chdir(terminal_df_)
+    TERMINAL_DF = TERMINAL_STR.partition('-d ')[2]
+    TERMINAL_DF = TERMINAL_DF.partition(' -f')[0]
+    TERMINAL_DF_ = TERMINAL_DF.replace(' ', '/')
+    os.makedirs(TERMINAL_DF_)
+    os.chdir(TERMINAL_DF_)
     creater()
