@@ -3,32 +3,36 @@ import sys
 from datetime import datetime
 
 
-today = datetime.now()
-dat_list = str(today).split(".")
-dat = dat_list[0]
+TODAY = datetime.now()
+DAT_LIST = str(TODAY).split(".")
+DAT = DAT_LIST[0]
+TERMINAL_STR = " ".join(sys.argv)
 
 
 def creater():
-    with open("file.txt", "a") as f:
-        f.write(dat + "\n")
+    with open("file.txt", "a") as file:
+        file.write(DAT + "\n")
         print(os.getcwd())
         for line in sys.stdin:
             print(f'Enter content line: {line}')
             d = line.replace('stop', '')
-            f.write(d)
+            file.write(d)
             if 'stop' == line.rstrip():
                 break
 
 
 if "-d" in sys.argv and "-f" not in sys.argv:
-    os.makedirs("dir1/dir2")
-
+    terminal_d = TERMINAL_STR.partition('-d ')[2]
+    terminal_d_ = str(terminal_d.replace(' ', '/'))
+    os.makedirs(terminal_d_)
 
 if "-f" in sys.argv and "-d" not in sys.argv:
     creater()
 
 if "-d" in sys.argv and "-f" in sys.argv:
-    os.makedirs("dir1/dir2")
-    os.chdir("dir1")
-    os.chdir("dir2")
+    terminal_df = TERMINAL_STR.partition('-d ')[2]
+    terminal_df = terminal_df.partition(' -f')[0]
+    terminal_df_ = terminal_df.replace(' ', '/')
+    os.makedirs(terminal_df_)
+    os.chdir(terminal_df_)
     creater()
