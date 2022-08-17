@@ -25,7 +25,7 @@ with open(name_file, "a") as f:
     f.write(str(datetime.now())[:-7] + "\n")
     print(str(datetime.now())[:-7] + "\n")
     i = 0
-    print(f"Enter content line: ")
+    print("Enter content line: ")
     for line in sys.stdin:
         i += 1
         if "stop" == line.rstrip():
