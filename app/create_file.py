@@ -33,7 +33,6 @@ def create_file():
             i += 1
             if "stop" == line.rstrip():
                 break
-            else:
-                f.write(f"{i} Line{i} {line}")
-            print(f"Enter content line:"
-                  f" Line{i} {line}")
+
+    f.write(f"{i} Line{i} {line}")
+    print(f"Enter content line: Line{i} {line}")
