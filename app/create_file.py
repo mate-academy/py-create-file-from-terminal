@@ -34,5 +34,5 @@ def create_file():
             if "stop" == line.rstrip():
                 break
 
-    f.write(f"{i} Line{i} {line}")
-    print(f"Enter content line: Line{i} {line}")
+            f.write(f"{i} Line{i} {line}")
+            print(f"Enter content line: Line{i} {line}")
