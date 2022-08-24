@@ -19,11 +19,13 @@ def create_file_from_command_line(args):
         if create_file:
             with open(f"{directory}{arg}", "w") as f:
                 print(strftime("%Y-%m-%d %H:%M:%S", localtime()), file=f)
+                line = 1
                 while True:
                     text = input("Enter content line: ")
                     if text == "stop":
                         break
-                    print(text, file=f)
+                    print(f"{line} {text}", file=f)
+                    line += 1
             create_file = False
         if create_dir:
             directory += f"{arg}/"
