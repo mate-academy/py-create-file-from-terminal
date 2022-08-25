@@ -12,7 +12,7 @@ def create_file_from_command_line(args):
             create_file = True
             create_dir = False
             continue
-        if arg == '-d':
+        if arg == "-d":
             create_dir = True
             create_file = False
             continue
@@ -32,5 +32,5 @@ def create_file_from_command_line(args):
             mkdir(directory)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     create_file_from_command_line(sys.argv)
