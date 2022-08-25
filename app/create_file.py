@@ -18,7 +18,8 @@ def create_file_from_command_line(args):
             continue
         if create_file:
             with open(f"{directory}{arg}", "w") as file_created:
-                print(strftime("%Y-%m-%d %H:%M:%S", localtime()), file=file_created)
+                print(strftime("%Y-%m-%d %H:%M:%S", localtime()),
+                      file=file_created)
                 line = 1
                 while True:
                     text = input("Enter content line: ")
