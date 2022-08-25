@@ -4,7 +4,7 @@ import sys
 
 
 def create_file():
-    if '-d' in sys.argv:
+    if "-d" in sys.argv:
         index = 2
         while index != len(sys.argv) and sys.argv[index] != "-f":
             os.mkdir(sys.argv[index])
