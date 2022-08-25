@@ -28,16 +28,16 @@ def create_file_from_terminal(cmd_line: str) -> None:
         file_name = os.path.join(file_path, args.file_name[0])
         line_number = 1
 
-        with open(file_name, "a") as f:
+        with open(file_name, "a") as text_file:
             line_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            f.write(f"{line_date}\n")
+            text_file.write(f"{line_date}\n")
 
             while True:
                 line_content = input("Enter content line: ")
 
                 if line_content == "stop":
-                    f.write("\n")
+                    text_file.write("\n")
                     break
 
-                f.write(f"{line_number} {line_content}\n")
+                text_file.write(f"{line_number} {line_content}\n")
                 line_number += 1
