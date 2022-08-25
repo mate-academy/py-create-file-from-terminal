@@ -25,18 +25,18 @@ def main():
     elif "-f" in sys.argv:
         path = sys.argv[-1]
     if "-f" in sys.argv:
-        with open(path, 'at', newline='\n') as f:
+        with open(path, "at", newline="\n") as file_to_write:
             cur_date = datetime.datetime.now()
-            f.write(f"{cur_date.strftime('%Y-%m-%d %H:%M:%S')}\n")
+            file_to_write.write(f"{cur_date.strftime('%Y-%m-%d %H:%M:%S')}\n")
             num = 1
             res = ""
             while True:
                 res = input("Enter content line:")
                 if res == "stop":
                     break
-                f.write(f"{num} {res}\n")
+                file_to_write.write(f"{num} {res}\n")
                 num += 1
-            f.close()
+            file_to_write.close()
 
 
 if __name__ == "__main__":
