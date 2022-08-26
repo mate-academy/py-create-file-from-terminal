@@ -24,6 +24,7 @@ def create_file_from_terminal(path):
                 index = 1
         path_str = path_str[:-1]
         os.makedirs(path_str)
+        os.chdir(path_str)
     if create_file:
         file_name = path[-1]
         with open(file_name, "a") as f:
