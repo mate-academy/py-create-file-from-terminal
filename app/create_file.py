@@ -27,12 +27,12 @@ def create_file_from_terminal(path):
         os.chdir(path_str)
     if create_file:
         file_name = path[-1]
-        with open(file_name, "a") as f:
-            f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        with open(file_name, "a") as file:
+            file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             content = input("Enter content line:")
             while content != "stop":
-                f.write("\n")
-                f.write(content)
+                file.write("\n")
+                file.write(content)
                 content = input("Enter content line:")
 
 
