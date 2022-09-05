@@ -12,7 +12,8 @@ def create_file():
             i += 1
     if "-f" in sys.argv:
         with open(sys.argv[-1], "w") as file:
-            file.write(f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+            time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            file.write(f"{time}\n")
             line = 1
             new_line = input("Enter content line: ")
             while new_line != "stop":
