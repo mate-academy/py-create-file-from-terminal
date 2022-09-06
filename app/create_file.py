@@ -5,11 +5,11 @@ import datetime
 
 def create_file():
     if "-d" in sys.argv:
-        i = 2
-        while len(sys.argv) != i and sys.argv[i] != "-f":
-            os.mkdir(sys.argv[i])
-            os.chdir(sys.argv[i])
-            i += 1
+        count = 2
+        while len(sys.argv) != count and sys.argv[count] != "-f":
+            os.mkdir(sys.argv[count])
+            os.chdir(sys.argv[count])
+            count += 1
     if "-f" in sys.argv:
         with open(sys.argv[-1], "w") as file:
             time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
