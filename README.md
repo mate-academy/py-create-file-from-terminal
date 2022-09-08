@@ -76,6 +76,6 @@ inside that directory with content:
 ```
 It would be relevant to use:
 - `sys.argv` to read arguments from the terminal
-- `os.makedirs` to create directories
-- `.strftime()` method for `datetime.now()` to make timestamp
-more beautiful.
+  - `os.makedirs` to create directories
+  - `.strftime()` method for `datetime.now()` to make timestamp
+  more beautiful.
