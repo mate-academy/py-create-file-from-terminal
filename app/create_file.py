@@ -3,18 +3,8 @@ import os
 from datetime import datetime
 
 
-list_command = sys.argv
-if "-d" in list_command and "-f" not in list_command:
-    args = list_command[2:]
-    path_dir = os.path.join(*args)
-    os.makedirs(path_dir)
-
-if "-d" in list_command and "-f" in list_command:
-    args = list_command[2:-2]
-    path_dir = os.path.join(*args)
-    os.makedirs(path_dir)
-    path_file = list_command[-1:][-1]
-    with open(f"{path_dir}/{path_file}", "w") as f:
+def create_file(path_of_file):
+    with open(path_of_file, "a") as f:
         f.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         while True:
             data = input("Enter information: ")
@@ -22,12 +12,17 @@ if "-d" in list_command and "-f" in list_command:
                 break
             f.write(f"{data}\n")
 
-if "-d" not in list_command and "-f" in list_command:
-    path_file = list_command[-1:][-1]
-    with open(f"{path_file}", "a") as f:
-        f.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-        while True:
-            data = input("Enter information: ")
-            if data == "stop":
-                break
-            f.write(f"{data}\n")
+
+if "-d" in sys.argv and "-f" not in sys.argv:
+    args = sys.argv[2:]
+    path_dir = os.path.join(*args)
+    os.makedirs(path_dir)
+if "-d" in sys.argv and "-f" in sys.argv:
+    args = sys.argv[2:-2]
+    path_dir = os.path.join(*args)
+    os.makedirs(path_dir)
+    path_file = path_dir + "/" + sys.argv[-1]
+    create_file(path_file)
+if "-d" not in sys.argv and "-f" in sys.argv:
+    path_file = sys.argv[-1]
+    create_file(path_file)
