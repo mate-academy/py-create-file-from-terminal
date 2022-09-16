@@ -23,13 +23,7 @@ def crate_file():
         path_file_name = file_name
     else:
         path_file_name = f"{path}\\{file_name}"
-
-    try:
-        os.makedirs(path)
-    except FileExistsError:
-        pass
-    except FileNotFoundError:
-        pass
+        os.makedirs(path, exist_ok=True)
 
     # writing info into a file
     num = 0
