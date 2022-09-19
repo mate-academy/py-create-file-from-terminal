@@ -4,25 +4,24 @@ from datetime import datetime
 
 
 def make_dir(paths: list):
-    try:
-        d_index = paths.index("-d")
-    except ValueError:
+    if "-d" not in paths:
         return
-    try:
-        f_index = paths.index("-f")
-    except ValueError:
+    d_index = paths.index("-d")
+    if "-f" not in paths:
         f_index = len(paths)
+    else:
+        f_index = paths.index("-f")
     try:
         makedirs("/".join(paths[d_index + 1:f_index]))
     except FileExistsError:
+        print("The specified path already exists")
         return
 
 
 def create_file(paths: list):
-    try:
-        f_index = paths.index("-f")
-    except ValueError:
+    if "-f" not in paths:
         return
+    f_index = paths.index("-f")
     if f_index == len(paths) - 1:
         return
     if "-d" in paths:
