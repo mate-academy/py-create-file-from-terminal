@@ -1,32 +1,22 @@
-from sys import argv
-
-from os import makedirs, path
-
-from datetime import datetime
+import sys
+import os
+import datetime
 
 
-def create_file(input_text):
-    path_directory = []
-    if "-d" in input_text:
-        for word in range(input_text.index("-d") + 1), len(input_text):
-            if input_text[word] == "-f":
-                break
-            path_directory.append(input_text[word])
-    makedirs(path.join(**input_text))
-
-    if "-f" in input_text:
-        path_directory.append(input_text[input_text.index("-f") + 1])
-
-        with open(path.join(**input_text), "w") as text:
-            line_number = 1
-            text.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-            text.write("/n")
-            while True:
-                input_word = input("Enter content line: ")
-                if input == "stop":
-                    return
-                text.write(f"{line_number} {input_word}")
-                line_number += 1
-
-
-create_file(argv)
+def create_file():
+    if "-d" in sys.argv:
+        index = 2
+        while len(sys.argv) != index and sys.argv[index] != "-f":
+            os.mkdir(sys.argv[index])
+            os.chdir(sys.argv[index])
+            index += 1
+    if "-f" in sys.argv:
+        with open(sys.argv[-1], "w") as file:
+            time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            file.write(f"{time}\n")
+            line = 1
+            new_line = input("Enter content line: ")
+            while new_line != "stop":
+                file.write(f"Line{line}" + f"{new_line}")
+                new_line = input("Enter content line: ")
+                line += 1
