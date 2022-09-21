@@ -1,38 +1,35 @@
 from datetime import datetime
-import sys
 import os
+import argparse
 
 
 def create_file_from_terminal():
-    # parse sys.argv for directory and file name
-    if "-d" in sys.argv:
-        d_index = sys.argv.index("-d")
+    # parse arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-f", default="file.txt")
+    parser.add_argument("-d", nargs="*")
+    args = parser.parse_args()
 
-    if "-f" in sys.argv:
-        f_index = sys.argv.index("-f")
-        file_name = sys.argv[f_index + 1]
-        dir_list = sys.argv[d_index + 1: f_index]
-    else:
-        dir_list = sys.argv[d_index + 1:]
-        # default file name
-        file_name = "file.txt"
+    file_name = args.f
+    # will check for directories later
+    file_path = file_name
 
-    # create directory
-    if dir_list:
-        dir_path = ""
-        for i in range(len(dir_list)):
-            dir_path += dir_list[i] + "/"
-            if not os.path.exists(dir_path):
-                os.mkdir(dir_path)
+    # create directory path if it was in args
+    if args.d:
+        directory = "/".join(args.d)
 
-    #
-    with open(dir_path + file_name, "a") as file:
+        file_path = f"{directory}/{file_name}"
+
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
+    with open(file_path, "a") as file:
         # creating time stamp when file was created or opened
         time_stamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         # this string would be written to the file. adding time stamp here
         lines_for_write = f"{time_stamp}\n"
 
-        # index that should be at the beginning of each line
+        # index that should be at the beginning of each line with text
         index = 1
 
         while True:
