@@ -30,6 +30,7 @@ def create_file(dirs: list[str], filename: str | None):
         line_no = 1
         while (line := input("Enter content line: ")) != "stop":
             lines += f"{line_no} {line}\n"
+            line_no += 1
 
         if lines:
             f.write(f"{time}\n{lines}\n")
