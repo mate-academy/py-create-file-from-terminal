@@ -36,8 +36,9 @@ def create_file(path: list) -> None:
         line_number = 1
         content_line = input("Enter content line: ")
         while content_line != "stop":
-            f.write(f"{line_number} Line{line_number} {content_line}")
+            f.write(f"{line_number} Line{line_number} {content_line}\n")
             line_number += 1
+            content_line = input("Enter content line: ")
 
 
 parse_commands()
