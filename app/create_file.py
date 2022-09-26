@@ -24,14 +24,14 @@ def create_file(dirs: list[str], filename: str | None):
     if not filename:
         return
 
-    time = datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M:%S")
-    lines = ""
-    line_no = 1
-    while (line := input("Enter content line: ")) != "stop":
-        lines += f"{line_no} {line}\n"
+    with open(os.path.join(*dirs, filename), "a") as f:
+        time = datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M:%S")
+        lines = ""
+        line_no = 1
+        while (line := input("Enter content line: ")) != "stop":
+            lines += f"{line_no} {line}\n"
 
-    if lines:
-        with open(os.path.join(*dirs, filename), "a") as f:
+        if lines:
             f.write(f"{time}\n{lines}\n")
 
 
