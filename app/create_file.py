@@ -3,7 +3,7 @@ import sys
 from datetime import datetime
 
 
-def create_file():
+def create_file() -> None:
     command = sys.argv
     if "-f" not in command:
         path = os.path.join(*command[2:])
