@@ -16,11 +16,11 @@ def make_file(path="", file_name=""):
         f.write(f"{date}\n")
         count = 1
         while True:
-            line = input("Enter line: ")
+            line = input("Enter content line: ")
             if line == "stop":
                 f.write("\n")
                 break
-            f.write(f"{count} {line}\n")
+            f.write(f"{count} Line{count} {line}\n")
             count += 1
 
 
