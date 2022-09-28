@@ -34,16 +34,15 @@ def create_from_terminal() -> None:
 def create_new_file(name: str, path: list = None):
     if path:
         os.makedirs("/".join(path))
-        print(path)
         name = "/".join(path) + "/" + name
 
     with open(name, "w") as new_file:
         time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         new_file.write(f"{time}\n")
         line_number = 1
-        content_line = ""
+        content_line = input("Enter content line: ")
         while content_line != "stop":
-            content_line = input("Enter content line: ")
             new_file.write(f"{line_number} "
                            f"Line{line_number} {content_line} \n")
+            content_line = input("Enter content line: ")
             line_number += 1
