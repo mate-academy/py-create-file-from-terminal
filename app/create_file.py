@@ -3,16 +3,16 @@ import os
 import datetime
 
 
-def create_file():
-    user_enter = sys.argv
+def create_file() -> None:
+    enter = sys.argv
     path = ""
 
-    if "-d" in user_enter:
-        path = os.path.join(*user_enter[(user_enter.index("-d") + 1):user_enter.index("-f")])
-        if os.path.exists(f"{path}\{user_enter[-1]}") is False:
+    if "-d" in enter:
+        path = os.path.join(*enter[(enter.index("-d") + 1):enter.index("-f")])
+        if os.path.exists(rf"{path}\{enter[-1]}") is False:
             os.makedirs(path)
 
-    with open(f"{path}\{user_enter[-1]}", "a") as f:
+    with open(rf"{path}\{enter[-1]}", "a") as f:
         f.write(f"{datetime.datetime.now().strftime('%m-%d-%Y %H:%M:%S' )}\n")
         line_counter = 0
         while True:
@@ -21,6 +21,7 @@ def create_file():
             if user_input != "stop":
                 f.write(f"{line_counter} {user_input}\n")
             else:
+                f.write("\n")
                 break
 
 
