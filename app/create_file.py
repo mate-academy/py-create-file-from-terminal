@@ -5,10 +5,10 @@ import os
 def write_new_file_with_input(file_path: list):
     path = "".join(file_path)
     if "-d" in path and "-f" in path:
-        create_path(path[path.index('-d') + 3:path.index(" -f")])
+        create_path(path[path.index("-d") + 3:path.index(" -f")])
         create_file(path[path.index("-f") + 3:])
     elif "-d" in path:
-        create_path(path[path.index('-d') + 3:])
+        create_path(path[path.index("-d") + 3:])
     else:
         create_file(path[path.index("-f") + 3:])
 
