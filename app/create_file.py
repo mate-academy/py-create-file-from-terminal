@@ -3,7 +3,7 @@ import sys
 from datetime import datetime
 
 
-def execute():
+def execute() -> None:
     get_path_from_terminal()
 
 
@@ -11,7 +11,7 @@ def new_directory(path: str) -> None:
     os.makedirs(path, exist_ok=True) if path else None
 
 
-def create_a_file(file_name) -> None:
+def create_a_file(file_name: str) -> None:
     with open(file_name, "a") as file_out:
         line_number = 1
         time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
