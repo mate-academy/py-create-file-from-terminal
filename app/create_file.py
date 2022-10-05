@@ -3,14 +3,14 @@ import os
 
 
 def write_new_file_with_input(file_path: list):
-    fp_j = "".join(file_path)
-    if "-d" in fp_j and "-f" in fp_j:
-        create_path(fp_j[fp_j.index('-d') + 3:fp_j.index(" -f")])
-        create_file(fp_j[fp_j.index("-f") + 3:])
-    elif "-d" in fp_j:
-        create_path(fp_j[fp_j.index('-d') + 3:])
+    path = "".join(file_path)
+    if "-d" in path and "-f" in path:
+        create_path(path[path.index('-d') + 3:path.index(" -f")])
+        create_file(path[path.index("-f") + 3:])
+    elif "-d" in path:
+        create_path(path[path.index('-d') + 3:])
     else:
-        create_file(fp_j[fp_j.index("-f") + 3:])
+        create_file(path[path.index("-f") + 3:])
 
 
 def create_path(check_flag_d: str):
