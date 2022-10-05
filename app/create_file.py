@@ -11,12 +11,14 @@ def write_new_file_with_input(file_path: list):
         create_path(path[path.index("-d") + 3:])
     else:
         create_file(path[path.index("-f") + 3:])
+    return
 
 
 def create_path(check_flag_d: str):
     new_dir = check_flag_d.replace(" ", "/")
     os.makedirs(new_dir)
     os.chdir(os.path.join(os.getcwd(), new_dir))
+    return
 
 
 def create_file(file_name: str):
@@ -35,3 +37,4 @@ def create_file(file_name: str):
                 break
             add_newline.write(f"{lines_num} {add_input} {line} content \n")
             lines_num += 1
+    return
