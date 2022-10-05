@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 import os
 from sys import argv
 
@@ -20,7 +20,7 @@ if directory:
 
 if file_name:
     with open(file_name, "a") as file:
-        file.write(f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 
         while True:
             file_content = input("Enter content line: ")
