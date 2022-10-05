@@ -11,17 +11,8 @@ if "-f" in argv:
     if "-d" in argv:
         directories = argv[argv.index("-d") + 1:argv.index("-f")]
 else:
-    filename = "file.txt"
     if "-d" in argv:
         directories = argv[argv.index("-d") + 1:len(argv)]
-
-file_data = [datetime.today().strftime("%y-%m-%d %H:%M:%S"), "\n"]
-
-while True:
-    line = input("Enter content line: ")
-    if line == "exit":
-        break
-    file_data.extend([line, "\n"])
 
 for directory in directories:
     try:
@@ -30,5 +21,14 @@ for directory in directories:
         pass
     chdir(directory)
 
-with open(filename, "w") as file:
-    file.writelines(file_data)
+if filename:
+    file_data = [datetime.today().strftime("%y-%m-%d %H:%M:%S"), "\n"]
+
+    while True:
+        line = input("Enter content line: ")
+        if line == "exit":
+            break
+        file_data.extend([line, "\n"])
+
+    with open(filename, "w") as file:
+        file.writelines(file_data)
