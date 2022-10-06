@@ -7,7 +7,7 @@ def create_or_check_path(path: str) -> None:
     if not os.path.exists(path):
         os.makedirs(path)
     else:
-        print(f"'{path}' already exists")
+        print(f"'{path}' already exists \n")
 
 
 def create_file(file_name: str) -> None:
