@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 def main() -> None:
-    get_path_from_terminal()
+    get_path_create_directory_and_file()
 
 
 def new_directory(path: str) -> None:
@@ -26,23 +26,24 @@ def create_a_file(file_name: str) -> None:
         file_out.write("\n")
 
 
-def get_path_from_terminal() -> None:
+def get_path_create_directory_and_file() -> None:
     command = sys.argv
-    if "-d" in command and "-f" in command:
-        index_f = command.index("-f")
-        index_d = command.index("-d")
-        path = "/".join(command[(index_d + 1): index_f])
+
+    if "-f" in command:
         file_name = command[-1]
-        new_directory(path)
-        file_name = "/".join([path, file_name])
-        create_a_file(file_name)
+        if "-d" in command:
+            index_f = command.index("-f")
+            index_d = command.index("-d")
+            path = "/".join(command[(index_d + 1): index_f])
+            new_directory(path)
+            file_name = "/".join([path, file_name])
+            create_a_file(file_name)
+        else:
+            create_a_file(file_name)
     elif "-d" in command:
         index_d = command.index("-d")
         path = "/".join(command[(index_d + 1):])
         new_directory(path)
-    elif "-f" in command:
-        file_name = command[-1]
-        create_a_file(file_name)
 
 
 if __name__ == "__main__":
