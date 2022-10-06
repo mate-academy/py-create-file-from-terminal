@@ -13,11 +13,11 @@ def create_from_terminal() -> None:
         file_name = command[index_f + 1:]
         create_directory(file_path)
         create_file(file_path + file_name)
-    if "-f" in command:
+    elif "-f" in command:
         index_f = command.index("-f")
         file_name = command[index_f + 1:]
         create_file(file_name)
-    if "-d" in command:
+    elif "-d" in command:
         index_d = command.index("-d")
         file_path = command[index_d + 1:]
         create_directory(file_path)
@@ -25,7 +25,7 @@ def create_from_terminal() -> None:
 
 def create_directory(path_list: list) -> None:
     path = "/".join(path_list)
-    os.makedirs(path)
+    os.makedirs(path, exist_ok=True)
 
 
 def create_file(path: list) -> None:
