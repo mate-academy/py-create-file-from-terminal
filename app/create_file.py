@@ -4,7 +4,7 @@ import sys
 from datetime import datetime
 
 
-def create_path(path) -> None:
+def create_path(path: list) -> None:
     path = os.path.join(" ".join(path))
     os.makedirs(path, exist_ok=True)
     os.chdir(path)
