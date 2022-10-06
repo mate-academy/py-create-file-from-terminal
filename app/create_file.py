@@ -24,7 +24,7 @@ def get_commands(commands: list) -> dict[str]:
     return param
 
 
-def create_directory(path_: str):
+def create_directory(path_: str) -> None:
     if path_ and not path.isdir(path_):
         makedirs(path_)
 
@@ -36,7 +36,8 @@ def write_to_file(file_name: str, path_: str) -> None:
         f.write(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n')
         i = 1
         while (line_content := input("Enter content line: ")) != "stop":
-            f.write(f'{i} {line_content}\n')
+            f.write(f"{i} {line_content}\n")
+
             i += 1
 
 
@@ -47,5 +48,5 @@ def main() -> None:
         write_to_file(param["-f"], param["-d"])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
