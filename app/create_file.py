@@ -3,14 +3,14 @@ import sys
 import datetime
 
 
-def create_or_check_pass(path):
+def create_or_check_pass(path: str) -> None:
     if not os.path.exists(path):
         os.makedirs(path)
     else:
         print(f"'{path}' already exists")
 
 
-def create_file(file_name: str):
+def create_file(file_name: str) -> None:
     with open(file_name, "a") as f:
         line_num = 1
         f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
@@ -25,7 +25,7 @@ def create_file(file_name: str):
             line_num += 1
 
 
-def create_file_from_terminal():
+def create_file_from_terminal() -> None:
     command = sys.argv[1:]
 
     if "-d" in command and "-f" not in command:
