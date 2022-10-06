@@ -20,9 +20,6 @@ with open(os.path.join(path, command["file"]), "w") as file:
     current_time = datetime.datetime.now()
     file.write(current_time.strftime("%y-%m-%d %H:%M:%S\n"))
     count = 0
-    while True:
-        text = input("Enter content line: ")
-        if text == "stop":
-            break
+    while (text := input("Enter content line: ")) != "stop":
         count += 1
         file.write(f"{count} " + text + "\n")
