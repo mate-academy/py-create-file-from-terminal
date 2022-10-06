@@ -3,7 +3,7 @@ import sys
 from datetime import datetime
 
 
-def execute() -> None:
+def main() -> None:
     get_path_from_terminal()
 
 
@@ -14,8 +14,8 @@ def new_directory(path: str) -> None:
 def create_a_file(file_name: str) -> None:
     with open(file_name, "a") as file_out:
         line_number = 1
-        time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        file_out.write(f"{time}\n")
+        time_stamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file_out.write(f"{time_stamp}\n")
         user_input = input("Enter content line: ")
 
         while user_input.lower() != "stop":
@@ -46,4 +46,4 @@ def get_path_from_terminal() -> None:
 
 
 if __name__ == "__main__":
-    execute()
+    main()
