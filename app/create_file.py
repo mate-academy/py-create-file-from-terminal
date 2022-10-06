@@ -1,6 +1,6 @@
+import datetime
 import os
 import sys
-import datetime
 
 
 def create_or_check_path(path: str) -> None:
@@ -19,6 +19,7 @@ def create_file(file_name: str) -> None:
             user_input = input("Enter content line:")
 
             if user_input.lower() == "stop":
+                f.write("\n")
                 break
 
             f.write(f"{line_num} {user_input} \n")
