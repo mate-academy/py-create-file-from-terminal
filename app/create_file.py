@@ -3,33 +3,49 @@ from os import path, makedirs
 from datetime import datetime
 
 
-def get_commands(commands: list) -> dict[str] | None:
-    if "-f" not in commands:
-        return
-    index_f_flag = commands.index("-f")
-    param = {"file_name": commands[index_f_flag + 1], "path": ""}
+def is_param(index: int, commands: list) -> bool:
+    return index < len(commands) and commands[index] not in ["-f", "-d"]
+
+
+def get_commands(commands: list) -> dict[str]:
+    param = {"-f": "", "-d": ""}
+
+    if "-f" in commands:
+        file_index = commands.index("-f") + 1
+        if is_param(file_index, commands):
+            param["-f"] = commands[file_index]
 
     if "-d" in commands:
-        index_d_flag = commands.index("-d")
-        end_index = index_f_flag if index_f_flag > index_d_flag else None
-        param["path"] = path.join(*commands[index_d_flag + 1:end_index])
+        path_index = commands.index("-d") + 1
+        while is_param(path_index, commands):
+            param["-d"] = path.join(param["-d"], commands[path_index])
+            path_index += 1
 
     return param
 
 
-def write_to_file(file_name: str) -> None:
-    with open(file_name, "a") as f:
+def create_directory(path_: str):
+    if path_ and not path.isdir(path_):
+        makedirs(path_)
+
+
+def write_to_file(file_name: str, path_: str) -> None:
+    if not file_name:
+        return
+    with open(path.join(path_, file_name), "a") as f:
         f.write(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n')
         i = 1
-        while line_content := input("Enter content line: ") != "stop":
+        while (line_content := input("Enter content line: ")) != "stop":
             f.write(f'{i} {line_content}\n')
             i += 1
 
 
-if __name__ == '__main__':
+def main() -> None:
     if len(argv) > 2:
         param = get_commands([arg.strip() for arg in argv])
-        if param:
-            if param["path"] and not path.isdir(param["path"]):
-                makedirs(param["path"])
-            write_to_file(path.join(param["path"], param["file_name"]))
+        create_directory(param["-d"])
+        write_to_file(param["-f"], param["-d"])
+
+
+if __name__ == '__main__':
+    main()
