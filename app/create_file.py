@@ -3,7 +3,7 @@ import sys
 import datetime
 
 
-def create_or_check_pass(path: str) -> None:
+def create_or_check_path(path: str) -> None:
     if not os.path.exists(path):
         os.makedirs(path)
     else:
@@ -31,7 +31,7 @@ def create_file_from_terminal() -> None:
     if "-d" in command and "-f" not in command:
         path = "/".join(command[1:])
 
-        create_or_check_pass(path)
+        create_or_check_path(path)
 
     elif "-f" in command and "-d" not in command:
         file_name = command[-1]
@@ -41,7 +41,7 @@ def create_file_from_terminal() -> None:
         file_name = command[-1]
         path = "/".join(command[1:-2])
 
-        create_or_check_pass(path)
+        create_or_check_path(path)
 
         file_name = path + "/" + file_name
         create_file(file_name)
