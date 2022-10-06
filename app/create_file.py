@@ -32,7 +32,7 @@ def make_file(file_name: str) -> None:
         while True:
             user_input = input("Enter content line: ")
 
-            if user_input == "exit":
+            if user_input == "stop":
                 file.write("\n")
                 break
 
