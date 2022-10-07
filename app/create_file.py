@@ -22,9 +22,11 @@ if file_name:
     with open(file_name, "a") as file:
         file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 
+        i = 1
         while True:
             file_content = input("Enter content line: ")
             if file_content == "stop":
                 break
-            file.write(f"{file_content}\n")
+            file.write(f"{i} {file_content}\n")
+            i += 1
         file.write("\n")
