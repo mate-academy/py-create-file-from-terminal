@@ -2,20 +2,22 @@ import os
 import sys
 from datetime import datetime
 
+
 catalog = ""
-command_list = sys.argv
-if command_list[1] == "-d":
+commands = sys.argv
+
+if commands[1] == "-d":
     try:
-        f_command = command_list.index("-f")
+        f_command = commands.index("-f")
     except ValueError:
         f_command = None
-    catalog = os.path.join(*command_list[2:f_command])
+    catalog = os.path.join(*commands[2:f_command])
     if not os.path.exists(catalog):
         os.makedirs(catalog)
 
-if "-f" in command_list:
-    f_index = command_list.index('-f')
-    with open(str(os.path.join(catalog, command_list[f_index + 1])),
+if "-f" in commands:
+    f_index = commands.index('-f')
+    with open(str(os.path.join(catalog, commands[f_index + 1])),
               "a") as file:
         file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         line_number = 1
