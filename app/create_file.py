@@ -3,7 +3,7 @@ import sys
 from datetime import datetime
 
 
-def create_file():
+def create_file() -> None:
     if "-d" in sys.argv:
         i = 2
         while i < len(sys.argv) and sys.argv[i] != "-f":
