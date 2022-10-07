@@ -9,9 +9,7 @@ def file_make() -> None:
 
     if "-d" in info:
         path += os.path.join(
-            *info[
-             (info.index("-d") + 1):info.index("-f")
-             ]
+            *info[(info.index("-d") + 1):info.index("-f")]
         )
         if os.path.exists(rf"{path}\{info[-1]}") is False:
             os.makedirs(path)
