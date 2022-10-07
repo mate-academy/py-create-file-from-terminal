@@ -13,7 +13,7 @@ def get_from_terminal() -> None:
         path_end = (
             path_or_name.index("-f")
             if "-f" in path_or_name
-            else len(path_or_name) - 1
+            else len(path_or_name)
         )
         path = "/".join(path_or_name[path_start:path_end])
         make_dir(path)
