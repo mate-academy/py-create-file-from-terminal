@@ -15,7 +15,7 @@ def file_make() -> None:
             os.makedirs(path)
 
     with open(rf"{path}\{info[-1]}", "a") as file:
-        data_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         lines = ""
         line_two = 0
         while (line := input("Enter content line: ")) != "stop":
@@ -23,7 +23,7 @@ def file_make() -> None:
             line_two += 1
 
         if lines:
-            file.write(f"{data_time}\n{lines}\n")
+            file.write(f"{current_time}\n{lines}\n")
 
 
 if __name__ == "__main__":
