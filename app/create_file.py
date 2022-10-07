@@ -14,7 +14,7 @@ def create_file():
     if "-f" in sys.argv:
         with open(sys.argv[-1], "a") as file:
             now = datetime.now()
-            file.write(f"{now.strftime('%m/%d/%Y, %H:%M:%S')}")
+            file.write(f"{now.strftime('%m/%d/%Y, %H:%M:%S')}\n")
 
             new_line = input("Enter a new line or 'stop' to exit: ")
 
