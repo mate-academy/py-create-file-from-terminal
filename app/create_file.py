@@ -3,22 +3,10 @@ import os
 import sys
 
 
-def create_file() -> None:
-    entered_info = sys.argv
-    path = ""
-
-    if "-d" in entered_info:
-        path = os.path.join(
-            *entered_info[
-                (entered_info.index("-d") + 1):entered_info.index("-f")
-            ]
-        )
-        if not os.path.exists(f"{path}\\{entered_info[-1]}"):
-            os.makedirs(path)
-
-    with open(f"{path}\\{entered_info[-1]}", "a") as result:
+def add_information_to_file(file_name: str) -> None:
+    with open(file_name, "a") as document:
         data_inf = f"{datetime.datetime.now().strftime('%m-%d-%Y %H:%M:%S')}\n"
-        result.write(data_inf)
+        document.write(data_inf)
 
         count = 0
 
@@ -28,4 +16,31 @@ def create_file() -> None:
             if text_input == "stop":
                 break
             else:
-                result.write(f"{count} {text_input}\n")
+                document.write(f"{count} {text_input}\n")
+
+
+def create_file(file_name: str, path: list = None) -> None:
+    if path:
+        os.makedirs("/".join(path))
+        file_name = f"{'/'.join(path)}/{file_name}"
+    add_information_to_file(file_name)
+
+
+def directory_file_creation() -> None:
+    entered_info = sys.argv
+
+    if "-d" in entered_info and "-f" not in entered_info:
+        os.makedirs("/".join(*entered_info[(entered_info.index("-d") + 1):]))
+
+    if "-f" in entered_info and "-d" not in entered_info:
+        create_file(entered_info[-1])
+
+    if "-f" in entered_info and "-d" in entered_info:
+        file_name = entered_info[-1]
+        path = entered_info[
+            (entered_info.index("-d") + 1):entered_info.index("-f")
+        ]
+        create_file(file_name, path)
+
+
+directory_file_creation()
