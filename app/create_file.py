@@ -3,10 +3,6 @@ import sys
 import os
 
 
-def make_div(path: str) -> None:
-    os.makedirs(path)
-
-
 def make_file(path: str) -> None:
     current_line = 1
     with open(path, "w") as file:
@@ -24,7 +20,7 @@ def make_file(path: str) -> None:
 if __name__ == "__main__":
     command = sys.argv
     if "-b" in command and "-f" not in command:
-        make_div("/".join(command[2:]))
+        os.makedirs("/".join(command[2:]))
 
     if "-f" in command and "-b" not in command:
         make_file(command[2])
@@ -32,5 +28,5 @@ if __name__ == "__main__":
     if "-b" in command and "-f" in command:
         div_path = "/".join(command[2:command.index("-f")])
         file_path = div_path + "." + command[command.index("-f") + 1]
-        make_div(div_path)
+        os.makedirs(div_path)
         make_file(file_path)
