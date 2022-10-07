@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 
-def file_make() -> None:
+def create_file() -> None:
     info = sys.argv
     path = ""
 
@@ -27,4 +27,4 @@ def file_make() -> None:
 
 
 if __name__ == "__main__":
-    file_make()
+    create_file()
