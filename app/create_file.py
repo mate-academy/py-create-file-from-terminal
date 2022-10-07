@@ -2,7 +2,6 @@ import argparse
 import os
 import datetime
 
-
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-d", "--dir", nargs="+", help="Create directory")
@@ -13,10 +12,9 @@ path = ""
 
 if command["dir"]:
     path = os.path.join(*command["dir"])
-    os.makedirs(path)
+    os.makedirs(path, exist_ok=True)
 
-
-with open(os.path.join(path, command["file"]), "w") as file:
+with open(os.path.join(path, command["file"]), "a") as file:
     current_time = datetime.datetime.now()
     file.write(current_time.strftime("%y-%m-%d %H:%M:%S\n"))
     count = 0
