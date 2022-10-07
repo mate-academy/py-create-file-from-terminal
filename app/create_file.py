@@ -16,7 +16,7 @@ if commands[1] == "-d":
         os.makedirs(catalog)
 
 if "-f" in commands:
-    f_index = commands.index('-f')
+    f_index = commands.index("-f")
     with open(str(os.path.join(catalog, commands[f_index + 1])),
               "a") as file:
         file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
