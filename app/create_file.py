@@ -4,17 +4,17 @@ from datetime import datetime
 
 
 def create_file_or_append_to_existing(file_name: str, mode: str) -> None:
-    f = open(file_name, mode)
+    my_file = open(file_name, mode)
     count = 1
-    f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+    my_file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
     while True:
         input_str = str(input("Enter content line: "))
         if input_str != "stop":
-            f.write(f"{count} {input_str}\n")
+            my_file.write(f"{count} {input_str}\n")
         else:
             break
         count += 1
-    f.close()
+    my_file.close()
 
 
 def create_file_from_terminal() -> None:
