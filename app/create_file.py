@@ -17,21 +17,17 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-create_file = args.f
-create_folders = args.d
-timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+file = args.f
+folders = args.d
 
-if create_folders:
-    os.makedirs("/".join(args.d))
+if folders:
+    os.makedirs(os.path.join(*folders))
 
-if create_file:
+if file:
     count_lines = 1
-    with open(os.path.join("/".join(create_folders), create_file), "a") as f:
-        f.write(f"{timestamp}\n")
+    with open(os.path.join(*folders, file), "a") as f:
+        f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
 
-        while True:
-            line = input("Enter content line:")
-            if line == "stop":
-                break
+        while (line := input("Enter content line:")) != "stop":
             f.write(f"{count_lines} {line}\n")
             count_lines += 1
