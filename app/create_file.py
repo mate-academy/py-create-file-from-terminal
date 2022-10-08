@@ -18,28 +18,23 @@ def create_file_or_append_to_existing(file_name: str, mode: str) -> None:
 
 
 def create_file_from_terminal() -> None:
-    command = " ".join(sys.argv[1:])
-    commands_from_terminal = command.strip().split("-")
-    commands_stripped = []
+    commands_dict = {}
+    if "-d" in sys.argv[1:] and "-f" not in sys.argv[1:]:
+        if "-" not in sys.argv[1:]:
+            commands_dict["-d"] = sys.argv[1:][sys.argv[1:].index("-d") + 1:]
+        else:
+            commands_dict["-d"] = sys.argv[1:][sys.argv[1:].index("-d") + 1:sys.argv[1:].index("-")]
+    if "-d" in sys.argv[1:] and "-f" in sys.argv[1:]:
+        commands_dict["-d"] = sys.argv[1:][sys.argv[1:].index("-d") + 1:sys.argv[1:].index("-f")]
+        commands_dict["-f"] = sys.argv[1:][sys.argv[1:].index("-f") + 1:]
+    if "-f" in sys.argv[1:] and "-d" not in sys.argv[1:]:
+        commands_dict["-f"] = sys.argv[1:][sys.argv[1:].index("-f") + 1:]
     dir_path = ""
     file_name = ""
-    for command in commands_from_terminal:
-        if command:
-            commands_stripped.append(command.rstrip())
-    if len(commands_stripped) == 1:
-        if commands_stripped[0][0] == "d":
-            dir_command = commands_stripped[0].split()
-            dir_path = f"{'/'.join(dir_command[1:])}"
-        if commands_stripped[0][0] == "f":
-            file_command = commands_stripped[0].split()
-            file_name = "".join(file_command[1:])
-    else:
-        if commands_stripped[0][0] == "d":
-            dir_command = commands_stripped[0].split()
-            dir_path = f"{'/'.join(dir_command[1:])}"
-        if commands_stripped[1][0] == "f":
-            file_command = commands_stripped[1].split()
-            file_name = "".join(file_command[1:])
+    if "-d" in commands_dict:
+        dir_path = f"{'/'.join(commands_dict['-d'])}"
+    if "-f" in commands_dict:
+        file_name = f"{'/'.join(commands_dict['-f'])}"
     if dir_path and not file_name:
         if not os.path.exists(dir_path):
             os.makedirs(dir_path)
