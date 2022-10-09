@@ -4,7 +4,11 @@ from datetime import datetime
 
 
 def create_file(file_name: str) -> None:
-    with open(file_name, "w") as f:
+    if not os.path.isfile(file_name):
+        mode = "w"
+    else:
+        mode = "a"
+    with open(file_name, mode) as f:
         time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         f.write(f"{time}\n")
         line_num = 1
