@@ -8,12 +8,11 @@ def create_file() -> None:
     if "-d" in sys.argv:
         new_path = []
         for command in sys.argv[sys.argv.index("-d") + 1:]:
-            print(command)
             if command == "-f":
                 break
             else:
                 new_path.append(command)
-        os.makedirs(os.path.join(*new_path))
+        os.makedirs(os.path.join(*new_path), exist_ok=True)
         os.chdir(os.path.join(*new_path))
 
     if "-f" in sys.argv:
@@ -26,7 +25,7 @@ def create_file() -> None:
                 if string == "stop":
                     new_file.write("\n")
                     break
-                new_file.write(str(line) + " " + string + "\n")
+                new_file.write(f"{str(line)} {string}\n")
                 line += 1
 
 
