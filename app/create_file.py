@@ -4,7 +4,6 @@ from datetime import datetime
 
 
 def create_file() -> None:
-    os.chdir("app")
     if "-d" in sys.argv:
         new_path = []
         for command in sys.argv[sys.argv.index("-d") + 1:]:
