@@ -36,10 +36,10 @@ def create_directory(directory_path: list[str]) -> str:
     return directory_path + "/"
 
 
-def add_content(file: str) -> None:
+def add_content(path: str) -> None:
     current_time = datetime.strftime(datetime.now(), "%Y-%d-%m %H:%M:%S")
 
-    with open(file, "w") as f:
+    with open(path, "w") as f:
         f.write(current_time + "\n")
         num_line = 0
         content = input("Enter content line:")
