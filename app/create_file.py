@@ -25,11 +25,11 @@ def create_file_from_terminal() -> None:
         else:
             commands_dict["-d"] = sys.argv[1:][sys.argv[1:].index("-d") + 1:
                                                sys.argv[1:].index("-")]
+    if "-f" in sys.argv[1:] and "-d" not in sys.argv[1:]:
+        commands_dict["-f"] = sys.argv[1:][sys.argv[1:].index("-f") + 1:]
     if "-d" in sys.argv[1:] and "-f" in sys.argv[1:]:
         commands_dict["-d"] = sys.argv[1:][sys.argv[1:].index("-d") + 1:
                                            sys.argv[1:].index("-f")]
-        commands_dict["-f"] = sys.argv[1:][sys.argv[1:].index("-f") + 1:]
-    if "-f" in sys.argv[1:] and "-d" not in sys.argv[1:]:
         commands_dict["-f"] = sys.argv[1:][sys.argv[1:].index("-f") + 1:]
     dir_path = ""
     file_name = ""
