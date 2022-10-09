@@ -49,5 +49,3 @@ def get_path_create_directory_and_file() -> None:
 
 if __name__ == "__main__":
     main()
-
-
