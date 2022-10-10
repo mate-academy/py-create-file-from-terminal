@@ -4,17 +4,17 @@ from datetime import datetime
 
 
 def create_file_or_append_to_existing(file_name: str, mode: str) -> None:
-    my_file = open(file_name, mode)
-    count = 1
-    my_file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
-    while True:
-        input_str = str(input("Enter content line: "))
-        if input_str != "stop":
-            my_file.write(f"{count} {input_str}\n")
-        else:
-            break
-        count += 1
-    my_file.close()
+    with open(file_name, mode) as my_file:
+        count = 1
+        my_file.write("\n")
+        my_file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        while True:
+            input_str = str(input("Enter content line: "))
+            if input_str != "stop":
+                my_file.write(f"{count} {input_str}\n")
+            else:
+                break
+            count += 1
 
 
 def create_file_from_terminal() -> None:
@@ -43,15 +43,9 @@ def create_file_from_terminal() -> None:
     if file_name and dir_path:
         if not os.path.exists(dir_path):
             os.makedirs(dir_path)
-        if not os.path.isfile(f"{dir_path}/{file_name}"):
-            create_file_or_append_to_existing(f"{dir_path}/{file_name}", "w")
-        else:
-            create_file_or_append_to_existing(f"{dir_path}/{file_name}", "a")
+        create_file_or_append_to_existing(f"{dir_path}/{file_name}", "a")
     if file_name and not dir_path:
-        if not os.path.isfile(file_name):
-            create_file_or_append_to_existing(file_name, "w")
-        else:
-            create_file_or_append_to_existing(file_name, "a")
+        create_file_or_append_to_existing(file_name, "a")
 
 
 create_file_from_terminal()
