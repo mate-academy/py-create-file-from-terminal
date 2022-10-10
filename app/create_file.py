@@ -18,10 +18,14 @@ if directory_name:
     os.makedirs("/".join(directory_name))
 
 if file_name:
-    with open(complete_name, "a") as f:
-        f.write(f"{date}\n")
+    with open(os.path.join(complete_name), "a") as f:
 
         number_of_line = 1
+        text = ""
+
         while (line := input("Enter content line: ")) != "stop":
-            f.write(f"{number_of_line}. {line}\n")
+            text += f"{number_of_line} {line}\n"
             number_of_line += 1
+
+        if text:
+            f.write(f"{date}\n{text}\n")
