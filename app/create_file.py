@@ -30,7 +30,9 @@ def create_file() -> None:
         line_count = 1
         while True:
             content_line = input("Enter content line: ")
+
             if content_line == "stop":
+                file.write("\n")
                 break
 
             file.write(f"{line_count} {content_line}\n")
