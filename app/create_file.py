@@ -9,9 +9,9 @@ def create_file() -> None:
 
     if "-d" in info:
         try:
-            f_error = info.index("-f")
+            info.index("-f")
         except ValueError:
-            f_error = None
+            return None
         path += os.path.join(
             *info[(info.index("-d") + 1):info.index("-f")]
         )
