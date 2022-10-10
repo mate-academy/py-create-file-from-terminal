@@ -1,46 +1,28 @@
 import os
-import sys
+import argparse
 from datetime import datetime
 
 
 def create_directory_file() -> None:
-    command = sys.argv
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", nargs="*")
+    parser.add_argument("-f", nargs=1)
 
-    if "-d" in command and "-f" in command:
-        directory_flag = command.index("-d")
-        file_flag = command.index("-f")
+    args = vars(parser.parse_args())
 
-        directories = command[(directory_flag + 1): file_flag]
-        file_name = command[-1]
-
-        file_path = create_directory(directories) + file_name
-
-        add_content(file_path)
-
-    elif "-d" in command:
-        directory_flag = command.index("-d")
-
-        directories = command[(directory_flag + 1):]
-
-        create_directory(directories)
-
-    elif "-f" in command:
-        file_name = command[-1]
-        add_content(file_name)
+    create_directory(*args["d"])
+    add_content(os.path.join(*args["d"] + args["f"]))
 
 
-def create_directory(directory_path: list[str]) -> str:
-    directory_path = "/".join(directory_path)
-    os.makedirs(directory_path)
-
-    return directory_path + "/"
+def create_directory(*dirs_path) -> None:
+    os.makedirs(os.path.join(*dirs_path), exist_ok=True)
 
 
-def add_content(path: str) -> None:
+def add_content(*path) -> None:
     current_time = datetime.strftime(datetime.now(), "%Y-%d-%m %H:%M:%S")
 
-    with open(path, "w") as f:
-        f.write(current_time + "\n")
+    with open(os.path.join(*path), "w") as f:
+        f.write(f"{current_time}\n")
         num_line = 0
         content = input("Enter content line:")
         while content.lower() != "stop":
