@@ -30,7 +30,11 @@ def directory_file_creation() -> None:
     entered_info = sys.argv
 
     if "-d" in entered_info and "-f" not in entered_info:
-        os.makedirs("/".join(*entered_info[(entered_info.index("-d") + 1):]))
+        folders_name = ''
+        for i in range(2, len(entered_info)):
+            folders_name += f"{entered_info[i]}\\"
+        path = os.path.join(folders_name)
+        os.makedirs(path)
 
     if "-f" in entered_info and "-d" not in entered_info:
         create_file(entered_info[-1])
@@ -42,5 +46,3 @@ def directory_file_creation() -> None:
         ]
         create_file(file_name, path)
 
-
-directory_file_creation()
