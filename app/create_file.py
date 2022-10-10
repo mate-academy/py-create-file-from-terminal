@@ -5,11 +5,11 @@ from datetime import datetime
 
 def create_file(file_name: str) -> None:
     with open(file_name, "a") as f:
-        n = 0
+        num = 0
         f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         content = input("Enter content line: ")
         while content != "stop":
-            f.write(f"{n + 1} {content} \n")
+            f.write(f"{num + 1} {content} \n")
             content = input("Enter content line: ")
 
 
