@@ -13,6 +13,7 @@ def make_file(path: str) -> None:
             file.write(f"{line_num} {line_content}\n")
             line_content = input("Enter content line: ")
             line_num += 1
+        file.write("\n")
 
 
 def get_terminal_content() -> None:
