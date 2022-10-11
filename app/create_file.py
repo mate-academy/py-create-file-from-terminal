@@ -36,14 +36,14 @@ def get_path_create_directory_and_file() -> None:
         if "-d" in command:
             index_f = command.index("-f")
             index_d = command.index("-d")
-            path = "/".join(command[(index_d + 1): index_f])
+            path = os.path.join(*command[(index_d + 1): index_f])
             new_directory(path)
             file_name = "/".join([path, file_name])
             create_a_file(file_name)
         create_a_file(file_name)
         if "-d" in command:
             index_d = command.index("-d")
-            path = "/".join(command[(index_d + 1):])
+            path = os.path.join(*command[(index_d + 1):])
             new_directory(path)
 
 
