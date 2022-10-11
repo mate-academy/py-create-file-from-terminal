@@ -6,13 +6,13 @@ from datetime import datetime
 def create_file_or_append_to_existing(file_name: str, mode: str) -> None:
     with open(file_name, mode) as my_file:
         count = 1
-        my_file.write("\n")
         my_file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         while True:
             input_str = str(input("Enter content line: "))
             if input_str != "stop":
                 my_file.write(f"{count} {input_str}\n")
             else:
+                my_file.write("\n")
                 break
             count += 1
 
