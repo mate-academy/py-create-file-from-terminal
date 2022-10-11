@@ -15,7 +15,7 @@ complete_name = os.path.join("/".join(directory_name), file_name)
 date = datetime.now().strftime("%Y-%m-%d %I:%M:%S")
 
 if directory_name:
-    os.makedirs("/".join(directory_name))
+    os.makedirs("/".join(directory_name), exist_ok=True)
 
 if file_name:
     with open(os.path.join(complete_name), "a") as f:
