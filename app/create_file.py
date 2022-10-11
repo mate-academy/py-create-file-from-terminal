@@ -15,7 +15,7 @@ def create_file() -> None:
         return
 
     if "-d" in info:
-        path += os.path.join(*info[2: -2])
+        path = os.path.join(*info[2: -2])
 
         if os.path.exists(rf"{path}\{info[-1]}") is False:
             os.makedirs(path)
