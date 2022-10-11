@@ -1,6 +1,6 @@
 # Create file from terminal
 
-- Read [the guideline](https://github.com/mate-academy/py-task-guideline/blob/main/README.md) before start
+Read [the guideline](https://github.com/mate-academy/py-task-guideline/blob/main/README.md) before starting.
 
 Create an app `create_file.py` that takes directory path, file name, file
 content from the terminal and creates file. There should be flags `-d` or `-f`:
@@ -79,3 +79,5 @@ It would be relevant to use:
 - `os.makedirs` to create directories
 - `.strftime()` method for `datetime.now()` to make timestamp
 more beautiful.
+
+### Note: Check your code using this [checklist](checklist.md) before pushing your solution.
