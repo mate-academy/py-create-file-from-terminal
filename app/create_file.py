@@ -25,9 +25,15 @@ if folders:
 
 if file_name:
     count_lines = 1
+    empty_line = "\n"
     with open(os.path.join(*folders, file_name), "a") as f:
         f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
 
-        while (line := input("Enter content line:")) != "stop":
+        while True:
+            line = input("Enter content line:")
+            if line == "stop":
+                f.write(empty_line)
+                break
             f.write(f"{count_lines} {line}\n")
             count_lines += 1
+
