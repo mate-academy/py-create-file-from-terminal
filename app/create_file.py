@@ -26,7 +26,7 @@ if __name__ == "__main__":
         make_file(command[2])
 
     if "-b" in command and "-f" in command:
-        div_path = "/".join(command[2:command.index("-f")])
+        div_path = os.path.join(*command[2:command.index("-f")])
         file_path = div_path + "." + command[command.index("-f") + 1]
         os.makedirs(div_path, exist_ok=True)
         make_file(file_path)
