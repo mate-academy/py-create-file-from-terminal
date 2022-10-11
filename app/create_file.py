@@ -4,22 +4,17 @@ from datetime import datetime
 
 
 def create_file(file_name: str) -> None:
-    if not os.path.isfile(file_name):
-        mode = "w"
-    else:
-        mode = "a"
-    with open(file_name, mode) as f:
-        time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        f.write(f"{time}\n")
+    with open(file_name, "a") as file_out:
+        file_out.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         line_num = 1
         line = input("Enter content line: ")
         while line != "stop":
-            f.write(f"{line_num} Line{line_num} {line}\n")
+            file_out.write(f"{line_num} {line}\n")
             line = input("Enter content line: ")
             line_num += 1
 
 
-if ("-d" and "-f") in sys.argv:
+if "-d" in sys.argv and "-f" in sys.argv:
     arg_d = sys.argv.index("-d")
     arg_f = sys.argv.index("-f")
     file_name = sys.argv[arg_f + 1]
