@@ -22,7 +22,11 @@ def parse_commands() -> dict:
 
 
 def create_path(path: str) -> None:
-    os.makedirs(path)
+    try:
+        os.makedirs(path)
+
+    except:
+        pass
 
 
 def create_file(name: str, path: str = "") -> None:
