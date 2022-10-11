@@ -36,4 +36,3 @@ if file_name:
                 break
             f.write(f"{count_lines} {line}\n")
             count_lines += 1
-
