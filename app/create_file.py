@@ -20,7 +20,7 @@ def make_file(path: str) -> None:
 if __name__ == "__main__":
     command = sys.argv
     if "-b" in command and "-f" not in command:
-        os.makedirs("/".join(command[2:]))
+        os.makedirs(os.path.join(*command[2:]), exist_ok=True)
 
     if "-f" in command and "-b" not in command:
         make_file(command[2])
@@ -28,5 +28,5 @@ if __name__ == "__main__":
     if "-b" in command and "-f" in command:
         div_path = "/".join(command[2:command.index("-f")])
         file_path = div_path + "." + command[command.index("-f") + 1]
-        os.makedirs(div_path)
+        os.makedirs(div_path, exist_ok=True)
         make_file(file_path)
