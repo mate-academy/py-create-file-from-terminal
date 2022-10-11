@@ -7,14 +7,15 @@ def create_file() -> None:
     info = sys.argv
     path = ""
 
+    if "-f" not in info:
+        path = os.path.join(*info[2:])
+
+        if not os.path.exists(path):
+            os.makedirs(path)
+
     if "-d" in info:
-        try:
-            info.index("-f")
-        except ValueError:
-            return None
-        path += os.path.join(
-            *info[(info.index("-d") + 1):info.index("-f")]
-        )
+        path += os.path.join(*info[2: -2])
+
         if os.path.exists(rf"{path}\{info[-1]}") is False:
             os.makedirs(path)
 
