@@ -13,8 +13,15 @@ for line in sys.stdin:
                 no_index += 1
             os.makedirs(path, exist_ok=True)
         if "-f" in file_data:
-            no_index: int = file_data.index("-f") + 1
-            path = os.path.join(path, file_data[no_index])
+            try:
+                no_index: int = file_data.index("-f") + 1
+                path = os.path.join(path, file_data[no_index])
+            except IndexError:
+                print("You don't enter the file name!")
+                break
+        else:
+            print("You don't enter the file name!")
+            break
         with open(path, "a") as f:
             f.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
             input_data = ""
