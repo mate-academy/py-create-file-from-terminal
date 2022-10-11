@@ -25,7 +25,7 @@ def create_path(path: str) -> None:
     try:
         os.makedirs(path)
 
-    except:
+    except Exception:
         pass
 
 
