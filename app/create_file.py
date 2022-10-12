@@ -30,15 +30,16 @@ def create_path(path: str) -> None:
 
 
 def create_file(name: str, path: str = "") -> None:
-    with open(path + name, "w") as file:
+    with open(path + name, "a") as file:
         time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         file.write(f"{time}\n")
         line_number = 1
         content_line = input("Enter content line: ")
         while content_line != "stop":
-            file.write(f"{line_number} Line{line_number} {content_line}\n")
+            file.write(f"{line_number} {content_line}\n")
             line_number += 1
             content_line = input("Enter content line: ")
+        file.write(f"\n")
 
 
 def run_console() -> None:
