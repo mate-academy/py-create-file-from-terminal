@@ -39,7 +39,7 @@ def create_file(name: str, path: str = "") -> None:
             file.write(f"{line_number} {content_line}\n")
             line_number += 1
             content_line = input("Enter content line: ")
-        file.write(f"\n")
+        file.write("\n")
 
 
 def run_console() -> None:
