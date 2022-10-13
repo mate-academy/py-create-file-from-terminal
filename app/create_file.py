@@ -2,30 +2,38 @@ import argparse
 import os
 from datetime import datetime
 
-parser = argparse.ArgumentParser()
 
-parser.add_argument("-d", type=str, nargs="+", default=[])
-parser.add_argument("-f", type=str, default="")
+def create_file() -> None:
+    dir_name, file_name = parse_terminal()
 
-args = parser.parse_args()
+    full_name = os.path.join("/".join(dir_name), file_name)
+    date = datetime.now().strftime("%Y-%m-%d %I:%M:%S")
 
-dir_name = args.d
-file_name = args.f
+    if dir_name:
+        os.makedirs("/".join(dir_name), exist_ok=True)
 
-full_name = os.path.join("/".join(dir_name), file_name)
-date = datetime.now().strftime("%Y-%m-%d %I:%M:%S")
+    if file_name:
+        with open(os.path.join(full_name), "a") as f:
+            f.write(date + "\n")
+            index = 1
+            while True:
+                text = input("Enter content line: ")
+                if text == "stop":
+                    break
+                f.write(f"{index} {text}\n")
+                index += 1
+            f.write("\n")
 
-if dir_name:
-    os.makedirs("/".join(dir_name), exist_ok=True)
 
-if file_name:
-    with open(os.path.join(full_name), "a") as f:
-        f.write(date + "\n")
-        index = 1
-        while True:
-            text = input("Enter content line: ")
-            if text == "stop":
-                break
-            f.write(f"{index} {text}\n")
-            index += 1
-        f.write("\n")
+def parse_terminal() -> tuple:
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("-d", type=str, nargs="+", default=[])
+    parser.add_argument("-f", type=str, default="")
+
+    args = parser.parse_args()
+
+    return args.d, args.f
+
+
+create_file()
