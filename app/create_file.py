@@ -33,6 +33,8 @@ def create_directory_and_file() -> None:
         make_directory(*args["d"])
         if args["f"]:
             add_content_to_file(os.path.join(*args["d"] + args["f"]))
+    else:
+        add_content_to_file(*args["f"])
 
 
 create_directory_and_file()
