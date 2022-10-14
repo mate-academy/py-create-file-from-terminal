@@ -13,13 +13,13 @@ def add_content_to_file(*path) -> None:
     with open(os.path.join(*path), "a") as file:
         file.write(f"{current_time}\n")
         num_line = 0
-        content = input("Enter content line:")
+        content = input("Enter content line: ")
         while content.lower() != "stop":
             num_line += 1
             file.write(f"{num_line} {content}\n")
-            content = input("Enter content line:")
-            if content == "stop":
-                file.write("\n")
+            content = input("Enter content line: ")
+
+        file.write("\n")
 
 
 def create_directory_and_file() -> None:
