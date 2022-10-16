@@ -1,34 +1,43 @@
 import os
-import sys
+from sys import argv
 from datetime import datetime
 
-for line in sys.stdin:
-    if "python create_file.py" in line.rstrip():
-        file_data: list[str] = line.rstrip().split()
-        path = ""
-        if "-d" in file_data:
-            no_index: int = file_data.index("-d") + 1
-            while file_data[no_index] != "-f":
-                path = os.path.join(path, file_data[no_index])
-                no_index += 1
-            os.makedirs(path, exist_ok=True)
-        if "-f" in file_data:
+
+class CreateFile:
+    path: str = "app"
+    file_data: list[str] = []
+
+    def create_file(self) -> None:
+        self.file_data = argv
+        if self.file_data[0] == "app/create_file.py":
             try:
-                no_index: int = file_data.index("-f") + 1
-                path = os.path.join(path, file_data[no_index])
-            except IndexError:
-                print("You don't enter the file name!")
-                break
+                self.create_dirs_path()
+                self.create_file_path()
+            except (IndexError, ValueError):
+                print("You don't Enter the name of file!")
+                exit()
+            with open(self.path, "a") as f:
+                f.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+                while True:
+                    input_data: str = input("Enter content line: ")
+                    if input_data == "stop":
+                        f.write("\n")
+                        break
+                    f.write(f"{input_data}\n")
+
+    def create_dirs_path(self) -> None:
+        if self.file_data[1] == "-d":
+            no_index: int = 2
+            while self.file_data[no_index] != "-f":
+                self.path = os.path.join(self.path, self.file_data[no_index])
+                no_index += 1
+            os.makedirs(self.path, exist_ok=True)
+
+    def create_file_path(self) -> None:
+        if self.file_data[-2] == "-f":
+            self.path = os.path.join(self.path, self.file_data[-1])
         else:
-            print("You don't enter the file name!")
-            break
-        with open(path, "a") as f:
-            f.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-            input_data = ""
-            while True:
-                input_data = input("Enter content line: ")
-                if input_data == "stop":
-                    f.write("\n")
-                    break
-                f.write(f"{input_data}\n")
-            break
+            raise ValueError
+
+
+CreateFile().create_file()
