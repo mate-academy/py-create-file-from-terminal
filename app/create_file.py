@@ -14,7 +14,7 @@ class CreateFile:
                 self.create_dirs_path()
                 self.create_file_path()
             except (IndexError, ValueError):
-                print("You don't Enter the name of file!")
+                print("You enter incorrect filename!")
                 exit()
             with open(self.path, "a") as f:
                 f.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
@@ -37,7 +37,7 @@ class CreateFile:
         if self.file_data[-2] == "-f":
             self.path = os.path.join(self.path, self.file_data[-1])
         else:
-            raise ValueError
+            raise ValueError("You enter incorrect filename!")
 
 
 CreateFile().create_file()
