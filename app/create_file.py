@@ -5,7 +5,6 @@ import datetime
 
 def create_file() -> None:
     current_time = datetime.datetime.now()
-    print(sys.argv)
     if "-d" in sys.argv:
         for i in range(2, len(sys.argv)):
             if "-f" not in sys.argv[i]:
