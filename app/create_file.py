@@ -3,7 +3,13 @@ import os
 import sys
 
 
-def create_file(program_argv: list) -> None:
+def create_file() -> None:
+    """
+    Create sub folders and file
+    Typically command line:
+    "python create_file.py -d subdir1 subdir1 -f file.txt"
+    """
+    program_argv = sys.argv
     path_traverse = ""
     if "-d" in program_argv:
         folders = []
@@ -49,8 +55,4 @@ def create_file(program_argv: list) -> None:
 
 
 if __name__ == "__main__":
-    program_argv = sys.argv
-    # # program_argv = ["231231231231.py","-d","aaa","bbb"]
-    # program_argv = ["231231231231.py","-d","aaa","bbb","-f", "ccc.txt"]
-    # print(program_argv)
-    create_file(program_argv)
+    create_file()
