@@ -5,6 +5,16 @@ from datetime import datetime
 
 data_today = datetime.now()
 
+
+def input_typing(file_inside: str) -> None:
+    while True:
+        text_input = input("Enter content line:")
+        if text_input == "stop":
+            file_inside.close()
+            break
+        file_inside.write(text_input + "\n")
+
+
 if "-d" and "-f" in sys.argv:
     create_dir = "/".join(sys.argv[sys.argv.index("-d") + 1:
                                    sys.argv.index("-f")])
@@ -13,12 +23,7 @@ if "-d" and "-f" in sys.argv:
     file_patch = f"{create_dir}/{file_name}"
     file_create = open(file_patch, "w")
     file_create.write(data_today.strftime("%d-%m-%Y %H:%M:%S") + "\n")
-    while True:
-        text_input = input("Enter content line:")
-        if text_input == "stop":
-            file_create.close()
-            break
-        file_create.write(text_input + "\n")
+    input_typing(file_create)
 
 elif "-d" in sys.argv:
     create_dir = "/".join(sys.argv[sys.argv.index("-d") + 1:])
@@ -33,9 +38,4 @@ elif "-f" in sys.argv:
     else:
         file_create = open(file_name, "a")
     file_create.write(data_today.strftime("%d-%m-%Y %H:%M:%S") + "\n")
-    while True:
-        text_input = input("Enter content line:")
-        if text_input == "stop":
-            file_create.close()
-            break
-        file_create.write(text_input + "\n")
+    input_typing(file_create)
