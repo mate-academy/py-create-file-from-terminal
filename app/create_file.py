@@ -5,30 +5,26 @@ from os import mkdir, chdir
 filename = ""
 directories = []
 create = True
-if "-f" in argv:
-    filename = argv[argv.index("-f") + 1]
+
+
+def create_file() -> None:
     if "-d" in argv:
-        directories = argv[argv.index("-d") + 1:argv.index("-f")]
-else:
-    filename = "file.txt"
-    if "-d" in argv:
-        directories = argv[argv.index("-d") + 1:len(argv)]
-        create = False
+        index = 2
+        while len(argv) != index and argv[index] != "-f":
+            mkdir(argv[index])
+            chdir(argv[index])
+            index += 1
+    if "-f" in argv:
+        with open(argv[-1], "w") as file:
+            date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            file.write(f"{date}\n")
+            line = 1
+            content = input("Enter content line: ")
+            while content != "stop":
+                file.write(f"Line{line} {content}")
+                content = input("Enter content line: ")
+                line += 1
 
-file_data = [datetime.today().strftime("%y-%m-%d %H:%M:%S"), "\n"]
 
-for directory in directories:
-    try:
-        mkdir(directory)
-    except FileExistsError:
-        pass
-    chdir(directory)
-
-if create is True:
-    while True:
-        line = input("Enter content line: ")
-        if line == "exit":
-            break
-        file_data.extend([line, "\n"])
-    with open(filename, "w") as file:
-        file.writelines(file_data)
+if __name__ == "__main__":
+    create_file()
