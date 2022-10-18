@@ -25,9 +25,13 @@ def directory_file_creation() -> None:
     if "-d" in sys.argv:
         count = 2
         while count != len(sys.argv) and sys.argv[count] != "-f":
-            os.mkdir(sys.argv[count])
-            os.chdir(sys.argv[count])
-            count += 1
+            if os.path.isdir(sys.argv[count]):
+                os.chdir(sys.argv[count])
+                count += 1
+            else:
+                os.mkdir(sys.argv[count])
+                os.chdir(sys.argv[count])
+                count += 1
 
     if "-f" in sys.argv:
         add_information_to_file(sys.argv[-1])
