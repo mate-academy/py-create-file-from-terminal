@@ -5,7 +5,8 @@ from datetime import datetime
 
 def create_directory(path: str) -> None:
     os.makedirs(path)
-    os.chdir(os.getcwd() + "/" + path)
+    my_current_directory = os.getcwd()
+    os.chdir(os.path.join(my_current_directory, path))
 
 
 def create_file(file_name: str) -> None:
@@ -23,15 +24,12 @@ def create_file(file_name: str) -> None:
 
 command = sys.argv
 
-if "-d" in command and "-f" not in command:
-    path = "/".join(command[2:])
+if "-d" in command:
+    if "-f" not in command:
+        path = os.path.join(*command[2:])
+    else:
+        path = os.path.join(*command[2:-2])
     create_directory(path)
-if "-d" not in command and "-f" in command:
-    file_name = command[2]
-    create_file(file_name)
-if "-d" in command and "-f" in command:
-    index_f_flag = command.index("-f")
-    file_name = command[index_f_flag + 1]
-    path = "/".join(command[2:index_f_flag])
-    create_directory(path)
+if "-f" in command:
+    file_name = command[-1]
     create_file(file_name)
