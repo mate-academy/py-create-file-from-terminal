@@ -11,7 +11,7 @@ def create_file() -> None:
             os.chdir(sys.argv[index])
             index += 1
     if "-f" in sys.argv:
-        with open(sys.argv[-1], "w") as file:
+        with open(sys.argv[-1], "a") as file:
             date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             file.write(f"{date}\n")
             line = 1
