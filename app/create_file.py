@@ -5,7 +5,6 @@ import datetime
 
 def create_file() -> None:
     enter = sys.argv
-    print(enter)
     path = ""
 
     if "-d" in enter:
