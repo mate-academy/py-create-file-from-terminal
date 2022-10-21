@@ -9,9 +9,9 @@ command = parser.parse_args()
 
 
 if command.dir:
-    path_ = os.path.join(*command.dir)
-    os.makedirs(path_, exist_ok=True)
-    os.chdir(path_)
+    path = os.path.join(*command.dir)
+    os.makedirs(path, exist_ok=True)
+    os.chdir(path)
 
 
 if command.file:
@@ -23,7 +23,7 @@ if command.file:
         content.append(content_line)
 
     with open(command.file, "a") as file:
-        file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        file.write(f"{datetime.now():%Y-%m-%d %H:%M:%S\n}")
 
-        for idx, line in enumerate(content, start=1):
-            file.write(f"{idx} {line}\n")
+        for index, line in enumerate(content, start=1):
+            file.write(f"{index} {line}\n")
