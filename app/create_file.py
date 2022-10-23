@@ -17,7 +17,7 @@ def create_file() -> None:
     file_name = os.path.join(file_path, command[-1])
 
     with open(file_name, "a") as file:
-        file.write(datetime.now().strftime('%Y-%m-%d %H:%M:%S\n'))
+        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
         line_input = input("Enter content line: ")
         line_number = 1
         while line_input != "stop":
