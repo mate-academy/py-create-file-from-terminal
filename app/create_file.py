@@ -19,6 +19,7 @@ if command.file:
     while True:
         content_line = input("Enter content line: ")
         if content_line == "stop":
+            content.append("\n")
             break
         content.append(content_line)
 
@@ -26,4 +27,6 @@ if command.file:
         file.write(f"{datetime.now():%Y-%m-%d %H:%M:%S\n}")
 
         for index, line in enumerate(content, start=1):
-            file.write(f"{index} {line}\n")
+            file.write(
+                f"{index} {line}\n"
+            ) if line != "\n" else file.write("\n")
