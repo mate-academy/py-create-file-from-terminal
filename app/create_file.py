@@ -24,6 +24,7 @@ def create_file() -> None:
             file.write(f"Line{line_number} {line_input}\n")
             line_input = input("Enter content line: ")
             line_number += 1
-
+        if line_input == "stop":
+            file.write("\n")
 
 create_file()
