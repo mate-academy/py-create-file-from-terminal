@@ -13,6 +13,8 @@ def write_contents_to_file(filename: str) -> None:
             file.write(f"{line_number} {line_content}\n")
             line_number += 1
 
+        file.write("\n")
+
 
 def create_file() -> None:
     input_command = sys.argv
