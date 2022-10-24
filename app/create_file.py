@@ -4,17 +4,15 @@ from datetime import datetime
 
 
 def create_file() -> None:
-    if "-d" in sys.argv:
+    command = sys.argv
+    path = ""
 
-        index = 2
+    if "-d" in command:
+        path = os.path.join(*command[2: -2])
+        os.makedirs(path)
 
-        while len(sys.argv) != index and sys.argv[index] != "-f":
-            os.mkdir(sys.argv[index])
-            os.chdir(sys.argv[index])
-            index += 1
-
-    if "-f" in sys.argv:
-        with open(sys.argv[-1], "w") as file:
+    if "-f" in command:
+        with open(command[-1], "w") as file:
             date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             file.write(f"{date}\n")
             line = 1
