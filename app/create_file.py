@@ -27,4 +27,5 @@ def create_file() -> None:
         if line_input == "stop":
             file.write("\n")
 
+
 create_file()
