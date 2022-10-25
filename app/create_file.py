@@ -1,18 +1,24 @@
 import os
-import sys
+import argparse
 from datetime import datetime
 
 
 def create_file() -> None:
-    if "-d" in sys.argv:
-        i = 2
-        while i < len(sys.argv) and sys.argv[i] != "-f":
-            os.mkdir(sys.argv[i])
-            os.chdir(sys.argv[i])
-            i += 1
+    parser = argparse.ArgumentParser()
 
-    if "-f" in sys.argv:
-        with open(sys.argv[-1], "a") as file:
+    parser.add_argument("-d", type=str, nargs="+", default=[])
+    parser.add_argument("-f", type=str, default="")
+    args = parser.parse_args()
+
+    directory = args.d
+    filename = args.f
+    full_path = os.path.join("/".join(directory), filename)
+
+    if directory:
+        os.makedirs("/".join(directory), exist_ok=True)
+
+    if filename:
+        with open(os.path.join(full_path), "a") as file:
             now = datetime.now()
             file.write(f"{now.strftime('%m/%d/%Y, %H:%M:%S')}\n")
 
@@ -26,4 +32,5 @@ def create_file() -> None:
                 new_line = input("Enter a new line or 'stop' to exit: ")
 
 
-create_file()
+if __name__ == '__main__':
+    create_file()
