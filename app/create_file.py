@@ -27,6 +27,8 @@ def create_file() -> None:
                 content = input("Enter content line: ")
                 line += 1
 
+            file.write("\n")
+
 
 if __name__ == "__main__":
     create_file()
