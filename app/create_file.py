@@ -17,13 +17,13 @@ def create_file() -> None:
         os.chdir(os.path.join(*path_new))
 
     if "-f" in command:
-        with open(command[-1], "w") as file:
+        with open(command[-1], "a") as file:
             date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             file.write(f"{date}\n")
             line = 1
             content = input("Enter content line: ")
             while content != "stop":
-                file.write(f"Line{line} {content}")
+                file.write(f"{line} {content}\n")
                 content = input("Enter content line: ")
                 line += 1
 
