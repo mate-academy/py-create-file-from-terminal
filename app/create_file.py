@@ -32,5 +32,5 @@ def create_file() -> None:
                 new_line = input("Enter a new line or 'stop' to exit: ")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     create_file()
