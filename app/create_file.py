@@ -1,55 +1,54 @@
 import os
+import sys
 from datetime import datetime
 
 
 def flags_choice() -> None:
-    enter_flag = input("Enter flags: ")
+    user_input = sys.argv
 
-    while True:
-        if "-d" == enter_flag.strip():
-            create_directory()
-        if "-f" == enter_flag.strip():
-            create_file()
-        if "-d -f" == enter_flag.strip():
-            create_directory()
-            create_file()
-        else:
-            break
+    if "-d" in user_input and "-f" in user_input:
+        create_directory(user_input[2:4])
+        create_file(user_input[-1])
+        sys.exit("EXIT")
+
+    if "-d" in user_input:
+        create_directory(user_input[2:])
+
+    if "-f" in user_input:
+        create_file(user_input[2])
 
 
 def time_stamp() -> str:
     now = datetime.now()
-    now_time = now.strftime(f"{datetime.date(now)} {'%H:%M:%S'}")
+    now_time = now.strftime(f"{datetime.date(now)} {'%H:%M:%S'}\n")
     return now_time
 
 
-def create_directory() -> None:
-
-    while True:
-        name_directory = input("Enter name directory: ")
-
-        if name_directory.strip() == "stop":
-            break
-        try:
-            os.makedirs(name_directory)
-            os.chdir(f"{name_directory}/")
-        except FileExistsError:
-            print(f"File exists: {name_directory}")
+def create_directory(folders: list) -> None:
+    try:
+        for folder in folders:
+            os.mkdir(folder)
+            os.chdir(folder)
+    except FileExistsError:
+        print(f"File {folder} exists in this directory")
 
 
-def create_file() -> None:
+def create_content(new_file: [object]) -> None:
     count_lines = 1
-    file_name = input("Enter file_name: ")
-
-    with open(f"{file_name}.txt", "a") as file_create:
-        file_create.write(f"\n{time_stamp()}\n")
     while True:
-        content_file = input("Enter content line: ")
-        if content_file.strip() == "stop":
-            break
-        with open(f"{file_name}.txt", "a+") as file:
-            file.write(f"{count_lines} {content_file}\n")
-            count_lines += 1
+        content = input("Enter content line: ")
+        if content.lower().strip() == "stop":
+            new_file.write("\n")
+            sys.exit("EXIT")
+        new_file.write(f"{count_lines} {content}\n")
+        count_lines += 1
 
 
-flags_choice()
+def create_file(file_name: str) -> None:
+    with open(file_name, "a") as file:
+        file.write(time_stamp())
+        create_content(file)
+
+
+if __name__ == "__main__":
+    flags_choice()
