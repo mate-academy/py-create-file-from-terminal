@@ -6,9 +6,9 @@ current = datetime.datetime.now()
 current_time = current.strftime("%Y-%m-%d %H:%M:%S")
 
 
-def create_dir(index_d: int) -> str:
+def create_dir() -> str:
     path = ""
-    for command in sys.argv[index_d:]:
+    for command in sys.argv[sys.argv.index("-d") + 1:]:
         if command == "-f":
             break
         path = os.path.join(path, command)
@@ -16,19 +16,7 @@ def create_dir(index_d: int) -> str:
     return path
 
 
-def create_file(index_f: int) -> None:
-    with open(sys.argv[index_f], "a") as file:
-        file.write(f"{current_time}\n")
-        while True:
-            text = input("Enter content line:") + "\n"
-            if "stop" in text:
-                break
-            file.write(text)
-
-
-def create_dir_and_file(index_d: int, index_f: int) -> None:
-    path = create_dir(index_d)
-    path = os.path.join(path, sys.argv[index_f])
+def create_file(path: str) -> None:
     with open(path, "a") as file:
         file.write(f"{current_time}\n")
         while True:
@@ -38,13 +26,16 @@ def create_dir_and_file(index_d: int, index_f: int) -> None:
             file.write(text)
 
 
-if "-d" and "-f" in sys.argv:
-    index_file = sys.argv.index("-f") + 1
-    index_dir = sys.argv.index("-d") + 1
-    create_dir_and_file(index_dir, index_file)
-elif "-d" in sys.argv:
-    index_dir = sys.argv.index("-d") + 1
-    create_dir(index_dir)
-else:
-    index_file = sys.argv.index("-f") + 1
-    create_file(index_file)
+def create_dir_and_file() -> None:
+    path = create_dir()
+    path = os.path.join(path, sys.argv[sys.argv.index("-f") + 1])
+    create_file(path)
+
+
+if __name__ == "__main__":
+    if "-d" in sys.argv and "-f" in sys.argv:
+        create_dir_and_file()
+    if "-d" in sys.argv and "-f" not in sys.argv:
+        create_dir()
+    if "-f" in sys.argv and "-d" not in sys.argv:
+        create_file(sys.argv[sys.argv.index("-f") + 1])
