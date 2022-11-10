@@ -13,14 +13,9 @@ def create_file(new_file: str) -> None:
                     if "-f" in result_name_file:
                         if result_name_file[index_f] == "-f":
                             directories = result_name_file[index + 1: index_f]
-                            for directory in directories:
-                                if os.path.exists(directory) is False:
-                                    os.mkdir(directory)
-                    if "-f" not in result_name_file:
-                        directories = result_name_file[index + 1:]
-                        for directory in directories:
-                            if os.path.exists(directory) is False:
-                                os.mkdir(directory)
+                            for_duplicate(directories)
+                    directories = result_name_file[index + 1:]
+                    for_duplicate(directories)
             if result_name_file[index] == "-f":
                 name_file = "".join(result_name_file[index + 1:])
                 with open(name_file, "w") as source_file:
@@ -35,4 +30,10 @@ def create_file(new_file: str) -> None:
                                           f"Line{count} {new_line_file}")
 
 
-create_file("python create_file.py -f file.txt")
+def for_duplicate(directories):
+    for directory in directories:
+        if os.path.exists(directory) is False:
+            os.mkdir(directory)
+
+
+create_file("python create_file.py -d dir1 dir2")
