@@ -30,7 +30,7 @@ def create_file(new_file: str) -> None:
                                           f"Line{count} {new_line_file}")
 
 
-def for_duplicate(directories: str) -> None:
+def for_duplicate(directories: list[str]) -> None:
     for directory in directories:
         if os.path.exists(directory) is False:
             os.mkdir(directory)
