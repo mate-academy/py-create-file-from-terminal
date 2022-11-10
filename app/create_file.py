@@ -45,7 +45,7 @@ def create_text_file(terminal_command: list, full_path: str) -> None:
         if ".txt" in file_name:
             name_file += file_name
 
-        line_char = 1
+    line_char = 1
 
     while True:
         input_data = str((input("Enter content line: ")))
