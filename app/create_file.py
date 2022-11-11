@@ -39,26 +39,24 @@ def crate_path(terminal_command: list) -> str:
 
 def create_text_file(terminal_command: list, full_path: str) -> None:
     name_file = ""
-    data_file = ""
-
     for file_name in terminal_command:
         if ".txt" in file_name:
             name_file += file_name
-
-    line_char = 1
-
-    while True:
-        input_data = str((input("Enter content line: ")))
-        if input_data == "stop":
-            break
-        data_file += str(line_char) + " " + input_data + "\n"
-        line_char += 1
 
     if full_path != "":
         name_file = full_path + "/" + name_file
 
     if ".txt" in name_file:
         with open(name_file, "a") as file:
+            line_char = 1
+            data_file = ""
+            while True:
+                input_data = str((input("Enter content line: ")))
+                if input_data == "stop":
+                    break
+                data_file += str(line_char) + " " + input_data + "\n"
+                line_char += 1
+
             file.write(datetime.now().strftime("%Y-%m-%d, %H:%M:%S") + "\n")
             file.write(data_file + "\n")
 
