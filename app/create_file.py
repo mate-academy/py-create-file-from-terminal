@@ -48,17 +48,17 @@ def create_text_file(terminal_command: list, full_path: str) -> None:
 
     if ".txt" in name_file:
         with open(name_file, "a") as file:
-            line_char = 1
-            data_file = ""
+            file.write(datetime.now().strftime("%Y-%m-%d, %H:%M:%S") + "\n")
+
             while True:
+                line_char = 1
                 input_data = str((input("Enter content line: ")))
                 if input_data == "stop":
                     break
-                data_file += str(line_char) + " " + input_data + "\n"
+                data_file = str(line_char) + " " + input_data + "\n"
                 line_char += 1
-
-            file.write(datetime.now().strftime("%Y-%m-%d, %H:%M:%S") + "\n")
-            file.write(data_file + "\n")
+                file.write(data_file)
+            file.write("\n")
 
 
 create_file_from_terminal(terminal=sys.argv)
