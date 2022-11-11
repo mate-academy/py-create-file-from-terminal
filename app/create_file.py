@@ -17,10 +17,11 @@ def write_in_file(filename: str, path: str = "") -> None:
         path += "/"
     with open(f"{path}{filename}", "a") as f:
         f.write(current_time.strftime("%Y-%m-%d %H:%M:%S") + "\n")
-        append_line = input()
-        while append_line != "stop":
+        while True:
+            append_line = input("Enter content line: ")
+            if append_line == "stop":
+                break
             f.write(append_line + "\n")
-            append_line = input()
 
 
 def create_file_from_terminal(cmd: list) -> None:
