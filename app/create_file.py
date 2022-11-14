@@ -1,10 +1,8 @@
 import os
-import sys
 import datetime
 
 
 def create_file(name_file: str) -> None:
-    #new_file = sys.argv
     result_name_file = name_file.split()
     if "-d" in result_name_file and "-f" in result_name_file:
         index = result_name_file.index("-d")
@@ -50,6 +48,3 @@ def write_data_in_file(result_name_file: list[str], second_index: int) -> None:
                 break
             source_file.write(f"{count} "
                               f"Line{count} {new_line_file}\n")
-
-
-create_file("python create_file.py -d dir1 dir2 -f file.txt")
