@@ -4,12 +4,18 @@ from datetime import datetime as dt
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument("-d", type=str,
-                    default=[],
-                    nargs="*",
-                    help="all items after this flag are parts of the path")
-parser.add_argument("-f", type=str,
-                    help="first item is the file name")
+parser.add_argument(
+    "-d",
+    type=str,
+    default=[],
+    nargs="*",
+    help="all items after this flag are parts of the path"
+)
+parser.add_argument(
+    "-f",
+    type=str,
+    help="first item is the file name"
+)
 args = parser.parse_args()
 
 path = args.d
