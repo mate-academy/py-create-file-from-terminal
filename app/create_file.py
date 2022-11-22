@@ -2,11 +2,11 @@ import os
 import sys
 from datetime import datetime as dt
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     parse_dir = False
     parse_filename = False
     dirs_parts = []
-    filename = ''
+    filename = ""
     for arg in sys.argv:
         if arg == "-d":
             parse_dir = True
@@ -22,7 +22,7 @@ if __name__ == '__main__':
         elif parse_filename:
             filename = arg
 
-    dir_path = ''
+    dir_path = ""
     if dirs_parts:
         dir_path = os.path.join(*dirs_parts)
         if not os.path.exists(dir_path):
@@ -33,7 +33,7 @@ if __name__ == '__main__':
         while (line := input("Enter content line: ")) != "s":
             file_content += line + "\n"
         file_content = file_content.rstrip()
-        with open(os.path.join(dir_path, filename), 'a') as users_file:
+        with open(os.path.join(dir_path, filename), "a") as users_file:
             users_file.seek(0, os.SEEK_END)
             file_is_empty = not bool(users_file.tell())
             users_file.seek(0)
