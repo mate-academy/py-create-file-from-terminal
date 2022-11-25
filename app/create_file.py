@@ -14,7 +14,7 @@ def create_file() -> None:
         s.write("\n")
 
 
-def create_from_terminal():
+def create_from_terminal() -> None:
     if "-d" in sys.argv and "-f" in sys.argv:
         os.makedirs("/".join(sys.argv[2:-2]))
         os.chdir(str("/".join(sys.argv[2:-2])))
