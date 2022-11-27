@@ -15,14 +15,15 @@ def create_file() -> None:
 
 
 def create_from_terminal() -> None:
-    if "-d" in sys.argv and "-f" in sys.argv:
-        os.makedirs("/".join(sys.argv[2:-2]))
-        os.chdir(str("/".join(sys.argv[2:-2])))
+
+    if sys.argv[1] == "-d":
+        path = os.path.join(sys.argv[2], sys.argv[3])
+        os.makedirs(path)
+        if "-d" in sys.argv and "-f" in sys.argv:
+            os.chdir(path)
+            create_file()
+    else:
         create_file()
-    elif "-f" in sys.argv:
-        create_file()
-    elif "-d" in sys.argv:
-        os.makedirs("/".join(sys.argv[-2:]))
 
 
 create_from_terminal()
