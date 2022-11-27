@@ -2,7 +2,8 @@ import os
 import sys
 from datetime import datetime as dt
 
-if __name__ == "__main__":
+
+def create_file() -> None:
     parse_dir = False
     parse_filename = False
     dirs_parts = []
@@ -30,7 +31,7 @@ if __name__ == "__main__":
 
     if filename:
         file_content = str(dt.now().strftime("%Y-%m-%d, %H:%M:%S")) + "\n"
-        while (line := input("Enter content line: ")) != "s":
+        while (line := input("Enter content line: ")) != "stop":
             file_content += line + "\n"
         file_content = file_content.rstrip()
         with open(os.path.join(dir_path, filename), "a") as users_file:
@@ -38,5 +39,9 @@ if __name__ == "__main__":
             file_is_empty = not bool(users_file.tell())
             users_file.seek(0)
             if not file_is_empty:
-                users_file.write("\n")
+                users_file.write("\n\n")
             users_file.write(file_content)
+
+
+if __name__ == "__main__":
+    create_file()
