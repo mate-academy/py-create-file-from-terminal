@@ -1,9 +1,9 @@
 import sys
 import os
-import datetime
+from datetime import datetime
 
 
-def accept_list_from_terminal_and_make_dirs(commands: list):
+def accept_list_from_terminal_and_make_dirs(commands: list) -> str:
     itinerary = None
     if len(commands) > 3:
         itinerary = "/".join(commands[2:])
@@ -13,9 +13,9 @@ def accept_list_from_terminal_and_make_dirs(commands: list):
     return itinerary
 
 
-def accept_list_from_terminal_and_return_file(file: str):
-    with open(file, "a") as f:
-        f.write(datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
+def accept_list_from_terminal_and_return_file(new_file: str) -> None:
+    with open(new_file, "a") as f:
+        content = f.write(datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
         while content != "stop":
             content = input("Enter content line:")
             if content != "stop":
