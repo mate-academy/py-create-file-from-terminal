@@ -3,7 +3,7 @@ import os
 import sys
 
 
-def create_dir():
+def create_dir() -> None:
 
     if "-d" in sys.argv:
         current_dir = os.getcwd()
@@ -16,7 +16,7 @@ def create_dir():
         create_file()
 
 
-def create_file():
+def create_file() -> None:
 
     with open(sys.argv[-1], "a") as file:
         stroke = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
