@@ -2,12 +2,12 @@ from sys import argv
 import os
 from datetime import datetime
 
+flag_d = "-d"
+flag_f = "-f"
+
 
 def create_file() -> None:
     command = argv
-    flag_d = "-d"
-    flag_f = "-f"
-
     if flag_d in command and flag_f in command:
         path = os.path.join(*command[2:command.index(flag_f)])
         os.makedirs(path)
