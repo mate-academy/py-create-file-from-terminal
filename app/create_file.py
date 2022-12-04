@@ -28,18 +28,18 @@ def main() -> None:
 
     command = sys.argv[1:]
 
-    if "-d" in command and "-f" not in command:
-        create_directory(command[command.index("-d") + 1:])
-
-    if "-f" in command and "-d" not in command:
-        create_file(command[-1])
-
-    if "-f" in command and "-d" in command:
+    if "-d" in command and "-f" in command:
         new_directories = command[command.index("-d") + 1: command.index("-f")]
         path_to_new_directory = create_directory(new_directories)
         path_to_new_file = \
             os.path.join(path_to_new_directory, f"{command[-1]}")
         create_file(path_to_new_file)
+
+    elif "-d" in command:
+        create_directory(command[command.index("-d") + 1:])
+
+    elif "-f" in command:
+        create_file(command[-1])
 
 
 if __name__ == "__main__":
