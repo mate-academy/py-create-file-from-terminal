@@ -24,13 +24,17 @@ def accept_list_from_terminal_and_return_file(new_file: str) -> None:
         f.write(content_for_new_file)
 
 
-commands_from_terminal = sys.argv
-if commands_from_terminal[1] == "-d" and commands_from_terminal[-2] != "-f":
-    accept_list_from_terminal_and_make_dirs(commands_from_terminal)
-if commands_from_terminal[1] == "-f":
-    name_for_file = commands_from_terminal[2]
-    accept_list_from_terminal_and_return_file(name_for_file)
-if commands_from_terminal[1] == "-d" and commands_from_terminal[-2] == "-f":
-    file_path = accept_list_from_terminal_and_make_dirs(commands_from_terminal)
-    name_for_file = f"{file_path}/{commands_from_terminal[-1]}"
-    accept_list_from_terminal_and_return_file(name_for_file)
+def terminal(command_from_term: list) -> None:
+    if command_from_term[1] == "-d" and command_from_term[-2] != "-f":
+        accept_list_from_terminal_and_make_dirs(command_from_term)
+    if command_from_term[1] == "-f":
+        name_for_file = command_from_term[2]
+        accept_list_from_terminal_and_return_file(name_for_file)
+    if command_from_term[1] == "-d" and command_from_term[-2] == "-f":
+        file_path = accept_list_from_terminal_and_make_dirs(command_from_term)
+        name_for_file = f"{file_path}/{command_from_term[-1]}"
+        accept_list_from_terminal_and_return_file(name_for_file)
+
+
+command_from_terminal = sys.argv
+terminal(command_from_terminal)
