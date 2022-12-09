@@ -18,6 +18,7 @@ for item in input_info:
             path = os.path.join(os.getcwd(), item)
             try:
                 os.mkdir(path)
+                os.chdir(item)
             except FileExistsError:
                 os.chdir(item)
 
@@ -38,9 +39,7 @@ for item in input_info:
                     )
 
                     count_for_make_datetime += 1
-
-                else:
-                    file.write(f"Line{row_number}: {content}\n")
+                file.write(f"Line{row_number}: {content}\n")
 
                 row_number += 1
             count_for_make_date = 0
