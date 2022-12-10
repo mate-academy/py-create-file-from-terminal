@@ -5,9 +5,7 @@ from os.path import exists
 
 
 def create_directories(start: int, end: int) -> str:
-    directories_list = []
-    for i in range(start, end):
-        directories_list.append(sys.argv[i])
+    directories_list = sys.argv[start: end]
     path_directories = "/".join(directories_list)
     os.makedirs(path_directories)
     return path_directories
