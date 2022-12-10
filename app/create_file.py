@@ -18,32 +18,24 @@ def write_content_from_terminal(path_to_file: str, method: str) -> None:
                 break
 
 
-if sys.argv[1] == "-d" and len(sys.argv) == 6 and sys.argv[4] == "-f":
-    path_directories = os.path.join(sys.argv[2], sys.argv[3])
-    os.makedirs(path_directories)
-    path_file = os.path.join(sys.argv[2], sys.argv[3], sys.argv[5])
-    write_content_from_terminal(path_file, "w")
-
-
-if sys.argv[1] == "-d" and len(sys.argv) == 5 and sys.argv[3] == "-f":
-    path_directory = sys.argv[2]
+if "-d" in sys.argv and "-f" in sys.argv:
+    directories_list = []
+    for i in range(2, len(sys.argv) - 2):
+        directories_list.append(sys.argv[i])
+    path_directory = "/".join(directories_list)
     os.makedirs(path_directory)
-    path_file = os.path.join(sys.argv[2], sys.argv[4])
+    path_file = os.path.join(path_directory, sys.argv[-1])
     write_content_from_terminal(path_file, "w")
 
+elif "-d" in sys.argv and "-f" not in sys.argv:
+    directories_list = []
+    for i in range(2, len(sys.argv)):
+        directories_list.append(sys.argv[i])
+    path_directory = "/".join(directories_list)
+    os.makedirs(path_directory)
 
-if sys.argv[1] == "-f" and exists(f"{sys.argv[2]}") is True:
-    path_file = sys.argv[2]
-    write_content_from_terminal(path_file, "a")
-
-if sys.argv[1] == "-f" and exists(f"{sys.argv[2]}") is False:
-    path_file = sys.argv[2]
-    write_content_from_terminal(path_file, "w")
-
-
-if sys.argv[1] == "-d" and len(sys.argv) == 3:
-    os.makedirs(sys.argv[2])
-
-if sys.argv[1] == "-d" and len(sys.argv) == 4:
-    path_directories = os.path.join(sys.argv[2], sys.argv[3])
-    os.makedirs(path_directories)
+elif "-f" in sys.argv and "-d" not in sys.argv:
+    if exists(f"{sys.argv[-1]}"):
+        write_content_from_terminal(sys.argv[-1], "a")
+    elif exists(f"{sys.argv[-1]}") is False:
+        write_content_from_terminal(sys.argv[-1], "w")
