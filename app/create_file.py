@@ -10,7 +10,7 @@ def make_directions(new_director: list) -> str:
     return path_to_new_dir
 
 
-def make_file(file_name):
+def make_file(file_name: str) -> None:
     with open(file_name, "a") as new_file:
         time_stamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         new_file.write(f"{time_stamp}\n")
@@ -23,7 +23,7 @@ def make_file(file_name):
             line_num += 1
 
 
-def starter():
+def starter() -> None:
     command = argv[1:]
     if "-d" in command and "-f" in command:
         directions = command[command.index("-d") + 1: command.index("-f")]
