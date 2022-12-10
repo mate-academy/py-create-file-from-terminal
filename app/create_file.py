@@ -3,52 +3,40 @@ import os
 from datetime import datetime
 
 
-def make_directors(input_info: list) -> None:
-    num_for_make_directory = 0
-    num_for_make_file = 0
-
-    while True:
-        for item in input_info:
-            if item == "-d" or num_for_make_directory >= 1:
-                num_for_make_directory += 1
-                if item not in os.getcwd() and\
-                        item != "-d" and\
-                        item != "file.txt":
-
-                    path = os.path.join(os.getcwd(), item)
-                    try:
-                        os.mkdir(path)
-                        os.chdir(item)
-                    except FileExistsError:
-                        os.chdir(item)
-
-            if item == "-f" or num_for_make_file > 0:
-                num_for_make_file += 1
-                make_file(item)
-                if item == input_info[-1] and "-f" in input_info:
-                    return
+def make_directions(new_director: list) -> str:
+    path_to_new_dir = os.path.join(*new_director)
+    if not os.path.exists(path_to_new_dir):
+        os.makedirs(path_to_new_dir)
+    return path_to_new_dir
 
 
-def make_file(file_info: str) -> None:
-    count_for_make_datetime = 0
-    variable_for_rows = 1
-    if file_info == "-f":
-        return
-    with open("file.txt", "a") as file:
-
+def make_file(file_name):
+    with open(file_name, "a") as new_file:
+        time_stamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        new_file.write(f"{time_stamp}\n")
+        line_num = 1
         while True:
-            content = input(f"Enter content line: {variable_for_rows} ")
-
-            if content.lower() == "stop":
+            content = input("Enter content here ->")
+            if content == "stop":
                 break
-
-            if count_for_make_datetime == 0:
-                file.write(
-                    f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
-                )
-                count_for_make_datetime += 1
-            file.write(f"Line{variable_for_rows}: {content}\n")
-            variable_for_rows += 1
+            new_file.write(f"Line{line_num} {content}\n")
+            line_num += 1
 
 
-make_directors(argv)
+def starter():
+    command = argv[1:]
+    if "-d" in command and "-f" in command:
+        directions = command[command.index("-d") + 1: command.index("-f")]
+        path_dir = make_directions(directions)
+        file_path = os.path.join(path_dir, f"{command[-1]}")
+        make_file(file_path)
+
+    if "-d" in command and "-f" not in command:
+        make_directions(command[command.index("-d") + 1:])
+
+    if "-f" in command and "-d" not in command:
+        make_file(command[-1])
+
+
+if __name__ == "__main__":
+    starter()
