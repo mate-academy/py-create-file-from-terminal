@@ -13,11 +13,11 @@ def create_directories(start: int, end: int) -> str:
     return path_directories
 
 
-def create_file(file: str):
-    if exists(f"{file}"):
-        write_content_from_terminal(file, "a")
-    elif exists(f"{file}") is False:
-        write_content_from_terminal(file, "w")
+def create_file(file_name: str) -> None:
+    if exists(file_name):
+        write_content_from_terminal(file_name, "a")
+    elif exists(file_name) is False:
+        write_content_from_terminal(file_name, "w")
 
 
 def write_content_from_terminal(path_to_file: str, method: str) -> None:
