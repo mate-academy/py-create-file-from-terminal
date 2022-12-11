@@ -36,16 +36,18 @@ def create_file(info_list: list) -> str:
 
 
 def create_folder_and_create_file(list_info: list) -> None:
-    # Create folder(s) and save folder(s) path into a variable:
-    folder_path = create_folder(
+    saved_folder_path = create_folder(
         list_info[list_info.index("-d"):list_info.index("-f")]
     )
-    # Create file and save file name into a variable:
-    file_name = create_file(
+
+    saved_file_name = create_file(
         list_info[list_info.index("-f"):]
     )
-    # Move file into created folder(s):
-    os.replace(file_name, folder_path + file_name)
+
+    path_to_move_file = saved_folder_path \
+        + saved_file_name
+
+    os.replace(saved_file_name, path_to_move_file)
 
 
 if "-f" not in sys.argv:
