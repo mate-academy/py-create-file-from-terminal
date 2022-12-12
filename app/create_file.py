@@ -32,17 +32,22 @@ def write_content_from_terminal(path_to_file: str, method: str) -> None:
                 break
 
 
-if "-d" in sys.argv and "-f" in sys.argv:
-    range_start = sys.argv.index("-d") + 1
-    range_end = len(sys.argv) - range_start
-    path_directory = create_directories(range_start, range_end)
-    path_file = os.path.join(path_directory, sys.argv[-1])
-    write_content_from_terminal(path_file, "w")
+def create_file_and_directories() -> None:
+    if "-d" in sys.argv and "-f" in sys.argv:
+        range_start = sys.argv.index("-d") + 1
+        range_end = len(sys.argv) - range_start
+        path_directory = create_directories(range_start, range_end)
+        path_file = os.path.join(path_directory, sys.argv[-1])
+        write_content_from_terminal(path_file, "w")
 
-elif "-f" in sys.argv:
-    create_file(sys.argv[-1])
+    elif "-f" in sys.argv:
+        create_file(sys.argv[-1])
 
-elif "-d" in sys.argv:
-    range_start = sys.argv.index("-d") + 1
-    range_end = len(sys.argv)
-    create_directories(range_start, range_end)
+    elif "-d" in sys.argv:
+        range_start = sys.argv.index("-d") + 1
+        range_end = len(sys.argv)
+        create_directories(range_start, range_end)
+
+
+if __name__ == "__main__":
+    create_file_and_directories()
