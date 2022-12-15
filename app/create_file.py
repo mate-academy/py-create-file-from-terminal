@@ -4,27 +4,27 @@ import sys
 import os
 
 
-command_list = sys.argv
-path = ""
-if "-d" in command_list:
-    flag_d = command_list.index("-d")
-    flag_f = len(command_list)
-    if "-f" in command_list:
-        flag_f = command_list.index("-f")
-    dir_list = command_list[flag_d + 1: flag_f]
+def create_path(list_of_agrs: list) -> str:
+    path = ""
+    flag_d = list_of_agrs.index("-d")
+    flag_f = len(list_of_agrs)
+    if "-f" in list_of_agrs:
+        flag_f = list_of_agrs.index("-f")
+    dir_list = list_of_agrs[flag_d + 1: flag_f]
     for part in dir_list:
         path = os.path.join(path, part)
     try:
         os.makedirs(path)
     except OSError:
         pass
+    return path
 
-if "-f" in command_list:
-    file_name = command_list[command_list.index("-f") + 1]
+
+def create_file(file_name: str, file_path: str) -> None:
     tag = "w"
-    if file_name in os.listdir(path):
+    if file_name in os.listdir(file_path):
         tag = "a"
-    file_with_path = os.path.join(path, file_name)
+    file_with_path = os.path.join(file_path, file_name)
     with open(file_with_path, tag) as file:
         file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         input_text = input("Enter content line: ")
@@ -34,3 +34,13 @@ if "-f" in command_list:
             input_text = input("Enter content line: ")
             line_number += 1
         file.write("\n")
+
+
+command_list = sys.argv
+path_to_file = ""
+if "-d" in command_list:
+    path_to_file = create_path(command_list)
+
+if "-f" in command_list:
+    file_name = command_list[command_list.index("-f") + 1]
+    create_file(file_name, path_to_file)
