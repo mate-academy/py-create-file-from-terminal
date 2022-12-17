@@ -12,7 +12,8 @@ def create_dir() -> None:
             current_dir = os.path.join(current_dir, sys.argv[i])
             os.chdir(current_dir)
         create_file()
-    create_file()
+    else:
+        create_file()
 
 
 def create_file() -> None:
