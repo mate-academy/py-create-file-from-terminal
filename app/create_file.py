@@ -4,15 +4,15 @@ from sys import argv
 
 
 def check_command_from_terminal(info: list) -> None:
-    command = [info.pop(info.index(value)) for value in info if "-" in value]
+    command = [value for value in info if "-" in value]
     if len(command) < 2:
         if command[0] == "-f":
             work_with_file(info[-1])
         else:
-            create_dirs(info[1:])
+            create_dirs(info[2:])
     else:
-        file_name = info.pop(-1)
-        folder = create_dirs(info[1:])
+        file_name = info[-1]
+        folder = create_dirs(info[2:-2])
         work_with_file(os.path.join(folder, file_name))
 
 
