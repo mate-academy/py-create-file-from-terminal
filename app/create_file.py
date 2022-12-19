@@ -22,11 +22,11 @@ def create_directories(args: List[str]) -> str:
 
     for i in range(dir_index + 1, len(args)):
         if args[i] == "-f":
-            return path
+            break
 
         path = os.path.join(path, args[i])
 
-        os.makedirs(path, exist_ok=True)
+    os.makedirs(path, exist_ok=True)
 
     return path
 
