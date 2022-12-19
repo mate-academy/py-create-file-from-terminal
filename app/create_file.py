@@ -19,13 +19,13 @@ def create_directories(args: List[str]) -> str:
         dir_index = args.index("-d")
     except ValueError:
         return path
-    
+
     for i in range(dir_index + 1, len(args)):
         if args[i] == "-f":
             return path
 
         path = os.path.join(path, args[i])
-        
+
         os.makedirs(path, exist_ok=True)
 
     return path
@@ -64,7 +64,9 @@ def append_to_file(
         )
 
         for i in range(len(inputs)):
-            file.write(" ".join([str(i + 1), inputs[i], "\n"]))
+            line_number = str(i + 1)
+
+            file.write(" ".join([line_number, inputs[i], "\n"]))
 
 
 arguments = sys.argv
