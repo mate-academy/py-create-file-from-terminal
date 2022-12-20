@@ -59,14 +59,11 @@ def append_to_file(
             file.write("\n")
 
         file.write(
-            datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            + "\n"
+            f"{datetime.datetime.now().strftime('%y-%m-%d %H:%M:%S')}\n"
         )
 
         for i in range(len(inputs)):
-            line_number = str(i + 1)
-
-            file.write(" ".join([line_number, inputs[i], "\n"]))
+            file.write(f"{str(i + 1)} {inputs[i]}\n")
 
 
 arguments = sys.argv
