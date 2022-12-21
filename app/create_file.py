@@ -22,8 +22,8 @@ def create_directories(args: List[str]) -> str:
                 break
 
             path = os.path.join(path, args[i])
-            os.makedirs(path, exist_ok=True)
 
+        os.makedirs(path, exist_ok=True)
         return path
     except ValueError:
         return ""
