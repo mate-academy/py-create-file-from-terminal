@@ -13,22 +13,20 @@ def find_file_name(args: List[str]) -> str:
 
 
 def create_directories(args: List[str]) -> str:
-    path = ""
-
     try:
+        path = ""
         dir_index = args.index("-d")
-    except ValueError:
+
+        for i in range(dir_index + 1, len(args)):
+            if args[i] == "-f":
+                break
+
+            path = os.path.join(path, args[i])
+            os.makedirs(path, exist_ok=True)
+
         return path
-
-    for i in range(dir_index + 1, len(args)):
-        if args[i] == "-f":
-            break
-
-        path = os.path.join(path, args[i])
-
-    os.makedirs(path, exist_ok=True)
-
-    return path
+    except ValueError:
+        return ""
 
 
 def handle_input() -> List[str]:
