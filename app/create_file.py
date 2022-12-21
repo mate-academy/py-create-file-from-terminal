@@ -26,7 +26,7 @@ def create_directory(current_path: str) -> str:
     return new_path
 
 
-if __name__ == "__main__":
+def main() -> None:
     if "-f" in sys.argv and "-d" in sys.argv:
         new_directory_path = create_directory(os.getcwd())
         create_file(new_directory_path)
@@ -36,3 +36,7 @@ if __name__ == "__main__":
 
     elif "-d" in sys.argv:
         create_directory(os.getcwd())
+
+
+if __name__ == "__main__":
+    main()
