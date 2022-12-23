@@ -9,7 +9,8 @@ def file_creator_app(command: str) -> None:
         path_list = directory_list[0].split()
         path_list = path_list[3:]
 
-        path_to_file = create_new_directory(path_list) + command.split()[-1]
+        path_to_file = os.path.join(*[create_new_directory(path_list),
+                                      command.split()[-1]])
         create_new_file(path_to_file)
 
     elif "-d" in command:
@@ -23,19 +24,16 @@ def file_creator_app(command: str) -> None:
 
 
 def create_new_directory(path_list: list) -> str:
-    path_ = ""
-    for folder in path_list:
-        path_ += folder + "/"
-        if os.path.exists(path_) is not True:
-            os.mkdir(path_)
-    return path_
+    path = os.path.join(*path_list)
+    if os.path.exists(path) is not True:
+        os.makedirs(path)
+    return path
 
 
 def create_new_file(command: str) -> None:
+    file_name = command.split()[-1]
     if len(command) == 1:
         file_name = command
-    else:
-        file_name = command.split()[-1]
     current_time = datetime.now()
     timestamp = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
