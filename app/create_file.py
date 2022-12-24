@@ -40,8 +40,11 @@ def create_new_file(command: str) -> None:
     with open(file_name, "a") as write_file:
         write_file.write("\n" + timestamp + "\n")
         while True:
-            output = input("Enter content line:") + "\n"
-            if output != "stop" + "\n":
-                write_file.write(output)
-            else:
+            output = input("Enter content line:")
+            if output == "stop":
                 break
+            write_file.write(output + "\n")
+
+
+# if "__name__" == "__main__":
+#     create_new_file()
