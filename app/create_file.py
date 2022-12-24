@@ -46,5 +46,5 @@ def create_new_file(command: str) -> None:
             write_file.write(output + "\n")
 
 
-# if "__name__" == "__main__":
-#     create_new_file()
+if "__name__" == "__main__":
+    create_new_file()
