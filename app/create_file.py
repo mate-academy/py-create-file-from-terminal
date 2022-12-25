@@ -5,15 +5,15 @@ from datetime import datetime as datetime
 
 
 def create() -> None:
-    args = sys.argv
+    args = sys.argv[1::]
     path = os.getcwd
 
     if "-d" in args:
-        for i in range(args.index("-d") + 1, len(args)):
-            if i == "-f":
-                break
-            path = os.path.join(path, args[i], "")
-            os.makedirs(path)
+        if args[-2] == "-f":
+            path = os.path.join(*args[1:-2], "")
+        else:
+            path = os.path.join(*args[1::], "")
+        os.makedirs(path)
 
     if "-f" in args:
         with open(os.path.join(path, args[args.index("-f") + 1]), "a") as f:
