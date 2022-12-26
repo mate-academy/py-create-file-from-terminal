@@ -24,7 +24,7 @@ def create_file(file_name: str) -> None:
             line_number += 1
 
 
-if __name__ == "__main__":
+def main() -> None:
     if "-d" in args and "-f" in args:
         create_dir(os.path.join(*args[1:-2]))
         create_file(os.path.join(os.path.join(*args[1:-2]), args[-1]))
@@ -34,3 +34,7 @@ if __name__ == "__main__":
 
     elif "-f" in args:
         create_file(args[1])
+
+
+if __name__ == "__main__":
+    main()
