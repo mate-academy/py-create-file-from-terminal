@@ -3,31 +3,33 @@ import os
 import sys
 
 
-def create_file() -> None:
-    if "-d" in sys.argv:
-        index = 2
+def create_file(file_name: str) -> None:
+    with open(sys.argv[-1], "a") as file:
+        date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(f"{date}\n")
 
-        while len(sys.argv) != index:
-            if sys.argv[index] == "-f":
-                index += 1
-                continue
+        current_line = 1
+        inline_content = input("Enter content line: ")
 
-            os.mkdir(sys.argv[index])
-            os.chdir(sys.argv[index])
-            index += 1
-
-    if "-f" in sys.argv:
-        with open(sys.argv[-1], "w") as f:
-            date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            f.write(f"{date}\n")
-
-            current_line = 1
+        while inline_content != "stop":
+            file.write(f"Line{current_line} {inline_content}\n")
             inline_content = input("Enter content line: ")
-
-            while inline_content != "stop":
-                f.write(f"Line{current_line} {inline_content}\n")
-                inline_content = input("Enter content line: ")
-                current_line += 1
+            current_line += 1
 
 
-create_file()
+def create_folder() -> None:
+    if "-d" in sys.argv and "-f" in sys.argv:
+        folders = os.path.join(*sys.argv[2:sys.argv.index("-f")])
+        os.makedirs(folders)
+        create_file(os.path.join(folders, sys.argv[-1]))
+
+    elif "-d" in sys.argv and len(sys.argv) > 2:
+        folders = os.path.join(*sys.argv[2:])
+        os.makedirs(folders)
+
+    elif "-f" in sys.argv and len(sys.argv) > 2:
+        create_file(sys.argv[-1])
+
+
+if __name__ == "__main__":
+    create_folder()
