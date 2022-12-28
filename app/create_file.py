@@ -19,6 +19,7 @@ def create_file(file_name: str) -> None:
         while True:
             text = input("Enter content line: ")
             if text == "stop":
+                file.write("\n")
                 break
             file.write(f"{line_number} {text} \n")
             line_number += 1
@@ -26,8 +27,13 @@ def create_file(file_name: str) -> None:
 
 if __name__ == "__main__":
     if "-d" in argv and "-f" in argv:
-        create_folder(argv[1:-2])
-        create_file(f"{os.path.join(*argv[1:-2])}/{argv[-1]}")
+        if argv.index("-d") < argv.index("-f"):
+            create_folder(argv[1:-2])
+            create_file(f"{os.path.join(*argv[1:-2])}/{argv[-1]}")
+        else:
+            create_folder(argv[argv.index("-d") + 1:])
+            create_file(f"{os.path.join(*argv[argv.index('-d') + 1:])}"
+                        f"/{argv[1]}")
     elif "-d" in argv:
         create_folder(argv[1::])
     elif "-f" in argv:
