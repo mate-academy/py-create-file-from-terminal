@@ -32,15 +32,12 @@ def create_file(name: str) -> None:
             new_file.write(f"{number} {some_input}\n")
 
 
-if OUTPUT[1] == "-d" and "-r" not in OUTPUT:
-    os.makedirs(create_path(OUTPUT))
-
-
-if OUTPUT[-2] == "-f" and "-d" not in OUTPUT:
-    create_file(OUTPUT[-1])
-
-if OUTPUT[1] != "-d" or OUTPUT[-2] != "-f":
-    raise ValueError("Please write your command correctly!")
-
-if OUTPUT[1] == "-d" or OUTPUT[-2] == "-f":
-    create_file(create_path(OUTPUT) + OUTPUT[-1])
+if __name__ == "__main__":
+    if OUTPUT[1] == "-d" and "-r" not in OUTPUT:
+        os.makedirs(create_path(OUTPUT))
+    if OUTPUT[-2] == "-f" and "-d" not in OUTPUT:
+        create_file(OUTPUT[-1])
+    if OUTPUT[1] != "-d" or OUTPUT[-2] != "-f":
+        raise ValueError("Please write your command correctly!")
+    if OUTPUT[1] == "-d" or OUTPUT[-2] == "-f":
+        create_file(create_path(OUTPUT) + OUTPUT[-1])
