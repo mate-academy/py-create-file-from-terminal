@@ -23,22 +23,18 @@ def file_creation(file_path: str) -> None:
         print(f"You do not have permission to write to file: {file_path}")
 
 
-def directory_creation() -> None:
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", nargs="*")
-    parser.add_argument("-f", nargs=1)
+    parser.add_argument("-f")
     args = parser.parse_args()
     if args.d:
         path = os.path.join("app", *args.d)
         os.makedirs(path, exist_ok=True)
-
     if args.f:
         if args.d and args.f:
             file_path = os.path.join("app", *args.d, *args.f)
-            file_creation(file_path)
         else:
             file_path = os.path.join("app", *args.f)
-            file_creation(file_path)
 
-
-directory_creation()
+        file_creation(file_path)
