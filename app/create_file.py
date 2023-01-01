@@ -30,7 +30,7 @@ def create_file(file_name: str, dir_name: str = "") -> None:
             new_line = input("Enter new line of content: ")
 
 
-def creating_in_terminal() -> None:
+def creating_with_terminal() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', help="create new file")
     parser.add_argument('-d', nargs="*", help="create new directory")
@@ -47,7 +47,8 @@ def creating_in_terminal() -> None:
     elif args.d:
         create_directory(directory_name)
 
-creating_in_terminal()
+
+creating_with_terminal()
 
 
 
