@@ -15,25 +15,26 @@ def create_directory(dir_name: str) -> str:
 def create_file(file_name: str, dir_name: str = "") -> None:
     now = datetime.now()
     new_line = input("Enter new line of content: ")
-    n = 0
+    row_number = 0
 
     if os.path.exists(file_name):
         with open(file_name, "a") as file:
-            file.write(f"\n")
+            file.write("\n")
 
-    with open(os.path.join(create_directory(dir_name), file_name), "a") as file:
+    with open(os.path.join(create_directory(dir_name), file_name), "a") \
+            as file:
         file.write(f"{now.strftime('%Y-%m-%d %H:%M:%S')}\n")
 
         while new_line != "stop":
-            n += 1
-            file.write(f"{n} {new_line}\n")
+            row_number += 1
+            file.write(f"{row_number} {new_line}\n")
             new_line = input("Enter new line of content: ")
 
 
 def creating_with_terminal() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument('-f', help="create new file")
-    parser.add_argument('-d', nargs="*", help="create new directory")
+    parser.add_argument("-f", help="create new file")
+    parser.add_argument("-d", nargs="*", help="create new directory")
     args = parser.parse_args()
     file_name = args.f
     directory_name = args.d
@@ -49,7 +50,3 @@ def creating_with_terminal() -> None:
 
 
 creating_with_terminal()
-
-
-
-
