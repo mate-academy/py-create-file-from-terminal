@@ -38,7 +38,7 @@ def create_file(name: str) -> None:
             new_file.write(f"{number} {some_input}\n")
 
 
-def main(output: list):
+def main(output: list) -> None:
     if output[1] == "-d" and "-f" not in output:
         create_file(create_path(output))
     if output[-2] == "-f" and "-d" not in output:
