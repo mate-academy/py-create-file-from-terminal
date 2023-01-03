@@ -2,22 +2,22 @@ from sys import argv
 import os
 from datetime import datetime
 
-flag_d = "-d"
-flag_f = "-f"
+FLAG_D = "-d"
+FLAG_F = "-f"
 
 
 def create_file() -> None:
     command = argv
-    if flag_d in command and flag_f in command:
-        path = os.path.join(*command[2:command.index(flag_f)])
+    if FLAG_D in command and FLAG_F in command:
+        path = os.path.join(*command[2:command.index(FLAG_F)])
         os.makedirs(path)
         make_file(os.path.join(path, command[-1]))
 
-    elif flag_d in command:
+    elif FLAG_D in command:
         path = os.path.join(*command[2:])
         os.makedirs(path)
 
-    elif flag_f in command:
+    elif FLAG_F in command:
         make_file(command[-1])
 
 
@@ -33,6 +33,3 @@ def make_file(name_file: str) -> None:
                 break
             created_file.write(f"{line} {content}\n")
             line += 1
-
-
-create_file()
