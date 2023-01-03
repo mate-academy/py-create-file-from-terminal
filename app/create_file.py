@@ -3,18 +3,24 @@ import os
 import datetime
 
 
-OUTPUT = sys.argv
+output = sys.argv
 
 
-def create_path(sys_output: list) -> str:
-    for index in range(len(sys_output)):
-        if sys_output[index] == "-d":
+def create_path(output: list) -> str:
+    if output != "-d" or output != "-f":
+        raise ValueError("Please write your command correctly!")
+    for index in range(len(output)):
+        if output[index] == "-d":
             path = ""
-            for dir_index in range(index + 1, len(sys_output)):
-                if sys_output[dir_index] == "-f":
+            for dir_index in range(index + 1, len(output)):
+                if output[dir_index] == "-f":
                     break
-                path += sys_output[dir_index] + "/"
+                path += output[dir_index] + "/"
             return path
+
+
+def create_dir(path: str) -> None:
+    os.makedirs(path)
 
 
 def create_file(name: str) -> None:
@@ -32,12 +38,10 @@ def create_file(name: str) -> None:
             new_file.write(f"{number} {some_input}\n")
 
 
-if __name__ == "__main__":
-    if OUTPUT[1] == "-d" and "-r" not in OUTPUT:
-        os.makedirs(create_path(OUTPUT))
-    if OUTPUT[-2] == "-f" and "-d" not in OUTPUT:
-        create_file(OUTPUT[-1])
-    if OUTPUT[1] != "-d" or OUTPUT[-2] != "-f":
-        raise ValueError("Please write your command correctly!")
-    if OUTPUT[1] == "-d" or OUTPUT[-2] == "-f":
-        create_file(create_path(OUTPUT) + OUTPUT[-1])
+def main(output: list):
+    if output[1] == "-d" and "-f" not in output:
+        create_file(create_path(output))
+    if output[-2] == "-f" and "-d" not in output:
+        create_file(output[-1])
+    if output[1] == "-d" or output[-2] == "-f":
+        create_file(create_path(output) + output[-1])
