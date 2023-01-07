@@ -8,7 +8,7 @@ def create_path(folders: list) -> bytes | str:
     return path
 
 
-def create_file() -> None:
+def create_file(system_argument: list, index: int) -> None:
     with open(system_argument[index + 1], "a+") as file:
         file.write(f"{dt.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         number_line = 0
@@ -20,7 +20,7 @@ def create_file() -> None:
             file.write(f"{number_line} {line}\n")
 
 
-def create_folder() -> None:
+def create_folder(system_argument: list, index: int) -> None:
     folders = []
     for folder in range(len(system_argument[index:]) - 1):
         if system_argument[index:][folder + 1] == "-f":
@@ -32,9 +32,12 @@ def create_folder() -> None:
         folders.append(system_argument[index:][folder + 1])
 
 
-system_argument = sys.argv
-for index in range(len(system_argument)):
-    if system_argument[index] == "-f":
-        create_file()
-    if system_argument[index] == "-b":
-        create_folder()
+def start_create(system_argument: list) -> None:
+    for index in range(len(system_argument)):
+        if system_argument[index] == "-f":
+            create_file(system_argument, index)
+        if system_argument[index] == "-b":
+            create_folder(system_argument, index)
+
+
+start_create(sys.argv)
