@@ -40,4 +40,5 @@ def start_create(system_argument: list) -> None:
             create_folder(system_argument, index)
 
 
-start_create(sys.argv)
+if __name__ == "__main__":
+    start_create(sys.argv)
