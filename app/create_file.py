@@ -3,11 +3,8 @@ import os
 import datetime
 
 
-output = sys.argv
-
-
 def create_path(output: list) -> str:
-    if output != "-d" or output != "-f":
+    if output[1] != "-d" and output[-2] != "-f":
         raise ValueError("Please write your command correctly!")
     for index in range(len(output)):
         if output[index] == "-d":
@@ -38,10 +35,14 @@ def create_file(name: str) -> None:
             new_file.write(f"{number} {some_input}\n")
 
 
-def main(output: list) -> None:
-    if output[1] == "-d" and "-f" not in output:
-        create_file(create_path(output))
-    if output[-2] == "-f" and "-d" not in output:
-        create_file(output[-1])
-    if output[1] == "-d" or output[-2] == "-f":
-        create_file(create_path(output) + output[-1])
+if __name__ == "__main__":
+    def main(output: list) -> None:
+        if output[1] == "-d" and output[-2] == "-f":
+            create_dir(create_path(output))
+            create_file(create_path(output) + output[-1])
+        elif output[1] == "-d":
+            create_dir(create_path(output))
+        elif output[-2] == "-f":
+            create_file(output[-1])
+
+    main(sys.argv)
