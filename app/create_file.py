@@ -37,5 +37,5 @@ def write_in_file(arguments_list: list) -> None:
                 new_file.write("\n")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     write_in_file(arguments_list)
