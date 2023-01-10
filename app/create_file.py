@@ -5,16 +5,20 @@ import datetime
 
 arguments_list = sys.argv
 
-if "-d" in arguments_list:
+
+def create_directories(arguments_list: list) -> None:
     if "-f" in arguments_list:
         new_dir = "/".join(arguments_list[2:-2])
     else:
         new_dir = "/".join(arguments_list[2:])
     os.makedirs(new_dir)
+    return new_dir
 
-if "-f" in arguments_list:
+
+def write_in_file(arguments_list: list) -> None:
     file_name = arguments_list[-1]
     if "-d" in arguments_list:
+        new_dir = create_directories(arguments_list)
         path_to_file = f"{new_dir}/{file_name}"
     else:
         path_to_file = file_name
@@ -31,3 +35,7 @@ if "-f" in arguments_list:
                 count += 1
             else:
                 new_file.write("\n")
+
+
+if __name__ == '__main__':
+    write_in_file(arguments_list)
