@@ -33,8 +33,8 @@ def write_in_file(arguments_list: list) -> None:
             if input_line != "stop":
                 new_file.write(str(count) + " " + input_line + "\n")
                 count += 1
-            else:
-                new_file.write("\n")
+                continue
+            new_file.write("\n")
 
 
 if __name__ == "__main__":
