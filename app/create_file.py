@@ -4,9 +4,9 @@ import datetime
 
 
 def create_path(output: list) -> str:
-    if output[1] != "-d" and output[-2] != "-f":
+    if "-f" not in output and "-d" not in output:
         raise ValueError("Please write your command correctly!")
-    for index in range(len(output)):
+    for index, command in enumerate(output):
         if output[index] == "-d":
             path = ""
             for dir_index in range(index + 1, len(output)):
@@ -14,10 +14,6 @@ def create_path(output: list) -> str:
                     break
                 path += output[dir_index] + "/"
             return path
-
-
-def create_dir(path: str) -> None:
-    os.makedirs(path)
 
 
 def create_file(name: str) -> None:
@@ -37,12 +33,14 @@ def create_file(name: str) -> None:
 
 if __name__ == "__main__":
     def main(output: list) -> None:
-        if output[1] == "-d" and output[-2] == "-f":
-            create_dir(create_path(output))
-            create_file(create_path(output) + output[-1])
-        elif output[1] == "-d":
-            create_dir(create_path(output))
-        elif output[-2] == "-f":
-            create_file(output[-1])
+        path = create_path(output)
+        if "-d" in output and "-f" in output:
+            os.makedirs(path)
+            create_file(path + output[output.index("-f") + 1])
+        elif "-d" in output and "-f" not in output:
+            os.makedirs(path)
+        elif "-f" in output and "-d" not in output:
+            create_file(output[output.index("-f") + 1])
+
 
     main(sys.argv)
