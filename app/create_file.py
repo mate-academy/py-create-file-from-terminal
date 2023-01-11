@@ -4,16 +4,17 @@ import os
 import sys
 
 
-working_directory = os.getcwd()
-if "-d" in sys.argv:
-    for line in range(2, len(sys.argv)):
-        if sys.argv[line] == "-f":
-            break
-        working_directory = os.path.join(working_directory, sys.argv[line])
-    os.mkdir(working_directory)
+def create_directory() -> None:
+    working_directory = os.getcwd()
+    if "-d" in sys.argv:
+        for line in range(2, len(sys.argv)):
+            if sys.argv[line] == "-f":
+                break
+            working_directory = os.path.join(working_directory, sys.argv[line])
+        os.mkdir(working_directory)
 
-if "-f" in sys.argv:
-    current_file = os.path.join(working_directory, sys.argv[-1])
+
+def create_file(current_file: str) -> None:
     with open(current_file, "a") as current_new_file:
         current_new_file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         line_number = 1
