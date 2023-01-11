@@ -42,5 +42,4 @@ if __name__ == "__main__":
         elif "-f" in output and "-d" not in output:
             create_file(output[output.index("-f") + 1])
 
-
     main(sys.argv)
