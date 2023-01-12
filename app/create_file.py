@@ -26,12 +26,13 @@ def create_file(commands: list) -> None:
             line_number += 1
 
 
-if "-d" in sys.argv and "-f" in sys.argv:
-    create_directory(sys.argv)
-    create_file(sys.argv)
+def main() -> None:
+    if "-d" in sys.argv and "-f" in sys.argv:
+        create_directory(sys.argv)
+        create_file(sys.argv)
 
-if "-d" in sys.argv:
-    create_directory(sys.argv)
+    if "-d" in sys.argv:
+        create_directory(sys.argv)
 
-if "-f" in sys.argv:
-    create_file(sys.argv)
+    if "-f" in sys.argv:
+        create_file(sys.argv)
