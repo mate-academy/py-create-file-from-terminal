@@ -1,19 +1,20 @@
+from __future__ import annotations
 import sys
 import os
 import datetime
 
 
-def create_path(output: list) -> str:
+def create_path(output: list) -> str | None:
+    if "-d" not in output:
+        return
     if "-f" not in output and "-d" not in output:
         raise ValueError("Please write your command correctly!")
-    for index, command in enumerate(output):
-        if output[index] == "-d":
-            path = ""
-            for dir_index in range(index + 1, len(output)):
-                if output[dir_index] == "-f":
-                    break
-                path += output[dir_index] + "/"
-            return path
+    path = ""
+    if "-f" in output and output.index("-f") > output.index("-d"):
+        path = os.path.join(*output[output.index("-d") + 1:output.index("-f")])
+    elif "-d" in output or output.index("-f") < output.index("-d"):
+        path = os.path.join(*output[output.index("-d") + 1:])
+    return path
 
 
 def create_file(name: str) -> None:
@@ -36,10 +37,10 @@ if __name__ == "__main__":
         path = create_path(output)
         if "-d" in output and "-f" in output:
             os.makedirs(path)
-            create_file(path + output[output.index("-f") + 1])
-        elif "-d" in output and "-f" not in output:
-            os.makedirs(path)
+            create_file(path + "/" + output[output.index("-f") + 1])
         elif "-f" in output and "-d" not in output:
             create_file(output[output.index("-f") + 1])
+        elif "-d" in output and "-f" not in output:
+            os.makedirs(path)
 
     main(sys.argv)
