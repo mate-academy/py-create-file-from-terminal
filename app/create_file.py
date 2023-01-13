@@ -40,6 +40,9 @@ if __name__ == "__main__":
         if "-f" not in input_from_sys:
             return
         else:
-            create_file(os.path.join(dir_path, input_from_sys[input_from_sys.index("-f") + 1]))
+            create_file(os.path.join(
+                dir_path,
+                input_from_sys[input_from_sys.index("-f") + 1]
+            ))
 
     main(sys.argv)
