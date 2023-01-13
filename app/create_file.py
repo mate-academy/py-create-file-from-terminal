@@ -31,15 +31,15 @@ def create_file(name: str) -> None:
 
 
 if __name__ == "__main__":
-    def main(input: list) -> None:
-        if "-d" not in input:
-            create_file(input[input.index("-f") + 1])
+    def main(input_from_sys: list) -> None:
+        if "-d" not in input_from_sys:
+            create_file(input_from_sys[input_from_sys.index("-f") + 1])
             return
-        dir_path = create_path(input)
+        dir_path = create_path(input_from_sys)
         os.makedirs(dir_path)
-        if "-f" not in input:
+        if "-f" not in input_from_sys:
             return
         else:
-            create_file(os.path.join(dir_path, input[input.index("-f") + 1]))
+            create_file(os.path.join(dir_path, input_from_sys[input_from_sys.index("-f") + 1]))
 
     main(sys.argv)
