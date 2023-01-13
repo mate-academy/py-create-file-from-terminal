@@ -1,9 +1,10 @@
 from datetime import datetime
 from create_directory import create_directory
+import os
 
 
-def create_file() -> None:
-    with open(create_directory(), "a") as new_file:
+def create_file(file_name: str, path: str) -> None:
+    with open(os.path.join(path, file_name), "a") as new_file:
         new_file.write(datetime.now().strftime("%Y-%d-%m %H:%M:%S%\n"))
         line_number = 1
         while True:
@@ -15,4 +16,6 @@ def create_file() -> None:
 
 
 if __name__ == "__main__":
-    create_file()
+    file_name, path = create_directory()
+    if file_name:
+        create_file(file_name, path)
