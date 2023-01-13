@@ -5,8 +5,6 @@ import datetime
 
 
 def create_path(output: list) -> str | None:
-    if "-d" not in output:
-        return
     if "-f" not in output and "-d" not in output:
         raise ValueError("Please write your command correctly!")
     path = ""
@@ -33,14 +31,15 @@ def create_file(name: str) -> None:
 
 
 if __name__ == "__main__":
-    def main(output: list) -> None:
-        path = create_path(output)
-        if "-d" in output and "-f" in output:
-            os.makedirs(path)
-            create_file(path + "/" + output[output.index("-f") + 1])
-        elif "-f" in output and "-d" not in output:
-            create_file(output[output.index("-f") + 1])
-        elif "-d" in output and "-f" not in output:
-            os.makedirs(path)
+    def main(input: list) -> None:
+        if "-d" not in input:
+            create_file(input[input.index("-f") + 1])
+            return
+        dir_path = create_path(input)
+        os.makedirs(dir_path)
+        if "-f" not in input:
+            return
+        else:
+            create_file(os.path.join(dir_path, input[input.index("-f") + 1]))
 
     main(sys.argv)
