@@ -20,13 +20,21 @@ def create_directory(route: list) -> None:
 
 def main() -> None:
     args = sys.argv[1:]
-    if args.index("-d") < args.index("-f"):
-        create_directory(args[1:-2])
-        write_file(f"{os.path.join(*args[1:-2])}/{args[-1]}")
-    else:
-        create_directory(args[args.index("d") + 1:])
-        write_file(f"{os.path.join(*args[args.index('-d') + 1:])}"
-                   f"/{args[1]}")
+    if "-d" in args and "-f" in args:
+
+        if args.index("-d") < args.index("-f"):
+            create_directory(args[1:-2])
+            write_file(f"{os.path.join(*args[1:-2])}/{args[-1]}")
+        else:
+            create_directory(args[args.index("d") + 1:])
+            write_file(f"{os.path.join(*args[args.index('-d') + 1:])}"
+                       f"/{args[1]}")
+
+    elif "-d" in args:
+        create_directory(args[1::])
+
+    elif "-f" in args:
+        write_file(args[-1])
 
 
 if __name__ == "__main__":
