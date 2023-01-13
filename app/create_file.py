@@ -12,33 +12,21 @@ def write_file(path: str) -> None:
         file.write("/n")
 
 
-def create_directory(path: str) -> None:
+def create_directory(route: list) -> None:
+    path = os.path.join(*route)
     if not os.path.exists(path):
         os.makedirs(path)
 
 
 def main() -> None:
     args = sys.argv[1:]
-    file_path = []
-    if "-d" in args and "-f" in args:
-
-        if args[0] == "-d":
-            file_path = [arg for arg in args[1:-2]]
-            file_path.append(args[1])
-
-        if args[0] == "-f":
-            file_path = [arg for arg in args[3:]]
-            file_path.append(args[1])
-
-        create_directory(os.path.join(*file_path[:-1]))
-        write_file(os.path.join(*file_path))
-
-    elif "-d" in args:
-        file_path = [arg for arg in args[1:]]
-        create_directory(os.path.join(*file_path))
-
-    elif "-f" in args:
-        write_file(args[-1])
+    if args.index("-d") < args.index("-f"):
+        create_directory(args[1:-2])
+        write_file(f"{os.path.join(*args[1:-2])}/{args[-1]}")
+    else:
+        create_directory(args[args.index("d") + 1:])
+        write_file(f"{os.path.join(*args[args.index('-d') + 1:])}"
+                   f"/{args[1]}")
 
 
 if __name__ == "__main__":
