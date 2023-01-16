@@ -20,11 +20,10 @@ def clean_directory(terminal_directory: list, that_we_delete: list) -> list:
 
 
 def create_file(file_name: str) -> None:
-    line = 1
-    type_line = f"Line{line}"
+    line_number = 1
+    type_line = f"Line{line_number}"
     if os.path.exists(file_name):
         type_line = "Another"
-    content = ""
     with open(file_name, "a") as terminal_file:
         date_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         terminal_file.write(date_time + "\n")
@@ -32,24 +31,23 @@ def create_file(file_name: str) -> None:
             content = input("Enter content line:")
             if content != "stop":
                 terminal_file.write(f"{type_line} {content} \n")
-                line += 1
+                line_number += 1
                 continue
             break
 
 
-if __name__ == "__main__":
-    terminal_list = sys.argv
-    if "-d" in terminal_list and "-f" in terminal_list:
-        file_name = terminal_list[-1]
-        directory = clean_directory(terminal_list, ["-d", "-f", file_name])
-        create_dir(directory)
-        create_file(file_name)
+terminal_list = sys.argv
+if "-d" in terminal_list and "-f" in terminal_list:
+    file_name = terminal_list[-1]
+    directory = clean_directory(terminal_list, ["-d", "-f", file_name])
+    create_dir(directory)
+    create_file(file_name)
 
-    elif "-d" in terminal_list and "-f" not in terminal_list:
-        directory = clean_directory(terminal_list, ["-d"])
-        create_dir(directory)
-        create_file("file.txt")
+elif "-d" in terminal_list and "-f" not in terminal_list:
+    directory = clean_directory(terminal_list, ["-d"])
+    create_dir(directory)
+    create_file("file.txt")
 
-    elif "-d" not in terminal_list and "-f" in terminal_list:
-        directory = clean_directory(terminal_list, ["-f"])
-        create_file(directory[-1])
+elif "-d" not in terminal_list and "-f" in terminal_list:
+    directory = clean_directory(terminal_list, ["-f"])
+    create_file(directory[-1])
