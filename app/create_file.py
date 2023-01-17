@@ -36,18 +36,21 @@ def create_file(file_name: str) -> None:
             break
 
 
-terminal_list = sys.argv
-if "-d" in terminal_list and "-f" in terminal_list:
-    file_name = terminal_list[-1]
-    directory = clean_directory(terminal_list, ["-d", "-f", file_name])
-    create_dir(directory)
-    create_file(file_name)
+def read_terminal(terminal_list: list) -> None:
+    if "-d" in terminal_list and "-f" in terminal_list:
+        file_name = terminal_list[-1]
+        directory = clean_directory(terminal_list, ["-d", "-f", file_name])
+        create_dir(directory)
+        create_file(file_name)
 
-elif "-d" in terminal_list and "-f" not in terminal_list:
-    directory = clean_directory(terminal_list, ["-d"])
-    create_dir(directory)
-    create_file("file.txt")
+    elif "-d" in terminal_list and "-f" not in terminal_list:
+        directory = clean_directory(terminal_list, ["-d"])
+        create_dir(directory)
+        create_file("file.txt")
 
-elif "-d" not in terminal_list and "-f" in terminal_list:
-    directory = clean_directory(terminal_list, ["-f"])
-    create_file(directory[-1])
+    elif "-d" not in terminal_list and "-f" in terminal_list:
+        directory = clean_directory(terminal_list, ["-f"])
+        create_file(directory[-1])
+
+
+read_terminal(sys.argv)
