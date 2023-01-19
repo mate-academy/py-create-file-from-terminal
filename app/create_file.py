@@ -5,6 +5,7 @@ from datetime import datetime
 
 args = sys.argv[1::]
 
+
 def create_dirs(path_name: str) -> None:
     if not os.path.exists(path_name):
         os.makedirs(path_name)
@@ -33,4 +34,4 @@ if __name__ == "__main__":
 
     elif "-f" in args:
         create_file(args[1])
-        
+      
