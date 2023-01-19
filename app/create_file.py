@@ -34,4 +34,3 @@ if __name__ == "__main__":
 
     elif "-f" in args:
         create_file(args[1])
-      
