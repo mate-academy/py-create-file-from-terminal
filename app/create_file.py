@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 
-args = sys.argv[1::]
+args = sys.argv
 
 
 def create_dirs(path_name: str) -> None:
@@ -26,11 +26,11 @@ def create_file(file_name: str) -> None:
 
 if __name__ == "__main__":
     if "-d" in args and "-f" in args:
-        create_dirs(os.path.join(*args[1:-2]))
-        create_file(os.path.join(os.path.join(*args[1:-2]), args[-1]))
+        create_dirs(os.path.join(*args[2:-2]))
+        create_file(os.path.join(os.path.join(*args[2:-2]), args[-1]))
 
     elif "-d" in args:
-        create_dirs(os.path.join(*args[1:]))
+        create_dirs(os.path.join(*args[2:]))
 
     elif "-f" in args:
-        create_file(args[1])
+        create_file(args[2])
