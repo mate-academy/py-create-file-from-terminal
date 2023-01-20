@@ -24,13 +24,16 @@ def create_file(file_name: str) -> None:
             line_number += 1
 
 
-if __name__ == "__main__":
-    if "-d" in args and "-f" in args:
-        create_dirs(os.path.join(*args[2:-2]))
-        create_file(os.path.join(os.path.join(*args[2:-2]), args[-1]))
-
-    elif "-d" in args:
-        create_dirs(os.path.join(*args[2:]))
-
-    elif "-f" in args:
-        create_file(args[2])
+if __name__ == "__main__": 
+    current_dir = os.getcwd()
+    if "-d" in args:
+        if "-f" in args:
+            new_dirs = args[args.index("-d"): -2]
+            path = os.path.join(current_dir, *new_dirs)
+            create_dirs(path)
+        else:
+            new_dirs = args[args.index("-d"):]
+            path = os.path.join(current_dir, *new_dirs)
+            create_dirs(path)
+    if "-f" in args:
+        create_file(args[-1])
