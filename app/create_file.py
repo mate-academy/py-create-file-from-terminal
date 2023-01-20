@@ -24,7 +24,7 @@ def create_file(file_name: str) -> None:
             line_number += 1
 
 
-if __name__ == "__main__": 
+if __name__ == "__main__":
     current_dir = os.getcwd()
     if "-d" in args:
         if "-f" in args:
