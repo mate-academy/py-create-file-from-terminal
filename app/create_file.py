@@ -20,7 +20,7 @@ if "-f" in sys.argv:
     if os.path.exists(file_path):
         with open(file_path, "a") as file:
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            file.write(f"timestamp\n")
+            file.write(f"{timestamp}\n")
 
             i = 1
             while True:
@@ -32,7 +32,7 @@ if "-f" in sys.argv:
     else:
         with open(file_path, "w") as file:
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            file.write(f"timestamp\n")
+            file.write(f"{timestamp}\n")
 
             i = 1
             while True:
