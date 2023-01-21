@@ -3,41 +3,26 @@ import os
 from datetime import datetime
 
 
-if "-d" in sys.argv:
-    index = sys.argv.index("-d")
-    dir_path = "/".join(sys.argv[index + 1:])
-    os.makedirs(dir_path, exist_ok=True)
+dir_path = ""
+file_name = ""
 
-if "-f" in sys.argv:
-    index = sys.argv.index("-f")
-    file_name = sys.argv[index + 1]
-    if "-d" in sys.argv:
-        index = sys.argv.index("-d")
-        dir_path = "/".join(sys.argv[index + 1:])
-        file_path = f"{dir_path}/{file_name}"
-    else:
-        file_path = file_name
-    if os.path.exists(file_path):
-        with open(file_path, "a") as file:
-            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            file.write(f"{timestamp}\n")
+for i in range(len(sys.argv)):
+    if sys.argv[i] == "-d":
+        dir_path = "/".join(sys.argv[i + 1:])
+        os.makedirs(dir_path)
+    elif sys.argv[i] == "-f":
+        file_name = sys.argv[i + 1]
 
-            i = 1
-            while True:
-                content = input("Enter content line: ")
-                if content == "stop":
-                    break
-                file.write(f"{i} {content}\n")
-                i += 1
-    else:
-        with open(file_path, "w") as file:
-            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            file.write(f"{timestamp}\n")
+    file_path = os.path.join(dir_path, file_name)
+    mode = "a" if os.path.isfile(file_path) else "w"
 
-            i = 1
-            while True:
-                content = input("Enter content line: ")
-                if content == "stop":
-                    break
-                file.write(f"{i} {content}\n")
-                i += 1
+    with open(file_path, mode) as file:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(timestamp)
+    i = 1
+    while True:
+        content = input("Enter content line: ")
+        if content == "stop":
+            break
+        file.write(f"{i} {content} \n")
+        i += 1
