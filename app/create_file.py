@@ -43,7 +43,7 @@ def creating_from_terminal() -> None:
         create_dir(directory_name)
 
 
-def main():
+def main() -> None:
     creating_from_terminal()
 
 
