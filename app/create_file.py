@@ -18,7 +18,7 @@ for i in range(len(sys.argv)):
 
     with open(file_path, mode) as file:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        file.write(timestamp)
+        file.write(timestamp + "\n")
     i = 1
     while True:
         content = input("Enter content line: ")
