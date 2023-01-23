@@ -15,20 +15,22 @@ def add_info() -> str:
     return "\n".join(lines) + "\n"
 
 
-def create_or_get_dir() -> str:
+def create_or_get_dir(f_flag: bool) -> str:
     path = os.getcwd()
     if "-d" in sys.argv:
-        for i in range(sys.argv.index("-d") + 1, len(sys.argv)):
-            if sys.argv[i] == "-f":
-                break
-            path = os.path.join(path, sys.argv[i])
+        index_d = sys.argv.index("-d")
+        if f_flag:
+            index_f = sys.argv.index("-f")
+            path = os.path.join(path, *sys.argv[index_d + 1:index_f])
+        else:
+            path = os.path.join(path, *sys.argv[index_d + 1:])
         os.makedirs(path, exist_ok=True)
     return path
 
 
 def creating_file() -> None:
     path = os.path.join(
-        create_or_get_dir(),
+        create_or_get_dir(f_flag=True),
         sys.argv[sys.argv.index("-f") + 1]
     )
     now = datetime.now()
@@ -40,6 +42,6 @@ def creating_file() -> None:
 
 
 if "-d" in sys.argv and "-f" not in sys.argv:
-    create_or_get_dir()
+    create_or_get_dir(f_flag=False)
 elif "-f" in sys.argv:
     creating_file()
