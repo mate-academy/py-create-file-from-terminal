@@ -3,13 +3,12 @@ import sys
 from datetime import datetime
 
 
-def create_directory(args: list, file_name: str = "") -> None:
-    directories = []
-    for arg in args:
-        if arg != "-f" and arg != file_name:
-            directories.append(arg)
-    path = os.path.join(*directories)
-    os.makedirs(path)
+def create_directory(args: list) -> None:
+    str_ = " ".join(args)
+    if str_.startswith("-f") or "-f" not in args:
+        os.makedirs(os.path.join(*args[args.index("-d"):]))
+        return
+    os.makedirs(os.path.join(*args[args.index("-d"):args.index("-f")]))
 
 
 def create_file(file_name: str) -> None:
@@ -30,7 +29,7 @@ def main() -> None:
     if "-f" in args:
         file_name = args[args.index("-f") + 1]
         if "-d" in args:
-            create_directory(args, file_name)
+            create_directory(args)
         create_file(file_name)
         return
     if "-d" in args:
