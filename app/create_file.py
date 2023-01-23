@@ -5,14 +5,14 @@ from datetime import datetime
 
 def add_info() -> str:
     line_num = 0
-    text = ""
+    lines = []
     while True:
         line = input("Enter content line: ")
         if line == "stop":
             break
         line_num += 1
-        text += f"{line_num} {line}\n"
-    return text
+        lines.append(f"{line_num} {line}")
+    return "\n".join(lines) + "\n"
 
 
 def create_or_get_dir() -> str:
@@ -27,17 +27,19 @@ def create_or_get_dir() -> str:
 
 
 def creating_file() -> None:
-    path = os.path.join(create_or_get_dir(),
-                        sys.argv[sys.argv.index("-f") + 1])
+    path = os.path.join(
+        create_or_get_dir(),
+        sys.argv[sys.argv.index("-f") + 1]
+    )
     now = datetime.now()
     now_string = datetime.strftime(now, "%Y-%m-%d %H:%M:%S")
-    with open(path, "a") as info_file:
-        info_file.write(f"{now_string}\n")
-        info_file.write(add_info())
-        info_file.write("\n")
+    with open(path, "a") as file:
+        file.write(f"{now_string}\n")
+        file.write(add_info())
+        file.write("\n")
 
 
 if "-d" in sys.argv and "-f" not in sys.argv:
     create_or_get_dir()
-else:
+elif "-f" in sys.argv:
     creating_file()
