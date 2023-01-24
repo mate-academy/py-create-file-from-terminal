@@ -5,11 +5,6 @@ import sys
 from os import makedirs, path
 
 
-def create_new_dir(path_: str) -> None:
-    if path_ is not None and not path.isdir(path_):
-        makedirs(path_)
-
-
 def normalise_and_validate(path_: list) -> None | str:
     norm_path = os.path.normpath(os.path.normcase(str(path_)))
     if len(norm_path) < 3 and ("-f" and "-d") not in norm_path:
@@ -29,6 +24,11 @@ def create_path(path_: str) -> str:
         name_file = path_[path_.index("-f") + 1]
     full_path = os.path.join(path_, *name_file)
     return full_path
+
+
+def create_new_dir(path_: str) -> None:
+    if path_ is not None and not path.isdir(path_):
+        makedirs(path_)
 
 
 def write_file(path_: str) -> None:
