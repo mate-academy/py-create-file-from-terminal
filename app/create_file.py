@@ -7,7 +7,7 @@ from os import makedirs, path
 
 def normalise_and_validate(path_: list) -> None | str:
     norm_path = os.path.normpath(os.path.normcase(str(path_)))
-    if len(norm_path) < 3 and ("-f" and "-d") not in norm_path:
+    if len(norm_path) < 3 and "-f" not in norm_path and "-d" not in norm_path:
         return
     return norm_path
 
@@ -15,11 +15,10 @@ def normalise_and_validate(path_: list) -> None | str:
 def create_path(path_: str) -> str:
     name_file = []
     if "-d" in path_:
-        if "-f" not in path_:
-            list_dir = path_[path_.index("-d") + 1:]
-        else:
-            list_dir = path_[path_.index("-d") + 1:path_.index("-f")]
-        path_ = os.path.join(*list_dir)
+        dirs = path_[path_.index("-d") + 1:]
+        if "-f" in dirs:
+            dirs = dirs[:path_.index("-f")]
+        path_ = os.path.join(*dirs)
     if "-f" in path_:
         name_file = path_[path_.index("-f") + 1]
     full_path = os.path.join(path_, *name_file)
@@ -45,8 +44,8 @@ def write_file(path_: str) -> None:
 
 
 def main() -> None:
-    start_path_ = sys.argv
-    norm_path = normalise_and_validate(start_path_)
+    start_path = sys.argv
+    norm_path = normalise_and_validate(start_path)
     full_path = create_path(norm_path)
     create_new_dir(full_path)
     write_file(full_path)
