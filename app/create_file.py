@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 
-def create_file():
+def create_file() -> None:
     command = sys.argv
     flag_d = "-d"
     flag_f = "-f"
@@ -17,9 +17,9 @@ def create_file():
         make_file(command[-1])
 
 
-def make_file(file_name) -> None:
+def make_file(file_name: str) -> None:
     line = 1
-    with open(file_name) as file:
+    with open(file_name, "w") as file:
         file.write(datetime.now().strftime("%m-%d-%Y %H:%M:%S\n"))
         while True:
             content = input("Enter content line: ")
