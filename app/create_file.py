@@ -7,9 +7,8 @@ from os import makedirs, path
 
 def normalise_and_validate(path_: list) -> None | str:
     norm_path = os.path.normpath(os.path.normcase(str(path_)))
-    if len(norm_path) < 3 and "-f" not in norm_path and "-d" not in norm_path:
-        return
-    return norm_path
+    if len(norm_path) > 3 and ("-f" in norm_path or "-d" in norm_path):
+        return norm_path
 
 
 def create_path(path_: str) -> str:
