@@ -7,7 +7,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-d", action="extend", nargs="+")
 parser.add_argument("-f")
 args = vars(parser.parse_args())
-dir_path = ''
+dir_path = ""
 
 if args["d"] is not None:
     try:
