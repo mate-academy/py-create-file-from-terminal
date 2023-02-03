@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 
-def create_file():
+def create_file() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", action="extend", nargs="+")
     parser.add_argument("-f")
