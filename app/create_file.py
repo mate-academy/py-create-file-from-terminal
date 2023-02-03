@@ -15,18 +15,19 @@ def create_file() -> None:
         os.makedirs(dir_path, exist_ok=True)
 
     if args["f"] is not None:
-        content = [f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"]
+        content = [f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"]
         line_number = 1
         while True:
             line = input("Enter content line:")
             if line == "stop":
                 content.append("\n")
                 break
-            content.append(f"{line_number} {line}\n")
+            content.append(f"{line_number} {line}")
             line_number += 1
         file_path = os.path.join(dir_path, args["f"])
-        with open(file_path, "a") as file:
-            file.writelines(content)
+        content = "\n".join(content)
+        with open(file_path, "a", newline="") as file:
+            file.write(content)
 
 
 if __name__ == "__main__":
