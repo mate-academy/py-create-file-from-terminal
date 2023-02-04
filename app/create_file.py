@@ -10,8 +10,7 @@ def get_command() -> list:
 def get_file_content(file_path: str) -> None:
     with open(file_path, "a") as file:
         time = datetime.now()
-        file.write(time.strftime("%Y-%m-%d %H:%M:%S"))
-        file.write("\n")
+        file.write(time.strftime("%Y-%m-%d %H:%M:%S\n"))
         line_counter = 0
         while True:
             line_counter += 1
@@ -26,13 +25,12 @@ def get_file_content(file_path: str) -> None:
 def create_file() -> None:
     command = get_command()
     if "-f" not in command:
-        directories = ["app"] + command[1:]
-        os.makedirs(os.path.join(*directories))
+        os.makedirs(os.path.join(*(["app"] + command[1:])))
     else:
         if command[0] == "-d":
-            directories = ["app"] + command[1:-2]
-            os.makedirs(os.path.join(*directories))
-            file_path = os.path.join(os.path.join(*directories), command[-1])
+            os.makedirs(os.path.join(*(["app"] + command[1:-2])))
+            file_path = os.path.join(os.path.join(*(["app"] + command[1:-2])),
+                                     command[-1])
         else:
             file_path = os.path.join("app", command[-1])
         get_file_content(file_path)
