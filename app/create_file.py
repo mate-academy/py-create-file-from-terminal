@@ -38,4 +38,5 @@ def create_file() -> None:
         get_file_content(file_path)
 
 
-create_file()
+if __name__ == '__main__':
+    create_file()
