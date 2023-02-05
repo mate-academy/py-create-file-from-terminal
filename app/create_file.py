@@ -24,8 +24,7 @@ def f_flag(command: list) -> None:
 
 def d_flag(command: list) -> None:
     if "-d" in command and "-f" not in command:
-        if os.path.exists(os.path.join(*command[1:])) is False:
-            os.makedirs(os.path.join(*command[1:]))
+        os.makedirs(os.path.join(*command[1:]), exist_ok=True)
 
 
 def d_and_f_flags(command: list) -> None:
@@ -38,8 +37,7 @@ def d_and_f_flags(command: list) -> None:
         if index_f_flag < index_d_flag:
             path = os.path.join(*command[index_d_flag + 1:])
         file_name = command[index_f_flag + 1]
-        if os.path.exists(os.path.join(path)) is False:
-            os.makedirs(path)
+        os.makedirs(path, exist_ok=True)
         write_line_in_file(os.path.join(path, file_name))
 
 
