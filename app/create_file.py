@@ -2,8 +2,6 @@ import sys
 import os
 from datetime import datetime
 
-COMMAND = sys.argv[1:]
-
 
 def write_line_in_file(file_path: str) -> None:
     with open(file_path, "a") as file_in:
@@ -18,27 +16,38 @@ def write_line_in_file(file_path: str) -> None:
         file_in.write("\n")
 
 
-def execution_of_the_command() -> None:
-    path = ""
-    file_name = ""
-    if "-f" in COMMAND and "-d" not in COMMAND:
-        file_name = os.path.basename(os.path.join(*COMMAND[::]))
-    if "-d" in COMMAND and "-f" not in COMMAND:
-        if os.path.exists(os.path.join(*COMMAND[1:])) is False:
-            os.makedirs(os.path.join(*COMMAND[1:]))
-        return
-    if "-d" in COMMAND and "-f" in COMMAND:
-        index_f_flag = COMMAND.index("-f")
-        index_d_flag = COMMAND.index("-d")
+def f_flag(command: list) -> None:
+    if "-f" in command and "-d" not in command:
+        file_name = os.path.basename(os.path.join(*command[::]))
+        write_line_in_file(file_name)
+
+
+def d_flag(command: list) -> None:
+    if "-d" in command and "-f" not in command:
+        if os.path.exists(os.path.join(*command[1:])) is False:
+            os.makedirs(os.path.join(*command[1:]))
+
+
+def d_and_f_flags(command: list) -> None:
+    if "-d" in command and "-f" in command:
+        path = ""
+        index_f_flag = command.index("-f")
+        index_d_flag = command.index("-d")
         if index_f_flag > index_d_flag:
-            path = os.path.join(*COMMAND[index_d_flag + 1:index_f_flag])
+            path = os.path.join(*command[index_d_flag + 1:index_f_flag])
         if index_f_flag < index_d_flag:
-            path = os.path.join(*COMMAND[index_d_flag + 1:])
-        file_name = COMMAND[index_f_flag + 1]
+            path = os.path.join(*command[index_d_flag + 1:])
+        file_name = command[index_f_flag + 1]
         if os.path.exists(os.path.join(path)) is False:
             os.makedirs(path)
-    path_with_file = os.path.join(path, file_name)
-    write_line_in_file(path_with_file)
+        write_line_in_file(os.path.join(path, file_name))
+
+
+def execution_of_the_command() -> None:
+    command = sys.argv[1:]
+    f_flag(command=command)
+    d_flag(command=command)
+    d_and_f_flags(command=command)
 
 
 if __name__ == "__main__":
