@@ -3,46 +3,51 @@ import os
 import datetime
 
 
-def file_creator(command: list) -> None:
+def file_from_terminal(command: list) -> None:
     d_command = []
-    print(d_command.__len__())
     f_command = ""
 
-    check = ""
+    if "-d" in command and "-f" in command:
+        index_d, index_f = command.index("-d"), command.index("-f")
 
-    for command_item in command[1:]:
-        if command_item == "-d":
-            check = command_item
-            continue
-        if command_item == "-f":
-            check = command_item
-            continue
+        if index_d > index_f:
+            d_command = command[index_d + 1:]
+            f_command = command[index_f + 1:index_d]
 
-        if check == "-d":
-            d_command.append(command_item)
-        if check == "-f":
-            f_command += command_item
+        if index_d < index_f:
+            d_command = command[index_d + 1:index_f]
+            f_command = command[index_f + 1:]
 
-    if d_command.__len__() > 0:
+    if "-d" in command and "-f" not in command:
+        d_command = command[2:]
+
+    if "-f" in command and "-d" not in command:
+        f_command = command[2:]
+
+    if len(d_command) > 0:
         os.makedirs(os.path.join(*d_command), exist_ok=True)
-        f_command = os.path.join(*d_command, f_command)
 
-    with open(f_command, "a") as file:
-        content_list = []
+    if len(f_command) > 0:
+        f_command = os.path.join(*d_command, *f_command)
 
-        file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
+        with open(f_command, "a") as file:
+            content_list = []
 
-        while True:
-            content = input("Enter content line: ")
+            file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
 
-            if content.strip() == "stop":
-                break
-            content_list.append(content)
+            while True:
+                content = input("Enter content line: ")
 
-        for line in content_list:
-            file.write(line + "\n")
+                if content.strip() == "stop":
+                    break
+
+                content_list.append(content)
+
+            for index, line in enumerate(content_list):
+                file.write(f"{index + 1} {line}\n")
 
 
-input_from_terminal = sys.argv
+if __name__ == "__main__":
+    input_from_terminal = sys.argv
 
-file_creator(input_from_terminal)
+file_from_terminal(input_from_terminal)
