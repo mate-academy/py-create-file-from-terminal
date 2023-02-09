@@ -29,7 +29,7 @@ def write_to_file(comm_list: list, name_direct: str) -> None:
             break
 
 
-if __name__ == "__main__":
+def main_function() -> None:
     command_list = sys.argv
     if len(command_list) > 2:
         amount_of_argv = len(command_list)
@@ -42,3 +42,7 @@ if __name__ == "__main__":
         for i in range(1, amount_of_argv):
             if command_list[i] == "-f":
                 write_to_file(command_list, name_dir)
+
+
+if __name__ == "__main__":
+    main_function()
