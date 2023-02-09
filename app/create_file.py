@@ -50,4 +50,4 @@ def file_from_terminal(command: list) -> None:
 if __name__ == "__main__":
     input_from_terminal = sys.argv
 
-file_from_terminal(input_from_terminal)
+    file_from_terminal(input_from_terminal)
