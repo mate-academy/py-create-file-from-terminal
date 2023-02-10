@@ -30,11 +30,13 @@ def file_from_terminal(command: list) -> None:
     if len(f_command) > 0:
         f_command = os.path.join(*d_command, *f_command)
 
-        file = open(f_command, "a")
+        created_file = open(f_command, "a")
 
         content_list = []
 
-        file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
+        created_file.write(
+            datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n")
+        )
 
         while True:
             content = input("Enter content line: ")
@@ -45,9 +47,9 @@ def file_from_terminal(command: list) -> None:
             content_list.append(content)
 
         for index, line in enumerate(content_list):
-            file.write(f"{index + 1} {line}\n")
+            created_file.write(f"{index + 1} {line}\n")
 
-        file.close()
+        created_file.close()
 
 
 if __name__ == "__main__":
