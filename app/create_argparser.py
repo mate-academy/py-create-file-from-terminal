@@ -15,7 +15,7 @@ def create_argparser() -> ArgumentParser:
         "-f",
         "--createfile",
         help="Creates some file and then terminal should"
-             " ask you to input content lines until you input \"stop\"",
+             ' ask you to input content lines until you input "stop"',
         type=str
     )
 

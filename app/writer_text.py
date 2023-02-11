@@ -1,7 +1,11 @@
 from datetime import datetime
 
 
-def writer_text(pathfile: str, command: str = "a", number_line: int = 1) -> None:
+def writer_text(
+        pathfile: str,
+        command: str = "a",
+        number_line: int = 1
+) -> None:
     with open(pathfile, command) as file_out:
         if command != "w":
             file_out.write("\n")
