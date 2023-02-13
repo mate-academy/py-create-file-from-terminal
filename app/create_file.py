@@ -1,9 +1,6 @@
+import datetime
 import os
 import sys
-import datetime
-
-
-directory_path = sys.argv
 
 
 def making_directories(directory_path: list) -> str:
@@ -27,7 +24,6 @@ def making_directories(directory_path: list) -> str:
 def making_file_and_content(directory_path: list) -> None:
     file_path = ""
     if "-d" in directory_path:
-        making_directories(directory_path)
         file_path += making_directories(directory_path)
 
     if "-f" in directory_path:
@@ -36,13 +32,17 @@ def making_file_and_content(directory_path: list) -> None:
             file_name.write(
                 datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
             )
-            for line_counter in range(1, sys.maxsize**10):
+
+            line_counter = 0
+            while True:
                 text = input("Enter new line of content: ")
+                line_counter += 1
                 if text == "stop":
                     break
-                file_name.write(str(line_counter) + " " + text + "\n")
+                file_name.write(f"{line_counter} {text}" + "\n")
             file_name.write("\n")
 
 
 if __name__ == "__main__":
+    directory_path = sys.argv
     making_file_and_content(directory_path)
