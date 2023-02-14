@@ -19,37 +19,36 @@ def create_content() -> str:
 
 def create_file(
         filename: str,
-        regime: str,
         context: str
 ) -> None:
-    with open(filename, regime) as file:
-        file.write(context)
+    if os.path.exists(filename):
+        with open(filename, "a") as file:
+            file.write(f"\n{context}")
+    else:
+        with open(filename, "a") as file:
+            file.write(context)
 
 
 def create_directories(dir_names: list) -> None:
     os.makedirs(os.path.join(*dir_names), exist_ok=True)
 
 
-def analysis_command() -> None:
-    if "-f" in command and "-d" not in command:
-        file_name = command[1]
-        if os.path.exists(file_name):
-            create_file(file_name, "a", f"\n{create_content()}")
-        else:
-            create_file(file_name, "w", create_content())
+def analysis_command(command_text) -> None:
+    if "-f" in command_text and "-d" not in command_text:
+        create_file(command_text[1], create_content())
 
-    elif "-f" not in command and "-d" in command:
-        create_directories(command[1:])
+    elif "-f" not in command_text and "-d" in command_text:
+        create_directories(command_text[1:])
 
-    elif "-f" in command and "-d" in command:
+    elif "-f" in command_text and "-d" in command_text:
+        command_text.remove("-f")
+        command_text.remove("-d")
         create_directories(
-            command[(command.index("-d") + 1):command.index("-f")]
+            command_text[0:2]
         )
-        command.remove("-f")
-        command.remove("-d")
         create_file(
-            os.path.join(*command), "w", create_content()
+            os.path.join(*command_text), create_content()
         )
 
 
-analysis_command()
+analysis_command(command)
