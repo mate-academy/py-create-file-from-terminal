@@ -12,7 +12,7 @@ for _ in range(10):
         break
     print("Best practice")
 ```
-
+__
 Bad example:
 
 ```python
