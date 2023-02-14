@@ -1,9 +1,9 @@
-import sys
-import os
 import datetime
+import os
+import sys
+
 
 command = sys.argv[1:]
-
 
 def create_content() -> str:
     content = f"{datetime.datetime.now().strftime('%m-%d-%Y %H:%M:%S')}\n"
@@ -21,11 +21,10 @@ def create_file(
         filename: str,
         context: str
 ) -> None:
-    if os.path.exists(filename):
-        with open(filename, "a") as file:
+    with open(filename, "a") as file:
+        if os.path.exists(filename):
             file.write(f"\n{context}")
-    else:
-        with open(filename, "a") as file:
+        else:
             file.write(context)
 
 
@@ -44,7 +43,7 @@ def analysis_command(command_text: list) -> None:
         command_text.remove("-f")
         command_text.remove("-d")
         create_directories(
-            command_text[0:2]
+            command_text[0:-1]
         )
         create_file(
             os.path.join(*command_text), create_content()
