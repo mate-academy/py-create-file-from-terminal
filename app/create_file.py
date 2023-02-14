@@ -5,6 +5,7 @@ import sys
 
 command = sys.argv[1:]
 
+
 def create_content() -> str:
     content = f"{datetime.datetime.now().strftime('%m-%d-%Y %H:%M:%S')}\n"
     count = 0
