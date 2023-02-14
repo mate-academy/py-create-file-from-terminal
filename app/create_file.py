@@ -33,7 +33,7 @@ def create_directories(dir_names: list) -> None:
     os.makedirs(os.path.join(*dir_names), exist_ok=True)
 
 
-def analysis_command(command_text) -> None:
+def analysis_command(command_text: list) -> None:
     if "-f" in command_text and "-d" not in command_text:
         create_file(command_text[1], create_content())
 
