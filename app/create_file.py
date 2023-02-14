@@ -8,9 +8,9 @@ def making_directories(directory_path: list) -> str:
 
     if "-f" in directory_path:
         path = directory_path[
-               directory_path.index("-d") + 1:
-               directory_path.index("-f")
-               ]
+            directory_path.index("-d") + 1:
+            directory_path.index("-f")
+        ]
     path = os.path.join(*path)
     os.makedirs(path, exist_ok=True)
     return path
