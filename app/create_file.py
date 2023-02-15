@@ -43,6 +43,12 @@ def analysis_command(command_text: list) -> None:
     elif "-f" in command_text and "-d" in command_text:
         command_text.remove("-f")
         command_text.remove("-d")
+        print(command_text)
+        if command_text[0] == "file.txt":
+            command_text.reverse()
+            command_text[0], command_text[1] = command_text[1], command_text[0]
+
+        print(command_text)
         create_directories(
             command_text[0:-1]
         )
