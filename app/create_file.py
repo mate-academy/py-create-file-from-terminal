@@ -16,13 +16,13 @@ def create_file() -> str:
 
     elif "-d" in date and "-f" in date:
         d_index = (date.index("-d") + 1)
-        folders_name = "/".join(date[d_index:date.index("-f")])
+        temp = date[d_index:date.index("-f")]
+        folders_name = os.path.join(temp[0], temp[1])
         f_index = (date.index("-f") + 1)
         file_name = date[f_index]
 
     os.makedirs(folders_name, exist_ok=True)
-    return f"{folders_name}/{file_name}"
-
+    return os.path.join(folders_name, file_name)
 
 def file_completion() -> None:
     with open(create_file(), "a") as file:
