@@ -24,6 +24,7 @@ def create_file() -> str:
     os.makedirs(folders_name, exist_ok=True)
     return os.path.join(folders_name, file_name)
 
+
 def file_completion() -> None:
     with open(create_file(), "a") as file:
         file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
