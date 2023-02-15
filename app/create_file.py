@@ -3,25 +3,26 @@ import sys
 from datetime import datetime
 
 
-def create_path(path: list) -> str:
+commands = sys.argv[1:]
+
+
+def create_directories(path: list) -> None:
     if "-d" in path and "-f" in path:
-        directories = path[path.index("-d") + 1:path.index("-f")]
+        directories = path[1:path.index("-f")]
     else:
-        directories = path[path.index("-d") + 1:]
-    result = os.path.join(*directories)
-    return result
+        directories = path[1:]
+    directories_path = os.path.join(*directories)
+    os.makedirs(directories_path, exist_ok=True)
+    os.chdir(directories_path)
 
 
 # Directories creation:
-if "-d" in sys.argv:
-    directories_path = create_path(sys.argv)
-if not os.path.exists(directories_path):
-    os.makedirs(directories_path)
-os.chdir(directories_path)
+if "-d" in commands:
+    create_directories(commands)
 
 # File creation:
-if "-f" in sys.argv:
-    file_name = sys.argv[-1]
+if "-f" in commands:
+    file_name = commands[-1]
     open_type = "w" if not os.path.exists(file_name) else "a"
     with open(file_name, open_type) as file_in:
         file_in.write(
