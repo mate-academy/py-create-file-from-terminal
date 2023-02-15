@@ -1,5 +1,4 @@
 import os
-import shutil
 import sys
 from datetime import datetime
 
@@ -10,24 +9,19 @@ def create_file() -> str:
     folders_name = ""
 
     if "-d" in date and "-f" not in date:
-        folders_name = "/".join(date[2:])
+        folders_name = os.path.join(date[3], date[4])
+
     elif "-f" in date and "-d" not in date:
-        file_name = str(date[2])
+        file_name = os.path.join(date[2])
+
     elif "-d" in date and "-f" in date:
         d_index = (date.index("-d") + 1)
         folders_name = "/".join(date[d_index:date.index("-f")])
         f_index = (date.index("-f") + 1)
         file_name = date[f_index]
 
-    if os.path.exists(f"{folders_name}/{file_name}"):
-        return f"{folders_name}/{file_name}"
-    else:
-        os.makedirs(folders_name)
-        with open(file_name, "a"):
-            pass
-        shutil.move(file_name, f"{folders_name}/{file_name}")
-        return f"{folders_name}/{file_name}"
-
+    os.makedirs(folders_name, exist_ok=True)
+    return f"{folders_name}/{file_name}"
 
 def file_completion() -> None:
     with open(create_file(), "a") as file:
