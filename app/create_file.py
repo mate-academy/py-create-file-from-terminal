@@ -3,21 +3,21 @@ import os
 import sys
 
 
-def func(directory_path: list[str]) -> None:
-    if "-f" in directory_path and "-d" in directory_path:
-        path = directory_path[
-            directory_path.index("-d") + 1: directory_path.index("-f")
+def create_file_and_content(path_to_func: list[str]) -> None:
+    if "-f" in path_to_func and "-d" in path_to_func:
+        path = path_to_func[
+            path_to_func.index("-d") + 1: path_to_func.index("-f")
         ]
         path = (
             making_directories(path) + "/"
-            + directory_path[directory_path.index("-f") + 1]
+            + path_to_func[path_to_func.index("-f") + 1]
         )
         making_file_and_content(path)
-    elif "-f" in directory_path and "-d" not in directory_path:
-        path = directory_path[directory_path.index("-f") + 1]
+    elif "-f" in path_to_func and "-d" not in path_to_func:
+        path = path_to_func[path_to_func.index("-f") + 1]
         making_file_and_content(path)
-    elif "-d" in directory_path and "-f" not in directory_path:
-        path = directory_path[directory_path.index("-d") + 1:]
+    elif "-d" in path_to_func and "-f" not in path_to_func:
+        path = path_to_func[path_to_func.index("-d") + 1:]
         making_directories(path)
 
 
@@ -44,5 +44,5 @@ def making_file_and_content(path: str) -> None:
 
 
 if __name__ == "__main__":
-    directory_path = sys.argv
-    func(directory_path)
+    path_to_func = sys.argv
+    create_file_and_content(path_to_func)
