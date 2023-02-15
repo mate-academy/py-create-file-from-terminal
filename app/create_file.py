@@ -9,15 +9,15 @@ def create_file() -> str:
     folders_name = ""
 
     if "-d" in date and "-f" not in date:
-        folders_name = os.path.join(date[3], date[4])
+        folders_name = os.path.join(*date[2:])
 
     elif "-f" in date and "-d" not in date:
-        file_name = os.path.join(date[2])
+        file_name = os.path.join(*date[2:])
 
     elif "-d" in date and "-f" in date:
         d_index = (date.index("-d") + 1)
-        temp = date[d_index:date.index("-f")]
-        folders_name = os.path.join(temp[0], temp[1])
+        folders_name = os.path.join(*date[d_index:date.index("-f")])
+
         f_index = (date.index("-f") + 1)
         file_name = date[f_index]
 
