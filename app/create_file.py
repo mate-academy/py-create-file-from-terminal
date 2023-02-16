@@ -3,8 +3,7 @@ import sys
 from datetime import datetime
 
 
-def create_file() -> str:
-    date = sys.argv
+def create_file(date: list[str]) -> str:
     file_name = ""
     folders_name = ""
 
@@ -16,17 +15,20 @@ def create_file() -> str:
 
     elif "-d" in date and "-f" in date:
         d_index = (date.index("-d") + 1)
-        folders_name = os.path.join(*date[d_index:date.index("-f")])
-
         f_index = (date.index("-f") + 1)
+        if f_index > d_index:
+            folders_name = os.path.join(*date[d_index:date.index("-f")])
+        else:
+            folders_name = os.path.join(*date[d_index:])
         file_name = date[f_index]
 
     os.makedirs(folders_name, exist_ok=True)
     return os.path.join(folders_name, file_name)
 
 
-def file_completion() -> None:
-    with open(create_file(), "a") as file:
+def writing_to_file() -> None:
+    date = sys.argv
+    with open(create_file(date), "a") as file:
         file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
         line_number = 1
         while True:
@@ -38,4 +40,4 @@ def file_completion() -> None:
 
 
 if __name__ == "__main__":
-    file_completion()
+    writing_to_file()
