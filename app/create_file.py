@@ -13,7 +13,7 @@ def create_path(directories: list) -> str:
     return path
 
 
-def print_to_file(file_name: str, flag: bool) -> None:
+def create_file(file_name: str, flag: bool) -> None:
     content = datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
     line_number = 1
     while True:
@@ -28,29 +28,28 @@ def print_to_file(file_name: str, flag: bool) -> None:
         file_out.write(content)
 
 
-if "-d" in command_line in command_line:
-    directories = (command_line[command_line.index("-d")
-                                + 1:command_line.index("-f")])
+def create_directory(directories):
     path_to_file = create_path(directories)
 
     if not os.path.exists(path_to_file):
         os.makedirs(path_to_file)
+    return path_to_file
+
+if "-d" in command_line and "-f" not in command_line:
+    directories = (command_line[command_line.index("-d") + 1:])
+    create_directory(directories)
+    
 
 if "-f" in command_line and "-d" not in command_line:
     file_name = "".join(command_line[command_line.index("-f") + 1:])
     flag = True if os.path.isfile(f"./{file_name}") else False
-    print_to_file(file_name, flag)
+    create_file(file_name, flag)
 
 if "-d" in command_line and "-f" in command_line:
     directories = (command_line[command_line.index("-d")
                                 + 1:command_line.index("-f")])
-    path_to_file = create_path(directories)
     file_name = "".join(command_line[command_line.index("-f") + 1:])
-
-    if not os.path.exists(path_to_file):
-        os.makedirs(path_to_file)
-
-    full_name = f"{path_to_file}/{file_name}"
+    full_name = f"{create_directory(directories)}/{file_name}"
 
     flag = True if os.path.isfile(f"{full_name}") else False
-    print_to_file(full_name, flag)
+    create_file(full_name, flag)
