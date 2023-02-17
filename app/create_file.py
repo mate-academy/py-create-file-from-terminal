@@ -3,20 +3,18 @@ import sys
 import datetime
 
 
-# os.makedirs(os.path.join("dir1/dir2/"))
-
 def create_directory(dir_path: str, filename: str = None) -> None:
-    print(filename)
     dir_path = dir_path.split(" ")
-    directory = ""
+    directory = []
     flag = False
     for word in dir_path:
         if word == "-f":
-            create_file(directory + filename)
+            directory.append(filename)
+            create_file(os.path.join(*directory))
             break
         if flag:
-            directory += f"{word}/"
-            os.mkdir(os.path.join(directory))
+            directory.append(word)
+            os.mkdir(os.path.join(*directory))
         if word == "-d":
             flag = True
 
