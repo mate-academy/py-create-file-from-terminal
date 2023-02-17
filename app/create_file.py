@@ -17,20 +17,11 @@ def print_to_file(file_name: str, flag: bool) -> None:
     content = datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
     line_number = 1
     while True:
-        if flag is False:
-            print_line = input(f"Enter content line: Line{line_number} ")
-            if print_line == "stop":
-                content += "\n"
-                break
-            content += f"Line{line_number} {print_line}\n"
-        else:
-            print_line = input(
-                f"Enter content line: Another line{line_number} ")
-            if print_line == "stop":
-                content += "\n"
-                break
-            content += f"Another line{line_number} {print_line}\n"
-
+        print_line = input(f"Enter content line: ")
+        if print_line == "stop":
+            content += "\n"
+            break
+        content += f"{line_number} {print_line}\n"
         line_number += 1
 
     with open(file_name, "w" if flag is False else "a") as file_out:
