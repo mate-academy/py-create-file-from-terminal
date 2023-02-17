@@ -21,7 +21,7 @@ def create_directory(dir_path: str, filename: str = None) -> None:
 
 def create_file(file_name: str) -> None:
     with open(os.path.join(file_name), "a") as file:
-        command = str(datetime.datetime.today())[:-7]
+        command = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         file.write(command + "\n")
         while True:
             command = input("Enter content line: ")
