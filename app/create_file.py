@@ -17,7 +17,7 @@ def print_to_file(file_name: str, flag: bool) -> None:
     content = datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
     line_number = 1
     while True:
-        print_line = input(f"Enter content line: ")
+        print_line = input("Enter content line: ")
         if print_line == "stop":
             content += "\n"
             break
@@ -28,8 +28,9 @@ def print_to_file(file_name: str, flag: bool) -> None:
         file_out.write(content)
 
 
-if "-d" in command_line and "-f" not in command_line:
-    directories = command_line[command_line.index("-d") + 1:]
+if "-d" in command_line in command_line:
+    directories = (command_line[command_line.index("-d")
+                                + 1:command_line.index("-f")])
     path_to_file = create_path(directories)
 
     if not os.path.exists(path_to_file):
