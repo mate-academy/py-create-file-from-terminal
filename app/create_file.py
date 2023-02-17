@@ -28,17 +28,17 @@ def create_file(file_name: str, flag: bool) -> None:
         file_out.write(content)
 
 
-def create_directory(directories):
+def create_directory(directories: list) -> str:
     path_to_file = create_path(directories)
 
     if not os.path.exists(path_to_file):
         os.makedirs(path_to_file)
     return path_to_file
 
+
 if "-d" in command_line and "-f" not in command_line:
     directories = (command_line[command_line.index("-d") + 1:])
     create_directory(directories)
-    
 
 if "-f" in command_line and "-d" not in command_line:
     file_name = "".join(command_line[command_line.index("-f") + 1:])
