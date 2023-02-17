@@ -6,7 +6,7 @@ from datetime import datetime
 def create_path(directories: list) -> str:
     current_directory = os.path.dirname(__file__)
     path = os.path.join(current_directory, *directories)
-    os.makedirs(path)
+    os.makedirs(path, exist_ok=True)
     return path
 
 
@@ -30,29 +30,29 @@ def create_file_with_content_from_input(file_path: str) -> None:
 def create_file_from_terminal() -> None:
     terminal_input = sys.argv
     current_directory = os.path.dirname(__file__)
+    command_length = len(terminal_input)
 
-    if terminal_input[1] == "-f":
-        file_name = terminal_input[2]
-        file_path = os.path.join(current_directory, file_name)
-        create_file_with_content_from_input(file_path)
+    if command_length > 2:
+        directories_list = []
 
-    try:
-
-        if terminal_input[1] == "-d" and "-f" not in terminal_input:
-            directories_list = terminal_input[2:]
+        if terminal_input[1] == "-d":
+            for item in range(2, len(terminal_input)):
+                if terminal_input[item] == "-f":
+                    break
+                directories_list.append(terminal_input[item])
             create_path(directories_list)
 
-        if "-d" in terminal_input and "-f" in terminal_input:
-            directories_list = terminal_input[2:terminal_input.index("-f")]
-            file_name = terminal_input[-1]
-            file_path = os.path.join(
-                create_path(directories_list),
-                file_name
-            )
-            create_file_with_content_from_input(file_path)
+        for i in range(1, command_length):
+            if terminal_input[i] == "-f":
+                file_name = terminal_input[i + 1]
 
-    except FileExistsError:
-        print("Such directories already exists")
+                file_path = os.path.join(
+                    current_directory,
+                    create_path(directories_list),
+                    file_name
+                )
+
+                create_file_with_content_from_input(file_path)
 
 
 if __name__ == "__main__":
