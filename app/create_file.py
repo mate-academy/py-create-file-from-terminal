@@ -1,12 +1,10 @@
 import os
 import sys
 from datetime import datetime
+from typing import List
 
 
-cmd = sys.argv[1:]
-
-
-def create_directories(path: list) -> str:
+def create_directories(path: List[str]) -> str:
     directories = []
     for directory in path[path.index("-d") + 1:]:
         if directory == "-f":
@@ -18,7 +16,7 @@ def create_directories(path: list) -> str:
         return directories_path
 
 
-def create_file(path: list) -> None:
+def create_file(path: List[str]) -> None:
     if "-d" in cmd:
         file_name = f"{create_directories(path)}\\{path[path.index('-f') + 1]}"
     else:
@@ -38,10 +36,12 @@ def create_file(path: list) -> None:
         file_in.write("\n")
 
 
-# Directories creation:
-if "-d" in cmd:
-    create_directories(cmd)
+if __name__ == "__main__":
+    cmd = sys.argv[1:]
+    # Directories creation:
+    if "-d" in cmd:
+        create_directories(cmd)
 
-# File creation:
-if "-f" in cmd:
-    create_file(cmd)
+    # File creation:
+    if "-f" in cmd:
+        create_file(cmd)
