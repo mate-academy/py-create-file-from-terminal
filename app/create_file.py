@@ -7,6 +7,7 @@ from typing import List
 def create_directory_and_file(path: List[str]) -> None:
     dirs_path, file_name = None, None
 
+    # Directories creation
     if "-d" in path:
         directories = []
         for directory in path[path.index("-d") + 1:]:
@@ -16,6 +17,7 @@ def create_directory_and_file(path: List[str]) -> None:
         dirs_path = os.path.join(*directories)
         os.makedirs(dirs_path, exist_ok=True)
 
+    # File creation
     if "-f" in path:
         if dirs_path is None:
             file_name = path[path.index("-f") + 1]
