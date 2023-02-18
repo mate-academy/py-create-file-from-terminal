@@ -2,19 +2,15 @@ from datetime import datetime
 import os.path
 import sys
 
-command_line = sys.argv
-
-path_to_file = ""
-file_name = ""
-
 
 def create_path(directories: list) -> str:
     path = os.path.join(*directories)
     return path
 
 
-def create_file(file_name: str, flag: bool) -> None:
+def create_file() -> None:
     content = datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
+    file_name = sys.argv[-1]
     line_number = 1
     while True:
         print_line = input("Enter content line: ")
@@ -24,32 +20,31 @@ def create_file(file_name: str, flag: bool) -> None:
         content += f"{line_number} {print_line}\n"
         line_number += 1
 
-    with open(file_name, "w" if flag is False else "a") as file_out:
+    with open(file_name, "a") as file_out:
         file_out.write(content)
 
 
-def create_directory(directories: list) -> str:
-    path_to_file = create_path(directories)
+def create_directory(file_name: str = None) -> None:
+    if file_name:
+        path = create_path(sys.argv[2:-2])
+    else:
+        path = create_path(sys.argv[2:])
 
-    if not os.path.exists(path_to_file):
-        os.makedirs(path_to_file)
-    return path_to_file
+    try:
+        os.makedirs(path)
+    except FileExistsError:
+        return
+    finally:
+        if file_name:
+            os.chdir(path)
+            create_file()
 
 
-if "-d" in command_line and "-f" not in command_line:
-    directories = (command_line[command_line.index("-d") + 1:])
-    create_directory(directories)
+if "-d" in sys.argv and "-f" not in sys.argv:
+    create_directory()
 
-if "-f" in command_line and "-d" not in command_line:
-    file_name = "".join(command_line[command_line.index("-f") + 1:])
-    flag = True if os.path.isfile(f"./{file_name}") else False
-    create_file(file_name, flag)
+if "-f" in sys.argv and "-d" not in sys.argv:
+    create_file()
 
-if "-d" in command_line and "-f" in command_line:
-    directories = (command_line[command_line.index("-d")
-                                + 1:command_line.index("-f")])
-    file_name = "".join(command_line[command_line.index("-f") + 1:])
-    full_name = f"{create_directory(directories)}/{file_name}"
-
-    flag = True if os.path.isfile(f"{full_name}") else False
-    create_file(full_name, flag)
+if "-d" in sys.argv and "-f" in sys.argv:
+    create_directory(sys.argv[-1])
