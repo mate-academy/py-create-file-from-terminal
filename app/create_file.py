@@ -19,12 +19,14 @@ def create_directory_and_file(path: List[str]) -> None:
 
     # File creation
     if "-f" in path:
-        if dirs_path is None:
-            file_name = path[path.index("-f") + 1]
-        else:
-            file_name = os.path.join(dirs_path, path[path.index("-f") + 1])
-        open_type = "w" if not os.path.exists(file_name) else "a"
-        with open(file_name, open_type) as file_in:
+        file_name = path[path.index("-f") + 1]
+        file_path = (
+            os.path.join(dirs_path, file_name)
+            if dirs_path is not None
+            else file_name
+        )
+        open_type = "w" if not os.path.exists(file_path) else "a"
+        with open(file_path, open_type) as file_in:
             file_in.write(
                 f"{datetime.now().strftime('%Y-%m-%d %I:%M:%S')}\n"
             )
