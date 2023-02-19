@@ -24,37 +24,42 @@ def write_content(output_file: TextIO, content: list[str]) -> None:
         output_file.write(f"{i+1} {line}\n")
 
 
+def create_directory_and_file(args: list[str]) -> str:
+    dir_index = args.index("-d") + 1
+    filename_index = args.index("-f") + 1
+    directory = os.path.join(*args[dir_index:filename_index - 1])
+    filename = args[filename_index]
+    os.makedirs(directory, exist_ok=True)
+    file_path = os.path.join(directory, filename)
+    return file_path
+
+
+def get_output_file(file_path: str) -> TextIO:
+    if os.path.isfile(file_path):
+        return create_file(file_path)
+    else:
+        return open(file_path, "w")
+
+
 def main() -> None:
     args = sys.argv[1:]
+
     if "-d" in args and "-f" in args:
-        dir_index = args.index("-d") + 1
-        filename_index = args.index("-f") + 1
-        directory = os.path.join(*args[dir_index:filename_index - 1])
-        filename = args[filename_index]
-        os.makedirs(directory, exist_ok=True)
-        file_path = os.path.join(directory, filename)
+        file_path = create_directory_and_file(args)
     elif "-d" in args:
-        dir_index = args.index("-d") + 1
-        directory = os.path.join(*args[dir_index:])
+        directory = os.path.join(*args[args.index("-d") + 1:])
         os.makedirs(directory, exist_ok=True)
         return
     elif "-f" in args:
-        filename_index = args.index("-f") + 1
-        filename = args[filename_index]
-        file_path = filename
+        file_path = args[args.index("-f") + 1]
     else:
         print("Please specify a filename with the -f flag"
               " or a directory path with the -d flag.")
         return
 
-    if os.path.isfile(file_path):
-        output_file = create_file(file_path)
-    else:
-        output_file = open(file_path, "w")
-
-    content = get_content()
-    write_content(output_file, content)
-    output_file.close()
+    with get_output_file(file_path) as output_file:
+        content = get_content()
+        write_content(output_file, content)
 
 
 if __name__ == "__main__":
