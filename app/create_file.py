@@ -4,10 +4,6 @@ from datetime import datetime
 from typing import TextIO
 
 
-def create_file(filename: str) -> TextIO:
-    return open(filename, "a+")
-
-
 def get_content() -> list[str]:
     content = []
     line = input("Enter content line: ")
@@ -34,10 +30,6 @@ def create_directory_and_file(args: list[str]) -> str:
     return file_path
 
 
-def get_output_file(file_path: str) -> TextIO:
-    return open(file_path, "a+")
-
-
 def main() -> None:
     args = sys.argv[1:]
 
@@ -54,9 +46,8 @@ def main() -> None:
               " or a directory path with the -d flag.")
         return
 
-    with get_output_file(file_path) as output_file:
-        content = get_content()
-        write_content(output_file, content)
+    output_file = open(file_path, "a+")
+    output_file.close()
 
 
 if __name__ == "__main__":
