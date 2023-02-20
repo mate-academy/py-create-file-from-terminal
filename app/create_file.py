@@ -35,10 +35,7 @@ def create_directory_and_file(args: list[str]) -> str:
 
 
 def get_output_file(file_path: str) -> TextIO:
-    if os.path.isfile(file_path):
-        return create_file(file_path)
-    else:
-        return open(file_path, "w")
+    return open(file_path, "a+")
 
 
 def main() -> None:
