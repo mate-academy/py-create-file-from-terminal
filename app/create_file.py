@@ -1,5 +1,5 @@
 import os
-from datetime import datetime as d
+from datetime import datetime
 from pathlib import Path
 """
 create_file("python create_file.py -d dir1 dir2")
@@ -10,8 +10,8 @@ create_file("python create_file.py -d dir1 dir2 -f file.txt")
 
 
 def create_file(input_string: str) -> None:
-    _, __, flag, *destination_path = input_string.split()
-    dir_path = [s for s in destination_path if "-f" not in s]
+    lg, f_name, flag, *destination_path = input_string.split()
+    dir_path = [s for s in destination_path if s != "-f"]
     dirpath = os.path.join(*dir_path)
     output_file = Path(dirpath)
     if flag == "-d" and "-f" in destination_path:
@@ -26,8 +26,8 @@ def create_file(input_string: str) -> None:
 
 
 def write_content(target_file: callable) -> None:
-    ts = d.timestamp(d.now())
-    ts = d.fromtimestamp(int(ts))
+    ts = datetime.timestamp(datetime.now())
+    ts = datetime.fromtimestamp(int(ts))
     target_file.write(str(ts) + "\n")
     number = 0
     while True:
