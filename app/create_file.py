@@ -3,8 +3,8 @@ import os
 from datetime import datetime
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-f')
-parser.add_argument('-d', nargs="*")
+parser.add_argument("-f")
+parser.add_argument("-d", nargs="*")
 arguments = vars(parser.parse_args())
 
 
