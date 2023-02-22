@@ -2,7 +2,7 @@ import os
 import sys
 from datetime import datetime
 
-commands = [sys.argv[i] for i in range(1, len(sys.argv))]
+commands = sys.argv[1:]
 commands = " ".join(commands).split("-f")
 command_path = commands.pop(0).strip("-d").split()
 if command_path:
@@ -11,7 +11,8 @@ if command_path:
     if not os.path.exists(path):
         os.makedirs(path)
 if commands:
-    with open(commands[0], "a") as file:
+    output_file = commands[0].strip()
+    with open(output_file, "a") as file:
         file.write(datetime.now().strftime("%Y-%m-%d, %H:%M:%S") + "\n")
         line = 1
         while True:
