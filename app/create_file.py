@@ -3,32 +3,41 @@ import os
 from datetime import datetime
 
 
-def create_file(file_path: str) -> None:
-    if os.path.exists(file_path):
-        with open(file_path, "a") as f:
-            f.write("\n")
-    else:
-        with open(file_path, "w") as f:
-            f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
-
+def read_content() -> list:
+    content = []
     while True:
-        line = input("Enter content line : ")
+        line = input("Enter content line: ")
         if line == "stop":
+            content.append("\n")
             break
-        with open(file_path, "a") as f:
-            f.write(f"{line}\n")
+        content.append(line)
+    return content
 
 
-if __name__ == "__main__":
-    if "-d" in sys.argv and "-f" in sys.argv:
-        dir_path = os.path.join(*sys.argv[2:-1])
-        file_name = sys.argv[-1]
+def create_file(file_path):
+    content = read_content()
+
+    file_existed = os.path.exists(file_path)
+    with open(file_path, "a+") as f:
+        if not file_existed:
+            f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
+        f.write("\n".join(content))
+
+
+def main(args):
+    if "-d" in args and "-f" in args:
+        dir_path = os.path.join(*args[args.index("-d")+1:args.index("-f")])
+        file_name = args[args.index("-f")+1]
         os.makedirs(dir_path, exist_ok=True)
         file_path = os.path.join(dir_path, file_name)
         create_file(file_path)
-    elif "-d" in sys.argv:
-        dir_path = os.path.join(*sys.argv[2:])
+    elif "-d" in args:
+        dir_path = os.path.join(*args[args.index("-d")+1:])
         os.makedirs(dir_path, exist_ok=True)
-    elif "-f" in sys.argv:
-        file_path = sys.argv[2]
+    elif "-f" in args:
+        file_path = args[args.index("-f")+1]
         create_file(file_path)
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
