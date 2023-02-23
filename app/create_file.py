@@ -31,11 +31,13 @@ def create_file(file_name: str) -> None:
         file.write("\n")
 
 
+sys_argv = " ".join(sys.argv)
+sys_argv_last = sys.argv[-1]
 if len(sys.argv) > 1 and "-d" in sys.argv and "-f" in sys.argv:
-    create_directory(" ".join(sys.argv), sys.argv[-1])
+    create_directory(sys_argv, sys_argv_last)
 
 elif len(sys.argv) > 1 and "-d" in sys.argv:
-    create_directory(" ".join(sys.argv))
+    create_directory(sys_argv)
 
 elif len(sys.argv) > 1 and "-f" in sys.argv:
-    create_file(sys.argv[-1])
+    create_file(sys_argv_last)
