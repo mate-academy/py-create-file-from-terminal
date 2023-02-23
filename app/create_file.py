@@ -43,4 +43,3 @@ if "-f" in sys.argv and "-d" not in sys.argv:
 
 if "-d" in sys.argv and "-f" in sys.argv:
     create_directory(sys.argv[-1])
-
