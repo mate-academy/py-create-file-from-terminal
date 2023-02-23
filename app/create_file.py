@@ -25,14 +25,15 @@ def main() -> None:
     for arg in sys.argv[1:]:
         if arg in ("-d", "-f"):
             flag = arg
-        elif flag:
+        else:
             file_path.append(arg)
-            if flag == "-f":
-                if len(file_path) > 1:
-                    os.makedirs(os.path.join(*file_path[:-1]), exist_ok=True)
-                create_file(os.path.join(*file_path))
-    if flag == "-d":
-        os.makedirs(os.path.join(*file_path))
+
+    if flag == "-f":
+        if len(file_path) > 1:
+            os.makedirs(os.path.join(*file_path[:-1]), exist_ok=True)
+        create_file(os.path.join(*file_path))
+    elif flag == "-d":
+        os.makedirs(os.path.join(*file_path), exist_ok=True)
 
 
 main()
