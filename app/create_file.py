@@ -5,14 +5,11 @@ from datetime import datetime
 
 def writing_file(full_path: str) -> None:
     with open(full_path, "a") as file:
-        if os.stat(full_path).st_size != 0:
-            file.write("\n")
-
         file.write(f"{str(datetime.today()).rsplit('.')[0]}\n")
-
         while True:
             content = input("Enter content line: ")
             if content == "stop":
+                file.write("\n")
                 break
             file.write(f"{content}\n")
 
