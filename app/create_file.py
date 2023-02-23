@@ -28,14 +28,11 @@ def create_directory(file_name: str = None) -> None:
     else:
         path = create_path(sys.argv[2:])
 
-    try:
-        os.makedirs(path)
-    except FileExistsError:
-        return
-    finally:
-        if file_name:
-            os.chdir(path)
-            create_file()
+    os.makedirs(path, exist_ok=True)
+
+    if file_name:
+        os.chdir(path)
+        create_file()
 
 
 if "-d" in sys.argv and "-f" not in sys.argv:
@@ -46,3 +43,4 @@ if "-f" in sys.argv and "-d" not in sys.argv:
 
 if "-d" in sys.argv and "-f" in sys.argv:
     create_directory(sys.argv[-1])
+
