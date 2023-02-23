@@ -6,17 +6,17 @@ import datetime
 def create_directory(dir_path: str, filename: str = None) -> None:
     dir_path = dir_path.split(" ")
     directory = []
-    flag = False
+    d_in_directory = False
     for word in dir_path:
         if word == "-f":
             directory.append(filename)
             create_file(os.path.join(*directory))
             break
-        if flag:
+        if d_in_directory:
             directory.append(word)
             os.mkdir(os.path.join(*directory))
         if word == "-d":
-            flag = True
+            d_in_directory = True
 
 
 def create_file(file_name: str) -> None:
