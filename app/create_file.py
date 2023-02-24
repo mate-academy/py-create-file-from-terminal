@@ -17,7 +17,10 @@ def create_directory(dir_path: str) -> None:
             d_in_directory = True
     os.makedirs(os.path.join(*directory))
     if "-f" in dir_path:
-        create_file(os.path.join(*directory, dir_path[dir_path.index("-f") + 1]))
+        create_file(os.path.join(
+            *directory,
+            dir_path[dir_path.index("-f") + 1]
+        ))
 
 
 def create_file(file_name: str) -> None:
