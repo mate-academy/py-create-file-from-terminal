@@ -22,17 +22,17 @@ def create_file() -> None:
 
 def create_file_in_directory() -> None:
     os.makedirs("/".join(command[2: command.index("-f")]))
-    file = f"{'/'.join(command[2: command.index('-f')])}/{command[-1]}"
-    with open(file, "w") as file:
-        file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+    direc_file = f"{'/'.join(command[2: command.index('-f')])}/{command[-1]}"
+    with open(direc_file, "w") as direc_file:
+        direc_file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         line = 1
         while True:
             line_text = input("Enter content line: ")
 
             if line_text == "stop":
-                file.write("\n")
+                direc_file.write("\n")
                 break
-            file.write(f"{line} {line_text}\n")
+            direc_file.write(f"{line} {line_text}\n")
             line += 1
 
 
