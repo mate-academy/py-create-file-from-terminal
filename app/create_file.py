@@ -2,12 +2,10 @@ import os
 import sys
 import datetime
 
-
 path, flag, *content = sys.argv
 
 
 def create_dirs(*content) -> None:
-
     dirs_path = os.path.join(os.getcwd(), *content)
     if not os.path.exists(dirs_path):
         os.makedirs(dirs_path)
@@ -19,10 +17,10 @@ def create_file(file_path: str) -> None:
         line_number = 1
         while True:
             line_content = input("Enter content line: ")
-            file.write(f"{line_number} {line_content}\n")
-            line_number += 1
             if line_content == "stop":
                 break
+            file.write(f"{line_number} {line_content}\n")
+            line_number += 1
 
 
 if "-f" in content:
