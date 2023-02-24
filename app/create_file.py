@@ -24,10 +24,8 @@ def create_file() -> None:
 
 
 def create_directory(file_name: str = None) -> None:
-    if file_name:
-        path = create_path(sys.argv[2:-2])
-    else:
-        path = create_path(sys.argv[2:])
+    path = sys.argv[2:-2] if file_name else sys.argv[2:]
+    path = create_path(path)
 
     os.makedirs(path, exist_ok=True)
 
