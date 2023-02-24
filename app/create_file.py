@@ -2,11 +2,6 @@ import argparse
 import os
 import datetime
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-d", "--directory", nargs="+")
-parser.add_argument("-f", "--file")
-args = parser.parse_args()
-
 
 def file_content(name_file: str) -> None:
     content = []
@@ -23,13 +18,18 @@ def file_content(name_file: str) -> None:
             page_number += 1
 
 
-if args.directory and args.file:
-    direct_path = os.path.join(*args.directory, args.file)
-    os.makedirs(direct_path)
-    file_content(direct_path)
-elif args.directory:
-    direct_path = os.path.join(*args.directory)
-    os.makedirs(direct_path)
+def make_directory() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--directory", nargs="+")
+    parser.add_argument("-f", "--file")
+    args = parser.parse_args()
 
-elif args.file:
-    file_content(args.file)
+    if args.directory:
+        direct_path = os.path.join(*args.directory)
+        os.makedirs(direct_path)
+        if args.file:
+            file_path = os.path.join(direct_path, args.file)
+            os.makedirs(file_path)
+            file_content(file_path)
+    elif args.file:
+        file_content(args.file)
