@@ -30,3 +30,4 @@ if arguments.d:
 
 if arguments.f:
     create_file(arguments.f)
+a = 0
