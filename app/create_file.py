@@ -10,7 +10,9 @@ def create_file(file_name: str) -> None:
             if count == 1:
                 if os.stat(file_name).st_size != 0:
                     writer.write("\n\n")
-                writer.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+                writer.write(
+                    datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                )
             writer.write(f"\n{count} {line}")
             count += 1
 
