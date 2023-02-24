@@ -17,12 +17,12 @@ def file_creating() -> None:
         path = os.path.join(os.getcwd(), *content)
 
     with open(path, "a") as file_out:
+        if file_out.tell() != 0:
+            file_out.write("\n")
         user_input = []
         while True:
             prompt_user_input = input("Enter content line: ")
             if prompt_user_input == "stop":
-                if user_input:
-                    user_input[-1] += "\n"
                 break
             user_input.append(prompt_user_input)
         current_time = datetime.datetime.now()
