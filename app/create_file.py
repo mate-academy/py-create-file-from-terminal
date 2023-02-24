@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
 from pathlib import Path
+from typing import Any
 """
 create_file("python create_file.py -d dir1 dir2")
 create_file("python create_file.py -f file.txt")
@@ -9,42 +10,36 @@ create_file("python create_file.py -f file.txt -d dir1 dir2")
 """
 
 
-def check_str(input_string: str) -> tuple:
-    str_ = input_string.split()
-    unused1, unused2, flag, *path_ = str_
+def parse_command(input_string: str) -> tuple[list, Any] | None:
+    split_str = input_string.split()
+    _, _, flag, *path_ = split_str
     if flag == "-d":
         if "-f" in path_:
-            if str_.index("-d") < str_.index("-f"):
-                dr, filename = path_[0:-2], path_[-1]
-                return dr, filename
-        dr = path_[0:]
-        return dr, []
+            return path_[0:-2], path_[-1]
+        return path_[0:], []
     elif flag == "-f":
         if "-d" in path_:
-            if str_.index("-f") < str_.index("-d"):
-                dr, filename = path_[2:], path_[0]
-                return dr, filename
-        filename = path_[-1]
-        return [], filename
+            return path_[2:], path_[0]
+        return [], path_[-1]
 
 
-def create_file(path_: str) -> None:
-    dr, filename = check_str(path_)
+def create_file(command: str) -> None:
+    dr, filename = parse_command(command)
     if not dr:
         write_content(filename)
     elif not filename:
-        dirpath = os.path.join(*dr)
-        os.makedirs(dirpath, exist_ok=True)
+        dir_path = os.path.join(*dr)
+        os.makedirs(dir_path, exist_ok=True)
     elif dr and filename:
         pat = dr + [filename]
-        dirpath = os.path.join(*pat)
-        Path(dirpath).parent.mkdir(exist_ok=True, parents=True)
-        write_content(dirpath)
+        dir_path = os.path.join(*pat)
+        Path(dir_path).parent.mkdir(exist_ok=True, parents=True)
+        write_content(dir_path)
 
 
-def write_content(_file: str) -> None:
-    with open(_file, "a") as target_file:
-        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+def write_content(file_path: str) -> None:
+    with open(file_path, "a") as target_file:
+        current_time = f"{datetime.now():%Y-%m-%d %H:%M:%S}"
         target_file.write(current_time + "\n")
         number = 0
         while True:
