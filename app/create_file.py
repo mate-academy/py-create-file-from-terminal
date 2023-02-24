@@ -38,7 +38,9 @@ def create_file(file_name: str) -> None:
 
 sys_argv = " ".join(sys.argv)
 sys_argv_last = sys.argv[-1]
-if len(sys.argv) > 1 and (("-d" in sys.argv and "-f" in sys.argv) or "-d" in sys.argv):
+if len(sys.argv) > 1 and (
+        ("-d" in sys.argv and "-f" in sys.argv) or "-d" in sys.argv
+):
     create_directory(sys_argv)
 elif len(sys.argv) > 1 and "-f" in sys.argv:
     create_file(sys_argv_last)
