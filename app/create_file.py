@@ -3,9 +3,12 @@ from datetime import datetime
 import os
 
 
-def create_file(name: str, path: str) -> None:
-    path = path + f"\{name}"
-    with open(path, "a") as file:
+def create_file(name: str, path: str = "") -> None:
+    path_file = name
+    if path != "":
+        path_file = f"{path}/{name}"
+
+    with open(path_file, "a") as file:
         now = datetime.now()
         formatted_now = now.strftime("%Y-%m-%d %H:%M:%S")
         file.write(formatted_now + "\n")
@@ -28,7 +31,7 @@ def create_directory(path_list: str) -> None:
     os.makedirs(path)
 
 
-def action(action_list: list):
+def action(action_list: list) -> None:
     if "-d" in action_list:
         directory_path = " ".join(action_list[1:])
         print(directory_path)
