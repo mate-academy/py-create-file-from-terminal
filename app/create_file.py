@@ -4,19 +4,15 @@ import sys
 
 
 def create_file(file_name: str) -> None:
-    lines_to_write = []
-    count = 1
-    while (line := input("Enter content line: ")) != "stop":
-        lines_to_write.append(f"{count} " + line)
-        count += 1
-    if lines_to_write:
-        lines_to_write = [
-            datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        ] + lines_to_write
-        if os.path.exists(file_name) and os.stat(file_name).st_size != 0:
-            lines_to_write = ["\n"] + lines_to_write
     with open(file_name, "a") as writer:
-        writer.write("\n".join(lines_to_write))
+        count = 1
+        while (line := input("Enter content line: ")) != "stop":
+            if count == 1:
+                if os.stat(file_name).st_size != 0:
+                    writer.write("\n\n")
+                writer.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            writer.write(f"\n{count} {line}")
+            count += 1
 
 
 def main() -> None:
