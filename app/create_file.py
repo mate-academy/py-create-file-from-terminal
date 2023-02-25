@@ -20,7 +20,6 @@ def write_to_file(file_name: str) -> None:
             if line == "stop":
                 break
             source_file.write(f"{line_number} {line}\n")
-
             line_number += 1
 
 
