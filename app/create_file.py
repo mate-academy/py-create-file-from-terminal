@@ -1,12 +1,12 @@
 import os
-import datetime
 import sys
+import datetime
 
 
 def make_dirs(abs_path: str, dirs_to_create: list[str]) -> None:
     for directory in dirs_to_create:
         abs_path = os.path.join(abs_path, directory)
-    os.makedirs(abs_path)
+    os.makedirs(abs_path, exist_ok=True)
     os.chdir(abs_path)
 
 
