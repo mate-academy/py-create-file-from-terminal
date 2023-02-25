@@ -1,7 +1,6 @@
 import os
 from datetime import datetime
 from pathlib import Path
-from typing import Any
 """
 create_file("python create_file.py -d dir1 dir2")
 create_file("python create_file.py -f file.txt")
@@ -48,9 +47,3 @@ def write_content(file_path: str) -> None:
                 break
             number += 1
             target_file.write(f"{number} {new_line} \n")
-
-
-create_file("python create_file.py -d dir1 dir2")
-create_file("python create_file.py -f file.txt")
-create_file("python create_file.py -d dir1 dir2 -f file.txt")
-create_file("python create_file.py -f file.txt -d dir1 dir2")
