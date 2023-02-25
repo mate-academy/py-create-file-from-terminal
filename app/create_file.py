@@ -12,7 +12,8 @@ if args.directory:
     args.directory = "/".join(args.directory)
     makedirs(args.directory, exist_ok=True)
 if args.file:
-    dir_path = args.file if not args.directory else path.join(args.directory, args.file)
+    dir_path = (args.file if not args.directory
+                else path.join(args.directory, args.file))
     with open(dir_path, "a") as file:
         now = datetime.now()
         file.write(f"{now.strftime('%y-%m-%d %H:%M:%S')}\n")
