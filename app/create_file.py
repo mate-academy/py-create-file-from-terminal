@@ -12,7 +12,7 @@ file_name = ""
 for i in range(len(command)):
     if command[i] == "-f":
         is_file = True
-        file_name = command[i+1]
+        file_name = command[i + 1]
         break
     if is_directory:
         path.append(command[i])
