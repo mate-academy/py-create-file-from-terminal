@@ -34,11 +34,7 @@ if is_file:
     if directory_way:
         file_path = os.path.join(directory_way, file_name)
 
-    mode = "w"
-    if os.path.exists(file_path):
-        mode = "a"
-
-    with open(file_path, mode) as f:
+    with open(file_path, "a") as f:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         f.write(timestamp + "\n")
 
