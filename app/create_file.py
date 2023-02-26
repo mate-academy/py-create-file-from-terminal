@@ -5,13 +5,13 @@ import os
 import datetime
 
 
-def create_file_function(arguments):
+def create_file_function(arguments: list) -> None:
     name = "file.txt"
     if len(arguments) > 4:
         name = os.path.join(arguments[2], arguments[3], arguments[5])
     with open(name, "a") as file:
         current_time = datetime.datetime.now()
-        file.write(current_time.strftime('%Y-%m-%d %H:%M:%S') + "\n")
+        file.write(current_time.strftime("%Y-%m-%d %H:%M:%S") + "\n")
         count = 1
         while True:
             command = input("Enter content line: ")
@@ -22,7 +22,7 @@ def create_file_function(arguments):
             count += 1
 
 
-def create_dir_function(arguments):
+def create_dir_function(arguments: list) -> None:
     os.mkdir(arguments[2])
     os.mkdir(os.path.join(arguments[2], arguments[3]))
 
