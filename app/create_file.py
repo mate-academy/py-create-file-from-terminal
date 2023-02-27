@@ -1,7 +1,8 @@
 import sys
-from datetime import datetime
+
 import os
 
+from datetime import datetime
 
 def create_file(name: str, path: str = "") -> None:
     path_file = name
