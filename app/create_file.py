@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 import argparse
 
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(description="parsing command from terminal")
 parser.add_argument("-d", "--directories", type=str, nargs="+",
                     help="creating directories")
 parser.add_argument("-f", "--file", type=str,
