@@ -11,15 +11,15 @@ if "-d" in argv and "-f" in argv:
     file_name = argv[argv.index("-f") + 1]
     path = os.path.join(path, file_name)
     with open(path, "a") as file_w:
-        n = 1
+        numeration = 1
         date = datetime.now()
         file_w.write(date.strftime("%Y-%m-%d %H:%M:%S") + "\n")
         while True:
             content = input("Enter content line (type 'stop' to finish): ")
             if content == "stop":
                 break
-            file_w.write(f"{n}" + content + "\n")
-            n += 1
+            file_w.write(f"{numeration}" + content + "\n")
+            numeration += 1
 if argv[1] == "-d":
     path = ""
     for directory in argv[2:]:
@@ -28,11 +28,12 @@ if argv[1] == "-d":
             os.mkdir(path)
 elif argv[1] == "-f":
     with open(argv[2], "a") as file_w:
+        numeration = 1
         date = datetime.now()
         file_w.write(date.strftime("%Y-%m-%d %H:%M:%S") + "\n")
         while True:
             content = input("Enter content line (type 'stop' to finish): ")
             if content == "stop":
                 break
-            file_w.write(f"{n}" + content + "\n")
-            n += 1
+            file_w.write(f"{numeration}" + content + "\n")
+            numeration += 1
