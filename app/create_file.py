@@ -33,4 +33,3 @@ def create_directory() -> None:
 
     elif args.file:
         file_content(args.file)
-
