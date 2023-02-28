@@ -55,15 +55,11 @@ def creates_file(path: str) -> None:
 
 
 if __name__ == "__main__":
-    try:
-        path = creates_file_path()
-        if args.f and args.d:
-            creates_directories()
-            creates_file(path)
-        elif args.f:
-            creates_file(path)
-        elif args.d:
-            creates_directories()
-    except Exception as e:
-        print(f"{type(e)} was raised: \n{e}")
-        raise
+    path = creates_file_path()
+    if args.f and args.d:
+        creates_directories()
+        creates_file(path)
+    elif args.f:
+        creates_file(path)
+    elif args.d:
+        creates_directories()
