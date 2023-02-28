@@ -11,29 +11,24 @@ def create_file() -> None:
     if "-f" in sys.argv:
         file_name = sys.argv[sys.argv.index("-f") + 1]
         if os.path.isfile(file_name):
-            time_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            with open(file_name, "a") as f:
-                f.write(f"{time_now}\n")
-                line = 1
-                while True:
-                    content = input("Enter content line: ")
-                    if content == "stop":
-                        f.write("\n")
-                        break
-                    f.write(f"{line} {content}\n")
-                    line += 1
+            writing_in_file()
         else:
-            time_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            with open(file_name, "w") as f:
-                f.write(f"{time_now}\n")
-                line = 1
-                while True:
-                    content = input("Enter content line: ")
-                    if content == "stop":
-                        f.write("\n")
-                        break
-                    f.write(f"{line} {content}\n")
-                    line += 1
+            writing_in_file()
+
+
+def writing_in_file() -> None:
+    file_name = sys.argv[sys.argv.index("-f") + 1]
+    time_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    with open(file_name, "w") as f:
+        f.write(f"{time_now}\n")
+        line = 1
+        while True:
+            content = input("Enter content line: ")
+            if content == "stop":
+                f.write("\n")
+                break
+            f.write(f"{line} {content}\n")
+            line += 1
 
 
 print(create_file())
