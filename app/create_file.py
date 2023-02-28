@@ -15,7 +15,7 @@ def get_file_content() -> list:
     return lines
 
 
-def create_file_from_args(args: Any) -> None:
+def create_file_from_args(args: Any, input_lines: list) -> None:
     if args.route:
         dir_path = os.path.join(*args.route)
         os.makedirs(dir_path, exist_ok=True)
@@ -25,7 +25,8 @@ def create_file_from_args(args: Any) -> None:
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     content = "\n".join([
-        timestamp, *[f"{i+1} {line}" for i, line in enumerate(input_lines)]
+        timestamp, *[f"{index + 1} {line}"
+                     for index, line in enumerate(input_lines)]
     ]) + "\n\n"
     with open(file_path, "a") as f:
         f.write(content)
@@ -41,6 +42,7 @@ if __name__ == "__main__":
         parser.error("Either -d or -f must be provided")
     elif args.file:
         input_lines = get_file_content()
-        create_file_from_args(args)
+        create_file_from_args(args, input_lines)
     else:
-        create_directory(os.path.join(*args.route))
+        dir_path = os.path.join(*args.route)
+        os.makedirs(dir_path, exist_ok=True)
