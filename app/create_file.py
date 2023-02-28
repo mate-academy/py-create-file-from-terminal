@@ -9,9 +9,7 @@ def create_file() -> None:
         dir_path = os.path.join(*sys.argv[sys.argv.index("-d") + 1:])
         os.makedirs(dir_path, exist_ok=True)
     if "-f" in sys.argv:
-        file_name = sys.argv[sys.argv.index("-f") + 1]
-        if os.path.isfile(file_name):
-            writing_in_file()
+        writing_in_file()
 
 
 def writing_in_file() -> None:
