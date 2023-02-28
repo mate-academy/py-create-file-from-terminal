@@ -10,9 +10,7 @@ def create_path(*args) -> str:
 
 def create_directory(directories: list) -> None:
     directory_path = create_path(*directories)
-    if not os.path.exists(directory_path):
-        os.makedirs(directory_path)
-    return
+    os.makedirs(directory_path, exist_ok=True)
 
 
 def write_to_file(file_name: str) -> None:
@@ -50,10 +48,10 @@ if __name__ == "__main__":
 
     options = parser.parse_args()
 
-    if options.f and not options.d:
-        write_to_file(*options.f)
-    elif options.d and not options.f:
-        create_directory(options.d)
-    elif options.d and options.f:
+    if options.d and options.f:
         create_directory(options.d)
         write_to_file(create_path(*options.d, *options.f))
+    elif options.f:
+        write_to_file(*options.f)
+    elif options.d:
+        create_directory(options.d)
