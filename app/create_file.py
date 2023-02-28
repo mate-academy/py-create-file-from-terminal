@@ -12,8 +12,6 @@ def create_file() -> None:
         file_name = sys.argv[sys.argv.index("-f") + 1]
         if os.path.isfile(file_name):
             writing_in_file()
-        else:
-            writing_in_file()
 
 
 def writing_in_file() -> None:
@@ -31,4 +29,5 @@ def writing_in_file() -> None:
             line += 1
 
 
-print(create_file())
+if __name__ == "__main__":
+    create_file()
