@@ -3,8 +3,9 @@ import os
 import datetime
 
 commands = sys.argv[1:]
-commands = " ".join(commands).split("-f")
-path = commands.pop(0).strip("-d").split()
+file_name = " ".join(commands).split("-f")
+print(file_name)
+path = file_name.pop(0).strip("-d").split()
 
 
 def create_path(direction: list) -> None:
@@ -12,14 +13,12 @@ def create_path(direction: list) -> None:
         direction = os.path.join(*direction)
         if not os.path.exists(direction) and len(direction) > 0:
             os.makedirs(direction)
-            os.chdir(direction)
             print(f"Path: '{direction}' has been successfully created")
-            return
         os.chdir(direction)
 
 
-def create_file(file_name: list) -> None:
-    with open(file_name[0], "a") as file:
+def create_file(name: list) -> None:
+    with open(name[0], "a") as file:
         file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
         line_number = 1
         while True:
@@ -34,4 +33,4 @@ def create_file(file_name: list) -> None:
 
 if __name__ == "__main__":
     create_path(path)
-    create_file(commands)
+    create_file(file_name)
