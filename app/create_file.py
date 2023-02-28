@@ -18,6 +18,7 @@ def write_to_file(file_name: str) -> None:
         while typing:
             line = input("Enter content line: ")
             if line == "stop":
+                source_file.write("\n")
                 break
             source_file.write(f"{line_number} {line}\n")
             line_number += 1
@@ -30,8 +31,7 @@ def create_file() -> None:
     args = parser.parse_args()
     if args.directories:
         path = create_path(*args.directories)
-        if not os.path.exists(path):
-            os.makedirs(path)
+        os.makedirs(path, exist_ok=False)
     if args.file_name:
         if path:
             path = create_path([path, args.file_name])
