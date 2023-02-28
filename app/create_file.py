@@ -1,11 +1,8 @@
 import argparse
 import os
+
 from datetime import datetime
 from typing import Any
-
-
-def create_directory(path: str) -> None:
-    os.makedirs(path, exist_ok=True)
 
 
 def get_file_content() -> list:
@@ -21,8 +18,7 @@ def get_file_content() -> list:
 def create_file_from_args(args: Any) -> None:
     if args.route:
         dir_path = os.path.join(*args.route)
-
-        create_directory(dir_path)
+        os.makedirs(dir_path, exist_ok=True)
         file_path = os.path.join(dir_path, args.file)
     else:
         file_path = args.file
@@ -30,7 +26,7 @@ def create_file_from_args(args: Any) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     content = "\n".join([
         timestamp, *[f"{i+1} {line}" for i, line in enumerate(input_lines)]
-    ])
+    ]) + "\n\n"
     with open(file_path, "a") as f:
         f.write(content)
 
