@@ -15,13 +15,13 @@ def create_file(file_name: str) -> None:
             file.write("\n")
 
 
-def create_dir(dir1: str, dir2: str) -> None:
-    direction = os.path.join(f"{dir1}/{dir2}")
+def create_dir(direct: list) -> None:
+    direction = os.path.join("/".join(direct))
     os.makedirs(direction, exist_ok=True)
 
 
-def make_dir_and_file(dir1: str, dir2: str, file_name: str) -> None:
-    direction = os.path.join(f"{dir1}/{dir2}")
+def make_dir_and_file(direct: list, file_name: str) -> None:
+    direction = os.path.join("/".join(direct))
     os.makedirs(direction, exist_ok=True)
     file_name = os.path.join(direction, file_name)
     create_file(file_name)
@@ -32,11 +32,11 @@ def user_management_cli() -> None:
         terminal = input(">>>")
         command = terminal.split()
         if "-d" in command and "-f" in command:
-            make_dir_and_file(command[3], command[4], command[6])
+            make_dir_and_file(command[3:-2], command[-1])
         elif "-d" in command:
-            create_dir(command[3], command[4])
+            create_dir(command[3:])
         elif "-f" in command:
-            create_file(command[3])
+            create_file(command[-1])
         elif terminal == "stop":
             print("Exiting")
             break
