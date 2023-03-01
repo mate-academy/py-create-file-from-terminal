@@ -1,6 +1,6 @@
 import argparse
+from datetime import datetime
 import os
-import datetime
 
 
 def create_file() -> None:
@@ -30,7 +30,7 @@ def create_file() -> None:
                 lines.append(f"\n{line_number} {line}")
             lines.append("\n" * 2)
 
-            current_time = datetime.datetime.now()
+            current_time = datetime.now()
             file_out.write(current_time.strftime("%Y-%m-%d %H:%M:%S"))
             file_out.writelines(lines)
 
