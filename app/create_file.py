@@ -6,13 +6,14 @@ count = 0
 home_directory = sys.argv
 if "-d" in home_directory:
     if "-f" in home_directory:
-        path = os.path.join("\\".join(home_directory[home_directory.index("-d") + 1:home_directory.index("-f")]))
-    else:
-        path = os.path.join(
-            "\\".join(
-                home_directory[home_directory.index("-d") + 1::]
-            )
+        file_path = "\\".join(
+            home_directory[home_directory.index("-d") + 1:
+                           home_directory.index("-f")]
         )
+        path = os.path.join(file_path)
+    else:
+        file_path = "\\".join(home_directory[home_directory.index("-d") + 1::])
+        path = os.path.join(file_path)
     os.makedirs(path)
 
 if "-f" in home_directory:
