@@ -16,12 +16,12 @@ def create_file(file_name: str) -> None:
 
 
 def create_dir(direct: list) -> None:
-    direction = os.path.join("/".join(direct))
+    direction = os.path.join(*direct)
     os.makedirs(direction, exist_ok=True)
 
 
 def make_dir_and_file(direct: list, file_name: str) -> None:
-    direction = os.path.join("/".join(direct))
+    direction = os.path.join(*direct)
     os.makedirs(direction, exist_ok=True)
     file_name = os.path.join(direction, file_name)
     create_file(file_name)
