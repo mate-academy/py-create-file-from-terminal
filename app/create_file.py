@@ -4,18 +4,18 @@ import sys
 
 
 def file_from_terminal() -> None:
-    home_directory = sys.argv
+    directory = sys.argv
 
-    if "-d" in home_directory and "-f" in home_directory:
-        create_directory(home_directory[2:-2])
-        create_file(home_directory[-1])
+    if "-d" in directory and "-f" in directory:
+        create_directory(directory[2:-2])
+        create_file(directory[-1])
         return
 
-    if "-d" in home_directory:
-        create_directory(home_directory[2:])
+    if "-d" in directory:
+        create_directory(directory[2:])
 
-    if "-f" in home_directory:
-        create_file(home_directory[2])
+    if "-f" in directory:
+        create_file(directory[2])
 
 
 def create_file(file_name: str) -> None:
@@ -33,7 +33,7 @@ def create_file(file_name: str) -> None:
 
 def create_directory(directories: list) -> None:
     for directory in directories:
-        os.mkdir(directory)
+        os.makedirs(directory)
         os.chdir(directory)
 
 
