@@ -9,12 +9,11 @@ def file_from_terminal() -> None:
         check_variable = " ".join(directory)
         if check_variable.index("-d") < check_variable.index("-f"):
             os.chdir(create_directory(directory[2:-2]))
-            create_file(directory[-1])
-            return
         else:
             create_directory(directory[directory.index("-d") + 1::])
-            create_file(directory[directory.index("-f") + 1])
-            return
+
+        create_file(directory[directory.index("-f") + 1])
+        return
     if "-d" in directory:
         create_directory(directory[2:])
 
