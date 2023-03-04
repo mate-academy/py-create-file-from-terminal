@@ -5,12 +5,16 @@ import sys
 
 def file_from_terminal() -> None:
     directory = sys.argv
-
     if "-d" in directory and "-f" in directory:
-        create_directory(directory[2:-2])
-        create_file(directory[-1])
-        return
-
+        check_variable = " ".join(directory)
+        if check_variable.index("-d") < check_variable.index("-f"):
+            os.chdir(create_directory(directory[2:-2]))
+            create_file(directory[-1])
+            return
+        else:
+            create_directory(directory[directory.index("-d") + 1::])
+            create_file(directory[directory.index("-f") + 1])
+            return
     if "-d" in directory:
         create_directory(directory[2:])
 
@@ -31,10 +35,10 @@ def create_file(file_name: str) -> None:
             file.write(f"{count} {text}\n")
 
 
-def create_directory(directories: list) -> None:
-    for directory in directories:
-        os.makedirs(directory)
-        os.chdir(directory)
+def create_directory(directories: list) -> str:
+    path_to_directory = os.path.join(*directories)
+    os.makedirs(path_to_directory, exist_ok=True)
+    return path_to_directory
 
 
 if __name__ == "__main__":
