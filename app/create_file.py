@@ -1,7 +1,7 @@
-from datetime import datetime
-
 import os
 import sys
+from datetime import datetime
+
 
 command = sys.argv
 
