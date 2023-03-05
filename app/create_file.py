@@ -39,9 +39,8 @@ def create_file(path: str = "") -> None:
             string = input()
 
 
-if __name__ == '__main__':
-    terminal_command = sys.argv[1:]
-    if terminal_command[index] == "-d":
-        path = create_folders()
-    if terminal_command[index] == "-f":
-        create_file(path)
+terminal_command = sys.argv[1:]
+if terminal_command[index] == "-d":
+    path = create_folders()
+if terminal_command[index] == "-f":
+    create_file(path)
