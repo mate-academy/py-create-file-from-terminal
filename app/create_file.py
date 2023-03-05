@@ -5,17 +5,13 @@ import sys
 
 def terminal() -> None:
     if "-d" in sys.argv and "-f" in sys.argv:
-        create_dir(sys.argv[sys.argv.index("-d") + 1:sys.argv.index("-f")])
+        path = sys.argv[sys.argv.index("-d") + 1:sys.argv.index("-f")]
+        os.makedirs(os.path.join(os.getcwd(), *path))
+        create_file(os.path.join(*path, sys.argv[-1]))
+    elif "-d" in sys.argv:
+        os.makedirs(os.path.join(os.getcwd(), *sys.argv[2:]))
+    elif "-f" in sys.argv:
         create_file(sys.argv[-1])
-        return
-    if "-d" in sys.argv:
-        create_dir(sys.argv[2:])
-    if "-f" in sys.argv:
-        create_file(sys.argv[-1])
-
-
-def create_dir(path: list) -> None:
-    os.makedirs(os.getcwd() + "\\" + "\\".join(path))
 
 
 def create_file(file_name: str) -> None:
