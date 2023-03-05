@@ -21,7 +21,7 @@ def create_folders() -> str:
     return directory_path
 
 
-def create_file(path: str = ""):
+def create_file(path: str = "") -> None:
     global index
     index += 1
 
