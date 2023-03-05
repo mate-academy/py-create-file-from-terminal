@@ -29,16 +29,15 @@ if "-d" in command and "-f" in command:
     direct = command[command.index("-d") + 1: command.index("-f")]
     path = create_path(direct)
     file_name = "".join(command[command.index("-f") + 1:])
-    if not os.path.exists(path):
-        os.makedirs(path)
-    full_file_name = f"{path}/{file_name}"
+    os.makedirs(path, exist_ok=True)
+    full_file_name = os.path.join(path, file_name)
+
     create_file(full_file_name)
 
 elif "-d" in command:
     direct = command[command.index("-d") + 1:]
     path = create_path(direct)
-    if not os.path.exists(path):
-        os.makedirs(path)
+    os.makedirs(path, exist_ok=True)
 
 elif "-f" in command:
     file_name = "".join(command[command.index("-f") + 1:])
