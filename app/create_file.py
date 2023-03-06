@@ -22,14 +22,14 @@ def create_file(path: str = None) -> None:
         file.writelines(lines)
 
 
-if "-d" in args and "-f" not in args:
-    path = os.path.join(*args[1:])
-    os.makedirs(path, exist_ok=True)
-
-elif "-d" in args and "-f" in args:
+if "-d" in args and "-f" in args:
     path = os.path.join(*args[1:-2])
     os.makedirs(path, exist_ok=True)
     create_file(path)
+
+elif "-d" in args:
+    path = os.path.join(*args[1:])
+    os.makedirs(path, exist_ok=True)
 
 elif "-f" in args:
     create_file()
