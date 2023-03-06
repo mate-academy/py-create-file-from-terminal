@@ -17,16 +17,10 @@ def create_file() -> None:
             if os.path.exists(file_path):
                 with open(file_path, "a") as file:
                     write_content(file)
-            else:
-                with open(file_path, "w") as file:
-                    write_content(file)
     elif "-f" in args:
         file_name = args[args.index("-f") + 1]
         if os.path.exists(file_name):
             with open(file_name, "a") as file:
-                write_content(file)
-        else:
-            with open(file_name, "w") as file:
                 write_content(file)
 
 
@@ -37,6 +31,7 @@ def write_content(file_name: Any) -> None:
     while True:
         line = input("Enter content line: ")
         if line == "stop":
+            file_name.write("\n")
             break
         file_name.write(f"{line_num} {line}\n")
         line_num += 1
