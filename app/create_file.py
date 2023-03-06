@@ -20,8 +20,8 @@ def create_from_terminal() -> None:
 
     if CHECK_F in COMMAND:
         current_file = COMMAND.index(CHECK_F) + 1
-        file_path = path + COMMAND[current_file]
-        with open(file_path, "a") as new_file:
+        file_name = path + COMMAND[current_file]
+        with open(file_name, "a") as new_file:
             line_counter = 1
             new_file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
             while True:
