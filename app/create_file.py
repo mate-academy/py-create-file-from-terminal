@@ -13,8 +13,7 @@ def create_directory() -> None:
             os.makedirs(current, exist_ok=True)
 
 
-def create_file() -> None:
-    file_name = input("Enter a name of file")
+def create_file(file_name: str) -> None:
     with open(file_name, "w") as new_file:
         new_file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         line_counter = 1
@@ -25,8 +24,3 @@ def create_file() -> None:
                 break
             new_file.write(f"{line_counter} {asker}")
             line_counter += 1
-
-
-if __name__ == "__main__":
-    create_file()
-    create_directory()
