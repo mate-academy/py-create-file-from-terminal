@@ -1,6 +1,7 @@
 import os
-from datetime import datetime
 import argparse
+from datetime import datetime
+
 
 parser = argparse.ArgumentParser(description="parsing command from terminal")
 parser.add_argument("-d", "--directories", type=str, nargs="+",
@@ -8,7 +9,7 @@ parser.add_argument("-d", "--directories", type=str, nargs="+",
 parser.add_argument("-f", "--file", type=str,
                     help="creating directories")
 args = parser.parse_args()
-print(args.__dict__)
+
 temp = ""
 if args.__dict__["directories"] is not None:
 
@@ -23,19 +24,17 @@ if args.__dict__["file"] is not None:
     if os.path.exists(temp):
         directory_path = temp
     file_name = args.__dict__["file"]
-    mode = "a" if os.path.exists(
-        os.path.join(directory_path, file_name)
-    ) else "w"
 
-    with open(os.path.join(directory_path, file_name), mode) as file:
-        if mode == "a":
-            file.write("\n")
-
+    with open(os.path.join(directory_path, file_name), "a") as file:
         file.write(f"{datetime.now().strftime('%Y-%m-%d %X')}\n")
         counter = 1
 
         lines = input("Enter content line: ")
-        while lines != "stop":
-            file.write(f"{counter} {lines}\n")
-            lines = input("Enter content line: ")
-            counter += 1
+        while True:
+            if lines != "stop":
+                file.write(f"{counter} {lines}\n")
+                lines = input("Enter content line: ")
+                counter += 1
+            else:
+                file.write("\n")
+                break
