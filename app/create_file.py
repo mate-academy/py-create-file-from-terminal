@@ -15,8 +15,7 @@ if args.__dict__["directories"] is not None:
 
     for directory in args.__dict__["directories"]:
         temp = os.path.join(temp, directory)
-        if not os.path.exists(temp):
-            os.mkdir(temp)
+        os.makedirs(temp, exist_ok=True)
 
 
 if args.__dict__["file"] is not None:
