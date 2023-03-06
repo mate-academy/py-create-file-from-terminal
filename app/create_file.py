@@ -1,26 +1,37 @@
-from datetime import datetime
-import sys
 import os
+import sys
+from datetime import datetime
 
 
-def create_directory() -> None:
-    command = sys.argv
-    if "-d" in command:
-        for line in range(2, len(command)):
-            if command[line] == "-f":
-                break
-            current = os.path.join(os.getcwd(), command[line])
-            os.makedirs(current, exist_ok=True)
+COMMAND = sys.argv
+CHECK_D = "-d"
+CHECK_F = "-f"
 
 
-def create_file(file_name: str) -> None:
-    with open(file_name, "w") as new_file:
-        new_file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-        line_counter = 1
-        while True:
-            asker = input("Enter content line: ")
-            if asker == "stop":
+def create_from_terminal() -> None:
+    path = ""
+
+    if CHECK_D in COMMAND:
+        current_dir = sys.argv.index(CHECK_D) + 1
+        path = os.path.join(*COMMAND[current_dir:])
+        if CHECK_F in COMMAND:
+            path = path.split(CHECK_F)[0]
+        os.makedirs(path, exist_ok=True)
+
+    if CHECK_F in COMMAND:
+        current_file = COMMAND.index(CHECK_F) + 1
+        file_path = path + COMMAND[current_file]
+        with open(file_path, "a") as new_file:
+            line_counter = 1
+            new_file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+            while True:
+                asker = input("Enter content line: ")
+                if asker == "stop":
+                    break
+                new_file.write(f"{line_counter}: {asker}")
+                line_counter += 1
                 new_file.write("\n")
-                break
-            new_file.write(f"{line_counter} {asker}")
-            line_counter += 1
+
+
+if __name__ == "__main__":
+    create_from_terminal()
