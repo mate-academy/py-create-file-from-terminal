@@ -15,7 +15,7 @@ def create_file() -> None:
         else:
             file_path = "\\".join(terminal_command[2:])
         os.makedirs(file_path)
-
+        exist_ok = True
     if "-f" in terminal_command:
         if "-d" in terminal_command:
             path = os.path.join(file_path, terminal_command[
@@ -26,11 +26,13 @@ def create_file() -> None:
 
         with open(path, "w") as file_name:
             file_name.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
-            content = ""
-            while content != "stop":
+            while exist_ok:
                 count += 1
                 content = input("Enter content line:")
-                file_name.write(f"{count} {content}\n")
+                if content == "stop":
+                    exist_ok = False
+                else:
+                    file_name.write(f"{count} {content}\n")
 
 
 create_file()
