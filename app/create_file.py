@@ -7,8 +7,7 @@ path, flag, *content = sys.argv
 
 def create_dirs(*content) -> None:
     dirs_path = os.path.join(os.getcwd(), *content)
-    if not os.path.exists(dirs_path):
-        os.makedirs(dirs_path)
+    os.makedirs(dirs_path, exist_ok=True)
 
 
 def create_file(file_path: str) -> None:
@@ -18,6 +17,7 @@ def create_file(file_path: str) -> None:
         while True:
             line_content = input("Enter content line: ")
             if line_content == "stop":
+                file.write("\n")
                 break
             file.write(f"{line_number} {line_content}\n")
             line_number += 1
