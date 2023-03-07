@@ -8,14 +8,15 @@ def create_file() -> None:
     count = 0
     if "-d" in terminal_command:
         if "-f" in terminal_command:
-            file_path =\
+            file_path = (
                 "\\".join(terminal_command[
                           terminal_command.index("-d") + 1:
-                          terminal_command.index("-f")])
+                          terminal_command.index("-f")]
+                          )
+            )
         else:
             file_path = "\\".join(terminal_command[2:])
-        os.makedirs(file_path)
-        exist_ok = True
+        os.makedirs(file_path, exist_ok=True)
     if "-f" in terminal_command:
         if "-d" in terminal_command:
             path = os.path.join(file_path, terminal_command[
@@ -26,13 +27,11 @@ def create_file() -> None:
 
         with open(path, "w") as file_name:
             file_name.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
-            while exist_ok:
+            content = ""
+            while content != "stop":
                 count += 1
                 content = input("Enter content line:")
-                if content == "stop":
-                    exist_ok = False
-                else:
-                    file_name.write(f"{count} {content}\n")
+                file_name.write(f"{count} {content}\n")
 
 
 create_file()
