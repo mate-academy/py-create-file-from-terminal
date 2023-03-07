@@ -34,9 +34,5 @@ def create_directory(file_name: str = None) -> None:
         create_file()
 
 
-if "-d" in sys.argv and "-f" in sys.argv:
-    create_directory(sys.argv[-1])
-if "-d" in sys.argv and "-f" not in sys.argv:
-    create_directory()
-if "-f" in sys.argv and "-d" not in sys.argv:
+if __name__ == "__main__":
     create_file()
