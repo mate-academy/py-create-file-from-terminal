@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 
-def create_file():
+def create_file() -> None:
     terminal_command = sys.argv
     count = 0
     if "-d" in terminal_command:
@@ -26,6 +26,7 @@ def create_file():
 
         with open(path, "w") as file_name:
             file_name.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
+            content = ""
             while content != "stop":
                 count += 1
                 content = input("Enter content line:")
