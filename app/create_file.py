@@ -29,6 +29,7 @@ def create_file_in_directory() -> None:
     os.makedirs(direc_file)
     create_file(f"{direc_file}/")
 
+
 if "-f" in command and "-d" in command:
     create_file_in_directory()
 
