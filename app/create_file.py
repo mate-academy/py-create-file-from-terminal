@@ -4,37 +4,36 @@ import sys
 from datetime import datetime
 
 
-def create_file_from_command() -> None:
-    command = sys.argv
-    directory_path = ""
-    file_name = ""
+command = sys.argv
 
-    if "-d" in command and "-f" not in command:
-        directory_path = "/".join(command[1:])
+if "-d" in command and "-f" not in command:
+    directory_path = os.path.join("/".join(command[command.index("-d") + 1:]))
+    os.makedirs(directory_path, exist_ok=True)
 
-    elif "-f" in command and "-d" not in command:
-        file_name = command[1]
+if "-f" in command:
+    file_name = command[command.index("-f") + 1]
 
-    elif "-d" and "-f" in command:
+    if "-d" in command:
         index_of_f, index_of_d = command.index("-f"), command.index("-d")
-        directory_path = "/".join(command[index_of_d:index_of_f])
         file_name = command[index_of_f + 1]
+        directory_path = os.path.join(
+            "/".join(command[index_of_d + 1:index_of_f])
+        )
+        file_path = os.path.join(directory_path, file_name)
 
-    full_dir_path = os.path.join(directory_path, file_name)
-    os.makedirs(full_dir_path)
+    else:
+        file_path = os.path.join(os.getcwd(), file_name)
 
-    with open("file_name", "a") as file:
-        current_date = datetime.now().strftime("%Y-%m-%d, %H:%M:%S")
-        file.write(current_date)
-        line_count = 0
+    with open(file_path, "a") as file:
+        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
+        line_number = 0
 
         while True:
-            line_count += 1
-            line_text = input("Enter content line: ")
-            if line_text == "stop":
+            line_content = input("Enter content line: ")
+            line_number += 1
+
+            if line_content == "stop":
+                file.write("\n")
                 break
-            file.write(f"{line_count} {line_text}\n")
 
-
-if __name__ == "__main__":
-    create_file_from_command()
+            file.write(f"{line_number} {line_content}\n")
