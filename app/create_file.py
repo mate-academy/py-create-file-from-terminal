@@ -20,16 +20,14 @@ def create_file() -> None:
     commands = sys.argv
 
     if "-d" in commands and "-f" in commands:
-        dirs_path = "/".join(
-            command for command in commands[2:-1] if command != "-f"
-        )
+        dirs_path = os.path.join(*commands[2:-2])
         os.makedirs(dirs_path, exist_ok=True)
 
-        path_to_file = dirs_path + "/" + commands[-1]
+        path_to_file = os.path.join(dirs_path, commands[-1])
         create_content(path_to_file)
 
     elif "-d" in commands and "-f" not in commands:
-        dirs_path = "/".join(commands[2:])
+        dirs_path = os.path.join(*commands[2:])
         os.makedirs(dirs_path, exist_ok=True)
 
     elif "-f" in commands and "-d" not in commands:
