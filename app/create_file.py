@@ -13,7 +13,8 @@ for i in range(len(command)):
     if command[i] == "-f":
         is_file = True
         file_name = command[i + 1]
-        break
+        if is_directory:
+            break
     if is_directory:
         path.append(command[i])
     if command[i] == "-d":
@@ -23,12 +24,10 @@ directory_way = ""
 
 if is_directory:
     directory_way = os.path.join(path[0])
-
     if len(path) > 1:
         directory_way = path[0]
         for index in range(len(path) - 1):
             directory_way = os.path.join(directory_way, path[index + 1])
-
     if not os.path.exists(directory_way):
         os.makedirs(directory_way)
 
@@ -36,11 +35,9 @@ if is_file:
     file_path = file_name
     if is_directory:
         file_path = os.path.join(directory_way, file_name)
-
     with open(file_path, "a") as f:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         f.write(timestamp + "\n")
-
         count = 1
         while True:
             line = input("Enter content line: ")
