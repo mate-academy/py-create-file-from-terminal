@@ -6,8 +6,8 @@ from datetime import datetime
 
 def create_directories(directories: list) -> str:
     path_to_file = os.path.join(*directories)
-    if not os.path.exists(path_to_file):
-        os.makedirs(path_to_file)
+
+    os.makedirs(path_to_file, exist_ok=True)
 
     return path_to_file
 
