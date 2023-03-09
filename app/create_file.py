@@ -13,7 +13,7 @@ def create_directories(directories: list) -> str:
 
 
 def create_file(path: str, filename: str, lines: str) -> None:
-    path = os.path.join(path + "/" + filename)
+    path = os.path.join(path, filename)
     with open(path, "a") as file:
         file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         file.write(f"{lines}\n")
