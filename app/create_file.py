@@ -11,7 +11,7 @@ def create_content(path_to_file: str) -> None:
         content = input("Enter content line: ")
         line_number = 1
         while content != "stop":
-            f.write(str(line_number) + " " + content + "\n")
+            f.write(f"{line_number} {content}\n")
             content = input("Enter content line: ")
             line_number += 1
 
@@ -20,7 +20,8 @@ def create_file() -> None:
     commands = sys.argv
 
     if "-d" in commands and "-f" in commands:
-        dirs_path = os.path.join(*commands[2:-2])
+        dirs_path = os.path.join(
+            *commands[commands.index("-d") + 1: commands.index("-f")])
         os.makedirs(dirs_path, exist_ok=True)
 
         path_to_file = os.path.join(dirs_path, commands[-1])
