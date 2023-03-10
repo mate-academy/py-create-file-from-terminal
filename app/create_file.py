@@ -5,8 +5,7 @@ from datetime import datetime
 
 def create_dirs(dirs: list) -> str:
     path = os.path.join(*dirs)
-    if not os.path.exists(path):
-        os.makedirs(path)
+    os.makedirs(path, exist_ok=True)
     return path
 
 
@@ -33,8 +32,13 @@ def full_creation() -> None:
         create_dirs(dirs)
     if "-d" in terminal_command and "-f" in terminal_command:
         file_name = terminal_command[terminal_command.index("-f") + 1]
-        dirs = terminal_command[
-            (terminal_command.index("-d") + 1):terminal_command.index("-f")]
+        if terminal_command.index("-d") > terminal_command.index("-f"):
+            dirs = terminal_command[
+                (terminal_command.index("-d") + 1):]
+        else:
+            dirs = terminal_command[
+                (terminal_command.index("-d") + 1):terminal_command.index("-f")
+            ]
         create_file(create_dirs(dirs), file_name)
 
 
