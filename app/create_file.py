@@ -12,21 +12,21 @@ def create_directory(dir_path: str) -> None:
         sys.exit(1)
 
 
-def file_content(file_path):
-    with open(file_path, 'a') as file:
+def file_content(file_path: str) -> None:
+    with open(file_path, "a") as file:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         file.write(f"{timestamp}\n")
         count = 1
         while True:
             line = input("Enter content line: ")
             if line == "stop":
-                file.write(f"\n")
+                file.write("\n")
                 break
             file.write(f"{count} {line}\n")
             count += 1
 
 
-def create_file(file_path):
+def create_file(file_path: str) -> None:
     if os.path.exists(file_path):
         print("File already exists, you can add something")
         file_content(file_path)
