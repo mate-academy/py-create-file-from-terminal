@@ -12,32 +12,28 @@ def create_directory(dir_path: str) -> None:
         sys.exit(1)
 
 
-def create_file(file_path: str) -> None:
-    if os.path.exists(file_path):
-        print("File already exist, you can add somthing")
+def file_content(file_path):
+    with open(file_path, 'a') as file:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(f"{timestamp}\n")
+        count = 1
+        while True:
+            line = input("Enter content line: ")
+            if line == "stop":
+                file.write(f"\n")
+                break
+            file.write(f"{count} {line}\n")
+            count += 1
 
-        with open(file_path, "a") as file:
-            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            file.write(f"\n{timestamp}\n")
-            count_old_file = 1
-            while True:
-                line = input("Enter content line: ")
-                if line == "stop":
-                    break
-                file.write(f"{count_old_file} {line}\n")
-                count_old_file += 1
+
+def create_file(file_path):
+    if os.path.exists(file_path):
+        print("File already exists, you can add something")
+        file_content(file_path)
+
     else:
         try:
-            with open(file_path, "a") as file:
-                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                file.write(f"{timestamp}\n")
-                count = 1
-                while True:
-                    line = input("Enter content line: ")
-                    if line == "stop":
-                        break
-                    file.write(f"{count} {line}\n")
-                    count += 1
+            file_content(file_path)
         except Exception as e:
             print(f"Error creating file: {str(e)}")
             sys.exit(1)
