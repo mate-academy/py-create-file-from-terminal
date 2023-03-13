@@ -1,32 +1,36 @@
-import sys
 from datetime import datetime
 import os
+import sys
 
 
-def create_file_from_terminal() -> str:
+def create_file_from_terminal() -> None:
     command = sys.argv
-    if "-d" not in command[1]:
-        path = os.path.join(str(os.getcwd()), command[3])
-        os.makedirs(path, exist_ok=True)
+    path = None
+    if "-f" == command[1]:
+        path = os.path.join(str(os.getcwd()), command[-1])
     else:
-        path = os.path.join(command[4], command[5])
-        os.makedirs(path, exist_ok=True)
-    add_content(path)
+        dir_path = (
+            os.path.join(*command[2:-2])
+            if "-f" == command[-2]
+            else os.path.join(*command[2:]))
+        os.makedirs(dir_path, exist_ok=True)
+        if "-f" == command[-2]:
+            path = os.path.join(str(os.getcwd()), dir_path, command[-1])
+    if path is not None:
+        add_content(path)
 
 
 def add_content(path: str) -> None:
-    create_file_from_terminal()
-    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    line_number = 0
     with open(f"{path}", "w") as file:
-        file.write(timestamp + '\n')
-    while True:
-        line_number = 1
-        input_content = f"{str(line_number)} {input('Enter content line: ')}"
-        with open(f"{path}", "w") as file:
-            file.write(f"{input_content} '\n'")
-        line_number += 1
-        if "stop" in input_content:
-            break
+        file.write(timestamp + "\n")
+        while True:
+            line_number += 1
+            line_content = input("Enter content line: ")
+            if line_content == "stop":
+                break
+            file.write(f"line{str(line_number)} {line_content} \n")
 
 
 if __name__ == "__main__":
