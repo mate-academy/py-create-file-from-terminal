@@ -1,6 +1,6 @@
+import datetime
 import os
 import sys
-import datetime
 
 
 def create_directories(directories: list) -> str:
@@ -27,10 +27,15 @@ def create_file(source_file: str) -> None:
         file.write("\n")
 
 
-sys.argv.remove(sys.argv[0])
-if "-f" in sys.argv and "-d" in sys.argv:
-    create_file(create_directories(sys.argv))
-if "-f" in sys.argv:
-    create_file(sys.argv[-1])
-if "-d" in sys.argv:
-    create_directories(sys.argv)
+def create_file_from_terminal() -> None:
+    sys.argv.remove(sys.argv[0])
+    if "-f" in sys.argv and "-d" in sys.argv:
+        create_file(create_directories(sys.argv))
+    if "-f" in sys.argv:
+        create_file(sys.argv[-1])
+    if "-d" in sys.argv:
+        create_directories(sys.argv)
+
+
+if __name__ == "__main__":
+    create_file_from_terminal()
