@@ -3,7 +3,7 @@ from datetime import datetime
 from sys import argv
 
 
-def create_path(data):
+def create_path(data: list) -> str:
     path = ""
     for directory in data:
         path = os.path.join(path, directory)
@@ -12,7 +12,7 @@ def create_path(data):
     return path
 
 
-def open_file(file_name):
+def open_file(file_name: str) -> None:
     with open(file_name, "a") as file_w:
         numeration = 1
         date = datetime.now()
