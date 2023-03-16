@@ -6,13 +6,13 @@ import sys
 def create_file_from_terminal() -> None:
     command = sys.argv
     path = None
-    if "-f" == command[1]:
+    if "-f" == command[1] and "-d" not in command:
         path = os.path.join(str(os.getcwd()), command[-1])
-    else:
+    if "-d" in command:
         dir_path = (
             os.path.join(*command[2:-2])
-            if "-f" == command[-2]
-            else os.path.join(*command[2:]))
+            if "-f" == command[-2] else os.path.join(*command[2:])
+        )
         os.makedirs(dir_path, exist_ok=True)
         if "-f" == command[-2]:
             path = os.path.join(str(os.getcwd()), dir_path, command[-1])
