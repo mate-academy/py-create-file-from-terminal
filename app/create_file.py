@@ -31,9 +31,7 @@ def create_file(file_name: str) -> None:
 
 
 def create_directory(directories: list) -> None:
-    for directory in directories:
-        os.mkdir(directory)
-        os.chdir(directory)
+    os.makedirs(*directories, exist_ok=True)
 
 
 create_file_from_terminal()
