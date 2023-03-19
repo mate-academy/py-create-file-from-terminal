@@ -1,11 +1,12 @@
 import os
 import sys
 from datetime import datetime
+from typing import Optional
 
 
-def create_path(dir_flag: (int, None),
-                file_flag: (int, None),
-                args: list) -> str:
+def create_path(dir_flag: Optional[int],
+                file_flag: Optional[int],
+                args: Optional[list[str]]) -> str:
     if file_flag and file_flag > dir_flag:
         dirs = args[dir_flag + 1:file_flag]
     else:
@@ -29,12 +30,17 @@ def file_content(file_path: str) -> None:
             count += 1
 
 
-args = sys.argv
-dir_flag = args.index("-d") if "-d" in args else None
-file_flag = args.index("-f") if "-f" in args else None
-path = ""
-if dir_flag:
-    path = create_path(dir_flag, file_flag, args)
-if file_flag:
-    file_path = os.path.join(path, args[file_flag + 1])
-    file_content(file_path)
+def main() -> None:
+    args = sys.argv
+    dir_flag = args.index("-d") if "-d" in args else None
+    file_flag = args.index("-f") if "-f" in args else None
+    path = ""
+    if dir_flag:
+        path = create_path(dir_flag, file_flag, args)
+    if file_flag:
+        file_path = os.path.join(path, args[file_flag + 1])
+        file_content(file_path)
+
+
+if __name__ == "__main__":
+    main()
