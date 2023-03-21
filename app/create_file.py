@@ -1,25 +1,33 @@
-import os
 import sys
+import os
 from datetime import datetime
 
+args = sys.argv[1:]
+dir_path = ""
+file_name = ""
+file_content = ""
 
-def create_file(file_path: str) -> None:
-    with open(file_path, "a") as f:
-        if f.tell() == 0:
-            f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
-        for i, line in enumerate(iter(input, "stop"), 1):
-            f.write(f"{i} {line}\n")
+if "dir" in args:
+    idx = args.index("dir")
+    dir_path = os.path.join(*args[idx + 1:])
+    os.makedirs(dir_path, exist_ok=True)
 
-    if "-d" in sys.argv:
-        dir_path = os.path.join(*sys.argv[sys.argv.index("-d") + 1:])
-        os.makedirs(dir_path, exist_ok=True)
-    else:
-        dir_path = "."
+if "file" in args:
+    idx = args.index("file")
+    file_name = args[idx + 1]
+    file_path = os.path.join(dir_path, file_name) if dir_path else file_name
 
-    if "-f" in sys.argv:
-        file_name = sys.argv[sys.argv.index("-f") + 1]
-        file_path = os.path.join(dir_path, file_name)
-        create_file(file_path)
-    else:
-        print("Error: -f flag is missing")
-        sys.exit(1)
+    lines = []
+    while True:
+        line = input("Enter content line: ")
+        if line == "stop":
+            break
+        lines.append(line)
+
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    lines = [f"{i} {line}" for i, line in enumerate(lines, start=1)]
+    content = f"{timestamp}\n" + "\n".join(lines) + "\n"
+
+    mode = "a" if os.path.isfile(file_path) else "w"
+    with open(file_path, mode) as f:
+        f.write(content)
