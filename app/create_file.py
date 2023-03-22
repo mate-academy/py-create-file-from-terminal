@@ -24,6 +24,9 @@ def create_file(*args) -> None:
 
 def full_creation() -> None:
     input_lst = sys.argv
+    if "-f" not in input_lst:
+        paths = input_lst[(input_lst.index("-d") + 1):]
+        create_dirs(paths)
     if "-d" in input_lst and "-f" in input_lst:
         file_name = input_lst[input_lst.index("-f") + 1]
         paths = input_lst[(input_lst.index("-d") + 1):input_lst.index("-f")]
@@ -31,6 +34,4 @@ def full_creation() -> None:
     if "-d" not in input_lst:
         file_name = input_lst[input_lst.index("-f") + 1]
         create_file(file_name)
-    if "-f" not in input_lst:
-        paths = input_lst[(input_lst.index("-d") + 1):]
-        create_dirs(paths)
+
