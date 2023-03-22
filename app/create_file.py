@@ -34,4 +34,3 @@ def full_creation() -> None:
     if "-d" not in input_lst:
         file_name = input_lst[input_lst.index("-f") + 1]
         create_file(file_name)
-
