@@ -41,9 +41,17 @@ def main() -> None:
         create_dirs(paths)
 
     if "-f" in command and "-d" in command:
-        filename = command[get_flag_index(command, "-f") + 1]
-        paths = command[get_flag_index(command, "-d") + 1
-                        :get_flag_index(command, "-f")]
+        flag_f_index = get_flag_index(command, "-f")
+        flag_d_index = get_flag_index(command, "-d")
+
+        if flag_d_index > flag_f_index:
+            paths = command[flag_d_index + 1:]
+        else:
+            paths = command[flag_d_index + 1
+                            :flag_f_index]
+
+        filename = command[flag_f_index + 1]
+
         write_to_file(create_dirs(paths), filename)
 
 
