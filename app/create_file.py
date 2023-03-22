@@ -3,7 +3,7 @@ import sys
 import datetime
 
 
-def enter_content(opening_mode) -> str:
+def enter_content(opening_mode: str) -> str:
     file_content = ""
     line_content = ""
     count = 1
@@ -20,7 +20,7 @@ def enter_content(opening_mode) -> str:
 
 def create_directory(folders: list) -> str:
     path = os.path.join("app")
-    for folder in folders[folders.index("-d")+1:]:
+    for folder in folders[folders.index("-d") + 1:]:
         if folder == "-f":
             break
         path += os.path.join("/", folder)
@@ -33,7 +33,9 @@ def create_file(file_name: list) -> None:
     if "-d" not in file_name:
         path = os.path.join("app/", file_name[-1])
     else:
-        path = os.path.join(create_directory(file_name), file_name[file_name.index("-f")+1])
+        path = os.path.join(
+            create_directory(file_name), file_name[file_name.index("-f") + 1]
+        )
     if not os.path.exists(path):
         opening_mode = "w"
     else:
@@ -50,3 +52,4 @@ def main(directory: list) -> create_directory:
         create_file(directory)
 
 
+main(sys.argv[1:])
