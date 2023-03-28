@@ -9,7 +9,7 @@ def create_path(directories: list) -> str:
     return path
 
 
-def create_file(file_name: str):
+def create_file(file_name: str) -> None:
     line_number = 1
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open(file_name, "a") as file:
