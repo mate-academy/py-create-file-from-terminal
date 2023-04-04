@@ -15,7 +15,6 @@ def create_file() -> None:
 
     if "-d" in text_from_terminal:
         dirs_name = os.path.join(*text_from_terminal[2:])
-        # "/".join(text_from_terminal[2:])
 
     if dirs_name:
         if not os.path.isdir(os.path.join(os.getcwd(), dirs_name)):
