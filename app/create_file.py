@@ -27,19 +27,21 @@ def create_or_update_file(file_name: str) -> None:
 
 
 def main() -> None:
-    file_name = None
-
     text_from_terminal = sys.argv
 
-    if "-f" in text_from_terminal:
-        file_name = text_from_terminal[-1]
-        text_from_terminal = text_from_terminal[:-2]
-
     if "-d" in text_from_terminal:
-        dirs_name = os.path.join(*text_from_terminal[2:])
+        d_index = text_from_terminal.index("-d")
+        dirs_name = text_from_terminal[d_index + 1:]
+
+        if "-f" in dirs_name:
+            dirs_name = dirs_name[:dirs_name.index("-f")]
+        dirs_name = os.path.join(*dirs_name)
+
         create_directory(dirs_name=dirs_name)
 
-    if file_name:
+    if "-f" in text_from_terminal:
+        f_index = text_from_terminal.index("-f")
+        file_name = text_from_terminal[f_index + 1]
         create_or_update_file(file_name=file_name)
 
 
