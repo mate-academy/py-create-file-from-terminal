@@ -5,16 +5,19 @@ import sys
 
 def write_on_file(path: str) -> None:
     with open(path, "a") as file:
-        line = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        while line != "stop":
-            file.write(line + "\n")
+        line_count = 1
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(f"\n{timestamp}\n")
+        while True:
             line = input("Enter content line: ")
-        file.write("\n")
+            if line == "stop":
+                break
+            file.write(f"{line_count} {line}\n")
+            line_count += 1
 
 
 def create_dir(path: str) -> None:
-    if not os.path.exists(path):
-        os.makedirs(path)
+    os.makedirs(path, exist_ok=True)
 
 
 def main() -> None:
@@ -26,7 +29,7 @@ def main() -> None:
             file_path = [arg for arg in args[1:-2]]
             file_path.append(args[-1])
 
-        if args[0] == "-f":
+        elif args[0] == "-f":
             file_path = [arg for arg in args[3:]]
             file_path.append(args[1])
 
