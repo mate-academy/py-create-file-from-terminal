@@ -20,15 +20,12 @@ def create_file() -> None:
     parser.add_argument("-f", type=str)
     parser.add_argument("-d", type=str, nargs="*")
     args = parser.parse_args()
-
-    if args.d is None:
-        add_content(args.f)
+    way = os.getcwd()
 
     if args.d is not None:
         way = os.path.join(*args.d)
         os.makedirs(way, exist_ok=True)
 
-        if args.f is not None:
-            os.makedirs(way, exist_ok=True)
-            way = os.path.join(*args.d, args.f)
-            add_content(way)
+    if args.f is not None:
+        new_way = os.path.join(way, args.f)
+        add_content(new_way)
