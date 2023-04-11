@@ -1,5 +1,5 @@
-import sys
 import os
+import argparse
 from datetime import datetime
 
 
@@ -16,18 +16,19 @@ def add_content(way: str) -> None:
 
 
 def create_file() -> None:
-    command = sys.argv
-    if "-d" not in command:
-        way = command[-1]
-        add_content(way)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-f", type=str)
+    parser.add_argument("-d", type=str, nargs="*")
+    args = parser.parse_args()
 
-    if "-d" in command:
-        if len(command) == 4:
-            add_dir = os.path.join(command[-2], command[-1])
-            os.makedirs(add_dir, exist_ok=True)
+    if args.d is None:
+        add_content(args.f)
 
-        if len(command) == 6:
-            add_dir = os.path.join(command[-4], command[-3])
-            os.makedirs(add_dir, exist_ok=True)
-            way = os.path.join(command[-4], command[-3], command[-1])
+    if args.d is not None:
+        way = os.path.join(*args.d)
+        os.makedirs(way, exist_ok=True)
+
+        if args.f is not None:
+            os.makedirs(way, exist_ok=True)
+            way = os.path.join(*args.d, args.f)
             add_content(way)
