@@ -4,7 +4,7 @@ import os
 import sys
 
 
-def file_creates(*args: Any) -> None:
+def create_file(*args: Any) -> None:
 
     with open(os.path.join(*args), "a") as f:
         f.write(f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
@@ -18,25 +18,25 @@ def file_creates(*args: Any) -> None:
             count += 1
 
 
-def folder_create(path: list) -> str:
+def create_folder(path: list) -> str:
     os.makedirs(os.path.join(*path))
     return os.path.join(*path)
 
 
-def creates() -> None:
+def main() -> None:
     if "-d" in sys.argv and "-f" in sys.argv:
-        path = folder_create(
+        path = create_folder(
             sys.argv[sys.argv.index("-d") + 1:sys.argv.index("-f")]
         )
-        file_name = "".join(sys.argv[sys.argv.index("-f") + 1:])
-        file_creates(path, file_name)
+        file_name = "".join(sys.argv[sys.argv.index("-f") + 1])
+        create_file(path, file_name)
     elif "-d" in sys.argv:
         path = sys.argv[sys.argv.index("-d") + 1:]
-        folder_create(path)
+        create_folder(path)
     elif "-f" in sys.argv:
         file_name = sys.argv[sys.argv.index("-f") + 1:]
-        file_creates("".join(file_name))
+        create_file("".join(file_name))
 
 
 if __name__ == "__main__":
-    creates()
+    main()
