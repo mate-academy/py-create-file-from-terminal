@@ -25,9 +25,14 @@ def create_folder(path: list) -> str:
 
 def main() -> None:
     if "-d" in sys.argv and "-f" in sys.argv:
-        path = create_folder(
-            sys.argv[sys.argv.index("-d") + 1:sys.argv.index("-f")]
-        )
+        if sys.argv.index("-d") < sys.argv.index("-f"):
+            path = create_folder(
+                sys.argv[sys.argv.index("-d") + 1:sys.argv.index("-f")]
+            )
+        else:
+            path = create_folder(
+                sys.argv[sys.argv.index("-d") + 1:]
+            )
         file_name = "".join(sys.argv[sys.argv.index("-f") + 1])
         create_file(path, file_name)
     elif "-d" in sys.argv:
