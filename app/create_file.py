@@ -31,13 +31,10 @@ if __name__ == "__main__":
         d_index = command.index("-d")
         f_index = command.index("-f")
         if d_index < f_index:
-            start_index = d_index
-            finish_index = f_index
-            create_dirs(command[start_index + 1:finish_index])
+            create_dirs(command[d_index + 1:f_index])
             create_file(command[-1])
         else:
-            start_index = d_index
-            create_dirs(command[start_index + 1:])
+            create_dirs(command[d_index + 1:])
             create_file(command[f_index + 1])
     elif "-d" in command:
         start_index = command.index("-d")
