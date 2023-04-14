@@ -5,21 +5,17 @@ from datetime import datetime
 
 
 def create_file(name_file: str) -> None:
-    if os.path.exists(name_file):
-        flag = "a"
-    else:
-        flag = "w"
+    flag = "a" if os.path.exists(name_file) else "w"
     with open(name_file, flag) as file:
-        if flag == "w":
-            file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-        else:
-            file.write("\n" + datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        first_line = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        if flag != "w":
+            first_line = "\n" + first_line
+        file.write(first_line)
         line = ""
         while line != "stop":
             line = input("Enter content line: ")
             if line != "stop":
                 file.write("\n" + line)
-                line = ""
         file.write("\n")
 
 
@@ -31,13 +27,18 @@ def create_dirs(path_dir: list) -> None:
 
 if __name__ == "__main__":
     command = sys.argv
-    if "-d" in command:
-        start_index = command.index("-d")
-        if "-f" not in command:
-            create_dirs(command[start_index + 1:])
-        else:
+    if "-d" and "-f" in command:
+        if command.index("-d") < command.index("-f"):
+            start_index = command.index("-d")
             finish_index = command.index("-f")
             create_dirs(command[start_index + 1:finish_index])
             create_file(command[-1])
+        else:
+            start_index = command.index("-d")
+            create_dirs(command[start_index + 1:])
+            create_file(command[command.index("-f") + 1])
+    elif "-d" in command:
+        start_index = command.index("-d")
+        create_dirs(command[start_index + 1:])
     elif "-f" in command:
-        create_file(command[2])
+        create_file(command[-1])
