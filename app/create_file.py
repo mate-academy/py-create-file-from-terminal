@@ -19,11 +19,14 @@ def create_path(file_path: str, file_name: str) -> None:
 
 
 def create_file() -> None:
-    if "-d" in argv and "-f" in argv:
-        create_path(path.sep.join(
-            argv[argv.index("-d") + 1:argv.index("-f")]), argv[-1]
-        )
+    if "-f" in argv:
+        file_index = argv.index("-f")
+        file_name = argv[file_index + 1]
+        if "-d" in argv:
+            dir_index = argv.index("-d")
+            dir_path = path.sep.join(argv[dir_index + 1:file_index])
+            create_path(dir_path, file_name)
+        else:
+            create_path(path.curdir, file_name)
     elif "-d" in argv:
         create_dirs(path.sep.join(argv[argv.index("-d") + 1:]))
-    elif "-f" in argv:
-        create_path(path.curdir, argv[-1])
