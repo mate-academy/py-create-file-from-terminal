@@ -10,7 +10,7 @@ def create_file(*args: Any) -> None:
         f.write(f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         count = 1
         content = None
-        while content != "stop":
+        while True:
             content = input("Enter content line: ")
             if content == "stop":
                 break
@@ -24,22 +24,24 @@ def create_folder(path: list) -> str:
 
 
 def main() -> None:
+    start_file = sys.argv.index("-f")
+    start_folder = sys.argv.index("-d")
     if "-d" in sys.argv and "-f" in sys.argv:
-        if sys.argv.index("-d") < sys.argv.index("-f"):
+        if start_folder < start_file:
             path = create_folder(
-                sys.argv[sys.argv.index("-d") + 1:sys.argv.index("-f")]
+                sys.argv[start_folder + 1:start_file]
             )
         else:
             path = create_folder(
-                sys.argv[sys.argv.index("-d") + 1:]
+                sys.argv[start_folder + 1:]
             )
-        file_name = "".join(sys.argv[sys.argv.index("-f") + 1])
+        file_name = "".join(sys.argv[start_file + 1])
         create_file(path, file_name)
     elif "-d" in sys.argv:
-        path = sys.argv[sys.argv.index("-d") + 1:]
+        path = sys.argv[start_folder + 1:]
         create_folder(path)
     elif "-f" in sys.argv:
-        file_name = sys.argv[sys.argv.index("-f") + 1:]
+        file_name = sys.argv[start_file + 1:]
         create_file("".join(file_name))
 
 
