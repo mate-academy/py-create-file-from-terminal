@@ -12,12 +12,12 @@ def create_file(name_file: str) -> None:
             first_line = "\n" + first_line
         file.write(first_line)
         line = ""
-        i = 1
+        line_number = 1
         while line != "stop":
             line = input("Enter content line: ")
             if line != "stop":
-                file.write("\n" + str(i) + " " + line)
-                i += 1
+                file.write("\n" + str(line_number) + " " + line)
+                line_number += 1
         file.write("\n")
 
 
