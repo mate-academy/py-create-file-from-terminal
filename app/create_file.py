@@ -12,10 +12,12 @@ def create_file(name_file: str) -> None:
             first_line = "\n" + first_line
         file.write(first_line)
         line = ""
+        i = 1
         while line != "stop":
             line = input("Enter content line: ")
             if line != "stop":
-                file.write("\n" + line)
+                file.write("\n" + str(i) + " " + line)
+                i += 1
         file.write("\n")
 
 
@@ -27,7 +29,7 @@ def create_dirs(path_dir: list) -> None:
 
 if __name__ == "__main__":
     command = sys.argv
-    if "-d" and "-f" in command:
+    if "-d" in command and "-f" in command:
         d_index = command.index("-d")
         f_index = command.index("-f")
         if d_index < f_index:
