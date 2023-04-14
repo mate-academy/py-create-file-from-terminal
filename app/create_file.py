@@ -28,15 +28,17 @@ def create_dirs(path_dir: list) -> None:
 if __name__ == "__main__":
     command = sys.argv
     if "-d" and "-f" in command:
-        if command.index("-d") < command.index("-f"):
-            start_index = command.index("-d")
-            finish_index = command.index("-f")
+        d_index = command.index("-d")
+        f_index = command.index("-f")
+        if d_index < f_index:
+            start_index = d_index
+            finish_index = f_index
             create_dirs(command[start_index + 1:finish_index])
             create_file(command[-1])
         else:
-            start_index = command.index("-d")
+            start_index = d_index
             create_dirs(command[start_index + 1:])
-            create_file(command[command.index("-f") + 1])
+            create_file(command[f_index + 1])
     elif "-d" in command:
         start_index = command.index("-d")
         create_dirs(command[start_index + 1:])
