@@ -7,7 +7,8 @@ import sys
 def create_file(*args: Any) -> None:
 
     with open(os.path.join(*args), "a") as file_in:
-        file_in.write(f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        file_in.write(
+            f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         count = 1
         while True:
             content = input("Enter content line: ")
