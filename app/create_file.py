@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import List
 
 
-def create_directory(dir_name: str) -> None:
+def create_directory(dir_name: List[str]) -> None:
     if dir_name:
         path = os.path.join(*dir_name)
         os.makedirs(path, exist_ok=True)
@@ -25,17 +25,19 @@ def write_content_to_file(file_name: str, content: List[str]) -> None:
 def main() -> None:
     command = input()
 
+    file_name = None
     if "-f" in command:
         file_index = command.index("-f")
         file_name = command[file_index + 1]
-    else:
-        file_name = None
 
+    dir_name = None
     if "-d" in command:
         dir_index = command.index("-d")
-        dir_name = command[dir_index + 1:]
-    else:
-        dir_name = None
+        dir_name = command[dir_index + 1]
+
+    if file_name and dir_name and command.index(file_name) > \
+            command.index(dir_name):
+        file_name, dir_name = dir_name, file_name
 
     content = []
     while True:
