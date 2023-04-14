@@ -29,7 +29,7 @@ def create_dirs(path_dir: list) -> None:
     os.chdir(path)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     command = sys.argv
     if "-d" in command:
         start_index = command.index("-d")
