@@ -23,8 +23,8 @@ def create_file() -> None:
         file_index = argv.index("-f")
         file_name = argv[file_index + 1]
         dir_index = None
-        for i, x in enumerate(argv):
-            if x == "-d" and i < file_index:
+        for i, arg in enumerate(argv):
+            if arg == "-d" and i < file_index:
                 dir_index = i
 
         if dir_index is not None:
