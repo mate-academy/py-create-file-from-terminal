@@ -13,6 +13,7 @@ def create_file(*args: Any) -> None:
         while True:
             content = input("Enter content line: ")
             if content == "stop":
+                file_in.write("\n")
                 break
             file_in.write(f"{count} {content}\n")
             count += 1
@@ -24,9 +25,9 @@ def create_folder(path: list) -> str:
 
 
 def main() -> None:
-    start_file = sys.argv.index("-f")
-    start_folder = sys.argv.index("-d")
     if "-d" in sys.argv and "-f" in sys.argv:
+        start_file = sys.argv.index("-f")
+        start_folder = sys.argv.index("-d")
         if start_folder < start_file:
             path = create_folder(
                 sys.argv[start_folder + 1:start_file]
@@ -38,10 +39,10 @@ def main() -> None:
         file_name = sys.argv[start_file + 1]
         create_file(path, file_name)
     elif "-d" in sys.argv:
-        path = sys.argv[start_folder + 1:]
+        path = sys.argv[sys.argv.index("-d") + 1:]
         create_folder(path)
     elif "-f" in sys.argv:
-        file_name = sys.argv[start_file + 1:]
+        file_name = sys.argv[sys.argv.index("-f") + 1:]
         create_file(file_name)
 
 
