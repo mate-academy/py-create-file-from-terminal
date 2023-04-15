@@ -1,54 +1,48 @@
 import os
-from datetime import datetime
-from typing import List
-
-
-def create_directory(dir_name: List[str]) -> None:
-    if dir_name:
-        path = os.path.join(*dir_name)
-        os.makedirs(path, exist_ok=True)
-        os.chdir(path)
-
-
-def write_content_to_file(file_name: str, content: List[str]) -> None:
-    with open(file_name, "a") as file:
-        file.write(f"{datetime.now():%Y-%m-%d %H:%M:%S\n}")
-        index = 1
-        for line in content:
-            if line != "\n":
-                file.write(f"{index} {line}\n")
-                index += 1
-            else:
-                file.write("\n")
+import sys
+import datetime
 
 
 def main() -> None:
-    command = input()
+    dir_names = []
+    file_name = ""
+    content = ""
 
-    file_name = None
-    if "-f" in command:
-        file_index = command.index("-f")
-        file_name = command[file_index + 1]
+    i = 1
+    while i < len(sys.argv):
+        if sys.argv[i] == "-d":
+            if i < len(sys.argv) - 1:
+                while i + 1 < len(sys.argv) \
+                        and not sys.argv[i + 1].startswith("-"):
+                    dir_names.extend(sys.argv[i + 1].split(","))
+                    i += 1
+        elif sys.argv[i] == "-f":
+            if i < len(sys.argv) - 1:
+                file_name = sys.argv[i + 1]
+            i += 1
+        i += 1
 
-    dir_name = None
-    if "-d" in command:
-        dir_index = command.index("-d")
-        dir_name = command[dir_index + 1]
+    nested_dir = ""
+    for dir_name in dir_names:
+        nested_dir = os.path.join(nested_dir, dir_name)
+        os.makedirs(nested_dir, exist_ok=True)
 
-    if file_name and dir_name and command.index(file_name) > \
-            command.index(dir_name):
-        file_name, dir_name = dir_name, file_name
-
-    content = []
-    while True:
-        content_line = input("Enter content line: ")
-        if content_line == "stop":
-            content.append("\n")
-            break
-        content.append(content_line)
-
-    create_directory(dir_name)
-    write_content_to_file(file_name, content)
+    if file_name and not file_name.startswith("-") and dir_names:
+        file_path = os.path.join(nested_dir, file_name)
+        with open(file_path, "w") as f:
+            # Adding date and time to the file
+            now = datetime.datetime.now()
+            f.write(f"Creation time: {now.strftime('%Y-%m-%d %H:%M:%S')}\n")
+            # Inputting file content
+            print(f"Enter content for {file_path} "
+                  f"(press Enter on an empty line to finish):")
+            while True:
+                line = input()
+                if line == "stop":
+                    break
+                content += line + "\n"
+            f.write(content)
+            f.write("\n")
 
 
 if __name__ == "__main__":
