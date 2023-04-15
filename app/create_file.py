@@ -42,13 +42,13 @@ def create_file(file_path: str) -> None:
             if line == "stop":
                 break
             content += line + "\n"
-        with open(file_path, "a") as f:
-            f.write(content)
+        with open(file_path, "a") as file_object:
+            file_object.write(content)
     else:
-        with open(file_path, "w") as f:
-            # Adding date and time to the file
+        with open(file_path, "w") as file_object:
             now = datetime.datetime.now()
-            f.write(f"Creation time: {now.strftime('%Y-%m-%d %H:%M:%S')}\n")
+            file_object.write(f"Creation time: "
+                              f"{now.strftime('%Y-%m-%d %H:%M:%S')}\n")
             print(f"Enter content for {file_path} "
                   f"(press Enter on an empty line to finish):")
             content = ""
@@ -57,8 +57,7 @@ def create_file(file_path: str) -> None:
                 if line == "stop":
                     break
                 content += line + "\n"
-            f.write(content)
-            f.write("\n")
+            file_object.write(content + "\n")
 
 
 def main() -> None:
