@@ -4,7 +4,7 @@ import datetime
 from typing import List
 
 
-def get_directory_names() -> list:
+def get_directory_names() -> List[str]:
     dir_names = []
     if "-d" in sys.argv:
         d_index = sys.argv.index("-d")
@@ -38,7 +38,7 @@ def create_file(file_path: str) -> None:
               f"(press Enter on an empty line to finish):")
         content = ""
         while True:
-            line = input()
+            line = input("Enter content line:")
             if line == "stop":
                 break
             content += line + "\n"
@@ -53,7 +53,7 @@ def create_file(file_path: str) -> None:
                   f"(press Enter on an empty line to finish):")
             content = ""
             while True:
-                line = input()
+                line = input("Enter content line:")
                 if line == "stop":
                     break
                 content += line + "\n"
