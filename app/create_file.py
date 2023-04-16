@@ -19,41 +19,31 @@ def get_directory_names() -> List[str]:
 
 def create_directories(dir_names: List[str]) -> None:
     if dir_names:
-        current_dir = ""
-        for dir_name in dir_names:
-            current_dir = os.path.join(current_dir, dir_name)
-            os.makedirs(current_dir, exist_ok=True)
+        current_dir = os.path.join(*dir_names)
+        os.makedirs(current_dir, exist_ok=True)
 
 
 def create_file(file_path: str) -> None:
     if os.path.exists(file_path):
         print(f"Enter content to append to '{file_path}' "
               f"(press Enter on an empty line to finish):")
-        with open(file_path, "a") as file_object:
-            block_number = 1
-            while True:
-                line = input(f"{block_number} Enter content line: ")
-                if line == "stop":
-                    break
-                now = datetime.datetime.now()
-                file_object.write(f"{now.strftime('%Y-%m-%d %H:%M:%S')}\n")
-                file_object.write(f"{block_number} {line}\n")
-                block_number += 1
-                file_object.write("\n")
+        mode = "a"
     else:
-        with open(file_path, "w") as file_object:
+        print(f"Enter content for {file_path} "
+              f"(press Enter on an empty line to finish):")
+        mode = "w"
+
+    with open(file_path, mode) as file_object:
+        block_number = 1
+        while True:
+            line = input(f"{block_number} Enter content line: ")
+            if line == "stop":
+                break
             now = datetime.datetime.now()
             file_object.write(f"{now.strftime('%Y-%m-%d %H:%M:%S')}\n")
-            print(f"Enter content for {file_path} "
-                  f"(press Enter on an empty line to finish):")
-            block_number = 1
-            while True:
-                line = input(f"{block_number} Enter content line: ")
-                if line == "stop":
-                    break
-                file_object.write(f"{block_number} {line}\n")
-                block_number += 1
-                file_object.write("\n")
+            file_object.write(f"{block_number} {line}\n")
+            block_number += 1
+            file_object.write("\n")
 
 
 def main() -> None:
