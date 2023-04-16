@@ -19,31 +19,28 @@ def get_directory_names() -> List[str]:
 
 def create_directories(dir_names: List[str]) -> None:
     if dir_names:
-        current_dir = os.path.join(*dir_names)
-        os.makedirs(current_dir, exist_ok=True)
+        current_dir = ""
+        for dir_name in dir_names:
+            current_dir = os.path.join(current_dir, dir_name)
+            os.makedirs(current_dir, exist_ok=True)
 
 
 def create_file(file_path: str) -> None:
-    if os.path.exists(file_path):
-        print(f"Enter content to append to '{file_path}' "
-              f"(press Enter on an empty line to finish):")
-        mode = "a"
-    else:
-        print(f"Enter content for {file_path} "
-              f"(press Enter on an empty line to finish):")
-        mode = "w"
-
+    now = datetime.datetime.now()
+    mode = "a" if os.path.exists(file_path) else "w"
     with open(file_path, mode) as file_object:
+        if mode == "w":
+            file_object.write(f"{now.strftime('%Y-%m-%d %H:%M:%S')}\n")
+        else:
+            file_object.write(f"\n{now.strftime('%Y-%m-%d %H:%M:%S')}\n")
         block_number = 1
         while True:
-            line = input(f"{block_number} Enter content line: ")
+            line = input("Enter content line: ")
             if line == "stop":
                 break
-            now = datetime.datetime.now()
-            file_object.write(f"{now.strftime('%Y-%m-%d %H:%M:%S')}\n")
-            file_object.write(f"{block_number} {line}\n")
-            block_number += 1
-            file_object.write("\n")
+            if line.strip():
+                file_object.write(f"{block_number} {line}\n")
+                block_number += 1
 
 
 def main() -> None:
@@ -55,7 +52,7 @@ def main() -> None:
         file_name = sys.argv[f_index + 1]
     file_path = (
         os.path.join(*dir_names, file_name)
-        if dir_names or file_name else None
+        if dir_names and file_name else file_name
     )
     if file_path:
         create_file(file_path)
