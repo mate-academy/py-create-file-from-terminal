@@ -17,53 +17,52 @@ def get_directory_names() -> List[str]:
     return dir_names
 
 
-def get_file_name() -> str:
-    file_name = ""
-    if "-f" in sys.argv:
-        f_index = sys.argv.index("-f")
-        file_name = sys.argv[f_index + 1]
-    return file_name
-
-
 def create_directories(dir_names: List[str]) -> None:
     if dir_names:
-        directory_path = os.path.join(*dir_names)
-        os.makedirs(directory_path, exist_ok=True)
+        current_dir = ""
+        for dir_name in dir_names:
+            current_dir = os.path.join(current_dir, dir_name)
+            os.makedirs(current_dir, exist_ok=True)
 
 
 def create_file(file_path: str) -> None:
     if os.path.exists(file_path):
-        print(f"File '{file_path}' already exists.")
         print(f"Enter content to append to '{file_path}' "
               f"(press Enter on an empty line to finish):")
-        content = ""
-        while True:
-            line = input("Enter content line:")
-            if line == "stop":
-                break
-            content += line + "\n"
         with open(file_path, "a") as file_object:
-            file_object.write(content)
+            block_number = 1
+            while True:
+                line = input(f"{block_number} Enter content line: ")
+                if line == "stop":
+                    break
+                now = datetime.datetime.now()
+                file_object.write(f"{now.strftime('%Y-%m-%d %H:%M:%S')}\n")
+                file_object.write(f"{block_number} {line}\n")
+                block_number += 1
+                file_object.write("\n")
     else:
         with open(file_path, "w") as file_object:
             now = datetime.datetime.now()
-            file_object.write(f"Creation time: "
-                              f"{now.strftime('%Y-%m-%d %H:%M:%S')}\n")
+            file_object.write(f"{now.strftime('%Y-%m-%d %H:%M:%S')}\n")
             print(f"Enter content for {file_path} "
                   f"(press Enter on an empty line to finish):")
-            content = ""
+            block_number = 1
             while True:
-                line = input("Enter content line:")
+                line = input(f"{block_number} Enter content line: ")
                 if line == "stop":
                     break
-                content += line + "\n"
-            file_object.write(content + "\n")
+                file_object.write(f"{block_number} {line}\n")
+                block_number += 1
+                file_object.write("\n")
 
 
 def main() -> None:
     dir_names = get_directory_names()
-    file_name = get_file_name()
     create_directories(dir_names)
+    file_name = ""
+    if "-f" in sys.argv:
+        f_index = sys.argv.index("-f")
+        file_name = sys.argv[f_index + 1]
     file_path = (
         os.path.join(*dir_names, file_name)
         if dir_names or file_name else None
