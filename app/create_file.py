@@ -19,10 +19,8 @@ def get_directory_names() -> List[str]:
 
 def create_directories(dir_names: List[str]) -> None:
     if dir_names:
-        current_dir = ""
-        for dir_name in dir_names:
-            current_dir = os.path.join(current_dir, dir_name)
-            os.makedirs(current_dir, exist_ok=True)
+        directory_path = os.path.join(*dir_names)
+        os.makedirs(directory_path, exist_ok=True)
 
 
 def create_file(file_path: str) -> None:
