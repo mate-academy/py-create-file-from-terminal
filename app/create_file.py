@@ -4,24 +4,18 @@ from datetime import datetime
 
 command = sys.argv
 
-if "-d" in command:
+
+def create_directories_path() -> str:
     start = command.index("-d") + 1
-    if "-f" in command:
+    end = None
+    if "-f" in command and command.index("-d") < command.index("-f"):
         end = command.index("-f")
-        filename = command[command.index("-f") + 1]
-        directories = os.path.join(*command[start: end])
-        path = os.path.join(directories, filename)
-    else:
-        directories = os.path.join(*command[start:])
-    os.makedirs(directories)
-if "-f" in command:
-    if "-d" not in command:
-        path = command[command.index("-f") + 1]
-    if os.path.isfile(path):
-        mode = "a"
-    else:
-        mode = "w"
-    with open(path, mode) as file:
+    return os.path.join(*command[start: end])
+
+
+def create_file(path_to_file: str) -> None:
+    mode = "a" if os.path.isfile(path_to_file) else "w"
+    with open(path_to_file, mode) as file:
         now = datetime.now()
         file.write(now.strftime("%Y-%m-%d %H:%M:%S") + "\n")
         line_content = None
@@ -34,3 +28,13 @@ if "-f" in command:
             else:
                 file.write("\n")
         del count
+
+
+if "-d" in command:
+    dir_path = create_directories_path()
+    os.makedirs(dir_path)
+if "-f" in command:
+    filename = command[command.index("-f") + 1]
+    if "-d" in command:
+        filename = os.path.join(dir_path, filename)
+    create_file(filename)
