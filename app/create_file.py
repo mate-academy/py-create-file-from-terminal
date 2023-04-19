@@ -7,9 +7,11 @@ args_from_terminal = sys.argv
 if "-d" in args_from_terminal and "-f" in args_from_terminal:
     d_index = args_from_terminal.index("-d")
     f_index = args_from_terminal.index("-f")
-    directories_path = "/".join(args_from_terminal[d_index + 1:f_index])
+    directories_path = os.path.join(
+        *args_from_terminal[d_index + 1:f_index]
+    )
     file_name = args_from_terminal[-1]
-    os.makedirs(directories_path)
+    os.makedirs(directories_path, exist_ok=True)
     with open(
             os.path.join(
                 directories_path,
@@ -22,13 +24,15 @@ if "-d" in args_from_terminal and "-f" in args_from_terminal:
         line_number = 1
         line = input("Enter content line: ")
         while line != "stop":
-            file_to_create.write(str(line_number) + " " + line + "\n")
+            file_to_create.write(f"{line_number} {line}\n")
             line = input("Enter content line: ")
             line_number += 1
 elif "-f" not in args_from_terminal:
     d_index = args_from_terminal.index("-d")
-    directories_path = "/".join(args_from_terminal[d_index + 1::])
-    os.makedirs(directories_path)
+    directories_path = os.path.join(
+        *args_from_terminal[d_index + 1::]
+    )
+    os.makedirs(directories_path, exist_ok=True)
 elif "-d" not in args_from_terminal:
     file_name = args_from_terminal[-1]
     with open(file_name, "a") as file_to_create:
@@ -37,6 +41,6 @@ elif "-d" not in args_from_terminal:
         line_number = 1
         line = input("Enter content line: ")
         while line != "stop":
-            file_to_create.write(str(line_number) + " " + line + "\n")
+            file_to_create.write(f"{line_number} {line}\n")
             line = input("Enter content line: ")
             line_number += 1
