@@ -34,6 +34,6 @@ def create_file(cmd_ls: list) -> None:
             file.write("\n")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     cmd = sys.argv
     create_file(cmd_ls=cmd)
