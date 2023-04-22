@@ -8,11 +8,11 @@ parent_path = os.getcwd()
 dir_path = ""
 
 for _ in cmd_ls:
-    if cmd_ls[1] == "-d" and cmd_ls[-2] == "-f":
-        dir_path = "/".join(cmd_ls[2:-2])
+    if cmd_ls[-2] == "-f" and cmd_ls[1] == "-d":
+        dir_path = os.path.join(*cmd_ls[2:-2])
         break
     elif cmd_ls[1] == "-d":
-        dir_path = "/".join(cmd_ls[2:])
+        dir_path = os.path.join(*cmd_ls[2:])
         break
 
 path = os.path.join(parent_path, dir_path)
