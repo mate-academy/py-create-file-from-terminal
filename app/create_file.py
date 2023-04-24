@@ -5,19 +5,19 @@ from datetime import datetime
 
 f_appeared = False
 d_appeared = False
-i = 1
-while i < len(argv):
-    if argv[i] == "-f":
+index_i = 1
+while index_i < len(argv):
+    if argv[index_i] == "-f":
         f_appeared = True
-        file_path = argv[i + 1]
-        i += 2
+        file_path = argv[index_i + 1]
+        index_i += 2
     else:
         d_appeared = True
-        j = i + 1
-        while j < len(argv) and argv[j] != "-f":
-            j += 1
-        folders = os.path.join(*argv[i + 1:j])
-        i = j
+        index_j = index_i + 1
+        while index_j < len(argv) and argv[index_j] != "-f":
+            index_j += 1
+        folders = os.path.join(*argv[index_i + 1:index_j])
+        index_i = index_j
 if d_appeared:
     os.makedirs(folders, exist_ok=True)
 if f_appeared:
@@ -28,9 +28,9 @@ if f_appeared:
         if file_existed:
             print(file=file)
         print(datetime.now().strftime("%Y-%m-%d %H:%M:%S"), file=file)
-        i = 1
+        index_i = 1
         row = input("Enter content line: ")
         while row != "stop":
-            print(i, row, file=file)
-            i += 1
+            print(index_i, row, file=file)
+            index_i += 1
             row = input("Enter content line: ")
