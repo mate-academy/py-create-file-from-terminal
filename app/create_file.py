@@ -18,7 +18,7 @@ if "-d" in commands:
     os.makedirs(path)
 
 if "-f" in commands:
-    new_file = commands[-1]
+    new_file = commands[commands.index("-f") + 1]
 
     with open(os.path.join(parent_dir, directory, new_file), "a") as f:
 
