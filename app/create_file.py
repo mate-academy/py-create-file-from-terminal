@@ -8,14 +8,12 @@ directory = ""
 parent_dir = os.getcwd()
 if "-d" in commands:
     if "-f" in commands:
-        directory = "\\".join(commands[commands.index("-d") + 1:
-                                       commands.index("-f")])
+        dirs = commands[commands.index("-d") + 1: commands.index("-f")]
     else:
-        directory = "\\".join(commands
-                              [commands.index("-d") + 1:])
-
+        dirs = commands[commands.index("-d") + 1:]
+    directory = "\\".join(dirs)
     path = os.path.join(parent_dir, directory)
-    os.makedirs(path)
+    os.makedirs(path, exist_ok=True)
 
 if "-f" in commands:
     new_file = commands[commands.index("-f") + 1]
