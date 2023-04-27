@@ -15,9 +15,12 @@ def create_file(argv: list) -> None:
         else:
             d_appeared = True
             index_d_appeared = index_f_appeared + 1
-            while index_d_appeared < len(argv) and argv[index_d_appeared] != "-f":
+            while index_d_appeared < len(argv) \
+                    and argv[index_d_appeared] != "-f":
                 index_d_appeared += 1
-            folders = os.path.join(*argv[index_f_appeared + 1:index_d_appeared])
+            folders = os.path.join(
+                *argv[index_f_appeared + 1:index_d_appeared]
+            )
             index_f_appeared = index_d_appeared
     if d_appeared:
         os.makedirs(folders, exist_ok=True)
