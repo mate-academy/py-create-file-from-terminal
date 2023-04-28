@@ -4,24 +4,21 @@ from datetime import datetime
 
 
 def create_file(argv: list) -> None:
-    f_appeared = False
-    d_appeared = False
-    index_f_appeared = 1
-    while index_f_appeared < len(argv):
-        if argv[index_f_appeared] == "-f":
-            f_appeared = True
-            file_path = argv[index_f_appeared + 1]
-            index_f_appeared += 2
-        else:
-            d_appeared = True
-            index_d_appeared = index_f_appeared + 1
-            while index_d_appeared < len(argv) \
-                    and argv[index_d_appeared] != "-f":
-                index_d_appeared += 1
+    f_appeared = "-f" in argv
+    d_appeared = "-d" in argv
+    if f_appeared:
+        f_flag_index = argv.index("-f")
+        file_path = argv[f_flag_index + 1]
+    if d_appeared:
+        d_flag_index = argv.index("-d")
+        if f_appeared and d_flag_index < f_flag_index:
             folders = os.path.join(
-                *argv[index_f_appeared + 1:index_d_appeared]
+                *argv[d_flag_index + 1:f_flag_index]
             )
-            index_f_appeared = index_d_appeared
+        else:
+            folders = os.path.join(
+                *argv[d_flag_index + 1:]
+            )
     if d_appeared:
         os.makedirs(folders, exist_ok=True)
     if f_appeared:
@@ -32,12 +29,13 @@ def create_file(argv: list) -> None:
             if file_existed:
                 print(file=file)
             print(datetime.now().strftime("%Y-%m-%d %H:%M:%S"), file=file)
-            index_f_appeared = 1
+            row_number = 1
             row = input("Enter content line: ")
             while row != "stop":
-                print(index_f_appeared, row, file=file)
-                index_f_appeared += 1
+                print(row_number, row, file=file)
+                row_number += 1
                 row = input("Enter content line: ")
 
 
-create_file(argv)
+if __name__ == "__main__":
+    create_file(argv)
