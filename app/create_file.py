@@ -4,9 +4,10 @@ import sys
 from datetime import datetime
 
 
-def create_file() -> None:
+def parse_arguments():
     dir_path = ""
     f_check = False
+
     if "-f" in sys.argv:
         f_check = True
 
@@ -20,18 +21,31 @@ def create_file() -> None:
     if f_check:
         file_index = sys.argv.index("-f") + 1
         file_path = dir_path + sys.argv[file_index]
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        return dir_path, file_path
 
-        with open(file_path, "a") as file:
-            line_number = 1
-            file.write(f"{timestamp}\n")
-            while True:
-                line = input("Enter content line: ")
-                if line == "stop":
-                    break
-                file.write(f"{line_number} {line}\n")
-                line_number += 1
-            file.write("\n")
+    return None, None
+
+
+def write_content_to_file(file_path: str) -> None:
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    with open(file_path, "a") as file:
+        line_number = 1
+        file.write(f"{timestamp}\n")
+        while True:
+            line = input("Enter content line: ")
+            if line == "stop":
+                break
+            file.write(f"{line_number} {line}\n")
+            line_number += 1
+        file.write("\n")
+
+
+def create_file() -> None:
+    dir_path, file_path = parse_arguments()
+
+    if file_path:
+        write_content_to_file(file_path)
 
 
 if __name__ == "__main__":
