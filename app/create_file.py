@@ -8,6 +8,9 @@ command = sys.argv
 
 
 def create_file(command: list) -> None:
+    if len(command) < 2:
+        print("Invalid command")
+        return
 
     if command[1] == "-f":
         open_file(command[-1])
