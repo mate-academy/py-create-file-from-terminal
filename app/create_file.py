@@ -4,49 +4,36 @@ import sys
 from datetime import datetime
 
 
-def parse_arguments():
-    dir_path = ""
-    f_check = False
-
-    if "-f" in sys.argv:
-        f_check = True
-
-    if "-d" in sys.argv:
-        dir_index = sys.argv.index("-d") + 1
-        dir_path = os.path.join(*sys.argv[dir_index:])
-        if f_check:
-            dir_path = dir_path.split("-f")[0]
-        os.makedirs(dir_path, exist_ok=True)
-
-    if f_check:
-        file_index = sys.argv.index("-f") + 1
-        file_path = dir_path + sys.argv[file_index]
-        return dir_path, file_path
-
-    return None, None
+command = sys.argv
 
 
-def write_content_to_file(file_path: str) -> None:
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+def create_file(command: list) -> None:
 
-    with open(file_path, "a") as file:
+    if command[1] == "-f":
+        open_file(command[-1])
+
+    if command[1] == "-d" and "-f" in command:
+        path = os.path.join(*command[2:-2])
+        os.makedirs(path, exist_ok=True)
+        file_path = os.path.join(path, command[-1])
+        open_file(file_path)
+
+    if command[1] == "-d" and "-f" not in command:
+        os.makedirs(os.path.join(*command[2:]))
+
+
+def open_file(command: str) -> None:
+    with open(command, "w") as file:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(timestamp + "\n")
         line_number = 1
-        file.write(f"{timestamp}\n")
         while True:
-            line = input("Enter content line: ")
-            if line == "stop":
+            line_content = input("Enter content line: ")
+            if line_content == "stop":
                 break
-            file.write(f"{line_number} {line}\n")
+            file.write(f"{line_number} {line_content}\n")
             line_number += 1
-        file.write("\n")
-
-
-def create_file() -> None:
-    dir_path, file_path = parse_arguments()
-
-    if file_path:
-        write_content_to_file(file_path)
 
 
 if __name__ == "__main__":
-    create_file()
+    create_file(command)
