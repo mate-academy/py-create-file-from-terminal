@@ -27,12 +27,12 @@ def create_file(argv: list) -> None:
         file_existed = os.path.isfile(file_path)
         with open(file_path, "a") as file:
             if file_existed:
-                print(file=file)
-            print(datetime.now().strftime("%Y-%m-%d %H:%M:%S"), file=file)
+                file.write("\n")
+            file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
             row_number = 1
             row = input("Enter content line: ")
             while row != "stop":
-                print(row_number, row, file=file)
+                file.write(f"{row_number} {row}\n")
                 row_number += 1
                 row = input("Enter content line: ")
 
