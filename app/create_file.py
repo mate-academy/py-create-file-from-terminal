@@ -7,15 +7,18 @@ argv = sys.argv
 now = datetime.now()
 
 
-def create_folder() -> None:
-    dirs = argv[argv.index("-d") + 1:argv.index("-f")] \
-        if "-f" in argv else argv[argv.index("-d") + 1:]
+def create_folder() -> list:
+    if "-f" in argv and argv.index("-d") < argv.index("-f"):
+        dirs = argv[argv.index("-d") + 1:argv.index("-f")]
+    else:
+        dirs = argv[argv.index("-d") + 1:]
     os.makedirs(os.path.join(*dirs), exist_ok=True)
+    return dirs
 
 
 def create_file() -> None:
     if "-d" in argv:
-        folders = argv[argv.index("-d") + 1:argv.index("-f")]
+        folders = create_folder()
         file_name = argv[argv.index("-f") + 1]
         file_path = os.path.join(*folders, file_name)
     else:
