@@ -1,42 +1,33 @@
 import os
-import sys
-
-from datetime import datetime
-
-
-command = sys.argv
+import argparse
+import time
 
 
-def create_file(command: list) -> None:
-    if len(command) < 2:
-        print("Invalid command")
-        return
-
-    if command[1] == "-f":
-        open_file(command[-1])
-
-    if command[1] == "-d" and "-f" in command:
-        path = os.path.join(*command[2:-2])
-        os.makedirs(path, exist_ok=True)
-        file_path = os.path.join(path, command[-1])
-        open_file(file_path)
-
-    if command[1] == "-d" and "-f" not in command:
-        os.makedirs(os.path.join(*command[2:]))
+parser = argparse.ArgumentParser()
+parser.add_argument("-d", nargs="*")
+parser.add_argument("-f")
+args = parser.parse_args()
 
 
-def open_file(command: str) -> None:
-    with open(command, "w") as file:
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        file.write(timestamp + "\n")
-        line_number = 1
+def update_or_create_file(path: str, command: str) -> None:
+    with open(path, command) as file_:
+        file_.write(time.strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        counter = 1
         while True:
-            line_content = input("Enter content line: ")
-            if line_content == "stop":
+            line = input()
+            if line.lower() == "stop":
+                file_.write("\n")
                 break
-            file.write(f"{line_number} {line_content}\n")
-            line_number += 1
+            file_.write(f"{counter} {line}\n")
+            counter += 1
 
 
-if __name__ == "__main__":
-    create_file(command)
+if args.d and args.f:
+    os.makedirs(os.path.join(*args.d))
+    args.d.append(args.f)
+    update_or_create_file(os.path.join(*args.d), "w")
+elif args.d:
+    os.makedirs(os.path.join(*args.d))
+elif args.f:
+    file_exist: bool = os.path.exists(args.f)
+    update_or_create_file(args.f, "a" if file_exist else "w")
