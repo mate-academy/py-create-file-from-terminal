@@ -6,7 +6,7 @@ import datetime
 # function, which create text file and fill it
 def file_write(filename: str) -> None:
     text = open(filename, "a")
-    text.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M%:%S") + "\n")
+    text.write(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M%:%S")) + "\n")
 
     while True:
         message = input("Enter content line: ") + "\n"
