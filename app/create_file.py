@@ -5,54 +5,52 @@ import os
 import datetime
 
 
-# parsing parameters
-input_parameters = sys.argv
-dirs_rec = False
-name_rec = False
-dirs_parameters = []
-file_name = ""
-for parameter in input_parameters:
-    if parameter == "-d":
-        dirs_rec = True
-        name_rec = False
-    elif parameter == "-f":
-        dirs_rec = False
-        name_rec = True
-    elif dirs_rec:
-        if parameter == "-f":
-            dirs_rec = False
-            name_rec = True
-        else:
-            dirs_parameters.append(parameter)
-    elif name_rec:
-        file_name = parameter
+def parsing_parameters() -> tuple:
+    directories = []
+    full_file_name = ""
+    if "-f" in sys.argv and "-d" in sys.argv:
+        full_file_name = sys.argv[sys.argv.index("-f") + 1]
+        directories = sys.argv[sys.argv.index("-d") + 1:sys.argv.index("-f")]
+    elif "-f" in sys.argv:
+        full_file_name = sys.argv[sys.argv.index("-f") + 1]
+    elif "-d" in sys.argv:
+        directories = sys.argv[sys.argv.index("-d") + 1:]
     else:
         pass
+    return directories, full_file_name
 
-# make directories
-path = ""
-if len(dirs_parameters) > 0:
-    path = "/".join(dirs_parameters)
-    os.makedirs(path, exist_ok=True)
-    path += "/"
 
-# create the file with a content
-file_exists = os.path.exists(path + file_name)
-if len(file_name) > 0:
-    with open(path + file_name, "a") as file:
-        # add current timestamp
-        time_format = "%Y-%m-%d %H:%M:%S"
-        file.write(
-            ("\n" if file_exists else "")
-            + str(datetime.datetime.now().strftime(time_format))
-            + "\n"
-        )
+def make_directories(directories_list: list) -> str:
+    directories_path = ""
+    if len(directories_list) > 0:
+        directories_path = "/".join(directories_list)
+        os.makedirs(directories_path, exist_ok=True)
+        directories_path += "/"
+    return directories_path
 
-        # add content lines
-        content = None
-        row_number = 1
-        while content != "stop":
-            content = input("Enter content line: ")
-            if content != "stop" and content is not None:
-                file.write(str(row_number) + " " + content + "\n")
-                row_number += 1
+
+def create_file_with_content(content_path: str, name: str) -> None:
+    file_exists = os.path.exists(content_path + name)
+    if len(name) > 0:
+        with open(content_path + name, "a") as file:
+            # add current timestamp
+            time_format = "%Y-%m-%d %H:%M:%S"
+            file.write(
+                ("\n" if file_exists else "")
+                + str(datetime.datetime.now().strftime(time_format))
+                + "\n"
+            )
+
+            # add content lines
+            content = None
+            row_number = 1
+            while content != "stop":
+                content = input("Enter content line: ")
+                if content != "stop" and content is not None:
+                    file.write(str(row_number) + " " + content + "\n")
+                    row_number += 1
+
+
+dirs_list, file_name = parsing_parameters()
+path = make_directories(dirs_list)
+create_file_with_content(path, file_name)
