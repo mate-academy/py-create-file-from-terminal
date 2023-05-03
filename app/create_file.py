@@ -49,7 +49,7 @@ def create_file_with_content(content_path: str, name: str) -> None:
                     row_number += 1
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     dirs_list, file_name = parsing_parameters()
     path = make_directories(dirs_list)
     create_file_with_content(path, file_name)
