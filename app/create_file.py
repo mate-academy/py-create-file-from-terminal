@@ -3,13 +3,13 @@ import os
 import datetime
 
 
-def create_folders(folders) -> str:
+def create_folders(argv: list) -> str:
     path = os.getcwd()
-    if "-f" in folders:
-        for folder in folders[folders.index("-d") + 1:folders.index("-f")]:
+    if "-f" in argv:
+        for folder in argv[argv.index("-d") + 1:argv.index("-f")]:
             path = os.path.join(path, folder)
     else:
-        for folder in folders[folders.index("-d") + 1:len(folders)]:
+        for folder in argv[argv.index("-d") + 1:len(argv)]:
             path = os.path.join(path, folder)
     if os.path.exists(path):
         return path
