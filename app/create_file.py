@@ -19,7 +19,10 @@ if "-f" in sys.argv:
     while True:
         line = input()
         if line == "stop":
-            with open(f'{makedir_path}\\{sys.argv[sys.argv.index("-f") + 1]}', "a+") as target_file:
+            with open(
+                    f'{makedir_path}\\{sys.argv[sys.argv.index("-f") + 1]}',
+                    "a+"
+            ) as target_file:
                 target_file.write(f"{input_text}\n")
                 break
         input_text += f"{line}\n"
