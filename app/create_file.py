@@ -7,11 +7,9 @@ import argparse
 def create_new_path(new_path: list) -> str:
     path = os.getcwd()
     if new_path:
-        for folder in new_path:
-            path = os.path.join(path, folder)
-        if os.path.exists(path):
-            return path
-        os.makedirs(path)
+        path = os.path.join(path, *new_path)
+        os.makedirs(path, exist_ok=True)
+        return path
 
 
 def create_and_write_to_file(new_path: list, file_name: list) -> None:
@@ -20,17 +18,17 @@ def create_and_write_to_file(new_path: list, file_name: list) -> None:
     while True:
         line = input()
         if line == "stop":
-            with open(
-                    os.path.join(create_new_path(new_path), file_name[0]),
-                    "a+"
-            ) as target_file:
-                target_file.write(f"{input_text}\n")
-                break
+            break
         input_text += f"{line}\n"
+    with open(
+            os.path.join(create_new_path(new_path), *file_name),
+            "a+"
+    ) as target_file:
+        target_file.write(f"{input_text}\n")
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-f", "--file-name", nargs="*")
+parser.add_argument("-f", "--file-name", nargs=1)
 parser.add_argument("-d", "--new_path", nargs="*")
 args = parser.parse_args()
 argsdict = vars(args)
