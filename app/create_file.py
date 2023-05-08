@@ -6,11 +6,12 @@ import argparse
 
 def create_new_path(new_path: list) -> str:
     path = os.getcwd()
-    for folder in new_path:
-        path = os.path.join(path, folder)
-    if os.path.exists(path):
-        return path
-    os.makedirs(path)
+    if new_path:
+        for folder in new_path:
+            path = os.path.join(path, folder)
+        if os.path.exists(path):
+            return path
+        os.makedirs(path)
 
 
 def create_and_write_to_file(new_path: list, file_name: list) -> None:
@@ -34,7 +35,7 @@ parser.add_argument("-d", "--new_path", nargs="*")
 args = parser.parse_args()
 argsdict = vars(args)
 
-if "-f" in sys.argv:
-    create_new_path(argsdict["new_path"])
 if "-d" in sys.argv:
+    create_new_path(argsdict["new_path"])
+if "-f" in sys.argv:
     create_and_write_to_file(argsdict["new_path"], argsdict["file_name"])
