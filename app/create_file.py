@@ -3,28 +3,20 @@ from datetime import datetime
 from argparse import ArgumentParser
 
 
-def add_content() -> str:
+def create_file_and_content(file_path: str) -> None:
     line = 1
     date_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    content = date_time + "\n"
 
-    while True:
-        user_text = input("Enter content line: ")
-        if user_text == "stop":
-            return content
+    with open(file_path, "a") as file:
+        file.write(date_time + "\n")
 
-        content += f"{line} {user_text}\n"
-        line += 1
-
-
-def create_file(file_path: str) -> None:
-    if os.path.exists(file_path):
-        with open(file_path, "a") as file:
-            file.write("\n" + add_content())
-
-    else:
-        with open(file_path, "w") as new_file:
-            new_file.write(add_content())
+        while True:
+            user_text = input("Enter content line: ")
+            if user_text == "stop":
+                break
+            file.write(f"{line} {user_text}\n")
+            line += 1
+        file.write("\n")
 
 
 def create_dir(dirs: list) -> None:
@@ -42,12 +34,12 @@ def create_directories_and_file() -> None:
     if args.dir and args.file:
         path_file = os.path.join(*args.dir, args.file)
         create_dir(args.dir)
-        create_file(path_file)
+        create_file_and_content(path_file)
 
     elif args.dir:
         create_dir(args.dir)
     elif args.file:
-        create_file(args.file)
+        create_file_and_content(args.file)
 
 
 if __name__ == "__main__":
