@@ -1,14 +1,11 @@
 import os
+from typing import Optional
 from datetime import datetime
 
 
-def create_file(find_name: list, destination: list = None) -> None:
+def create_file(file_name: str, destination: Optional[list] = None) -> None:
     if destination is None:
         destination = [""]
-    file_name = ""
-    for name in find_name:
-        if "txt" in name:
-            file_name = name
     with open(os.path.join(*destination, file_name), "a") as source_file:
         source_file.write(datetime.now().strftime("%m-%d-%Y %H:%M:%S") + "\n")
         while True:
@@ -19,11 +16,12 @@ def create_file(find_name: list, destination: list = None) -> None:
             source_file.write(new_str + "\n")
 
 
-def create_dir(cmd: list) -> list:
-    dir_list = []
-    for dirs in cmd:
-        if ".py" in dirs or "-d" in dirs or "-f" in dirs or "txt" in dirs:
-            continue
-        dir_list.append(dirs)
+def create_dir(cmd: list[str]) -> list:
+    if "-f" in cmd:
+        dir_list = [
+            cmd[i] for i in range(cmd.index("-d") + 1, cmd.index("-f"))
+        ]
+    else:
+        dir_list = [cmd[i] for i in range(cmd.index("-d") + 1, len(cmd))]
     os.makedirs(os.path.join(*dir_list), exist_ok=True)
     return dir_list
