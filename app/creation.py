@@ -10,7 +10,7 @@ def create_file(file_name: str, destination: Optional[list] = None) -> None:
         source_file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         counter = 1
         while True:
-            new_str = input("Enter: ")
+            new_str = input("Enter content line: ")
             if new_str == "stop":
                 source_file.write("\n")
                 break
