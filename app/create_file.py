@@ -3,7 +3,7 @@ from datetime import datetime
 import os
 
 
-def create_directory(directory: list) -> None:
+def create_directory(directory: list[str]) -> None:
     new_path = os.path.join(*directory)
     os.makedirs(new_path)
 
@@ -32,7 +32,7 @@ def create_file_in_new_directory() -> None:
         create_directory(args.directory)
         create_file(new_path_with_file)
     elif args.directory:
-        create_directory(args.dierectory)
+        create_directory(args.directory)
     elif args.file:
         create_file(args.file)
 
