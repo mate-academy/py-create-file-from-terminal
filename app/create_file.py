@@ -23,3 +23,7 @@ def create_file() -> None:
                     break
                 f.write(f"{line_index}: {text}\n")
                 line_index += 1
+
+
+if __name__ == "__main__":
+    create_file()
