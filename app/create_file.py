@@ -8,12 +8,13 @@ def create_file() -> None:
     parser.add_argument("-d", nargs="*", dest="dirs")
     parser.add_argument("-f", dest="file")
     path = ""
+    args = parser.parse_args()
 
-    if parser.parse_args().dirs:
-        path = os.path.join(path, *parser.parse_args().dirs)
+    if args.dirs:
+        path = os.path.join(path, *args.dirs)
         os.makedirs(path, exist_ok=True)
-    if parser.parse_args().file:
-        path = os.path.join(path, parser.parse_args().file)
+    if args.file:
+        path = os.path.join(path, args.file)
         with open(path, "a") as f:
             f.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
             line_index = 1
