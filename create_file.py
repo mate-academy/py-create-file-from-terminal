@@ -26,7 +26,7 @@ def total_creation() -> None:
     path_list = sys.argv
 
     if "-d" in path_list and "-f" in path_list:
-        file_name = path_list[path_list.index("-f") + 1][0]
+        file_name = path_list[path_list.index("-f") + 1]
         path_to_file = create_path(
             path_list[path_list.index("-d") + 1 : path_list.index("-f")]
         )
@@ -35,7 +35,7 @@ def total_creation() -> None:
         path_to_file = path_list[path_list.index("-d") + 1 :]
         create_path(path_to_file)
     elif "-d" not in path_list and "-f" in path_list:
-        file_name = path_list[path_list.index("-f") + 1][0]
+        file_name = path_list[path_list.index("-f") + 1]
         create_file(file_name)
 
 
