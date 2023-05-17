@@ -21,13 +21,6 @@ def write_content_into_file(file_name: str, content: list) -> None:
         f.writelines(content)
 
 
-def create_directory_with_path(path_: str) -> None:
-    try:
-        os.makedirs(path_)
-    except FileExistsError:
-        pass
-
-
 def create_file() -> None:
     command_line = sys.argv
     if "-f" in command_line:
@@ -41,14 +34,14 @@ def create_file() -> None:
                 path_ = os.path.join(
                     *command_line[command_line.index("-d") + 1::]
                 )
-            create_directory_with_path(path_)
+            os.makedirs(path_, exist_ok=True)
             os.chdir(path_)
         file_name = command_line[command_line.index("-f") + 1]
         content = create_new_content_for_file()
         write_content_into_file(file_name, content)
     elif "-d" in command_line:
         path_ = os.path.join(*command_line[command_line.index("-d") + 1::])
-        create_directory_with_path(path_)
+        os.makedirs(path_, exist_ok=True)
 
 
 if __name__ == "__main__":
