@@ -20,7 +20,7 @@ def create_file() -> None:
         path = create_folder()
     else:
         path = ""
-    file_name = os.path.join(*path, argv[argv.index('-f') + 1])
+    file_name = os.path.join(*path, argv[argv.index("-f") + 1])
     with open(file_name, "a") as f:
         time_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         f.write("\n" + time_now + "\n")
