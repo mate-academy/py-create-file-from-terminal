@@ -40,9 +40,7 @@ class Command:
 
     def create_directory(self) -> None:
         path = self.create_path()
-        if os.path.exists(path):
-            return
-        os.makedirs(path)
+        os.makedirs(path, exist_ok=True)
 
     def activate(self) -> None:
 
