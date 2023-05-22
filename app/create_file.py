@@ -21,9 +21,7 @@ class Command:
         return path
 
     def create_file(self) -> None:
-
         file_to_open = self.commands[self.index_f + 1]
-
         if "-d" in self.commands:
             file_to_open = (f"{self.create_path()}"
                             f"/{file_to_open}")
@@ -43,7 +41,6 @@ class Command:
         os.makedirs(path, exist_ok=True)
 
     def activate(self) -> None:
-
         if "-d" in self.commands:
             self.create_directory()
         if "-f" in self.commands:
@@ -51,4 +48,5 @@ class Command:
 
 
 command = Command(sys.argv)
-command.activate()
+if __name__ == "__main__":
+    command.activate()
