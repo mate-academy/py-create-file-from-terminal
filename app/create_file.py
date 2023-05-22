@@ -13,14 +13,19 @@ class Command:
                         if "-f" in self.commands
                         else len(self.commands))
 
+    def create_path(self) -> str:
+        if self.index_d < self.index_f:
+            path = os.path.join(*self.commands[self.index_d:self.index_f])
+        else:
+            path = os.path.join(*self.commands[self.index_d:])
+        return path
+
     def create_file(self) -> None:
 
-        file_to_open = self.commands[-1]
+        file_to_open = self.commands[self.index_f + 1]
 
         if "-d" in self.commands:
-            path_to_put_file = ("/".join
-                                (self.commands[self.index_d:self.index_f]))
-            file_to_open = (f"{path_to_put_file}"
+            file_to_open = (f"{self.create_path()}"
                             f"/{file_to_open}")
 
         with open(file_to_open, "a") as file:
@@ -34,14 +39,10 @@ class Command:
                 file.write(data + "\n")
 
     def create_directory(self) -> None:
-
-        path = "/".join(self.commands[self.index_d:self.index_f])
+        path = self.create_path()
         if os.path.exists(path):
             return
-
-        directory_path = self.commands[self.index_d:self.index_f]
-        nested_directory = os.path.join(*directory_path)
-        os.makedirs(nested_directory)
+        os.makedirs(path)
 
     def activate(self) -> None:
 
