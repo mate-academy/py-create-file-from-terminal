@@ -16,7 +16,7 @@ def if_flag(argument: str) -> bool:
         return True
 
 
-def main(args:list[str]) -> None:
+def main(args: list[str]) -> None:
     available_flags = ["-d", "-f"]
     flags = [flag for flag in args if if_flag(flag)]
     if not any([True if flag in available_flags else False for flag in flags]):
@@ -36,12 +36,16 @@ def main(args:list[str]) -> None:
     base_path = ""
     if "-d" in flags:
         if len(flags_args["-d"]) == 0:
-            raise ArgumentError("At least one argument is required for the -d flag")
+            raise ArgumentError(
+                "At least one argument is required for the -d flag"
+            )
         base_path = os.path.join(*flags_args["-d"])
         os.makedirs(base_path, exist_ok=True)
     if "-f" in flags:
         if len(flags_args["-f"]) == 0:
-            raise ArgumentError("At least one argument is required for the -f flag")
+            raise ArgumentError(
+                "At least one argument is required for the -f flag"
+            )
         file_path = os.path.join(base_path, flags_args["-f"][0])
         input_list = []
         while True:
