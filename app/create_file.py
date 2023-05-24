@@ -3,15 +3,13 @@ import sys
 from datetime import datetime
 
 
-console_data = sys.argv
-
-if "-d" in console_data:
+def create_directory(console_data):
     parent_dir = console_data[console_data.index("-d") + 1]
     path = os.path.join(parent_dir, console_data[console_data.index("-d") + 2])
-    os.makedirs(path)
+    os.makedirs(path, exist_ok=True)
 
-if "-f" in console_data:
 
+def create_file(console_data):
     if "-d" in console_data:
         parent_dir = console_data[console_data.index("-d") + 1]
         new_dir = console_data[console_data.index("-d") + 2]
@@ -30,3 +28,14 @@ if "-f" in console_data:
             if message == "stop":
                 break
             file.write(f"{counter} {message}\n")
+        file.write("\n")
+
+
+console_data = sys.argv
+
+if "-d" in console_data:
+    create_directory(console_data)
+
+if "-f" in console_data:
+    create_file(console_data)
+
