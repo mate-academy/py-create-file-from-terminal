@@ -9,7 +9,8 @@ class FlagError(Exception):
 
 
 class ArgumentError(Exception):
-    """Exception that occurs when there is an error related to command line arguments."""
+    """Exception that occurs when there is
+     an error related to command line arguments."""
     pass
 
 
