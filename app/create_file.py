@@ -19,14 +19,22 @@ def if_flag(argument: str) -> bool:
         return True
 
 
-def main(args: list[str]) -> None:
-    available_flags = ["-d", "-f"]
-    flags = [flag for flag in args if if_flag(flag)]
-
+def validate_flags(available_flags, flags) -> None:
     if not any([True if flag in available_flags else False for flag in flags]):
         raise FlagError("You must enter at least one flag")
     if not all([True if flag in available_flags else False for flag in flags]):
         raise FlagError("Invalid flags entered")
+
+
+def parse_flags(args) -> list[str]:
+    return [flag for flag in args if if_flag(flag)]
+
+
+def main(args: list[str]) -> None:
+    available_flags = ["-d", "-f"]
+    flags = parse_flags(args)
+
+    validate_flags(available_flags, flags)
 
     index_dict = {}
     for flag in flags:
