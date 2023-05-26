@@ -14,20 +14,20 @@ class ArgumentError(Exception):
     pass
 
 
-def if_flag(argument: str) -> bool:
+def is_flag(argument: str) -> bool:
     if argument.startswith("-"):
         return True
 
 
 def validate_flags(available_flags, flags) -> None:
-    if not any([True if flag in available_flags else False for flag in flags]):
+    if not any([flag in available_flags for flag in flags]):
         raise FlagError("You must enter at least one flag")
-    if not all([True if flag in available_flags else False for flag in flags]):
+    if not all([flag in available_flags for flag in flags]):
         raise FlagError("Invalid flags entered")
 
 
 def parse_flags(args) -> list[str]:
-    return [flag for flag in args if if_flag(flag)]
+    return [flag for flag in args if is_flag(flag)]
 
 
 def main(args: list[str]) -> None:
@@ -44,7 +44,7 @@ def main(args: list[str]) -> None:
     for flag in flags:
         flags_args[flag] = []
         for i in range(index_dict[flag] + 1, len(args)):
-            if if_flag(args[i]):
+            if is_flag(args[i]):
                 break
             flags_args[flag].append(args[i])
 
