@@ -19,14 +19,14 @@ def is_flag(argument: str) -> bool:
         return True
 
 
-def validate_flags(available_flags, flags) -> None:
+def validate_flags(available_flags: list, flags: list) -> None:
     if not any([flag in available_flags for flag in flags]):
         raise FlagError("You must enter at least one flag")
     if not all([flag in available_flags for flag in flags]):
         raise FlagError("Invalid flags entered")
 
 
-def parse_flags(args) -> list[str]:
+def parse_flags(args: list) -> list[str]:
     return [flag for flag in args if is_flag(flag)]
 
 
