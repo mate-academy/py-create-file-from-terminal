@@ -5,21 +5,22 @@ from datetime import datetime
 
 def create_directory(console_data: list[str]) -> None:
     parent_dir: str = console_data[console_data.index("-d") + 1]
+    dir_names = console_data[console_data.index("-d") + 2:]
 
-    dir_indices = [i for i, arg in enumerate(console_data) if arg == "-d"]
-    dir_names = [console_data[i + 1] for i in dir_indices]
-
-    for dir_name in dir_names:
-        path: str = os.path.join(parent_dir, dir_name)
-        os.makedirs(path, exist_ok=True)
+    path: str = os.path.join(parent_dir, *dir_names)
+    os.makedirs(path, exist_ok=True)
 
 
 def create_file(console_data: list[str]) -> None:
     if "-d" in console_data:
         parent_dir: str = console_data[console_data.index("-d") + 1]
-        new_dir: str = console_data[console_data.index("-d") + 2]
+        dir_indices = [i for i, arg in enumerate(console_data) if arg == "-d"]
+        dir_names: list[str] = []
+        for index in dir_indices:
+            if index + 1 < len(console_data):
+                dir_names.append(console_data[index + 1])
         file_name: str = console_data[console_data.index("-f") + 1]
-        file_path: str = os.path.join(parent_dir, new_dir, file_name)
+        file_path: str = os.path.join(parent_dir, *dir_names, file_name)
     else:
         file_path: str = console_data[console_data.index("-f") + 1]
 
