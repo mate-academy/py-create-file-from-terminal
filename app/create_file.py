@@ -3,46 +3,40 @@ import sys
 from datetime import datetime
 
 
-def create_directory(console_data: list[str]) -> None:
-    dir_index = console_data.index("-d") + 1
-    parent_dir = console_data[dir_index]
-    dir_names = console_data[dir_index + 1:]
+def create_directory(command: list[str]) -> str:
+    path_start = command.index("-d") + 1
+    path_end = None
+    if "-f" in command:
+        path_end = command.index("-f")
+    return os.path.join(*command[path_start: path_end])
 
-    path = os.path.join(parent_dir, *dir_names)
-    os.makedirs(path, exist_ok=True)
 
-
-def create_file(console_data: list[str]) -> None:
-    if "-d" in console_data:
-        dir_index = console_data.index("-d") + 1
-        parent_dir = console_data[dir_index]
-        dir_names = console_data[dir_index + 1: console_data.index("-f")]
-
-        file_index = console_data.index("-f") + 1
-        file_name = console_data[file_index]
-        file_path = os.path.join(parent_dir, *dir_names, file_name)
+def create_file(file_: str) -> None:
+    if os.path.isfile(file_):
+        open_mode = "a"
     else:
-        file_index = console_data.index("-f") + 1
-        file_path = console_data[file_index]
-
-    with open(file_path, "a") as file:
-        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
-        counter = 0
-
-        while True:
-            message = input("Enter content line: ")
-            counter += 1
-            if message == "stop":
-                break
-            file.write(f"{counter} {message}\n")
-        file.write("\n")
+        open_mode = "w"
+    with open(file_, open_mode) as file:
+        date_time_now = datetime.datetime.utcnow()
+        file.write(date_time_now.strftime("%Y-%m-%d %H:%M:%S" + "\n"))
+        content = None
+        line_number = 1
+        while content != "stop":
+            content = input("Enter content line: ")
+            if content != "stop":
+                file.write(f"{line_number} {content}" + "\n")
+                line_number += 1
+            else:
+                file.write("\n")
 
 
 if __name__ == "__main__":
-    console_data = sys.argv
-
-    if "-d" in console_data:
-        create_directory(console_data)
-
-    if "-f" in console_data:
-        create_file(console_data)
+    command_ = sys.argv
+    if "-d" in command_:
+        path_dir = create_directory(command_)
+        os.makedirs(path_dir, exist_ok=True)
+    if "-f" in command_:
+        file_name = command_[command_.index("-f") + 1]
+        if "-d" in command_:
+            file_name = os.path.join(path_dir, file_name)
+        create_file(file_name)
