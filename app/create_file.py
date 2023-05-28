@@ -74,15 +74,18 @@ def main(args: list[str]) -> None:
             input_list.append(line)
 
         if not os.path.isfile(file_path):
-            with open(file_path, "w") as file:
-                current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                file.write(current_time + "\n")
-                for index, line in enumerate(input_list):
-                    file.write(f"{index + 1} {line}\n")
-        with open(file_path, "a") as file:
+            mode = "w"
+        else:
+            mode = "a"
+
+        with open(file_path, mode) as file:
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            if mode == "w":
+                file.write(current_time + "\n")
+
             file.write("\n")
             file.write(current_time + "\n")
+
             for index, line in enumerate(input_list):
                 file.write(f"{index + 1} {line}\n")
 
