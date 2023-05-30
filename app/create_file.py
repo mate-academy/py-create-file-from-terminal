@@ -3,17 +3,17 @@ import sys
 from datetime import datetime
 
 
-def define_path(args: list) -> str:
+def define_path(args: list) -> str | None:
     if "-d" in args:
-        if "-f" in args:
+        if "-f" in args and args.index("-f") > args.index("-d"):
             return os.path.join(*args[args.index("-d") + 1:args.index("-f")])
         return os.path.join(*args[args.index("-d") + 1:])
 
 
 def define_file_name(args: list, path: str) -> str:
     if path:
-        return os.path.join(path, args[-1])
-    return args[-1]
+        return os.path.join(path, args[args.index("-f") + 1])
+    return args[args.index("-f") + 1]
 
 
 def write_file(file_name: str) -> None:
