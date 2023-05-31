@@ -50,22 +50,14 @@ def main() -> None:
         print("Please provide arguments.")
         return
 
-    if args[0] == "-d":
-        directory_path = os.path.join(*args[1:])
-        create_directory(directory_path)
-    elif args[0] == "-f":
-        file_name = args[1]
-        file_path = os.path.abspath(file_name)
-        if os.path.exists(file_path):
-            print(f"File already exists: {file_path}")
-            lines = []
-            while True:
-                line = input("Enter content line: ")
-                if line.lower() == "stop":
-                    break
-                lines.append(line)
-            append_content(file_path, lines)
-        else:
+    if "-d" in args and "-f" in args:
+        d_index = args.index("-d")
+        f_index = args.index("-f")
+        if d_index < f_index:
+            directory_path = os.path.join(*args[d_index + 1:f_index])
+            create_directory(directory_path)
+            file_name = args[f_index + 1]
+            file_path = os.path.join(directory_path, file_name)
             create_file(file_path)
             lines = []
             while True:
@@ -74,22 +66,12 @@ def main() -> None:
                     break
                 lines.append(line)
             append_content(file_path, lines)
-    elif args[0] == "-d" and args[2] == "-f":
-        directory_path = os.path.join(*args[1:-2])
-        create_directory(directory_path)
-        file_name = args[-1]
-        file_path = os.path.join(directory_path, file_name)
-        create_file(file_path)
-        lines = []
-        while True:
-            line = input("Enter content line: ")
-            if line.lower() == "stop":
-                break
-            lines.append(line)
-        append_content(file_path, lines)
+        else:
+            print("Invalid arguments.")
     else:
         print("Invalid arguments.")
 
 
 if __name__ == "__main__":
     main()
+
