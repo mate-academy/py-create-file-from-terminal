@@ -21,14 +21,14 @@ def create_file(file_name: str) -> None:
 def creating_file_from_command() -> None:
     if "-f" in command:
         if "-d" in command:
-            if command.index("-f") < command.index("-d"):
+            if command.index("-f") > command.index("-d"):
                 command.pop(command.index("-f"))
                 os.makedirs(os.path.join(*command[2:-1]), exist_ok=True)
                 create_file(os.path.join(*command[2:]))
             else:
                 command.pop(command.index("-f"))
                 os.makedirs(os.path.join(*command[3:]), exist_ok=True)
-                create_file(os.path.join(*command[3:], command[2]))
+                create_file(os.path.join(*command[3:], command[1]))
         else:
             create_file(command[command.index("-f") + 1])
     elif "-d" in command:
