@@ -7,7 +7,7 @@ path_list = sys.argv
 now = dt.now()
 timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 new_file = path_list[path_list.index("-f") + 1]
-folders = path_list[2: path_list.index("-f")]
+folders = path_list[path_list.index("-d") + 1:]
 
 
 def create_folders() -> None:
@@ -25,12 +25,15 @@ def create_file_with_content() -> None:
 
 
 if "-d" in path_list and "-f" not in path_list:
-    folders = path_list[2:]
+    folders = path_list[path_list.index("-d") + 1:]
     create_folders()
 elif "-d" not in path_list and "-f" in path_list:
     new_file = path_list[path_list.index("-f") + 1:]
     create_file_with_content()
 elif "-d" in path_list and "-f" in path_list:
+    path_list.pop(path_list.index("-f") + 1)
+    path_list.remove("-f")
+    folders = path_list[path_list.index("-d") + 1:]
     new_file = os.path.join(*folders, new_file)
     create_folders()
     create_file_with_content()
