@@ -32,9 +32,10 @@ def create_file(file_name):
 
     with open(file_name, mode) as file:
         file.write(datetime.now().strftime("&Y-%m-%d, %H:%M:%S\n"))
+        num = 0
         while True:
-            num = 0
             content = input("Enter content line: ")
             if content == "stop":
                 break
             file.write(str(num) + " " + content + "\n")
+            num += 1
