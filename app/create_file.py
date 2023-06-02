@@ -4,14 +4,8 @@ from datetime import datetime
 
 
 def create_directory(path: str) -> None:
-    try:
-        os.makedirs(path)
-        print(f"Created directory: {path}")
-    except FileExistsError:
-        print(f"Directory already exists: {path}")
-    except OSError as e:
-        print(f"Failed to create directory: {path}")
-        print(f"Error: {str(e)}")
+    os.makedirs(path, exist_ok=True)
+    print(f"Created directory: {path}")
 
 
 def create_file(file_path: str) -> None:
@@ -74,4 +68,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
