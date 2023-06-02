@@ -5,15 +5,15 @@ from datetime import datetime
 
 def main() -> None:
     args = sys.argv
-    if '-d' in args:
+    if "-d" in args:
         dir_index = args.index("-d")
         directory_path = os.path.join(*args[dir_index + 1:])
-        if '-f' in args:
+        if "-f" in args:
             file_index = args.index("-f")
             file_name = args[file_index + 1]
             file_path = os.path.join(directory_path, file_name)
             create_file(file_path)
-    if '-f' in args:
+    if "-f" in args:
         file_index = args.index("-f")
         file_name = args[file_index + 1]
         create_file(file_name)
