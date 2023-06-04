@@ -17,7 +17,7 @@ def main() -> None:
         create_directory(directory_path)
         file_path = os.path.join(directory_path, file_name)
         create_file(file_path)
-    if "-f" in args:
+    if "-f" in args and "-d" not in args:
         file_index = args.index("-f")
         file_name = args[file_index + 1]
         create_file(file_name)
