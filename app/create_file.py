@@ -1,15 +1,16 @@
 import os
 import sys
 from datetime import datetime
+from typing import List
 
 
-def create_directory(path_parts):
+def create_directory(path_parts: List[str]) -> None:
     directory_path = os.path.join(*path_parts)
     os.makedirs(directory_path, exist_ok=True)
     print(f"Created directory: {directory_path}")
 
 
-def create_file(file_name):
+def create_file(file_name: str) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     content = []
 
@@ -33,7 +34,7 @@ def create_file(file_name):
     print(f"File created: {file_path}")
 
 
-def main():
+def main() -> None:
     args = sys.argv[1:]
 
     if "-d" in args and "-f" in args:
