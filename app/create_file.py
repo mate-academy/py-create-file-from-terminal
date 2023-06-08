@@ -1,38 +1,50 @@
-import sys
 import os
+import sys
 import datetime
-terminal_input = ['-d', 'dir1', 'dir2']
 
-print(terminal_input)
 
-def argument_parser() -> None:
+def input_parser(flow: list) -> None:
+    path = os.getcwd()
 
-    terminal_input = sys.argv[1::]
-
-    if len(terminal_input) <= 1:
-        return
-    path = os.getcwd() #TODO: delete?
-
-    if "-d" in terminal_input and "-f" in terminal_input:
-
-        folders = terminal_input[terminal_input.index("-d") + 1:
-                                 terminal_input.index("-f"):]
-        for folder in folders:
+    if "-d" in flow and "-f" in flow:
+        for folder in flow[flow.index("-d") + 1:flow.index("-f"):]:
             path = os.path.join(path, folder)
 
-        create_dir(path)
-        create_file(os.path.join(path, terminal_input[-1]))
+        create_folder(path)
+        path = os.path.join(path, flow[-1])
+        create_file(file_name=path)
         return
 
-    if "-d" in terminal_input:
-        create_path(cr_dir=True)
-        create_dir(path)
-        return
+    if "-d" in flow:
+        for folder in flow[flow.index("-d") + 1::]:
+            path = os.path.join(path, folder)
+        create_folder(path)
 
-    if "-f" in terminal_input:
-        create_file(path=os.getcwd())
-        return
+    if "-f" in flow:
+        create_file(flow[-1])
+
+
+def create_folder(path: str = os.getcwd()) -> None:
+    os.makedirs(path, exist_ok=True)
+
+
+def create_file(file_name: str) -> None:
+    with open(file_name, "a") as f:
+        print("Input content lines.\n"
+              "Type 'stop' to finish entering content.\n"
+              )
+        start_log_time = datetime.datetime.now()
+        f.write(f"{start_log_time.strftime('%Y-%m-%d %H:%M:%S')}\n")
+        counter = 1
+        while True:
+            user_input = input(">>>   ")
+            if user_input.lower() != "stop":
+                f.write(f"{counter} {user_input}\n")
+                counter += 1
+            else:
+                f.write("\n")
+                break
 
 
 if __name__ == "__main__":
-    argument_parser()
+    input_parser(sys.argv)
