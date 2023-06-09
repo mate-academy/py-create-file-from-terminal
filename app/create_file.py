@@ -3,7 +3,7 @@ import os
 import datetime
 
 
-def file_write(*filename: str) -> None:
+def file_write(*filename: tuple[str]) -> None:
     text = open(os.path.join(*filename), "a")
     text.write(
         str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M%:%S")) + "\n"
