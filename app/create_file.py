@@ -10,7 +10,7 @@ def create_directory(path_parts: List[str]) -> None:
     print(f"Created directory: {directory_path}")
 
 
-def create_file(file_name: str) -> None:
+def create_file(directory: str, file_name: str) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     content = []
 
@@ -20,7 +20,7 @@ def create_file(file_name: str) -> None:
             break
         content.append(line)
 
-    file_path = os.path.join(os.getcwd(), file_name)
+    file_path = os.path.join(directory, file_name)
 
     with open(file_path, "a+") as file:
         file.seek(0)
@@ -42,14 +42,12 @@ def main() -> None:
         file_index = args.index("-f")
         if dir_index < file_index:
             dir_path_parts = args[dir_index + 1:file_index]
-            create_directory(dir_path_parts)
             file_name = args[file_index + 1]
-            create_file(file_name)
         else:
             file_name = args[file_index + 1]
-            create_file(file_name)
-            dir_path_parts = args[dir_index + 1:]
-            create_directory(dir_path_parts)
+            dir_path_parts = args[dir_index + 1:file_index]
+        create_directory(dir_path_parts)
+        create_file(os.path.join(*dir_path_parts), file_name)
     elif "-d" in args:
         dir_index = args.index("-d")
         dir_path_parts = args[dir_index + 1:]
@@ -57,7 +55,7 @@ def main() -> None:
     elif "-f" in args:
         file_index = args.index("-f")
         file_name = args[file_index + 1]
-        create_file(file_name)
+        create_file(os.getcwd(), file_name)
 
 
 if __name__ == "__main__":
