@@ -7,17 +7,16 @@ def input_parser(flow: list) -> None:
     path = os.getcwd()
 
     if "-d" in flow and "-f" in flow:
-        for folder in flow[flow.index("-d") + 1:flow.index("-f"):]:
-            path = os.path.join(path, folder)
-
+        path = os.path.join(
+            path, *flow[flow.index("-d") + 1:flow.index("-f"):]
+        )
         create_folder(path)
         path = os.path.join(path, flow[-1])
         create_file(file_name=path)
         return
 
     if "-d" in flow:
-        for folder in flow[flow.index("-d") + 1::]:
-            path = os.path.join(path, folder)
+        path = os.path.join(path, *flow[flow.index("-d") + 1::])
         create_folder(path)
 
     if "-f" in flow:
