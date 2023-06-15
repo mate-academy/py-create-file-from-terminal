@@ -42,3 +42,4 @@ def create_file_through_terminal() -> None:
 
 if __name__ == "__main__":
     create_file_through_terminal()
+
