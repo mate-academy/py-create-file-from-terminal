@@ -13,7 +13,7 @@ def work_with_file(file_path: str) -> None:
         line_number = 1
         while True:
             line = input("Enter content line: ")
-            if line in ["stop", "STOP", "Stop"]:
+            if line.lower() == "stop":
                 break
             file.write(f"{line_number} {line}\n")
             line_number += 1
