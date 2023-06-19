@@ -8,7 +8,7 @@ def create_file(file_name: str) -> None:
         file.write(put_content())
 
 
-def put_content():
+def put_content() -> str:
     content = []
     line = 0
     while True:
@@ -17,15 +17,17 @@ def put_content():
             break
         line += 1
         content.append(str(line) + " " + string)
-    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     return timestamp + "\n" + "\n".join(content) + "\n\n"
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-d", "--directory", nargs="+", help="Command to create directory")
-    parser.add_argument("-f", "--filename", help="Command to create file")
+    parser.add_argument("-d", "--directory", nargs="+",
+                        help="Command to create directory")
+    parser.add_argument("-f", "--filename",
+                        help="Command to create file")
     args = parser.parse_args()
 
     if args.directory:
@@ -34,7 +36,8 @@ if __name__ == "__main__":
     else:
         directory = os.getcwd()
 
-    filename = os.path.join(directory, args.filename) if args.filename else None
+    filename = (os.path.join(directory, args.filename)
+                if args.filename else None)
 
     if filename:
         create_file(filename)
