@@ -15,8 +15,7 @@ def create_file(command: list) -> None:
         line_number = 1
         while True:
             line = input(
-                f"Enter new content line "
-                f"or 'stop' to end the program: "
+                "Enter new content line or 'stop' to end the program: "
             )
             if line.lower() == "stop":
                 break
