@@ -27,12 +27,12 @@ def create_file(command: list) -> None:
         file_name = command[-1]
         directory = command[1:f_index]
         create_directory(directory)
-        with open(path.join(*directory, file_name), "w") as file:
+        with open(path.join(*directory, file_name), "a") as file:
             write_into_file()
 
     elif "-f" in command:
         file_name = command[-1]
-        with open(file_name, "w") as file:
+        with open(file_name, "a") as file:
             write_into_file()
 
     elif "-d" in command:
