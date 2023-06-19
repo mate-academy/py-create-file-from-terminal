@@ -44,7 +44,7 @@ def create_file(file_name: str) -> None:
             user_input.write(f"{line_number} {user_content}\n")
 
 
-def create_dir_and_file(path, file_name) -> None:
+def create_dir_and_file(path: tuple, file_name: str) -> None:
     file_name = os.path.join(create_directories(path), file_name)
     create_file(file_name)
 
