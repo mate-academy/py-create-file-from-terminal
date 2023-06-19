@@ -34,11 +34,10 @@ def create_file(command: list) -> None:
         dirs = command[1: f_index]
         dirs_path = os.path.join(*dirs)
         os.makedirs(dirs_path, exist_ok=True)
-        if "-f" not in command:
-            return
 
-    file_path = os.path.join(dirs_path, file_name)
-    write_to_file(file_path)
+    if "-f" in command:
+        file_path = os.path.join(dirs_path, file_name)
+        write_to_file(file_path)
 
 
 if __name__ == "__main__":
