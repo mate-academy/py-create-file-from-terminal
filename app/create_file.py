@@ -9,24 +9,31 @@ def create_file() -> None:
 
         argv.pop(argv.index("-f"))
     except (IndexError, ValueError):
-        new_file_name = "new_file.txt"
+        create_dir()
+    else:
+        path_new_file = path.join(create_dir(), new_file_name)
 
+        with open(path_new_file, "a") as new_file:
+            new_file.write(making_content())
+
+
+def create_dir() -> str:
     try:
-        path_new_file = path.join(
+        dir_file = path.join(
             *argv[argv.index("-d") + 1:]
         )
     except (IndexError, ValueError, TypeError):
-        path_new_file = ""
+        dir_file = ""
     else:
-        makedirs(path_new_file, exist_ok=True)
+        makedirs(dir_file, exist_ok=True)
 
-    path_new_file = path.join(path_new_file, new_file_name)
-    line_count = 0
+    return dir_file
+
+
+def making_content() -> str:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    content = (
-        f"\n{timestamp}\n" if path.exists(path_new_file)
-        else f"{timestamp}\n"
-    )
+    content = f"{timestamp}\n"
+    line_count = 0
 
     while True:
         user_input = input("Enter content line: ")
@@ -37,8 +44,7 @@ def create_file() -> None:
         line_count += 1
         content += f"{line_count} {user_input}\n"
 
-    with open(path_new_file, "a") as new_file:
-        new_file.write(content)
+    return f"{content}\n"
 
 
 if __name__ == "__main__":
