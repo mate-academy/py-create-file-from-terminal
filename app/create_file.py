@@ -3,6 +3,16 @@ import os
 from datetime import datetime
 
 
+class SequenceError(Exception):
+    pass
+
+
+class MissingArgumentError(Exception):
+    def __str__(self) -> str:
+        return ("You`ve missed some arguments! "
+                "Use -help to see the usage of program")
+
+
 def write_file(path_to_file: str) -> None:
     with open(path_to_file, "a") as output_file:
         date = datetime.now().strftime("%y-%m-%d %H:%M:%S")
@@ -46,10 +56,20 @@ def create_file(commands: list) -> None:
         raise ValueError("You didn`t choose right command! "
                          "Use -help to see the usage of program.")
 
+    if "-d" in commands and "-f" in commands and len(commands) < 4:
+        raise MissingArgumentError()
+
+    if ("-d" in commands and len(commands) < 2
+            or "-f" in commands and len(commands) < 2):
+        raise MissingArgumentError
+
     if "-d" in commands:
         last_index_of_dirs = -1
         if "-f" in commands:
-            last_index_of_dirs = commands.index("-f")
+            if commands.index("-f") > commands.index("-d"):
+                last_index_of_dirs = commands.index("-f")
+            else:
+                raise SequenceError("-f param must be after -d param")
 
         path = os.path.join(*commands[1:last_index_of_dirs])
         os.makedirs(path, exist_ok=True)
