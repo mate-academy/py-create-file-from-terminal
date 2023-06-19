@@ -10,7 +10,7 @@ def get_new_path(args: list) -> str:
     return os.path.join(*path_list)
 
 
-def create_file():
+def create_file() -> None:
     args = sys.argv[1:]
     file_name = args[-1]
 
