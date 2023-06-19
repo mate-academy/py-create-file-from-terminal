@@ -21,6 +21,7 @@ def create_file(command: list) -> None:
                 break
             file.write(f"{line_number} {line}\n")
             line_number += 1
+        file.write("\n")
 
     if ("-f" in command) and ("-d" in command):
         f_index = command.index("-f")
