@@ -25,23 +25,27 @@ def command_realization() -> None:
 def create_directories(path: tuple) -> str:
     path = os.path.join(*path)
 
-    if not os.path.exists(path):
-        os.makedirs(path)
+    os.makedirs(path, exist_ok=True)
 
     return path
 
 
 def create_file(file_name: str) -> None:
+
+    current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    line_number = 0
+    content_list = []
+
+    while True:
+        line_number += 1
+        user_content = input("Enter content line:")
+        if user_content.lower() == "stop":
+            break
+        content_list.append(f"{line_number} {user_content}\n")
+
     with open(file_name, "a") as user_input:
-        current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         user_input.write(f"{current_date}\n")
-        line_number = 0
-        while True:
-            line_number += 1
-            user_content = input("Enter content line:")
-            if user_content.lower() == "stop":
-                break
-            user_input.write(f"{line_number} {user_content}\n")
+        user_input.write("".join(content_list))
 
 
 def create_dir_and_file(path: tuple, file_name: str) -> None:
