@@ -21,7 +21,7 @@ def __add_file_content(file_path: str) -> None:
             file.write(f"{line}\n")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     args_parser = ArgumentParser()
     args_parser.add_argument("-f")
     args_parser.add_argument("-d", nargs="*")
