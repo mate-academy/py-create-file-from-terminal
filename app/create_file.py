@@ -11,20 +11,21 @@ def input_from_terminal() -> str:
         text = input("Enter content line: ")
         if text == "stop":
             break
-        content += F"{str(count)} {text} \n"
+        content += f"{str(count)} {text} \n"
         count += 1
 
     return content
 
 
 def create_file(path_to_file: str, file_name: str) -> None:
-    if path_to_file:
-        os.makedirs(path_to_file)
-        with open(os.path.join(path_to_file, file_name), "w") as file_obj:
-            file_obj.write(input_from_terminal())
-    else:
-        with open(file_name, "a") as file_obj:
-            file_obj.write(input_from_terminal())
+    os.makedirs(path_to_file)
+    with open(os.path.join(path_to_file, file_name), "w") as file_obj:
+        file_obj.write(input_from_terminal())
+
+
+def add_to_file(file_name: str) -> None:
+    with open(file_name, "a") as file_obj:
+        file_obj.write(input_from_terminal())
 
 
 def parse_input() -> str:
@@ -40,7 +41,7 @@ def parse_input() -> str:
     elif args.d:
         os.makedirs(os.path.join(*args.d))
     elif args.f:
-        create_file("", file_name)
+        add_to_file(file_name)
 
 
 if __name__ == "__main__":
