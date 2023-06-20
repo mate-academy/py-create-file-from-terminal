@@ -23,10 +23,16 @@ def create_file(directory: str, filename: str, content: List[str]) -> None:
     print(f"File '{filename}' created successfully at '{file_path}'.")
 
 
-def process_arguments(args: str) -> None:
+def process_arguments(args: List[str]) -> None:
     if "-d" in args:
         directory_index = args.index("-d") + 1
-        directory_path = os.path.join(*args[directory_index:])
+        path = [*args[directory_index:]]
+        if "-f" in path:
+            p_index = path.index("-f")
+            path = path[:p_index]
+            directory_path = os.path.join(*path)
+        else:
+            directory_path = os.path.join(*args[directory_index:])
         os.makedirs(directory_path, exist_ok=True)
     else:
         directory_path = "."
