@@ -23,19 +23,20 @@ def write_to_file(path_to_file: str) -> None:
 
 def create_file(command: list) -> None:
 
-    file_name = command[-1]
     dirs_path = ""
 
     if "-d" in command:
+        d_index = command.index("-d")
         f_index = None
-        for idx, item in enumerate(command):
-            if item == "-f":
-                f_index = idx
-        dirs = command[1: f_index]
+        if "-f" in command and command.index("-f") > d_index:
+            f_index = command.index("-f")
+        dirs = command[d_index + 1: f_index]
         dirs_path = os.path.join(*dirs)
         os.makedirs(dirs_path, exist_ok=True)
 
     if "-f" in command:
+        f_index = command.index("-f")
+        file_name = command[f_index + 1]
         file_path = os.path.join(dirs_path, file_name)
         write_to_file(file_path)
 
