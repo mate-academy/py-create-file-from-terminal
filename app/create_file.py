@@ -35,12 +35,11 @@ def create_file(file_name: str) -> None:
     current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     line_number = 0
     content_list = []
+    user_content = ""
 
-    while True:
+    while user_content.lower() != "stop":
         line_number += 1
         user_content = input("Enter content line:")
-        if user_content.lower() == "stop":
-            break
         content_list.append(f"{line_number} {user_content}\n")
 
     with open(file_name, "a") as user_input:
