@@ -5,14 +5,16 @@ from datetime import datetime
 
 def command_realization() -> None:
     command = sys.argv[1:]
-    print(command)
 
     if "-d" in command and "-f" in command:
-        command_directory, *path, command_file, file_name = command
+        file_name = command.pop(command.index("-f") + 1)
+        command.pop(command.index("-f"))
+        path = command[command.index("-d") + 1:]
         create_dir_and_file(path, file_name)
 
     elif "-d" in command:
         command_directory, *path = command
+
         create_directories(path)
 
     elif "-f" in command:
@@ -25,8 +27,6 @@ def create_directories(path: tuple) -> str:
 
     if not os.path.exists(path):
         os.makedirs(path)
-    else:
-        path = ""
 
     return path
 
