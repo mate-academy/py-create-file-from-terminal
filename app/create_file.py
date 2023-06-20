@@ -9,13 +9,13 @@ entered_command = sys.argv[1:]
 def write_to_file(path_to_file: str) -> None:
     current_date = datetime.datetime.now()
     content = str(current_date.strftime("%Y-%m-%d %H:%M:%S")) + "\n"
-    user_input = ""
     line_number = 1
-    while user_input != "stop":
+    while True:
         user_input = input("Enter content line: ")
-        if user_input != "stop":
-            content += f"{line_number} {user_input}\n"
-            line_number += 1
+        if user_input == "stop":
+            break
+        content += f"{line_number} {user_input}\n"
+        line_number += 1
     content += "\n"
     with open(path_to_file, "a") as file:
         file.write(content)
