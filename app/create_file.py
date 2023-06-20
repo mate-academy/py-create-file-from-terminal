@@ -8,9 +8,9 @@ def create_file(command: list) -> None:
         dir_path = path.join(*directories)
         makedirs(dir_path, exist_ok=True)
 
-    def write_into_file() -> None:
+    def write_into_file(file_path) -> None:
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        file.write(f"{current_time}\n")
+        content = f"{current_time}\n"
 
         line_number = 1
         while True:
@@ -19,9 +19,11 @@ def create_file(command: list) -> None:
             )
             if line.lower() == "stop":
                 break
-            file.write(f"{line_number} {line}\n")
+            content += f"{line_number} {line}\n"
             line_number += 1
-        file.write("\n")
+
+        with open(file_path, "a") as file:
+            file.write(f"{content}\n")
 
     if ("-f" in command) and ("-d" in command):
         file_name = argv.pop(argv.index("-f") + 1)
@@ -29,13 +31,12 @@ def create_file(command: list) -> None:
         directory = argv[argv.index("-d") + 1:]
 
         create_directory(directory)
-        with open(path.join(*directory, file_name), "a") as file:
-            write_into_file()
+        dir_path = path.join(*directory, file_name)
+        write_into_file(dir_path)
 
     elif "-f" in command:
         file_name = argv.pop(argv.index("-f") + 1)
-        with open(file_name, "a") as file:
-            write_into_file()
+        write_into_file(file_name)
 
     elif "-d" in command:
         directory = argv[argv.index("-d") + 1:]
