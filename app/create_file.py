@@ -3,12 +3,12 @@ import os
 from datetime import datetime
 
 
-def create_file(directory: str, filename: str) -> None:
+def create_file(filename: str) -> None:
     content = []
 
     if os.path.exists(filename):
-        with open(filename, "r") as file:
-            content = file.readlines()
+        with open(filename, "a") as file:
+            file.writelines(content)
 
     line_number = len(content) + 1
     new_line = input("Enter content line: ")
@@ -24,25 +24,25 @@ def create_file(directory: str, filename: str) -> None:
     with open(filename, "w") as file:
         file.writelines(content)
 
-    print("File created successfully.")
-
 
 def create_directory(directory: str) -> None:
     os.makedirs(directory)
     print("Directory created successfully.")
 
 
-def file() -> None:
+def run_app() -> None:
     if "-d" in sys.argv:
         directory_index = sys.argv.index("-d") + 1
         directory = os.path.join(*sys.argv[directory_index:])
         create_directory(directory)
 
+    path = ""
     if "-f" in sys.argv:
-        filename_index = sys.argv.index("-f") + 1
-        filename = sys.argv[filename_index]
-        create_file(directory, filename)
+        file_index = sys.argv.index("-f")
+        file_name = sys.argv[file_index + 1]
+        file_path = os.path.join(path, file_name)
+        create_directory(file_path)
 
 
 if __name__ == "__main__":
-    file()
+    run_app()
