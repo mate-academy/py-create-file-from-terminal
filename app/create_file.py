@@ -1,16 +1,19 @@
-import sys
+import argparse
 import os
 from datetime import datetime
-
-
-class SequenceError(Exception):
-    pass
 
 
 class MissingArgumentError(Exception):
     def __str__(self) -> str:
         return ("You`ve missed some arguments! "
-                "Use -help to see the usage of program")
+                "Use -h to see the usage of program")
+
+
+def create_dirs(directories: list) -> str:
+    dirs = os.path.join(*directories)
+    if not os.path.exists(dirs):
+        os.makedirs(dirs)
+    return dirs
 
 
 def write_file(path_to_file: str) -> None:
@@ -27,59 +30,23 @@ def write_file(path_to_file: str) -> None:
         output_file.write("\n")
 
 
-def create_file(commands: list) -> None:
-    """
-    :param commands: list of commands
-    :return: None
-
-    This function is creating a directory or file.
-    You have to use -d to create a directory or -f to create a file.
-    You can use both arguments if you want to create file in some directory.
-    Examples of usage parameter -d:
-
-        "create_file.py -d dir1"
-        "create_file.py -d dir1 dir2 ..."
-
-    Example of usage parameter -f:
-        "create_file.py -f file.txt"
-    Also using -f you can write text to a file or write "stop" to stop writing.
-
-    You can combine this parameters like in example:
-        "create_file.py -d dir1 -f file.txt"
-    """
-    if "-help" in commands:
-        print(create_file.__doc__)
-        return
-
-    path = ""
-    if "-f" not in commands and "-d" not in commands:
-        raise ValueError("You didn`t choose right command! "
-                         "Use -help to see the usage of program.")
-
-    if "-d" in commands and "-f" in commands and len(commands) < 4:
-        raise MissingArgumentError()
-
-    if ("-d" in commands and len(commands) < 2
-            or "-f" in commands and len(commands) < 2):
-        raise MissingArgumentError
-
-    if "-d" in commands:
-        last_index_of_dirs = -1
-        if "-f" in commands:
-            if commands.index("-f") > commands.index("-d"):
-                last_index_of_dirs = commands.index("-f")
-            else:
-                raise SequenceError("-f param must be after -d param")
-
-        path = os.path.join(*commands[1:last_index_of_dirs])
-        os.makedirs(path, exist_ok=True)
-
-    if "-f" in commands:
-        path_to_file = os.path.join(path, commands[-1])
+def create_files() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", nargs="+", help="used to create directories")
+    parser.add_argument("-f", type=str, help="used to create file")
+    args = parser.parse_args()
+    if args.d and args.f:
+        dirs = create_dirs(args.d)
+        path_to_file = os.path.join(dirs, args.f)
         write_file(path_to_file)
 
+    elif args.d:
+        create_dirs(args.d)
+    elif args.f:
+        write_file(args.f)
+    else:
+        raise MissingArgumentError
 
-commands = sys.argv
 
 if __name__ == "__main__":
-    create_file(commands[1:])
+    create_files()
