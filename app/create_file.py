@@ -18,7 +18,8 @@ def input_from_terminal() -> str:
 
 
 def create_file(path_to_file: str, file_name: str) -> None:
-    os.makedirs(path_to_file)
+    if not os.path.exists(path_to_file):
+        os.makedirs(path_to_file)
     with open(os.path.join(path_to_file, file_name), "w") as file_obj:
         file_obj.write(input_from_terminal())
 
@@ -28,7 +29,7 @@ def add_to_file(file_name: str) -> None:
         file_obj.write(input_from_terminal())
 
 
-def parse_input() -> str:
+def parse_input() -> None:
     parser = argparse.ArgumentParser(description="My program")
     parser.add_argument("-d", nargs="+", help="part of the path")
     parser.add_argument("-f", help="file name")
@@ -39,7 +40,8 @@ def parse_input() -> str:
     if args.d and args.f:
         create_file(os.path.join(*args.d), file_name)
     elif args.d:
-        os.makedirs(os.path.join(*args.d))
+        if not os.path.exists(os.path.join(*args.d)):
+            os.makedirs(os.path.join(*args.d))
     elif args.f:
         add_to_file(file_name)
 
