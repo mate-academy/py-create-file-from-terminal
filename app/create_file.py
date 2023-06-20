@@ -24,20 +24,21 @@ def create_file(command: list) -> None:
         file.write("\n")
 
     if ("-f" in command) and ("-d" in command):
-        f_index = command.index("-f")
-        file_name = command[-1]
-        directory = command[1:f_index]
+        file_name = argv.pop(argv.index("-f") + 1)
+        argv.pop(argv.index("-f"))
+        directory = argv[argv.index("-d") + 1:]
+
         create_directory(directory)
         with open(path.join(*directory, file_name), "a") as file:
             write_into_file()
 
     elif "-f" in command:
-        file_name = command[-1]
+        file_name = argv.pop(argv.index("-f") + 1)
         with open(file_name, "a") as file:
             write_into_file()
 
     elif "-d" in command:
-        directory = command[1:]
+        directory = argv[argv.index("-d") + 1:]
         create_directory(directory)
 
 
