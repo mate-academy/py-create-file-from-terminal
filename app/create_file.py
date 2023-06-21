@@ -3,25 +3,38 @@ import os
 import sys
 
 
-def create_file_inside_directory() -> None:
-    cmd_list = sys.argv
+def create_directory(command: str) -> str:
     path = ""
-    if "-d" in cmd_list:
-        if "-f" in cmd_list:
-            path = os.path.join(*(cmd_list[2:-2]))
+    if "-d" in command:
+        if "-f" in command:
+            path = os.path.join(*(command[2:-2]))
         else:
-            path = os.path.join(*(cmd_list[2::]))
+            path = os.path.join(*(command[2::]))
         if path:
             os.makedirs(path, exist_ok=True)
-    if "-f" in cmd_list:
-        with open(os.path.join(path, cmd_list[-1]), "a") as new_file:
+    return path
+
+
+def create_file(command: str, path: str) -> None:
+    if "-f" in command:
+        content_lines = []
+        while True:
+            content_line = input("Enter content line:")
+            if content_line == "stop":
+                break
+            content_lines.append(content_line + "\n")
+            print(content_lines)
+        with open(os.path.join(path, command[-1]), "a") as new_file:
             new_file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-            while True:
-                content_line = input("Enter content line:")
-                if content_line != "stop":
-                    new_file.write(f"{content_line}\n")
-                else:
-                    break
+            for line in content_lines:
+                new_file.write(line)
+
+
+def create_file_inside_directory() -> None:
+    cmd_list = sys.argv
+    path = create_directory(cmd_list)
+    print("path: ", path)
+    create_file(cmd_list, path)
 
 
 if __name__ == "__main__":
