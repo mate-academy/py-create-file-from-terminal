@@ -1,14 +1,15 @@
 import os
 import argparse
 from datetime import datetime
+from argparse import Namespace
 
 
-def create_file(file_name: str) -> None:
+def put_content(file_name: str) -> None:
     with open(file_name, "a+") as file:
-        file.write(put_content())
+        file.write(create_content())
 
 
-def put_content() -> str:
+def create_content() -> str:
     content = []
     line = 0
     while True:
@@ -22,13 +23,17 @@ def put_content() -> str:
     return timestamp + "\n" + "\n".join(content) + "\n\n"
 
 
-if __name__ == "__main__":
+def parser_func() -> Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--directory", nargs="+",
                         help="Command to create directory")
     parser.add_argument("-f", "--filename",
                         help="Command to create file")
-    args = parser.parse_args()
+    return parser.parse_args()
+
+
+def create_file_by_path() -> None:
+    args = parser_func()
 
     if args.directory:
         directory = os.path.join(os.getcwd(), *args.directory)
@@ -36,8 +41,10 @@ if __name__ == "__main__":
     else:
         directory = os.getcwd()
 
-    filename = (os.path.join(directory, args.filename)
-                if args.filename else None)
+    if args.filename:
+        filename = (os.path.join(directory, args.filename))
+        put_content(filename)
 
-    if filename:
-        create_file(filename)
+
+if __name__ == "__main__":
+    create_file_by_path()
