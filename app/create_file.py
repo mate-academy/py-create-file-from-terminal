@@ -18,8 +18,7 @@ def input_from_terminal() -> str:
 
 
 def create_file(path_to_file: str, file_name: str) -> None:
-    if not os.path.exists(path_to_file):
-        os.makedirs(path_to_file)
+    os.makedirs(path_to_file, exist_ok=True)
     with open(os.path.join(path_to_file, file_name), "w") as file_obj:
         file_obj.write(input_from_terminal())
 
@@ -40,8 +39,7 @@ def parse_input() -> None:
     if args.d and args.f:
         create_file(os.path.join(*args.d), file_name)
     elif args.d:
-        if not os.path.exists(os.path.join(*args.d)):
-            os.makedirs(os.path.join(*args.d))
+        os.makedirs(os.path.join(*args.d), exist_ok=True)
     elif args.f:
         add_to_file(file_name)
 
