@@ -40,7 +40,6 @@ def main() -> None:
                 directories.append(flags[argument])
             directory = path.join(*directories)
             makedirs(directory, exist_ok=True)
-
         if "-f" in flags:
             filename = flags[flags.index("-f") + 1]
         file_path = path.join(directory, filename)
