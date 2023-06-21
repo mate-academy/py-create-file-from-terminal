@@ -8,7 +8,7 @@ def create_file(command: list) -> None:
         dir_path = path.join(*directories)
         makedirs(dir_path, exist_ok=True)
 
-    def write_into_file(file_path) -> None:
+    def write_into_file(file_path: str | list) -> None:
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         content = f"{current_time}\n"
 
