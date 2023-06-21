@@ -10,11 +10,11 @@ def create_directory(directory: list) -> None:
 
 
 def parse(commands: list) -> tuple[str | Any, list[Any]]:
-    file_name = ""
+    filename = ""
     dir_path = []
 
     if "-f" in commands:
-        file_name = commands.pop(commands.index("-f") + 1)
+        filename = commands.pop(commands.index("-f") + 1)
 
     for command in commands:
         if command in ["-f", "-d"]:
@@ -22,37 +22,34 @@ def parse(commands: list) -> tuple[str | Any, list[Any]]:
 
         dir_path.append(command)
 
-    return file_name, dir_path
+    return filename, dir_path
 
 
 def create_file() -> None:
     commands = sys.argv[1:]
     filename, dir_path = parse(commands)
 
-    content = ""
-    counter_of_lines = 1
-
     if dir_path:
         create_directory(dir_path)
 
     if filename:
         filename = os.path.join(*dir_path, filename)
-        time = datetime.datetime
-        file_time = time.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
+        file_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
         content = f"{file_time}\n"
         counter_of_lines = 1
 
-    while True:
-        user_input = input("Enter content: ")
+        while True:
+            user_input = input("Enter content: ")
 
-        if user_input == "stop":
-            content += "\n"
-            break
-        content += f"{counter_of_lines} {user_input}\n"
-        counter_of_lines += 1
+            if user_input == "stop":
+                content += "\n"
+                break
 
-    with open(filename, "a") as file:
-        file.write(content)
+            content += f"{counter_of_lines} {user_input}\n"
+            counter_of_lines += 1
+
+        with open(filename, "a") as file:
+            file.write(content)
 
 
 if __name__ == "__main__":
