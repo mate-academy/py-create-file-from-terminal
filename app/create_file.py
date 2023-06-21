@@ -12,13 +12,13 @@ def parse_data(command_data: list) -> tuple:
     file_name = ""
     dir_path = []
 
-    for value in command_data:
-        if value.endswith(".txt"):
-            file_name = value
+    if "-f" in command_data:
+        file_name = command_data.pop(command_data.index("-f") + 1)
+
+    for com in command_data:
+        if com in ["-f", "-d"]:
             continue
-        elif value in ["-f", "-d"]:
-            continue
-        dir_path.append(value)
+        dir_path.append(com)
 
     return file_name, dir_path
 
@@ -32,18 +32,19 @@ def create_file() -> None:
 
     if file_name:
         file_name = os.path.join(*dir_path, file_name)
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        content_to_write = f"{timestamp}\n"
+        line_counter = 1
+
+        while True:
+            user_data = input("Enter content line (or 'stop' to finish):")
+            if user_data == "stop":
+                content_to_write += "\n"
+                break
+            content_to_write += f"{line_counter} {user_data}\n"
+            line_counter += 1
 
         with open(file_name, "a") as file:
-            timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            content_to_write = f"{timestamp}\n"
-            line_counter = 1
-            while True:
-                user_data = input("Enter content line (or 'stop' to finish):")
-                if user_data == "stop":
-                    content_to_write += "\n"
-                    break
-                content_to_write += f"{line_counter} {user_data}\n"
-                line_counter += 1
             file.write(content_to_write)
 
 
