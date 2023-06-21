@@ -24,18 +24,15 @@ def create_file(directory: str, filename: str, content: List[str]) -> None:
 
 
 def process_arguments(args: List[str]) -> None:
+    directory_path = "."
     if "-d" in args:
         directory_index = args.index("-d") + 1
         path = [*args[directory_index:]]
         if "-f" in path:
             p_index = path.index("-f")
             path = path[:p_index]
-            directory_path = os.path.join(*path)
-        else:
-            directory_path = os.path.join(*args[directory_index:])
+        directory_path = os.path.join(*path)
         os.makedirs(directory_path, exist_ok=True)
-    else:
-        directory_path = "."
 
     if "-f" in args:
         filename_index = args.index("-f") + 1
