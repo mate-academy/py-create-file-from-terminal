@@ -27,21 +27,17 @@ def create_file(file_name: str) -> None:
 
 command = sys.argv
 if "-f" in command and "-d" not in command:
-    print(command[command.index("-f")])
     create_file(command[command.index("-f") + 1])
 
 if "-d" in command and "-f" not in command:
     dirs = command[command.index("-d") + 1:]
-    path = dirs[0]
-    for direct in dirs[1:]:
-        path += f"/{direct}"
+    path = os.path.join(*dirs)
     create_dir(path)
+
 if "-f" in command and "-d" in command:
     dirs = command[command.index("-d") + 1: command.index("-f")]
-    path = dirs[0]
-    for direct in dirs[1:]:
-        path += f"/{direct}"
+    path = os.path.join(*dirs)
     create_dir(path)
     file_name = command[command.index("-f") + 1]
-    path += f"/{file_name}"
+    path = os.path.join(path, file_name)
     create_file(path)
