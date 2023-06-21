@@ -5,30 +5,30 @@ from datetime import datetime
 
 def main() -> None:
     args = sys.argv
-    if "-d" in args and "-f" not in args:
+    dir_index = -1
+    file_index = -1
+    directory_path = ""
+    file_name = ""
+
+    if "-d" in args:
         dir_index = args.index("-d")
         directory_path = os.path.join(*args[dir_index + 1:])
-        if not os.path.exists(directory_path):
-            create_directory(directory_path)
-    if "-f" in args and "-d" in args:
+
+    if "-f" in args:
         file_index = args.index("-f")
         file_name = args[file_index + 1]
-        dir_index = args.index("-d")
+
+    if dir_index != -1 and file_index != -1 and dir_index < file_index:
         directory_path = os.path.join(*args[dir_index + 1:file_index])
-        if not os.path.exists(directory_path):
-            create_directory(directory_path)
+        os.makedirs(directory_path, exist_ok=True)
         file_path = os.path.join(directory_path, file_name)
         create_file(file_path)
-    if "-f" in args and "-d" not in args:
-        file_index = args.index("-f")
-        file_name = args[file_index + 1]
+
+    elif dir_index != -1:
+        os.makedirs(directory_path, exist_ok=True)
+
+    elif file_index != -1:
         create_file(file_name)
-
-
-def create_directory(path: str) -> None:
-    if path:
-        os.makedirs(path, exist_ok=True)
-    print(f"Directory created: {path}")
 
 
 def create_file(file_name: str) -> None:
@@ -43,7 +43,7 @@ def create_file(file_name: str) -> None:
             if content.lower() == "stop":
                 file.write(" \n")
                 break
-            file.write(str(num) + " " + content + "\n")
+            file.write(f"{str(num)} {content} \n")
             num += 1
 
 
