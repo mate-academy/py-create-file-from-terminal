@@ -18,8 +18,7 @@ def get_content() -> list:
 
 
 def create_file(path: str) -> None:
-    mode = "a" if os.path.exists(path) else "w"
-    with open(path, mode) as file:
+    with open(path, "a") as file:
         for line in get_content():
             file.write(line + "\n")
         file.write("\n")
