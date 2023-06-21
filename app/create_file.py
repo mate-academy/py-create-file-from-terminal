@@ -1,7 +1,7 @@
 import sys
 import os
 from datetime import datetime
-from typing import Tuple, Any, List
+from typing import Any
 
 
 def create_directory(directory: list) -> None:
@@ -37,12 +37,13 @@ def create_file() -> None:
 
     if filename:
         filename = os.path.join(*dir_path, filename)
-        file_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
+        time = datetime.datetime
+        file_time = time.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
         content = f"{file_time}\n"
         counter_of_lines = 1
 
     while True:
-        user_input = input(f"Enter content: ")
+        user_input = input("Enter content: ")
 
         if user_input == "stop":
             content += "\n"
