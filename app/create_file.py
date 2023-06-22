@@ -4,10 +4,6 @@ from datetime import datetime
 from typing import Any
 
 
-def create_directory(directory: str) -> None:
-    os.makedirs(directory, exist_ok=True)
-
-
 def create_file(directory: str, filename: str) -> None:
     file_path = os.path.join(directory, filename)
 
@@ -36,10 +32,10 @@ def create_directory_and_file() -> None:
     args = parse_arguments()
     if args.directory:
         directory_path = os.path.join(*args.directory)
-        create_directory(directory_path)
-    if args.file:
-        file_name = args.file
-        create_file(".", file_name)
+        os.makedirs(directory_path, exist_ok=True)
+        if args.file:
+            file_name = args.file
+            create_file(directory_path, file_name)
 
 
 if __name__ == "__main__":
