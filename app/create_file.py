@@ -1,15 +1,15 @@
-import sys
 import os
 from datetime import datetime
 from argparse import ArgumentParser
 
 
 def create_file(path: str) -> None:
-    path = os.path.join(path, args.f)
-
+    blank_line = ""
+    if os.path.exists(path):
+        blank_line = "\n"
     with open(path, "a") as file:
         if os.path.exists(path):
-            file.write("\n")
+            file.write(blank_line)
         file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
         while True:
             input_line = input("Enter content line: ")
@@ -25,13 +25,13 @@ parser.add_argument("-f")
 
 args = parser.parse_args()
 
-if "-d" in sys.argv:
-    if "-f" in sys.argv:
-        path = os.path.join(*args.d)
-        os.makedirs(path, exist_ok=True)
-        create_file(path)
-    else:
-        path = os.path.join(*args.d)
+
+path = ""
+if args.d is not None:
+    path = os.path.join(*args.d)
+    if not os.path.exists(path):
         os.makedirs(path)
-elif "-f" in sys.argv:
-    create_file("")
+if args.f is not None:
+    path = os.path.join(path, args.f)
+    create_file(path)
+
