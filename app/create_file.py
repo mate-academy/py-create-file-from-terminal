@@ -7,17 +7,18 @@ from typing import Any
 def create_file(directory: str, filename: str) -> None:
     file_path = os.path.join(directory, filename)
 
+    lines = []
+    line_number = 1
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    while True:
+        line = input("Enter content line: ")
+        if line == "stop":
+            break
+        lines.append(f"{line_number} {line}")
+        line_number += 1
+    content = "\n".join(lines)
+
     with open(file_path, "a") as file:
-        lines = []
-        line_number = 1
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        while True:
-            line = input("Enter content line: ")
-            if line == "stop":
-                break
-            lines.append(f"{line_number} {line}")
-            line_number += 1
-        content = "\n".join(lines)
         file.write(timestamp + "\n" + content)
 
 
