@@ -1,11 +1,10 @@
-import sys
+import argparse
 import os
 from datetime import datetime
 
 
 def create_dir(path: str) -> None:
-    if not os.path.exists(path):
-        os.makedirs(path)
+    os.makedirs(path, exist_ok=True)
 
 
 def create_file(file_name: str) -> None:
@@ -25,19 +24,31 @@ def create_file(file_name: str) -> None:
         file.writelines("\n")
 
 
-command = sys.argv
-if "-f" in command and "-d" not in command:
-    create_file(command[command.index("-f") + 1])
+def working_with_command(command: argparse.Namespace) -> None:
+    if command.file:
+        if command.directory:
+            dirs = command.directory
+            path = os.path.join(*dirs)
+            create_dir(path)
+            file_name = command.file
+            path = os.path.join(path, file_name)
+            create_file(path)
+        else:
+            create_file(command.file)
 
-if "-d" in command and "-f" not in command:
-    dirs = command[command.index("-d") + 1:]
-    path = os.path.join(*dirs)
-    create_dir(path)
+    if command.directory:
+        path = os.path.join(*command.directory)
+        create_dir(path)
 
-if "-f" in command and "-d" in command:
-    dirs = command[command.index("-d") + 1: command.index("-f")]
-    path = os.path.join(*dirs)
-    create_dir(path)
-    file_name = command[command.index("-f") + 1]
-    path = os.path.join(path, file_name)
-    create_file(path)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("-f", "--file", help="Create a file")
+    parser.add_argument("-d",
+                        "--directory",
+                        nargs="+",
+                        help="Create a directory")
+
+    args = parser.parse_args()
+    working_with_command(args)
