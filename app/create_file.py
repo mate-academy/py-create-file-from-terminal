@@ -1,44 +1,36 @@
+import argparse
 import os
 import sys
 from datetime import datetime
 from typing import List
 
 
-def create_file(directory: str, filename: str, content: List[str]) -> None:
-    file_path = os.path.join(directory, filename)
+def create_file(file_path: str, filename: str, content: List[str]) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    if os.path.exists(file_path):
-        with open(file_path, "a") as file:
-            file.write("\n\n")
-            file.write(timestamp + "\n")
-            for line in content:
-                file.write(line + "\n")
-    else:
-        with open(file_path, "w") as file:
-            file.write(timestamp + "\n")
-            for line in content:
-                file.write(line + "\n")
+    with open(file_path, "a") as file:
+        file.write(timestamp + "\n")
+        for line in content:
+            file.write(line + "\n")
+        file.write("\n")
 
     print(f"File '{filename}' created successfully at '{file_path}'.")
 
 
-def process_arguments(args: List[str]) -> None:
-    directory_path = "."
-    if "-d" in args:
-        directory_index = args.index("-d") + 1
-        path = [*args[directory_index:]]
-        if "-f" in path:
-            p_index = path.index("-f")
-            path = path[:p_index]
-        directory_path = os.path.join(*path)
-        os.makedirs(directory_path, exist_ok=True)
+def process_arguments() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--directories", nargs="+", help="creates directory")
+    parser.add_argument("-f", "--filename", help="creates file")
+    arguments = parser.parse_args()
 
-    if "-f" in args:
-        filename_index = args.index("-f") + 1
-        filename = args[filename_index]
+    filename = arguments.filename
+    directories = "/".join(arguments.directories if arguments.directories else os.getcwd())
+    os.makedirs(directories, exist_ok=True)
+    file_path = os.path.join(directories, filename)
+
+    if filename:
         content = get_content_from_input()
-        create_file(directory_path, filename, content)
+        create_file(file_path, filename, content)
 
 
 def get_content_from_input() -> List[str]:
@@ -51,5 +43,4 @@ def get_content_from_input() -> List[str]:
 
 
 if __name__ == "__main__":
-    arguments = sys.argv[1:]
-    process_arguments(arguments)
+    process_arguments()
