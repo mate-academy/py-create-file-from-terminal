@@ -1,6 +1,5 @@
 import argparse
 import os
-import sys
 from datetime import datetime
 from typing import List
 
@@ -19,12 +18,14 @@ def create_file(file_path: str, filename: str, content: List[str]) -> None:
 
 def process_arguments() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("-d", "--directories", nargs="+", help="creates directory")
+    parser.add_argument("-d", "--directories",
+                        nargs="+", help="creates directory")
     parser.add_argument("-f", "--filename", help="creates file")
     arguments = parser.parse_args()
 
     filename = arguments.filename
-    directories = "/".join(arguments.directories if arguments.directories else os.getcwd())
+    directories = "/".join(arguments.directories
+                           if arguments.directories else os.getcwd())
     os.makedirs(directories, exist_ok=True)
     file_path = os.path.join(directories, filename)
 
