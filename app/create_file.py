@@ -8,20 +8,19 @@ def create_dir(path: str) -> None:
 
 
 def create_file(file_name: str) -> None:
-    enter = ""
-    data = ""
+    data = "\n"
     index = 1
-    while enter != "stop":
+    while True:
         enter = input("Enter content line: ")
-        if enter != "stop":
-            data += f"{index} {enter} \n"
-            index += 1
+        if enter == "stop":
+            data += "\n"
+            break
+        data += f"{index} {enter} \n"
+        index += 1
     with open(file_name, "a") as file:
         now = datetime.now()
         file.writelines(now.strftime("%Y-%m-%d %H:%M:%S"))
-        file.writelines("\n")
         file.writelines(data)
-        file.writelines("\n")
 
 
 def working_with_command(command: argparse.Namespace) -> None:
@@ -41,7 +40,7 @@ def working_with_command(command: argparse.Namespace) -> None:
         create_dir(path)
 
 
-if __name__ == "__main__":
+def read_command() -> None:
     parser = argparse.ArgumentParser()
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("-f", "--file", help="Create a file")
@@ -52,3 +51,6 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     working_with_command(args)
+
+
+read_command()
