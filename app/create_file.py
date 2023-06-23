@@ -24,7 +24,7 @@ def parse_command() -> None:
 
 
 def create_directory(directory: str) -> None:
-    makedirs(directory)
+    makedirs(directory, exist_ok = True)
 
 
 def create_file(file_name: str) -> None:
