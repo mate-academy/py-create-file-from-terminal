@@ -30,12 +30,13 @@ def parse_arguments() -> Any:
 
 def create_directory_and_file() -> None:
     args = parse_arguments()
-    if args.directory:
-        directory_path = os.path.join(*args.directory)
-        os.makedirs(directory_path, exist_ok=True)
-        if args.file:
-            file_name = args.file
-            create_file(directory_path, file_name)
+    if args.file:
+        file_name = args.file
+        directory_path = os.getcwd()
+        if args.directory:
+            directory_path = os.path.join(*args.directory)
+            os.makedirs(directory_path, exist_ok=True)
+        create_file(directory_path, file_name)
 
 
 if __name__ == "__main__":
