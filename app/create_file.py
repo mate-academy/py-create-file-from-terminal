@@ -40,10 +40,13 @@ def command_f(commands: list[str]) -> None:
 
         file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S" + "\n"))
         input_line = input("Enter content line: ")
+        line_number = 1
 
         while input_line != "stop":
-            file.write(input_line + "\n")
+            output = f"{line_number} {input_line}"
+            file.write(output + "\n")
             input_line = input("Enter content line: ")
+            line_number += 1
 
 
 if __name__ == "__main__":
