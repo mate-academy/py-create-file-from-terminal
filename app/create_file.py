@@ -19,8 +19,7 @@ def create_file(file_name: str) -> None:
         index += 1
     with open(file_name, "a") as file:
         now = datetime.now()
-        file.writelines(now.strftime("%Y-%m-%d %H:%M:%S"))
-        file.writelines(data)
+        file.writelines(now.strftime("%Y-%m-%d %H:%M:%S") + data)
 
 
 def working_with_command(command: argparse.Namespace) -> None:
@@ -53,4 +52,5 @@ def read_command() -> None:
     working_with_command(args)
 
 
-read_command()
+if __name__ == "__main__":
+    read_command()
