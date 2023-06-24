@@ -8,14 +8,17 @@ def create_file() -> None:
 
     directory = ""
     if "-d" in terminal_command:
-        for argument in terminal_command[2:]:
+        for argument in terminal_command[terminal_command.index("-d") + 1:]:
             if argument == "-f":
                 break
             directory = os.path.join(directory, argument)
         os.makedirs(directory, exist_ok=True)
 
     if "-f" in terminal_command:
-        with open(os.path.join(directory, terminal_command[-1]),
+        with open(os.path.join(
+                directory,
+                terminal_command[terminal_command.index("-f") + 1]
+        ),
                   "a+") as new_file:
             new_file.seek(0)
             if new_file.readline():
