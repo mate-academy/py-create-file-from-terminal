@@ -15,11 +15,13 @@ def create_file() -> None:
         os.makedirs(directory, exist_ok=True)
 
     if "-f" in terminal_command:
-        with open(os.path.join(
-                directory,
-                terminal_command[terminal_command.index("-f") + 1]
-        ),
-                  "a+") as new_file:
+        with open(
+                os.path.join(
+                    directory,
+                    terminal_command[terminal_command.index("-f") + 1]
+                ),
+                "a+"
+        ) as new_file:
             new_file.seek(0)
             if new_file.readline():
                 new_file.write("\n")
