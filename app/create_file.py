@@ -40,9 +40,13 @@ def create_files_and_folders() -> None:
         folders_to_create = os.path.join(*dict_with_flags["-d"])
         os.makedirs(folders_to_create)
     if dict_with_flags["-f"]:
-        path_to_file = os.path.join(*dict_with_flags['-f'])
+        path_to_file = os.path.join(*dict_with_flags["-f"])
         if dict_with_flags["-d"]:
-            path_to_file = os.path.join(folders_to_create, *dict_with_flags['-f'])
+            path_to_file = (
+                os.path.join(
+                    folders_to_create, *dict_with_flags["-f"]
+                )
+            )
         with open(path_to_file, "w") as file:
             date_time_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             file.write(f"{date_time_now}\n")
