@@ -20,15 +20,11 @@ def parse() -> None:
         dir_path = os.path.join(*argv[index + 1:])
 
     if dir_path:
-        create_dir(dir_path)
+        os.makedirs(dir_path)
 
     if filename:
         file_path = os.path.join(dir_path, filename)
         create_file(file_path)
-
-
-def create_dir(dir_path: str) -> None:
-    os.mkdir(dir_path)
 
 
 def content() -> list:
@@ -45,7 +41,7 @@ def content() -> list:
 
 
 def create_file(file_path: str) -> None:
-    with open(file_path, "w") as file:
+    with open(file_path, "a") as file:
         for line in content():
             file.write(line + "\n")
 
