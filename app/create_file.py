@@ -1,5 +1,5 @@
 import os
-import sys
+import argparse
 from datetime import datetime
 
 
@@ -32,23 +32,37 @@ def create_directory(directory: str) -> None:
 
 
 def main() -> None:
-    if "-d" in sys.argv:
-        directory_index = sys.argv.index("-d") + 1
-        directory = os.path.join(*sys.argv[directory_index:])
+    # if "-d" in sys.argv:
+    #     directory_index = sys.argv.index("-d") + 1
+    #     directory = os.path.join(*sys.argv[directory_index:])
+    #     create_directory(directory)
+    # elif "-f" in sys.argv:
+    #     filename_index = sys.argv.index("-f") + 1
+    #     filename = sys.argv[filename_index]
+    #     create_file(os.getcwd(), filename)
+    # elif "-d" in sys.argv and "-f" in sys.argv:
+    #     directory_index = sys.argv.index("-d") + 1
+    #     directory = os.path.join(*sys.argv[directory_index:-2])
+    #     filename_index = sys.argv.index("-f") + 1
+    #     filename = sys.argv[filename_index]
+    #     create_directory(directory)
+    #     create_file(directory, filename)
+    # else:
+    #     print("Wrong command")
+    parser = argparse.ArgumentParser()
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("-d", "--directory", nargs="+", help="Create directory")
+    group.add_argument("-f", "--file", help="Create file")
+
+    args = parser.parse_args()
+
+    if args.directory:
+        directory = os.path.join(*args.directory)
         create_directory(directory)
-    elif "-f" in sys.argv:
-        filename_index = sys.argv.index("-f") + 1
-        filename = sys.argv[filename_index]
-        create_file(os.getcwd(), filename)
-    elif "-d" in sys.argv and "-f" in sys.argv:
-        directory_index = sys.argv.index("-d") + 1
-        directory = os.path.join(*sys.argv[directory_index:-2])
-        filename_index = sys.argv.index("-f") + 1
-        filename = sys.argv[filename_index]
-        create_directory(directory)
-        create_file(directory, filename)
-    else:
-        print("Wrong command")
+
+    if args.file:
+        file_name = args.file
+        create_file(os.getcwd(), file_name)
 
 
 if __name__ == "__main__":
