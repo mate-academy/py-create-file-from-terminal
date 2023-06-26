@@ -47,7 +47,7 @@ def create_files_and_folders() -> None:
                     folders_to_create, *dict_with_flags["-f"]
                 )
             )
-        with open(path_to_file, "w") as file:
+        with open(path_to_file, "a") as file:
             date_time_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             file.write(f"{date_time_now}\n")
             counter = 0
