@@ -28,7 +28,6 @@ def create_content() -> list[str]:
         if content_line == "stop":
             break
         content.append(content_line + "\n")
-        print(content)
     return content
 
 
@@ -46,7 +45,6 @@ def create_file_inside_directory() -> None:
         file_name = cmd_list[cmd_list.index("-f") + 1]
         content = create_content()
         write_into_file(path, file_name, content)
-    print("path: ", path)
 
 
 if __name__ == "__main__":
