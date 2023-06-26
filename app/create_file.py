@@ -29,4 +29,3 @@ if args.d is not None:
 if args.f is not None:
     path = os.path.join(path, args.f)
     create_file(path)
-
