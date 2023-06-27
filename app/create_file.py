@@ -8,8 +8,9 @@ def file_handling(path: str) -> None:
     This function at first creates line with date and time of addition text,
     then added line by line all users inputs with numbers
     """
+    date_time = f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
     with open(path, "a") as text_file:
-        text_file.write(f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        text_file.write(date_time)
         line_number = 1
         while True:
             content = input("Enter content line: ")
@@ -41,5 +42,5 @@ def create_file_func() -> None:
         file_handling(path=file_name)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     create_file_func()
