@@ -14,7 +14,7 @@ def create_file(path: str) -> None:
             file.write(f"{input_line}\n")
 
 
-def create_dir() -> None:
+def create_dir_and_file_from_terminal() -> None:
     parser = ArgumentParser()
 
     parser.add_argument("-d", nargs="*")
@@ -32,4 +32,4 @@ def create_dir() -> None:
 
 
 if __name__ == "__main__":
-    create_dir()
+    create_dir_and_file_from_terminal()
