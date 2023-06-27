@@ -14,18 +14,22 @@ def create_file(path: str) -> None:
             file.write(f"{input_line}\n")
 
 
-parser = ArgumentParser()
+def create_dir() -> None:
+    parser = ArgumentParser()
 
-parser.add_argument("-d", nargs="*")
-parser.add_argument("-f")
+    parser.add_argument("-d", nargs="*")
+    parser.add_argument("-f")
 
-args = parser.parse_args()
+    args = parser.parse_args()
+
+    path = ""
+    if args.d is not None:
+        path = os.path.join(*args.d)
+        os.makedirs(path, exist_ok=True)
+    if args.f is not None:
+        path = os.path.join(path, args.f)
+        create_file(path)
 
 
-path = ""
-if args.d is not None:
-    path = os.path.join(*args.d)
-    os.makedirs(path, exist_ok=True)
-if args.f is not None:
-    path = os.path.join(path, args.f)
-    create_file(path)
+if __name__ == "__main__":
+    create_dir()
