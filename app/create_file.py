@@ -20,7 +20,7 @@ def parse() -> None:
         dir_path = os.path.join(*argv[index + 1:])
 
     if dir_path:
-        os.makedirs(dir_path)
+        os.makedirs(dir_path, exist_ok=True)
 
     if filename:
         file_path = os.path.join(dir_path, filename)
@@ -42,8 +42,7 @@ def content() -> list:
 
 def create_file(file_path: str) -> None:
     with open(file_path, "a") as file:
-        for line in content():
-            file.write(line + "\n")
+        file.write("\n".join(content()))
 
 
 parse()
