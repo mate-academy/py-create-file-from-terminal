@@ -18,7 +18,7 @@ def create_file(directory: str, file_name: str) -> None:
             break
         content.append(line)
 
-    with open(file_name, "w") as f:
+    with open(file_name, "a") as f:
         f.write(time_stamp + "\n")
         for i, line in enumerate(content, start=1):
             f.write(f"{i} {line}\n")
@@ -32,23 +32,6 @@ def create_directory(directory: str) -> None:
 
 
 def main() -> None:
-    # if "-d" in sys.argv:
-    #     directory_index = sys.argv.index("-d") + 1
-    #     directory = os.path.join(*sys.argv[directory_index:])
-    #     create_directory(directory)
-    # elif "-f" in sys.argv:
-    #     filename_index = sys.argv.index("-f") + 1
-    #     filename = sys.argv[filename_index]
-    #     create_file(os.getcwd(), filename)
-    # elif "-d" in sys.argv and "-f" in sys.argv:
-    #     directory_index = sys.argv.index("-d") + 1
-    #     directory = os.path.join(*sys.argv[directory_index:-2])
-    #     filename_index = sys.argv.index("-f") + 1
-    #     filename = sys.argv[filename_index]
-    #     create_directory(directory)
-    #     create_file(directory, filename)
-    # else:
-    #     print("Wrong command")
     parser = argparse.ArgumentParser()
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("-d", "--directory", nargs="+", help="Create directory")
