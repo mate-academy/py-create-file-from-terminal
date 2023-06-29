@@ -45,4 +45,5 @@ def create_file(file_path: str) -> None:
         file.write("\n".join(content()))
 
 
-parse()
+if __name__ == "__main__":
+    parse()
