@@ -24,23 +24,24 @@ if arguments:
         if not os.path.exists(str_path):
             os.makedirs(str_path)
 
-    def write_in_file(file_path: str, line: str, number: str) -> None:
-        with open(file_path, "a") as file:
-            file.write(f"{number}{line}\n")
-
     if file_name:
         path_to_file = os.path.join(*path, file_name)
 
         timestamp = datetime.datetime.today().strftime("%Y-%m-%d %H:%M:%S")
-        write_in_file(path_to_file, timestamp, "")
+        content = f"\n\n{timestamp}"
 
-        lines_number = 1
+        if not os.path.exists(path_to_file):
+            content = timestamp
+
+        line_number = 1
         while True:
-            content = input("Enter content line: ")
+            user_input = input("Enter content line: ")
 
-            if content == "stop":
+            if user_input == "stop":
                 break
-            write_in_file(path_to_file, content, f"{lines_number} ")
-            lines_number += 1
 
-        write_in_file(path_to_file, "", "")
+            content += f"\n{line_number} {user_input}"
+            line_number += 1
+
+        with open(path_to_file, "a") as file:
+            file.write(content)
