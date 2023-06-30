@@ -3,29 +3,39 @@ import os
 import sys
 
 
-arguments = sys.argv
+def get_path_and_file_name() -> tuple:
+    arguments = sys.argv
 
-if arguments:
+    if arguments:
 
-    path = []
-    file_name = ""
+        path = []
+        file_name = ""
 
-    for argument in arguments[1:]:
-        if argument == "-f":
-            file_name = arguments[-1]
-            break
+        for argument in arguments[1:]:
+            if argument == "-f":
+                file_name = arguments[-1]
+                break
 
-        if argument == "-d":
-            continue
-        path.append(argument)
+            if argument == "-d":
+                continue
+            path.append(argument)
 
-    if path:
-        str_path = os.path.join(*path)
-        if not os.path.exists(str_path):
-            os.makedirs(str_path)
+        if path:
+            path = os.path.join(*path)
+            if not os.path.exists(path):
+                os.makedirs(path)
+
+            return path, file_name
+        return "", file_name
+
+
+def process_user_input() -> tuple:
+    path, file_name = get_path_and_file_name()
+    content = ""
+    path_to_file = ""
 
     if file_name:
-        path_to_file = os.path.join(*path, file_name)
+        path_to_file = os.path.join(path, file_name)
 
         timestamp = datetime.datetime.today().strftime("%Y-%m-%d %H:%M:%S")
         content = f"\n\n{timestamp}"
@@ -43,5 +53,15 @@ if arguments:
             content += f"\n{line_number} {user_input}"
             line_number += 1
 
+    return content, path_to_file
+
+
+def write_in_file() -> None:
+    content, path_to_file = process_user_input()
+    if path_to_file:
         with open(path_to_file, "a") as file:
             file.write(content)
+
+
+if __name__ == "__main__":
+    write_in_file()
