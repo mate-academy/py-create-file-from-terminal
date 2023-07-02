@@ -1,41 +1,47 @@
+import argparse
 import os
-import sys
-import datetime
+from datetime import datetime
+from typing import List
 
 
-def create_file() -> None:
-    try:
-        new_file = sys.argv.pop(sys.argv.index("-f") + 1)
-        sys.argv.pop(sys.argv.index("-f"))
-    except (IndexError, ValueError):
-        create_directory()
-    else:
-        new_path = os.path.join(create_directory(), new_file)
+def create_file(file_path: str, filename: str, content: List[str]) -> None:
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        with open(new_path, "a") as new_file_path:
-            new_file_path.write(make_content())
+    with open(file_path, "a") as file:
+        file.write(timestamp + "\n")
+        for line in content:
+            file.write(line + "\n")
+        file.write("\n")
 
-
-def create_directory() -> str:
-    try:
-        dir_file = os.path.join(sys.argv[sys.argv.index("-d") + 1:])
-    except (TypeError, ValueError):
-        dir_file = ""
-    else:
-        os.makedirs(dir_file)
-
-    return dir_file
+    print(f"File '{filename}' created successfully at '{file_path}'.")
 
 
-def make_content() -> str:
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    content = f"{timestamp}"
-    while True:
-        user_input = input("Enter content line: ")
-        while user_input != "stop":
-            content += f"{user_input}"
-        return content
+def process_arguments() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--directories",
+                        nargs="+", help="creates directory")
+    parser.add_argument("-f", "--filename", help="creates file")
+    arguments = parser.parse_args()
+
+    filename = arguments.filename
+    directories = "/".join(arguments.directories
+                           if arguments.directories else os.getcwd())
+    os.makedirs(directories, exist_ok=True)
+    file_path = os.path.join(directories, filename)
+
+    if filename:
+        content = get_content_from_input()
+        create_file(file_path, filename, content)
+
+
+def get_content_from_input() -> List[str]:
+    content = []
+    line = input("Enter content line: ")
+    while line != "stop":
+        content.append(line)
+        line = input("Enter content line: ")
+    return content
 
 
 if __name__ == "__main__":
-    create_file()
+    process_arguments()
