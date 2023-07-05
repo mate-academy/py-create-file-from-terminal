@@ -21,13 +21,17 @@ def create_file() -> None:
     input_list = sys.argv
     if "-d" in input_list:
         parent_dir = os.getcwd()
-        for directory in input_list[1:]:
+        for directory in input_list[2:]:
+            if directory == "-f":
+                file_path = os.path.join(parent_dir, input_list[-1])
+                create_file_func(file_path)
+                break
             new_dir = os.path.join(parent_dir, directory)
             os.makedirs(new_dir)
             parent_dir = new_dir
 
     if "-f" in input_list:
-        create_file_func(input_list[1])
+        create_file_func(input_list[2])
 
 
 if __name__ == "__main__":
