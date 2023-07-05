@@ -9,16 +9,16 @@ def create_file(directory: str, file_name: str) -> None:
     content = []
 
     if os.path.exists(file_path):
-        with open(file_path, "r") as f:
+        with open(file_path, "r+") as f:
             content = f.readlines()
 
-    while True:
-        line = input("Enter content line: ")
-        if line == "stop":
-            break
-        content.append(line)
+        while True:
+            line = input("Enter content line: ")
+            if line == "stop":
+                break
+            content.append(line)
 
-    with open(file_name, "a") as f:
+        f.seek(0)
         f.write(time_stamp + "\n")
         for i, line in enumerate(content, start=1):
             f.write(f"{i} {line}\n")
