@@ -28,18 +28,24 @@ def fill_in_file(file_path: str) -> None:
 
 
 def create_file() -> None:
-    if ("-d", "-f") in sys.argv:
-        dir_path = sys.argv[sys.argv.index("-d") + 1:sys.argv.index("-f")]
-        file_name = sys.argv[-1]
-        des_path = create_folders(dir_path)
-        file_path = os.path.join(des_path, file_name)
+    if "-f" in sys.argv:
+        file_index = sys.argv.index("-f")
+        file_name = sys.argv[file_index + 1]
+        if "-d" in sys.argv:
+            dir_index = sys.argv.index("-d")
+            if dir_index + 1 < file_index:
+                dir_path = sys.argv[dir_index + 1:file_index]
+                des_path = create_folders(dir_path)
+                file_path = os.path.join(des_path, file_name)
+            else:
+                file_path = file_name
+        else:
+            file_path = file_name
         fill_in_file(file_path)
     elif "-d" in sys.argv:
-        dir_path = sys.argv[sys.argv.index("-d") + 1:]
+        dir_index = sys.argv.index("-d")
+        dir_path = sys.argv[dir_index + 1:]
         create_folders(dir_path)
-    elif "-f" in sys.argv:
-        file_name = sys.argv[-1]
-        fill_in_file(file_name)
 
 
 if __name__ == "__main__":
