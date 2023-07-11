@@ -1,15 +1,15 @@
 from sys import argv
 from os import path, makedirs
 from datetime import datetime
+from typing import List, Dict
 
 
-def is_param(index: int, commands: list) -> bool:
+def is_param(index: int, commands: List[str]) -> bool:
     return index < len(commands) and commands[index] not in ["-f", "-d"]
 
 
-def get_commands(commands: list) -> dict[str]:
-    param = {"-f": "", "-d": ""}
-
+def get_commands(commands: List[str]) -> Dict[str, str]:
+    param: Dict[str, str] = {"-f": "", "-d": ""}
     if "-f" in commands:
         file_index = commands.index("-f") + 1
         if is_param(file_index, commands):
@@ -26,7 +26,7 @@ def get_commands(commands: list) -> dict[str]:
 
 def create_directory(path_: str) -> None:
     if path_ and not path.isdir(path_):
-        makedirs(path_)
+        makedirs(path_, exist_ok=True)
 
 
 def write_to_file(file_name: str, path_: str) -> None:
@@ -37,7 +37,6 @@ def write_to_file(file_name: str, path_: str) -> None:
         i = 1
         while (line_content := input("Enter content line: ")) != "stop":
             f.write(f"{i} {line_content}\n")
-
             i += 1
 
 
