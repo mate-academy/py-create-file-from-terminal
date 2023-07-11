@@ -2,10 +2,6 @@ import os
 from datetime import datetime
 
 
-inform = str(input())
-inform = inform.strip().split()
-
-
 def create_a_dir(name_of_dir: str) -> str:
     parent_fod = ""
     for name_of_d in name_of_dir:
@@ -29,17 +25,24 @@ def create_a_file(result_of_dir: str) -> None:
                 break
 
 
-name_of_dir = []
-if inform[0] == "-d":
-    for name in inform[1:]:
-        if name != "-f":
-            name_of_dir.append(name)
-        elif name == "-f":
-            result_of_dir = create_a_dir(name_of_dir)
-            create_a_file(result_of_dir)
-            break
-    else:
-        create_a_dir(name_of_dir)
-elif inform[0] == "-f":
-    result_of_dir = ""
-    create_a_file(result_of_dir)
+def read_a_consol() -> None:
+    name_of_dir = []
+    if inform[0] == "-d":
+        for name in inform[1:]:
+            if name != "-f":
+                name_of_dir.append(name)
+            elif name == "-f":
+                result_of_dir = create_a_dir(name_of_dir)
+                create_a_file(result_of_dir)
+                break
+        else:
+            create_a_dir(name_of_dir)
+    elif inform[0] == "-f":
+        result_of_dir = ""
+        create_a_file(result_of_dir)
+
+
+if __name__ == "__main__":
+    inform = str(input())
+    inform = inform.strip().split()
+    read_a_consol()
