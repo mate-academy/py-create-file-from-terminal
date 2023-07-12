@@ -24,7 +24,7 @@ class TextEditorApp:
         app_args = self.parse_args()
 
         path = app_args.dir
-        file = app_args.file
+        file_name = app_args.file
 
         if path:
             dir_path = compose_path(path)
@@ -32,10 +32,10 @@ class TextEditorApp:
             makedirs(dir_path)
             self.full_path = dir_path
 
-        if not file:
+        if not file_name:
             exit()
 
-        self.full_path = compose_path(self.full_path, file)
+        self.full_path = compose_path(self.full_path, file_name)
 
     @staticmethod
     def make_data() -> str:
@@ -57,7 +57,7 @@ class TextEditorApp:
 
         with open(self.full_path, "a") as file:
             if is_file_old:
-                file.write(f"\n\n")
+                file.write("\n\n")
 
             file.write(f"{timestamp}\n")
             file.write(data)
