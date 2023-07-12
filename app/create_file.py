@@ -27,7 +27,7 @@ class TextEditorApp:
         file_name = app_args.file
 
         if path:
-            dir_path = compose_path(path)
+            dir_path = compose_path(*path)
 
             makedirs(dir_path)
             self.full_path = dir_path
@@ -49,7 +49,7 @@ class TextEditorApp:
 
             data.append(line)
 
-        return "\n".join(data)
+        return "\n".join(f"{i + 1} {line}" for i, line in enumerate(data))
 
     def write_file(self, data: str) -> None:
         is_file_old = isfile(self.full_path)
