@@ -22,7 +22,7 @@ def create_file() -> None:
     def create_new_file(args: list, path: str = "") -> None:
         index_f = args.index("-f") + 1
         name_of_file = list_of_args[index_f]
-        path_of_file = path + "/" + name_of_file if path != "" else name_of_file
+        path_of_file = f"{path}/{name_of_file}" if path != "" else name_of_file
 
         with open(path_of_file, "w") as new_file:
             content_of_file = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
