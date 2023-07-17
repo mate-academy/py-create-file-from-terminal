@@ -27,7 +27,7 @@ def create_directory() -> None:
                 os.getcwd(), *command[index_d + 1:]
             )
             os.makedirs(directory, exist_ok=True)
-    elif "-f" is not None:
+    elif index_f is not None:
         create_file(os.getcwd(), command[index_f + 1])
 
 
