@@ -16,17 +16,13 @@ def create_directory() -> None:
             )
             os.makedirs(directory, exist_ok=True)
             create_file(directory, command[index_f + 1])
-        elif index_f is not None and index_f < index_d:
-            directory = os.path.join(
-                os.getcwd(), *command[index_d + 1:]
-            )
-            os.makedirs(directory, exist_ok=True)
-            create_file(directory, command[index_f + 1])
         else:
             directory = os.path.join(
                 os.getcwd(), *command[index_d + 1:]
             )
             os.makedirs(directory, exist_ok=True)
+            if index_f is not None:
+                create_file(os.getcwd(), command[index_f + 1])
     elif index_f is not None:
         create_file(os.getcwd(), command[index_f + 1])
 
