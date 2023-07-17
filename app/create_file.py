@@ -21,7 +21,7 @@ def create_directory() -> None:
                 os.getcwd(), *command[index_d + 1:]
             )
             os.makedirs(directory, exist_ok=True)
-            create_file(os.getcwd(), command[index_f + 1])
+            create_file(directory, command[index_f + 1])
         else:
             directory = os.path.join(
                 os.getcwd(), *command[index_d + 1:]
