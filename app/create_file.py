@@ -6,28 +6,28 @@ command = sys.argv
 
 
 def create_directory() -> None:
-    index_d = command.index("-d") if "-d" in command else -1
-    index_f = command.index("-f") if "-f" in command else -1
+    index_d = command.index("-d") if "-d" in command else None
+    index_f = command.index("-f") if "-f" in command else None
 
-    if index_d != -1:
-        if index_f != -1 and index_f > index_d:
+    if index_d is not None:
+        if index_f is not None and index_f > index_d:
             directory = os.path.join(
                 os.getcwd(), *command[index_d + 1:index_f]
             )
             os.makedirs(directory, exist_ok=True)
             create_file(directory, command[index_f + 1])
-        elif index_f != -1 and index_f < index_d:
-            create_file(os.getcwd(), command[index_f + 1])
+        elif index_f is not None and index_f < index_d:
             directory = os.path.join(
                 os.getcwd(), *command[index_d + 1:]
             )
             os.makedirs(directory, exist_ok=True)
+            create_file(os.getcwd(), command[index_f + 1])
         else:
             directory = os.path.join(
                 os.getcwd(), *command[index_d + 1:]
             )
             os.makedirs(directory, exist_ok=True)
-    elif "-f" != -1:
+    elif "-f" is not None:
         create_file(os.getcwd(), command[index_f + 1])
 
 
