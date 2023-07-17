@@ -5,30 +5,6 @@ import os
 command = sys.argv
 
 
-# def create_directory() -> None:
-#     if "-d" in command:
-#         index_d = command.index("-d") + 1
-#         if "-f" in command:
-#             index_f = command.index("-f") + 1
-#             directory = (
-#                 os.path.join(os.getcwd(), *command[index_d:index_f - 1])
-#             )
-#             os.makedirs(directory, exist_ok=True)
-#             create_file(directory, index_f)
-#         if "-f" not in command:
-#             directory = os.path.join(os.getcwd(), *command[index_d:])
-#             os.makedirs(directory, exist_ok=True)
-#     if "-f" in command:
-#         index_f = command.index("-f") + 1
-#         if "-d" in command:
-#             index_d = command.index("-d") + 1
-#             create_file(os.getcwd(), index_f)
-#             directory = (
-#                 os.path.join(os.getcwd(), *command[index_d:])
-#             )
-#             os.makedirs(directory, exist_ok=True)
-#         if "-d" not in command:
-#             create_file(os.getcwd(), index_f)
 def create_directory() -> None:
     index_d = command.index("-d") if "-d" in command else -1
     index_f = command.index("-f") if "-f" in command else -1
