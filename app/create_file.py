@@ -17,9 +17,9 @@ def create_file() -> None:
 
         list_of_directories = list_of_arguments[index_d: index_f]
 
-        path_for_new_dirs = "/".join(list_of_directories)
+        path_for_new_dirs = os.path.join(*list_of_directories)
 
-        os.makedirs(path_for_new_dirs)
+        os.makedirs(path_for_new_dirs, exist_ok=True)
 
         if index_f is not None:
             return f"Path for new directories: {path_for_new_dirs}"
