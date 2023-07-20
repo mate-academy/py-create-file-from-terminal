@@ -3,10 +3,10 @@ import os
 import datetime
 
 
-def file_write(*filename: tuple[str]) -> None:
+def file_write(*path: tuple[str]) -> None:
     text = open(os.path.join(*filename), "a")
     text.write(
-        str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M%:%S")) + "\n"
+        datetime.datetime.now().strftime("%Y-%m-%d %H:%M%:%S") + "\n"
     )
 
     while True:
@@ -17,8 +17,8 @@ def file_write(*filename: tuple[str]) -> None:
     text.write("\n")
 
 
-def create_directories(file_name: list[str]) -> str:
-    path = os.path.join(*file_name)
+def create_directories(dirs: list[str]) -> str:
+    path = os.path.join(*dirs)
     os.makedirs(path)
     return path
 
@@ -26,7 +26,7 @@ def create_directories(file_name: list[str]) -> str:
 def create_file() -> None:
     terminal = sys.argv
     if "-d" in terminal and "-f" in terminal:
-        text_name = terminal[terminal.index("-f") + 1]
+        file_name = terminal[terminal.index("-f") + 1]
         path = create_directories(
             terminal[terminal.index("-d") + 1: terminal.index("-f")]
             or terminal[terminal.index("-d") + 1:]
