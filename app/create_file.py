@@ -4,33 +4,25 @@ import sys
 
 
 def create_file_from_terminal() -> None:
-    cut_argv = sys.argv[1:]
-    folder_marker = False
     path_to = ""
+    filename = "file.txt"
 
-    if cut_argv[0] == "-d" and cut_argv[-2] == "-f":
-        path_to = f"{'/'.join(cut_argv[1:len(cut_argv) - 2])}"
-        folder_marker = True
-
-    if cut_argv[0] == "-d" and cut_argv[-2] != "-f":
-        path_to = f"{'/'.join(cut_argv[1:])}"
-        folder_marker = True
-
-    if cut_argv[0] == "-f" and len(cut_argv) > 2:
-        path_to = f"{'/'.join(cut_argv[3:])}"
-        folder_marker = True
-
-    if folder_marker:
-        if "/" in path_to:
-            os.makedirs(path_to, exist_ok=True)
+    if "-d" in sys.argv:
+        if "-f" in sys.argv:
+            if sys.argv.index("-d") > sys.argv.index("-f"):
+                path_to = sys.argv[4:]
+                filename = sys.argv[2]
+            else:
+                path_to = sys.argv[2:len(sys.argv) - 2]
+                filename = sys.argv[-1]
         else:
-            os.mkdir(path_to)
-        path_to = f"{path_to}/file.txt"
+            path_to = sys.argv[2:]
+        os.makedirs(os.path.join(*path_to), exist_ok=True)
 
-    if cut_argv[0] == "-f" and len(cut_argv) == 2:
-        path_to = "file.txt"
+    if "-f" in sys.argv and "-d" not in sys.argv:
+        filename = sys.argv[2]
 
-    with open(path_to, "a") as input_info:
+    with open(os.path.join(*path_to, filename), "a") as input_info:
         timestamp = datetime.now().strftime("%y-%m-%d %H:%M:%S")
         line_number = 1
         input_info.write(f"{timestamp}\n")
