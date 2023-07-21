@@ -23,7 +23,8 @@ def create_file() -> None:
     def create_new_file(args: list, path: str = "") -> None:
         index_f = args.index("-f") + 1
         file_name = list_of_arguments[index_f]
-        path_for_file = os.path.join(path, file_name) if path != "" else file_name
+        path_for_file = os.path.join(path, file_name)\
+            if path != "" else file_name
         with open(path_for_file, "a") as new_file:
             content = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             line_count = 0
@@ -33,7 +34,7 @@ def create_file() -> None:
             line_count += 1
             if call_to_action == "stop":
                 with open(path_for_file, "a") as file:
-                    file.write(f"\n")
+                    file.write("\n")
                 break
             with open(path_for_file, "a") as file:
                 file.write(f"{line_count} {call_to_action}\n")
