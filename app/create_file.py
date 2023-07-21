@@ -4,27 +4,29 @@ import sys
 
 from datetime import datetime
 
+from typing import List
+
 
 def create_file() -> None:
     list_of_arguments = sys.argv[1:]
 
-    def create_directory(args: list, file_exists: bool = False) -> str:
+    def create_directory(args: List[str], file_exists: bool = False) -> str:
         index_d = list_of_arguments.index("-d") + 1
-        if file_exists:
-            index_f = list_of_arguments.index("-f")
-        else:
-            index_f = None
+        index_f = list_of_arguments.index("-f") if file_exists else None
         list_of_directories = list_of_arguments[index_d: index_f]
         path_for_new_dirs = os.path.join(*list_of_directories)
         os.makedirs(path_for_new_dirs, exist_ok=True)
         if index_f is not None:
             return os.path.abspath(path_for_new_dirs)
 
-    def create_new_file(args: list, path: str = "") -> None:
+    def create_new_file(args: List[str], path: str = "") -> None:
         index_f = args.index("-f") + 1
         file_name = list_of_arguments[index_f]
-        path_for_file = os.path.join(path, file_name)\
-            if path != "" else file_name
+        path_for_file = (os.path.join(path, file_name)
+                         if path != "" else file_name)
+        write_content_to_file(path_for_file)
+
+    def write_content_to_file(path_for_file: str) -> None:
         with open(path_for_file, "a") as new_file:
             content = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             line_count = 0
