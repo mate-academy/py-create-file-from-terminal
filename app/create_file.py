@@ -18,12 +18,12 @@ def create_file() -> None:
         path_for_new_dirs = os.path.join(*list_of_directories)
         os.makedirs(path_for_new_dirs, exist_ok=True)
         if index_f is not None:
-            return f"Path for new directories: {path_for_new_dirs}"
+            return os.path.abspath(path_for_new_dirs)
 
     def create_new_file(args: list, path: str = "") -> None:
         index_f = args.index("-f") + 1
         file_name = list_of_arguments[index_f]
-        path_for_file = f"{path}/{file_name}" if path != "" else file_name
+        path_for_file = os.path.join(path, file_name) if path != "" else file_name
         with open(path_for_file, "a") as new_file:
             content = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             line_count = 0
@@ -32,6 +32,8 @@ def create_file() -> None:
             call_to_action = input("Enter content line: ")
             line_count += 1
             if call_to_action == "stop":
+                with open(path_for_file, "a") as file:
+                    file.write(f"\n")
                 break
             with open(path_for_file, "a") as file:
                 file.write(f"{line_count} {call_to_action}\n")
