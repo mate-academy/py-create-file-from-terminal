@@ -1,4 +1,3 @@
-import sys
 import os
 from datetime import datetime
 
@@ -31,7 +30,7 @@ def create_file_from_terminal(list_args: list) -> None:
             count += 1
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     string_file = "app/create_file.py -f file.txt"
     string_dir_file = "app/create_file.py -d dir1 dir2 -f file.txt"
 
