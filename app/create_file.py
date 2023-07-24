@@ -1,47 +1,49 @@
-import sys
-import os
 from datetime import datetime
+import os
+import sys
 
 
-def create_file() -> None:
-    arguments = sys.argv[1:]
-    directories = []
-    if "-f" in arguments:
-        if "-d" in arguments:
-            index_d = arguments.index("-d")
-            index_f = arguments.index("-f")
-            directories = arguments[(index_d + 1) : index_f]
+directory_or_with_file = sys.argv
+directory_name = ""
+file_name = ""
+file_mod = "a"
+for word in directory_or_with_file:
+    if (
+        not word.count("create_file.py")
+        and word != "-d"
+        and word != "-f"
+        and not word.count(".")
+    ):
+        directory_name = os.path.join(
+            directory_name,
+            word
+        )
 
-        directories_path = os.path.join(*directories) if directories else ""
-        file_name = arguments[-1]
-        destination = os.path.join(directories_path, file_name)
-        if directories_path != "":
-            os.makedirs(directories_path, exist_ok=True)
+    if (
+        directory_or_with_file.count("-f")
+        and word.count(".")
+        and not word.count("create_file.py")
+    ):
+        file_name = word
+        file_mod = "w"
 
-        with open(destination, "a+") as destination_file:
-            content = []
-            line = ""
-            counter = 1
-            while True:
-                line = input("Enter content line: ")
-                if line == "stop":
-                    break
-                if destination_file.tell() == 0:
-                    content.append(f"{counter} Line{counter} " + line)
-                else:
-                    content.append(f"{counter} Another line{counter} " + line)
-                counter += 1
+if directory_or_with_file.count("-d"):
+    os.makedirs(
+        directory_name,
+        exist_ok=True
+    )
 
-            now = datetime.now()
-            date_time = now.strftime("%Y-%m-%d %H:%M:%S")
-            content.insert(0, date_time)
-            content.append("")
-            destination_file.write("\n".join(content))
-    else:
-        directories = arguments[(arguments.index("-d") + 1) :]
-        directories_path = os.path.join(*directories)
-        os.makedirs(directories_path, exist_ok=True)
-
-
-if __name__ == "__main__":
-    create_file()
+with open(
+    os.path.join(directory_name, file_name),
+    file_mod
+) as file:
+    num = 1
+    file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
+    while True:
+        line_text = input(
+            "Enter content line: "
+        )
+        if line_text == "stop":
+            break
+        file.write(str(num) + " " + line_text + "\n")
+        num += 1
