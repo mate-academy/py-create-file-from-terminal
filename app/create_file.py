@@ -3,7 +3,7 @@ import sys
 from datetime import datetime
 
 
-def get_timestamp() -> int:
+def get_timestamp() -> datetime:
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
@@ -13,10 +13,6 @@ def create_file(file_path: str, content_lines: int) -> None:
 
 
 def main() -> None:
-    if len(sys.argv) < 3:
-        print("Usage: python create_file.py -d dir1 dir2 -f file.txt")
-        return
-
     if "-d" in sys.argv:
         dir_index = sys.argv.index("-d") + 1
         directory_path = os.path.join(*sys.argv[dir_index:])
@@ -41,7 +37,7 @@ def main() -> None:
             content.append(line)
 
         content_with_timestamp = [get_timestamp()] + [
-            f"{i +1 } {line}" for i, line in enumerate(content)
+            f"{i + 1} {line}" for i, line in enumerate(content)
         ]
         create_file(file_path, content_with_timestamp)
 
