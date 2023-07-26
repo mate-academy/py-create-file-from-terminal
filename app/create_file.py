@@ -65,4 +65,5 @@ def create_file(command: list[str]) -> None:
     os.chdir(start_dir)
 
 
-create_file(sys.argv)
+if __name__ == "__main__":
+    create_file(sys.argv)
