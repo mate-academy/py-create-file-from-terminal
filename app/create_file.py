@@ -22,15 +22,19 @@ def main() -> None:
 
     if dir_flag:
         dir_index = sys.argv.index("-d") + 1
-        directory_path = os.path.join(*sys.argv[dir_index:])
+        file_index = (
+            sys.argv.index("-f")
+            if "-f" in sys.argv
+            else len(sys.argv)
+        )
+        directory_path = os.path.join(*sys.argv[dir_index:file_index])
         os.makedirs(directory_path, exist_ok=True)
         os.chdir(directory_path)
 
     if file_flag:
         file_index = sys.argv.index("-f") + 1
-
         if dir_flag and file_index < dir_index:
-            file_name = os.path.join(*sys.argv[dir_index:])
+            file_name = os.path.join(*sys.argv[file_index:dir_index])
         else:
             file_name = sys.argv[file_index]
 
