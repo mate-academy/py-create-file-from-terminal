@@ -4,13 +4,20 @@ import datetime
 from typing import TextIO
 
 
-def write_user_input(counter: int, file_obj: TextIO) -> None:
+def write_user_input(
+        file_obj: TextIO,
+        append: bool,
+        index: int = 1
+) -> None:
+    if append:
+        file_obj.write("\n\n")
+    file_obj.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     while True:
         user_text = input("Enter content line:")
         if user_text == "stop":
             break
-        counter += 1
-        file_obj.write(f"{counter } {user_text}" + "\n")
+        file_obj.write("\n" + f"{index } {user_text}")
+        index += 1
 
 
 def write_to_file(cur_path: str, file_name: str) -> None:
@@ -18,13 +25,10 @@ def write_to_file(cur_path: str, file_name: str) -> None:
         file_to_write.seek(0)
         start = file_to_write.readlines()
         if start:
-            start_counter = len(start) - 1
-            write_user_input(start_counter, file_to_write)
+            file_to_write.seek(2)
+            write_user_input(file_to_write, append=True)
         else:
-            file_to_write.write(
-                datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
-            )
-            write_user_input(0, file_to_write)
+            write_user_input(file_to_write, append=False)
 
 
 def process_args() -> None:
@@ -40,6 +44,10 @@ def process_args() -> None:
                 os.mkdir(os.path.join(cur_path, folder))
             cur_path = os.path.join(cur_path, folder)
 
+        if "-f" in args:
+            file_name = args[args.index("-f") + 1]
+            write_to_file(cur_path, file_name)
+    else:
         if "-f" in args:
             file_name = args[args.index("-f") + 1]
             write_to_file(cur_path, file_name)
