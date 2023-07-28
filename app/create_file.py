@@ -4,21 +4,16 @@ from datetime import datetime
 
 
 def get_timestamp() -> str:
-    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    return datetime.now().strftime("\n%Y-%m-%d %H:%M:%S")
 
 
-def create_file(file_path: str, content_lines: list) -> None:
-    with open(file_path, "a") as file:
-        file.write("\n".join(content_lines))
-
-
-def main() -> None:
+def parse_arguments() -> str:
     dir_flag = "-d" in sys.argv
     file_flag = "-f" in sys.argv
 
     if not (dir_flag or file_flag):
         print("Please provide either the -d flag or the -f flag.")
-        return
+        sys.exit(1)
 
     if dir_flag:
         dir_index = sys.argv.index("-d") + 1
@@ -43,27 +38,33 @@ def main() -> None:
             file_name = sys.argv[file_index]
 
         file_path = os.path.join(os.getcwd(), file_name)
+        return file_path
 
-        if os.path.exists(file_path):
-            with open(file_path, "r") as existing_file:
-                content = existing_file.read().strip().split("\n")
-        else:
-            content = []
 
-        while True:
-            line = input("Enter content line: ")
-            if line == "stop":
-                break
-            content.append(line)
+def input_content() -> list:
+    content = []
+    while True:
+        line = input("Enter content line: ")
+        if line == "stop":
+            break
+        content.append(line)
+    return content
 
-        content_with_timestamp = [get_timestamp()] + [
-            f"{i + 1} {line}" for i, line in enumerate(content)
-        ]
-        create_file(file_path, content_with_timestamp)
 
-        formatted_content = "\n".join(content_with_timestamp)
-        formatted_content = formatted_content.replace("\\", "\\\\")
-        print(f"File {file_path} created with content:\n\n{formatted_content}")
+def format_content(content: list) -> list:
+    return [f"{i + 1} {line}" for i, line in enumerate(content)]
+
+
+def create_file(file_path: str, content_lines: list) -> None:
+    with open(file_path, "a") as file:
+        file.write("\n".join(content_lines))
+
+
+def main() -> None:
+    file_path = parse_arguments()
+    content = input_content()
+    content_with_timestamp = [get_timestamp()] + format_content(content)
+    create_file(file_path, content_with_timestamp)
 
 
 if __name__ == "__main__":
