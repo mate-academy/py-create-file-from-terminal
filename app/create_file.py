@@ -1,6 +1,7 @@
 import os
 import sys
 from datetime import datetime
+from typing import List
 
 
 def get_timestamp() -> str:
@@ -41,8 +42,8 @@ def parse_arguments() -> str:
         return file_path
 
 
-def input_content() -> list:
-    content = []
+def input_content() -> List[str]:
+    content: List[str] = []
     while True:
         line = input("Enter content line: ")
         if line == "stop":
@@ -51,11 +52,11 @@ def input_content() -> list:
     return content
 
 
-def format_content(content: list) -> list:
+def format_content(content: List[str]) -> List[str]:
     return [f"{i + 1} {line}" for i, line in enumerate(content)]
 
 
-def create_file(file_path: str, content_lines: list) -> None:
+def create_file(file_path: str, content_lines: List[str]) -> None:
     with open(file_path, "a") as file:
         file.write("\n".join(content_lines))
 
