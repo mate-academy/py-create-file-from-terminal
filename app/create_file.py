@@ -27,6 +27,10 @@ def main() -> None:
             if "-f" in sys.argv
             else len(sys.argv)
         )
+
+        if dir_index > file_index:
+            dir_index, file_index = file_index, dir_index
+
         directory_path = os.path.join(*sys.argv[dir_index:file_index])
         os.makedirs(directory_path, exist_ok=True)
         os.chdir(directory_path)
