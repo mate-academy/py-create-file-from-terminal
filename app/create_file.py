@@ -16,7 +16,6 @@ def create_path(sys_args: list) -> tuple:
 
     if directory_names:
         directory_path = os.path.join(*directory_names)
-        directory_path = directory_path
         if file_path:
             file_path = os.path.join(
                 directory_path, file_path
