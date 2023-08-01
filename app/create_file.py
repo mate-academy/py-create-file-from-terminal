@@ -3,32 +3,45 @@ import os
 from datetime import datetime
 
 
-if len(argv) > 2:
+def create_file_dirs() -> None:
 
     parent_dir = "app"
 
-    for i in range(len(argv)):
+    if "-d" in argv:
+        parent_dir = create_dirs(argv, parent_dir)
 
-        if argv[i] == "-d":
+    if "-f" in argv:
+        create_file(argv, parent_dir)
 
-            last_index_dir = argv.index("-f") if "-f" in argv else len(argv)
 
-            for directory in argv[i + 1:last_index_dir]:
-                parent_dir = os.path.join(parent_dir, directory)
-            if not os.path.isdir(parent_dir):
-                os.makedirs(parent_dir)
+def create_dirs(arg: list, parent_dir: str) -> str:
 
-        if argv[i] == "-f":
+    index_d = arg.index("-d")
+    last_index_d = arg.index("-f") if "-f" in arg[index_d:] else len(arg)
 
-            page_number = 1
-            file_name = os.path.join(parent_dir, argv[i + 1])
+    for directory in arg[index_d + 1:last_index_d]:
+        parent_dir = os.path.join(parent_dir, directory)
+        os.makedirs(parent_dir, exist_ok=True)
 
-            with open(file_name, "a") as source_file:
-                if not os.stat(file_name).st_size == 0:
-                    source_file.write("\n\n")
-                source_file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-                current_line = input("Enter content line:")
-                while not current_line == "stop":
-                    source_file.write(f"\n{page_number} {current_line}")
-                    page_number += 1
-                    current_line = input("Enter content line:")
+    return parent_dir
+
+
+def create_file(arg: list, parent_dir: str) -> None:
+
+    page_number = 1
+    file_index = arg.index("-f")
+    file_name = os.path.join(parent_dir, arg[file_index + 1])
+
+    with open(file_name, "a") as source_file:
+        if not os.stat(file_name).st_size == 0:
+            source_file.write("\n\n")
+        source_file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        current_line = input("Enter content line:")
+        while not current_line == "stop":
+            source_file.write(f"\n{page_number} {current_line}")
+            page_number += 1
+            current_line = input("Enter content line:")
+
+
+if __name__ == "__main__":
+    create_file_dirs()
