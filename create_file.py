@@ -5,7 +5,7 @@ from datetime import datetime
 
 def create_file_dirs() -> None:
 
-    parent_dir = "app"
+    parent_dir = ""
 
     if "-d" in argv:
         parent_dir = create_dirs(argv, parent_dir)
