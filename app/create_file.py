@@ -14,7 +14,7 @@ def create_file_dirs() -> None:
         create_file(argv, parent_dir)
 
 
-def create_dirs(arg: list, parent_dir: str) -> str:
+def create_dirs(arg: list[str], parent_dir: str) -> str:
 
     index_d = arg.index("-d")
     last_index_d = arg.index("-f") if "-f" in arg[index_d:] else len(arg)
@@ -26,7 +26,7 @@ def create_dirs(arg: list, parent_dir: str) -> str:
     return parent_dir
 
 
-def create_file(arg: list, parent_dir: str) -> None:
+def create_file(arg: list[str], parent_dir: str) -> None:
 
     page_number = 1
     file_index = arg.index("-f")
@@ -36,11 +36,11 @@ def create_file(arg: list, parent_dir: str) -> None:
         if not os.stat(file_name).st_size == 0:
             source_file.write("\n\n")
         source_file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-        current_line = input("Enter content line:")
+        current_line = input("Enter content line: ")
         while not current_line == "stop":
             source_file.write(f"\n{page_number} {current_line}")
             page_number += 1
-            current_line = input("Enter content line:")
+            current_line = input("Enter content line: ")
 
 
 if __name__ == "__main__":
