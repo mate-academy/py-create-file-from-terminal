@@ -19,7 +19,6 @@ def make_path(cmd_arguments: list) -> tuple:
 
 def create_file() -> None:
     path, folder, filepath = make_path(sys.argv)
-    print(path, folder, filepath)
     if not os.path.exists(path):
         os.makedirs(path)
     with open(filepath, "w") as source_file:
