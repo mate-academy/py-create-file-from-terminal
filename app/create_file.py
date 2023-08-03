@@ -32,15 +32,19 @@ def create_directories_and_file(
 
 
 if __name__ == "__main__":
-    if sys.argv[1] == "-d" and sys.argv[-2] == "-f":
-        directories = sys.argv[2:-2]
-        file_name = sys.argv[-1]
+    if "-d" in sys.argv and "-f" in sys.argv:
+        file_index = sys.argv.index("-f") + 1
+        directories_index = sys.argv.index("-d") + 1
+        file_name = sys.argv[file_index]
+
+        if file_index < directories_index:
+            directories = (sys.argv[directories_index:
+                           max(file_index - 1, len(sys.argv))])
+        else:
+            directories = sys.argv[directories_index: file_index - 1]
         create_directories_and_file(directories, file_name)
-    elif sys.argv[1] == "-f" and sys.argv[3] == "-d":
-        directories = sys.argv[4:]
-        file_name = sys.argv[2]
-        create_directories_and_file(directories, file_name)
-    elif sys.argv[1] == "-d":
+
+    elif "-d" in sys.argv and "-f" not in sys.argv:
         directories = sys.argv[2:]
         create_only_directories(os.path.join(*directories))
     else:
