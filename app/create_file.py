@@ -5,27 +5,19 @@ from typing import Any
 
 
 def create_file_with_content(file_path: str) -> Any:
-    content_line = []
-    while True:
-        input_line = input("Enter content line:")
-
-        if input_line == "stop":
-            break
-        content_line.append(input_line)
-
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     content_w_time = f"{current_time}"
 
-    for i, content in enumerate(content_line):
-        content = f"\n{i + 1}" + f"\t{content}"
-        content_w_time += content
-
-    if not os.path.exists(file_path):
-        with open(file_path, "w") as file:
-            file.write("".join(content_w_time))
-    else:
-        with open(file_path, "a") as file:
-            file.write("".join(content_w_time))
+    with open(file_path, "a") as file:
+        file.write(content_w_time + "\n")
+        number_of_content = 1
+        while True:
+            input_line = input("Enter content line:")
+            if input_line == "stop":
+                file.write(" \n")
+                break
+            file.write(f"{number_of_content} {input_line}\n")
+            number_of_content += 1
 
 
 def main() -> Any:
