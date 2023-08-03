@@ -1,12 +1,11 @@
 import os
 import sys
 from datetime import datetime
-from typing import Any
 
 
-def create_file_with_content(file_path: str) -> Any:
+def create_file_with_content(file_path: str) -> None:
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    content_w_time = f"{current_time}"
+    content_w_time = current_time
 
     with open(file_path, "a") as file:
         file.write(content_w_time + "\n")
@@ -14,13 +13,13 @@ def create_file_with_content(file_path: str) -> Any:
         while True:
             input_line = input("Enter content line:")
             if input_line == "stop":
-                file.write(" \n")
+                file.write("\n")
                 break
             file.write(f"{number_of_content} {input_line}\n")
             number_of_content += 1
 
 
-def main() -> Any:
+def main() -> None:
     if "-d" in sys.argv and "-f" in sys.argv:
         dir_index = sys.argv.index("-d") + 1
         file_index = sys.argv.index("-f") + 1
