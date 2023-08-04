@@ -29,8 +29,10 @@ def main() -> None:
             arguments[arguments.index("-d") + 1: arguments.index("-f")]
         )
         create_file(file_name=file_name, path=path)
+
     elif "-d" in arguments:
         create_directory(arguments[arguments.index("-d") + 1:])
+
     elif "-f" in arguments:
         create_file(file_name=arguments[arguments.index("-f") + 1])
 
