@@ -6,7 +6,8 @@ import sys
 
 
 def tokenize_command(flags: list, command: str) -> dict:
-    currents = [flag for flag in command.split() if flag in flags]
+    currents = [flag for flag in command.split()
+                if flag in flags]
     tokens, count = {}, 1
     for flag in currents:
         start_line = command.index(flag)
