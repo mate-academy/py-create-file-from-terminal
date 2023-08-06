@@ -38,12 +38,8 @@ def create_and_write_file(file_name: str,
     text = ""
     file_path = os.path.join(path, file_name.strip())
     current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    if os.path.exists(file_path):
-        time_string = "\n" + current_time + "\n"
-    else:
-        time_string = current_time + "\n"
-    with open(f"{file_path}", "a") as file:
-        file.write(time_string)
+    time_line = current_time + "\n"
+    time_mark = "\n" + time_line if os.path.exists(file_path) else time_line
     line = 1
     while True:
         edit_text = input("Enter content line: ")
@@ -52,29 +48,32 @@ def create_and_write_file(file_name: str,
         text += f"{line} {edit_text} \n"
         line += 1
     with open(f"{file_path}", "a") as file:
+        file.write(time_mark)
         file.write(text)
 
 
-command = " ".join(sys.argv[1:])
+def run_cmd_commands() -> None:
+    command = " ".join(sys.argv[1:])
 
-dirs_on_path, first_is_name = "-d", "-f"
+    dirs_on_path, first_is_name = "-d", "-f"
 
-tokens = tokenize_command(flags=[dirs_on_path,
-                                 first_is_name],
-                          command=command)
+    tokens = tokenize_command(flags=[dirs_on_path,
+                                     first_is_name],
+                              command=command)
+    plots = {
+        dirs_on_path: create_dirs,
+        first_is_name: create_and_write_file,
+    }
 
-plots = {
-    dirs_on_path: create_dirs,
-    first_is_name: create_and_write_file,
-}
+    if (dirs_on_path in tokens
+            and first_is_name in tokens
+            and command.index(dirs_on_path) < command.index(first_is_name)):
+        path = plots[dirs_on_path](tokens[dirs_on_path])
+        plots[first_is_name](tokens[first_is_name], path)
 
-if (dirs_on_path in tokens and first_is_name in tokens
-        and command.index(dirs_on_path) < command.index(first_is_name)):
-    path = plots[dirs_on_path](tokens[dirs_on_path])
-    plots[first_is_name](tokens[first_is_name], path)
+    else:
+        for flag in tokens:
+            plots[flag](tokens[flag])
 
-else:
-    for flag in tokens:
-        plots[flag](tokens[flag])
 
-sys.exit()
+run_cmd_commands()
