@@ -66,11 +66,9 @@ def run_cmd_commands() -> None:
     }
 
     if (dirs_on_path in tokens
-            and first_is_name in tokens
-            and command.index(dirs_on_path) < command.index(first_is_name)):
-        path = plots[dirs_on_path](tokens[dirs_on_path])
-        plots[first_is_name](tokens[first_is_name], path)
-
+            and first_is_name in tokens):
+        path = create_dirs(tokens[dirs_on_path])
+        create_and_write_file(tokens[first_is_name], path)
     else:
         for flag in tokens:
             plots[flag](tokens[flag])
