@@ -26,7 +26,8 @@ def tokenize_command(flags: list, command: str) -> dict:
 
 def create_dirs(dirs: str) -> str:
     directories = os.path.sep.join(dirs.split())
-    path = os.path.abspath(os.path.join(os.path.curdir, directories))
+    path = os.path.abspath(os.path.join(os.path.curdir,
+                                        directories))
     os.makedirs(path, exist_ok=True)
     return path
 
@@ -74,4 +75,5 @@ def run_cmd_commands() -> None:
             plots[flag](tokens[flag])
 
 
-run_cmd_commands()
+if __name__ == "__main__":
+    run_cmd_commands()
