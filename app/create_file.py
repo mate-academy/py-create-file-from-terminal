@@ -6,7 +6,8 @@ from datetime import datetime
 from typing import Union
 
 
-def make_path(cmd_arguments: list[Union[bytes, str]]) -> tuple[Union[bytes, str], Union[bytes, str], Union[bytes, str]]:
+def make_path(cmd_arguments: list[Union[bytes, str]]) -> \
+        tuple[Union[bytes, str], Union[bytes, str], Union[bytes, str]]:
     path, filename, filepath = " ", " ", " "
     cmd_arguments.pop(0)  # delete executed filename from arguments
     if "-f" in cmd_arguments:
