@@ -4,28 +4,21 @@ import datetime
 import os
 import sys
 
+DIRS, FILE = "-d", "-f"
 
-def tokenize_command(flags: list, command: str) -> dict:
-    currents = [flag for flag in command.split()
-                if flag in flags]
-    tokens, count = {}, 1
-    for flag in currents:
-        start_line = command.index(flag)
-        flag_name = flag + " "
-        if count < len(currents):
-            end_line = command.index(currents[count])
-            current_command = command[start_line: end_line - 1]
-            tokens[flag] = current_command.replace(flag_name, "")
-            command = command.replace(current_command, "")
-        else:
-            current_command = command[start_line:].strip()
-            tokens[flag] = current_command.replace(flag_name, "")
-        count += 1
+
+def tokenize_command(command: list) -> dict:
+    global DIRS, FILE
+    tokens, realize_info = {}, 1
+    if DIRS in command:
+        tokens[DIRS] = command[command.index(DIRS) + realize_info:]
+    if FILE in command:
+        tokens[FILE] = command[command.index(FILE) + realize_info]
     return tokens
 
 
-def create_dirs(dirs: str) -> str:
-    directories = os.path.sep.join(dirs.split())
+def create_dirs(dirs: list[str]) -> str:
+    directories = os.path.sep.join(dirs)
     path = os.path.abspath(os.path.join(os.path.curdir,
                                         directories))
     os.makedirs(path, exist_ok=True)
@@ -54,22 +47,16 @@ def create_and_write_file(file_name: str,
 
 
 def run_cmd_commands() -> None:
-    command = " ".join(sys.argv[1:])
-
-    dirs_on_path, first_is_name = "-d", "-f"
-
-    tokens = tokenize_command(flags=[dirs_on_path,
-                                     first_is_name],
-                              command=command)
+    global DIRS, FILE
+    command = sys.argv
+    tokens = tokenize_command(command=command)
     plots = {
-        dirs_on_path: create_dirs,
-        first_is_name: create_and_write_file,
+        DIRS: create_dirs,
+        FILE: create_and_write_file,
     }
-
-    if (dirs_on_path in tokens
-            and first_is_name in tokens):
-        path = create_dirs(tokens[dirs_on_path])
-        create_and_write_file(tokens[first_is_name], path)
+    if DIRS in tokens and FILE in tokens:
+        path = create_dirs(tokens[DIRS])
+        create_and_write_file(tokens[FILE], path)
     else:
         for flag in tokens:
             plots[flag](tokens[flag])
