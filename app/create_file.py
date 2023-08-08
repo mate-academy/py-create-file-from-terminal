@@ -31,7 +31,7 @@ def create_file() -> None:
     else:
         if path != " ":
             os.makedirs(path, exist_ok=True)
-        with open(filepath, "w") as source_file:
+        with open(filepath, "a") as source_file:
             current_time = datetime.now()
             source_file.write(str(current_time.strftime("%Y-%m-%d %H:%M:%S")))
 
