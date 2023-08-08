@@ -10,10 +10,12 @@ DIRS, FILE = "-d", "-f"
 def tokenize_command(command: list) -> dict:
     global DIRS, FILE
     tokens, realize_info = {}, 1
-    if DIRS in command:
-        tokens[DIRS] = command[command.index(DIRS) + realize_info:]
     if FILE in command:
         tokens[FILE] = command[command.index(FILE) + realize_info]
+        command.remove(tokens[FILE])
+        command.remove(FILE)
+    if DIRS in command:
+        tokens[DIRS] = command[command.index(DIRS) + realize_info:]
     return tokens
 
 
@@ -48,7 +50,7 @@ def create_and_write_file(file_name: str,
 
 def run_cmd_commands() -> None:
     global DIRS, FILE
-    command = sys.argv
+    command = sys.argv[1:]
     tokens = tokenize_command(command=command)
     plots = {
         DIRS: create_dirs,
