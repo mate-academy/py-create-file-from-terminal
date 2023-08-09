@@ -31,7 +31,3 @@ def create_directories_and_file() -> None:
         f_index = command.index("-f")
         file_name = command[f_index + 1]
         create_file(dir_path + file_name)
-
-
-if __name__ == "__main__":
-    create_file("file.name")
