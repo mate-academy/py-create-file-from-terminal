@@ -12,20 +12,27 @@ def create_file(file_path: str, content_lines: List[str]) -> None:
             file.write(f"{idx} {line}\n")
 
 
+def get_content_lines() -> List[str]:
+    content_lines = []
+    while True:
+        content_line = input("Enter content line (type 'stop' to finish): ")
+        if content_line.lower() == 'stop':
+            break
+        content_lines.append(content_line)
+    return content_lines
+
+
 def main() -> None:
     if len(sys.argv) < 3:
         print("Usage: python create_file.py [-d directory] -f filename")
         return
 
-
-    content_lines = []
     file_path = ""
 
     if "-d" in sys.argv:
         dir_index = sys.argv.index("-d") + 1
         directory = os.path.join(*sys.argv[dir_index:])
         os.makedirs(directory, exist_ok=True)
-
         file_path = os.path.join(directory, sys.argv[-1])
     elif "-f" in sys.argv:
         file_path = sys.argv[-1]
@@ -35,11 +42,7 @@ def main() -> None:
 
     print(f"Creating file: {file_path}")
 
-    while True:
-        content_line = input("Enter content line (type 'stop' to finish): ")
-        if content_line.lower() == 'stop':
-            break
-        content_lines.append(content_line)
+    content_lines = get_content_lines()
 
     if os.path.exists(file_path):
         print(f"Appending content to existing file: {file_path}")
