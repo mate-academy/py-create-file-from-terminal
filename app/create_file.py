@@ -5,8 +5,8 @@ from typing import List
 
 
 def create_file(file_path: str, content_lines: List[str]) -> None:
-    with open(file_path, 'a') as file:
-        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    with open(file_path, "a") as file:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         file.write(f"{timestamp}\n")
         for idx, line in enumerate(content_lines, start=1):
             file.write(f"{idx} {line}\n")
@@ -16,7 +16,7 @@ def get_content_lines() -> List[str]:
     content_lines = []
     while True:
         content_line = input("Enter content line (type 'stop' to finish): ")
-        if content_line.lower() == 'stop':
+        if content_line.lower() == "stop":
             break
         content_lines.append(content_line)
     return content_lines
