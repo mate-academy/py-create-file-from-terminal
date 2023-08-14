@@ -28,7 +28,7 @@ def make_file(file_path: str) -> None:
                 contente = f.read()
             if contente:
                 line = f"{nn} Another line{nn} content \n"
-                print(f"Line{nn} content")
+                print(f"Another line{nn} content")
                 content += line
             else:
                 line = f"{nn} Line{nn} content \n"
