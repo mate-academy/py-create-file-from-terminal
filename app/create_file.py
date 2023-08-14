@@ -60,11 +60,5 @@ elif len(sys.argv) == 3 and sys.argv[1] == "-f":
     make_file(file_path)
 
 
-def ttt() -> str:
-    print(sys.argv)
-    xx = datetime.datetime.now()
-    print(xx.strftime("%Y-%m-%d %X"))
-
-
 if __name__ == "__main__":
-    ttt()
+    file_content()
