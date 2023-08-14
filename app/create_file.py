@@ -1,33 +1,47 @@
 import os
-import sys
 from datetime import datetime
-
-command = sys.argv
+import sys
 
 
 def create_file(file_name: str) -> None:
-    with open(file_name, "a") as file:
-        file.write((datetime.now(). strftime("%Y-%m-%d, %H:%M:%S") + "\n"))
+    with open(file_name, "a") as source_file:
+        time_stamp = (datetime.now().strftime("%Y-%m-%d, %H:%M:%S") + "\n")
+        source_file.write(f"{time_stamp} \n")
         line_number = 1
         while True:
-            line_number += 1
-            line_text = input("Enter content line:")
-            if line_text == "stop":
+            content = input("Enter content line: ")
+            if content == "stop":
+                source_file.write("\n")
                 break
-            file.write(f"{line_number} {line_text}\n")
+            source_file.write(f"{line_number} {content} \n")
+            line_number += 1
 
 
-def create_directories_and_file() -> None:
-    if "-d" in command:
-        d_index = command.index("-d")
-        f_index = command.index("-f") if "-f" in command else len(command)
-        dir_list = command[d_index + 1: f_index]
+def create_file_and_directories() -> None:
+    if "-d" in sys.argv and "-f" in sys.argv:
+        path = create_directories()
+        file_name = os.path.join(*path, sys.argv[sys.argv.index("-f") + 1])
+        create_file(file_name)
+    elif "-d" in sys.argv:
+        create_directories()
+    elif "-f" in sys.argv:
+        file_name = sys.argv[sys.argv.index("-f") + 1]
+        create_file(file_name)
 
-        dir_path = "/".join(dir_list) + "/"
-        os.makedirs(dir_path, exist_ok=True)
+
+def create_directories() -> list:
+    d_flag_index = sys.argv.index("-d")
+
+    if "-f" in sys.argv:
+        f_flag_index = sys.argv.index("-f")
+        directories_list = sys.argv[d_flag_index + 1:f_flag_index]
     else:
-        dir_path = ""
-    if "-f" in command:
-        f_index = command.index("-f")
-        file_name = command[f_index + 1]
-        create_file(dir_path + file_name)
+        directories_list = sys.argv[d_flag_index + 1:]
+
+    path = os.path.join(*directories_list)
+    os.makedirs(path, exist_ok=True)
+    return directories_list
+
+
+if __name__ == "__main__":
+    create_file_and_directories()
