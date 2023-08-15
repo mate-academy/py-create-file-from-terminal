@@ -2,41 +2,47 @@ from sys import argv
 import os
 import datetime
 
-terminal_commands = argv
 
-if "-d" in terminal_commands:
-    if "-f" in terminal_commands:
-        dirs = (
-            terminal_commands[terminal_commands.index("-d") + 1:
-                              terminal_commands.index("-f")]
-        )
+def create_directories() -> None:
+    if "-d" not in argv:
+        return
+
+    if "-f" not in argv:
+        dirs = (argv[argv.index("-d") + 1:])
     else:
-        dirs = (
-            terminal_commands[terminal_commands.index("-d") + 1:]
-        )
+        dirs = (argv[argv.index("-d") + 1: argv.index("-f")])
 
-    for directory in dirs:
-        if not os.path.exists(directory):
-            os.mkdir(directory)
+    os.makedirs(os.path.join("/".join(dirs)), exist_ok=True)
+    os.chdir(os.path.join("/".join(dirs)))
 
-        os.chdir(directory)
 
-if "-f" in terminal_commands:
-    filename = terminal_commands[terminal_commands.index("-f") + 1:][0]
+def create_file() -> None:
+    if "-f" not in argv:
+        return
 
-    with open(filename, "a") as file:
+    filename = argv[argv.index("-f") + 1:][0]
 
-        with open(filename, "r") as file_check_is_empty:
-            if file_check_is_empty.read():
-                file.write("\n")
+    with open(filename, "a+") as file:
 
-        file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
+        date_to_write = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        file.seek(0)
+        if file.read():
+            file.write(f"\n\n{date_to_write}")
+        else:
+            file.write(f"{date_to_write}")
 
         line_counter = 0
 
         while True:
+
             content = input("Enter content line: ")
             if content == "stop":
                 break
+
             line_counter += 1
-            file.write(f"{line_counter} {content}\n")
+            file.write(f"\n{line_counter} {content}")
+
+
+create_directories()
+create_file()
