@@ -18,12 +18,12 @@ def main() -> None:
 
     elif file_name and not directories:
         create_new_file(filename=file_name)
-        print("File created in the current directory.")
+        print(f"{file_name} created in the current directory.")
 
     elif directories and file_name:
         create_path(directories)
         create_new_file(directory_list=directories, filename=file_name)
-        print("The file_name has been appended with your "
+        print(f"{file_name} has been appended with your "
               "content in the specified directory.")
 
 
