@@ -15,9 +15,6 @@ def create_file(file_path: str) -> None:
     content.insert(0, timestamp)
 
     if os.path.exists(file_path):
-        with open(file_path, "a") as file:
-            file.write("\n\n" + "\n".join(content))
-    else:
         with open(file_path, "w") as file:
             file.write("\n".join(content))
 
