@@ -12,8 +12,10 @@ def create_directories() -> None:
     else:
         dirs = (argv[argv.index("-d") + 1: argv.index("-f")])
 
-    os.makedirs(os.path.join("/".join(dirs)), exist_ok=True)
-    os.chdir(os.path.join("/".join(dirs)))
+    joined_dirs = os.path.join(*dirs)
+
+    os.makedirs(joined_dirs, exist_ok=True)
+    os.chdir(joined_dirs)
 
 
 def create_file() -> None:
@@ -21,10 +23,9 @@ def create_file() -> None:
         return
 
     filename = argv[argv.index("-f") + 1:][0]
+    date_to_write = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     with open(filename, "a+") as file:
-
-        date_to_write = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         file.seek(0)
         if file.read():
@@ -44,5 +45,6 @@ def create_file() -> None:
             file.write(f"\n{line_counter} {content}")
 
 
-create_directories()
-create_file()
+if __name__ == "__main__":
+    create_directories()
+    create_file()
