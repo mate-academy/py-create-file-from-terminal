@@ -19,24 +19,30 @@ def make_file(file_path: str) -> None:
     create_file(file_name)
     line = "  "
     content = ""
-    number_line1 = 0
+    number_line = 0
     while line != "stop":
-        number_line1 += 1
+        number_line += 1
         line = input(f"Enter content line: {line}")
         if line != "stop":
-            line = (f"{number_line1} Line{number_line1} content\n")
+            line = (f"{number_line} Line{number_line} content\n")
             content += line
             print(content)
 
     with open(file_name, "a") as f:
-        f.write("".join(content))
+        f.write(content)
 
 
 if "-f" in sys.argv and "-d" in sys.argv:
-    directory_path = os.path.join(*sys.argv[2:-2])
-    os.makedirs(directory_path, exist_ok=True)
-    os.chdir(directory_path)
-    file_path = sys.argv[-1]
+    if sys.argv[1] == "-d":
+        directory_path = os.path.join(*sys.argv[2:-2])
+        os.makedirs(directory_path, exist_ok=True)
+        os.chdir(directory_path)
+        file_path = sys.argv[-1]
+    else:
+        directory_path = os.path.join(*sys.argv[4:])
+        os.makedirs(directory_path, exist_ok=True)
+        os.chdir(directory_path)
+        file_path = sys.argv[2]
     make_file(file_path)
 
 
