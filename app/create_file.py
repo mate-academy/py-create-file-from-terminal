@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 
-def create(path: str) -> None:
+def create_new_file(path: str) -> None:
     with open(path, "a") as filename:
         current_time = datetime.now()
         formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
@@ -18,13 +18,17 @@ def create(path: str) -> None:
         filename.write("\n")
 
 
-if __name__ == "__main__":
+def create() -> None:
     if "-d" in sys.argv and "-f" not in sys.argv:
         os.makedirs(os.path.join(*sys.argv[2:]), exist_ok=True)
     elif "-f" in sys.argv and "-d" not in sys.argv:
-        create(sys.argv[2])
+        create_new_file(sys.argv[2])
     elif "-d" in sys.argv and "-f" in sys.argv:
         index_of_flag = sys.argv.index("-f")
         directories = os.path.join(*sys.argv[2:index_of_flag])
         os.makedirs(directories, exist_ok=True)
-        create(directories + sys.argv[-1])
+        create_new_file(directories + sys.argv[-1])
+
+
+if __name__ == "__main__":
+    create()
