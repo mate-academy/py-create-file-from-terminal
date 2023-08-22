@@ -13,13 +13,17 @@ def create_file() -> None:
             directory_path = "/".join(args[args.index("-d") + 1:])
             if "-f" in args:
                 if args.index("-d") < args.index("-f"):
-                    directory_path = "/".join(args[args.index("-d") + 1:args.index("-f")])
+                    directory_path = (
+                        "/".join(args[args.index("-d") + 1:args.index("-f")])
+                    )
 
             os.makedirs(directory_path, exist_ok=True)
 
         if "-f" in args:
             num_index = 0
-            content = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
+            content = (
+                datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
+            )
             while True:
                 num_index += 1
                 answer = input("Enter content line: ")
