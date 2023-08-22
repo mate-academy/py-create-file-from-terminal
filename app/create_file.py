@@ -14,9 +14,8 @@ def create_file(file_path: str) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     content.insert(0, timestamp)
 
-    if os.path.exists(file_path):
-        with open(file_path, "w") as file:
-            file.write("\n".join(content))
+    with open(file_path, "a") as file:
+        file.write("\n".join(content))
 
 
 def main() -> None:
