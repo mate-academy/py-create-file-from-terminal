@@ -10,23 +10,16 @@ def create_file() -> None:
     else:
         directory_path = ""
         if "-d" in args:
-            status = False
-            for elem in args:
-                if elem == "-d":
-                    status = True
-                    continue
-                if elem == "-f":
-                    status = False
-                if status:
-                    directory_path += elem + "/"
-            print(directory_path)
+            directory_path = "/".join(args[args.index("-d") + 1:])
+            if "-f" in args:
+                if args.index("-d") < args.index("-f"):
+                    directory_path = "/".join(args[args.index("-d") + 1:args.index("-f")])
+
             os.makedirs(directory_path, exist_ok=True)
 
         if "-f" in args:
             num_index = 0
-            content = (
-                datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
-            )
+            content = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
             while True:
                 num_index += 1
                 answer = input("Enter content line: ")
@@ -36,7 +29,7 @@ def create_file() -> None:
             content += "\n"
 
             if "-d" in args:
-                file_path = directory_path + args[args.index("-f") + 1]
+                file_path = directory_path + "/" + args[args.index("-f") + 1]
             else:
                 file_path = args[args.index("-f") + 1]
             if os.path.exists(file_path):
@@ -47,5 +40,4 @@ def create_file() -> None:
                     file.write(content)
 
 
-if __name__ == "__main__":
-    create_file()
+create_file()
