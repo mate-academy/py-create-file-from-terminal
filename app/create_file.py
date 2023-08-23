@@ -19,8 +19,7 @@ def create_file() -> None:
 
     if directories:
         directory_path = os.path.join(*directories)
-        if not os.path.exists(directory_path):
-            os.makedirs(directory_path)
+        os.makedirs(directory_path, exist_ok=True)
 
     if file_name:
         file_path = (os.path.join(*directories, file_name)
