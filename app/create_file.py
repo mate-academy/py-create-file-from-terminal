@@ -22,9 +22,14 @@ def create() -> None:
     if "-f" in sys.argv and "-d" not in sys.argv:
         create_directory(sys.argv[2])
     if "-d" in sys.argv and "-f" in sys.argv:
-        directories = os.path.join(*sys.argv[2:sys.argv.index("-f")])
-        os.makedirs(directories, exist_ok=True)
-        create_directory(directories + sys.argv[-1])
+        if sys.argv[1] == "-d":
+            directories = os.path.join(*sys.argv[2:2])
+            os.makedirs(directories, exist_ok=True)
+            create_directory(directories + sys.argv[-1])
+        else:
+            directories = os.path.join(*sys.argv[4:])
+            os.makedirs(directories, exist_ok=True)
+            create_directory(directories + sys.argv[2])
 
 
 if __name__ == "__main__":
