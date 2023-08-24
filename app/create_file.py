@@ -8,9 +8,7 @@ def create_file() -> None:
     parser.add_argument(
         "-d", "--directories", nargs="+", help="List of directory names"
     )
-    parser.add_argument(
-        "-f", "--file_name", help="Name of the file to create"
-    )
+    parser.add_argument("-f", "--file_name", help="Name of the file to create")
 
     args = parser.parse_args()
 
@@ -22,10 +20,9 @@ def create_file() -> None:
         os.makedirs(directory_path, exist_ok=True)
 
     if file_name:
-        file_path = (os.path.join(*directories, file_name)
-                     if directories
-                     else file_name
-                     )
+        file_path = os.path.join(
+            *directories, file_name
+        ) if directories else file_name
 
         with open(file_path, "a") as file_to_create:
             add_space = False
