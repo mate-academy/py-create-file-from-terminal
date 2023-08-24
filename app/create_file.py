@@ -32,14 +32,10 @@ def write_to_file() -> None:
     file_path = create_path()
     if file_path:
         with open(file_path, "a") as file_to_create:
-            add_space = False
             current_timestamp = datetime.datetime.now().strftime(
                 "%Y-%m-%d %H:%M:%S"
             )
             if os.path.getsize(file_path) > 0:
-                add_space = True
-
-            if add_space:
                 file_to_create.write("\n")
 
             file_to_create.write(current_timestamp + "\n")
