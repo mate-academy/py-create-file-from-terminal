@@ -1,9 +1,10 @@
+from __future__ import annotations
 import os
 import datetime
 import argparse
 
 
-def create_file() -> None:
+def create_path() -> str | bytes | None:
     parser = argparse.ArgumentParser(description="Create a file")
     parser.add_argument(
         "-d", "--directories", nargs="+", help="List of directory names"
@@ -24,6 +25,12 @@ def create_file() -> None:
             *directories, file_name
         ) if directories else file_name
 
+        return file_path
+
+
+def write_to_file() -> None:
+    file_path = create_path()
+    if file_path:
         with open(file_path, "a") as file_to_create:
             add_space = False
             current_timestamp = datetime.datetime.now().strftime(
@@ -38,7 +45,7 @@ def create_file() -> None:
             file_to_create.write(current_timestamp + "\n")
 
             line_number = 0
-            while 1:
+            while True:
                 file_content = input("Enter content line: ")
                 line_number += 1
                 if file_content == "stop":
