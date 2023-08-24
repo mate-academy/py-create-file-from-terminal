@@ -3,18 +3,20 @@ import os
 import sys
 
 
-def handle_directory(args) -> str:
+def handle_directory(args: str) -> str:
     directory_path = "/".join(args[args.index("-d") + 1:])
     if "-f" in args:
         if args.index("-d") < args.index("-f"):
-            directory_path = "/".join(args[args.index("-d") + 1:args.index("-f")])
+            directory_path = (
+                "/".join(args[args.index("-d") + 1:args.index("-f")])
+            )
 
     os.makedirs(directory_path, exist_ok=True)
     print(directory_path)
     return directory_path
 
 
-def handle_file(args, directory_path=None) -> None:
+def handle_file(args: str, directory_path: None) -> None:
     num_index = 0
     content = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
     while True:
