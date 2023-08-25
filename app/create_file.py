@@ -11,7 +11,7 @@ def create_file(command: list) -> None:
         path = os.path.join(*directory_path)
     elif command[1] == "-f" and "-d" in command:
         path = os.path.join(*command[4:])
-    print(path)
+
     if path:
         os.makedirs(path, exist_ok=True)
 
