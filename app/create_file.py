@@ -2,41 +2,32 @@ import os
 import sys
 from functions import (
     validator,
-    fill_the_file,
+    existing_file_content,
+    content_to_file,
     dir_and_file_name_extraction,
 )
 
 command_to_execute = sys.argv[1:] if sys.argv else []
 current_dir = os.getcwd()
-print(command_to_execute)
 
 
 def create_file() -> None:
-    if validator(command_to_execute) == 1:
+    validation_result = validator(command_to_execute)
+
+    if validation_result == 1:
         os.makedirs(
-            os.path.join(current_dir, *command_to_execute[1:])
+            os.path.join(current_dir, *command_to_execute[1:]),
+            exist_ok=True,
         )
 
-    elif validator(command_to_execute) == 2:
+    elif validation_result == 2:
         file_name = command_to_execute[1]
-        if os.path.exists(file_name):
-            with open(file_name, "r") as f:
-                file_content = f.read()
-        else:
-            file_content = ""
 
-        if len(file_content) == 0:
-            with open(file_name, "a") as f:
-                info_to_write = fill_the_file().rstrip("\n")
-                f.write(info_to_write)
-        else:
-            with open(file_name, "a") as f:
-                info_to_write = "\n" * 2 + fill_the_file().rstrip(
-                    "\n"
-                )
-                f.write(info_to_write)
+        file_content = existing_file_content(file_name)
 
-    elif validator(command_to_execute) == 3:
+        content_to_file(file_content, file_name)
+
+    elif validation_result == 3:
         command_data: dict = dir_and_file_name_extraction(
             command_to_execute
         )
@@ -44,26 +35,12 @@ def create_file() -> None:
             "file_name"
         )
         file_path = os.path.join(*dirs, file_name)
-
         directory = os.path.dirname(file_path)
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-            with open(file_path, "w"):
-                pass
+        os.makedirs(directory, exist_ok=True)
 
-        with open(file_path, "r") as f:
-            file_content = f.read()
+        file_content = existing_file_content(file_path)
 
-        if len(file_content) == 0:
-            with open(file_path, "a") as f:
-                info_to_write = fill_the_file().rstrip("\n")
-                f.write(info_to_write)
-        else:
-            with open(file_path, "a") as f:
-                info_to_write = "\n" * 2 + fill_the_file().rstrip(
-                    "\n"
-                )
-                f.write(info_to_write)
+        content_to_file(file_content, file_path)
 
 
 create_file()
