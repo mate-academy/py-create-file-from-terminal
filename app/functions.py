@@ -5,13 +5,10 @@ from datetime import datetime
 
 def validator(command: list) -> object:
     if "-d" in command and "-f" in command:
-        # print("Third case")
         return 3
     elif command[0] == "-d" and len(command) >= 2:
-        # print("First case")
         return 1
     elif command[0] == "-f" and len(command) == 2:
-        # print("Second case")
         return 2
 
 
@@ -36,23 +33,26 @@ def existing_file_content(file_path: str) -> str:
 
 
 def content_to_file(file_content: str, file_name: str) -> None:
-    if len(file_content) == 0:
-        with open(file_name, "a") as f:
-            info_to_write = processed_input_data().rstrip("\n")
-            f.write(info_to_write)
-    else:
-        with open(file_name, "a") as f:
-            info_to_write = "\n" * 2 + processed_input_data().rstrip(
-                "\n"
-            )
-            f.write(info_to_write)
+    starting_indent = "" if len(file_content) == 0 else "\n"
+    with open(file_name, "a") as f:
+        info_to_write = (
+            starting_indent + processed_input_data().rstrip("\n")
+        )
+        f.write(info_to_write)
 
 
 def dir_and_file_name_extraction(command: list) -> dict:
     dirs_file_info = {"dirs": [], "file_name": ""}
 
-    index_of_flag = command.index("-f")
-    dirs_file_info["dirs"] = command[1:index_of_flag]
-    dirs_file_info["file_name"] = command[index_of_flag + 1]
+    f_cmd_index = command.index("-f")
+    d_cmd_index = command.index("-d")
+
+    dirs_file_info["file_name"] = command[f_cmd_index + 1]
+    if f_cmd_index < d_cmd_index:
+        dirs_file_info["dirs"] = command[d_cmd_index + 1 :]
+    elif d_cmd_index < f_cmd_index:
+        dirs_file_info["dirs"] = command[
+            d_cmd_index + 1 : f_cmd_index
+        ]
 
     return dirs_file_info

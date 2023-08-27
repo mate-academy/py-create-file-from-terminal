@@ -7,6 +7,10 @@ from functions import (
     dir_and_file_name_extraction,
 )
 
+VALIDATION_ONE = 1
+VALIDATION_TWO = 2
+VALIDATION_THREE = 3
+
 command_to_execute = sys.argv[1:] if sys.argv else []
 current_dir = os.getcwd()
 
@@ -14,20 +18,20 @@ current_dir = os.getcwd()
 def create_file() -> None:
     validation_result = validator(command_to_execute)
 
-    if validation_result == 1:
+    if validation_result == VALIDATION_ONE:
         os.makedirs(
             os.path.join(current_dir, *command_to_execute[1:]),
             exist_ok=True,
         )
 
-    elif validation_result == 2:
+    elif validation_result == VALIDATION_TWO:
         file_name = command_to_execute[1]
 
         file_content = existing_file_content(file_name)
 
         content_to_file(file_content, file_name)
 
-    elif validation_result == 3:
+    elif validation_result == VALIDATION_THREE:
         command_data: dict = dir_and_file_name_extraction(
             command_to_execute
         )
