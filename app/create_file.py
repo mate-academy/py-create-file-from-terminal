@@ -5,7 +5,10 @@ from datetime import datetime
 
 def create_dir() -> None:
     if "-f" in sys.argv:
-        dir_path = os.path.join(*sys.argv[2:-2])
+        if sys.argv.index("-f") > sys.argv.index("-d"):
+            dir_path = os.path.join(*sys.argv[2:-2])
+        else:
+            dir_path = os.path.join(*sys.argv[sys.argv.index("-d") + 1:])
     else:
         dir_path = os.path.join(*sys.argv[2:])
     os.makedirs(dir_path, exist_ok=True)
@@ -13,7 +16,12 @@ def create_dir() -> None:
 
 def create_file() -> None:
     if "-d" in sys.argv:
-        file_path = os.path.join(*sys.argv[2:-2]) + "\\" + sys.argv[-1]
+        if sys.argv.index("-f") > sys.argv.index("-d"):
+            file_path = os.path.join(*sys.argv[2:-2], sys.argv[-1])
+        else:
+            file_path = os.path.join(
+                *sys.argv[sys.argv.index("-d") + 1:],
+                sys.argv[sys.argv.index("-f") + 1:sys.argv.index("-d")][0])
     else:
         file_path = sys.argv[2]
 
@@ -28,17 +36,10 @@ def create_file() -> None:
         file.write("\n")
 
 
-if "-d" in sys.argv and "-f" not in sys.argv:
+if "-d" in sys.argv:
 
     create_dir()
 
+if "-f" in sys.argv:
 
-if "-f" in sys.argv and "-d" not in sys.argv:
-
-    create_file()
-
-
-if "-d" in sys.argv and "-f" in sys.argv:
-
-    create_dir()
     create_file()
