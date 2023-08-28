@@ -18,7 +18,7 @@ def main() -> None:
         print(argv)
     else:
         raise CommandNotFound(
-            "Usage: python create_file.py -d [dir1 dir2 ...] -f filename.txt"
+            "Usage: python create_file.py [-d dir1 dir2 ...] [-f filename.txt]"
         )
 
     if "-d" in argv:
@@ -40,6 +40,7 @@ def main() -> None:
                 break
             source_file.write(f"{line_num} {content}\n")
             line_num += 1
+        print("OK")
 
 
 if __name__ == "__main__":
