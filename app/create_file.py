@@ -46,8 +46,7 @@ def create_file() -> None:
 
     params = get_params(sys.argv)
 
-    if not os.path.exists(params["-d"]):
-        os.makedirs(params["-d"])
+    os.makedirs(params["-d"], exist_ok=True)
     file_path = f"{params['-d']}/{params['-f']}"
 
     with open(file_path, "a") as f:
