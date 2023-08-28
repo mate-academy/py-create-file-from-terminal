@@ -24,6 +24,7 @@ def write_file(file_path: str) -> None:
         line_number = 1
         while (line := input("Enter content line:")) != "stop":
             destination.write(f"{line_number} {line}\n")
+            line_number += 1
 
 
 if __name__ == "__main__":
