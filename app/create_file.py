@@ -15,11 +15,13 @@ def create_file(file_path: str) -> None:
         file_pointer.write(
             f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} \n"
         )
+        line = 1
         while True:
             content = input("Enter content line: ")
             if content == "stop":
                 break
-            file_pointer.write(f"{content} \n")
+            file_pointer.write(f"{line} {content} \n")
+            line += 1
 
 
 if __name__ == "__main__":
