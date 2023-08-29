@@ -4,9 +4,12 @@ from datetime import datetime
 
 
 def create_path(directories: list) -> str:
-    path = os.path.join(*directories)
+    current_dir = os.getcwd()
+    path = os.path.join(current_dir, *directories)
+
     if not os.path.exists(path):
         os.makedirs(path)
+
     return path
 
 
