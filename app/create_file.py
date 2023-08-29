@@ -3,7 +3,7 @@ import datetime
 import os
 
 
-def parsing() -> None:
+def parsing_terminal_cmd() -> None:
     parser = argparse.ArgumentParser(description="Create file from terminal")
     parser.add_argument(
         "-d",
@@ -58,4 +58,4 @@ def create_file(file_name: str) -> None:
 
 
 if __name__ == "__main__":
-    parsing()
+    parsing_terminal_cmd()
