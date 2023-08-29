@@ -15,15 +15,19 @@ def create_path(directories: list) -> str:
 
 
 def create_file(path: str) -> None:
-    with open(path, "w") as file:
-        file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-        line_count = 0
-        while True:
-            content = input("Enter content line: ")
-            if content == "stop":
-                break
-            line_count += 1
-            file.write(f"{line_count}. {content}\n")
+    try:
+        with open(path, "w") as file:
+            file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+            line_count = 0
+            while True:
+                content = input("Enter content line: ")
+                if content == "stop":
+                    break
+                line_count += 1
+                file.write(f"{line_count}. {content}\n")
+    except FileNotFoundError:
+        print("Unsupported characters in file_name!!!")
+        sys.exit()
 
 
 def main() -> None:
@@ -38,34 +42,23 @@ def main() -> None:
         if len(terminal_input) < 3:
             print("'file_name' argument is missing")
             sys.exit()
-        try:
-            _, flag_f, file_name, *_ = terminal_input
-            if flag_f != "-f":
-                print("Provide command in a valid format: '-f <file_name>'")
-                sys.exit()
-            create_file(file_name)
-        except ValueError:
-            print("'file_name' argument is missing")
-            print("Provide a file name in a valid format: '-f <file_name>'")
+        _, flag_f, file_name, *_ = terminal_input
+        if flag_f != "-f":
+            print("Provide command in a valid format: '-f <file_name>'")
+            sys.exit()
+        create_file(file_name)
     if "-f" not in terminal_input:
         if len(terminal_input) < 3:
             print("'directory' argument is missing")
             sys.exit()
-        try:
-            _, flag_d, *directories = terminal_input
-            if flag_d != "-d":
-                print(
-                    "Provide command in a valid format: "
-                    "'-d <directory_1> <directory_2>...'"
-                )
-                sys.exit()
-            path = create_path(directories)
-        except TypeError:
+        _, flag_d, *directories = terminal_input
+        if flag_d != "-d":
             print(
-                "'directory' argument is missing\n"
-                "Provide directory(ies) in a valid format: "
-                "'-d <directory_1> <directory_1>...'"
+                "Provide command in a valid format: "
+                "'-d <directory_1> <directory_2>...'"
             )
+            sys.exit()
+        create_path(directories)
     if "-f" in terminal_input and "-d" in terminal_input:
         if terminal_input[-1] == "-f":
             if terminal_input[1] == "-f":
