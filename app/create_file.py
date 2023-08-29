@@ -11,8 +11,10 @@ def get_content_from_user() -> list:
 
     while True:
         content_line = input("Enter content line: ")
+
         if content_line == "stop":
             break
+
         content.append(f"{number_of_content_line} {content_line}")
         number_of_content_line += 1
 
@@ -49,6 +51,7 @@ def decode_arguments() -> None:
 
     if path_to_directory:
         create_directory(path_to_directory)
+
     if file_name:
         file_path = os.path.join(path_to_directory, file_name)
         create_file(file_path)
