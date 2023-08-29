@@ -24,9 +24,7 @@ def create_file(file_path: str) -> None:
             line += 1
 
 
-if __name__ == "__main__":
-    command_line = sys.argv
-
+def process_command_line(command_line: list[str]) -> None:
     if (
         "-d" not in command_line
         and "-f" not in command_line
@@ -51,3 +49,8 @@ if __name__ == "__main__":
     elif "-f" in command_line:
         _, command_f, file_name = command_line
         create_file(file_name)
+
+
+if __name__ == "__main__":
+    command_line = sys.argv
+    process_command_line(command_line)
