@@ -1,1 +1,36 @@
-# write your code here
+import sys
+import os
+from datetime import datetime
+
+
+def get_timestamp() -> str:
+    time = datetime.now()
+    return time.strftime("%A, %b %d %Y, %I:%M%p.")
+
+
+def get_input(path: str) -> None:
+    line_number = 0
+    with open(path, "a") as file:
+        file.write(get_timestamp() + "\n")
+        while True:
+            line = input("Enter content line: ")
+            if line == "stop":
+                file.write("\n")
+                break
+            line_number += 1
+            file.write(f"{line_number} {line}\n")
+
+
+command = sys.argv[1:]
+if "-d" in command:
+    directories = command[
+        1: command.index("-f") if "-f" in command else len(command)
+    ]
+    current_dir = directories[0]
+    for directory in directories[1:]:
+        current_dir = os.path.join(current_dir, directory)
+    if not os.path.exists(current_dir):
+        os.makedirs(current_dir)
+if "-f" in command:
+    filename = command[-1]
+    get_input(filename)
