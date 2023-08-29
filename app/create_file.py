@@ -3,7 +3,7 @@ import os
 import datetime
 
 
-def open_write_file(file_name):
+def open_write_file(file_name: str) -> None:
     with open(file_name, "a") as file:
         file.write(
             str(datetime.datetime.now().replace(microsecond=0)) + "\n"
