@@ -26,7 +26,7 @@ def create_file(path: str) -> None:
             file.write(f"{line_count}. {content}\n")
 
 
-if __name__ == "__main__":
+def main() -> None:
     terminal_input = sys.argv
     if "-f" not in terminal_input and "-d" not in terminal_input:
         print(
@@ -84,3 +84,7 @@ if __name__ == "__main__":
             sys.exit()
         path = fr"{create_path(directories)}\{file_name}"
         create_file(path)
+
+
+if __name__ == "__main__":
+    main()
