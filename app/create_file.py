@@ -4,6 +4,11 @@ from sys import argv
 
 
 def create_directory() -> str:
+    current_path = ""
+
+    if "-d" not in argv:
+        return current_path
+
     directories = []
 
     for value in range(argv.index("-d") + 1, len(argv)):
@@ -12,18 +17,22 @@ def create_directory() -> str:
 
         directories.append(argv[value])
 
-    current_path = ""
-
     if directories:
         current_path = os.path.join(*directories)
-
-        if not os.path.exists(current_path):
-            os.makedirs(current_path)
+        os.makedirs(current_path, exist_ok=True)
 
     return current_path
 
 
-def create_file(path: str) -> None:
+def create_file() -> None:
+    if "-d" not in argv and "-f" not in argv:
+        raise Exception("You should provide at least one flag")
+
+    path = create_directory()
+
+    if "-f" not in argv:
+        return
+
     file_name = argv[argv.index("-f") + 1]
 
     if file_name:
@@ -42,12 +51,4 @@ def create_file(path: str) -> None:
                 line_number += 1
 
 
-if "-d" not in argv and "-f" not in argv:
-    raise Exception("You should provide at least one flag")
-
-final_path = ""
-
-if "-d" in argv:
-    final_path = create_directory()
-if "-f" in argv:
-    create_file(final_path)
+create_file()
