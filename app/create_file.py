@@ -57,8 +57,9 @@ def main(arguments: List[str]) -> None:
     path = get_path(directories)
     if not os.path.exists(path):
         os.makedirs(path)
-    create_file(f"{path}/{file_name}")
-    write_file(f"{path}/{file_name}")
+    full_path = os.path.join(path, file_name)
+    create_file(full_path)
+    write_file(full_path)
 
 
 if __name__ == "__main__":
