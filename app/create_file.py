@@ -25,7 +25,7 @@ def add_content(file_to_write: str) -> None:
         file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 
         line = 1
-        
+
         while (data := input("Enter content line: ")) != "stop":
             file.write(f"{line} {data}" + "\n")
             line += 1
