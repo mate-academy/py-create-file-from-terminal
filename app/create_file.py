@@ -30,8 +30,6 @@ def write_file(path_file: str) -> None:
     with open(path_file, "a") as f:
         f.write("\n")
 
-    add_content(path_file)
-
 
 def main() -> None:
     if "-d" in sys.argv and "-f" in sys.argv:
