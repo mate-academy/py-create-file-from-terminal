@@ -4,7 +4,7 @@ import os
 from datetime import datetime
 
 
-def create_file(argv: list[str]) -> None:
+def parse_options(argv: list[str]) -> tuple[str, str]:
     try:
         opts, _ = getopt.getopt(argv[1:], "d:f:", [])
     except getopt.GetoptError as e:
@@ -18,13 +18,18 @@ def create_file(argv: list[str]) -> None:
             dirpath = arg
         elif "-f" == opt:
             filename = arg
+    return dirpath, filename
 
+
+def make_directory(dirpath: str) -> None:
     if dirpath != "":
         try:
             os.makedirs(os.path.join(*dirpath.split()))
         except FileExistsError:
             print("Directory already exists")
 
+
+def write_file(dirpath: str, filename: str) -> None:
     if filename != "":
         lines: list[str] = []
         line_number: int = 1
@@ -39,5 +44,11 @@ def create_file(argv: list[str]) -> None:
             )
 
 
+def create_file(dirpath: str, filename: str) -> None:
+    make_directory(dirpath)
+    write_file(dirpath, filename)
+
+
 if __name__ == "__main__":
-    create_file(sys.argv)
+    dirpath, filename = parse_options(sys.argv)
+    create_file(dirpath, filename)
