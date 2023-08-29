@@ -3,20 +3,10 @@ import os
 from datetime import datetime
 
 
-def create_dir() -> str:
-    if "-f" in sys.argv:
-        path = os.path.join(
-            "/".join(sys.argv[sys.argv.index("-d") + 1: sys.argv.index("-f")])
-        )
-        if not os.path.exists(path):
-            os.makedirs(path)
-        return path
-
-    path = os.path.join("/".join(sys.argv[sys.argv.index("-d") + 1 :]))
-
+def create_path(directories: list) -> str:
+    path = os.path.join(*directories)
     if not os.path.exists(path):
         os.makedirs(path)
-
     return path
 
 
@@ -45,12 +35,14 @@ def write_file(path_file: str) -> None:
 
 def main() -> None:
     if "-d" in sys.argv and "-f" in sys.argv:
-        path = create_dir()
+        _, command_d, *directories, command_f, file_name = sys.argv
+        path = create_path(directories)
         write_file(f"{path}/{sys.argv[-1]}")
         return
 
     if "-d" in sys.argv:
-        create_dir()
+        _, command_d, *directories = sys.argv
+        create_path(directories)
         return
 
     if "-f" in sys.argv:
