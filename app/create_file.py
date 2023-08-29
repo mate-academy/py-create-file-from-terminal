@@ -3,7 +3,7 @@ import os
 import datetime
 
 
-def check_for_directories():
+def check_for_directories() -> str:
     directory = ""
     if "-d" in sys.argv:
         directory = sys.argv[sys.argv.index("-d") + 1:]
@@ -16,7 +16,7 @@ def check_for_directories():
     return directory
 
 
-def check_files(directory):
+def check_files(directory: str) -> None:
     if "-f" in sys.argv:
         file_name = sys.argv[sys.argv.index("-f") + 1:]
         if "-d" in directory:
@@ -24,7 +24,9 @@ def check_files(directory):
         file_name = f"{directory}" + "".join(file_name)
 
         with open(file_name, "a") as file:
-            file.write(str(datetime.datetime.now().replace(microsecond=0)) + "\n")
+            file.write(
+                str(datetime.datetime.now().replace(microsecond=0)) + "\n"
+            )
             line_index = 1
             while True:
                 content = input("Enter content line: ")
@@ -35,7 +37,7 @@ def check_files(directory):
                 line_index += 1
 
 
-def main():
+def main() -> None:
     directory = check_for_directories()
     check_files(directory)
 
