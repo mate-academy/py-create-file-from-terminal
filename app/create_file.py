@@ -19,7 +19,9 @@ def write_file(file_path: str) -> None:
     file_path = os.path.join(file_path, args.file)
 
     with open(file_path, "w") as destination:
-        destination.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        destination.write(
+            f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+        )
 
         line_number = 1
         while (line := input("Enter content line:")) != "stop":
@@ -30,15 +32,19 @@ def write_file(file_path: str) -> None:
 if __name__ == "__main__":
     parser = ArgumentParser()
 
-    parser.add_argument("-d",
-                        "--dir",
-                        type=str,
-                        help="creates directory inside current directory")
+    parser.add_argument(
+        "-d",
+        "--dir",
+        type=str,
+        help="creates directory inside current directory",
+    )
 
-    parser.add_argument("-f",
-                        "--file",
-                        type=str,
-                        help="creates file inside current directory")
+    parser.add_argument(
+        "-f",
+        "--file",
+        type=str,
+        help="creates file inside current directory",
+    )
 
     args: Namespace = parser.parse_args()
 
