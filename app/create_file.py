@@ -4,7 +4,8 @@ from datetime import datetime
 
 
 def create_file(file_path: str = f"app/{sys.argv[-1]}") -> None:
-    if len(sys.argv) <= 3:
+    request = sys.argv
+    if len(request) <= 3:
         print("File name not provided.")
         return
     with open(file_path, "w") as file:
@@ -15,39 +16,42 @@ def create_file(file_path: str = f"app/{sys.argv[-1]}") -> None:
             content = input("Enter content line: ")
             file.write(f"{line_idx} {content}\n")
             line_idx += 1
-    print(f"Created file: {sys.argv[-1]}")
+    print(f"Created file: {request[-1]}")
 
 
 def create_directory() -> None | str:
-    if len(sys.argv) < 3:
+    request = sys.argv
+    if len(request) < 3:
         print("Directory path not provided.")
         return
-    directory = os.path.join(*sys.argv[2:])
+    directory = os.path.join(*request[2:])
     os.makedirs(directory, exist_ok=True)
     print(f"Created directory: {directory}")
     return directory
 
 
 def create_directory_and_file() -> None:
-    if len(sys.argv) < 5 and sys.argv[-2] != "-f":
+    request = sys.argv
+    if len(request) < 5 and request[-2] != "-f":
         print("Incorrect call")
         return
-    directory = os.path.join(*sys.argv[2:-2])
+    directory = os.path.join(*request[2:-2])
     os.makedirs(directory, exist_ok=True)
     print(f"Created directory: {directory}")
-    file_path = f"{directory}/{sys.argv[-1]}"
+    file_path = f"{directory}/{request[-1]}"
     create_file(file_path)
 
 
 def main() -> None:
-    if len(sys.argv) == 1:
+    request = sys.argv
+    if len(request) == 1:
         print("Incorrect call")
         return
-    if sys.argv[1] == "-d" and "-f" not in sys.argv:
+    if request[1] == "-d" and "-f" not in request:
         create_directory()
-    if sys.argv[1] == "-f":
+    if request[1] == "-f":
         create_file()
-    if sys.argv[1] == "-d" and "-f" in sys.argv:
+    if request[1] == "-d" and "-f" in request:
         create_directory_and_file()
 
 
