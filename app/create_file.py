@@ -21,7 +21,7 @@ def get_input(path: str) -> None:
             file.write(f"{line_number} {line}\n")
 
 
-def create_file_from_terminal() -> None:
+def create_path() -> str | None:
     current_dir = ""
     command = sys.argv[1:]
     if "-d" in command:
@@ -35,6 +35,12 @@ def create_file_from_terminal() -> None:
             os.makedirs(current_dir)
     if "-f" in command:
         filename = os.path.join(current_dir, command[-1])
+        return filename
+
+
+def create_file_from_terminal() -> None:
+    filename = create_path()
+    if filename:
         get_input(filename)
 
 
