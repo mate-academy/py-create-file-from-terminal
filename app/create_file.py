@@ -6,7 +6,8 @@ import datetime
 def parse_input() -> dict:
     terminal_input = sys.argv[1:]
     to_do_dict = {"file": None, "directory": None}
-    if "-d" in terminal_input and "-f" in terminal_input and len(terminal_input) >= 4:
+    if ("-d" in terminal_input and "-f" in terminal_input
+            and len(terminal_input) >= 4):
         file_index = terminal_input.index("-f")
         dir_index = terminal_input.index("-d")
         if file_index > dir_index:
@@ -46,7 +47,8 @@ def create_directory(directory_path: str | list) -> str:
 def add_content_to_file(file_name: str, directory_path: str) -> None:
     with open(os.path.join(directory_path, file_name), "a") as file:
 
-        time_opened = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
+        time_opened = (datetime.datetime.now()
+                       .strftime("%Y-%m-%d %H:%M:%S") + "\n")
         file.write(time_opened)
 
         counter = 1
