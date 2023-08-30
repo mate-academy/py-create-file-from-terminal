@@ -5,7 +5,7 @@ import datetime
 
 def create_directories(directories_to_create: str, create_path: str) -> str:
     if directories_to_create is not None:
-        for folder in args.directories_to_create:
+        for folder in directories_to_create:
             try:
                 os.mkdir(os.path.join(create_path, folder))
             except FileExistsError:
@@ -29,13 +29,18 @@ def write_in_file(file_name: str, path_of_file: str) -> None:
                 line_count += 1
 
 
-parser = argparse.ArgumentParser()
+def parse_command() -> None:
+    parser = argparse.ArgumentParser()
 
-parser.add_argument("-f", "--file_name")
-parser.add_argument("-d", "--directories_to_create", nargs="+")
+    parser.add_argument("-f", "--file_name")
+    parser.add_argument("-d", "--directories_to_create", nargs="+")
 
-args = parser.parse_args()
-current_path = os.getcwd()
+    args = parser.parse_args()
+    current_path = os.getcwd()
 
-current_path = create_directories(args.directories_to_create, current_path)
-write_in_file(args.file_name, current_path)
+    current_path = create_directories(args.directories_to_create, current_path)
+    write_in_file(args.file_name, current_path)
+
+
+if __name__ == "__main__":
+    parse_command()
