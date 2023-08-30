@@ -3,7 +3,7 @@ import sys
 import datetime
 
 
-def create_file(file_path):
+def create_file(file_path: str) -> None:
     if os.path.exists(file_path):
         content = read_content(file_path)
     else:
@@ -22,12 +22,12 @@ def create_file(file_path):
             file.write(f"{i} {line}\n")
 
 
-def read_content(file_path):
+def read_content(file_path: str) -> str:
     with open(file_path, "r") as file:
         return file.readlines()
 
 
-def main():
+def main() -> None:
     args = sys.argv[1:]
 
     if "-d" in args and "-f" in args:
