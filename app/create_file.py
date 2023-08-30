@@ -46,7 +46,6 @@ def create_directory(directory_path: str | list) -> str:
 
 def add_content_to_file(file_name: str, directory_path: str) -> None:
     with open(os.path.join(directory_path, file_name), "a") as file:
-
         time_opened = (datetime.datetime.now()
                        .strftime("%Y-%m-%d %H:%M:%S") + "\n")
         file.write(time_opened)
@@ -64,4 +63,3 @@ if __name__ == "__main__":
     file_name = "".join(terminal_input["file"])
     directory_path = create_directory(terminal_input["directory"])
     add_content_to_file(file_name=file_name, directory_path=directory_path)
-
