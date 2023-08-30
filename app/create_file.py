@@ -1,27 +1,32 @@
 import os
 import sys
-
 from datetime import datetime
 
 argv = sys.argv
 
 
-def create_folder() -> list:
-    if "-f" in argv and argv.index("-d") < argv.index("-f"):
-        dirs = argv[argv.index("-d") + 1:argv.index("-f")]
-    else:
-        dirs = argv[argv.index("-d") + 1:]
-    os.makedirs(os.path.join(*dirs), exist_ok=True)
-    return dirs
+def parse_arguments() -> tuple:
+    folder_path = []
+    file_name = None
 
-
-def create_file() -> None:
     if "-d" in argv:
-        path = create_folder()
-    else:
-        path = ""
-    file_name = os.path.join(*path, argv[argv.index("-f") + 1])
-    with open(file_name, "a") as f:
+        if "-f" in argv and argv.index("-d") < argv.index("-f"):
+            folder_path = argv[argv.index("-d") + 1 : argv.index("-f")]
+        else:
+            folder_path = argv[argv.index("-d") + 1 :]
+    if "-f" in argv:
+        file_name = argv[argv.index("-f") + 1]
+    return folder_path, file_name
+
+
+def create_folder(folder_path: list) -> list:
+    os.makedirs(os.path.join(*folder_path), exist_ok=True)
+    return folder_path
+
+
+def create_file(folder_path: list, file_name: str) -> None:
+    full_path = os.path.join(*folder_path, file_name)
+    with open(full_path, "a") as f:
         time_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         f.write("\n" + time_now + "\n")
         num = 1
@@ -33,7 +38,10 @@ def create_file() -> None:
             num += 1
 
 
-if "-d" in argv:
-    create_folder()
-if "-f" in argv:
-    create_file()
+if __name__ == "__main__":
+    folder_path, file_name = parse_arguments()
+
+    if folder_path:
+        create_folder(folder_path)
+    if file_name:
+        create_file(folder_path, file_name)
