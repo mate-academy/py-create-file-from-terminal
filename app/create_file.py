@@ -24,7 +24,7 @@ def check_if_directories_in_command() -> str:
         directory = sys.argv[sys.argv.index("-d") + 1:]
         if "-f" in directory:
             directory = directory[:directory.index("-f")]
-        directory = os.path.join(*directory) + "\\"
+        directory = os.path.join(*directory)
 
         if os.path.dirname(directory) != "":
             os.makedirs(os.path.dirname(directory), exist_ok=True)
@@ -36,7 +36,7 @@ def check_if_file_in_command(directory: str) -> None:
         file_name = sys.argv[sys.argv.index("-f") + 1:]
         if "-d" in directory:
             file_name = file_name[:directory.index("-f")]
-        file_name = f"{directory}" + "".join(file_name)
+        file_name = os.path.join(directory, "".join(file_name))
         open_write_file(file_name)
 
 
