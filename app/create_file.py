@@ -64,3 +64,4 @@ if __name__ == "__main__":
     file_name = "".join(terminal_input["file"])
     directory_path = create_directory(terminal_input["directory"])
     add_content_to_file(file_name=file_name, directory_path=directory_path)
+
