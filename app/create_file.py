@@ -39,15 +39,13 @@ def decode_arguments() -> None:
     path_to_directory = ""
     file_name = None
 
+    if "-f" in arguments:
+        index = arguments.index("-f")
+        file_name = arguments[index + 1]
+
     if "-d" in arguments:
         index = arguments.index("-d")
         path_to_directory = os.path.join(*arguments[index + 1:])
-
-    elif "-f" in arguments:
-        index = arguments.index("-f")
-        file_name = arguments[index + 1]
-        arguments.remove("-f")
-        arguments.remove(file_name)
 
     if path_to_directory:
         create_directory(path_to_directory)
