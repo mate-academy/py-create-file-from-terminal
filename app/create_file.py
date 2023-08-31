@@ -21,23 +21,6 @@ def get_input(path: str) -> None:
             file.write(f"{line_number} {line}\n")
 
 
-def create_path() -> str | None:
-    current_dir = ""
-    command = sys.argv[1:]
-    if "-d" in command:
-        directories = command[
-            1: command.index("-f") if "-f" in command else len(command)
-        ]
-        current_dir = directories[0]
-        for directory in directories[1:]:
-            current_dir = os.path.join(current_dir, directory)
-        if not os.path.exists(current_dir):
-            os.makedirs(current_dir)
-    if "-f" in command:
-        filename = os.path.join(current_dir, command[-1])
-        return filename
-
-
 def create_file_from_terminal() -> None:
     filename = create_path()
     if filename:
@@ -45,4 +28,19 @@ def create_file_from_terminal() -> None:
 
 
 if __name__ == "__main__":
-    create_file_from_terminal()
+
+    def create_path() -> str | None:
+        current_dir = ""
+        command = sys.argv[1:]
+        if "-d" in command:
+            directories = command[
+                1: command.index("-f") if "-f" in command else len(command)
+            ]
+            current_dir = directories[0]
+            for directory in directories[1:]:
+                current_dir = os.path.join(current_dir, directory)
+            if not os.path.exists(current_dir):
+                os.makedirs(current_dir)
+        if "-f" in command:
+            filename = os.path.join(current_dir, command[-1])
+            return filename
