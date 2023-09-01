@@ -12,7 +12,9 @@ def create_file() -> None:
     args = parser.parse_args()
 
     directory_path = os.path.join(*args.d) if args.d else ""
-    file_name_with_path = os.path.join(directory_path, args.f) if args.f else ""
+    file_name_with_path = os.path.join(
+        directory_path, args.f
+    ) if args.f else ""
 
     os.makedirs(directory_path, exist_ok=True)
 
