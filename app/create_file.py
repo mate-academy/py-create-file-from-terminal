@@ -20,15 +20,13 @@ def create_file_with_content(file_name: str) -> None:
     if os.path.exists(file_name):
         with open(file_name, "a") as a:
             a.write("\n" + datetime.datetime.now().strftime(
-                "%Y-%m-%d %H:%M:%S") + "\n"
-                       )
+                "%Y-%m-%d %H:%M:%S") + "\n")
             for i, line in enumerate(output_lines, start=1):
                 a.write(f"{i} {line}\n")
     else:
         with open(file_name, "w") as w:
             w.write(datetime.datetime.now().strftime(
-                "%Y-%m""-%d %H:%M:%S") + "\n"
-                       )
+                "%Y-%m""-%d %H:%M:%S") + "\n")
             for i, line in enumerate(output_lines, start=1):
                 w.write(f"{i} {line}\n")
 
