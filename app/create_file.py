@@ -24,18 +24,23 @@ def create_dir(directories: list) -> None:
     os.chdir(path)
 
 
-if __name__ == "__main__":
-    if "-d" in sys.argv and "-f" in sys.argv:
-        d_flag = sys.argv.index("-d")
-        f_flag = sys.argv.index("-f")
+def process_terminal(args: list) -> None:
+    if "-d" in args and "-f" in args:
+        d_flag = args.index("-d")
+        f_flag = args.index("-f")
         if d_flag < f_flag:
-            create_dir(sys.argv[d_flag + 1: f_flag])
-            create_file(sys.argv[-1])
+            create_dir(args[d_flag + 1: f_flag])
+            create_file(args[-1])
         else:
-            create_dir(sys.argv[d_flag + 1:])
-            create_file(sys.argv[f_flag + 1])
-    elif "-d" in sys.argv:
-        _, d_flag, *dirs = sys.argv
+            create_dir(args[d_flag + 1:])
+            create_file(args[f_flag + 1])
+    elif "-d" in args:
+        _, d_flag, *dirs = args
         create_dir(dirs)
-    elif "-f" in sys.argv:
-        create_file(sys.argv[-1])
+    elif "-f" in args:
+        create_file(args[-1])
+
+
+if __name__ == "__main__":
+    arguments = sys.argv
+    process_terminal(arguments)
