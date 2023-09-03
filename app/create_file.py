@@ -1,6 +1,6 @@
 import os
 import sys
-from datetime import datetime
+import datetime
 
 
 def create_file(
@@ -26,21 +26,29 @@ def create_file(
         line_number += 1
 
 
-def create_directory(directory: str) -> None:
-    os.makedirs(directory)
-
-
-def main() -> None:
-    if "-d" in sys.argv:
-        d_index = sys.argv.index("-d")
-        directories = sys.argv[d_index + 1:]
-        for directory in directories:
-            create_directory(directory)
-    elif "-f" in sys.argv:
-        f_index = sys.argv.index("-f")
-        filename = sys.argv[f_index + 1]
-        create_file(".", filename)
+def create_dir(path_dir: list) -> None:
+    path = os.path.join(*path_dir)
+    os.makedirs(path, exist_ok=True)
+    os.chdir(path)
 
 
 if __name__ == "__main__":
-    main()
+    info_from_terminal = sys.argv
+
+    if "-d" in info_from_terminal and "-f" in info_from_terminal:
+        index_d = info_from_terminal.index("-d")
+        index_f = info_from_terminal.index("-f")
+
+        if index_d < index_f:
+            create_dir(info_from_terminal[index_d + 1: index_f])
+            create_file(info_from_terminal[-1])
+        else:
+            create_dir(info_from_terminal[index_d + 1:])
+            create_file(info_from_terminal[index_f + 1])
+
+    elif "-d" in info_from_terminal:
+        index_start = info_from_terminal.index("-d")
+        create_dir(info_from_terminal[index_start + 1:])
+
+    elif "-f" in info_from_terminal:
+        create_file(info_from_terminal[1])
