@@ -3,11 +3,13 @@ import os
 import sys
 from datetime import datetime
 
-def create_path(directories) -> str:
+
+def create_path(directories: list) -> str:
     path = os.path.join(*directories)
     if not os.path.exists(path):
         os.makedirs(path)
     return path
+
 
 def create_file(path: str) -> None:
     with open(path, "w") as file:
@@ -19,15 +21,17 @@ def create_file(path: str) -> None:
             line_count += 1
             file.write(f"{line_count}. {content}\n")
 
-def main():
+
+def main() -> None:
     terminal_input = argparse.ArgumentParser()
-    terminal_input.add_argument('-d', '--directories', nargs='+')
-    terminal_input.add_argument('-f', '--file_name')
+    terminal_input.add_argument("-d", "--directories", nargs="+")
+    terminal_input.add_argument("-f", "--file_name")
     args = terminal_input.parse_args()
     directories, file_name = args.directories, args.file_name
     if not file_name and not directories:
-        print("Please, provide a valid command: "
-              "'-d <directory_1> <directory_2>' or '-f <file_name>'"
+        print(
+            "Please, provide a valid command: "
+            "'-d <directory_1> <directory_2>' or '-f <file_name>'"
         )
         sys.exit(1)
     path = ""
