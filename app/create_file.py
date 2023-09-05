@@ -42,8 +42,10 @@ def decode_arguments() -> None:
     if "-f" in arguments:
         index = arguments.index("-f")
         file_name = arguments[index + 1]
+        arguments.remove("-f")
+        arguments.remove(file_name)
 
-    if "-d" in arguments:
+    elif "-d" in arguments:
         index = arguments.index("-d")
         path_to_directory = os.path.join(*arguments[index + 1:])
 
