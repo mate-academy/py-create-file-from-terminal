@@ -3,18 +3,16 @@ import sys
 import datetime
 
 
-def create_file(
-    directory: str,
-    filename: str
-) -> None:
+def create_file(directory: str, filename: str) -> None:
     file_path = os.path.join(directory, filename)
 
     if os.path.exists(file_path):
         with open(file_path, "a") as file:
             file.write("\n")
     else:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         with open(file_path, "w") as file:
-            file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+            file.write(timestamp + "\n")
 
     line_number = 1
     while True:
@@ -32,7 +30,7 @@ def create_dir(path_dir: list) -> None:
     os.chdir(path)
 
 
-if __name__ == "__main__":
+def main() -> None:
     info_from_terminal = sys.argv
 
     if "-d" in info_from_terminal and "-f" in info_from_terminal:
@@ -52,3 +50,7 @@ if __name__ == "__main__":
 
     elif "-f" in info_from_terminal:
         create_file(info_from_terminal[1])
+
+
+if __name__ == "__main__":
+    main()
