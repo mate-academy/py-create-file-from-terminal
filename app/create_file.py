@@ -3,7 +3,7 @@ import sys
 import datetime
 
 
-def create_file(file_path: str) -> None:
+def create_file(file_path: (list[str], str)) -> None:
     if os.path.exists(file_path):
         content = read_content(file_path)
     else:
@@ -27,28 +27,24 @@ def read_content(file_path: str) -> str:
         return file.readlines()
 
 
-def main() -> None:
-    args = sys.argv[1:]
+if __name__ == "__main__":
+    args = sys.argv
 
     if "-d" in args and "-f" in args:
-        dir_index = args.index("-d") + 1
-        file_index = args.index("-f") + 1
-        dir_path = os.path.join(*args[dir_index:file_index - 1])
-        file_name = args[file_index]
-        os.makedirs(dir_path, exist_ok=True)
-        file_path = os.path.join(dir_path, file_name)
-        create_file(file_path)
+        start = args.index("-d") + 1
+        end = args.index("-f")
+
+        path_to_file = create_file(args[start:end])
+        create_file(os.path.join(path_to_file, args[end + 1]))
+
     elif "-d" in args:
-        dir_index = args.index("-d") + 1
-        dir_path = os.path.join(*args[dir_index:])
-        os.makedirs(dir_path, exist_ok=True)
+        start = args.index("-d") + 1
+        end = len(args)
+        create_file(args[start:end])
+
     elif "-f" in args:
-        file_index = args.index("-f") + 1
-        file_name = args[file_index]
-        create_file(file_name)
+        index = args.index("-f") + 1
+        create_file(args[index])
+
     else:
         print("Invalid arguments. Use either -d or -f flags.")
-
-
-if __name__ == "__main__":
-    main()
