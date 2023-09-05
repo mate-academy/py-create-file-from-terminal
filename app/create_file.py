@@ -12,7 +12,7 @@ def create_path(directories_list: list) -> str:
 
 def create_file(file_path: str) -> None:
     if not os.path.exists(file_path):
-        current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         with open(file_path, "a") as file:
             file.write(f"{current_time}\n")
