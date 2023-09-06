@@ -1,50 +1,46 @@
-import os
 import sys
-import datetime
+import os
+from datetime import datetime
 
 
-def create_file(file_path: (list[str], str)) -> None:
-    if os.path.exists(file_path):
-        content = read_content(file_path)
-    else:
-        content = []
+def create_directories(directories: list) -> str:
+    path = os.path.join(*directories)
+    if not os.path.exists(path):
+        os.makedirs(path)
+    return path
 
+
+def add_info_to_file(file_name: str) -> None:
+    lines = [datetime.now().strftime("%Y-%m-%d %H:%M:%S")]
     while True:
         line = input("Enter content line: ")
-        if line.lower() == "stop":
+        if line == "stop":
             break
-        content.append(line)
+        lines.append(f"{len(lines)} {line}")
 
-    with open(file_path, "w") as file:
-        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        file.write(f"{timestamp}\n")
-        for i, line in enumerate(content, start=1):
-            file.write(f"{i} {line}\n")
-
-
-def read_content(file_path: str) -> str:
-    with open(file_path, "r") as file:
-        return file.readlines()
+    status = "a" if os.path.exists(file_name) else "w"
+    with open(file_name, status) as file:
+        if status == "a":
+            file.write("\n" * 2 + "\n".join(lines))
+        else:
+            file.write("\n".join(lines))
 
 
 if __name__ == "__main__":
-    args = sys.argv
+    command = sys.argv
 
-    if "-d" in args and "-f" in args:
-        start = args.index("-d") + 1
-        end = args.index("-f")
+    if "-d" in command and "-f" in command:
+        start = command.index("-d") + 1
+        end = command.index("-f")
 
-        path_to_file = create_file(args[start:end])
-        create_file(os.path.join(path_to_file, args[end + 1]))
+        path_to_file = create_directories(command[start:end])
+        add_info_to_file(os.path.join(path_to_file, command[end + 1]))
 
-    elif "-d" in args:
-        start = args.index("-d") + 1
-        end = len(args)
-        create_file(args[start:end])
+    elif "-d" in command:
+        start = command.index("-d") + 1
+        end = len(command)
+        create_directories(command[start:end])
 
-    elif "-f" in args:
-        index = args.index("-f") + 1
-        create_file(args[index])
-
-    else:
-        print("Invalid arguments. Use either -d or -f flags.")
+    elif "-f" in command:
+        index = command.index("-f") + 1
+        add_info_to_file(command[index])
