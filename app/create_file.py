@@ -41,7 +41,7 @@ if __name__ == "__main__":
         ))
 
     elif "-d" in command:
-        create_directories(command[command.index("-d") + 1:len(command)])
+        create_directories(command[command.index("-d") + 1:])
 
     elif "-f" in command:
         add_content(command[command.index("-f") + 1])
