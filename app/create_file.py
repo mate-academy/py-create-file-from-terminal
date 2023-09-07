@@ -2,6 +2,7 @@ import os
 import sys
 import datetime
 
+
 def create_file(file_path: str) -> None:
     if os.path.exists(file_path):
         content = read_content(file_path)
@@ -18,9 +19,11 @@ def create_file(file_path: str) -> None:
         for i, line in enumerate(content, start=1):
             file.write(f"{i} {line}\n")
 
-def read_content(file_path: str) -> str:
+
+def read_content(file_path: str) -> list[str]:
     with open(file_path, "r") as file:
         return file.readlines()
+
 
 def main() -> None:
     args = sys.argv[1:]
