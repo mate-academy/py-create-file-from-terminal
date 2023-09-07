@@ -4,12 +4,8 @@ from datetime import datetime
 
 
 def create_directories(directories: list) -> str:
-    for index, item in enumerate(directories):
-        if item == "-d":
-            directory_list = directories[index + 1:]
-            directory = "/".join(directory_list)
-    if not os.path.exists(directory):
-        os.makedirs(directory)
+    directory = os.path.join(*directories)
+    os.makedirs(directory, exist_ok=True)
     return directory
 
 
@@ -37,17 +33,15 @@ if __name__ == "__main__":
     command = sys.argv
 
     if "-d" in command and "-f" in command:
-        start = command.index("-d") + 1
-        end = command.index("-f")
-
-        path_to_file = create_directories(command[start:end])
-        add_content(os.path.join(path_to_file, command[end + 1]))
+        path_to_file = create_directories(
+            command[command.index("-d") + 1:command.index("-f")]
+        )
+        add_content(os.path.join(
+            path_to_file, command[command.index("-f") + 1]
+        ))
 
     elif "-d" in command:
-        start = command.index("-d") + 1
-        end = len(command)
-        create_directories(command[start:end])
+        create_directories(command[command.index("-d") + 1:len(command)])
 
     elif "-f" in command:
-        index = command.index("-f") + 1
-        add_content(command[index])
+        add_content(command[command.index("-f") + 1])
