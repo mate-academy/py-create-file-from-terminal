@@ -1,46 +1,43 @@
-import sys
 import os
-from datetime import datetime
+import sys
+import datetime
 
-
-def create_directories(directories: list) -> str:
-    path = os.path.join(*directories)
-    if not os.path.exists(path):
-        os.makedirs(path)
-    return path
-
-
-def add_info_to_file(file_name: str) -> None:
-    lines = [datetime.now().strftime("%Y-%m-%d %H:%M:%S")]
+def create_file(file_path: str) -> None:
+    if os.path.exists(file_path):
+        content = read_content(file_path)
+    else:
+        content = []
     while True:
         line = input("Enter content line: ")
-        if line == "stop":
+        if line.lower() == "stop":
             break
-        lines.append(f"{len(lines)} {line}")
+        content.append(line)
+    with open(file_path, "w") as file:
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(f"{timestamp}\n")
+        for i, line in enumerate(content, start=1):
+            file.write(f"{i} {line}\n")
 
-    status = "a" if os.path.exists(file_name) else "w"
-    with open(file_name, status) as file:
-        if status == "a":
-            file.write("\n" * 2 + "\n".join(lines))
-        else:
-            file.write("\n".join(lines))
+def read_content(file_path: str) -> str:
+    with open(file_path, "r") as file:
+        return file.readlines()
+
+def main() -> None:
+    args = sys.argv[1:]
+
+    if "-d" in args:
+        dir_index = args.index("-d") + 1
+        dir_path = os.path.join(*args[dir_index:])
+        os.makedirs(dir_path, exist_ok=True)
+
+    if "-f" in args:
+        file_index = args.index("-f") + 1
+        file_name = args[file_index]
+        create_file(file_name)
+
+    if "-d" not in args and "-f" not in args:
+        print("Invalid arguments. Use either -d or -f flags.")
 
 
 if __name__ == "__main__":
-    command = sys.argv
-
-    if "-d" in command and "-f" in command:
-        start = command.index("-d") + 1
-        end = command.index("-f")
-
-        path_to_file = create_directories(command[start:end])
-        add_info_to_file(os.path.join(path_to_file, command[end + 1]))
-
-    elif "-d" in command:
-        start = command.index("-d") + 1
-        end = len(command)
-        create_directories(command[start:end])
-
-    elif "-f" in command:
-        index = command.index("-f") + 1
-        add_info_to_file(command[index])
+    main()
