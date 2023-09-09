@@ -38,7 +38,7 @@ def create_file_in_directory(dir_path: list, file_name: str) -> None:
 def create_directory(dir_path: list) -> str:
     dir_path = os.path.join(*dir_path)
     if not os.path.exists(dir_path):
-        os.makedirs(dir_path)
+        os.makedirs(dir_path, exist_ok=True)
     return dir_path
 
 
