@@ -38,4 +38,5 @@ def main() -> None:
         create_file(cmd_args[cmd_args.index("-f") + 1])
 
 
-main()
+if __name__ == "__main__":
+    main()
