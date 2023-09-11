@@ -18,17 +18,21 @@ def main() -> None:
         print("Python create_file.py -d directory_path -f file_name")
         return
 
-    if sys.argv[1] == "-d" and sys.argv[-2] == "-f":
-        directory_path = os.path.join(*sys.argv[2:-2])
-        file_name = sys.argv[-1]
+    if "-d" in sys.argv and "-f" in sys.argv:
+        directory_index = sys.argv.index("-d") + 1
+        file_index = sys.argv.index("-f") + 1
+        directory_path = os.path.join(*sys.argv[directory_index:
+                                                file_index - 1])
+        file_name = sys.argv[file_index]
         directory = os.path.join(directory_path, file_name)
         os.makedirs(directory_path, exist_ok=True)
-    elif sys.argv[1] == "-d":
-        directory_path = os.path.join(*sys.argv[2:])
+    elif "-d" in sys.argv:
+        directory_index = sys.argv.index("-d") + 1
+        directory_path = os.path.join(*sys.argv[directory_index:])
         os.makedirs(directory_path, exist_ok=True)
         return
-    elif sys.argv[1] == "-f":
-        directory = sys.argv[2]
+    elif "-f" in sys.argv:
+        directory = sys.argv[sys.argv.index("-f") + 1]
     else:
         print("Invalid. Use -d for directory or -f for file.")
         return
