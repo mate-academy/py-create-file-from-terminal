@@ -35,7 +35,8 @@ def create_file(file_path: str, content_lines: list) -> None:
 
 def main() -> None:
     if len(sys.argv) < 3:
-        print("Usage: python create_file.py -d <directory_path> -f <file_name>")
+        print(
+            "Usage: python create_file.py -d <directory_path> -f <file_name>")
         sys.exit(1)
 
     if "-d" not in sys.argv or "-f" not in sys.argv:
