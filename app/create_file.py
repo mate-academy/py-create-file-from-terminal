@@ -10,6 +10,7 @@ def create_file(directory: str, content: list[str]) -> None:
         file.write(current_time + "\n")
         for i, line in enumerate(content, start=1):
             file.write(f"{i} {line}\n")
+        file.write("\n")
 
 
 def main() -> None:
@@ -18,7 +19,7 @@ def main() -> None:
         return
 
     if sys.argv[1] == "-d":
-        directory_path = os.path.join(*sys.argv[2:-2])
+        directory_path = os.path.join(*sys.argv[2:])
         os.makedirs(directory_path, exist_ok=True)
         file_name = sys.argv[-1]
         directory = os.path.join(directory_path, file_name)
