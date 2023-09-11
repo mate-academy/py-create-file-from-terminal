@@ -18,11 +18,15 @@ def main() -> None:
         print("Python create_file.py -d directory_path -f file_name")
         return
 
-    if sys.argv[1] == "-d":
-        directory_path = os.path.join(*sys.argv[2:])
-        os.makedirs(directory_path, exist_ok=True)
+    if sys.argv[1] == "-d" and sys.argv[-2] == "-f":
+        directory_path = os.path.join(*sys.argv[2:-2])
         file_name = sys.argv[-1]
         directory = os.path.join(directory_path, file_name)
+        os.makedirs(directory_path, exist_ok=True)
+    elif sys.argv[1] == "-d":
+        directory_path = os.path.join(*sys.argv[2:])
+        os.makedirs(directory_path, exist_ok=True)
+        return
     elif sys.argv[1] == "-f":
         directory = sys.argv[2]
     else:
