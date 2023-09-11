@@ -15,16 +15,13 @@ args = parser.parse_args()
 
 
 def create_dirs(dirs: list) -> None:
-
     path = os.path.join(parent_dir, *dirs)
-
     os.makedirs(path, exist_ok=True)
 
 
-def create_f(path_to_file: str) -> None:
+def create_file(path_to_file: str) -> None:
     with open(path_to_file, "a") as file:
         content = []
-
         number_of_lines = 1
         while True:
 
@@ -43,14 +40,14 @@ def create_f(path_to_file: str) -> None:
         file.write("\n")
 
 
-def create_file() -> None:
+def main() -> None:
     create_dirs(args.directories)
 
     if args.file_name:
+        path_to_file = os.path.join(
+            parent_dir, *args.directories, args.file_name
+        )
+        create_file(path_to_file)
 
-        path_to_f = os.path.join(parent_dir, *args.directories, args.file_name)
 
-        create_f(path_to_f)
-
-
-create_file()
+main()
