@@ -3,36 +3,35 @@ import datetime
 import os
 
 
+parent_dir = os.getcwd()
+
 parser = argparse.ArgumentParser()
 
-parser.add_argument("-d", dest="directories", nargs="*",
+parser.add_argument("-d", dest="directories", nargs="*", default=[],
                     help="all items after this flag are parts of the path")
 parser.add_argument("-f", dest="file_name", help="first item is the file name")
 
 args = parser.parse_args()
-
-parent_dir = os.getcwd()
 
 
 def create_dirs(dirs: list) -> None:
 
     path = os.path.join(parent_dir, *dirs)
 
-    os.makedirs(path)
+    os.makedirs(path, exist_ok=True)
 
 
-def create_file(path_to_file: str) -> None:
+def create_f(path_to_file: str) -> None:
     with open(path_to_file, "a") as file:
         content = []
 
-        content_is_collecting = True
         number_of_lines = 1
-        while content_is_collecting:
+        while True:
 
             input_line = input("Enter content line: ")
 
             if input_line == "stop":
-                content_is_collecting = False
+                break
             else:
                 content.append(f"{number_of_lines} {input_line}\n")
                 number_of_lines += 1
@@ -44,15 +43,14 @@ def create_file(path_to_file: str) -> None:
         file.write("\n")
 
 
-if args.directories and not args.file_name:
+def create_file() -> None:
     create_dirs(args.directories)
 
-if args.file_name and not args.directories:
-    create_file(args.file_name)
+    if args.file_name:
 
-if args.directories and args.file_name:
-    create_dirs(args.directories)
+        path_to_f = os.path.join(parent_dir, *args.directories, args.file_name)
 
-    path_to_f = os.path.join(parent_dir, *args.directories, args.file_name)
+        create_f(path_to_f)
 
-    create_file(path_to_f)
+
+create_file()
