@@ -18,8 +18,10 @@ def get_user_input() -> list:
 
 
 def create_file(file_path: str, content_lines: list) -> None:
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    timestamp = get_time_stamp()
     with open(file_path, "a") as file:
+        if os.path.getsize(file_path) > 0:
+            file.write("\n")
         file.write(timestamp + "\n")
         for line_number, line in enumerate(content_lines, 1):
             file.write(f"{line_number} {line}\n")
@@ -27,7 +29,14 @@ def create_file(file_path: str, content_lines: list) -> None:
 
 def main() -> None:
     if len(sys.argv) < 2:
-        print("Usage: python create_file.py -d <directory_path> OR -f <file_name>")
+        print(
+            "Usage: python create_file.py -d <directory_path>"
+            " OR -f <file_name>"
+        )
+        sys.exit(1)
+
+    if "-d" in sys.argv and "-f" in sys.argv:
+        print("You cannot use both -d and -f flags simultaneously.")
         sys.exit(1)
 
     if "-d" in sys.argv:
