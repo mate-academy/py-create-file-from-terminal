@@ -36,19 +36,7 @@ def main() -> None:
         else:
             file_path = file_name
 
-        if os.path.exists(file_path):
-            create_file(file_path)
-        else:
-            with open(file_path, "w") as file:
-                line_number = 1
-                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                file.write(f"{timestamp}\n")
-                while True:
-                    line = input("Enter content line: ")
-                    if line.lower() == "stop":
-                        break
-                    file.write(f"{line_number} {line}\n")
-                    line_number += 1
+        create_file(file_path)
 
 
 if __name__ == "__main__":
