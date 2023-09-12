@@ -15,7 +15,8 @@ def create_file(file_path: str) -> None:
             file.write(f"{line_number} {line}\n")
             line_number += 1
 
-def main():
+
+def main() -> None:
     if "-d" in sys.argv:
         dir_index = sys.argv.index("-d")
         directory_path = os.path.join(*sys.argv[dir_index + 1:])
