@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import sys
 
 import os
@@ -13,20 +15,29 @@ def create_file(file_path: str, content_lines: list[str]) -> None:
             file.write(f"{i} {line}\n")
 
 
-def main() -> None:
+def get_file_path() -> str | None:
     if len(sys.argv) < 3:
-        print("Usage: python create_file.py -d directory_path -f file_name")
-        return
+        print("Usage: python create_file.py -d directory_path OR -f file_name")
+        return None
 
     if sys.argv[1] == "-d":
-        directory_path = os.path.join(*sys.argv[2:-2])
+        directory_path = os.path.join(*sys.argv[2:])
         os.makedirs(directory_path, exist_ok=True)
-        file_name = sys.argv[-1]
+        file_name = input("Enter the file name: ")
         file_path = os.path.join(directory_path, file_name)
     elif sys.argv[1] == "-f":
         file_path = sys.argv[2]
     else:
         print("Invalid option. Use -d for directory or -f for file.")
+        return None
+
+    return file_path
+
+
+def main() -> None:
+    file_path = get_file_path()
+
+    if not file_path:
         return
 
     content_lines = []
