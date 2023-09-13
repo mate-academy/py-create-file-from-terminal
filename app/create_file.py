@@ -31,35 +31,42 @@ def main() -> None:
     if len(sys.argv) < 2:
         print(
             "Usage: python create_file.py -d <directory_path>"
-            "OR -f <file_name>"
+            " OR -f <file_name>"
         )
         sys.exit(1)
 
-    if "-d" in sys.argv:
+    if "-d" in sys.argv and "-f" in sys.argv:
         dir_index = sys.argv.index("-d")
-        if dir_index + 1 >= len(sys.argv):
-            print("Directory path is missing.")
-            sys.exit(1)
-        directory_path = os.path.join(*sys.argv[dir_index + 1:])
-        if not os.path.exists(directory_path):
-            os.makedirs(directory_path, exist_ok=True)
-    else:
-        print("You must specify the -d flag to create a directory.")
-        sys.exit(1)
-
-    if "-f" in sys.argv:
         file_index = sys.argv.index("-f")
-        if file_index + 1 >= len(sys.argv):
-            print("File name is missing.")
+
+        if dir_index > file_index:
+            print("Invalid usage: -f flag must come after -d flag.")
             sys.exit(1)
+
+        directory_path = os.path.join(*sys.argv[dir_index + 1:file_index])
         file_name = sys.argv[file_index + 1]
         file_path = os.path.join(directory_path, file_name)
+    elif "-d" in sys.argv:
+        dir_index = sys.argv.index("-d")
+        directory_path = os.path.join(*sys.argv[dir_index + 1:])
+        file_name = None
+        file_path = None
+    elif "-f" in sys.argv:
+        file_index = sys.argv.index("-f")
+        directory_path = None
+        file_name = sys.argv[file_index + 1]
+        file_path = file_name
+    else:
+        print("You must specify either -d or -f flag.")
+        sys.exit(1)
+
+    if directory_path:
+        os.makedirs(directory_path, exist_ok=True)
+
+    if file_name:
         new_content_lines = get_user_input()
         create_file(file_path, new_content_lines)
         print(f"File {file_path} created successfully.")
-    else:
-        print("You must specify the -f flag to create a file.")
-        sys.exit(1)
 
 
 if __name__ == "__main__":
