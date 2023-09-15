@@ -1,49 +1,40 @@
 import datetime
 import os
 import sys
-from typing import Any
 
 
-def write_content_to_file(file_name: Any) -> None:
+def handle_file(file_name: str) -> None:
+    num_of_line = 0
+    content = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
 
     while True:
+        num_of_line += 1
         line = input("Enter content line: ")
         if line == "stop":
             break
-        file_name.write(line + "\n")
+        content += f"{num_of_line} {line}\n"
+    content += "\n"
+
+    with open(file_name, "a") as file:
+        file.write(content)
 
 
-commands = sys.argv
+def create_file(command: list) -> None:
+    if "-d" in command:
+        directory_path = command[command.index("-d") + 1:]
+        if "-f" in command:
+            directory_path = directory_path[:-2]
 
-
-def create_path(directory_path: list) -> None:
-    if "-d" in commands:
-        directory_path = commands[commands.index("-d") + 1:]
         path = os.path.join(*directory_path)
 
-        if not os.path.exists(path):
-            os.makedirs(path)
+        if path:
+            os.makedirs(path, exist_ok=True)
+
+    if "-f" in command:
+        file_name = command[command.index("-f") + 1]
+        handle_file(file_name)
 
 
-def create_file(file_name: str) -> None:
-    file_data = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-    if "-f" in commands:
-        file_name = str(commands[commands.index("-f") + 1:])
-
-        with open(file_name, "w") as file:
-            file.write(f"{file_data}\n")
-            write_content_to_file(file)
-
-        if os.path.exists(file_name):
-            with open(file_name, "a") as exists_file:
-                exists_file.write(f"\n{file_data}\n")
-                write_content_to_file(exists_file)
-
-
-def create_file_and_path() -> None:
-    if "-d" in commands and "-f" in commands:
-        directory_path = commands[commands.index("-d") + 1:]
-        file_name = str(commands[commands.index("-f") + 1:])
-        create_path(directory_path)
-        create_file(file_name)
+if __name__ == "__main__":
+    commands = sys.argv
+    create_file(commands)
