@@ -1,6 +1,6 @@
-from datetime import datetime
 import os
 import sys
+from datetime import datetime
 
 
 def main() -> None:
@@ -23,18 +23,20 @@ def create_folder(path: str) -> None:
 
 
 def create_file(path: str = os.getcwd()) -> None:
+    file_name = sys.argv[sys.argv.index("-f") + 1]
+    if os.path.exists(file_name):
+        with open(os.path.join(path, file_name), "a") as new_file:
+            new_file.write("\n\n")
     content = [datetime.now().strftime("%Y-%m-%d %H:%M:%S")]
     counter = 0
     while True:
         message = input("Enter content line: ")
         if message.lower() == "stop":
-            content.append("\n")
             break
         counter += 1
         content.append(f"{counter} {message}")
-    file_name = sys.argv[sys.argv.index("-f") + 1]
     with open(os.path.join(path, file_name), "a") as new_file:
-        new_file.write("\n".join(content))
+        new_file.write("\n".join(content).rstrip())
 
 
 if __name__ == "__main__":
