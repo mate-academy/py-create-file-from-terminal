@@ -24,7 +24,7 @@ def create_folder(path: str) -> None:
 
 def create_file(path: str = os.getcwd()) -> None:
     file_name = sys.argv[sys.argv.index("-f") + 1]
-    if os.path.exists(file_name):
+    if os.path.exists(os.path.join(path, file_name)):
         with open(os.path.join(path, file_name), "a") as new_file:
             new_file.write("\n\n")
     content = [datetime.now().strftime("%Y-%m-%d %H:%M:%S")]
