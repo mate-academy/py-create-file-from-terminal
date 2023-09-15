@@ -19,7 +19,7 @@ def handle_file(file_name: str) -> None:
         file.write(content)
 
 
-def create_file(command: list) -> None:
+def create_file(command: list[str]) -> None:
     if "-d" in command:
         directory_path = command[command.index("-d") + 1:]
         if "-f" in command:
