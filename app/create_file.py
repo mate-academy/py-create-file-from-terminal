@@ -4,17 +4,20 @@ from datetime import datetime
 
 
 def create_file_with_content(path: str) -> None:
-    with open(path, "a") as file:
+    line_number = 1
+    content_lines = []
+
+    while True:
+        content_line = input("Enter content line: ")
+        if content_line == "stop":
+            break
+        content_lines.append(f"{line_number} {content_line}")
+        line_number += 1
+
+    with open(path, "w") as file:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         file.write(timestamp + "\n")
-
-        line_number = 1
-        while True:
-            content_line = input("Enter content line: ")
-            if content_line == "stop":
-                break
-            file.write(f"{line_number} {content_line}\n")
-            line_number += 1
+        file.write("\n".join(content_lines))
 
 
 if "-d" in sys.argv and "-f" in sys.argv:
