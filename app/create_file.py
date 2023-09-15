@@ -20,6 +20,13 @@ def create_file_with_content(path: str) -> None:
         file.write("\n".join(content_lines))
 
 
+def create_file_path(dir_path: str) -> None:
+
+    file_name = sys.argv[file_index + 1]
+    file_path = os.path.join(dir_path, file_name)
+    create_file_with_content(file_path)
+
+
 if "-d" in sys.argv and "-f" in sys.argv:
     dir_index = sys.argv.index("-d")
     file_index = sys.argv.index("-f")
@@ -27,16 +34,12 @@ if "-d" in sys.argv and "-f" in sys.argv:
         directory_path = os.path.join(*sys.argv[dir_index + 1:file_index])
         os.makedirs(directory_path)
 
-        file_name = sys.argv[file_index + 1]
-        file_path = os.path.join(directory_path, file_name)
-        create_file_with_content(file_path)
+        create_file_path(directory_path)
     else:
         directory_path = os.path.join(*sys.argv[dir_index + 1:])
         os.makedirs(directory_path)
 
-        file_name = sys.argv[file_index + 1]
-        file_path = os.path.join(directory_path, file_name)
-        create_file_with_content(file_path)
+        create_file_path(directory_path)
 
 elif "-d" in sys.argv:
     directory_flag_index = sys.argv.index("-d")
