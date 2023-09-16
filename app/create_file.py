@@ -14,8 +14,10 @@ def create_file_with_content(path: str) -> None:
         content_lines.append(f"{line_number} {content_line}")
         line_number += 1
 
-    with open(path, "w") as file:
+    with open(path, "a") as file:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        if os.stat(path).st_size != 0:
+            file.write("\n\n")
         file.write(timestamp + "\n")
         file.write("\n".join(content_lines))
 
@@ -32,12 +34,15 @@ if "-d" in sys.argv and "-f" in sys.argv:
     file_index = sys.argv.index("-f")
     if dir_index < file_index:
         directory_path = os.path.join(*sys.argv[dir_index + 1:file_index])
-        os.makedirs(directory_path)
+
+        if not os.path.exists(directory_path):
+            os.makedirs(directory_path)
 
         create_file_path(directory_path)
     else:
         directory_path = os.path.join(*sys.argv[dir_index + 1:])
-        os.makedirs(directory_path)
+        if not os.path.exists(directory_path):
+            os.makedirs(directory_path)
 
         create_file_path(directory_path)
 
