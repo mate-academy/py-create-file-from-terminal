@@ -51,5 +51,5 @@ def write_to_file(directory: str, file_name: str) -> None:
             number_line += 1
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main(sys.argv)
