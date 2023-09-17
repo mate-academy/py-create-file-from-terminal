@@ -28,13 +28,20 @@ def ask_for_path() -> str:
     return "app\\" + "\\".join(name_dirs_list)
 
 
+def name_of_file():
+    name_file = input("Enter name of the file ")
+    return name_file + ".txt"
+
+
 current_day = datetime.datetime.now()
 if "-d" in sys.argv and "-f" not in sys.argv:
     path = ask_for_path()
     make_dirs(path)
 elif "-f" in sys.argv and "-d" not in sys.argv:
-    write_into_file("app\\file.txt")
+    file_name = name_of_file()
+    write_into_file("app\\" + file_name)
 else:
     path = ask_for_path()
     make_dirs(path)
-    write_into_file(path + "\\file.txt")
+    file_name = name_of_file()
+    write_into_file(path + "\\" + file_name)
