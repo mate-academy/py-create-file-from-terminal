@@ -18,17 +18,23 @@ def write_into_file(path: str) -> None:
                 count_of_lines += 1
 
 
-def make_dirs() -> None:
-    os.makedirs("app/dir1/dir2")
+def make_dirs(path) -> None:
+    os.makedirs(path)
+
+
+def ask_for_path():
+    name_dirs = input("Enter name of the dir ")
+    name_dirs_list = name_dirs.split(" ")
+    return "app\\" + "\\".join(name_dirs_list)
 
 
 current_day = datetime.datetime.now()
 if "-d" in sys.argv and "-f" not in sys.argv:
-    make_dirs()
-
-
+    path = ask_for_path()
+    make_dirs(path)
 elif "-f" in sys.argv and "-d" not in sys.argv:
     write_into_file("app\\file.txt")
 else:
-    make_dirs()
-    write_into_file("app\\dir1\\dir2\\file.txt")
+    path = ask_for_path()
+    make_dirs(path)
+    write_into_file(path + "\\file.txt")
