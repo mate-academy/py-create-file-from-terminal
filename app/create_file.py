@@ -28,7 +28,7 @@ def ask_for_path() -> str:
     return "app\\" + "\\".join(name_dirs_list)
 
 
-def name_of_file():
+def name_of_file() -> str:
     name_file = input("Enter name of the file ")
     return name_file + ".txt"
 
