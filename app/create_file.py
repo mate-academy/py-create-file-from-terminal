@@ -6,23 +6,22 @@ import datetime
 def parse_input() -> dict:
     terminal_input = sys.argv[1:]
     to_do_dict = {"file": None, "directory": None}
-    if ("-d" in terminal_input and "-f" in terminal_input
-            and len(terminal_input) >= 4):
+    if "-d" in terminal_input and "-f" in terminal_input:
         file_index = terminal_input.index("-f")
         dir_index = terminal_input.index("-d")
         if file_index > dir_index:
             to_do_dict["directory"] = terminal_input[1:file_index]
             to_do_dict["file"] = terminal_input[file_index + 1]
             return to_do_dict
+        else:
+            to_do_dict["file"] = terminal_input[1:dir_index]
+            to_do_dict["directory"] = terminal_input[dir_index + 1:]
 
-        to_do_dict["file"] = terminal_input[1:dir_index]
-        to_do_dict["directory"] = terminal_input[dir_index + 1:]
-
-    elif "-d" in terminal_input and len(terminal_input) >= 2:
+    elif "-d" in terminal_input:
         dir_index = terminal_input.index("-d")
         to_do_dict["directory"] = terminal_input[dir_index + 1:]
 
-    elif "-f" in terminal_input and len(terminal_input) >= 2:
+    elif "-f" in terminal_input:
         file_index = terminal_input.index("-f")
         to_do_dict["file"] = terminal_input[file_index + 1]
 
@@ -32,18 +31,19 @@ def parse_input() -> dict:
     return to_do_dict
 
 
-def create_directory(directory_path: list) -> str | None:
+def create_directory(directory_path: list) -> str:
     if directory_path is None:
         return None
     destination_directory = os.path.join(os.getcwd(), *directory_path)
 
     if os.path.exists(destination_directory):
         return destination_directory
-    os.makedirs(destination_directory)
+    os.makedirs(destination_directory, exist_ok=True)
     return destination_directory
 
 
-def add_content_to_file(file_name: str, directory_path: str = None) -> None:
+def add_content_to_file(file_name: str,
+                        directory_path: str | None = None) -> None:
     if file_name is None:
         return
     if directory_path is None:
