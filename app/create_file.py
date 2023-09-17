@@ -18,11 +18,11 @@ def write_into_file(path: str) -> None:
                 count_of_lines += 1
 
 
-def make_dirs(path) -> None:
+def make_dirs(path: str) -> None:
     os.makedirs(path)
 
 
-def ask_for_path():
+def ask_for_path() -> str:
     name_dirs = input("Enter name of the dir ")
     name_dirs_list = name_dirs.split(" ")
     return "app\\" + "\\".join(name_dirs_list)
