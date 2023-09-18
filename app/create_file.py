@@ -27,8 +27,15 @@ def main() -> None:
         print("Usage: python create_file.py"
               " [-d <directory_path>] [-f <file_name>]")
         return
+    directory_path = ""
 
-    if "-d" in sys.argv:
+    if "-d" in sys.argv and "-f" in sys.argv:
+        dir_index = sys.argv.index("-d")
+        f_index = sys.argv.index("-f")
+        directory_path = os.path.join(*sys.argv[dir_index + 1: f_index])
+        os.makedirs(directory_path, exist_ok=True)
+
+    elif "-d" in sys.argv:
         dir_index = sys.argv.index("-d")
         directory_path = os.path.join(*sys.argv[dir_index + 1:])
         os.makedirs(directory_path, exist_ok=True)
