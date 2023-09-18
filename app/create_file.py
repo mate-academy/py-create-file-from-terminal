@@ -22,26 +22,15 @@ def make_dirs(path: str) -> None:
     os.makedirs(path)
 
 
-def ask_for_path() -> str:
-    name_dirs = input("Enter name of the dir ")
-    name_dirs_list = name_dirs.split(" ")
-    return "app\\" + "\\".join(name_dirs_list)
-
-
-def name_of_file() -> str:
-    name_file = input("Enter name of the file ")
-    return name_file + ".txt"
-
-
 current_day = datetime.datetime.now()
 if "-d" in sys.argv and "-f" not in sys.argv:
-    path = ask_for_path()
-    make_dirs(path)
+    path = "\\".join(sys.argv[sys.argv.index("-d") + 1: len(sys.argv)])
+    make_dirs(os.path.join("app", path))
 elif "-f" in sys.argv and "-d" not in sys.argv:
-    file_name = name_of_file()
-    write_into_file("app\\" + file_name)
+    write_into_file(os.path.join("app", sys.argv[sys.argv.index("-f") + 1]))
 else:
-    path = ask_for_path()
-    make_dirs(path)
-    file_name = name_of_file()
-    write_into_file(path + "\\" + file_name)
+    dirs_path = "\\".join(sys.argv[sys.argv.index("-d") + 1:
+                                   sys.argv.index("-f")])
+    whole_path = os.path.join(dirs_path, sys.argv[sys.argv.index("-f") + 1])
+    make_dirs(os.path.join("app", dirs_path))
+    write_into_file(os.path.join("app", whole_path))
