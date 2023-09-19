@@ -66,4 +66,5 @@ def funct_create_file_from_terminal() -> None:
         create_file(list_avrg)
 
 
-funct_create_file_from_terminal()
+if __name__ == "__main__":
+    funct_create_file_from_terminal()
