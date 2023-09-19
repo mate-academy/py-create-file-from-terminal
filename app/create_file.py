@@ -14,8 +14,9 @@ def create_file_with_content(file_path: str) -> str:
             file.write(f"{line_count} {content_line}\n")
         line_count += 1
 
-    with open(file_path, "r") as file:
+    with open(file_path, "r+") as file:
         content = file.read()
+        file.seek(0, 0)
         file.write(f"{timestamp}\n")
         file.write(content)
 
