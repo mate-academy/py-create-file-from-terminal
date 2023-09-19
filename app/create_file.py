@@ -24,13 +24,18 @@ def make_dirs(path: str) -> None:
 
 current_day = datetime.datetime.now()
 if "-d" in sys.argv and "-f" not in sys.argv:
-    path = "\\".join(sys.argv[sys.argv.index("-d") + 1: len(sys.argv)])
+    path = os.path.join(*sys.argv[sys.argv.index("-d") + 1: len(sys.argv)])
     make_dirs(os.path.join("app", path))
 elif "-f" in sys.argv and "-d" not in sys.argv:
     write_into_file(os.path.join("app", sys.argv[sys.argv.index("-f") + 1]))
 else:
-    dirs_path = "\\".join(sys.argv[sys.argv.index("-d") + 1:
-                                   sys.argv.index("-f")])
+    if sys.argv.index("-d") == 1:
+        path = sys.argv[sys.argv.index("-d") + 1: sys.argv.index("-f")]
+        dirs_path = os.path.join(*path)
+
+    else:
+        dirs_path = os.path.join(*(sys.argv[sys.argv.index("-d") + 1:
+                                            len(sys.argv)]))
     whole_path = os.path.join(dirs_path, sys.argv[sys.argv.index("-f") + 1])
     make_dirs(os.path.join("app", dirs_path))
     write_into_file(os.path.join("app", whole_path))
