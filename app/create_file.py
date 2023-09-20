@@ -34,18 +34,23 @@ def get_file_path() -> str | None:
     return file_path
 
 
-def main() -> None:
-    file_path = get_file_path()
-
-    if not file_path:
-        return
-
+def get_content_lines() -> list[str]:
     content_lines = []
     while True:
         line = input("Enter content line (or 'stop' to finish): ")
         if line.lower() == "stop":
             break
         content_lines.append(line)
+    return content_lines
+
+
+def main() -> None:
+    file_path = get_file_path()
+
+    if not file_path:
+        return
+
+    content_lines = get_content_lines()
 
     create_file(file_path, content_lines)
     print(f"File '{file_path}' created successfully.")
