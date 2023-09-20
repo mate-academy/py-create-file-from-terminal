@@ -10,6 +10,7 @@ def create_file(file_path: str, content: str) -> None:
 
 def main() -> None:
     directory_path = "."
+    file_index = sys.argv.index("-f")
     if len(sys.argv) < 2:
         print(
             "Usage: python create_file.py -d <directory_path> -f <file_name>")
@@ -21,11 +22,12 @@ def main() -> None:
             print("Please provide a directory path after -d flag.")
             return
 
-        directory_path = os.path.join(*sys.argv[directory_index + 1:])
+        directory_path = os.path.join(
+            *sys.argv[directory_index + 1:file_index]
+        )
         os.makedirs(directory_path, exist_ok=True)
 
     if "-f" in sys.argv:
-        file_index = sys.argv.index("-f")
         if file_index + 1 >= len(sys.argv):
             print("Please provide a file name after -f flag.")
             return
