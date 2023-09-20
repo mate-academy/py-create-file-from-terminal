@@ -1,10 +1,8 @@
 import os
 import sys
-from datetime import datetime
 
 
 def create_file_with_content(file_path: str) -> str:
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     line_count = 1
     while True:
         content_line = input("Enter content line (or 'stop' to finish): ")
@@ -13,12 +11,6 @@ def create_file_with_content(file_path: str) -> str:
         with open(file_path, "a") as file:
             file.write(f"{line_count} {content_line}\n")
         line_count += 1
-
-    with open(file_path, "r+") as file:
-        content = file.read()
-        file.seek(0, 0)
-        file.write(f"{timestamp}\n")
-        file.write(content)
 
 
 def main() -> None:
