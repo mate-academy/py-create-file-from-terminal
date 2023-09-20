@@ -13,11 +13,13 @@ def create_file(file_name: str, path: str = os.getcwd()) -> None:
     with open(os.path.join(path, file_name), "a") as file:
         date = datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
         file.write(date)
+        line_number = 1
         while True:
-            content = input("Write content: ") + "\n"
+            content = input(f"{line_number} Write content: ") + "\n"
             if content == "stop\n":
                 break
-            file.write(content)
+            file.write(f"{line_number} {content}")
+            line_number += 1
         file.write("\n")
 
 
