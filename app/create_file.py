@@ -3,41 +3,32 @@ import os
 import datetime
 
 
-def parse_input() -> dict:
+def parse_input() -> tuple:
     terminal_input = sys.argv[1:]
-    to_do_dict = {"file": None, "directory": None}
     if "-d" in terminal_input and "-f" in terminal_input:
         file_index = terminal_input.index("-f")
         dir_index = terminal_input.index("-d")
         if file_index > dir_index:
-            to_do_dict["directory"] = terminal_input[1:file_index]
-            to_do_dict["file"] = terminal_input[file_index + 1]
-            return to_do_dict
+            return "".join(terminal_input[file_index + 1]), terminal_input[dir_index + 1:file_index],
         else:
-            to_do_dict["file"] = terminal_input[1:dir_index]
-            to_do_dict["directory"] = terminal_input[dir_index + 1:]
+            return "".join(terminal_input[file_index + 1]), terminal_input[dir_index + 1:]
 
     elif "-d" in terminal_input:
         dir_index = terminal_input.index("-d")
-        to_do_dict["directory"] = terminal_input[dir_index + 1:]
+        return None, terminal_input[dir_index + 1:],
 
     elif "-f" in terminal_input:
         file_index = terminal_input.index("-f")
-        to_do_dict["file"] = terminal_input[file_index + 1]
+        return "".join(terminal_input[file_index + 1]), None,
 
     else:
         raise ValueError
-
-    return to_do_dict
 
 
 def create_directory(directory_path: list) -> str:
     if directory_path is None:
         return None
     destination_directory = os.path.join(os.getcwd(), *directory_path)
-
-    if os.path.exists(destination_directory):
-        return destination_directory
     os.makedirs(destination_directory, exist_ok=True)
     return destination_directory
 
@@ -63,8 +54,6 @@ def add_content_to_file(file_name: str,
 
 
 if __name__ == "__main__":
-    terminal_input = parse_input()
-    file_name = (None if terminal_input["file"] is None
-                 else "".join(terminal_input["file"]))
-    directory = create_directory(terminal_input["directory"])
+    file_name, directory_path = parse_input()
+    directory = create_directory(directory_path)
     add_content_to_file(file_name=file_name, directory_path=directory)
