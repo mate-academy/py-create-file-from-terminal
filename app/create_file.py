@@ -11,7 +11,9 @@ def create_file(file_path: str, content: str) -> None:
 def main() -> None:
     path = "."
     if sys.argv[1] == "-d":
-        directory_path = sys.argv[2:] if "-f" != sys.argv[-2] else sys.argv[2:-2]
+        directory_path = (
+            sys.argv[2:] if "-f" != sys.argv[-2] else sys.argv[2:-2]
+        )
         path = os.path.join(*directory_path)
     elif sys.argv[1] == "-f" and "-d" in sys.argv:
         path = os.path.join(*sys.argv[4:])
