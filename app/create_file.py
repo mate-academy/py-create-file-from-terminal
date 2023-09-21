@@ -9,9 +9,11 @@ def parse_input() -> tuple:
         file_index = terminal_input.index("-f")
         dir_index = terminal_input.index("-d")
         if file_index > dir_index:
-            return "".join(terminal_input[file_index + 1]), terminal_input[dir_index + 1:file_index],
+            return ("".join(terminal_input[file_index + 1]),
+                    terminal_input[dir_index + 1:file_index])
         else:
-            return "".join(terminal_input[file_index + 1]), terminal_input[dir_index + 1:]
+            return ("".join(terminal_input[file_index + 1]),
+                    terminal_input[dir_index + 1:])
 
     elif "-d" in terminal_input:
         dir_index = terminal_input.index("-d")
