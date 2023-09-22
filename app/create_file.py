@@ -23,11 +23,10 @@ def parse_input() -> tuple:
         file_index = terminal_input.index("-f")
         return "".join(terminal_input[file_index + 1]), None,
 
-    else:
-        raise ValueError
+    raise ValueError
 
 
-def create_directory(directory_path: list) -> str:
+def create_directory(directory_path: list) -> str | None:
     if directory_path is None:
         return None
     destination_directory = os.path.join(os.getcwd(), *directory_path)
