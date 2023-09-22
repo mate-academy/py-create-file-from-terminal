@@ -9,10 +9,10 @@ def parse_input() -> tuple:
         file_index = terminal_input.index("-f")
         dir_index = terminal_input.index("-d")
         if file_index > dir_index:
-            return ("".join(terminal_input[file_index + 1]),
+            return (terminal_input[file_index + 1],
                     terminal_input[dir_index + 1:file_index])
         else:
-            return ("".join(terminal_input[file_index + 1]),
+            return (terminal_input[file_index + 1],
                     terminal_input[dir_index + 1:])
 
     elif "-d" in terminal_input:
@@ -21,7 +21,7 @@ def parse_input() -> tuple:
 
     elif "-f" in terminal_input:
         file_index = terminal_input.index("-f")
-        return "".join(terminal_input[file_index + 1]), None,
+        return terminal_input[file_index + 1], None,
 
     raise ValueError
 
@@ -56,5 +56,6 @@ def add_content_to_file(file_name: str,
 
 if __name__ == "__main__":
     file_name, directory_path = parse_input()
+    print(type(file_name), type(directory_path))
     directory = create_directory(directory_path)
     add_content_to_file(file_name=file_name, directory_path=directory)
