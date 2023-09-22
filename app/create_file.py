@@ -9,19 +9,26 @@ def parse_input() -> tuple:
         file_index = terminal_input.index("-f")
         dir_index = terminal_input.index("-d")
         if file_index > dir_index:
-            return ("".join(terminal_input[file_index + 1]),
-                    terminal_input[dir_index + 1:file_index])
-        else:
-            return ("".join(terminal_input[file_index + 1]),
-                    terminal_input[dir_index + 1:])
+            return (
+                terminal_input[file_index + 1],
+                terminal_input[dir_index + 1 : file_index],
+            )
+        return (terminal_input[file_index + 1],
+                terminal_input[dir_index + 1 :])
 
     elif "-d" in terminal_input:
         dir_index = terminal_input.index("-d")
-        return None, terminal_input[dir_index + 1:],
+        return (
+            None,
+            terminal_input[dir_index + 1 :],
+        )
 
     elif "-f" in terminal_input:
         file_index = terminal_input.index("-f")
-        return "".join(terminal_input[file_index + 1]), None,
+        return (
+            terminal_input[file_index + 1],
+            None,
+        )
 
     raise ValueError
 
@@ -42,8 +49,8 @@ def add_content_to_file(file_name: str,
         directory_path = os.getcwd()
 
     with open(os.path.join(directory_path, file_name), "a") as file:
-        time_opened = (datetime.datetime.now()
-                       .strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        time_opened = datetime.datetime.now().strftime(
+            "%Y-%m-%d %H:%M:%S") + "\n"
         file.write(time_opened)
 
         counter = 1
