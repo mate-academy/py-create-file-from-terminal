@@ -34,5 +34,5 @@ def main() -> None:
         creat_file(sys.argv[sys.argv.index("-f") + 1])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
