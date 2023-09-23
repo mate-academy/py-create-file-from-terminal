@@ -24,7 +24,9 @@ def creat_file(file_name: str, path: str = os.getcwd()) -> None:
 
 def main() -> None:
     if "-d" in sys.argv and "-f" in sys.argv:
-        path = create_dir(sys.argv[sys.argv.index("-d") + 1:])
+        path = create_dir(
+            sys.argv[sys.argv.index("-d") + 1:sys.argv.index("-f")]
+        )
         file_name = sys.argv[sys.argv.index("-f") + 1]
         creat_file(file_name, path)
     elif "-d" in sys.argv:
