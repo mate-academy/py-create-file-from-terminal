@@ -12,7 +12,7 @@ def create_dir(name_of_dir: list) -> str:
 
 def creat_file(file_name: str, path: str = os.getcwd()) -> None:
     with open(os.path.join(path, file_name), "a") as file:
-        time_mark = datetime.now().strftime("%a %-m %y %H:%M:%S")
+        time_mark = datetime.now().strftime("%a %m %y %H:%M:%S")
         file.write(time_mark)
         while True:
             new_line = input("Enter content line: ")
@@ -32,3 +32,7 @@ def main() -> None:
 
     elif "-f" in sys.argv:
         creat_file(sys.argv[sys.argv.index("-f") + 1])
+
+
+if __name__ == '__main__':
+    main()
