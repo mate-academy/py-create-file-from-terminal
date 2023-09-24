@@ -34,6 +34,7 @@ def main() -> None:
     time = datetime.now().strftime("%Y-%m-%d %X")
     arguments = argv[1:]
     if "-f" not in arguments:
+        make_directory(*arguments[1:])
 
     elif "-d" not in arguments:
         create_file(arguments[-1], time)
