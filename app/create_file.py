@@ -31,7 +31,7 @@ def main() -> None:
 
     time = datetime.now().strftime("%Y-%m-%d %X")
     arguments = argv[1:]
-    if not "-f" not in arguments:
+    if "-f" not in arguments:
         print(make_directory(*arguments[1:]))
 
     elif "-d" not in arguments:
