@@ -17,22 +17,30 @@ def create_file(file_path: str) -> None:
 
 
 def main() -> None:
-    if "-d" in sys.argv:
+
+    try:
+        file_index = sys.argv.index("-f")
+    except ValueError:
+        file_index = -1
+
+    try:
         dir_index = sys.argv.index("-d")
-        directory_path = os.path.join(*sys.argv[dir_index + 1:])
+    except ValueError:
+        dir_index = -1
 
-        try:
-            os.makedirs(directory_path)
-        except FileExistsError:
-            pass
-
-    if "-f" in sys.argv:
+    if file_index != -1:
         file_index = sys.argv.index("-f")
         file_name = sys.argv[file_index + 1]
-
-        if "-d" in sys.argv:
-            directory_path = os.path.join(*sys.argv[dir_index + 1:-3])
-            file_path = os.path.join(directory_path, file_name)
+        if dir_index != -1:
+            dir_index = sys.argv.index("-d")
+            if dir_index < file_index:
+                directory_path = os.path.join(*sys.argv[dir_index + 1:-2])
+                os.makedirs(directory_path, exist_ok=True)
+                file_path = os.path.join(directory_path, file_name)
+            else:
+                directory_path = os.path.join(*sys.argv[dir_index + 1:])
+                os.makedirs(directory_path, exist_ok=True)
+                file_path = os.path.join(directory_path, file_name)
         else:
             file_path = file_name
 
