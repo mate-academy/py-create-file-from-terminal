@@ -21,9 +21,11 @@ def create_file(name: str, time: str) -> None:
     else:
         with open(name, "w") as f:
             f.write(f"{time}\n")
+            line = 1
             values = input("Enter content line: ")
             while values != "stop":
-                f.write(f"{values}\n")
+                f.write(f"{line} {values}\n")
+                line += 1
                 values = input("Enter content line: ")
 
 
@@ -32,7 +34,6 @@ def main() -> None:
     time = datetime.now().strftime("%Y-%m-%d %X")
     arguments = argv[1:]
     if "-f" not in arguments:
-        print(make_directory(*arguments[1:]))
 
     elif "-d" not in arguments:
         create_file(arguments[-1], time)
@@ -40,7 +41,6 @@ def main() -> None:
     else:
         d_position = arguments.index("-d")
         f_position = arguments.index("-f")
-        print(arguments)
         if d_position < f_position:
             create_file(path.join(make_directory(
                 *arguments[d_position + 1: f_position]),
