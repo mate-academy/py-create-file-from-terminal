@@ -3,46 +3,45 @@ import os
 from datetime import datetime
 
 
-def create_path(directories: list) -> str:
-    current_dir = os.getcwd()
-    path = os.path.join(current_dir, *directories)
-
-    if not os.path.exists(path):
-        os.makedirs(path)
-
+def make_directory(path_to_file: list) -> str:
+    path = os.path.join(*path_to_file)
+    os.makedirs(path, exist_ok=True)
     return path
 
 
-def create_file(file_path: str) -> None:
-    with open(file_path, "a") as file:
-        file.write(
-            f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} \n"
-        )
-        line = 1
-        while True:
-            content = input("Enter content line: ")
-            if content == "stop":
-                file.write("\n")
-                break
-            file.write(f"{line} {content} \n")
-            line += 1
+def create_file(directory_path: str, file_name: str) -> None:
+    file_path = os.path.join(directory_path, file_name)
+
+    if os.path.exists(file_path):
+        with open(file_path, "a") as file:
+            file.write("\n")
+
+    show_time = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+    with open(file_path, "w") as file:
+        file.write(show_time)
+
+    row = 1
+    while True:
+        content = input("Enter content: ")
+        if content == "stop":
+            break
+        file.write(f"{row} {content}\n")
+        row += 1
 
 
 def main() -> None:
-    if "-d" in sys.argv and "-f" in sys.argv:
-        _, command_d, *directories, command_f, file_name = sys.argv
-        path = create_path(directories)
-        create_file(f"{path}/{file_name}")
-        return
-
-    if "-d" in sys.argv:
-        _, command_d, *directories = sys.argv
-        create_path(directories)
-        return
-
-    if "-f" in sys.argv:
-        create_file(sys.argv[-1])
-        return
+    terminal_info = sys.argv
+    if "-f" in terminal_info and "-d" in terminal_info:
+        path = make_directory(
+            terminal_info
+            [terminal_info.index("-d") + 1:terminal_info.index("-f")]
+        )
+        name_of_file = terminal_info[terminal_info.index("-f") + 1]
+        create_file(name_of_file, path)
+    if "-f" in terminal_info:
+        create_file(terminal_info[terminal_info.index("-f") + 1])
+    elif "-d" in terminal_info:
+        make_directory(terminal_info[terminal_info.index("-d") + 1:])
 
 
 if __name__ == "__main__":
