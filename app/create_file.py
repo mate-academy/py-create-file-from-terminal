@@ -31,7 +31,7 @@ def create_file(file_path: str) -> None:
         print(f"'{file_path}' already exists.")
 
 
-def main():
+def main() -> None:
     command = sys.argv
 
     if "-d" in command and "-f" in command:
