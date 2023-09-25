@@ -26,9 +26,14 @@ def creating_the_file(file_name: str) -> None:
 def main() -> None:
     cmd_line = sys.argv
     if "-d" in cmd_line and "-f" in cmd_line:
-        new_path = make_dir(
-            cmd_line[cmd_line.index("-d") + 1:cmd_line.index("-f")]
-        )
+        if cmd_line.index("-d") < cmd_line.index("-f"):
+            new_path = make_dir(
+                cmd_line[cmd_line.index("-d") + 1:cmd_line.index("-f")]
+            )
+        else:
+            new_path = make_dir(
+                cmd_line[cmd_line.index("-d") + 1:]
+            )
         os.chdir(new_path)
         creating_the_file(cmd_line[cmd_line.index("-f") + 1])
 
