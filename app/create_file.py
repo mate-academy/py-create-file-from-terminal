@@ -3,40 +3,52 @@ import os
 from datetime import datetime
 
 
-def create_path(dirr: list) -> str:
-    current_dir = os.getcwd()
-    path = os.path.join(current_dir, *dirr)
+def create_directories(directories: list) -> str:
+    path = os.path.join(*directories)
     if not os.path.exists(path):
         os.makedirs(path)
     return path
 
 
 def create_file(file_path: str) -> None:
-    with open(file_path, "a") as file:
-        file.write(f"{datetime.now().strftime('%Y-%m-%d $H:%M:%S')} \n")
-        number_line = 1
+    if not os.path.exists(file_path):
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        with open(file_path, "a") as file:
+            file.write(f"{current_time}\n")
+
+        line = 1
         while True:
-            data = input("Enter content line: ")
-            if data == "stop":
-                file.write("\n")
+            content = input("Enter content line: ")
+            if content == "stop":
+                with open(file_path, "a") as file:
+                    file.write("\n")
                 break
-            file.write(f"{number_line} {data} \n")
-            number_line += 1
+            with open(file_path, "a") as file:
+                file.write(f"{line} {content}\n")
+            line += 1
+    else:
+        print(f"'{file_path}' already exists.")
 
 
-def main() -> None:
-    if "-d" in sys.argv and "-f" in sys.argv:
-        _, d_command, f_command, *dirr, file_name = sys.argv
-        path = create_path(dirr)
-        create_file(f"{path}/{file_name}")
-        return
-    if "-d" in sys.argv:
-        _, d_command, *dirr = sys.argv
-        create_path(dirr)
-        return
-    if "-f" in sys.argv:
-        create_file(sys.argv[-1])
-        return
+def main():
+    command = sys.argv
+
+    if "-d" in command and "-f" in command:
+        start = command.index("-d") + 1
+        end = command.index("-f")
+
+        path_to_file = create_directories(command[start:end])
+        create_file(os.path.join(path_to_file, command[end + 1]))
+
+    elif "-d" in command:
+        start = command.index("-d") + 1
+        end = len(command)
+        create_directories(command[start:end])
+
+    elif "-f" in command:
+        index = command.index("-f") + 1
+        create_file(command[index])
 
 
 if __name__ == "__main__":
