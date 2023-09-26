@@ -29,12 +29,11 @@ def main() -> None:
         dir_index = -1
 
     if file_index != -1:
-        file_index = sys.argv.index("-f")
         file_name = sys.argv[file_index + 1]
         if dir_index != -1:
-            dir_index = sys.argv.index("-d")
             if dir_index < file_index:
-                directory_path = os.path.join(*sys.argv[dir_index + 1:-2])
+                directory_path = \
+                    os.path.join(*sys.argv[dir_index + 1:file_index])
                 os.makedirs(directory_path, exist_ok=True)
                 file_path = os.path.join(directory_path, file_name)
             else:
@@ -45,6 +44,10 @@ def main() -> None:
             file_path = file_name
 
         create_file(file_path)
+
+    if dir_index != -1 and "-f" not in sys.argv:
+        directory_path = os.path.join(*sys.argv[dir_index + 1:])
+        os.makedirs(directory_path, exist_ok=True)
 
 
 if __name__ == "__main__":
