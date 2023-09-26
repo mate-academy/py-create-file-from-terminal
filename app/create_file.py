@@ -30,8 +30,8 @@ def main() -> None:
         file_name = sys.argv[file_index + 1]
         if dir_index != -1:
             if dir_index < file_index:
-                directory_path = \
-                    os.path.join(*sys.argv[dir_index + 1:file_index])
+                directory_path = (
+                    os.path.join(*sys.argv[dir_index + 1:file_index]))
             else:
                 directory_path = os.path.join(*sys.argv[dir_index + 1:])
             os.makedirs(directory_path, exist_ok=True)
