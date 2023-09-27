@@ -28,7 +28,7 @@ def create_file(filename: any) -> None:
 def main() -> None:
     if len(sys.argv) < 2:
         print("Usage: python create_file.py "
-        "[-d <directory_path>] [-f <file_name>]")
+              "[-d <directory_path>] [-f <file_name>]")
         return
 
     if "-d" in sys.argv and "-f" in sys.argv:
@@ -48,7 +48,7 @@ def main() -> None:
         create_file(filename)
     else:
         print("Invalid arguments. Use -d "
-        "for directory creation and -f for file creation.")
+              "for directory creation and -f for file creation.")
 
 
 if __name__ == "__main__":
