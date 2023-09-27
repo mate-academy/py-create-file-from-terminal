@@ -18,16 +18,17 @@ def create_file(filename: any) -> None:
                 line = input("Enter content line (or 'stop' to finish): ")
                 if line == "stop":
                     break
-                timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 file.write(f"{timestamp}\n{line}\n")
         print(f"File '{filename}' created or updated.")
     except Exception as e:
         print(f"Error creating or updating file: {e}")
 
 
-def main():
+def main() -> None:
     if len(sys.argv) < 2:
-        print("Usage: python create_file.py [-d <directory_path>] [-f <file_name>]")
+        print("Usage: python create_file.py "
+        "[-d <directory_path>] [-f <file_name>]")
         return
 
     if "-d" in sys.argv and "-f" in sys.argv:
@@ -46,7 +47,8 @@ def main():
         filename = sys.argv[file_index]
         create_file(filename)
     else:
-        print("Invalid arguments. Use -d for directory creation and -f for file creation.")
+        print("Invalid arguments. Use -d "
+        "for directory creation and -f for file creation.")
 
 
 if __name__ == "__main__":
