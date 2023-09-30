@@ -43,4 +43,5 @@ def processing_arguments() -> None:
         make_file(filename)
 
 
-processing_arguments()
+if __name__ == "__main__":
+    processing_arguments()
