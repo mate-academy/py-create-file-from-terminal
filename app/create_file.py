@@ -5,12 +5,7 @@ import os
 
 
 def make_directory(dir_list: list) -> str:
-    path = ""
-    for directory in dir_list:
-        path = os.path.join(path, directory)
-        if not os.path.exists(path):
-            os.mkdir(path)
-    return path
+    os.makedirs(os.path.join(*dir_list), exist_ok=True)
 
 
 def make_file(filename: str, path: str = "") -> None:
