@@ -1,54 +1,47 @@
-import os
 import sys
-from datetime import datetime
+import os
+import datetime
 
 
-def create_directory(path: any) -> None:
-    try:
-        os.makedirs(path)
-        print(f"Created directory: {path}")
-    except OSError as e:
-        print(f"Error creating directory: {e}")
+def create_directory(directory: any) -> None:
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
 
-def create_file(filename: any) -> None:
-    try:
-        with open(filename, "a") as file:
-            while True:
-                line = input("Enter content line (or 'stop' to finish): ")
-                if line == "stop":
-                    break
-                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                file.write(f"{timestamp}\n{line}\n")
-        print(f"File '{filename}' created or updated.")
-    except Exception as e:
-        print(f"Error creating or updating file: {e}")
+def create_file(directory: any, filename: any) -> None:
+    content = []
+    current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    while True:
+        line = input(f"{len(content) + 1} ")
+        if line.lower() == "stop":
+            break
+        content.append(line)
+
+    with open(os.path.join(directory, filename), "w") as file:
+        file.write(current_time + "\n")
+        for i, line in enumerate(content):
+            file.write(f"{i + 1} {line}\n")
 
 
 def main() -> None:
-    if len(sys.argv) < 2:
-        print("Usage: python create_file.py "
-              "[-d <directory_path>] [-f <file_name>]")
+    if len(sys.argv) < 5:
+        print("Incorrect format. Please use -d and -f "
+              "flags to create a directory and a file with content.")
         return
 
-    if "-d" in sys.argv and "-f" in sys.argv:
-        dir_index = sys.argv.index("-d") + 1
-        file_index = sys.argv.index("-f") + 1
-        directory_path = sys.argv[dir_index]
-        filename = sys.argv[file_index]
-        create_directory(directory_path)
-        create_file(os.path.join(directory_path, filename))
-    elif "-d" in sys.argv:
-        dir_index = sys.argv.index("-d") + 1
-        directory_path = sys.argv[dir_index]
-        create_directory(directory_path)
-    elif "-f" in sys.argv:
-        file_index = sys.argv.index("-f") + 1
-        filename = sys.argv[file_index]
-        create_file(filename)
-    else:
-        print("Invalid arguments. Use -d "
-              "for directory creation and -f for file creation.")
+    if "-d" not in sys.argv or "-f" not in sys.argv:
+        print("Both -d and -f flags are "
+              "required to create a directory and a file.")
+        return
+
+    dir_index = sys.argv.index("-d") + 1
+    directory = sys.argv[dir_index]
+    file_index = sys.argv.index("-f") + 1
+    filename = sys.argv[file_index]
+
+    create_directory(directory)
+    create_file(directory, filename)
 
 
 if __name__ == "__main__":
