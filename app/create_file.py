@@ -24,6 +24,7 @@ def main() -> None:
     parameters = sys.argv
     index_f = None if "-f" not in parameters else parameters.index("-f")
     index_d = None if "-d" not in parameters else parameters.index("-d")
+    file_name = parameters[index_f + 1]
 
     if index_d is not None and index_f is not None:
         if index_f < index_d:
@@ -31,14 +32,11 @@ def main() -> None:
             directory_path = os.path.join(*parameters[index_d + 1 :])
         else:
             directory_path = os.path.join(*parameters[index_d + 1 : index_f])
-            file_name = parameters[index_f + 1]
 
         create_directory(directory_path)
 
         full_file_path = os.path.join(directory_path, file_name)
-
-        if not os.path.exists(full_file_path):
-            create_file(full_file_path)
+        create_file(full_file_path)
 
         print(f"Directory '{directory_path}' created")
         print(f"File '{file_name}' created")
@@ -51,7 +49,6 @@ def main() -> None:
     elif index_f is not None:
         file_path = parameters[2]
         create_file(file_path)
-        file_name = parameters[index_f + 1]
         print(f"File '{file_name}' created")
     else:
         print("You enter incorrect command")
