@@ -25,16 +25,22 @@ def make_file(filename: str, path: str = "") -> None:
             linestart += 1
 
 
-argv = sys.argv
+def processing_arguments() -> None:
+    argv = sys.argv
 
-if "-d" in argv and "-f" in argv:
-    directories = argv[argv.index("-d") + 1: argv.index("-f")]
-    filename = argv[argv.index("-f") + 1]
-    path = make_directory(directories)
-    make_file(filename, path)
-elif "-d" in argv:
-    path = argv[argv.index("-d") + 1:]
-    make_directory(path)
-elif "-f" in argv:
-    filename = argv[argv.index("-f") + 1]
-    make_file(filename)
+    if "-d" in argv and "-f" in argv:
+        directories = argv[argv.index("-d") + 1:]
+        if "-f" in directories:
+            directories = directories[:directories.index("-f")]
+        filename = argv[argv.index("-f") + 1]
+        path = make_directory(directories)
+        make_file(filename, path)
+    elif "-d" in argv:
+        path = argv[argv.index("-d") + 1:]
+        make_directory(path)
+    elif "-f" in argv:
+        filename = argv[argv.index("-f") + 1]
+        make_file(filename)
+
+
+processing_arguments()
