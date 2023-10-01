@@ -6,27 +6,26 @@ from datetime import datetime
 def create_file(directory: str, filename: str, content: str) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     content_with_timestamp = f"{timestamp}\n{content}"
-
     file_path = os.path.join(directory, filename)
 
-    if os.path.exists(file_path):
-        with open(file_path, "a") as file:
-            file.write("\n + content_with_timestamp")
-    else:
-        os.makedirs(directory, exist_ok=True)
-        with open(file_path, "w") as file:
-            file.write(content_with_timestamp)
+    os.makedirs(directory, exist_ok=True)
+
+    with open(file_path, "a") as file:
+        file.write(content_with_timestamp + "\n")
 
 
 def main() -> None:
-    if "-d" in sys.argv and "-f" in sys.argv:
-        dir_index = sys.argv.index("-d") + 1
-        file_index = sys.argv.index("-f") + 1
-        directory = os.path.join(*sys.argv[dir_index:file_index])
-        filename = sys.argv[file_index]
-    else:
-        print("Use -d and/or -f flags")
-        return
+    directory = None
+    filename = None
+
+    for i in range(len(sys.argv)):
+        if sys.argv[i] == "-d" and i + 1 < len(sys.argv):
+            directory = sys.argv[i + 1]
+        elif sys.argv[i] == "-f" and i + 1 < len(sys.argv):
+            filename = sys.argv[i + 1]
+
+    if directory is None or filename is None:
+        print("-d and -f")
 
     content_lines = []
     while True:
@@ -35,9 +34,7 @@ def main() -> None:
             break
         content_lines.append(line)
 
-    content = "\n".join(
-        f"{i}. {line}" for i, line in enumerate(content_lines, start=1)
-    )
+    content = "\n".join(content_lines)
 
     create_file(directory, filename, content)
 
