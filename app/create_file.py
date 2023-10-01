@@ -24,13 +24,6 @@ def main() -> None:
         file_index = sys.argv.index("-f") + 1
         directory = os.path.join(*sys.argv[dir_index:file_index])
         filename = sys.argv[file_index]
-    elif "-d" in sys.argv:
-        dir_index = sys.argv.index("-d") + 1
-        directory = os.path.join(*sys.argv[dir_index:])
-        filename = input("Enter file name: ")
-    elif "-f" in sys.argv:
-        filename = sys.argv[sys.argv.index("-f") + 1]
-        directory = input("Enter directory path: ")
     else:
         print("Use -d and/or -f flags")
         return
