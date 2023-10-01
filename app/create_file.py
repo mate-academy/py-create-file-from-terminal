@@ -42,8 +42,9 @@ def main() -> None:
             break
         content_lines.append(line)
 
-    content = "\n".join(f"{i}. {line}" for i, line in enumerate(
-        content_lines, start=1))
+    content = "\n".join(
+        f"{i}. {line}" for i, line in enumerate(content_lines, start=1)
+    )
 
     create_file(directory, filename, content)
 
