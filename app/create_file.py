@@ -53,4 +53,3 @@ def write_to_file(directory: str, file_name: str) -> None:
 
 if __name__ == "__main__":
     main(sys.argv)
-
