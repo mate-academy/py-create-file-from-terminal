@@ -3,9 +3,11 @@ import os
 import datetime
 from typing import List
 
+
 def create_directory(directory: str) -> None:
     if not os.path.exists(directory):
         os.makedirs(directory)
+
 
 def create_file(directory: str, filename: str) -> None:
     content: List[str] = []
@@ -21,6 +23,7 @@ def create_file(directory: str, filename: str) -> None:
         file.write(current_time + "\n")
         for i, line in enumerate(content):
             file.write(f"{i + 1} {line}\n")
+
 
 def main() -> None:
     if len(sys.argv) < 5:
@@ -38,6 +41,7 @@ def main() -> None:
 
     create_directory(directory)
     create_file(directory, filename)
+
 
 if __name__ == "__main__":
     main()
