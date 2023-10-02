@@ -32,10 +32,9 @@ def create_file(directory_path: str, file_name: str) -> None:
 def main() -> None:
     terminal_info = sys.argv
     if "-f" in terminal_info and "-d" in terminal_info:
-        path = make_directory(
-            terminal_info
-            [terminal_info.index("-d") + 1:terminal_info.index("-f")]
-        )
+        start_index = terminal_info.index("-d") + 1
+        end_index = terminal_info.index("-f")
+        path = make_directory(terminal_info[start_index:end_index])
         name_of_file = terminal_info[terminal_info.index("-f") + 1]
         create_file(name_of_file, path)
     if "-f" in terminal_info:
