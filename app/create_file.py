@@ -35,12 +35,12 @@ def main() -> None:
         start_index = terminal_info.index("-d") + 1
         end_index = terminal_info.index("-f")
         path = make_directory(terminal_info[start_index:end_index])
-        name_of_file = terminal_info[terminal_info.index("-f") + 1]
+        name_of_file = terminal_info[end_index + 1]
         create_file(name_of_file, path)
     if "-f" in terminal_info:
-        create_file(terminal_info[terminal_info.index("-f") + 1])
+        create_file(terminal_info[end_index + 1])
     elif "-d" in terminal_info:
-        make_directory(terminal_info[terminal_info.index("-d") + 1:])
+        make_directory(terminal_info[start_index:])
 
 
 if __name__ == "__main__":
