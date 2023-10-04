@@ -11,7 +11,7 @@ def main(term_args: List[str]) -> None:
         file_name = term_args[-1]
         index_f = term_args.index("-f")
         path = term_args[2:index_f]
-        directory = os.path.join(*path) + "/"
+        directory = os.path.join(*path)
 
         create_dir(directory=directory)
         write_to_file(directory=directory, file_name=file_name)
@@ -19,7 +19,7 @@ def main(term_args: List[str]) -> None:
     elif "-d" in term_args:
 
         path = term_args[2:]
-        directory = os.path.join(*path) + "/"
+        directory = os.path.join(*path)
         create_dir(directory=directory)
 
     else:
@@ -32,7 +32,7 @@ def create_dir(directory: str) -> None:
 
 
 def write_to_file(directory: str, file_name: str) -> None:
-    with open(f"{directory}{file_name}", "a") as file_record:
+    with open(f"{os.path.join(directory, file_name)}", "a") as file_record:
         file_record.write(
             datetime.now().strftime(
                 "%Y-%m-%d %H:%M:%S"
