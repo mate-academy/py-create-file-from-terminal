@@ -11,10 +11,7 @@ if args.d:
     os.makedirs(direction, exist_ok=True)
 if args.f:
     count_string = 1
-    if args.d:
-        file_patch = os.path.join(*args.d, args.f)
-    else:
-        file_patch = args.f
+    file_patch = os.path.join(*args.d, args.f) if args.d else args.f
     with open(file_patch, "a") as files:
         user_data = datetime.datetime.now()
         files.write(user_data.strftime("%Y-%m-%d %H:%M:%S") + "\n")
