@@ -8,7 +8,7 @@ parser.add_argument("-d", nargs="*")
 args = parser.parse_args()
 if args.d:
     direction = os.path.join(*args.d)
-    os.makedirs(direction , exist_ok=True)
+    os.makedirs(direction, exist_ok=True)
 if args.f:
     count_string = 1
     if args.d:
