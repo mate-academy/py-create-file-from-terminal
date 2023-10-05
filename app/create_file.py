@@ -3,13 +3,15 @@ import os
 from datetime import datetime
 
 
-def create_file(directory: str, filename: str,  content: str) -> None:
+def create_file(directory: str, filename: str, content: str) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     file_path = os.path.join(directory, filename)
     with open(file_path, "a") as file:
         if os.path.getsize(file_path) > 0:
             file.write("\n")
-        file.write(f"{timestamp}\n{len(content.splitlines())} Enter content line: {len(content.splitlines())} {content}")
+        file.write(f"{timestamp}\n{len(content.splitlines())} "
+                   f"Enter content line: {len(content.splitlines())} "
+                   f"{content}")
 
 
 def handle_d_flag(directory: str) -> None:
