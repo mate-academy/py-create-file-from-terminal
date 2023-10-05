@@ -4,17 +4,15 @@ import os
 
 parser = argparse.ArgumentParser(description="Create directories and files")
 parser.add_argument("-f")
-parser.add_argument("-d", nargs="+")
+parser.add_argument("-d", nargs="*")
 args = parser.parse_args()
 if args.d:
-    if len(args.d) > 1:
-        os.makedirs(f"{args.d[0]}/{args.d[1]}")
-    else:
-        os.makedirs(args.d[0])
+    direction = os.path.join(*args.d)
+    os.makedirs(direction , exist_ok=True)
 if args.f:
     count_string = 1
     if args.d:
-        file_patch = os.path.join(args.d[0], args.d[1], args.f)
+        file_patch = os.path.join(*args.d, args.f)
     else:
         file_patch = args.f
     with open(file_patch, "a") as files:
