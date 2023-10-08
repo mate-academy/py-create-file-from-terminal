@@ -5,7 +5,8 @@ import sys
 
 def create_file(path: str) -> None:
     with open(path, "a") as file:
-        file.write(str(datetime.datetime.now()) + "\n")
+        file.write(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+                   + "\n")
         line = input("Enter content line: ")
         index = 1
         while line != "stop":
