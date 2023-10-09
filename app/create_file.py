@@ -3,9 +3,8 @@ import os
 import sys
 
 
-def create_file(path: str) -> None:
-    path = os.path.join("app", path)
-    with open(path, "a") as file:
+def create_file(file_path: str) -> None:
+    with open(file_path, "a") as file:
         file.write(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
                    + "\n")
         line = input("Enter content line: ")
@@ -18,22 +17,26 @@ def create_file(path: str) -> None:
 
 
 def create_dirs(dirs: list) -> None:
-    for directory in dirs:
-        os.makedirs(os.path.join("app", directory))
+    os.makedirs(os.path.join("app", *dirs), exist_ok=True)
 
 
 def read_line() -> None:
     line_args = sys.argv
+    path = []
     if "-d" in line_args:
-        dirs = []
         for directory in line_args[line_args.index("-d") + 1:]:
             if directory != "-f":
-                dirs.append(directory)
+                path.append(directory)
             else:
                 break
-        create_dirs(dirs)
+        create_dirs(path)
     if "-f" in line_args:
-        create_file(line_args[line_args.index("-f") + 1])
+        file_name = line_args[line_args.index("-f") + 1]
+        if path:
+            file_path = os.path.join("app", *path, file_name)
+        else:
+            file_path = os.path.join("app", file_name)
+        create_file(file_path)
 
 
 read_line()
