@@ -17,7 +17,7 @@ def create_file(file_path: str) -> None:
 
 
 def create_dirs(dirs: list) -> None:
-    os.makedirs(os.path.join("app", *dirs), exist_ok=True)
+    os.makedirs(os.path.join(*dirs), exist_ok=True)
 
 
 def read_line() -> None:
@@ -33,9 +33,9 @@ def read_line() -> None:
     if "-f" in line_args:
         file_name = line_args[line_args.index("-f") + 1]
         if path:
-            file_path = os.path.join("app", *path, file_name)
+            file_path = os.path.join(*path, file_name)
         else:
-            file_path = os.path.join("app", file_name)
+            file_path = os.path.join(file_name)
         create_file(file_path)
 
 
