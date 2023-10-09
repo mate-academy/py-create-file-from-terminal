@@ -4,6 +4,7 @@ import sys
 
 
 def create_file(path: str) -> None:
+    path = os.path.join("app", path)
     with open(path, "a") as file:
         file.write(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
                    + "\n")
@@ -16,17 +17,23 @@ def create_file(path: str) -> None:
         file.write("\n")
 
 
+def create_dirs(dirs: list) -> None:
+    for directory in dirs:
+        os.makedirs(os.path.join("app", directory))
+
+
 def read_line() -> None:
     line_args = sys.argv
-    index = 1
-    while index < len(line_args):
-        if line_args[index] == "-d":
-            os.makedirs(os.path.join("app", line_args[index + 1]))
-            os.makedirs(os.path.join("app", line_args[index + 2]))
-            index += 3
-        elif line_args[index] == "-f":
-            create_file(os.path.join("app", line_args[index + 1]))
-            index += 2
+    if "-d" in line_args:
+        dirs = []
+        for directory in line_args[line_args.index("-d") + 1:]:
+            if directory != "-f":
+                dirs.append(directory)
+            else:
+                break
+        create_dirs(dirs)
+    if "-f" in line_args:
+        create_file(line_args[line_args.index("-f") + 1])
 
 
 read_line()
