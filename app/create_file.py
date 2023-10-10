@@ -3,7 +3,7 @@ import sys
 import datetime
 
 
-def from_terminal() -> None:
+def get_info_from_terminal() -> None:
     if "-d" in sys.argv and "-f" in sys.argv:
         path = create_directories()
         create_file(path)
@@ -26,7 +26,7 @@ def create_file(directories: list) -> None:
         filename = name
 
     with open(filename, "a") as file:
-        spis = []
+        content_data = []
         datetime_x = datetime.datetime.now()
         datetime_str = datetime_x.strftime("%Y-%m-%d %H:%M:%S")
 
@@ -34,11 +34,10 @@ def create_file(directories: list) -> None:
             data = input("Enter new line of content: ")
             if data == "stop":
                 break
-            spis.append(data)
+            content_data.append(data)
 
-    with open(filename, "a") as file:
         file.write(f"{datetime_str}\n")
-        for line_number, content in enumerate(spis, 1):
+        for line_number, content in enumerate(content_data, 1):
             file.write(f"{line_number} {content}\n")
         file.write("\n")
 
@@ -58,4 +57,4 @@ def create_directories() -> list:
 
 
 if __name__ == "__main__":
-    from_terminal()
+    get_info_from_terminal()
