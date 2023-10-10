@@ -7,13 +7,14 @@ def create_file(file_path: str) -> None:
     with open(file_path, "a") as file:
         file.write(str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
                    + "\n")
-        line = input("Enter content line: ")
-        index = 1
-        while line != "stop":
-            file.write(f"{index} {line}\n")
-            index += 1
+        i = 1
+        while True:
             line = input("Enter content line: ")
-        file.write("\n")
+            if line == "stop":
+                file.write("\n")
+                break
+            file.write(f"{i} {line}\n")
+            i += 1
 
 
 def create_dirs(dirs: list) -> None:
@@ -39,4 +40,5 @@ def read_line() -> None:
         create_file(file_path)
 
 
-read_line()
+if __name__ == "__main__":
+    read_line()
