@@ -26,7 +26,6 @@ def create_file(directories: list) -> None:
         filename = name
 
     with open(filename, "a") as file:
-
         spis = []
         datetime_x = datetime.datetime.now()
         datetime_str = datetime_x.strftime("%Y-%m-%d %H:%M:%S")
