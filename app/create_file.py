@@ -29,6 +29,7 @@ def create_file(
                 break
             file.write(f"{line_number} {line}\n")
 
+
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         args = sys.argv[1:]
