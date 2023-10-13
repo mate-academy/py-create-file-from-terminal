@@ -18,7 +18,7 @@ def create_file(file_name: str, path: str = os.getcwd()) -> None:
             new_line = input("Enter content line: ")
             if new_line.lower() == "stop":
                 break
-            f.write(f"{line_num} {new_line} \n")
+            f.write(f"{line_num} {new_line}\n")
             line_num += 1
 
 
