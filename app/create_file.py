@@ -10,15 +10,15 @@ def create_dir(dir_name: list) -> str:
 
 
 def create_file(file_name: str, path: str = os.getcwd()) -> None:
-    with open(os.path.join(path, file_name), "a") as f:
+    with open(os.path.join(path, file_name), "a") as file:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        f.write(f"{timestamp}\n")
+        file.write(f"{timestamp}\n")
         line_num = 1
         while True:
             new_line = input("Enter content line: ")
             if new_line.lower() == "stop":
                 break
-            f.write(f"{line_num} {new_line}\n")
+            file.write(f"{line_num} {new_line}\n")
             line_num += 1
 
 
