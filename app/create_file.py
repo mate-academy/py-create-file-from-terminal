@@ -30,7 +30,7 @@ def create_file(
             file.write(f"{line_number} {line}\n")
 
 
-if __name__ == "__main__":
+def main() -> None:
     if len(sys.argv) > 1:
         args = sys.argv[1:]
         flag = args[0]
@@ -48,3 +48,7 @@ if __name__ == "__main__":
                     break
                 content.append(line)
             create_file(os.getcwd(), file_name, content)
+
+
+if __name__ == "__main__":
+    main()
