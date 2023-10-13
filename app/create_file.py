@@ -23,14 +23,11 @@ def create_file(
         with open(file_path, "w") as file:
             file.write(timestamp + "\n")
 
-    line_number = 1
-    for line in content:
-        if line == "stop":
-            break
-        with open(file_path, "a") as file:
+    with open(file_path, "a") as file:
+        for line_number, line in enumerate(content, start=1):
+            if line == "stop":
+                break
             file.write(f"{line_number} {line}\n")
-        line_number += 1
-
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
