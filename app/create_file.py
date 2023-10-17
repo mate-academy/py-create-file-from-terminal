@@ -36,8 +36,11 @@ def main() -> None:
         create_dir(argv[argv.index("-d") + 1:])
 
     elif "-f" in argv and "-d" in argv:
-        path = create_dir(argv[argv.index("-d") + 1:
-                               argv.index("-f")])
+        if argv.index("-f") > argv.index("-d"):
+            path = create_dir(argv[argv.index("-d") + 1:
+                                argv.index("-f")])
+        else:
+            path = create_dir(argv[argv.index("-d") + 1:)
         name = argv[argv.index("-f") + 1]
         create_file(path, name)
 
