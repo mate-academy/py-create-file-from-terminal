@@ -1,6 +1,7 @@
 import os
 import sys
 from datetime import datetime
+from typing import List
 
 
 def create_file(directory_path: str,
@@ -24,7 +25,7 @@ def create_file(directory_path: str,
             number_line += 1
 
 
-def create_dir(path_l : list) -> str:
+def create_dir(path_l : List[str]) -> str:
     path = os.path.join(*path_l)
     os.makedirs(path, exist_ok=True)
     return path
