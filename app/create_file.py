@@ -16,11 +16,9 @@ def make_file(file_name: str) -> None:
 
         file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 
-        counter = 1
         print("Enter content or 'stop'")
-        for line in iter(input, "stop"):
-            file.write(f"{counter} {line}\n")
-            counter += 1
+        for counter, line in enumerate(iter(input, "stop")):
+            print(f"{counter + 1} {line}\n")
 
 
 def main() -> None:
