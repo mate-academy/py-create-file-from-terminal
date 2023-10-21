@@ -31,5 +31,5 @@ def main() -> None:
         make_file(args.f)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
