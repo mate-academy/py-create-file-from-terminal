@@ -17,13 +17,10 @@ def make_file(file_name: str) -> None:
         file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 
         counter = 1
-        while True:
-            line = input("Enter content line: ")
-            if line != "stop":
-                file.write(f"{counter} {line}\n")
-                counter += 1
-                continue
-            break
+        print("Enter content or 'stop'")
+        for line in iter(input, "stop"):
+            file.write(f"{counter} {line}\n")
+            counter += 1
 
 
 def main() -> None:
