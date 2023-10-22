@@ -52,4 +52,3 @@ if "-f" in command and "-d" not in command:
 
 if "-d" in command:
     create_dir_with_file()
-
