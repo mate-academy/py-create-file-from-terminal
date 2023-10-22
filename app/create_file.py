@@ -12,14 +12,14 @@ def make_directory(directories: list) -> str:
 
 def make_file(file_name: str) -> None:
     with open(os.path.join(file_name), "a") as file:
-        date_stamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S") + "/n"
+        date_stamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S") + "\n"
         file.write(date_stamp)
         while True:
-            content = input("Enter content line: ") + "/n"
-            if content == "stop/n":
+            content = input("Enter content line: ") + "\n"
+            if content == "stop\n":
                 break
             file.write(content)
-        file.write("/n")
+        file.write("\n")
 
 
 def main() -> None:
