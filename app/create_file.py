@@ -6,20 +6,24 @@ import os
 command = sys.argv
 
 
+def writer(file_data):
+    counter = 0
+    while True:
+        counter += 1
+        sentence = input("Enter content line: ")
+        if sentence == "stop":
+            file_data.write("\n")
+            break
+        file_data.write(f"{counter} {sentence}\n")
+
+
 def create_file() -> None:
     file_name = command[command.index("-f") + 1]
     with open(file_name, "a") as file_data:
         current_date = (datetime.datetime.now())
         file_data.write(current_date.strftime("%Y-%m-%d %H:%M:%S") + "\n")
 
-        counter = 0
-        while True:
-            counter += 1
-            sentence = input("Enter content line: ")
-            if sentence == "stop":
-                file_data.write("\n")
-                break
-            file_data.write(f"{counter} {sentence}\n")
+        writer(file_data)
 
 
 def create_dir_with_file() -> None:
@@ -40,14 +44,7 @@ def create_dir_with_file() -> None:
             current_date = (datetime.datetime.now())
             file_data.write(current_date.strftime("%Y-%m-%d %H:%M:%S") + "\n")
 
-            counter = 0
-            while True:
-                counter += 1
-                sentence = input("Enter content line: ")
-                if sentence == "stop":
-                    file_data.write("\n")
-                    break
-                file_data.write(f"{counter} {sentence}\n")
+            writer(file_data)
 
 
 if "-f" in command and "-d" not in command:
@@ -55,3 +52,4 @@ if "-f" in command and "-d" not in command:
 
 if "-d" in command:
     create_dir_with_file()
+
