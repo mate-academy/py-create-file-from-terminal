@@ -1,12 +1,16 @@
 import datetime
 import sys
 import os
+from typing import TextIO
 
 
 command = sys.argv
 
 
-def writer(file_data):
+def writer(file_data: TextIO) -> None:
+    current_date = (datetime.datetime.now())
+    file_data.write(current_date.strftime("%Y-%m-%d %H:%M:%S") + "\n")
+
     counter = 0
     while True:
         counter += 1
@@ -20,9 +24,6 @@ def writer(file_data):
 def create_file() -> None:
     file_name = command[command.index("-f") + 1]
     with open(file_name, "a") as file_data:
-        current_date = (datetime.datetime.now())
-        file_data.write(current_date.strftime("%Y-%m-%d %H:%M:%S") + "\n")
-
         writer(file_data)
 
 
@@ -41,14 +42,15 @@ def create_dir_with_file() -> None:
     if "-f" in command:
         file_name = command[command.index("-f") + 1]
         with open(os.path.join(path, file_name), "a") as file_data:
-            current_date = (datetime.datetime.now())
-            file_data.write(current_date.strftime("%Y-%m-%d %H:%M:%S") + "\n")
-
             writer(file_data)
 
 
-if "-f" in command and "-d" not in command:
-    create_file()
+def main() -> None:
+    if "-f" in command and "-d" not in command:
+        create_file()
 
-if "-d" in command:
-    create_dir_with_file()
+    if "-d" in command:
+        create_dir_with_file()
+
+
+main()
