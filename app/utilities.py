@@ -35,9 +35,9 @@ def create_directories(parsed_args: dict) -> None:
 def create_file(parsed_args: dict) -> None:
     file_path = parsed_args["-f"]
     if parsed_args["-d"]:
-        file_path = (f"{parsed_args["-d"][0]}"
-                     f"/{parsed_args["-d"][1]}"
-                     f"/{parsed_args["-f"]}")
+        file_path = "/".join([parsed_args["-d"][0],
+                              parsed_args["-d"][1],
+                              parsed_args["-f"]])
 
     content_lines = []
 
