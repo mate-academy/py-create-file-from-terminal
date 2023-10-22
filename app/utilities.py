@@ -1,6 +1,6 @@
 import os
 import sys
-import datetime
+from datetime import datetime
 from exceptions import WrongNumberOfArguments, ArgumentsCantBeParsed
 
 
@@ -50,8 +50,9 @@ def create_file(parsed_args: dict) -> None:
 
     with open(file_path, "w") as file:
         file.write(
-            f"{datetime.datetime.strftime(datetime.datetime.now(),
-                                          "%Y-%m-%d %I:%M:%S")} \n"
+            f"{datetime.strftime(datetime.now(),
+                                 '%Y-%m-%d %I:%M:%S')}"
+            f"\n"
         )
 
         for index, line in enumerate(content_lines):
