@@ -49,10 +49,9 @@ def create_file(parsed_args: dict) -> None:
         content_lines.append(line)
 
     with open(file_path, "w") as file:
+        timestamp_format = "%Y-%m-%d %H:%M:%S"
         file.write(
-            f"{datetime.strftime(datetime.now(),
-                                 '%Y-%m-%d %I:%M:%S')}"
-            f"\n"
+            f"{datetime.strftime(datetime.now(), timestamp_format)}\n"
         )
 
         for index, line in enumerate(content_lines):
