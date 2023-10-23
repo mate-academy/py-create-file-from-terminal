@@ -17,7 +17,7 @@ def make_file(file_name: str) -> None:
         line_number = 0
         while True:
             line_number += 1
-            content = input(f"Enter content line: ") + "\n"
+            content = input("Enter content line: ") + "\n"
             if content == "stop\n":
                 break
             file.write(line_number, content)
@@ -25,7 +25,9 @@ def make_file(file_name: str) -> None:
 
 def main() -> None:
     if "-d" in sys.argv and "-f" in sys.argv:
-        make_directory(sys.argv[sys.argv.index("-d") + 1: sys.argv.index("-f")])
+        make_directory(
+            sys.argv[sys.argv.index("-d") + 1: sys.argv.index("-f")]
+        )
         make_directory(sys.argv[sys.argv.index("-f") + 1])
 
     elif "-d" in sys.argv:
