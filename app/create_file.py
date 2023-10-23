@@ -50,15 +50,15 @@ def file_handler(file_name: str, data: List[str]) -> None:
     access_mod = "w"
     if path.exists(file_name):
         access_mod = "a"
-        
+
     with open(file_name, access_mod) as f:
         f.writelines(data)
-    
+
 
 def main() -> None:
-    file = command_reader(argv)
-    data = io_handker(path.exists(file))
-    file_handler(file, data)
+    file_from_terminal = command_reader(argv)
+    data = io_handker(path.exists(file_from_terminal))
+    file_handler(file_from_terminal, data)
 
 
 if __name__ == "__main__":
