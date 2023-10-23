@@ -25,6 +25,7 @@ def get_content() -> list:
             break
         content.append(f"{line_number} {new_line}\n")
         line_number += 1
+
     return content
 
 
