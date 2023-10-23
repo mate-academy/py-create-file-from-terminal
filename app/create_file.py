@@ -13,18 +13,17 @@ def create_dirs(command: list) -> str:
     return path
 
 
-
 def write_file(command: list, path: str = "") -> None:
     filename = path + "/" + command[-1]
     index = 1
+    time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open(filename, "a") as file:
-        file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        file.write(time + "\n")
         data = input("Enter content line: ")
         while data != "stop":
             file.write(f"{index} {data}\n")
             index += 1
             data = input("Enter content line: ")
-
 
 
 if __name__ == "__main__":
