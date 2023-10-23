@@ -12,9 +12,13 @@ def make_dir(dir_locations: list) -> str:
 def make_file(file_name: str) -> None:
     with open(file_name, "a") as file:
         file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-        print("Enter content or 'stop'")
-        for counter, line in enumerate(iter(input, "stop"), 1):
+        counter = 1
+        while 1:
+            line = input("Enter content or 'stop'")
             file.write(f"{counter} {line}\n")
+            counter += 1
+            if line == "stop":
+                break
 
 
 def main() -> None:
