@@ -14,21 +14,20 @@ def make_file(file_name: str) -> None:
     with open(os.path.join(file_name), "a") as file:
         date_stamp = datetime.now().strftime("%Y-%m-%d %H-%M-%S") + "\n"
         file.write(date_stamp)
+
+        line_number = 0
         while True:
-            content = input("Enter content line: ") + "\n"
+            line_number += 1
+            content = input(f"Enter content line: ") + "\n"
             if content == "stop\n":
                 break
-            file.write(content)
-        file.write("\n")
+            file.write(line_number, content)
 
 
 def main() -> None:
     if "-d" in sys.argv and "-f" in sys.argv:
-        directory_path = make_directory(
-            sys.argv[sys.argv.index("-d") + 1: sys.argv.index("-f")]
-        )
-        file_name = sys.argv[sys.argv.index("-f") + 1]
-        make_file(file_name, directory_path)
+        make_directory(sys.argv[sys.argv.index("-d") + 1: sys.argv.index("-f")])
+        make_directory(sys.argv[sys.argv.index("-f") + 1])
 
     elif "-d" in sys.argv:
         make_directory(sys.argv[sys.argv.index("-d") + 1:])
