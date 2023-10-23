@@ -1,44 +1,65 @@
 from datetime import datetime
 from sys import argv
 from os import path, makedirs
+from typing import List
 
 
-file_name = "file.txt"
-dir_path = None
+def command_reader(command: tuple) -> str:
+    file_name = "file.txt"
+    dir_path = None
 
-_, *command = argv
+    if "-d" in command and "-f" in command:
+        _, _, *dir, _, file_name = command
+        dir_path = path.join(*dir)
+        file_name = path.join(dir_path, file_name)
+    elif "-d" in command:
+        _, _, *dir = command
+        dir_path = path.join(*dir)
+    elif "-f" in command:
+        _, _, file_name = command
 
-if "-d" in command and "-f" in command:
-    dir_path, file_name = "/".join(command[1:]).split("-f")
-    file_name = path.dirname(dir_path) + file_name
+    if dir_path:
+        makedirs(dir_path, exist_ok=True)
 
-elif "-d" in command:
-    dir_path = "/".join(command[1:])
+    return file_name
 
-elif "-f" in command:
-    _, file_name = command
 
-output_data = []
-comment = "Line"
+def io_handker(file_exist: bool) -> list:
+    output_data = []
+    comment = "Line"
 
-if path.exists(file_name):
-    comment = "Another line"
-    with open(file_name, "r") as file:
-        output_data = file.readlines()
-else:
-    output_data.append(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+    if file_exist:
+        comment = "Another line"
+    else:
+        output_data.append(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
 
-line_number = 0
+    line_number = 0
 
-while True:
-    line_number += 1
-    line = input(f"Enter content line: {comment}{line_number} ")
-    if line == "stop":
-        break
-    output_data.append(f"{comment}{line_number}  {line}\n")
+    while True:
+        line_number += 1
+        line = input(f"Enter content line: {comment}{line_number} ")
+        if line == "stop":
+            break
+        output_data.append(f"{comment}{line_number}  {line}\n")
 
-if dir_path:
-    makedirs(path.dirname(dir_path), exist_ok=True)
+    return output_data
 
-with open(file_name, "w+") as f:
-    f.writelines(output_data)
+
+def file_handler(file_name: str, data: List[str]) -> None:
+
+    access_mod = "w"
+    if path.exists(file_name):
+        access_mod = "a"
+        
+    with open(file_name, access_mod) as f:
+        f.writelines(data)
+    
+
+def main() -> None:
+    file = command_reader(argv)
+    data = io_handker(path.exists(file))
+    file_handler(file, data)
+
+
+if __name__ == "__main__":
+    main()
