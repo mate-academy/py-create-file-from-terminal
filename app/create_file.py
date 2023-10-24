@@ -24,11 +24,11 @@ def find_path_in_command(commands: list) -> str:
     path = os.getcwd()
 
     if find_d(commands):
-        commands.pop(find_d(commands))
+        del commands[find_d(commands)]
 
     if find_f(commands):
-        commands.pop(commands.index(find_name_in_command(commands)))
-        commands.pop(find_f(commands))
+        del commands[commands.index(find_name_in_command(commands))]
+        del commands[find_f(commands)]
 
     for command in commands:
         path = os.path.join(path, command)
