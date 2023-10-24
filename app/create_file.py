@@ -21,7 +21,7 @@ def create_file_with_content(file_path: str) -> None:
             file.write(f"Line{line_num} {content}\n")
 
 
-def work_with_commands() -> None:
+def parse_and_run_command() -> None:
     args = sys.argv[1:]
 
     if "-d" in args and "-f" in args:
@@ -45,4 +45,4 @@ def work_with_commands() -> None:
 
 
 if __name__ == "__main__":
-    work_with_commands()
+    parse_and_run_command()
