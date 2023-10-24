@@ -20,7 +20,7 @@ def make_file(file_name: str) -> None:
             content = input("Enter content line: ") + "\n"
             if content == "stop\n":
                 break
-            file.write(line_number, content)
+            file.write(f"{line_number} {content}")
 
 
 def main() -> None:
