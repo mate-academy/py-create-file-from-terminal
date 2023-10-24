@@ -6,7 +6,8 @@ from datetime import datetime
 NAME_OF_FILE_BY_DEFAULT = "file.txt"
 
 
-def main_func_create_and_enter_data_into_file(command: list[str]) -> None:
+def main_func_create_and_enter_data_into_file() -> None:
+    command = sys.argv[1:]
     name = find_name_in_command(command)
     path = find_path_in_command(command)
     enter_data_into_file(str(path), name)
@@ -59,5 +60,4 @@ def enter_data_into_file(path: str, name: str) -> None:
             source_file.write(f"{content_line}\n")
 
 
-input_command = sys.argv[1:]
-main_func_create_and_enter_data_into_file(input_command)
+main_func_create_and_enter_data_into_file()
