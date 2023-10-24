@@ -4,36 +4,56 @@ from typing import List, Tuple
 import datetime
 
 
-def create_file(directory_path: list,
-                file_name: str | None,
-                file_content: list | None) -> None:
+def run_create_file(directory_path: list,
+                    file_name: str | None,
+                    file_content: list | None) -> None:
 
     parent_dir = os.getcwd()
 
     if directory_path and file_name and file_content:
-        path = os.path.join(parent_dir, *directory_path)
-        os.makedirs(path, exist_ok=True)
-        file_path = os.path.join(path, file_name)
+        create_directories_and_file_name(directory_path=directory_path,
+                                         parent_dir=parent_dir,
+                                         file_content=file_content)
 
-        with open(file_path, "a") as file:
-            date_now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            file.write(date_now + "\n")
-            for content_idx, content in enumerate(file_content):
-                file.write(f"{content_idx + 1} {content}")
-            file.write("\n")
+    if directory_path and file_name is None:
+        create_directories(directory_path=directory_path,
+                           parent_dir=parent_dir)
 
-    if directory_path and not file_name:
-        path = os.path.join(parent_dir, *directory_path)
-        os.makedirs(path, exist_ok=True)
+    if file_name is not None and not directory_path:
+        create_file_name(parent_dir=parent_dir,
+                         file_content=file_content)
 
-    if file_name and not directory_path:
-        file_path = os.path.join(parent_dir, file_name)
-        with open(file_path, "a") as file:
-            date_now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            file.write(date_now + "\n")
-            for content_idx, content in enumerate(file_content):
-                file.write(f"{content_idx + 1} {content}")
-            file.write("\n")
+
+def create_file_name(parent_dir: str, file_content: list) -> None:
+
+    file_path = os.path.join(parent_dir, file_name)
+    with open(file_path, "a") as file:
+        date_now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(date_now + "\n")
+        for content_idx, content in enumerate(file_content):
+            file.write(f"{content_idx + 1} {content}")
+        file.write("\n")
+
+
+def create_directories(directory_path: list, parent_dir: str) -> None:
+    path = os.path.join(parent_dir, *directory_path)
+    os.makedirs(path, exist_ok=True)
+
+
+def create_directories_and_file_name(directory_path: list,
+                                     parent_dir: str,
+                                     file_content: list) -> None:
+
+    path = os.path.join(parent_dir, *directory_path)
+    os.makedirs(path, exist_ok=True)
+    file_path = os.path.join(path, file_name)
+
+    with open(file_path, "a") as file:
+        date_now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(date_now + "\n")
+        for content_idx, content in enumerate(file_content):
+            file.write(f"{content_idx + 1} {content}")
+        file.write("\n")
 
 
 def divide_user_terminal_input_into_dir_and_filename(
@@ -83,6 +103,6 @@ if __name__ == "__main__":
     else:
         file_content = []
 
-    create_file(directory_path=directories,
-                file_name=file_name,
-                file_content=file_content)
+    run_create_file(directory_path=directories,
+                    file_name=file_name,
+                    file_content=file_content)
