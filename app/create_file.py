@@ -5,9 +5,10 @@ from typing import List
 
 
 def create_dirs(dirs: List[str]) -> str:
-    if not os.path.exists("/".join(dirs)):
-        os.makedirs("/".join(dirs))
-    return "/".join(dirs)
+    dir_path = os.path.join(*dirs)
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
+    return dir_path
 
 
 def create_file(name: str, directory: str = "") -> None:
@@ -19,11 +20,11 @@ def create_file(name: str, directory: str = "") -> None:
         content += f"{line_number} {line}\n"
         line = input("Enter content line: ")
         line_number += 1
-    with open(directory + "/" + name, "a") as file:
+    with open(os.path.join(directory, name), "a") as file:
         file.write(content)
 
 
-def normalize_commands(terminal_passed: List[str]) -> tuple:
+def normalize_commands(terminal_passed: List[str]) -> dict:
     d_value = None
     f_value = None
 
