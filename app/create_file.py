@@ -39,19 +39,18 @@ def create_dirs(f_index: int | None, d_index: int | None) -> None:
 
 
 def write_into_file(file_name: str) -> None:
-    if file_name:
-        with open(file_name, "a") as file:
-            file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+    with open(file_name, "a") as file:
+        file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 
-            while True:
-                line_number = 1
-                user_input = input("Enter content line: ")
+        while True:
+            line_number = 1
+            user_input = input("Enter content line: ")
 
-                if user_input == "stop":
-                    break
+            if user_input == "stop":
+                break
 
-                file.write(f"{line_number} {user_input}\n")
-                line_number += 1
+            file.write(f"{line_number} {user_input}\n")
+            line_number += 1
 
 
 if __name__ == "__main__":
@@ -61,4 +60,5 @@ if __name__ == "__main__":
     file_name = get_file_name(f_index, d_index)
 
     create_dirs(f_index, d_index)
-    write_into_file(file_name)
+    if file_name:
+        write_into_file(file_name)
