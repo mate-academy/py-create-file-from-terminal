@@ -78,12 +78,11 @@ if __name__ == "__main__":
     directories, file_name = divide_user_terminal_input_into_dir_and_filename(
         user_terminal_input=sys.argv)
 
-    if file_name is not None:
+    if file_name:
         file_content = get_user_input()
-        create_file(directory_path=directories,
-                    file_name=file_name,
-                    file_content=file_content)
     else:
-        create_file(directory_path=directories,
-                    file_name=file_name,
-                    file_content=[])
+        file_content = []
+
+    create_file(directory_path=directories,
+                file_name=file_name,
+                file_content=file_content)
