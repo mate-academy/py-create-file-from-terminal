@@ -47,12 +47,8 @@ def io_handker(file_exist: bool) -> list:
 
 def file_handler(file_name: str, data: List[str]) -> None:
 
-    access_mod = "w"
-    if path.exists(file_name):
-        access_mod = "a"
-
-    with open(file_name, access_mod) as f:
-        f.writelines(data)
+    with open(file_name, "a") as file_out:
+        file_out.writelines(data)
 
 
 def main() -> None:
