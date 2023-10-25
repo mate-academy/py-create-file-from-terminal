@@ -1,24 +1,34 @@
+import argparse
 from datetime import datetime
 from sys import argv
 from os import path, makedirs
 from typing import List
 
 
-def command_reader(command: tuple) -> str:
+def argv_parser() -> type:
+    parser = argparse.ArgumentParser(
+        description="Create file in specified directory"
+    )
+    parser.add_argument("module_name", help="module name")
+    parser.add_argument("-d", "--directory", nargs="*", default=[])
+    parser.add_argument("-f", "--filename", default=None)
+    return parser.parse_args(argv)
+
+
+def command_reader() -> str:
     file_name = "file.txt"
     dir_path = None
 
-    if "-d" in command and "-f" in command:
-        _, _, *dir, _, file_name = command
-        dir_path = path.join(*dir)
-        file_name = path.join(dir_path, file_name)
-    elif "-d" in command:
-        _, _, *dir = command
-        dir_path = path.join(*dir)
-    elif "-f" in command:
-        _, _, file_name = command
+    command_args = argv_parser()
+
+    if command_args.directory:
+        dir_path = path.join(*command_args.directory)
+
+    if command_args.filename:
+        file_name = command_args.filename
 
     if dir_path:
+        file_name = path.join(dir_path, file_name)
         makedirs(dir_path, exist_ok=True)
 
     return file_name
@@ -52,7 +62,7 @@ def file_handler(file_name: str, data: List[str]) -> None:
 
 
 def main() -> None:
-    file_from_terminal = command_reader(argv)
+    file_from_terminal = command_reader()
     data = io_handker(path.exists(file_from_terminal))
     file_handler(file_from_terminal, data)
 
