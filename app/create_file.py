@@ -8,7 +8,7 @@ def create_file(path_with_file: str) -> None:
         content = ""
         enumerate_line = 1
         while True:
-            line = str(input("Enter content line: "))
+            line = input("Enter content line: ")
             if line == "stop":
                 break
             content += f"{enumerate_line} {line}\n"
