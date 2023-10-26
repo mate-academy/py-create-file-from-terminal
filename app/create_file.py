@@ -21,7 +21,7 @@ def create_path(path_to_create: list) -> str:
     return os.path.join(*path_to_create)
 
 
-if __name__ == "__main__":
+def check_for_flags() -> None:
     if "-f" in argv and "-d" in argv:
         path = []
         for arg in argv[2:]:
@@ -39,3 +39,8 @@ if __name__ == "__main__":
 
     elif argv[1] == "-f":
         create_file(argv[2])
+
+
+if __name__ == "__main__":
+    check_for_flags()
+
