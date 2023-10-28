@@ -23,8 +23,8 @@ def create_directory(file_path: list[str]) -> str:
 
 def main() -> None:
     argv = sys.argv
-    if "-d" in argv and "-f" not in argv:
-        filename = argv[argv.index("-f") + 1]
+    if "-d" in argv and "-f" in argv:
+        filename = argv[-1]
         path = create_directory(
             argv[argv.index("-d") + 1: argv.index("-f")]
         )
