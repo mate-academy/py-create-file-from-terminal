@@ -10,7 +10,7 @@ def write_content_to_file(path_and_file_name: list[str]) -> None:
         count_of_iteration = 1
         line_input = input("Enter content line:")
         while line_input != "stop":
-            file.write(str(count_of_iteration) + " " + line_input + "\n")
+            file.write(f"{count_of_iteration} {line_input}\n")
             count_of_iteration += 1
             line_input = input("Enter content line:")
         file.write("\n")
@@ -20,8 +20,7 @@ def create_dirs(dirs_names: list[str]) -> str:
     if not dirs_names:
         return ""
     path = os.path.join(*dirs_names)
-    if not os.path.isdir(path):
-        os.makedirs(path)
+    os.makedirs(path, exist_ok=True)
     return path
 
 
