@@ -6,22 +6,20 @@ from datetime import datetime
 def write_content_to_file(path_and_file_name: list[str]) -> None:
     with open(os.path.join(*path_and_file_name), "a") as file:
         file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
-        line_input = 0
         count_of_iteration = 1
-        line_input = input("Enter content line:")
-        while line_input != "stop":
-            file.write(f"{count_of_iteration} {line_input}\n")
+        content_from_input = input("Enter content line:")
+        while content_from_input != "stop":
+            file.write(f"{count_of_iteration} {content_from_input}\n")
             count_of_iteration += 1
-            line_input = input("Enter content line:")
+            content_from_input = input("Enter content line:")
         file.write("\n")
 
 
 def create_dirs(dirs_names: list[str]) -> str:
-    if not dirs_names:
-        return ""
-    path = os.path.join(*dirs_names)
-    os.makedirs(path, exist_ok=True)
-    return path
+    if dirs_names:
+        path = os.path.join(*dirs_names)
+        os.makedirs(path, exist_ok=True)
+        return path
 
 
 def read_terminal_content() -> None:
