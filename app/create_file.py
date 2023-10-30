@@ -7,13 +7,16 @@ file_name = ""
 dir_path = ""
 
 if len(args) >= 3 and args[1] == "-d":
-    for i in range(2, len(args)):
-        if args[i] == "-f":
-            if (i + 1) <= len(args) - 1:
-                file_name = args[i + 1]
+    is_f = False
+    for arg in args[2:]:
+        if arg == "-f":
+            is_f = True
+            continue
+        if is_f:
+            file_name = arg
             break
 
-        dir_path += args[i] + "\\"
+        dir_path = os.path.join(dir_path, arg)
 
     if dir_path:
         os.makedirs(dir_path, exist_ok=True)
@@ -23,7 +26,7 @@ elif len(args) >= 3 and args[1] == "-f":
 
 if file_name:
     if dir_path:
-        file_name = dir_path + file_name
+        file_name = os.path.join(dir_path, file_name)
 
     with open(file_name, "a") as f:
         date = datetime.now()
