@@ -26,19 +26,20 @@ def create_file(name: str, path: str) -> None:
             file.write(line + "\n")
 
 
-cmd_data = sys.argv
-d_index = cmd_data.index("-d") if "-d" in cmd_data else False
-f_index = cmd_data.index("-f") if "-f" in cmd_data else False
-path_to_file = "."
+def main() -> None:
+    cmd_data = sys.argv
+    d_index = cmd_data.index("-d") if "-d" in cmd_data else False
+    f_index = cmd_data.index("-f") if "-f" in cmd_data else False
+    path_to_file = "."
 
-if d_index:
+    if d_index:
+        if f_index:
+            path_part = cmd_data[d_index + 1:f_index]
+        else:
+            path_part = cmd_data[d_index + 1:]
+
+        path_to_file = create_path(path_part)
+
     if f_index:
-        path_part = cmd_data[d_index + 1:f_index]
-    else:
-        path_part = cmd_data[d_index + 1:]
-
-    path_to_file = create_path(path_part)
-
-if f_index:
-    file_name_part = cmd_data[f_index + 1]
-    create_file(file_name_part, path_to_file)
+        file_name_part = cmd_data[f_index + 1]
+        create_file(file_name_part, path_to_file)
