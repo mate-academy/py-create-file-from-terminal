@@ -35,7 +35,3 @@ def main() -> callable:
     elif "-f" in sys.argv:
         current_dir, command, file_name = sys.argv
         return create_file(".", file_name)
-
-
-if __name__ == '__main__':
-    main()
