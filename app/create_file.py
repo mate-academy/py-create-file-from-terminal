@@ -3,7 +3,7 @@ import os
 import sys
 
 
-def create_path(command: list) -> None:
+def create_path(command: list[str]) -> None:
     path = ""
     if command[1] == "-d":
         directory_path = command[2:] if "-f" != command[-2] else command[2:-2]
