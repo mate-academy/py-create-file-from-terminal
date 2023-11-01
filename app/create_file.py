@@ -4,14 +4,16 @@ from datetime import datetime
 
 
 def create_file(path_file: str) -> None:
-    with open(path_file, "a") as file:
-        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
+    number_line = 1
+
+    with open(path_file, "a") as source_file:
+        source_file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
         while True:
             user_line = input("Enter content line: ")
             if user_line == "stop":
-                file.write("\n")
                 break
-            file.write(user_line + "\n")
+            source_file.write(f"{number_line} {user_line}\n")
+            number_line += 1
 
 
 def main() -> None:
