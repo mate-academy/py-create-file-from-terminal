@@ -14,24 +14,29 @@ def create_file(path_file: str) -> None:
             file.write(user_line + "\n")
 
 
-if "-d" in sys.argv and "-f" not in sys.argv:
-    d_index = sys.argv.index("-d")
-    directory_name = os.path.join(*sys.argv[d_index + 1:])
+def main() -> None:
+    if "-d" in sys.argv and "-f" not in sys.argv:
+        d_index = sys.argv.index("-d")
+        directory_name = os.path.join(*sys.argv[d_index + 1:])
 
-    if not os.path.exists(directory_name):
-        os.makedirs(directory_name)
+        if not os.path.exists(directory_name):
+            os.makedirs(directory_name)
 
-elif "-f" in sys.argv and "-d" not in sys.argv:
-    f_index = sys.argv.index("-f")
-    file_name = sys.argv[-1]
-    create_file(file_name)
+    elif "-f" in sys.argv and "-d" not in sys.argv:
+        f_index = sys.argv.index("-f")
+        file_name = sys.argv[-1]
+        create_file(file_name)
 
-elif "-d" in sys.argv and "-f" in sys.argv:
-    d_index = sys.argv.index("-d")
-    f_index = sys.argv.index("-f")
-    directory_name = os.path.join(*sys.argv[d_index + 1:f_index])
-    file_name = sys.argv[-1]
+    elif "-d" in sys.argv and "-f" in sys.argv:
+        d_index = sys.argv.index("-d")
+        f_index = sys.argv.index("-f")
+        directory_name = os.path.join(*sys.argv[d_index + 1:f_index])
+        file_name = sys.argv[-1]
 
-    if not os.path.exists(directory_name):
-        os.makedirs(directory_name)
-    create_file(os.path.join(directory_name, file_name))
+        if not os.path.exists(directory_name):
+            os.makedirs(directory_name)
+        create_file(os.path.join(directory_name, file_name))
+
+
+if __name__ == "__main__":
+    main()
