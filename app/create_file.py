@@ -14,7 +14,7 @@ def create_dirs(command: list) -> str:
 
 
 def write_file(command: list, path: str = "") -> None:
-    filename = path + "/" + command[-1]
+    filename = os.path.join(path, command[-1])
     index = 1
     time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open(filename, "a") as file:
