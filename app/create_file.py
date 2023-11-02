@@ -36,20 +36,16 @@ if __name__ == "__main__":
         "--dir",
         type=str,
         nargs="*",
+        default="",
         help="dir name",
     )
     args = parser.parse_args()
 
-    directory_path = os.path.join(*args.dir) if args.dir else ""
-
-    if directory_path:
+    if args.dir:
+        directory_path = os.path.join(*args.dir)
         os.makedirs(directory_path, exist_ok=True)
-
-    if args.file:
-        file_path = os.path.join(directory_path,
-                                 args.file) if directory_path else args.file
+        file_path = os.path.join(directory_path, args.file)
     else:
-        file_path = os.path.join(directory_path,
-                                 "file.txt") if directory_path else "file.txt"
+        file_path = args.file
 
     main(file_path)
