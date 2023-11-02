@@ -16,16 +16,20 @@ def create_path(directories: list) -> str:
 def create_file(filename: str, path: str = "") -> None:
     file_path = os.path.join(path, filename)
     with open(file_path, "a") as file:
+        if os.stat(file_path).st_size:
+            file.write("\n")
         file.write(create_content())
 
 
 def create_content() -> str:
     content = [datetime.now().strftime("%Y-%m-%d %H:%M:%S")]
+    line_count = 1
     while True:
         line = input("Enter content line: ")
         if line == "stop":
             break
-        content.append(line)
+        content.append(f"{line_count} {line}")
+        line_count += 1
     return "\n".join(content)
 
 
