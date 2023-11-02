@@ -4,20 +4,17 @@ import os
 
 
 def create_path(directories: list) -> str:
-    path = os.getcwd()
-    for part in directories:
-        path = os.path.join(path, part)
-        if os.path.exists(path):
-            continue
-        os.makedirs(path)
+    path = os.path.join(*directories)
+    os.makedirs(path, exist_ok=True)
     return path
 
 
 def create_file(filename: str, path: str = "") -> None:
     file_path = os.path.join(path, filename)
+    is_new = os.path.exists(file_path)
     with open(file_path, "a") as file:
-        if os.stat(file_path).st_size:
-            file.write("\n")
+        if is_new:
+            file.write("\n\n")
         file.write(create_content())
 
 
