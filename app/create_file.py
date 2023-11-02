@@ -7,7 +7,7 @@ def create_dirs(command: list) -> str:
     d_index, f_index = 2, len(command)
     if "-f" in command:
         f_index -= 2
-    dir_path = "/".join(command[d_index:f_index]) + "/"
+    dir_path = os.path.join(command[d_index:f_index])
     path = os.path.dirname(dir_path)
     os.makedirs(path, exist_ok=True)
     return path
