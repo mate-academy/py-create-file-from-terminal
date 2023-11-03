@@ -5,7 +5,7 @@ from datetime import datetime
 from os import path, makedirs
 
 
-def commands() -> callable:
+def main() -> callable:
 
     if "-d" in sys.argv and "-f" in sys.argv:
         working_file, command_d, *dirs, command_f, file_name = sys.argv
@@ -24,26 +24,27 @@ def create_path(dirs: tuple) -> str:
     return directory_path
 
 
+def write_file(file, counter: int) -> None:
+    text = input("Enter content line: ")
+    while text != "stop":
+        file.write(f"\n{counter} {text}")
+        counter += 1
+        text = input("Enter content line: ")
+    return
+
+
 def create_file(directory_path: str, file_name: str) -> None:
     counter = 1
     file_create = path.join(directory_path, file_name)
     if os.path.exists(file_create):
         with open(file_create, "a") as file:
             file.write(f"\n\n{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-            text = input("Enter content line: ")
-            while text != "stop":
-                file.write(f"\n{counter} {text}")
-                counter += 1
-                text = input("Enter content line: ")
+            write_file(file, counter)
     else:
         with open(file_create, "w") as file:
             file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-            text = input("Enter content line: ")
-            while text != "stop":
-                file.write(f"\n{counter} {text}")
-                counter += 1
-                text = input("Enter content line: ")
+            write_file(file, counter)
 
 
 if __name__ == "__main__":
-    commands()
+    main()
