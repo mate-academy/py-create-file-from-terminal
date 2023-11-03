@@ -29,18 +29,18 @@ def create_file(directory_path: str, file_name: str) -> None:
     file_create = path.join(directory_path, file_name)
     if os.path.exists(file_create):
         with open(file_create, "a") as file:
-            file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+            file.write(f"\n\n{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
             text = input("Enter content line: ")
             while text != "stop":
-                file.write(f"{counter} Another{counter} {text}\n")
+                file.write(f"\n{counter} {text}")
                 counter += 1
                 text = input("Enter content line: ")
     else:
         with open(file_create, "w") as file:
-            file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+            file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             text = input("Enter content line: ")
             while text != "stop":
-                file.write(f"{counter} Line{counter} {text}\n")
+                file.write(f"\n{counter} {text}")
                 counter += 1
                 text = input("Enter content line: ")
 
