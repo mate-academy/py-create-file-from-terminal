@@ -3,6 +3,7 @@ import sys
 
 from datetime import datetime
 from os import path, makedirs
+from typing import IO
 
 
 def main() -> callable:
@@ -24,10 +25,10 @@ def create_path(dirs: tuple) -> str:
     return directory_path
 
 
-def write_file(file, counter: int) -> None:
+def write_file(file_handle: IO, counter: int) -> None:
     text = input("Enter content line: ")
     while text != "stop":
-        file.write(f"\n{counter} {text}")
+        file_handle.write(f"\n{counter} {text}")
         counter += 1
         text = input("Enter content line: ")
     return
