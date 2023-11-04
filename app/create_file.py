@@ -10,13 +10,13 @@ def main() -> callable:
 
     if "-d" in sys.argv and "-f" in sys.argv:
         working_file, command_d, *dirs, command_f, file_name = sys.argv
-        return create_file(create_path(dirs), file_name)
+        create_file(create_path(dirs), file_name)
     elif "-d" in sys.argv:
         working_file, command, *dirs = sys.argv
-        return create_path(dirs)
+        create_path(dirs)
     elif "-f" in sys.argv:
         working_file, command, file_name = sys.argv
-        return create_file(".", file_name)
+        create_file(".", file_name)
 
 
 def create_path(dirs: tuple) -> str:
@@ -31,7 +31,6 @@ def write_file(file_handle: IO, counter: int) -> None:
         file_handle.write(f"\n{counter} {text}")
         counter += 1
         text = input("Enter content line: ")
-    return
 
 
 def create_file(directory_path: str, file_name: str) -> None:
