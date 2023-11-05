@@ -6,15 +6,24 @@ from os import path, makedirs
 from typing import IO
 
 
-def main() -> callable:
+def main() -> None:
 
     if "-d" in sys.argv and "-f" in sys.argv:
+        if len(sys.argv) < 5:
+            print("Usage: python script.py -d <directory> -f <file_name>")
+            return
         working_file, command_d, *dirs, command_f, file_name = sys.argv
         create_file(create_path(dirs), file_name)
     elif "-d" in sys.argv:
+        if len(sys.argv) < 3:
+            print("Usage: python script.py -d <directory>")
+            return
         working_file, command, *dirs = sys.argv
         create_path(dirs)
     elif "-f" in sys.argv:
+        if len(sys.argv) < 3:
+            print("Usage: python script.py -f <file_name>")
+            return
         working_file, command, file_name = sys.argv
         create_file(".", file_name)
 
