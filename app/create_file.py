@@ -29,12 +29,11 @@ def creating_file(file_name: str) -> None:
 
 def creating_dir(path: str) -> None:
     if not os.path.exists(path):
-        os.makedirs(path, exist_ok=True)
+        os.makedirs(path)
 
 
 def get_timestamp() -> str:
-    date_now = datetime.now()
-    return date_now.strftime("%Y-%m-%d %H:%M:%S")
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 def create_file() -> None:
