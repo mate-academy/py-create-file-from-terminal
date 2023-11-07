@@ -22,7 +22,7 @@ def write_content(path: str) -> None:
 def create_file(args: List[str]) -> None:
     if "-d" in args and "-f" not in args:
         path = os.path.join(*args[2:])
-        os.makedirs(path)
+        os.makedirs(path, exist_ok=True)
         return
     if "-f" in args and "-d" not in args:
         path = args[2]
@@ -31,9 +31,10 @@ def create_file(args: List[str]) -> None:
     if "-f" in args and "-d" in args:
         dirs = args[2:-2]
         path = os.path.join(*dirs, args[-1])
-        os.makedirs(os.path.join(*dirs))
+        os.makedirs(os.path.join(*dirs), exist_ok=True)
         write_content(path)
         return
 
 
-create_file(sys.argv)
+if __name__ == "__main__":
+    create_file(sys.argv)
