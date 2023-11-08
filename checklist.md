@@ -29,7 +29,7 @@ Good example:
 
 ```python
 def create_path(directories: list) -> str:
-    path = os.path.join(*directories)
+    path = os.path_to_file.join(*directories)
     return path
 ```
 
