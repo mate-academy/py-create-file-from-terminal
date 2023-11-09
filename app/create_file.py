@@ -1,20 +1,14 @@
 import os
-
 import sys
-
 from datetime import datetime
 
 
 def create_directory(directories: list) -> None:
 
     if directories:
-        base_directory = os.path.normpath(directories[0])
+        base_directory = os.path.join(*directories)
 
         os.makedirs(base_directory)
-
-        for directory in directories[1:]:
-            base_directory = os.path.join(base_directory, directory)
-            os.makedirs(base_directory)
         os.chdir(base_directory)
 
 
@@ -22,11 +16,13 @@ def create_file(file_name: str, path: str) -> None:
 
     content_file = []
 
+    line_number = 0
     while True:
         user_input = input("Enter content line: ")
         if user_input == "stop":
             break
-        content_file.append(f"\n{user_input}")
+        line_number += 1
+        content_file.append(f"\n{line_number} {user_input}")
 
     with open(os.path.join(path, file_name), "a") as file:
         file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
