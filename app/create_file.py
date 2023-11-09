@@ -24,7 +24,7 @@ def create_file(file_name: str, path: str) -> None:
         file.write("\n\n")
 
 
-if __name__ == "__main__":
+def terminal_command() -> None:
     command = sys.argv
     if "-d" in command and "-f" not in command:
         d_index = command.index("-d")
@@ -49,3 +49,6 @@ if __name__ == "__main__":
         path = os.path.join(*directories)
         create_directory(directories)
         create_file(file_name, path)
+
+
+terminal_command()
