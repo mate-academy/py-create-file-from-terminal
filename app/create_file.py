@@ -38,8 +38,14 @@ if __name__ == "__main__":
     elif "-f" in command and "-d" in command:
         d_index = command.index("-d")
         f_index = command.index("-f")
-        directories = command[d_index + 1:f_index]
-        file_name = command[f_index + 1]
+
+        if d_index < f_index:
+            directories = command[d_index + 1:f_index]
+            file_name = command[f_index + 1]
+        elif d_index > f_index:
+            directories = command[d_index + 1:]
+            file_name = command[f_index + 1]
+
         path = os.path.join(*directories)
         create_directory(directories)
         create_file(file_name, path)
