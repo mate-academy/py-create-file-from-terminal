@@ -18,7 +18,7 @@ def find_path_and_file_name() -> tuple:
 
 
 def make_file() -> None:
-    directory, file = find_path_and_file_name()
+    directory, file_name = find_path_and_file_name()
     date = datetime.datetime.now().strftime(
         "%Y-%m-%d %H:%M:%S"
     )
@@ -30,9 +30,9 @@ def make_file() -> None:
         else:
             print("This directory already exists")
 
-    if not file:
-        file = "you forget enter file_name.txt"
-    with open(file, "a") as text:
+    if not file_name:
+        file_name = "You forget enter file_name.txt"
+    with open(file_name, "a") as text:
         text.write(date + "\n")
         count_lines = 0
         while True:
