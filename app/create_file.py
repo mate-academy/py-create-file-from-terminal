@@ -30,6 +30,8 @@ def make_file() -> None:
         else:
             print("This directory already exists")
 
+    if not file:
+        file = "you forget enter file_name.txt"
     with open(file, "a") as text:
         text.write(date + "\n")
         count_lines = 0
