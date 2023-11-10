@@ -40,6 +40,9 @@ def main() -> None:
     if "-d" in sys.argv:
         directory_index = sys.argv.index("-d") + 1
         directory = sys.argv[directory_index:]
+        if not ("-f" in sys.argv):
+            os.makedirs(os.path.join(*directory), exist_ok=True)
+            return
         file_name = "file.txt"
 
     if "-f" in sys.argv:
