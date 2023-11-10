@@ -30,18 +30,19 @@ def make_file() -> None:
         else:
             print("This directory already exists")
 
-    if not file_name:
-        file_name = "You forget enter file_name.txt"
-    with open(file_name, "a") as text:
-        text.write(date + "\n")
-        count_lines = 0
-        while True:
-            user_input = input("Enter content line: ")
-            count_lines += 1
-            if user_input == "stop":
-                text.write("\n")
-                break
-            text.write(str(count_lines) + " " + user_input + "\n")
+    try:
+        with open(file_name, "a") as text:
+            text.write(date + "\n")
+            count_lines = 0
+            while True:
+                user_input = input("Enter content line: ")
+                count_lines += 1
+                if user_input == "stop":
+                    text.write("\n")
+                    break
+                text.write(str(count_lines) + " " + user_input + "\n")
+    except FileNotFoundError:
+        print("file does not exist")
 
 
 if __name__ == "__main__":
