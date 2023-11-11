@@ -21,16 +21,10 @@ def create_file(
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    if os.path.exists(file_path):
-        with open(file_path, "a") as f:
-            f.write("\n\n" + timestamp + "\n")
-            for i, line in enumerate(content.splitlines(), 1):
-                f.write(f"{i} {line}\n")
-    else:
-        with open(file_path, "w") as f:
-            f.write(timestamp + "\n")
-            for i, line in enumerate(content.splitlines(), 1):
-                f.write(f"{i} {line}\n")
+    with open(file_path, "a") as f:
+        f.write("\n" + timestamp + "\n")
+        for i, line in enumerate(content.splitlines(), 1):
+            f.write(f"{i} {line}\n")
 
 
 def main() -> None:
@@ -43,17 +37,18 @@ def main() -> None:
         if not ("-f" in sys.argv):
             os.makedirs(os.path.join(*directory), exist_ok=True)
             return
-        file_name = "file.txt"
 
     if "-f" in sys.argv:
         file_index = sys.argv.index("-f") + 1
         file_name = sys.argv[file_index]
-        directory = None
 
     if "-d" in sys.argv and "-f" in sys.argv:
         directory_index = sys.argv.index("-d") + 1
-        file_index = sys.argv.index("-f") + 1
-        directory = sys.argv[directory_index:file_index - 1]
+        file_name = sys.argv.index("-f") + 1
+        if directory_index < file_name:
+            directory = sys.argv[directory_index:file_name - 1]
+        else:
+            directory = sys.argv[directory_index:]
 
     content = ""
 
