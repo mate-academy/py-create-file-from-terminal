@@ -40,4 +40,3 @@ def create_file(filename: str) -> None:
 
 if __name__ == "__main__":
     main()
-deec
