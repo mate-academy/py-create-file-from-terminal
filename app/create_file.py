@@ -28,19 +28,19 @@ def create_folder(term_input: Any) -> None:
     os.makedirs(term_input)
 
 
-def head_function():
+def head_function() -> None:
     if "-d" in cutted:
         if "-f" in cutted:
-            d = cutted.index("-d")
-            f = cutted.index("-f")
-            if f > d:
-                print(cutted[d + 1:f])
-                unpacking = os.path.join(*cutted[d + 1:f])
+            d_symbol = cutted.index("-d")
+            f_symbol = cutted.index("-f")
+            if f_symbol > d_symbol:
+                print(cutted[d_symbol + 1:f_symbol])
+                unpacking = os.path.join(*cutted[d_symbol + 1:f_symbol])
                 create_folder(unpacking)
-                together(cutted[f + 1])
-            if d > f:
-                together(sys.argv[f + 1])
-                create_folder(os.path.join(*cutted[d + 1::]))
+                together(cutted[f_symbol + 1])
+            if d_symbol > f_symbol:
+                together(sys.argv[f_symbol + 1])
+                create_folder(os.path.join(*cutted[d_symbol + 1::]))
         create_folder(os.path.join(*cutted[cutted.index("-d") + 1::]))
 
 
