@@ -4,40 +4,45 @@ import datetime
 from typing import Any
 
 
-def together(file_path: Any) -> Any:
-    with open(file_path, "a") as file:
+cutted = sys.argv
+
+
+def together(file_name: Any) -> Any:
+    with open(file_name, "a") as file:
         current_date = datetime.datetime.now()
-        in_put = input("Enter content line: ")
+        user_input = input("Enter content line: ")
         file.write(current_date.strftime("%d/%m/%Y %H:%M:%S") + "\n")
-        while in_put != "stop":
-            file.write(in_put + "\n")
-            in_put = input("Enter content line: ")
+        while user_input != "stop":
+            file.write(user_input + "\n")
+            user_input = input("Enter content line: ")
         file.write("\n")
     return file
 
 
 def create_file() -> None:
-    term = sys.argv
-    if term[1] == "-f":
-        together(term[2])
+    if "-f" in cutted and "-d" not in cutted:
+        together(cutted[cutted.index("-f") + 1])
 
 
-def create_folder() -> None:
-    term = sys.argv
-    if term[1] == "-d" and term[4] != "-f":
-        subdirectory_path = os.path.join(term[2], term[3])
-        os.makedirs(subdirectory_path)
+def create_folder(term_input: Any) -> None:
+    os.makedirs(term_input)
 
 
-def create_folder_file() -> None:
-    term = sys.argv
-    if term[1] == "-d" and term[4] == "-f":
-        subdirectory_path = os.path.join(term[2], term[3])
-        os.makedirs(subdirectory_path)
-        file_path = os.path.join(subdirectory_path, term[5])
-        together(file_path)
+def head_function():
+    if "-d" in cutted:
+        if "-f" in cutted:
+            d = cutted.index("-d")
+            f = cutted.index("-f")
+            if f > d:
+                print(cutted[d + 1:f])
+                unpacking = os.path.join(*cutted[d + 1:f])
+                create_folder(unpacking)
+                together(cutted[f + 1])
+            if d > f:
+                together(sys.argv[f + 1])
+                create_folder(os.path.join(*cutted[d + 1::]))
+        create_folder(os.path.join(*cutted[cutted.index("-d") + 1::]))
 
 
+head_function()
 create_file()
-create_folder()
-create_folder_file()
