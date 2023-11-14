@@ -3,7 +3,7 @@ from os import makedirs, path
 from datetime import datetime
 
 
-def find_dir():
+def find_dir() -> str:
     d_index = argv.index("-d")
     if "-f" in argv:
         f_index = argv.index("-f")
@@ -17,15 +17,13 @@ def find_dir():
     return path.join(directory)
 
 
-def find_name():
-    if "-f" not in argv:
-        return None
+def find_name() -> str:
     f_index = argv.index("-f")
     name = argv[f_index + 1]
     return name
 
 
-def write_content(file_path):
+def write_content(file_path: str) -> None:
     with open(file_path, "w") as f:
         f.write(datetime.now().strftime("%Y/%m/%d, %H:%M:%S") + "\n")
         while True:
@@ -35,9 +33,9 @@ def write_content(file_path):
             f.write(line + "\n")
 
 
-def create_file():
+def create_file() -> None:
     if "-f" not in argv:
-        directory = find_dir()
+        find_dir()
     if "-d" not in argv:
         file_name = find_name()
         write_content(file_name)
