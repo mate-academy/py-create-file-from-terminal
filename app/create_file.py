@@ -17,19 +17,25 @@ def create_file(
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     file_path = os.path.join(directory, file_name)
 
-    with open(file_path, "w") as file:
+    mode = "a" if os.path.exists(file_path) else "w"
+    with open(file_path, mode) as file:
+        if mode == "a":
+            file.write("\n" * 2)
+
         file.write(timestamp + "\n")
-        for i, line in enumerate(content_lines, start=1):
-            file.write(f"{i} {line}\n")
+        file.write("\n".join(content_lines))
 
 
 def get_content_lines() -> List[str]:
     content_lines = []
+    counter = 0
+
     while True:
         line = input("Enter content line: ")
         if line.lower() == "stop":
             break
-        content_lines.append(line)
+        counter += 1
+        content_lines.append(f"{counter} {line}")
     return content_lines
 
 
