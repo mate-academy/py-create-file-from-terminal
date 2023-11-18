@@ -18,9 +18,7 @@ def main() -> None:
     elif "-d" in args:
         directory = os.path.join(*args[args.index("-d") + 1:])
         os.makedirs(directory)
-        filename = ""
     elif "-f" in args:
-        directory = ""
         filename = args[args.index("-f") + 1]
         create_file(filename)
     else:
