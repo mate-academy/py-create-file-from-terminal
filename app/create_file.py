@@ -4,6 +4,12 @@ import sys
 from datetime import datetime
 
 
+def create_directory(directory: list[str]) -> str:
+    directory_path = os.path.join(*directory)
+    os.makedirs(directory_path, exist_ok=True)
+    return directory_path
+
+
 def create_file(
         directory: list[str],
         file_name: str,
@@ -11,18 +17,20 @@ def create_file(
 ) -> None:
 
     if directory:
-        directory_path = os.path.join(*directory)
-        os.makedirs(directory_path, exist_ok=True)
-        path = os.path.join(directory_path, file_name)
+        new_dir = create_directory(directory)
+        path = os.path.join(new_dir, file_name)
     else:
         path = file_name
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    with open(path, "a") as f:
-        f.write(timestamp + "\n")
-        for i, line in enumerate(file_content.splitlines(), 1):
-            f.write(f"{i} {line}\n")
+    with open(path, "a+") as file:
+        if os.path.getsize(path) == 0:
+            file.write(timestamp)
+        else:
+            file.write("\n\n" + timestamp)
+        for num, line in enumerate(file_content.splitlines(), 1):
+            file.write(f"\n{num} {line}")
 
 
 def main() -> None:
@@ -33,7 +41,7 @@ def main() -> None:
         dir_index = sys.argv.index("-d") + 1
         directory_path = sys.argv[dir_index:]
         if "-f" not in sys.argv:
-            os.makedirs(os.path.join(*directory_path), exist_ok=True)
+            create_directory(directory_path)
             return
 
     if "-f" in sys.argv:
@@ -42,16 +50,16 @@ def main() -> None:
 
     if "-d" in sys.argv and "-f" in sys.argv:
         dir_index = sys.argv.index("-d") + 1
-        file_name = sys.argv.index("-f") + 1
+        file_index = sys.argv.index("-f") + 1
 
-        if dir_index < file_name:
-            directory_path = sys.argv[dir_index:file_name - 1]
+        if dir_index < file_index:
+            directory_path = sys.argv[dir_index:file_index - 1]
         else:
             directory_path = sys.argv[dir_index:]
 
     file_content = ""
 
-    while 1:
+    while True:
         line = input("Enter content line: ")
         if line == "stop":
             break
