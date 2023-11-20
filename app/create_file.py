@@ -13,7 +13,7 @@ def main() -> None:
         if not os.path.exists(directory):
             os.makedirs(directory)
         file_join = os.path.join(directory, filename)
-        if os.path.exists(file_join):
+        if os.path.exists(directory):
             create_file(file_join)
     elif "-d" in args:
         directory = os.path.join(*args[args.index("-d") + 1:])
@@ -27,17 +27,21 @@ def main() -> None:
 
 
 def create_file(filename: str) -> None:
-    with open(filename, "a") as file:
+    with open(filename, "a") as file, open(filename, "r") as read_file:
+        if read_file.read() != "":
+            file.write("\n\n")
+
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         file.write(timestamp + "\n")
         line_number = 1
+        lines = []
         while True:
             line = input("Enter content line: ")
             if line.lower() == "stop":
                 break
-            file.write(f"{line_number} {line}\n")
+            lines.append(f"{line_number} {line}")
             line_number += 1
-        file.write("\n")
+        file.write("\n".join(lines))
 
 
 if __name__ == "__main__":
