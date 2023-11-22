@@ -15,21 +15,21 @@ def create_file(path_to_file: str) -> None:
             if content == "stop":
                 break
             file.write(f"{line} " + content + "\n")
-            file.write("\n")
+        file.write("\n")
 
 
 def main() -> None:
-    if sys.argv[1] == "-d":
-        if "-f" not in sys.argv:
-            path_to_directory = os.path.join(*sys.argv[2:])
-            os.makedirs(path_to_directory, exist_ok=True)
-        elif "-f" in sys.argv:
-            path_to_file = os.path.join(sys.argv[2], sys.argv[3], sys.argv[5])
-            create_file(path_to_file)
+    args = sys.argv
+    to_dir = ""
 
-    if sys.argv[1] == "-f":
-        path_to_file = str(sys.argv[2])
-        create_file(path_to_file)
+    if args[1] == "-d":
+        to_dir = (os.path.join(*args[2:]) if "-f" not in args else
+                  os.path.join(*args[args.index("-d") + 1:args.index("-f")]))
+        os.makedirs(to_dir, exist_ok=True)
+
+    if "-f" in args:
+        to_file = os.path.join(to_dir, args[args.index("-f") + 1])
+        create_file(to_file)
 
 
 if __name__ == "__main__":
