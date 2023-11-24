@@ -21,7 +21,7 @@ def work_with_file(command_list: list[str]) -> None:
         new_file.write("\n")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     command = sys.argv
 
     try:
@@ -32,4 +32,3 @@ if __name__ == '__main__':
         work_with_file(command)
     except ValueError:
         pass
-
