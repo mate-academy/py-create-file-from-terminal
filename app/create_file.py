@@ -1,71 +1,55 @@
-import sys
 import os
+import argparse
 from typing import List
 import datetime
 
 
-def create_directories(directory_parts: List[str]) -> str:
-    directory = os.path.join(*directory_parts)
-    os.makedirs(directory, exist_ok=True)
-    return directory
+def create_directories(path: str) -> None:
+    os.makedirs(path, exist_ok=True)
 
 
-def get_file_content() -> List[str]:
-    file_content = []
-    print("Enter content lines. Type 'stop' to finish:")
-    while True:
-        line = input("Enter content line: ")
-        if line == "stop":
-            break
-        file_content.append(line)
-    return file_content
-
-
-def append_content_to_file(filepath: str, file_content: List[str]) -> None:
-    with open(filepath, "a", encoding="utf-8") as f:
+def append_content_to_file(
+        filepath: str,
+        content_lines: List[str],
+        timestamp: str
+) -> None:
+    with open(filepath, "a", encoding="utf-8") as file:
         if os.path.getsize(filepath) == 0:
-            f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
+            file.write(timestamp)
         else:
-            f.write("\n"
-                    + datetime.
-                    datetime.
-                    now().
-                    strftime("%Y-%m-%d %H:%M:%S\n"))
-        for index, line in enumerate(file_content, start=1):
-            f.write(f"{index} {line}\n")
+            file.write("\n" + timestamp)
+        for index, line in enumerate(content_lines, start=1):
+            file.write(f"{index} {line}\n")
 
 
-def main(args: List[str]) -> None:
-    directory = None
-    filename = None
-    i = 1
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Create a file with content.")
+    parser.add_argument("-d",
+                        "--directory",
+                        nargs="+",
+                        help="Directory path to create")
+    parser.add_argument("-f", "--filename", help="File name to create")
+    args = parser.parse_args()
 
-    while i < len(args):
-        if args[i] == "-d":
-            i += 1
-            directory_parts = []
-            while i < len(args) and args[i] != "-f":
-                directory_parts.append(args[i])
-                i += 1
-            directory = create_directories(directory_parts)
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n")
+    directory_path = ""
+    if args.directory:
+        directory_path = os.path.join(*args.directory)
+        create_directories(directory_path)
 
-        elif args[i] == "-f":
-            i += 1
-            if i < len(args):
-                filename = args[i]
-            i += 1
-
-        else:
-            i += 1
-
-    if filename:
-        filepath = filename
-        if directory:
-            filepath = os.path.join(directory, filename)
-
-        file_content = get_file_content()
-        append_content_to_file(filepath, file_content)
+    if args.filename:
+        filepath = (os.path.join(directory_path, args.filename)
+                    if directory_path
+                    else args.filename)
+        content_lines = []
+        print("Enter content lines. Type 'stop' to finish:")
+        while True:
+            line = input("Enter content line: ")
+            if line == "stop":
+                break
+            content_lines.append(line)
+        append_content_to_file(filepath, content_lines, timestamp)
 
 
 if __name__ == "__main__":
-    main(sys.argv)
+    main()
