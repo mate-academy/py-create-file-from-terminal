@@ -1,3 +1,4 @@
+import argparse
 import sys
 import os
 
@@ -30,22 +31,17 @@ def write_in_file(file_path: str) -> None:
 
 
 def create_file() -> None:
-    command = sys.argv
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-f", type=str, nargs=1, default=[])
+    parser.add_argument("-d", type=str, nargs="*", default=[])
+    commands = vars(parser.parse_args())
+    print(commands)
 
-    if len(command) < 3:
-        return
+    if len(commands["d"]):
+        make_dir(commands["d"])
 
-    if "-d" in command and "-f" not in command:
-        make_dir(command[2:])
-
-    if "-f" in command:
-        file_name = command[-1]
-
-        if "-d" not in command:
-            write_in_file(file_name)
-        else:
-            make_dir(command[2:-2])
-            write_in_file(os.path.join(*command[2:-2], file_name))
+    if len(commands["f"]):
+        write_in_file(os.path.join(*commands["d"] + commands["f"]))
 
 
 if __name__ == "__main__":
