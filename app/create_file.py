@@ -35,7 +35,6 @@ def create_file() -> None:
     parser.add_argument("-f", type=str, nargs=1, default=[])
     parser.add_argument("-d", type=str, nargs="*", default=[])
     commands = vars(parser.parse_args())
-    print(commands)
 
     if len(commands["d"]):
         make_dir(commands["d"])
