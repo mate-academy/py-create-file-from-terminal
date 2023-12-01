@@ -34,8 +34,13 @@ def main() -> None:
         dir_index = args.index("-d") + 1
         file_index = args.index("-f") + 1
 
-        directory_path = os.path.join(*args[dir_index:file_index - 1])
-        file_name = args[file_index]
+        if dir_index < file_index:
+            directory_path = os.path.join(*args[dir_index:file_index - 1])
+            file_name = args[file_index]
+
+        else:
+            directory_path = os.path.join(*args[dir_index:])
+            file_name = args[file_index]
 
         create_directory(directory_path)
         file_path = os.path.join(directory_path, file_name)
@@ -43,6 +48,7 @@ def main() -> None:
         content = make_content()
 
         write_to_file(file_path, content)
+
 
     elif "-d" in args:
         dir_index = args.index("-d") + 1
