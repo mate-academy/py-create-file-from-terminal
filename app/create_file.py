@@ -36,11 +36,11 @@ def main() -> None:
 
         if dir_index < file_index:
             directory_path = os.path.join(*args[dir_index:file_index - 1])
-            file_name = args[file_index]
 
         else:
             directory_path = os.path.join(*args[dir_index:])
-            file_name = args[file_index]
+
+        file_name = args[file_index]
 
         create_directory(directory_path)
         file_path = os.path.join(directory_path, file_name)
