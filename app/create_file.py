@@ -49,7 +49,6 @@ def main() -> None:
 
         write_to_file(file_path, content)
 
-
     elif "-d" in args:
         dir_index = args.index("-d") + 1
 
