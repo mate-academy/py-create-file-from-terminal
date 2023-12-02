@@ -16,13 +16,13 @@ def create_file(file_name: str) -> None:
 
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open(file_name, "a") as f:
-        f.write(str(current_time))
+        f.write("\n" + (str(current_time) + "\n"))
     with open(file_name, "a") as f:
         while True:
-            content = input("Enter content line: ")
+            content = input(str("Enter content line: "))
             if content == "stop":
                 break
-            f.write("\n".join(content))
+            f.write(''.join(content) + "\n")
 
 
 def main() -> None:
