@@ -22,7 +22,7 @@ def create_file(file_name: str) -> None:
             content = input(str("Enter content line: "))
             if content == "stop":
                 break
-            f.write(''.join(content) + "\n")
+            f.write("".join(content) + "\n")
 
 
 def main() -> None:
