@@ -18,11 +18,13 @@ def create_file(file_name: str) -> None:
     with open(file_name, "a") as f:
         f.write("\n" + (str(current_time) + "\n"))
     with open(file_name, "a") as f:
+        line_number = 1
         while True:
-            content = input(str("Enter content line: "))
+            content = input(str(f"Enter content line: {line_number} "))
             if content == "stop":
                 break
-            f.write("".join(content) + "\n")
+            f.write(f"{line_number } Line{line_number} " + "".join(content) + "\n")
+            line_number += 1
 
 
 def main() -> None:
