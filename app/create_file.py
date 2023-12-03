@@ -12,15 +12,15 @@ def create_file(directory: Optional[str], filename: str) -> None:
     if directory:
         file_path = os.path.join(directory, filename)
 
-    with open(file_path, "a") as f:
-        f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+    with open(file_path, "a") as file:
+        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
 
         line_number = 1
         while True:
             line = input("Enter content line: ")
             if line.lower() == "stop":
                 break
-            f.write(f"{line_number} {line}\n")
+            file.write(f"{line_number} {line}\n")
             line_number += 1
 
 
