@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 def create_directory(path: str) -> None:
-    os.makedirs(path)
+    os.makedirs(path, exist_ok=True)
 
 
 def python_create_file(directory: str, name: str) -> None:
@@ -25,15 +25,29 @@ def python_create_file(directory: str, name: str) -> None:
 
 
 def main() -> None:
-    if "-d" in sys.argv:
-        dir_index = sys.argv.index("-d") + 1
-        path = os.path.join(*sys.argv[dir_index:])
+    index_d = 0
+    index_f = 0
+
+    for i, arg in enumerate(sys.argv):
+        if arg == "-d":
+            index_d = i + 1
+        elif arg == "-f":
+            index_f = i + 1
+
+    if index_d is not None and index_f is not None:
+        path = os.path.join(*sys.argv[index_d:index_f - 1])
+        python_create_file(path, sys.argv[index_f])
         create_directory(path)
-    elif "-f" in sys.argv:
-        filename_index = sys.argv.index("-f") + 1
-        python_create_file(os.getcwd(), sys.argv[filename_index])
-    else:
-        print("Invalid arguments")
+
+    elif index_d is not None:
+        path = os.path.join(*sys.argv[index_d:])
+        create_directory(path)
+
+    elif index_f is not None:
+        path = os.path.join(*sys.argv[:index_f - 1])
+        create_directory(path)
+        python_create_file(path, sys.argv[index_f])
 
 
-main()
+if __name__ == "__main__":
+    main()
