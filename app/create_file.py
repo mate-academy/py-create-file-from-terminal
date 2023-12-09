@@ -22,22 +22,30 @@ def create_file(directory: str, name: str) -> None:
 
 def main() -> None:
     args = sys.argv[1:]
-    if "-d" in args and "-f" in args:
-        dir_index = args.index("-d")
-        file_index = args.index("-f")
+
+    dir_index = args.index("-d") if "-d" in args else None
+    file_index = args.index("-f") if "-f" in args else None
+
+    if dir_index is not None and file_index is not None:
         if file_index > dir_index:
             directory = os.path.join(*args[dir_index + 1:file_index])
             os.makedirs(directory, exist_ok=True)
 
             filename = args[file_index + 1]
             create_file(directory, filename)
-    elif "-d" in args:
-        dir_index = args.index("-d")
+
+        elif dir_index > file_index:
+            directory = os.path.join(*args[file_index + 1:dir_index])
+            os.makedirs(directory, exist_ok=True)
+
+            filename = args[dir_index + 1]
+            create_file(directory, filename)
+
+    elif dir_index is not None:
         directory = os.path.join(*args[dir_index + 1:])
         os.makedirs(directory, exist_ok=True)
 
-    elif "-f" in args:
-        file_index = args.index("-f")
+    elif file_index is not None:
         create_file(os.getcwd(), args[file_index + 1])
 
 
