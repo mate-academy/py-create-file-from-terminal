@@ -4,10 +4,7 @@ from datetime import datetime
 
 
 def create_content(file_name: str) -> None:
-    if os.path.exists(file_name):
-        with (open(file_name, "a") as file):
-            file.write("\n\n")
-
+    is_file_name_exists = True if os.path.exists(file_name) else False
     content = ""
     line_number = 1
 
@@ -19,9 +16,13 @@ def create_content(file_name: str) -> None:
         line_number += 1
 
     if content:
-        with (open(file_name, "a") as file):
+        with (open(file_name, "a+") as file):
             content = datetime.now().strftime(
-                "%Y-%m-%d %H:%M:%S") + "\n" + content
+                "%Y-%m-%d %H:%M:%S"
+            ) + "\n" + content
+            file.seek(0)
+            if is_file_name_exists and file.read():
+                content = "\n\n" + content
             file.write(content.rstrip())
 
 
@@ -53,5 +54,6 @@ if __name__ == "__main__":
     else:
         if len(arguments) > 3:
             raise SystemExit(
-                "use '-f file_name' format to create and write to a file")
+                "use '-f file_name' format to create and write to a file"
+            )
         create_content(arguments[2])
