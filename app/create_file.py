@@ -4,26 +4,42 @@ import os
 import datetime
 
 
-def create_file(path: list, content: list) -> None:
-    for path_element in path[:-1]:
+def create_directory(directorys: list) -> None:
+    for _ in range(len(directorys)):
         try:
-            os.mkdir(os.path.join(path_element))
+            os.mkdir(os.path.join(directorys[:_]))
         except FileExistsError:
             continue
 
-    with open(os.path.join(*path), "a") as file:
 
+def create_file_in_directory(path_to_file: list) -> None:
+    with open(os.path.join(*path_to_file), "a") as f:
+        f.close()
+
+
+def writing_into_file(path: list, content: list) -> None:
+
+    with open(os.path.join(*path), "a") as file:
         file.write(
             datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             + "\n"
         )
+
+        string_number = 0
         for line in content:
+            if line == "\n":
+                file.write(line)
+                break
+
+            string_number += 1
+            file.write(str(string_number) + " ")
             file.write(line + "\n")
 
 
 if __name__ == "__main__":
 
-    created_file_path = []
+    file_directory = []
+    full_file_path = []
     content_to_file = []
 
     for i in range(len(sys.argv)):
@@ -33,10 +49,12 @@ if __name__ == "__main__":
                 if element == "-f":
                     break
 
-                created_file_path.append(element)
+                file_directory.append(element)
+            create_directory(file_directory)
 
         if sys.argv[i] == "-f":
-            created_file_path.append(sys.argv[i + 1])
+            full_file_path = file_directory + [sys.argv[i + 1]]
+            create_file_in_directory(full_file_path)
 
     while True:
         content_line = input("Enter content line:")
@@ -47,4 +65,4 @@ if __name__ == "__main__":
 
         content_to_file.append(content_line)
 
-    create_file(created_file_path, content_to_file)
+    writing_into_file(full_file_path, content_to_file)
