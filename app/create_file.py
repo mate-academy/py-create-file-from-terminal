@@ -4,10 +4,10 @@ import os
 import datetime
 
 
-def create_directory(directorys: list) -> None:
-    for _ in range(len(directorys)):
+def create_directory(directory: list) -> None:
+    for _ in range(len(directory)):
         try:
-            os.mkdir(os.path.join(*directorys[:_ + 1]))
+            os.mkdir(os.path.join(*directory[:_ + 1]))
         except FileExistsError:
             continue
 
