@@ -4,16 +4,19 @@ import os
 import datetime
 
 
-def create_file(path: list) -> None:
-
+def create_file(path: list, content: list) -> None:
     for path_element in path[:-1]:
         try:
             os.mkdir(os.path.join(path_element))
         except FileExistsError:
             continue
 
-    with open("/".join(path), "a") as file:
-        file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    with open(os.path.join(*path), "a") as file:
+
+        file.write(
+            datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            + "\n"
+        )
         for line in content:
             file.write(line + "\n")
 
@@ -21,6 +24,7 @@ def create_file(path: list) -> None:
 if __name__ == "__main__":
 
     created_file_path = []
+    content_to_file = []
 
     for i in range(len(sys.argv)):
 
@@ -34,4 +38,13 @@ if __name__ == "__main__":
         if sys.argv[i] == "-f":
             created_file_path.append(sys.argv[i + 1])
 
-    create_file(created_file_path)
+    while True:
+        content_line = input("Enter content line:")
+
+        if content_line == "stop":
+            content_to_file.append("\n")
+            break
+
+        content_to_file.append(content_line)
+
+    create_file(created_file_path, content_to_file)
