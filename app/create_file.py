@@ -26,6 +26,16 @@ def create_content(file_name: str) -> None:
             file.write(content.rstrip())
 
 
+def check_for_redundant_f_argument(
+        check_item: list,
+        item_length: int
+) -> None :
+    if len(check_item) > item_length:
+        raise SystemExit(
+            "use '-f file_name' format to create and write to a file"
+        )
+
+
 if __name__ == "__main__":
     arguments = sys.argv
 
@@ -42,18 +52,12 @@ if __name__ == "__main__":
         else:
             d_command = os.path.join(*arguments[2:f_index])
             f_command = arguments[f_index + 1:]
-        if len(f_command) > 1:
-            raise SystemExit(
-                "use '-f file_name' format to create and write to a file"
-            )
+        check_for_redundant_f_argument(f_command, 1)
         os.makedirs(d_command, exist_ok=True)
         create_content(os.path.join(d_command, arguments[f_index + 1]))
     elif d_index:
         d_command = os.path.join(*arguments[2:])
         os.makedirs(d_command, exist_ok=True)
     else:
-        if len(arguments) > 3:
-            raise SystemExit(
-                "use '-f file_name' format to create and write to a file"
-            )
+        check_for_redundant_f_argument(arguments, 3)
         create_content(arguments[2])
