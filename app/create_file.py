@@ -48,6 +48,14 @@ def main() -> None:
         create_directory(path)
         python_create_file(path, sys.argv[index_f])
 
+    elif index_f < index_d:
+        path = os.path.join(*sys.argv[index_f + 1:index_d])
+        create_directory(path)
+
+    elif index_d < index_f:
+        path = os.path.join(*sys.argv[index_d + 1:index_f])
+        create_directory(path)
+
 
 if __name__ == "__main__":
     main()
