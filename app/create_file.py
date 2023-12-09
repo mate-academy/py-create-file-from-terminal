@@ -39,7 +39,6 @@ def writing_into_file(path: list, content: list) -> None:
 if __name__ == "__main__":
 
     file_directory = []
-    full_file_path = []
     content_to_file = []
 
     for i in range(len(sys.argv)):
@@ -53,16 +52,17 @@ if __name__ == "__main__":
             create_directory(file_directory)
 
         if sys.argv[i] == "-f":
+
             full_file_path = file_directory + [sys.argv[i + 1]]
             create_file_in_directory(full_file_path)
 
-    while True:
-        content_line = input("Enter content line:")
+            while True:
+                content_line = input("Enter content line:")
 
-        if content_line == "stop":
-            content_to_file.append("\n")
-            break
+                if content_line == "stop":
+                    content_to_file.append("\n")
+                    break
 
-        content_to_file.append(content_line)
+                content_to_file.append(content_line)
 
-    writing_into_file(full_file_path, content_to_file)
+            writing_into_file(full_file_path, content_to_file)
