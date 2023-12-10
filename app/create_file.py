@@ -44,6 +44,8 @@ if __name__ == "__main__":
         create_directory(file_directory)
 
         if "-f" in sys.argv:
-            full_file_path = file_directory + [sys.argv[sys.argv.index("-f") + 1]]
+            full_file_path = file_directory + [
+                sys.argv[sys.argv.index("-f") + 1]
+            ]
 
             writing_into_file(full_file_path)
