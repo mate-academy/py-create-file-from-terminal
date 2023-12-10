@@ -49,7 +49,9 @@ if __name__ == "__main__":
         if dir_index < file_index:
             directory_parts = sys.argv[dir_index:file_index - 1]
             filename = sys.argv[file_index]
-            create_directory_and_file(base_directory, directory_parts, filename)
+            create_directory_and_file(
+                base_directory, directory_parts, filename
+            )
 
     elif "-d" in sys.argv:
         dir_index = sys.argv.index("-d") + 1
