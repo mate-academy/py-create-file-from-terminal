@@ -52,6 +52,12 @@ if __name__ == "__main__":
             create_directory_and_file(
                 base_directory, directory_parts, filename
             )
+        else:
+            filename = sys.argv[file_index]
+            directory_parts = sys.argv[dir_index:]
+            create_directory_and_file(
+                base_directory, directory_parts, filename
+            )
 
     elif "-d" in sys.argv:
         dir_index = sys.argv.index("-d") + 1
