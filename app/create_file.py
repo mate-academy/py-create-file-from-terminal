@@ -24,8 +24,6 @@ def finding_path() -> None:
     if cwd[1] == "-d":
         if "-f" not in cwd:
             to_dir = os.path.join(*cwd[2:])
-        else:
-            to_dir = os.path.join(*cwd[cwd.index("-d") + 1:cwd.index("-f")])
 
         os.makedirs(to_dir, exist_ok=True)
 
