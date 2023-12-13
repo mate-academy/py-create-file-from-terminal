@@ -19,21 +19,25 @@ def write_in_file(file_name: str) -> None:
 
 
 def create_file() -> None:
-    if "-d" in sys.argv and "-f" in sys.argv:
-        directories = sys.argv[2:-2]
-        ready_path = os.path.join(*directories)
-        os.makedirs(ready_path, exist_ok=True)
-        path_with_name_file = os.path.join(ready_path, sys.argv[-1])
-        write_in_file(path_with_name_file)
+    command = sys.argv
 
-    elif "-d" in sys.argv and "-f" not in sys.argv:
-        directories = sys.argv[2:]
-        ready_path = os.path.join(*directories)
-        os.makedirs(ready_path, exist_ok=True)
+    flag_f = command.index("-f")
+    name_file = command[flag_f + 1]
 
-    elif "-d" not in sys.argv and "-f" in sys.argv:
-        name_file = sys.argv[2:]
-        write_in_file(*name_file)
+    if "-f" in command and "-d" not in command:
+        write_in_file(name_file)
+
+    if "-d" in command and "-f" not in command:
+        path_file = command[2:]
+        os.makedirs(os.path.join(*path_file), exist_ok=True)
+
+    if "-f" in command and "-d" in command:
+        command.remove("-f")
+        command.remove(name_file)
+        path = command[2:]
+        path_dirs = os.path.join(*path)
+        os.makedirs(path_dirs, exist_ok=True)
+        write_in_file(os.path.join(path_dirs, name_file))
 
 
 if __name__ == "__main__":
