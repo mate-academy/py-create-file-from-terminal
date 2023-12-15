@@ -13,8 +13,19 @@ def append_file_line(full_path_plus_filename: str) -> None:
 
 def create_file() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("-d", "--directory", nargs='*', action="store", dest="file_directory")
-    parser.add_argument("-f", "--filename", action="store", dest="file_name")
+    parser.add_argument(
+        "-d",
+        "--directory",
+        nargs="*",
+        action="store",
+        dest="file_directory"
+    )
+    parser.add_argument(
+        "-f",
+        "--filename",
+        action="store",
+        dest="file_name"
+    )
     args = parser.parse_args()
 
     full_path = ""
