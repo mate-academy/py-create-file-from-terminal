@@ -5,7 +5,7 @@ import os
 import argparse
 
 
-def create_file(directory: str, filename: str) -> None:
+def create_file(directory: str | None, filename: str) -> None:
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     full_path = os.path.join(directory, filename)
@@ -14,16 +14,16 @@ def create_file(directory: str, filename: str) -> None:
         with open(full_path, "a") as file:
             file.write(f"\n\n{timestamp}\n")
     else:
-        os.makedirs(directory, exist_ok=True)
+        if directory:
+            os.makedirs(directory, exist_ok=True)
         with open(full_path, "w") as file:
             file.write(f"{timestamp}\n")
 
     with open(full_path, "a+") as file:
-
         string_num = 1
 
         while True:
-            input_line = input("Enter content line:")
+            input_line = input("Enter content line: ")
 
             if input_line == "stop":
                 return
@@ -38,7 +38,7 @@ def main() -> None:
     parser.add_argument("-f", "--filename")
     args = parser.parse_args()
 
-    directory = os.path.join(*args.directory) if args.directory else None
+    directory = os.path.join(*args.directory) if args.directory else ""
     filename = args.filename
 
     create_file(directory, filename)
