@@ -1,39 +1,24 @@
 import datetime
 
-import sys
-
 import os
 
-
-os.chdir(
-    "C:\\Users\\With my hand\\PycharmProjects\\"
-    "py-create-file-from-terminal\\app"
-)
-current_dir = os.getcwd()
-path = os.path.join(current_dir)
+import argparse
 
 
-def create_dir(dir_name: str) -> None:
-    try:
-        os.makedirs(dir_name)
-        os.chdir(dir_name)
+def create_file(directory: str, filename: str) -> None:
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    except FileExistsError:
-        os.chdir(dir_name)
+    full_path = os.path.join(directory, filename)
 
+    if os.path.exists(full_path):
+        with open(full_path, "a") as file:
+            file.write(f"\n\n{timestamp}\n")
+    else:
+        os.makedirs(directory, exist_ok=True)
+        with open(full_path, "w") as file:
+            file.write(f"{timestamp}\n")
 
-def check_file_exists(file_name: str) -> bool:
-    file_path = os.path.join(os.getcwd(), file_name)
-    return os.path.exists(file_path)
-
-
-def create_file(file_name: str) -> None:
-    check_exist = check_file_exists(file_name)
-    with open(f"{file_name}", "a+") as file:
-        if check_exist:
-            file.write("\n\n")
-
-        file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    with open(full_path, "a+") as file:
 
         string_num = 1
 
@@ -47,16 +32,17 @@ def create_file(file_name: str) -> None:
             string_num += 1
 
 
-def find_commands(commands: list) -> None:
-    for index in range(len(commands)):
-        if commands[index] == "-d":
-            continue
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--directory", nargs="+")
+    parser.add_argument("-f", "--filename")
+    args = parser.parse_args()
 
-        if commands[index] == "-f":
-            break
-        create_dir(commands[index])
-    create_file(commands[-1])
+    directory = os.path.join(*args.directory) if args.directory else None
+    filename = args.filename
+
+    create_file(directory, filename)
 
 
-command = sys.argv[1:]
-find_commands(command)
+if __name__ == "__main__":
+    main()
