@@ -9,14 +9,20 @@ def create_directory(directory_path: str) -> None:
 
 def create_file(file_path: str, content_lines: list) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    content = [f"{i + 1} {line}" for i, line in enumerate(content_lines)]
+    content = [
+        f"{counter + 1} {line}" for counter, line in enumerate(content_lines)
+    ]
 
     if os.path.exists(file_path):
-        with open(file_path, "a") as file:
+        mode = "a"
+    else:
+        mode = "w"
+
+    with open(file_path, "a" if os.path.exists(file_path) else "w") as file:
+        if mode == "a":
             file.write(f"\n\n{timestamp}\n")
             file.write("\n".join(content))
-    else:
-        with open(file_path, "w") as file:
+        elif mode == "w":
             file.write(f"{timestamp}\n")
             file.write("\n".join(content))
 
@@ -27,14 +33,15 @@ def main() -> None:
         directory_path_list = sys.argv[directory_index:]
         directory_path = os.path.join(
             *directory_path_list[:directory_path_list.index("-f")]
-            if "-f" in directory_path_list else directory_path_list)
+            if "-f" in directory_path_list else directory_path_list
+        )
         create_directory(directory_path)
 
     if "-f" in sys.argv:
         file_index = sys.argv.index("-f") + 1
         file_name = sys.argv[file_index]
-        file_path = os.path.join(directory_path, file_name) \
-            if "-d" in sys.argv else file_name
+        file_path = (os.path.join(directory_path, file_name)
+                     if "-d" in sys.argv else file_name)
 
         content_lines = []
         while True:
