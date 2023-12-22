@@ -13,18 +13,21 @@ def create_file(file_path: str, content_lines: list) -> None:
         f"{counter + 1} {line}" for counter, line in enumerate(content_lines)
     ]
 
-    if os.path.exists(file_path):
-        mode = "a"
-    else:
-        mode = "w"
+    with open(file_path, "a") as file:
+        file.write(f"{timestamp}\n")
+        file.write("\n".join(content))
+        file.write("\n")
 
-    with open(file_path, "a" if os.path.exists(file_path) else "w") as file:
-        if mode == "a":
-            file.write(f"\n\n{timestamp}\n")
-            file.write("\n".join(content))
-        elif mode == "w":
-            file.write(f"{timestamp}\n")
-            file.write("\n".join(content))
+
+def input_lines() -> list:
+    content_lines = []
+    while True:
+        content_line = input("Enter content line: ")
+        if content_line.lower() == "stop":
+            break
+        content_lines.append(content_line)
+
+    return content_lines
 
 
 def main() -> None:
@@ -43,12 +46,7 @@ def main() -> None:
         file_path = (os.path.join(directory_path, file_name)
                      if "-d" in sys.argv else file_name)
 
-        content_lines = []
-        while True:
-            content_line = input("Enter content line: ")
-            if content_line.lower() == "stop":
-                break
-            content_lines.append(content_line)
+        content_lines = input_lines()
 
         create_file(file_path, content_lines)
 
