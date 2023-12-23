@@ -6,7 +6,7 @@ DIR_FLAG = "-d"
 FILE_FLAG = "-f"
 
 
-def get_file_info() -> None:
+def get_file_info() -> tuple[str, str, str]:
     dirs_list = []
     file_name = ""
 
@@ -19,7 +19,7 @@ def get_file_info() -> None:
 
     full_file_path = path.join(*dirs_list, file_name)
 
-    return (dirs_list, file_name, full_file_path)
+    return dirs_list, file_name, full_file_path
 
 
 def create_file() -> None:
@@ -30,17 +30,19 @@ def create_file() -> None:
         makedirs(path.join(*dirs_list))
 
     if file_name:
-        with open(full_file_path, "w") as source_file:
+        with open(full_file_path, "a") as source_file:
             current_date = datetime.now()
             formatted_date = current_date.strftime("%Y-%m-%d %H:%M:%S")
             source_file.write(f"{formatted_date}\n")
             while True:
                 result = input("Enter content line: ")
                 if result == "stop":
+                    source_file.write("\n")
                     break
 
                 enter_pressed_times += 1
                 source_file.write(f"{enter_pressed_times} {result}\n")
 
 
-create_file()
+if __name__ == "__main__":
+    create_file()
