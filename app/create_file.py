@@ -18,11 +18,11 @@ def main() -> None:
                                       ) if "-d" in sys.argv else file_name
 
         with open(file_path, "a") as file:
-            file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
             file.write(
-                "\n".join(f"{-~counter} {line}" for counter, line in
+                "\n".join(f"{counter} {line}" for counter, line in
                           enumerate(iter(lambda: input("Enter content line: ")
-                                         , "stop"))))
+                                         , "stop"), 1)))
 
 
 if __name__ == "__main__":
