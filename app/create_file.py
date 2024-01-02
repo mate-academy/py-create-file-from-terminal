@@ -5,18 +5,17 @@ from datetime import datetime
 
 def create_file(file_path: str) -> None:
     if os.path.exists(file_path):
-        interval = "\n"
+        interval = "\n\n"
     else:
         interval = ""
     with open(file_path, "a") as file:
-        file.write(interval + get_timestamp() + "\n")
-        print("Enter content line:")
+        file.write(interval + get_timestamp())
         line_number = 1
         while True:
-            line = input(f"{line_number} ")
+            line = input(f"Enter content line: ")
             if line.lower() == "stop":
                 break
-            file.write(f"{line_number} {line}\n")
+            file.write(f"\n{line_number} {line}")
             line_number += 1
 
 
