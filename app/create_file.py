@@ -12,7 +12,7 @@ def create_file(file_path: str) -> None:
         file.write(interval + get_timestamp())
         line_number = 1
         while True:
-            line = input(f"Enter content line: ")
+            line = input("Enter content line: ")
             if line.lower() == "stop":
                 break
             file.write(f"\n{line_number} {line}")
