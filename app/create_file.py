@@ -10,7 +10,7 @@ def create_file(file_path: str) -> None:
         interval = ""
     with open(file_path, "a") as file:
         file.write(interval + get_timestamp() + "\n")
-        print("Enter content line (type 'stop' to finish):")
+        print("Enter content line:")
         line_number = 1
         while True:
             line = input(f"{line_number} ")
