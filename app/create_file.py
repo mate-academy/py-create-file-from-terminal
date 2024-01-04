@@ -25,17 +25,23 @@ def write_to_file(path_to_file: str, content_to_file: dict) -> None:
             file.write(f"{element} {content_to_file.get(element)}")
 
 
-command_length = len(sys.argv)
-file_path = os.getcwd()
-if sys.argv[1] == "-d":
-    for i in range(2, command_length):
-        if sys.argv[i] == "-f":
-            file_path = os.path.join(file_path, sys.argv[i + 1])
-            write_to_file(file_path, accept_content())
-            break
-        file_path = os.path.join(file_path, sys.argv[i])
-        if not os.path.exists(file_path):
-            os.mkdir(file_path)
-elif sys.argv[1] == "-f":
-    file_path = os.path.join(file_path, sys.argv[2])
-    write_to_file(file_path, accept_content())
+def main() -> None:
+    command_length = len(sys.argv)
+    file_path = os.getcwd()
+    if sys.argv[1] == "-d":
+        for command_argument in range(2, command_length):
+            if sys.argv[command_argument] == "-f":
+                file_path = os.path.join(
+                    file_path, sys.argv[command_argument + 1]
+                )
+                write_to_file(file_path, accept_content())
+                break
+            file_path = os.path.join(file_path, sys.argv[command_argument])
+            os.makedirs(file_path, exist_ok=True)
+    elif sys.argv[1] == "-f":
+        file_path = os.path.join(file_path, sys.argv[2])
+        write_to_file(file_path, accept_content())
+
+
+if __name__ == "__main__":
+    main()
