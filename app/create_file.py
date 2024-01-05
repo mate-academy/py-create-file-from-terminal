@@ -1,14 +1,28 @@
 import argparse
 import os
+from datetime import datetime
 
 
 def append_file_line(full_path_plus_filename: str) -> None:
+    count = 1
+    file_exists = os.path.exists(full_path_plus_filename)
     with open(full_path_plus_filename, "a") as file:
+        if file_exists:
+            file.write(f"\n")
+        formatted_datetime = datetime.today().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(f"{formatted_datetime}\n")
+        another_line = ""
+        if file_exists:
+            another_line = "Another "
         while True:
-            input_line = input("Enter content line: ")
+            line_annotation = f"{count} Line{count}"
+            if file_exists:
+                line_annotation = f"{count} Another line{count}"
+            input_line = input(f"Enter content line: {another_line}")
             if input_line == "stop":
                 break
-            file.write(input_line + "\n")
+            file.write(f"{line_annotation} {input_line}\n")
+            count += 1
 
 
 def create_file() -> None:
