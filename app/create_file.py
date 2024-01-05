@@ -8,7 +8,7 @@ def append_file_line(full_path_plus_filename: str) -> None:
     file_exists = os.path.exists(full_path_plus_filename)
     with open(full_path_plus_filename, "a") as file:
         if file_exists:
-            file.write(f"\n")
+            file.write("\n")
         formatted_datetime = datetime.today().strftime("%Y-%m-%d %H:%M:%S")
         file.write(f"{formatted_datetime}\n")
         another_line = ""
