@@ -16,7 +16,10 @@ def create_file() -> None:
             is_directory_flag = False
         else:
             if is_directory_flag:
-                directory_path = os.path.join(directory_path or '', sys.argv[i])
+                directory_path = os.path.join(
+                    directory_path or "",
+                    sys.argv[i]
+                )
             else:
                 output_filename = sys.argv[i]
         i += 1
@@ -25,7 +28,7 @@ def create_file() -> None:
         os.makedirs(directory_path, exist_ok=True)
 
     if output_filename:
-        file_path = os.path.join(directory_path or '.', output_filename)
+        file_path = os.path.join(directory_path or ".", output_filename)
         with open(file_path, "a") as file:
             file.write(f"{current_time.strftime('%Y-%m-%d %H:%M:%S')}\n")
             count_lines = 1
