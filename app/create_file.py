@@ -1,4 +1,5 @@
 import os
+import argparse
 from datetime import datetime
 from sys import argv
 
@@ -26,34 +27,36 @@ def create_file_with_user_input(file_path: str) -> None:
 
 def process_command_line_args(args: list) -> None:
     current_script_dir = os.path.dirname(os.path.abspath(__file__))
+    argument_parser = argparse.ArgumentParser()
+    argument_parser.add_argument("-d", nargs="+")
+    argument_parser.add_argument("-f")
+    parsed_arguments = argument_parser.parse_args()
 
     if "-d" in args and "-f" in args:
-        directory_args = [
-            args[x] for x in range(args.index("-d") + 1, args.index("-f"))
-        ]
         target_directory_path = os.path.join(
             current_script_dir,
-            *directory_args
+            *parsed_arguments.d
         )
         create_directory(target_directory_path)
 
-        file_name = args[-1]
-        file_path = os.path.join(target_directory_path, file_name)
+        file_path = os.path.join(
+            target_directory_path,
+            parsed_arguments.f
+        )
         create_file_with_user_input(file_path)
 
     elif "-d" in args:
-        directory_args = [
-            args[x] for x in range(args.index("-d") + 1, len(args))
-        ]
         target_directory_path = os.path.join(
             current_script_dir,
-            *directory_args
+            *parsed_arguments.d
         )
         create_directory(target_directory_path)
 
     elif "-f" in args:
-        file_name = args[2]
-        target_file_path = os.path.join(current_script_dir, file_name)
+        target_file_path = os.path.join(
+            current_script_dir,
+            parsed_arguments.f
+        )
         create_file_with_user_input(target_file_path)
 
 
