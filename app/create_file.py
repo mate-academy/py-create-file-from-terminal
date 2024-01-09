@@ -25,7 +25,7 @@ def process_terminal_input(terminal_input: list) -> str | None:
         return file_name
 
 
-def create_file_or_write_into_it(file_path: str):
+def create_file_or_write_into_it(file_path: str) -> None:
     with open(f"{file_path}", "a") as new_file:
         (
             new_file.write(
