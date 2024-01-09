@@ -5,7 +5,7 @@ from sys import argv
 
 def create_directory(directory_path: str) -> None:
     if not os.path.isdir(directory_path):
-        os.makedirs(directory_path)
+        os.makedirs(directory_path, exist_ok=True)
 
 
 def create_file_with_user_input(file_path: str) -> None:
