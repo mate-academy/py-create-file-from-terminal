@@ -43,9 +43,9 @@ if "-d" in commands and "-f" in commands:
     index_d = commands.index("-d")
     index_f = commands.index("-f")
     directories = os.path.join(*commands[(index_d + 1):index_f])
-    file = commands[index_f + 1]
+    file_name = commands[index_f + 1]
 
-    create_directory_and_file(directories, file)
+    create_directory_and_file(directories, file_name)
 
 elif "-d" in commands:
     index = commands.index("-d")
