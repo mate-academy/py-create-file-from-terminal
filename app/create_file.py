@@ -25,7 +25,9 @@ def create_file_with_user_input(file_path: str) -> None:
 
 
 def process_command_line_args(args: list) -> None:
-    current_script_dir = os.path.dirname(os.path.abspath(__file__))
+    current_script_dir = os.path.dirname(
+        os.path.abspath(__file__)
+    )
 
     if "-d" in args and "-f" in args:
         directory_args = [
