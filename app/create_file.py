@@ -17,8 +17,8 @@ def script() -> None:
 
     with open(path + "\\" + file_name, "w") as file:
         counter = 1
-        file.write(datetime.strftime()(datetime.now))
-        file.write()
+        file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        file.write("\n")
         input_text = input("Enter content line: ")
         while input_text != "stop":
             file.write(str(counter) + " " + input_text + "\n")
