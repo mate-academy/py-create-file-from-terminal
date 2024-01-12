@@ -5,17 +5,18 @@ import datetime
 
 def script() -> None:
     args = sys.argv[1:]
-    path = ""
+    file_path = ""
     file_name = ""
     if "-f" in args:
         file_name = args[args.index("-f") + 1]
-        args = args[:-2]
+        args = args[:args.index("-f")] + args[args.index("-f") + 2:]
     if "-d" in args:
         args = args[args.index("-d") + 1:]
         path = os.path.join(*args)
         os.makedirs(path, exist_ok=True)
+        file_path = os.path.join(*args, file_name)
 
-    with open(path + "\\" + file_name, "w") as file:
+    with open(file_path, "w") as file:
         counter = 1
         file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         file.write("\n")
