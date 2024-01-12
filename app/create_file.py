@@ -3,18 +3,28 @@ import sys
 import datetime
 
 
-def script() -> None:
-    args = sys.argv[1:]
-    file_path = ""
-    file_name = ""
+def name_of_file(args: list) -> str:
     if "-f" in args:
         file_name = args[args.index("-f") + 1]
-        args = args[:args.index("-f")] + args[args.index("-f") + 2:]
+        args.remove("-f")
+        args.remove(file_name)
+        return file_name
+    return ""
+
+
+def path_of_file(args: list) -> str:
     if "-d" in args:
+        file_name = name_of_file(args)
         args = args[args.index("-d") + 1:]
         path = os.path.join(*args)
         os.makedirs(path, exist_ok=True)
-        file_path = os.path.join(*args, file_name)
+        return os.path.join(*args, file_name)
+    return ""
+
+
+def write_file() -> None:
+    args = sys.argv[1:]
+    file_path = path_of_file(args)
 
     with open(file_path, "w") as file:
         counter = 1
@@ -28,4 +38,4 @@ def script() -> None:
 
 
 if __name__ == "__main__":
-    script()
+    write_file()
