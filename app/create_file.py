@@ -37,13 +37,17 @@ def main() -> None | str:
 
     if "-d" in input_data:
         if "-f" in input_data:
-            dirs = input_data[input_data.index("-d") + 1: input_data.index("-f")]
+            dirs = input_data[
+                   input_data.index("-d") + 1: input_data.index("-f")
+                   ]
         else:
             dirs = input_data[input_data.index("-d") + 1:]
 
     if "-f" in input_data:
         if "-d" in input_data:
-            file_name = input_data[input_data.index("-f") + 1: input_data.index("-d")]
+            file_name = input_data[
+                        input_data.index("-f") + 1: input_data.index("-d")
+                        ]
         else:
             file_name = input_data[input_data.index("-f") + 1]
 
