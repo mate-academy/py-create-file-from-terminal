@@ -54,5 +54,3 @@ def write_file(filename: str) -> None:
 
 if __name__ == "__main__":
     main()
-
-a = [576, 675765, 76587]
