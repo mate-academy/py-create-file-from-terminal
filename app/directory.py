@@ -1,5 +1,6 @@
 import os
 
+
 def create_directory(destination: str) -> None:
     try:
         os.makedirs(destination, exist_ok=True)
