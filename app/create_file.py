@@ -1,60 +1,51 @@
-import sys
+import datetime
 import os
-from datetime import datetime
+import sys
 
 
-def create_path(directories: list) -> str:
-    path = os.path.join(*directories)
-    os.makedirs(path, exist_ok=True)
-    return path
+def create_directory(directory_path: str) -> None:
+    os.makedirs(directory_path, exist_ok=True)
 
 
-def create_file(filename: str, path: str = "") -> None:
-    file_path = os.path.join(path, filename)
-    is_new = os.path.exists(file_path)
+def create_file(file_path: str) -> None:
     with open(file_path, "a") as file:
-        if is_new:
-            file.write("\n\n")
-        file.write(create_content())
+        date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(date + "\n")
+        line = 1
+        while True:
+            content = input("Enter content line: ")
+            if content == "stop":
+                break
+            file.write(f"{line} Line{line} {content} \n")
+            line += 1
+        file.write("\n")
 
 
-def create_content() -> str:
-    content = [datetime.now().strftime("%Y-%m-%d %H:%M:%S")]
-    line_count = 1
-    while True:
-        line = input("Enter content line: ")
-        if line == "stop":
-            break
-        content.append(f"{line_count} {line}")
-        line_count += 1
-    return "\n".join(content)
+def main() -> None:
+    parameters = sys.argv
+    index_f = None if "-f" not in parameters else parameters.index("-f")
+    index_d = None if "-d" not in parameters else parameters.index("-d")
+    file_name = parameters[index_f + 1]
 
-
-def main() -> None | str:
-    input_data = sys.argv
-    dirs = None
-    file_name = None
-
-    if "-d" in input_data:
-        if "-f" in input_data:
-            dirs = input_data[
-                input_data.index("-d") + 1: input_data.index("-f")
-            ]
+    if index_d is not None and index_f is not None:
+        if index_f < index_d:
+            file_name = parameters[index_f + 1]
+            directory_path = os.path.join(*parameters[index_d + 1:])
         else:
-            dirs = input_data[input_data.index("-d") + 1:]
+            directory_path = os.path.join(*parameters[index_d + 1: index_f])
 
-    if "-f" in input_data:
-        if "-d" in input_data:
-            file_name = input_data[
-                input_data.index("-f") + 1: input_data.index("-d")
-            ]
-        else:
-            file_name = input_data[input_data.index("-f") + 1]
+        create_directory(directory_path)
 
-    if file_name:
-        return create_file(file_name, create_path(dirs) if dirs else None)
-    elif dirs:
-        return create_path(dirs)
+        full_file_path = os.path.join(directory_path, file_name)
+        create_file(full_file_path)
+
+    elif index_d is not None:
+        directory_path = os.path.join(*parameters[2:])
+        create_directory(directory_path)
+
+    elif index_f is not None:
+        file_path = parameters[2]
+        create_file(file_path)
 
 
 if __name__ == "__main__":
