@@ -2,7 +2,6 @@ import os.path
 from sys import argv
 from os import getcwd
 from os import makedirs
-import datetime
 from datetime import datetime
 
 length = len(argv)
