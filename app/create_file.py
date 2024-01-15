@@ -11,15 +11,9 @@ def make_dir(path: list[str] | str) -> None:
 
 
 def main() -> None:
-    if "-d" in sys.argv:
-        d_index = sys.argv.index("-d")
-    else:
-        d_index = False
-    if "-f" in sys.argv:
-        f_index = sys.argv.index("-f")
-    else:
-        f_index = False
-    if not f_index and not d_index:
+    d_index = sys.argv.index("-d") if "-d" in sys.argv else None
+    f_index = sys.argv.index("-f") if "-f" in sys.argv else None
+    if f_index is None and d_index is None:
         print("Please use key or keys '-d' - directory path, '-f' - filename")
         return None
     if d_index < f_index:
@@ -35,10 +29,7 @@ def main() -> None:
 
 
 def write_file(filename: str) -> None:
-    if os.path.exists(filename):
-        write_mode = "a"
-    else:
-        write_mode = "w"
+    write_mode = "a" if os.path.exists(filename) else "w"
     with open(filename, write_mode) as file:
         file.write(datetime.datetime.now().strftime("%G-%m-%d %H:%M:%S")
                    + "\n")
