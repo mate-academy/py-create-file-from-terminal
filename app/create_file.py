@@ -5,23 +5,22 @@ import sys
 
 def make_dir(path: list[str] | str) -> None:
     pathname = os.path.join(sys.path[0], *path)
-    if not os.path.exists(pathname):
-        os.makedirs(pathname)
+    os.makedirs(pathname, exist_ok=True)
     os.chdir(pathname)
 
 
 def main() -> None:
-    d_index = sys.argv.index("-d") if "-d" in sys.argv else None
-    f_index = sys.argv.index("-f") if "-f" in sys.argv else None
-    if f_index is None and d_index is None:
+    d_index = sys.argv.index("-d") if "-d" in sys.argv else False
+    f_index = sys.argv.index("-f") if "-f" in sys.argv else False
+    if not f_index and not d_index:
         print("Please use key or keys '-d' - directory path, '-f' - filename")
         return None
     if d_index < f_index:
         make_dir(sys.argv[d_index + 1:f_index])
     else:
         make_dir(sys.argv[d_index + 1:])
-        if not f_index:
-            return None
+    if not f_index:
+        return None
     if f_index + 1 == len(sys.argv) or sys.argv[f_index + 1] == "-d":
         print("Wrong filename")
         return None
