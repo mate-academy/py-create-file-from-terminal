@@ -5,67 +5,31 @@ from os import makedirs
 from datetime import datetime
 
 length = len(argv)
-command_line = []
-root_dir = getcwd()
+command_line = [element for element in argv]
 tail_dir = []
-end_file = ""
-full_path = ""
 
 
 def body_function() -> None:
-    make_command_line(length)
-    print(f"The command line is: {command_line}")
-
     if "-d" in command_line and "-f" in command_line:
-        both_flags()
+        tail_dir.extend(command_line[2: 4])
+        os.chdir(make_directories())
+        make_file()
+
     else:
         if length == 3 and command_line[1] == "-f":
-            only_f_flag()
+            make_file()
 
         if command_line[1] == "-d":
-            only_d_flag()
+            tail_dir.extend(command_line[2: 4])
             make_directories()
 
 
-def make_command_line(argv_length: int) -> None:
-    for _ in range(length):
-        command_line.append(argv[_])
-    print(f"The command line is: {command_line}")
+def make_directories() -> str:
+    full_path = os.path.join(getcwd(), *tail_dir)
 
-
-def only_f_flag() -> None:
-    global end_file
-    end_file = command_line[2]
-    make_file()
-
-
-def only_d_flag() -> None:
-    global tail_dir
-    for _ in range(2, length):
-        tail_dir.append(command_line[_])
-
-
-def both_flags() -> None:
-    global end_file
-    global tail_dir
-
-    end_file = command_line[length - 1]
-    for _ in range(2, length - 2):
-        tail_dir.append(command_line[_])
-
-    make_directories()
-    os.chdir(full_path)
-    make_file()
-
-
-def make_directories() -> None:
-    global full_path
-    full_path = root_dir
-    for _ in tail_dir:
-        full_path = os.path.join(str(full_path), _)
     if not os.path.exists(full_path):
-        print(full_path)
-        makedirs(full_path, 0o777)
+        makedirs(full_path)
+    return full_path
 
 
 def make_file() -> None:
@@ -81,7 +45,7 @@ def make_file() -> None:
         text_of_file += f"{str(counter)} {line}\n"
         counter += 1
 
-    with open(end_file, "a+") as f:
+    with open(os.path.join(getcwd(), "file.txt"), "a+") as f:
         f.write(text_of_file)
 
 
