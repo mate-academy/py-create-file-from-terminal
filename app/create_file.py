@@ -1,49 +1,52 @@
-import argparse
+from sys import argv
+from os import path, makedirs
 from datetime import datetime
-import os
 
 
-def create_file() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-d", type=str, nargs="*", help="create directory")
-    parser.add_argument("-f", type=str, help="create file")
-
-    args = parser.parse_args()
-
-    file_mode = "w"
-
-    directory_path = os.path.join(*args.d) if args.d else ""
-    file_name_with_path = os.path.join(
-        directory_path, args.f
-    ) if args.f else ""
-
-    if directory_path:
-        os.makedirs(directory_path, exist_ok=True)
-
-    if os.path.exists(file_name_with_path):
-        file_mode = "a"
-
-    if file_name_with_path:
-        with open(file_name_with_path, file_mode) as output_file:
-            line_count = 1
-            date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            output_file.write(f"{date}\n")
-
-            while True:
-                another_message = "Another " if file_mode == "a" else ""
-                input_message = (f"Enter content line: "
-                                 f"{another_message}Line{line_count} ")
-                output_message = (f"{line_count} {another_message}"
-                                  f"Line{line_count} ")
-
-                input_text = input(input_message)
-
-                if input_text == "stop":
-                    output_file.write("\n")
-                    break
-
-                output_file.write(f"{output_message} {input_text} \n")
-                line_count += 1
+def is_param(index: int, commands: list) -> bool:
+    return index < len(commands) and commands[index] not in ["-f", "-d"]
 
 
-create_file()
+def get_commands(commands: list) -> dict[str]:
+    param = {"-f": "", "-d": ""}
+
+    if "-f" in commands:
+        file_index = commands.index("-f") + 1
+        if is_param(file_index, commands):
+            param["-f"] = commands[file_index]
+
+    if "-d" in commands:
+        path_index = commands.index("-d") + 1
+        while is_param(path_index, commands):
+            param["-d"] = path.join(param["-d"], commands[path_index])
+            path_index += 1
+
+    return param
+
+
+def create_directory(path_: str) -> None:
+    if path_ and not path.isdir(path_):
+        makedirs(path_)
+
+
+def write_to_file(file_name: str, path_: str) -> None:
+    if not file_name:
+        return
+    with open(path.join(path_, file_name), "a") as f:
+        f.write(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n')
+        i = 1
+        while (line_content := input("Enter content line: ")) != "stop":
+            f.write(f"{i} {line_content}\n")
+
+            i += 1
+
+
+def main() -> None:
+    if len(argv) > 2:
+        param = get_commands([arg.strip() for arg in argv])
+        create_directory(param["-d"])
+        write_to_file(param["-f"], param["-d"])
+
+
+if __name__ == "__main__":
+    main()
