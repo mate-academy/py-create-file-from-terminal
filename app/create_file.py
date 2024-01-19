@@ -32,7 +32,6 @@ def main() -> None:
 
     if index_d is not None and index_f is not None:
         if index_f < index_d:
-            file_name = parameters[index_f + 1]
             directory_path = os.path.join(*parameters[index_d + 1:])
         else:
             directory_path = os.path.join(*parameters[index_d + 1: index_f])
