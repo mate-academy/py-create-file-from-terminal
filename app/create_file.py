@@ -25,7 +25,10 @@ def main() -> None:
     parameters = sys.argv
     index_f = None if "-f" not in parameters else parameters.index("-f")
     index_d = None if "-d" not in parameters else parameters.index("-d")
-    file_name = parameters[index_f + 1]
+    file_name = None
+
+    if index_f is not None:
+        file_name = parameters[index_f + 1]
 
     if index_d is not None and index_f is not None:
         if index_f < index_d:
