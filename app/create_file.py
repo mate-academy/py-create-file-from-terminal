@@ -7,7 +7,7 @@ def get_clean_command(cmd: str) -> str:
     return " ".join(sys.argv).split(cmd)[1]
 
 
-def file_creation(file_path) -> None:
+def file_creation(file_path: str) -> None:
     with open(file_path, "a") as file:
         line = 1
         file.write(
@@ -44,5 +44,5 @@ def path_operations() -> None:
         file_creation(file_path)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     path_operations()
