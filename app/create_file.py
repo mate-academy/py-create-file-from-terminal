@@ -31,16 +31,17 @@ def main() -> None:
     key_d = parameters.index("-d") if "-d" in parameters else None
 
     if key_d:
-        if not key_f:
-            dirs = parameters[key_d + 1:]
-            create_dirs(dirs)
+        if key_f:
+            if key_d < key_f:
+                dirs = parameters[key_d + 1: key_f]
+            else:
+                dirs = parameters[key_d + 1:]
+            path = os.path.join(create_dirs(dirs), parameters[key_f + 1])
+            create_file(path)
 
-        elif key_d < key_f:
-            dirs = parameters[key_d + 1: key_f]
         else:
             dirs = parameters[key_d + 1:]
-        path = os.path.join(create_dirs(dirs), parameters[key_f + 1])
-        create_file(path)
+            create_dirs(dirs)
 
     elif key_f:
         file_name = parameters[key_f + 1]
