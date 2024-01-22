@@ -7,12 +7,11 @@ def get_clean_command(cmd: str) -> str:
     return " ".join(sys.argv).split(cmd)[1]
 
 
-def file_creation(file_path: str) -> None:
+def create_file(file_path: str) -> None:
     with open(file_path, "a") as file:
         line = 1
-        file.write(
-            datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
-        )
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(f"{current_time}\n")
         while True:
             reply = input("Enter content line: ")
             if reply == "stop":
@@ -41,7 +40,7 @@ def path_operations() -> None:
         raise ValueError("No '-f' or '-d' command was passed!")
 
     if file_path:
-        file_creation(file_path)
+        create_file(file_path)
 
 
 if __name__ == "__main__":
