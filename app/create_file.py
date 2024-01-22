@@ -4,11 +4,7 @@ import datetime
 
 
 def create_dir(args: list) -> str:
-    path = ""
-
-    for arg in args:
-        path += arg + "/"
-
+    path = os.path.join(*args)
     os.makedirs(path, exist_ok=True)
 
     return path
@@ -36,7 +32,11 @@ if __name__ == "__main__":
         d_index = sys.argv.index("-d")
         f_index = sys.argv.index("-f")
 
-        dir_path = create_dir(sys.argv[d_index + 1: f_index])
+        if d_index < f_index:
+            dir_path = create_dir(sys.argv[d_index + 1: f_index])
+        else:
+            dir_path = create_dir(sys.argv[d_index + 1: len(sys.argv)])
+
         file_path = os.path.join(dir_path, sys.argv[f_index + 1])
         create_file(file_path)
 
