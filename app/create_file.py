@@ -7,6 +7,11 @@ class InvalidInputError(Exception):
     pass
 
 
+def create_dir(dir_path: list) -> None:
+    directory_path = path.join(*dir_path)
+    makedirs(directory_path)
+
+
 def create_file(file_path: str) -> None:
     with open(file_path, "a") as file:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -36,19 +41,16 @@ def main() -> None:
             if len(sys.argv) < 4:
                 raise InvalidInputError("Please provide directory "
                                         "and file paths after -d -f flags.")
-            directory_path = path.join(*sys.argv[2:-2])
-            makedirs(directory_path)
-            create_file(path.join(directory_path, sys.argv[-1]))
+            create_dir(sys.argv[2:-2])
+            create_file(path.join(path.join(*sys.argv[2:-2]), sys.argv[-1]))
         else:
-            directory_path = path.join(*sys.argv[2:])
-            makedirs(directory_path)
+            create_dir(sys.argv[2:])
 
     elif flag == "-f":
         if len(sys.argv) < 3:
             raise InvalidInputError("Please provide a file name "
                                     "after -f flag.")
-        file_path = sys.argv[2]
-        create_file(file_path)
+        create_file(sys.argv[2])
 
     else:
         raise InvalidInputError(f"Invalid flag: {flag}")
