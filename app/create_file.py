@@ -5,18 +5,14 @@ from datetime import datetime
 from parser import create_parser
 
 
-args = create_parser().parse_args()
-path = ""
-
-
 def create_dirs(arguments: Namespace) -> str:
     new_path = os.path.join(*arguments.dir)
     os.makedirs(new_path, exist_ok=True)
     return new_path
 
 
-def create_file() -> None:
-    with open(os.path.join(path, args.file[0]), "a") as file:
+def create_file(path: str, arguments: Namespace) -> None:
+    with open(os.path.join(path, arguments.file[0]), "a") as file:
         file.write(datetime.now().strftime("%Y-%d-%m %H:%M:%S\n"))
         line_num = 1
         line_in = input("Enter content line: ")
@@ -27,8 +23,12 @@ def create_file() -> None:
         file.write("\n")
 
 
-if args.dir:
-    path = create_dirs(args)
+def main() -> None:
+    path = ""
+    args = create_parser().parse_args()
 
-if args.file:
-    create_file()
+    if args.dir:
+        path = create_dirs(args)
+
+    if args.file:
+        create_file(path, args)
