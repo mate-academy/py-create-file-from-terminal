@@ -30,22 +30,23 @@ def main() -> None:
     key_f = parameters.index("-f") if "-f" in parameters else None
     key_d = parameters.index("-d") if "-d" in parameters else None
 
-    if key_d:
-        if key_f:
-            if key_d < key_f:
-                dirs = parameters[key_d + 1: key_f]
-            else:
-                dirs = parameters[key_d + 1:]
-            path = os.path.join(create_dirs(dirs), parameters[key_f + 1])
-            create_file(path)
+    if key_f and not key_d:
+        file_name = parameters[key_f + 1]
+        create_file(file_name)
 
-        else:
+    elif key_d:
+        if not key_f:
             dirs = parameters[key_d + 1:]
             create_dirs(dirs)
 
-    elif key_f:
-        file_name = parameters[key_f + 1]
-        create_file(file_name)
+        else:
+            dirs = (
+                parameters[key_d + 1: key_f]
+                if key_f > key_d
+                else parameters[key_d + 1:]
+            )
+            path = os.path.join(create_dirs(dirs), parameters[key_f + 1])
+            create_file(path)
 
 
 if __name__ == "__main__":
