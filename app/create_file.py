@@ -27,21 +27,25 @@ def create_file(file_name: str) -> None:
             line_counter += 1
 
 
-if __name__ == "__main__":
-    if "-d" in sys.argv and "-f" in sys.argv:
-        d_index = sys.argv.index("-d")
-        f_index = sys.argv.index("-f")
+def read_arguments_from_terminal(args: list) -> None:
+    if "-d" in args and "-f" in args:
+        d_index = args.index("-d")
+        f_index = args.index("-f")
 
         if d_index < f_index:
-            dir_path = create_dir(sys.argv[d_index + 1: f_index])
+            dir_path = create_dir(args[d_index + 1: f_index])
         else:
-            dir_path = create_dir(sys.argv[d_index + 1: len(sys.argv)])
+            dir_path = create_dir(args[d_index + 1: len(args)])
 
-        file_path = os.path.join(dir_path, sys.argv[f_index + 1])
+        file_path = os.path.join(dir_path, args[f_index + 1])
         create_file(file_path)
 
-    elif "-d" in sys.argv:
-        create_dir(sys.argv[sys.argv.index("-d") + 1: len(sys.argv)])
+    elif "-d" in args:
+        create_dir(args[args.index("-d") + 1: len(args)])
 
-    elif "-f" in sys.argv:
-        create_file(sys.argv[sys.argv.index("-f") + 1])
+    elif "-f" in args:
+        create_file(args[args.index("-f") + 1])
+
+
+if __name__ == "__main__":
+    read_arguments_from_terminal(sys.argv)
