@@ -15,21 +15,23 @@ Enter line by line to file from the terminal. To complete - enter "stop" """)
 
 
 def parse_cmd(list_args: list) -> None:
-    # output:  fpath = {"dirs": "", "filename": ""}
-    fpath = {}
+    # output:  file_path = {"dirs": "", "filename": ""}
+    file_path = {}
 
-    idx_f = len(list_args)
+    index_filename = len(list_args)
     if "-f" in list_args:
-        idx_f = list_args.index("-f")
-        fpath["filename"] = "".join(list_args[idx_f + 1:idx_f + 2])
+        index_filename = list_args.index("-f")
+        file_path["filename"] = "".join(
+            list_args[index_filename + 1:index_filename + 2]
+        )
 
     if "-d" in list_args:
-        idx_d = list_args.index("-d")
-        fpath["dirs"] = os.path.join(
-            *list_args[idx_d + 1: idx_f] if idx_d < idx_f
-            else list_args[idx_d + 1:]
+        index_dirs = list_args.index("-d")
+        file_path["dirs"] = os.path.join(
+            *list_args[index_dirs + 1: index_filename]
+            if index_dirs < index_filename else list_args[index_dirs + 1:]
             , "")
-    return fpath
+    return file_path
 
 
 def create_dirs(path_dirs: str) -> None:
@@ -62,18 +64,18 @@ def write_input_to_file(full_path: str) -> None:
 def main() -> None:
     # py create_file.py -d dir1 dir2 .. dirN -f filename.ext
 
-    fpath = parse_cmd(sys.argv[1:])
+    file_path = parse_cmd(sys.argv[1:])
 
-    if fpath:
+    if file_path:
         full_path = os.path.join(
             os.getcwd(),
-            fpath.get("dirs", ""),
-            fpath.get("filename", ""))
+            file_path.get("dirs", ""),
+            file_path.get("filename", ""))
 
-        if fpath.get("dirs", None):
-            create_dirs(fpath["dirs"])
+        if file_path.get("dirs", None):
+            create_dirs(file_path["dirs"])
 
-        if fpath.get("filename", None):
+        if file_path.get("filename", None):
             write_input_to_file(full_path)
     else:
         how_to_use()
