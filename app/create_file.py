@@ -35,7 +35,7 @@ def create_path_regard_status(*flag_status: bool) -> str:
     return path
 
 
-def main():
+def main() -> None:
     arguments = sys.argv[1:]
     flag_f = "-f" in arguments
     flag_d = "-d" in arguments
