@@ -44,7 +44,7 @@ def create_dirs(path_dirs: str) -> None:
 def write_input_to_file(full_path: str) -> None:
     try:
         with open(full_path, "a+") as f:
-            f.write(f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
+            f.write(f"""{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n""")
             number = 1
             while True:
                 inp_str = input("Enter content line: ")
