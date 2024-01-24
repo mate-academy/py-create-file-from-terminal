@@ -35,20 +35,27 @@ def create_path_regard_status(*flag_status: bool) -> str:
     return path
 
 
-flag_f = "-f" in sys.argv
-flag_d = "-d" in sys.argv
+def main():
+    arguments = sys.argv[1:]
+    flag_f = "-f" in arguments
+    flag_d = "-d" in arguments
 
-if flag_f and not flag_d:
-    filename = sys.argv[-1]
-    if not os.path.exists(filename):
-        write_content_to_file(filename, "w")
-    else:
-        write_content_to_file(filename, "a")
-if flag_d and not flag_f:
-    new_path = create_path_regard_status(flag_f, flag_d)
-    os.makedirs(new_path, exist_ok=True)
-if flag_f and flag_d:
-    new_path = create_path_regard_status(flag_f, flag_d)
-    os.makedirs(new_path, exist_ok=True)
-    path_to_file = os.path.join(new_path, sys.argv[-1])
-    write_content_to_file(path_to_file, "w")
+    if flag_f and not flag_d:
+        filename = arguments[-1]
+        file_mode = "w" if not os.path.exists(filename) else "a"
+        write_content_to_file(filename, file_mode)
+
+    if flag_d and not flag_f:
+        new_path = create_path_regard_status(flag_f, flag_d)
+        os.makedirs(new_path, exist_ok=True)
+
+    if flag_f and flag_d:
+        new_path = create_path_regard_status(flag_f, flag_d)
+        os.makedirs(new_path, exist_ok=True)
+        path_to_file = os.path.join(new_path, arguments[-1])
+        file_mode = "w" if not os.path.exists(path_to_file) else "a"
+        write_content_to_file(path_to_file, file_mode)
+
+
+if __name__ == "__main__":
+    main()
