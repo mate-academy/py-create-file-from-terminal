@@ -38,10 +38,13 @@ if "-d" in arguments and "-f" not in arguments:
     create_directory(dir_path)
 if "-d" in arguments and "-f" in arguments:
     d_index, f_index = arguments.index("-d"), arguments.index("-f")
-    directories = arguments[d_index + 1:f_index]
+    if f_index > d_index:
+        directories = arguments[d_index + 1:f_index]
+    else:
+        directories = arguments[d_index + 1:]
     dir_path = os.path.join(os.getcwd(), *directories)
     create_directory(dir_path)
 
-    file_name = arguments[-1]
+    file_name = arguments[f_index + 1]
     file_path = os.path.join(dir_path, file_name)
     file_content(file_path)
