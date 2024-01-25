@@ -30,15 +30,15 @@ def main() -> None:
     filename = None
     content = []
 
-    if "-d" in sys.argv:
-        index = sys.argv.index("-d")
-        directory = sys.argv[index + 1:]
-    elif "-f" in sys.argv:
-        index = sys.argv.index("-f")
-        filename = sys.argv[index + 1]
-    else:
-        print("Invalid arguments. Please use -d or -f flags.")
-        sys.exit(1)
+    for arg in sys.argv[1:]:
+        if arg == "-d":
+            directory_mode = True
+        elif arg == "-f":
+            directory_mode = False
+        elif directory_mode:
+            directory.append(arg)
+        elif filename is None:
+            filename = arg
 
     if directory:
         os.makedirs(os.path.join(*directory), exist_ok=True)
