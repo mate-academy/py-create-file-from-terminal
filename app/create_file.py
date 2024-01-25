@@ -1,14 +1,14 @@
-from sys import argv
-from os import path, makedirs
+import os
 from datetime import datetime
+from sys import argv
 
 
 def file_path(arguments: list) -> str:
-    return path.join(*arguments)
+    return os.path.join(*arguments)
 
 
 def create_directory(arguments: list) -> None:
-    makedirs(file_path(arguments), exist_ok=True)
+    os.makedirs(file_path(arguments), exist_ok=True)
 
 
 def create_file(file_name: str) -> None:
@@ -16,6 +16,7 @@ def create_file(file_name: str) -> None:
         line_number = 1
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         file.write(f"{timestamp}\n")
+
         while True:
             content = input("Enter content line: ")
             if content == "stop":
@@ -35,8 +36,6 @@ def main() -> None:
         arguments = [arg for arg in command[2:] if arg != "-f"]
         create_directory(arguments[:-1])
         create_file(file_path(arguments))
-    else:
-        raise ValueError("Available commands: '-d' and '-f'")
 
 
 if __name__ == "__main__":
