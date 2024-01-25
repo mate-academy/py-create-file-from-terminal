@@ -19,42 +19,30 @@ def write_content_to_file(filepath: str, mode: str) -> None:
             file_in.write(f"{counter} {content}\n")
 
 
-def create_path_regard_status(*flag_status: bool) -> str:
-    f_flag_status, d_flag_status = flag_status
-    path = ""
-    if all(flag_status):
-        first_dir = sys.argv.index("-d") + 1
-        last_dir = sys.argv.index("-f")
-        directories = sys.argv[first_dir:last_dir]
-        path = os.path.join(*directories)
-
-    if d_flag_status and not f_flag_status:
-        directories = sys.argv[sys.argv.index("-d") + 1:]
-        path = os.path.join(*directories)
-
-    return path
+def create_path(directories: list[str], filename: str = "") -> str:
+    return os.path.join(*directories, filename)
 
 
 def main() -> None:
-    arguments = sys.argv[1:]
-    flag_f = "-f" in arguments
-    flag_d = "-d" in arguments
+    flag_f = "-f" in sys.argv
+    flag_d = "-d" in sys.argv
 
     if flag_f and not flag_d:
-        filename = arguments[-1]
-        file_mode = "w" if not os.path.exists(filename) else "a"
-        write_content_to_file(filename, file_mode)
+        file_mode = "w" if not os.path.exists(sys.argv[-1]) else "a"
+        write_content_to_file(sys.argv[-1], file_mode)
 
     if flag_d and not flag_f:
-        new_path = create_path_regard_status(flag_f, flag_d)
-        os.makedirs(new_path, exist_ok=True)
+        dir_names = sys.argv[sys.argv.index("-d") + 1:]
+        os.makedirs(create_path(dir_names), exist_ok=True)
 
     if flag_f and flag_d:
-        new_path = create_path_regard_status(flag_f, flag_d)
-        os.makedirs(new_path, exist_ok=True)
-        path_to_file = os.path.join(new_path, arguments[-1])
-        file_mode = "w" if not os.path.exists(path_to_file) else "a"
-        write_content_to_file(path_to_file, file_mode)
+        first_dir = sys.argv.index("-d") + 1
+        last_dir = sys.argv.index("-f")
+        os.makedirs(create_path(sys.argv[first_dir:last_dir]), exist_ok=True)
+        write_content_to_file(
+            create_path(sys.argv[first_dir:last_dir], sys.argv[-1]),
+            "w"
+        )
 
 
 if __name__ == "__main__":
