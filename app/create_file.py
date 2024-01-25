@@ -4,14 +4,13 @@ from datetime import datetime
 from typing import Optional
 
 
-import os
-from datetime import datetime
-from typing import Optional
-
-def create_file(directory: Optional[str], filename: Optional[str], content: Optional[str]) -> None:
+def create_file(directory: Optional[str],
+                filename: Optional[str],
+                content: Optional[str]) -> None:
     filepath = get_filepath(directory, filename)
     initialize_file(filepath)
     input_content(filepath)
+
 
 def get_filepath(directory: Optional[str], filename: Optional[str]) -> str:
     if directory:
@@ -20,6 +19,7 @@ def get_filepath(directory: Optional[str], filename: Optional[str]) -> str:
     else:
         return filename
 
+
 def initialize_file(filepath: str) -> None:
     if os.path.isfile(filepath):
         with open(filepath, "a") as file:
@@ -27,6 +27,7 @@ def initialize_file(filepath: str) -> None:
     else:
         with open(filepath, "w") as file:
             file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n\n")
+
 
 def input_content(filepath: str) -> None:
     line_number = 1
@@ -37,6 +38,7 @@ def input_content(filepath: str) -> None:
         with open(filepath, "a") as file:
             file.write(f"{line_number} {line}\n")
         line_number += 1
+
 
 if __name__ == "__main__":
     args = sys.argv[1:]
