@@ -31,11 +31,15 @@ def file_content(file_name: str) -> None:
 if "-f" in arguments and "-d" not in arguments:
     file_name = arguments[-1]
     file_content(file_name)
+
 if "-d" in arguments and "-f" not in arguments:
     d_index = arguments.index("-d")
     directories = arguments[d_index + 1:]
     dir_path = os.path.join(os.getcwd(), *directories)
-    create_directory(dir_path)
+
+    if not os.path.exists(dir_path):
+        create_directory(dir_path)
+
 if "-d" in arguments and "-f" in arguments:
     d_index, f_index = arguments.index("-d"), arguments.index("-f")
     if f_index > d_index:
@@ -43,7 +47,9 @@ if "-d" in arguments and "-f" in arguments:
     else:
         directories = arguments[d_index + 1:]
     dir_path = os.path.join(os.getcwd(), *directories)
-    create_directory(dir_path)
+
+    if not os.path.exists(dir_path):
+        create_directory(dir_path)
 
     file_name = arguments[f_index + 1]
     file_path = os.path.join(dir_path, file_name)
