@@ -1,1 +1,51 @@
-# write your code here
+import sys
+import os
+from datetime import datetime
+
+
+def perform_command() -> None:
+    arguments = sys.argv
+    path = ""
+
+    if "-d" in arguments:
+        path = create_directory(arguments[2:])
+    if "-f" in arguments:
+        create_file(path, arguments[-1])
+
+
+def create_directory(arguments: list[str]) -> str:
+    path = ""
+    for value in arguments:
+        if value == "-f":
+            break
+        path = os.path.join(path, value)
+
+    try:
+        os.makedirs(path)
+    except FileExistsError:
+        pass
+    return path
+
+
+def create_file(path: str, file_name: str) -> None:
+    path = os.path.join(path, file_name)
+    with open(path, "a+") as file_out:
+        file_out.write(fill_file())
+
+
+def fill_file() -> str:
+    file_content = f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n"
+    line_number = 0
+
+    while True:
+        current_line = input("Enter content line: ")
+        if current_line.lower() == "stop":
+            break
+        line_number += 1
+        file_content += f"{line_number} {current_line}\n"
+
+    return f"{file_content}\n"
+
+
+if __name__ == "__main__":
+    perform_command()
