@@ -23,7 +23,7 @@ else:
 
 with open(os.path.join(*dirs, user_file), "a") as a:
     if not is_file_exist:
-        a.write(f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
+        a.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
     user_data_line = input("Enter content line: ")
 
     while user_data_line.lower() != "stop":
