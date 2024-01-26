@@ -34,7 +34,8 @@ def create_file(path: str, file_name: str) -> None:
 
 
 def fill_file() -> str:
-    file_content = f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n"
+    current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    file_content = f"{current_date}\n"
     line_number = 0
 
     while True:
