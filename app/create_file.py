@@ -8,9 +8,11 @@ def perform_command() -> None:
     path = ""
 
     if "-d" in arguments:
-        path = create_directory(arguments[2:])
+        dir_start_index = arguments.index("-d") + 1
+        path = create_directory(arguments[dir_start_index:])
     if "-f" in arguments:
-        create_file(path, arguments[-1])
+        file_name_index = arguments.index("-f") + 1
+        create_file(path, arguments[file_name_index])
 
 
 def create_directory(arguments: list[str]) -> str:
