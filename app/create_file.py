@@ -3,19 +3,15 @@ import os
 from datetime import datetime
 
 
-def create_file(list_of_dirs: list[str], filename: str) -> None:
-    if filename == "":
-        path_for_dirs = os.path.join(*list_of_dirs)
-        os.makedirs(path_for_dirs, exist_ok=True)
-        return
-    if len(list_of_dirs) > 0:
-        path_for_file = os.path.join(*list_of_dirs)
-        os.makedirs(path_for_file, exist_ok=True)
-        path_for_file = os.path.join(*list_of_dirs, filename)
-    else:
-        path_for_file = filename
+def create_file(dirs: list[str], filename: str) -> None:
+    filepath = ""
+    if len(dirs):
+        filepath = os.path.join(*dirs)
+        os.makedirs(filepath, exist_ok=True)
+    if filename:
+        filepath = os.path.join(filepath, filename)
 
-    with open(path_for_file, "a") as a:
+    with open(filepath, "a") as a:
         a.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         user_data_line = input("Enter content line: ")
         counter = 1
@@ -28,29 +24,31 @@ def create_file(list_of_dirs: list[str], filename: str) -> None:
         a.write("\n")
 
 
-def create_list_dirs(list_of_command: list[str]) -> list[str]:
-    current_dirs = []
-    for element in list_of_command:
-        if element == "-f":
-            break
-        current_dirs.append(element)
-    return current_dirs
+def create_list_dirs(commands: list[str]) -> list[str]:
+    try:
+        return commands[:commands.index("-f")]
+    except ValueError:
+        return commands
 
 
-commands_list = sys.argv[1:]
+terminal_commands = sys.argv[1:]
 
 
 def main() -> None:
-    if "-d" in commands_list and "-f" in commands_list:
-        user_file = commands_list[commands_list.index("-f") + 1:][0]
+    if "-d" in terminal_commands and "-f" in terminal_commands:
+        user_file = terminal_commands[terminal_commands.index("-f") + 1:][0]
 
-        dirs = create_list_dirs(commands_list[1:])
+        dirs = create_list_dirs(
+            terminal_commands[terminal_commands.index("-d") + 1:]
+        )
         create_file(dirs, user_file)
-    elif "-d" in commands_list:
-        dirs = create_list_dirs(commands_list[1:])
+    elif "-d" in terminal_commands:
+        dirs = create_list_dirs(
+            terminal_commands[terminal_commands.index("-d") + 1:]
+        )
         create_file(dirs, "")
-    elif "-f" in commands_list:
-        user_file = commands_list[commands_list.index("-f") + 1:][0]
+    elif "-f" in terminal_commands:
+        user_file = terminal_commands[terminal_commands.index("-f") + 1:][0]
         create_file([], user_file)
     else:
         create_file(["dir1", "dir2"], "file.txt")
