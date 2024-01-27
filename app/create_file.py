@@ -22,10 +22,8 @@ def create_directory(arguments: list[str]) -> str:
             break
         path = os.path.join(path, value)
 
-    try:
+    if not os.path.exists(path):
         os.makedirs(path)
-    except FileExistsError:
-        pass
     return path
 
 
