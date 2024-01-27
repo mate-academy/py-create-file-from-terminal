@@ -4,7 +4,6 @@ from datetime import datetime
 
 
 def create_file(list_of_dirs: list[str], filename: str) -> None:
-    print("filename", filename)
     if filename == "":
         path_for_dirs = os.path.join(*list_of_dirs)
         os.makedirs(path_for_dirs, exist_ok=True)
