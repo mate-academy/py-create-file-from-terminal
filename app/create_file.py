@@ -30,25 +30,31 @@ def create_file(list_of_dirs: list[str], filename: str) -> None:
 
 def create_list_dirs(list_of_command: list[str]) -> list[str]:
     current_dirs = []
-    for el in list_of_command:
-        if el == "-f":
+    for element in list_of_command:
+        if element == "-f":
             break
-        current_dirs.append(el)
+        current_dirs.append(element)
     return current_dirs
 
 
 commands_list = sys.argv[1:]
 
-if "-d" in commands_list and "-f" in commands_list:
-    user_file = commands_list[commands_list.index("-f") + 1:][0]
 
-    dirs = create_list_dirs(commands_list[1:])
-    create_file(dirs, user_file)
-elif "-d" in commands_list:
-    dirs = create_list_dirs(commands_list[1:])
-    create_file(dirs, "")
-elif "-f" in commands_list:
-    user_file = commands_list[commands_list.index("-f") + 1:][0]
-    create_file([], user_file)
-else:
-    create_file(["dir1", "dir2"], "file.txt")
+def main():
+    if "-d" in commands_list and "-f" in commands_list:
+        user_file = commands_list[commands_list.index("-f") + 1:][0]
+
+        dirs = create_list_dirs(commands_list[1:])
+        create_file(dirs, user_file)
+    elif "-d" in commands_list:
+        dirs = create_list_dirs(commands_list[1:])
+        create_file(dirs, "")
+    elif "-f" in commands_list:
+        user_file = commands_list[commands_list.index("-f") + 1:][0]
+        create_file([], user_file)
+    else:
+        create_file(["dir1", "dir2"], "file.txt")
+
+
+if __name__ == "__main__":
+    main()
