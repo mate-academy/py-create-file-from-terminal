@@ -11,17 +11,17 @@ def create_file(dirs: list[str], filename: str) -> None:
     if filename:
         filepath = os.path.join(filepath, filename)
 
-    with open(filepath, "a") as a:
-        a.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-        user_data_line = input("Enter content line: ")
-        counter = 1
-
-        while user_data_line.lower() != "stop":
-            a.write(f"{counter} {user_data_line}\n")
-            counter += 1
+        with open(filepath, "a") as a:
+            a.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
             user_data_line = input("Enter content line: ")
+            counter = 1
 
-        a.write("\n")
+            while user_data_line.lower() != "stop":
+                a.write(f"{counter} {user_data_line}\n")
+                counter += 1
+                user_data_line = input("Enter content line: ")
+
+            a.write("\n")
 
 
 def create_list_dirs(commands: list[str]) -> list[str]:
