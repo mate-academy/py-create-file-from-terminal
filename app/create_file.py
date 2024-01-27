@@ -40,7 +40,7 @@ def create_list_dirs(list_of_command: list[str]) -> list[str]:
 commands_list = sys.argv[1:]
 
 
-def main():
+def main() -> None:
     if "-d" in commands_list and "-f" in commands_list:
         user_file = commands_list[commands_list.index("-f") + 1:][0]
 
