@@ -11,12 +11,12 @@ if "-d" in command:
         if com == "-f":
             break
         directories.append(com)
-    dir_path = os.path.join(*directories)
+    dir_path = os.path.join(*directories) + "/"
     os.makedirs(dir_path, exist_ok=True)
 
 
 if "-f" in command:
-    with open(dir_path + "/" + command[-1], "w") as f:
+    with open(dir_path + command[-1], "w") as f:
         f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
         line = input("Enter content line:")
         while line != "stop":
