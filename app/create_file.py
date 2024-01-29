@@ -20,7 +20,8 @@ def make_dir() -> None:
 
 
 def make_file() -> None:
-    with open(os.path.join(dir_path, commands[commands.index("-f") + 1]), "w") as f:
+    with open(os.path.join(dir_path,
+                           commands[commands.index("-f") + 1]), "w") as f:
         f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
         content = input("Enter content line:")
         line_counter = 1
