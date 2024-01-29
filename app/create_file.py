@@ -14,7 +14,11 @@ if __name__ == "__main__":
     file_index = 0
     if "-f" in terminal_commands:
         file_index = terminal_commands.index("-f")
-        if (file_index + 1 <= command_count - 1) and terminal_commands[file_index + 1] != "-d":
+        if (
+                file_index + 1 <= command_count - 1
+        ) and (
+                terminal_commands[file_index + 1]
+        ) != "-d":
             file_name = terminal_commands[file_index + 1]
     if dir_index != 0:
         if dir_index > file_index:
