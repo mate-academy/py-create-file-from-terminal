@@ -5,8 +5,6 @@ from datetime import datetime
 commands = sys.argv
 dir_path = ""
 
-print(commands)
-
 
 def make_dir() -> None:
 
