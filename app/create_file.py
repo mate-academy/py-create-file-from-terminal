@@ -4,9 +4,7 @@ from datetime import datetime
 
 
 def create_file(directory: str, filename: str) -> str:
-    filepath = os.path.join(directory, filename)
-
-    return filepath
+    return os.path.join(directory, filename)
 
 
 def write_content(filepath: str) -> None:
@@ -30,6 +28,10 @@ def main() -> None:
     if "-d" in sys.argv and "-f" in sys.argv:
         dir_index = sys.argv.index("-d") + 1
         file_index = sys.argv.index("-f") + 1
+
+        if file_index < dir_index:
+            print("Invalid argument order. Use `-f` flag after `-d` flag and folder name")
+            return
 
         directory = os.path.join(*sys.argv[dir_index : file_index - 1])
         filename = sys.argv[file_index]
