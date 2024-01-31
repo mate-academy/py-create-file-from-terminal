@@ -22,22 +22,28 @@ def create_directory(directory_path: str) -> None:
 def create_file(file_name: str) -> None:
 
     with open(file_name, "a") as file:
-        line = input("Enter content line: ")
-        file.write(timestamp)
+
+        file.write(f"{timestamp} \n")
         line_num = 1
         while True:
-            file.write(f"{line_num} {line} \n")
-            line_num += 1
+            line = input("Enter content line: ")
             if line == "stop":
                 break
+            file.write(f"{line_num} {line} \n")
+            line_num += 1
 
 
-if "-d" in sys.argv:
-    dir_index = sys.argv.index("-d")
-    directory_path = os.path.join(*sys.argv[dir_index + 1:])
-    create_directory(directory_path)
+def main():
+    if "-d" in sys.argv:
+        dir_index = sys.argv.index("-d")
+        directory_path = os.path.join(*sys.argv[dir_index + 1:])
+        create_directory(directory_path)
+
+    if "-f" in sys.argv:
+        file_index = sys.argv.index("-f")
+        file_name = sys.argv[file_index + 1]
+        create_file(file_name)
 
 
-if "-f" in sys.argv:
-    file_index = sys.argv.index("-f")
-    file_name = sys.argv[file_index + 1]
+if __name__ == '__main__':
+    main()
