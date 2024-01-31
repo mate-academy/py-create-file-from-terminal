@@ -7,6 +7,10 @@ def create_file(directory: str, filename: str) -> str:
     return os.path.join(directory, filename)
 
 
+def create_directory(directory: str, **kwargs) -> None:
+    os.makedirs(directory, **kwargs)
+
+
 def write_content(filepath: str) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -30,20 +34,23 @@ def main() -> None:
         file_index = sys.argv.index("-f") + 1
 
         if file_index < dir_index:
-            print("Invalid argument order. Use `-f` flag after `-d` flag and folder name")
+            print(
+                "Invalid argument order. "
+                "Use `-f` flag after `-d` flag and folder name"
+            )
             return
 
         directory = os.path.join(*sys.argv[dir_index : file_index - 1])
         filename = sys.argv[file_index]
 
-        os.makedirs(directory, exist_ok=True)
+        create_directory(directory, exist_ok=True)
         filepath = create_file(directory, filename)
         write_content(filepath)
 
     elif "-d" in sys.argv:
         dir_index = sys.argv.index("-d") + 1
         directory = os.path.join(*sys.argv[dir_index:])
-        os.makedirs(directory, exist_ok=True)
+        create_directory(directory, exist_ok=True)
 
     elif "-f" in sys.argv:
         file_index = sys.argv.index("-f") + 1
