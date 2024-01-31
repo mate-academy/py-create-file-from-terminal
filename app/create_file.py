@@ -20,7 +20,7 @@ def create_file(file_path: str) -> None:
             if user_input == "stop":
                 break
             file.write(f"{line} Line{line} {user_input}" + "\n")
-
+            line += 1
         file.write("\n")
 
 
