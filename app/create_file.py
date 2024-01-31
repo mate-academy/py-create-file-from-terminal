@@ -47,8 +47,7 @@ def creation_file(content_file_path: str) -> None:
 
 def main() -> None:
     directory_path, file_path = creating_path()
-    if not os.path.exists(directory_path):
-        os.makedirs(directory_path)
+    os.makedirs(directory_path, exist_ok=True)
 
     if directory_path != file_path[:-1]:
         creation_file(file_path)
