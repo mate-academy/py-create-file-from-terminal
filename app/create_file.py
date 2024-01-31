@@ -1,9 +1,9 @@
 import os
-import sys
+import argparse
 from datetime import datetime
 
 
-def create_file(directory: str, filename: str) -> str:
+def create_file_path(directory: str, filename: str) -> str:
     return os.path.join(directory, filename)
 
 
@@ -29,34 +29,28 @@ def write_content(filepath: str) -> None:
 
 
 def main() -> None:
-    if "-d" in sys.argv and "-f" in sys.argv:
-        dir_index = sys.argv.index("-d") + 1
-        file_index = sys.argv.index("-f") + 1
+    parser = argparse.ArgumentParser(
+        description="Create directory or file with content."
+    )
+    parser.add_argument("-d", nargs="*", help="Directory path")
+    parser.add_argument("-f", help="File name")
 
-        if file_index < dir_index:
-            print(
-                "Invalid argument order. "
-                "Use `-f` flag after `-d` flag and folder name"
-            )
-            return
+    args = parser.parse_args()
 
-        directory = os.path.join(*sys.argv[dir_index : file_index - 1])
-        filename = sys.argv[file_index]
+    if args.d and args.f:
+        directory = os.path.join(*args.d)
+        filename = args.f
 
         create_directory(directory, exist_ok=True)
-        filepath = create_file(directory, filename)
+        filepath = create_file_path(directory, filename)
         write_content(filepath)
 
-    elif "-d" in sys.argv:
-        dir_index = sys.argv.index("-d") + 1
-        directory = os.path.join(*sys.argv[dir_index:])
+    elif args.d:
+        directory = os.path.join(*args.d)
         create_directory(directory, exist_ok=True)
 
-    elif "-f" in sys.argv:
-        file_index = sys.argv.index("-f") + 1
-        filename = sys.argv[file_index]
-
-        filepath = create_file(os.getcwd(), filename)
+    elif args.f:
+        filepath = create_file_path(os.getcwd(), args.f)
         write_content(filepath)
 
     else:
