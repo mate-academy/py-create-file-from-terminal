@@ -32,7 +32,7 @@ def create_directory(path: str) -> None:
     print("Directory was successfully created")
 
 
-def main():
+def main() -> None:
     if "-d" in sys.argv and "-f" in sys.argv:
         path = os.path.join(*sys.argv[2:sys.argv.index("-f")])
         create_directory(path)
