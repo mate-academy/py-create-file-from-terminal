@@ -31,13 +31,7 @@ def main() -> None:
 
         if "-f" in commands:
             make_directory(commands[2:-2])
-            make_file(
-                os.path.join(
-                    os.path.join(
-                        *commands[2:-2], commands[-1]
-                    )
-                )
-            )
+            make_file(os.path.join(*commands[2:-2], commands[-1]))
 
         else:
             make_directory(commands[2:])
