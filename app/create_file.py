@@ -5,8 +5,7 @@ from datetime import datetime
 
 def create_directory(dirs: list) -> None:
     path = os.path.join(*dirs)
-    if not os.path.exists(path):
-        os.makedirs(path)
+    os.makedirs(path, exist_ok=True)
 
 
 def create_file(file_path: str) -> None:
@@ -29,7 +28,11 @@ def main() -> None:
 
     if "-d" in args:
         dir_index = args.index("-d")
-        dirs = args[dir_index + 1:]
+        if "-f" in args:
+            file_index = args.index("-f")
+            dirs = args[dir_index + 1:file_index]
+        else:
+            dirs = args[dir_index + 1:]
         create_directory(dirs)
 
     if "-f" in args:
