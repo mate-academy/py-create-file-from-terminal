@@ -1,10 +1,9 @@
 import os
 import sys
-
 from datetime import datetime
 
 
-def unpack_argv() -> tuple:
+def unpack_argv() -> tuple[list[str], str]:
     directory_path_structure = []
     file_name = ""
     flag_dir = False
@@ -25,7 +24,7 @@ def unpack_argv() -> tuple:
     return directory_path_structure, file_name
 
 
-def creating_path() -> tuple:
+def creating_path() -> tuple[str, str]:
     dir_path_components, file_name = unpack_argv()
     dir_path = os.path.join(os.getcwd(), *dir_path_components)
     f_path = os.path.join(dir_path, file_name)
@@ -46,9 +45,14 @@ def creation_file(content_file_path: str) -> None:
             line_number += 1
 
 
-directory_path, file_path = creating_path()
-if not os.path.exists(directory_path):
-    os.makedirs(directory_path)
+def main() -> None:
+    directory_path, file_path = creating_path()
+    if not os.path.exists(directory_path):
+        os.makedirs(directory_path)
 
-if directory_path != file_path[:-1]:
-    creation_file(file_path)
+    if directory_path != file_path[:-1]:
+        creation_file(file_path)
+
+
+if __name__ == "__main__":
+    main()
