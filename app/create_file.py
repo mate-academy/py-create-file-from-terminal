@@ -10,7 +10,7 @@ def make_directory(directories: list) -> None:
 
 def make_file(file_path: str) -> None:
     with open(file_path, "a") as result_file:
-        date = (datetime.now().strftime("%y-%m-%d %H:%M:%S"))
+        date = datetime.now().strftime("%y-%m-%d %H:%M:%S")
         result_file.write(f"{date}\n")
         line_counter = 1
 
@@ -30,9 +30,13 @@ def main() -> None:
     if "-d" in commands:
 
         if "-f" in commands:
+            i = commands.index("-d")
+            if i > 2:
+                make_directory(commands[i + 1:])
+                make_file(os.path.join(*commands[i + 1:], commands[2]))
+                return
             make_directory(commands[2:-2])
             make_file(os.path.join(*commands[2:-2], commands[-1]))
-
         else:
             make_directory(commands[2:])
 
