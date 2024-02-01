@@ -3,14 +3,14 @@ import os
 import datetime
 
 
-def get_directory_list(command_list: list) -> list[str] | None:
-    if command_list.index("-d") < len(command_list) - 1:
-        return command_list[command_list.index("-d") + 1: command_list.index("-f") | 0]
+def get_directory_list(commands: list) -> list[str] | None:
+    if commands.index("-d") < len(commands) - 1:
+        return commands[commands.index("-d") + 1: commands.index("-f") | 0]
 
 
-def get_file_name(command_list: list[str]) -> str | None:
-    if command_list.index("-f") < len(command_list) - 1:
-        return command_list[command_list.index("-f") + 1]
+def get_file_name(commands: list[str]) -> str | None:
+    if commands.index("-f") < len(commands) - 1:
+        return commands[commands.index("-f") + 1]
 
 
 def create_directories(path: list[str], command_list: list[str]) -> None:
@@ -39,9 +39,9 @@ def create_file(path: list[str], command_list: list[str]) -> None:
 
 
 if __name__ == "__main__":
-    commands = sys.argv
+    user_input = sys.argv
     final_path = [os.getcwd()]
-    if "-d" in commands:
-        create_directories(path=final_path, command_list=commands)
-    if "-f" in commands:
-        create_file(path=final_path, command_list=commands)
+    if "-d" in user_input:
+        create_directories(path=final_path, command_list=user_input)
+    if "-f" in user_input:
+        create_file(path=final_path, command_list=user_input)
