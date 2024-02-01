@@ -24,12 +24,12 @@ def create_file(file_name: str) -> None:
 
 
 def main() -> None:
-    for i, arg in enumerate(sys.argv):
+    for index, arg in enumerate(sys.argv):
         if arg == "-d":
-            create_directory(sys.argv[i + 1])
+            create_directory(sys.argv[index + 1])
 
         elif arg == "-f":
-            create_file(sys.argv[i + 1])
+            create_file(sys.argv[index + 1])
 
 
 if __name__ == "__main__":
