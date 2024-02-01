@@ -3,41 +3,31 @@ import os
 import datetime
 
 
-def get_directory_list(cmd_ls: list) -> str | None:
-    if cmd_ls.count("-d"):
-        if cmd_ls.count("-f"):
-            directory = cmd_ls[cmd_ls.index("-d") + 1: cmd_ls.index("-f")]
-        else:
-            directory = cmd_ls[cmd_ls.index("-d") + 1:]
-        return directory
+def get_directory_list(command_list: list) -> list[str] | None:
+    if command_list.index("-d") < len(command_list) - 1:
+        return commands[commands.index("-d") + 1: commands.index("-f") | 0]
 
 
-def get_file_name(cmd_ls: list) -> str | None:
-    if cmd_ls.count("-f"):
-        return cmd_ls[-1]
+def get_file_name(command_list: list[str]) -> str | None:
+    if command_list.index("-f") < len(command_list) - 1:
+        return command_list[command_list.index("-f") + 1]
 
 
-def create_file(cmd_ls: list) -> None:
+def create_directories(path: list[str], command_list: list[str]) -> None:
+    if directory_list := get_directory_list(command_list):
+        for directory in directory_list:
+            path[0] = os.path.join(path[0], directory)
+            os.makedirs(path[0], exist_ok=True)
+
+
+def create_file(path: list[str], command_list: list[str]) -> None:
     time_now = datetime.datetime.now()
-    final_path = os.path.join(os.getcwd())
 
-    if directory_list := get_directory_list(cmd_ls):
-        try:
-            for directory in directory_list:
-                final_path = os.path.join(final_path, directory)
-                os.mkdir(final_path)
-
-        except FileExistsError:
-            final_path = os.path.join(os.getcwd(), *directory_list)
-
-    if file_name := get_file_name(cmd_ls):
-        date = (
-            f'{time_now.strftime("%Y-%m-%d")}'
-            f' {time_now.strftime("%X")} \n'
-        )
-        with open(os.path.join(final_path, file_name), "a") as file_in:
-            file_in.writelines(date)
+    if file_name := get_file_name(command_list):
+        with open(os.path.join(path[0], file_name), "a") as file_in:
+            file_in.writelines(f"{time_now.strftime('%Y-%m-%d %X')}\n")
             count = 1
+
             while True:
                 user_input = input("content line: ")
                 if user_input != "stop":
@@ -49,4 +39,9 @@ def create_file(cmd_ls: list) -> None:
 
 
 if __name__ == "__main__":
-    create_file(sys.argv)
+    commands = sys.argv
+    final_path = [os.getcwd()]
+    if "-d" in commands:
+        create_directories(path=final_path, command_list=commands)
+    if "-f" in commands:
+        create_file(path=final_path, command_list=commands)
