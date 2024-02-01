@@ -34,8 +34,8 @@ def input_checker(commands: list) -> None:
         raise InvalidInputCommand("Program takes min 1 arg '-f' or '-d', "
                                   "but 0 was given or arg not exist")
     if "-f" and "-d" in commands:
-        flags = [commands.index("-f"), commands.index("-d")]
-        if max(flags) - min(flags) == 1:
+        flags = [commands.index("-d"), commands.index("-f")]
+        if flags[1] - flags[0] <= 1:
             raise InvalidInputCommand("Wrong flags position, "
                                       "should be '-d dir -f filename'")
 
