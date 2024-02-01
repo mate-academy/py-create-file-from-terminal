@@ -16,16 +16,16 @@ def create_dir(directory_way: list) -> str:
 def create_file(file_name: str) -> None:
     formated_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     line_number = 1
-    with open(file_name, "a") as f:
+    with open(file_name, "a") as file:
         if os.stat(file_name).st_size > 0:
-            f.write("\n")
-        f.write(f"{formated_time}\n")
+            file.write("\n")
+        file.write(f"{formated_time}\n")
 
         while True:
             content = input("Enter content line: ")
             if content == "stop":
                 break
-            f.write(f"{line_number} {content}\n")
+            file.write(f"{line_number} {content}\n")
             line_number += 1
 
 
@@ -41,12 +41,11 @@ def input_checker(commands: list) -> None:
 
 
 def main() -> None:
-    global directory
     commands = sys.argv
 
     try:
         input_checker(commands[1:])
-    except Exception as err:
+    except InvalidInputCommand as err:
         print(err)
     else:
         if "-d" in commands:
