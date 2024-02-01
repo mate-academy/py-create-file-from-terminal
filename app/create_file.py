@@ -1,12 +1,12 @@
 import os
-import sys
 from datetime import datetime
+import argparse
 
 
 def get_file_content() -> list:
     content = []
     while True:
-        print("Enter 'stop' if you want to quite")
+        print("Enter 'stop' if you want to quit")
         message = input("Enter content line: ")
         if message == "stop":
             break
@@ -24,24 +24,41 @@ def create_file(file_name: str, content: list) -> None:
             file.write(f"{line_number} {line}\n")
         file.write("\n")
 
-    print("File was successfully created or appended")
-
 
 def create_directory(path: str) -> None:
-    os.makedirs(path)
-    print("Directory was successfully created")
+    os.makedirs(path, exist_ok=True)
+
+
+def create_directory_and_file(directory: str,
+                              file_name: str,
+                              content: list) -> None:
+    os.makedirs(directory, exist_ok=True)
+    path = os.path.join(directory, file_name)
+    create_file(path, content)
 
 
 def main() -> None:
-    if "-d" in sys.argv and "-f" in sys.argv:
-        path = os.path.join(*sys.argv[2:sys.argv.index("-f")])
+    parser = argparse.ArgumentParser(description="Create"
+                                                 "files and directories "
+                                                 "with content"
+                                                 "and timestamps.")
+    parser.add_argument("-d",
+                        dest="directory", nargs='+',
+                        help="Create a directory with the given path.")
+    parser.add_argument("-f",
+                        dest="file",
+                        help="Create a file with the given name and content.")
+
+    args = parser.parse_args()
+
+    if args.directory and args.file:
+        path = os.path.join(*args.directory)
+        create_directory_and_file(path, args.file, get_file_content())
+    elif args.file:
+        create_file(args.file, get_file_content())
+    elif args.directory:
+        path = os.path.join(*args.directory)
         create_directory(path)
-        os.chdir(path)
-        create_file(sys.argv[-1], get_file_content())
-    elif "-f" in sys.argv:
-        create_file(sys.argv[-1], get_file_content())
-    elif "-d" in sys.argv:
-        create_directory(os.path.join(*sys.argv[2:]))
 
 
 if __name__ == "__main__":
