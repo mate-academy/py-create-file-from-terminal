@@ -3,14 +3,15 @@ from datetime import datetime
 import os
 
 
-def create_file_cli(_: str, command: str, *args: list[str]) -> None:
-    path = "app"
-    if command == "-d":
-        for item in args:
-            if item == "-f":
+def create_file_cli(_: str, *args: list[str]) -> None:
+    path = os.path.join("app")
+    if args[0] == "-d":
+        for i in range(1, len(args)):
+            if args[i] == "-f":
                 break
-            path = os.path.join(path, item)
+            path = os.path.join(path, args[i])
             os.makedirs(path)
+
     if args.count("-f"):
         with open(os.path.join(path, args[-1]), "w") as file:
             file.writelines(
