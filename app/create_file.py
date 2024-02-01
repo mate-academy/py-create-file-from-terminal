@@ -5,7 +5,7 @@ import datetime
 
 def get_directory_list(command_list: list) -> list[str] | None:
     if command_list.index("-d") < len(command_list) - 1:
-        return commands[commands.index("-d") + 1: commands.index("-f") | 0]
+        return command_list[command_list.index("-d") + 1: command_list.index("-f") | 0]
 
 
 def get_file_name(command_list: list[str]) -> str | None:
