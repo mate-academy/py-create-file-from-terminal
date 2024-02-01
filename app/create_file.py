@@ -4,15 +4,15 @@ import datetime
 
 
 def create_directory(directory_name: str) -> None:
-    if not os.path.exists(directory_name):
-        os.mkdir(directory_name)
-        os.chdir(directory_name)
+    os.makedirs(directory_name, exist_ok=True)
 
 
 def create_file(file_name: str) -> None:
-    with open(file_name, "w") as file:
+    mode = "a" if os.path.exists(file_name) else "w"
+
+    with open(file_name, mode) as file:
         create_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        file.write(f"{create_time}")
+        file.write(f"{create_time}\n")
 
         lines = 1
         while True:
@@ -24,12 +24,14 @@ def create_file(file_name: str) -> None:
 
 
 def main() -> None:
-    for index, arg in enumerate(sys.argv):
-        if arg == "-d":
-            create_directory(sys.argv[index + 1])
+    if "-d" in sys.argv:
+        base_directory = sys.argv[sys.argv.index("-d") + 1]
+        dir2_path = os.path.join(base_directory, "dir2")
+        create_directory(dir2_path)
 
-        elif arg == "-f":
-            create_file(sys.argv[index + 1])
+        if "-f" in sys.argv:
+            file_name = os.path.join(dir2_path, sys.argv[-1])
+            create_file(file_name)
 
 
 if __name__ == "__main__":
