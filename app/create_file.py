@@ -43,7 +43,7 @@ def main() -> None:
                                                  "with content"
                                                  "and timestamps.")
     parser.add_argument("-d",
-                        dest="directory", nargs='+',
+                        dest="directory", nargs="+",
                         help="Create a directory with the given path.")
     parser.add_argument("-f",
                         dest="file",
