@@ -16,7 +16,7 @@ def get_input_content() -> list:
     lines = []
     while True:
         line = input("Enter content line: ")
-        if line == 'stop':
+        if line == "stop":
             break
         lines.append(line)
     return lines
@@ -30,9 +30,9 @@ def main() -> None:
     file_name = None
 
     for arg in args:
-        if arg == '-d':
+        if arg == "-d":
             create_directory_flag = True
-        elif arg == '-f':
+        elif arg == "-f":
             create_file_flag = True
         elif create_directory_flag:
             parts_of_creating.append(arg)
@@ -48,12 +48,12 @@ def main() -> None:
         content_lines = get_input_content()
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         content_lines = "\n".join(
-            [f"{i+1} {line}" for i, line in
+            [f"{i + 1} {line}" for i, line in
              enumerate(content_lines)]
         )
         content = f"{timestamp}\n{content_lines}"
         create_file(file_path, content)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
