@@ -3,7 +3,7 @@ import os
 import datetime
 
 
-def create_dir(directories: list) -> None:
+def create_dir(directories: list[str]) -> None:
     dir_path = os.path.join(*directories)
     os.makedirs(dir_path, exist_ok=True)
 
@@ -28,10 +28,17 @@ def main() -> None:
         d_index = path.index("-d")
         f_index = path.index("-f")
 
-        create_dir(path[d_index + 1:f_index])
-        path[f_index], path[f_index + 1] = path[f_index + 1], path[f_index]
-        path_to_file = os.path.join(*path[d_index + 1:f_index + 1])
-        create_file(path_to_file)
+        if d_index < f_index:
+            create_dir(path[d_index + 1:f_index])
+            path_to_file = os.path.join(*path[d_index + 1:f_index],
+                                        path[f_index + 1])
+            create_file(path_to_file)
+
+        elif f_index < d_index:
+            create_dir(path[d_index + 1:])
+            path_to_file = os.path.join(*path[d_index + 1:],
+                                        path[f_index + 1])
+            create_file(path_to_file)
 
     elif "-d" in path:
         d_index = path.index("-d")
