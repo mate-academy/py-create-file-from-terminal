@@ -16,6 +16,7 @@ def create_file(file_name: str) -> None:
         while True:
             content = input("Enter content line or 'stop' to finish: ")
             if content == "stop":
+                new_file.write("\n")
                 break
             new_file.write(f"{string_index} Line{string_index} {content}\n")
             string_index += 1
