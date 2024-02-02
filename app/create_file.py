@@ -1,39 +1,47 @@
 import os
-from datetime import datetime
 import sys
+from datetime import datetime
+
+
+CMD_LIST = sys.argv[:]
 
 
 def get_content() -> list[str]:
     content = [datetime.now().strftime("%Y-%m-%d %H:%M:%S")]
     line_number = 1
 
-    while (x := input("Enter content line: ")) != "stop":
-        content.append(f"\n{line_number} {x}")
+    while (content_line := input("Enter content line: ")) != "stop":
+        content.append(f"\n{line_number} {content_line}")
         line_number += 1
 
     return content if len(content) > 1 else [""]
 
 
+def create_file(file_path: str) -> None:
+    with open(file_path, "a") as file_to_create:
+        file_to_create.writelines(get_content())
+        file_to_create.write("\n\n")
+
+    return
+
+
 def main() -> None:
+    if len(set(CMD_LIST)) == len(CMD_LIST):
 
-    if "-d" in sys.argv[:]:
-        if "-f" in sys.argv[:]:
+        if CMD_LIST[1] == "-d" and "-f" not in CMD_LIST:
+            path = os.path.join(*sys.argv[CMD_LIST.index("-d") + 1::])
+            os.makedirs(path, exist_ok=True)
+
+        if CMD_LIST[1] == "-f" and "-d" not in CMD_LIST:
+            create_file(CMD_LIST[-1])
+
+        if CMD_LIST[1] == "-d" and CMD_LIST[-2] == "-f":
             path = os.path.join(
-                *sys.argv[sys.argv[:].index("-d") + 1:sys.argv[:].index("-f"):]
+                *sys.argv[CMD_LIST.index("-d") + 1:CMD_LIST.index("-f"):]
             )
-            os.makedirs(path)
-            with open(os.path.join(path, sys.argv[-1]), "a") as f:
-                f.writelines(get_content())
-                f.write("\n")
-                f.write("\n")
 
-            return
+            os.makedirs(path, exist_ok=True)
+            create_file(os.path.join(path, CMD_LIST[-1]))
 
-        path = os.path.join(*sys.argv[sys.argv[:].index("-d") + 1::])
-        os.makedirs(path)
 
-    if sys.argv[1] == "-f":
-        with open(sys.argv[2], "a") as f:
-            f.writelines(get_content())
-            f.write("\n")
-            f.write("\n")
+main()
