@@ -1,5 +1,5 @@
+import argparse
 import os
-import sys
 import datetime
 
 
@@ -25,25 +25,23 @@ def create_file(file_name: str) -> None:
 
 
 def main() -> None:
-    if "-d" in sys.argv and "-f" in sys.argv:
-        d_index = sys.argv.index("-d")
-        f_index = sys.argv.index("-f")
+    parser = argparse.ArgumentParser()
 
-        if f_index < d_index:
-            raise Exception("Error: Please use -d before -f.")
+    parser.add_argument("-d", "--directory", nargs="+")
+    parser.add_argument("-f", "--file")
 
-    if "-d" in sys.argv:
-        base_directory = (
-            sys.argv[sys.argv.index("-d") + 1:sys.argv.index("-f")]
-            if "-f" in sys.argv
-            else sys.argv[sys.argv.index("-d"):])
-        path = os.path.join(*base_directory)
-        create_directory(path)
+    args = parser.parse_args()
 
-    if "-f" in sys.argv:
-        file_name = sys.argv[-1]
-        os.chdir(path)
+    if args.directory:
+        base_directory = os.path.join(*args.directory)
+        create_directory(base_directory)
+
+    if args.file:
+        file_name = args.file
+        if args.directory:
+            os.chdir(base_directory)
         create_file(file_name)
+
 
 if __name__ == "__main__":
     main()
