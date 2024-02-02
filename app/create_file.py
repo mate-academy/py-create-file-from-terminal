@@ -4,8 +4,7 @@ from datetime import datetime
 
 
 def create_directory(path: str) -> None:
-    if not os.path.exists(path):
-        os.makedirs(path)
+    os.makedirs(path, exist_ok=True)
 
 
 def read_lines() -> list:
@@ -26,26 +25,35 @@ def create_file(file_path: str, lines: list) -> None:
             f.write(f"{i} {line}\n")
 
 
-def main() -> None:
-    dir_flag = "-d" in sys.argv
-    file_flag = "-f" in sys.argv
+def get_flag_index(flag: str) -> int | None:
+    return sys.argv.index(flag) if flag in sys.argv else None
 
-    if dir_flag and file_flag:
-        dir_index = sys.argv.index("-d")
-        file_index = sys.argv.index("-f")
-        dir_path = os.path.join(*sys.argv[dir_index + 1:file_index])
-        file_name = sys.argv[file_index + 1]
-    elif dir_flag:
-        dir_index = sys.argv.index("-d")
-        dir_path = os.path.join(*sys.argv[dir_index + 1:])
-        file_name = None
-    elif file_flag:
-        file_index = sys.argv.index("-f")
-        dir_path = ""
-        file_name = sys.argv[file_index + 1]
-    else:
-        print("No valid flags passed.")
-        return
+
+def get_flag_value(flag: str) -> str | None:
+    index = get_flag_index(flag)
+    return sys.argv[index + 1] if index is not None else None
+
+
+def get_dir_path() -> str:
+    dir_index = get_flag_index("-d")
+    file_index = get_flag_index("-f")
+
+    if dir_index is not None:
+        end_index = (
+            file_index if file_index is not None and file_index > dir_index
+            else len(sys.argv)
+        )
+        return os.path.join(*sys.argv[dir_index + 1:end_index])
+
+
+def parse_args() -> tuple:
+    dir_path = get_dir_path() if get_flag_index("-d") is not None else ""
+    file_name = get_flag_value("-f")
+    return dir_path, file_name
+
+
+def main() -> None:
+    dir_path, file_name = parse_args()
 
     if dir_path:
         create_directory(dir_path)
