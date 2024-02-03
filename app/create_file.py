@@ -21,7 +21,9 @@ def create_file(file_path: str, lines: list) -> None:
     with open(file_path, "a") as f:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         f.write(f"{timestamp}\n")
-        start = sum(1 for line in open(file_path)) if os.path.exists(file_path) else 0
+        start = (sum(1 for line in open(file_path))
+                 if os.path.exists(file_path)
+                 else 0)
         for i, line in enumerate(lines, start=start + 1):
             f.write(f"{i} {line}\n")
 
