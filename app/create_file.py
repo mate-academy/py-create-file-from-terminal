@@ -1,18 +1,17 @@
-import sys
 from datetime import datetime
 import os
+import argparse
 
 
-def main_function(args: list[str]) -> None:
-    dict_data = read_data(args)
+def main() -> None:
+    dict_data = read_data()
 
-    create_directories(dict_data["file_directories"])
-    create_file(dict_data["file_directories"], dict_data["file_name"])
+    create_directories(dict_data["directories"])
+    create_file(dict_data["directories"], dict_data["file"])
 
 
 def create_directories(file_directory: str) -> None:
-    if not os.path.exists(file_directory):
-        os.makedirs(file_directory)
+    os.makedirs(file_directory, exist_ok=True)
 
 
 def create_file(file_directory: str, file_name: str) -> None:
@@ -30,24 +29,25 @@ def create_file(file_directory: str, file_name: str) -> None:
             file.writelines(new_line + "\n")
 
 
-def read_data(data: list[str]) -> dict:
-    arguments_dict = {"file_name": "", "file_directories": os.getcwd()}
-    i = 1
-    while i < len(data):
-        if data[i] == "-f":
-            arguments_dict["file_name"] = data[i + 1]
-            i += 1
-        elif data[i] == "-d":
-            i += 1
-            while i < len(data) and data[i] != "-f":
-                arguments_dict["file_directories"] = os.path.join(
-                    arguments_dict["file_directories"], data[i]
-                )
-                i += 1
-        else:
-            i += 1
+def read_data() -> dict:
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("-f", "--file", type=str)
+    parser.add_argument(
+        "-d", "--directories",
+        nargs="+",
+        default=["".join(os.getcwd())]
+    )
+
+    args = parser.parse_args()
+
+    arguments_dict = {
+        "file": args.file,
+        "directories": os.path.join(*args.directories)
+    }
+
     return arguments_dict
 
 
 if __name__ == "__main__":
-    main_function(sys.argv)
+    main()
