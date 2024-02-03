@@ -1,47 +1,37 @@
+import argparse
 import os
-import sys
 from datetime import datetime
-
-
-CMD_LIST = sys.argv[:]
 
 
 def get_content() -> list[str]:
     content = [datetime.now().strftime("%Y-%m-%d %H:%M:%S")]
-    line_number = 1
+    line_number = 0
+    while True:
+        line = input("Enter content line: ")
+        if line == "stop":
+            break
+        content.append(f"{line_number} {line}")
 
-    while (content_line := input("Enter content line: ")) != "stop":
-        content.append(f"\n{line_number} {content_line}")
-        line_number += 1
-
-    return content if len(content) > 1 else [""]
-
-
-def create_file(file_path: str) -> None:
-    with open(file_path, "a") as file_to_create:
-        file_to_create.writelines(get_content())
-        file_to_create.write("\n\n")
-
-    return
+    return content
 
 
 def main() -> None:
-    if len(set(CMD_LIST)) == len(CMD_LIST):
+    parser = argparse.ArgumentParser(description="Write content to file.")
+    parser.add_argument("-d", help="Directory to save the file.", nargs="+")
+    parser.add_argument("-f", help="File name to save content.")
 
-        if CMD_LIST[1] == "-d" and "-f" not in CMD_LIST:
-            path = os.path.join(*sys.argv[CMD_LIST.index("-d") + 1::])
-            os.makedirs(path, exist_ok=True)
+    args = parser.parse_args()
 
-        if CMD_LIST[1] == "-f" and "-d" not in CMD_LIST:
-            create_file(CMD_LIST[-1])
+    if args.d:
+        os.makedirs(os.path.join(*args.d), exist_ok=True)
 
-        if CMD_LIST[1] == "-d" and CMD_LIST[-2] == "-f":
-            path = os.path.join(
-                *sys.argv[CMD_LIST.index("-d") + 1:CMD_LIST.index("-f"):]
-            )
-
-            os.makedirs(path, exist_ok=True)
-            create_file(os.path.join(path, CMD_LIST[-1]))
+    if args.f:
+        file_path = os.path.join(*args.d, args.f) if args.d else args.f
+        with open(file_path, "a") as f:
+            content = get_content()
+            f.write("\n".join(content))
+            f.write("\n\n")
 
 
-main()
+if __name__ == "__main__":
+    main()
