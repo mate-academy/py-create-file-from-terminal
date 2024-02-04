@@ -30,11 +30,10 @@ def main() -> None:
         file_index = cmd_line.index("-f") + 1
 
         file_name = cmd_line[file_index]
+        directory_path_parts = cmd_line[directory_index:]
 
         if directory_index < file_index:
             directory_path_parts = cmd_line[directory_index : file_index - 1]
-        else:
-            directory_path_parts = cmd_line[directory_index:]
 
         create_directory(directory_path_parts)
         os.chdir(os.path.join(*directory_path_parts))
