@@ -6,7 +6,7 @@ command = argv
 command_list = command.split()
 
 
-def management_by_terminal():
+def management_by_terminal() -> None:
     if "-d" in command and "-f" not in command:
         create_dir()
     elif "-f" in command and "-d" not in command:
@@ -20,7 +20,7 @@ def create_file() -> None:
     if "-f" in command_list:
         index = command_list.index("-f")
         file_name = command_list[index + 1]
-        path_file = os.path.join(*file_name.split('/'))
+        path_file = os.path.join(*file_name.split("/"))
         time_now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         with open(path_file, "a") as file:
