@@ -32,8 +32,12 @@ def create_direction(command_file: list) -> str:
 
 
 def create_file_in_direction(command_file: list) -> None:
-    name_file = create_direction(command_file[command_file.index("-d")
-                                              + 1:command_file.index("-f")])
+    if "-f" in command_file[command_file.index("-d"):]:
+        name_file = create_direction(command_file[command_file.index("-d") + 1:
+                                                  command_file.index("-f")])
+    else:
+        name_file = create_direction(command_file[command_file.index("-d")
+                                                  + 1:])
     create_file(name_file + command_file[command_file.index("-f") + 1])
 
 
