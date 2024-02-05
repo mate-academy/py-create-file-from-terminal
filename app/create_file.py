@@ -3,7 +3,7 @@ from datetime import datetime
 import argparse
 
 
-def create_file(file_path) -> None:
+def create_file(file_path: str) -> None:
     time_now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open(file_path, "a") as file:
         file.write(f"{time_now_str}\n")
@@ -16,7 +16,7 @@ def create_file(file_path) -> None:
             line_count += 1
 
 
-def create_dir(directory_path) -> None:
+def create_dir(directory_path: str) -> None:
     os.makedirs(directory_path, exist_ok=True)
 
 
