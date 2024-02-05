@@ -2,30 +2,38 @@ import sys
 import os
 from datetime import datetime
 
-commands_list = sys.argv[1:]
 
-dirs = []
-user_file = commands_list[commands_list.index("-f") + 1:][0]
+def main() -> None:
+    command = sys.argv[1:]
+    if "-d" in command:
+        dir_index = command.index("-d")
+        if "-f" in command:
+            file_index = command.index("-f")
+            dirs = command[dir_index + 1:file_index]
+        else:
+            dirs = command[dir_index + 1:]
+        path = os.path.join(*dirs)
+        os.makedirs(path, exist_ok=True)
 
-if "-d" in commands_list:
-    for el in commands_list[1:]:
-        if el == "-f":
-            break
-        dirs.append(el)
+    if "-f" in command:
+        file_index = command.index("-f")
+        file_path = command[file_index + 1]
+        create_file(file_path)
 
-path_for_file = os.path.join(*dirs)
 
-if os.path.isdir(path_for_file):
-    is_file_exist = True
-else:
-    is_file_exist = False
-    os.makedirs(path_for_file)
+def create_file(file_path: str) -> None:
+    with open(file_path, "a") as file:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(f"{timestamp}\n")
+        line = 1
+        while True:
+            content = input("Input your content or enter 'stop': ")
+            if content == "stop":
+                break
+            file.write(f"{line} Line{line} {content}" + "\n")
+            line += 1
+        file.write("\n")
 
-with open(os.path.join(*dirs, user_file), "a") as a:
-    if not is_file_exist:
-        a.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-    user_data_line = input("Enter content line: ")
 
-    while user_data_line.lower() != "stop":
-        a.write(f"{user_data_line}\n")
-        user_data_line = input("Enter content line: ")
+if __name__ == "__main__":
+    main()
