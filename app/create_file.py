@@ -9,7 +9,7 @@ def create_file(file_path: str) -> None:
         file.write(f"{time_now_str}\n")
         line_count = 1
         while True:
-            line = input()
+            line = input("Enter content line:")
             if line.lower() == "stop":
                 break
             file.write(f"{line_count} {line}\n")
