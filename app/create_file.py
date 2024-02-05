@@ -20,6 +20,12 @@ def create_dir(directory_path: str) -> None:
     os.makedirs(directory_path, exist_ok=True)
 
 
+def create_dir_and_file(directory_path: str, file_name: str) -> None:
+    create_file(directory_path)
+    file_path = os.path.join(directory_path, file_name)
+    create_file(file_path)
+
+
 def management_by_terminal() -> None:
     parser = argparse.ArgumentParser(
         description="Create directory or file with content."
@@ -30,10 +36,13 @@ def management_by_terminal() -> None:
     args = parser.parse_args()
 
     if args.d:
-        create_dir(os.path.join(*args.d))
-
-    if args.f:
+        for directory in args.d:
+            create_dir(directory)
+    elif args.f:
         create_file(args.f)
+    elif args.d and args.f:
+        for directory in args.d:
+            create_dir_and_file(directory, args.f)
 
 
 if __name__ == "__main__":
