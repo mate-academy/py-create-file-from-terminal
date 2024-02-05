@@ -24,11 +24,13 @@ def create_file(name_file: str) -> None:
 def create_direction(command_file: list) -> str:
     direction = command_file
     current_path = os.getcwd() + "/"
-    for folder in direction:
-        if not os.path.exists(current_path + folder):
-            current_path = current_path + folder + "/"
-            os.mkdir(current_path)
-    return current_path
+    if not os.path.exists(current_path + os.path.join(*command_file)):
+        for folder in direction:
+            if not os.path.exists(current_path + folder):
+                current_path = current_path + folder + "/"
+                os.mkdir(current_path)
+        return current_path
+    return current_path + os.path.join(*command_file)
 
 
 def create_file_in_direction(command_file: list) -> None:
@@ -38,7 +40,7 @@ def create_file_in_direction(command_file: list) -> None:
     else:
         name_file = create_direction(command_file[command_file.index("-d")
                                                   + 1:])
-    create_file(name_file + command_file[command_file.index("-f") + 1])
+    create_file(name_file + "/" + command_file[command_file.index("-f") + 1])
 
 
 def main() -> None:
