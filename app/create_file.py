@@ -3,7 +3,7 @@ from datetime import datetime
 import argparse
 
 
-def create_file(file_path):
+def create_file(file_path) -> None:
     time_now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open(file_path, "a") as file:
         file.write(f"{time_now_str}\n")
@@ -16,12 +16,14 @@ def create_file(file_path):
             line_count += 1
 
 
-def create_dir(directory_path):
+def create_dir(directory_path) -> None:
     os.makedirs(directory_path, exist_ok=True)
 
 
-def management_by_terminal():
-    parser = argparse.ArgumentParser(description="Create directory or file with content.")
+def management_by_terminal() -> None:
+    parser = argparse.ArgumentParser(
+        description="Create directory or file with content."
+    )
     parser.add_argument("-d", nargs="+", help="Create directories")
     parser.add_argument("-f", help="Create or update file")
 
