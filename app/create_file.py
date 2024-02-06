@@ -1,53 +1,43 @@
 import os
-import sys
+import argparse
 from datetime import datetime
-from typing import List, Optional
 
 
-def create_file(directory: str, filename: str, content: List[str]) -> None:
-    filepath = os.path.join(directory, filename)
-
+def create_file(filename: str) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    if os.path.exists(filepath):
-        with open(filepath, "a") as file:
-            file.write("\n\n" + timestamp + "\n")
-            for line_number, line in enumerate(content, start=1):
-                file.write(f"{line_number} {line}\n")
-    else:
-        with open(filepath, "w") as file:
-            file.write(timestamp + "\n")
-            for line_number, line in enumerate(content, start=1):
-                file.write(f"{line_number} {line}\n")
+    with open(filename, "a") as file:
+        file.write(f"{timestamp}\n")
+        line = 1
+        while True:
+            content = input("Enter content line: ")
+            if content == "stop":
+                break
+            file.write(f"Line {line}: {content}\n")
+            line += 1
+
+
+def create_directory(directory_name: str) -> None:
+    os.makedirs(directory_name, exist_ok=True)
 
 
 def main() -> None:
-    args = sys.argv[1:]
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--directory", nargs="+")
+    parser.add_argument("-f", "--file")
+    args = parser.parse_args()
 
-    directory: Optional[str] = None
-    filename: Optional[str] = None
-    content: List[str] = []
+    if args.directory:
+        folder = os.path.join(*args.directory)
+        create_directory(folder)
+        print(f"Directory '{folder}' created.")
 
-    while args:
-        flag = args.pop(0)
-        if flag == "-d":
-            directory = os.path.join(directory, args.pop(0)) \
-                if directory else args.pop(0)
-        elif flag == "-f":
-            filename = args.pop(0)
-        else:
-            content.append(flag)
-
-    if directory:
-        os.makedirs(directory, exist_ok=True)
-
-    while True:
-        line = input("Enter content line: ")
-        if line.lower() == "stop":
-            break
-        content.append(line)
-
-    create_file(directory, filename, content)
+    if args.file:
+        filename = args.file
+        if args.directory:
+            os.chdir(folder)
+        create_file(filename)
+        print(f"File '{filename}' created.")
 
 
 if __name__ == "__main__":
