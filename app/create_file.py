@@ -3,8 +3,8 @@ import sys
 from datetime import datetime
 
 
-def create_file(file_name: str) -> None:
-    with open(file_name, "a") as file:
+def create_file(name_of_file: str) -> None:
+    with open(name_of_file, "a") as file:
         file_content = f"{datetime.now().strftime("%d/%m/%Y %H:%M:%S")}\n"
         line_numbers = 0
         while True:
