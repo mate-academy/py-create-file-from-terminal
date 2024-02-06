@@ -1,10 +1,15 @@
-import sys
-
-import os
+import argparse
 
 import datetime
 
-command = sys.argv
+import os
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-d", nargs='+')
+
+parser.add_argument("-f", nargs='+')
+
+args = parser.parse_args()
 
 
 def create_path(directories: list) -> str:
@@ -36,19 +41,21 @@ def create_and_write_in_file(file_name: str) -> None:
 
 
 def create_file() -> None:
-    if "-d" == command[1] and "-f" == command[4]:
-        way_to_file = create_path(command[2:-2])
-        make_dirs(way_to_file)
+    if args.d and args.f:
+        make_dirs(create_path(args.d))
 
-        path_to_create_file = create_path([way_to_file, command[-1]])
-        create_and_write_in_file(path_to_create_file)
+        path_to_create_file = args.d + args.f
 
-    if "-d" in command and "-f" not in command:
-        way_to_file = create_path(command[2:])
-        make_dirs(way_to_file)
+        create_and_write_in_file(create_path(path_to_create_file))
 
-    if "-f" in command and "-d" not in command:
-        file_name = command[2]
+        return None
+
+    if args.d:
+        dears_to_create = create_path(args.d)
+        make_dirs(dears_to_create)
+
+    if args.f:
+        file_name = args.f[0]
         create_and_write_in_file(os.path.abspath(file_name))
 
 
