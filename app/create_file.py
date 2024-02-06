@@ -18,10 +18,9 @@ def create_file(file_name: str) -> None:
 def create_directory() -> str:
     path = ""
     for element in range(2, len(sys.argv)):
-        if sys.argv[element] != "-f":
-            path += sys.argv[element] + "/"
-        else:
+        if sys.argv[element] == "-f":
             break
+        path += sys.argv[element] + "/"
     os.makedirs(path.strip("/"), exist_ok=True)
     return path
 
