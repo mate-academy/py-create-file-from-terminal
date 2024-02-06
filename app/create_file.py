@@ -6,12 +6,14 @@ from datetime import datetime
 def create_file(file_name: str) -> None:
     with open(file_name, "a") as file:
         file_content = f"{datetime.now().strftime("%d/%m/%Y %H:%M:%S")}\n"
+        line_numbers = 0
         while True:
+            line_numbers += 1
             user_input = input("Enter content line: ")
             if user_input == "stop":
                 file_content += "\n"
                 break
-            file_content += (user_input + "\n")
+            file_content += f"{line_numbers} {user_input}\n"
         file.write(file_content)
 
 
