@@ -5,9 +5,9 @@ import datetime
 import os
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-d", nargs='+')
+parser.add_argument("-d", nargs="+")
 
-parser.add_argument("-f", nargs='+')
+parser.add_argument("-f", nargs="+")
 
 args = parser.parse_args()
 
