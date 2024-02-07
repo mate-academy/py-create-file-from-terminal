@@ -22,13 +22,13 @@ def create_directory() -> str:
     for element in range(2, len(sys.argv)):
         if sys.argv[element] == "-f":
             break
-        path += sys.argv[element] + "/"
-    os.makedirs(path.strip("/"), exist_ok=True)
+        path = os.path.join(path, sys.argv[element])
+    os.makedirs(path, exist_ok=True)
     return path
 
 
-if "-f" in sys.argv and "-d" in sys.argv:
-    directory_path = create_directory() + sys.argv[-1]
+if "-d" in sys.argv and "-f" in sys.argv:
+    directory_path = os.path.join(create_directory(), sys.argv[-1])
     create_file(directory_path)
 elif sys.argv[1] == "-d":
     create_directory()
