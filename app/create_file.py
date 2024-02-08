@@ -5,7 +5,7 @@ from datetime import datetime
 
 def create_file(name_of_file: str) -> None:
     with open(name_of_file, "a") as file:
-        file_content = f"{datetime.now().strftime("%Y/%m/%d %H:%M:%S")}\n"
+        file_content = datetime.now().strftime("%Y/%m/%d %H:%M:%S") + "\n"
         line_numbers = 0
         while True:
             line_numbers += 1
