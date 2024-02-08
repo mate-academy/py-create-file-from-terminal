@@ -27,8 +27,7 @@ def main() -> None:
 
     if args.directory:
         dir_path = os.path.join(*args.directory)
-        if not os.path.exists(dir_path):
-            os.makedirs(dir_path)
+        os.makedirs(dir_path, exist_ok=True)
     elif args.file:
         file_path = args.file
         content_lines = []
