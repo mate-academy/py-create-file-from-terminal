@@ -19,7 +19,7 @@ def create_file(file_name: str) -> None:
         with open(file_name, mode) as file:
             if mode == "w":
                 file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
-        i = 1
+        line_count = 1
         with open(file_name, mode) as file:
             file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
             while True:
@@ -27,8 +27,8 @@ def create_file(file_name: str) -> None:
                 line = input()
                 if line.strip().lower() == "stop":
                     break
-                file.write(f"{i} {line}\n")
-                i += 1
+                file.write(f"{line_count} {line}\n")
+                line_count += 1
     except Exception as e:
         print(f"Error creating file: {e}")
 
