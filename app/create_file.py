@@ -18,8 +18,9 @@ def create_file(name_of_file: str) -> None:
 
 
 def create_directory() -> str:
+    dict_start_point = sys.argv.index("-d") + 1
     path = ""
-    for element in range(2, len(sys.argv)):
+    for element in range(dict_start_point, len(sys.argv)):
         if sys.argv[element] == "-f":
             break
         path = os.path.join(path, sys.argv[element])
@@ -28,7 +29,8 @@ def create_directory() -> str:
 
 
 if "-d" in sys.argv and "-f" in sys.argv:
-    directory_path = os.path.join(create_directory(), sys.argv[-1])
+    file_name = sys.argv[sys.argv.index("-f") + 1]
+    directory_path = os.path.join(create_directory(), file_name)
     create_file(directory_path)
 elif sys.argv[1] == "-d":
     create_directory()
