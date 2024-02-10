@@ -3,9 +3,9 @@ import sys
 from datetime import datetime
 
 
-def create_file(file: str) -> None:
+def create_file(file_p: str) -> None:
     todays_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    with open(file, 'w') as f:
+    with open(file_p, 'w') as f:
         f.write(f'{todays_date}\n')
         line = 1
         while True:
