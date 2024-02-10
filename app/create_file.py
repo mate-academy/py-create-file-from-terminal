@@ -4,16 +4,15 @@ from datetime import datetime
 
 
 def create_file(file_p: str) -> None:
-    todays_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with open(file_p, "w") as f:
-        f.write(f"{todays_date}\n")
+    todays_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    with open(file_p, 'w') as f:
+        f.write(f'{todays_date}\n')
         line = 1
         while True:
-            new_line = input("Enter new line of content: ")
-            if new_line.lower() == "stop":
+            new_line = input('Enter new line of content: ')
+            if new_line.lower() == 'stop':
                 break
-            f.write(f"{line} {new_line}\n")
-            line += 1
+            f.write(f'{line} {new_line}\n')
 
 
 def create_dir(path: str) -> str:
@@ -23,8 +22,8 @@ def create_dir(path: str) -> str:
 
 
 def main() -> None:
-    if "-d" in sys.argv and "-f" in sys.argv:
-        if sys.argv[1] == "-f":
+    if '-d' in sys.argv and '-f' in sys.argv:
+        if sys.argv[1] == '-f':
             path = os.path.join(*sys.argv[4:])
             create_dir(path)
             create_file(os.path.join(path, sys.argv[2]))
@@ -32,11 +31,11 @@ def main() -> None:
             path = os.path.join(*sys.argv[2:-2])
             create_dir(path)
             create_file(os.path.join(path, sys.argv[-1]))
-    elif "-d" in sys.argv:
+    elif '-d' in sys.argv:
         create_dir(os.path.join(*sys.argv[2:]))
-    elif "-f" in sys.argv:
+    elif '-f' in sys.argv:
         create_file(sys.argv[2])
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
