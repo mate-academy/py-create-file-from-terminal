@@ -1,59 +1,59 @@
-import os
-import sys
+import argparse
+
 import datetime
 
+import os
 
-def create_directory(path: str) -> None:
-    os.makedirs(path, exist_ok=True)
+parser = argparse.ArgumentParser()
+parser.add_argument("-d", nargs="+")
+parser.add_argument("-f")
+args = parser.parse_args()
 
 
-def create_file(file_path: str, content: str) -> None:
+def create_directory(dirs_path: str) -> None:
+    os.makedirs(dirs_path, exist_ok=True)
+
+
+def create_path(path: list[str]) -> str:
+    path = os.path.join(*path)
+    return path
+
+
+def create_and_write_info_in_file(file_path: str) -> None:
+    current_datetime = datetime.datetime.now()
+    formatted_datetime = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
+
     with open(file_path, "a") as file:
-        file.write(content)
+        file.write(f"{formatted_datetime}\n")
+        number_of_line = 1
+
+        while True:
+            text = input("Enter content line: ")
+            if text == "stop":
+                break
+
+            file.write(f"{number_of_line} {text}\n")
+            number_of_line += 1
+
+        file.write("\n")
 
 
-def get_input_content() -> list:
-    lines = []
-    while True:
-        line = input("Enter content line: ")
-        if line == "stop":
-            break
-        lines.append(line)
-    return lines
+def create_new_file() -> None:
+    if args.d and args.f:
+        create_directory(create_path(args.d))
+        path_for_creating_new_file = [*args.d, args.f]
+        create_and_write_info_in_file(create_path(path_for_creating_new_file))
 
+        return
 
-def main() -> None:
-    args = sys.argv[1:]
-    create_directory_flag = False
-    create_file_flag = False
-    parts_of_creating = []
-    file_name = None
+    if args.d:
+        dears_to_create = create_path(args.d)
+        create_directory(dears_to_create)
 
-    for arg in args:
-        if arg == "-d":
-            create_directory_flag = True
-        elif arg == "-f":
-            create_file_flag = True
-        elif create_directory_flag:
-            parts_of_creating.append(arg)
-        elif create_file_flag:
-            file_name = arg
-
-    if create_directory_flag:
-        directory_path = os.path.join(*parts_of_creating)
-        create_directory(directory_path)
-
-    if create_file_flag:
-        file_path = os.path.join(*parts_of_creating, file_name)
-        content_lines = get_input_content()
-        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        content_lines = "\n".join(
-            [f"{i + 1} {line}" for i, line in
-             enumerate(content_lines)]
-        )
-        content = f"{timestamp}\n{content_lines}"
-        create_file(file_path, content)
+    if args.f:
+        file_name = args.f
+        create_and_write_info_in_file(os.path.abspath(file_name))
 
 
 if __name__ == "__main__":
-    main()
+    create_new_file()
