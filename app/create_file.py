@@ -5,7 +5,7 @@ from datetime import datetime
 
 def create_file(file: str) -> None:
     with open(file, 'w') as f:
-        f.write(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n')
+        f.write(f'{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n')
         line = 1
         while True:
             new_line = input('Enter new line of content: ')
@@ -32,5 +32,5 @@ def main() -> None:
         create_file(sys.argv[-1])
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
