@@ -13,6 +13,7 @@ def create_file(file_p: str) -> None:
             if new_line.lower() == 'stop':
                 break
             f.write(f'{line} {new_line}\n')
+            line += 1
 
 
 def create_dir(path: str) -> str:
