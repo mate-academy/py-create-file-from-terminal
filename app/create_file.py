@@ -25,8 +25,10 @@ def create_directory(dir_path: str) -> None:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-d", "--directory", nargs="*", help="Create directory")
-    parser.add_argument("-f", "--file", nargs=2, help="Create file with content")
+    parser.add_argument(
+        "-d", "--directory", nargs="*", help="Create directory")
+    parser.add_argument(
+        "-f", "--file", nargs=2, help="Create file with content")
     args = parser.parse_args()
 
     if args.directory:
