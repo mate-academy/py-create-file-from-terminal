@@ -4,7 +4,6 @@ from datetime import datetime
 
 
 def create_file(dir_path: str, file_name: str) -> None:
-    os.makedirs(dir_path, exist_ok=True)
     with open(os.path.join(dir_path, file_name),
               "a" if os.path.exists(os.path.join(dir_path,
                                                  file_name)) else "w") as f:
@@ -35,4 +34,5 @@ if __name__ == "__main__":
         create_directory(os.path.join(*args.directory))
     if args.file:
         dir_path, file_name = args.file
+        create_directory(dir_path)
         create_file(dir_path, file_name)
