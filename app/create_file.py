@@ -1,14 +1,10 @@
-import sys
+import argparse
 import os
 from datetime import datetime
 
 
-def create_directory(path: str) -> None:
-    if not os.path.exists(path):
-        os.makedirs(path)
-        print(f"Directory {path} created.")
-    else:
-        print(f"Directory {path} already exists.")
+def create_directory(directory_path: str) -> None:
+    os.makedirs(directory_path, exist_ok=True)
 
 
 def write_to_file(file_path: str, content: list) -> None:
@@ -21,32 +17,33 @@ def write_to_file(file_path: str, content: list) -> None:
 
 
 def main() -> None:
-    if "-d" in sys.argv and "-f" in sys.argv:
-        dir_index = sys.argv.index("-d")
-        file_index = sys.argv.index("-f")
-        directory = os.path.join(*sys.argv[dir_index + 1:file_index])
-        file_name = sys.argv[file_index + 1]
-        create_directory(directory)
-        file_path = os.path.join(directory, file_name)
-    elif "-d" in sys.argv:
-        directory = os.path.join(*sys.argv[2:])
-        create_directory(directory)
-        return
-    elif "-f" in sys.argv:
-        file_path = sys.argv[sys.argv.index("-f") + 1]
-    else:
-        print("Invalid arguments")
-        return
+    parser = argparse.ArgumentParser(
+        description="Create a file with content or directories."
+    )
+    parser.add_argument(
+        "-d",
+        "--directory",
+        nargs="+",
+        help="Directory path to create.",
+        default=[]
+    )
+    parser.add_argument(
+        "-f",
+        "--file",
+        help="File name to create with content."
+    )
+    args = parser.parse_args()
 
-    content = []
-    print("Enter content line (type 'stop' to finish):")
-    while True:
-        line = input("Enter content line: ")
-        if line == "stop":
-            break
-        content.append(line)
+    directory_path = ""
+    if args.directory:
+        directory_path = os.path.join(*args.directory)
+        create_directory(directory_path)
 
-    write_to_file(file_path, content)
+    if args.file:
+        file_path = os.path.join(
+            directory_path, args.file
+        ) if directory_path else args.file
+        write_to_file(file_path)
 
 
 if __name__ == "__main__":
