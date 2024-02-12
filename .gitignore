@@ -6,3 +6,7 @@
 venv/
 .pytest_cache/
 **__pycache__/
+.dir1
+.dir2
+.file.txt
+
