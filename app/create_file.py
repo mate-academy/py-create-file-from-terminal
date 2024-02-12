@@ -3,11 +3,6 @@ import os
 from datetime import datetime
 
 
-def create_directory_if_not_exists(directory_path: str) -> None:
-    if not os.path.exists(directory_path):
-        os.makedirs(directory_path)
-
-
 def get_content_from_user() -> list:
     content = []
     while True:
@@ -35,11 +30,11 @@ def main() -> None:
             directory_path = os.path.join(
                 *command[directory_index:file_index - 1]
             )
-            create_directory_if_not_exists(directory_path)
+            os.makedirs(directory_path, exist_ok=True)
             os.chdir(directory_path)
         else:
             directory_path = os.path.join(*command[directory_index:])
-            create_directory_if_not_exists(directory_path)
+            os.makedirs(directory_path, exist_ok=True)
 
     if "-f" in command:
         file_path = command[-1]
