@@ -1,62 +1,59 @@
+import argparse
 import os
-import sys
 from datetime import datetime
 
 
-def create_file() -> None:
-    def validate_input(data: list[str]) -> None:
-        if len(data[1:]) < 2:
-            raise ValueError(f"Command must have min 2 elements, but got: "
-                             f"{len(data[1:])}")
-        if "-d" not in data[1] and "-f" not in data[1]:
-            raise ValueError("The command was entered incorrectly. "
-                             "The command must contain the '-d' or '-f' flag")
+def validate_input(args: argparse.Namespace) -> None:
+    if not args.directory and not args.file:
+        raise argparse.ArgumentError(None,
+                                     "At least one flag must be "
+                                     "specified: -d/--directory or -f/--file.")
+    if args.directory and not args.paths:
+        raise argparse.ArgumentError(None,
+                                     "The directory must be specified")
 
-        if "-d" in data[1] and "-f" not in data:
-            if len(data[2:]) < 1:
-                raise ValueError("The command was entered incorrectly. "
-                                 "Must contain directory path.")
-        if "-f" in data[1]:
-            if 1 < len(data[2:]) or 1 > len(data[2:]):
-                raise ValueError(f"The command was entered incorrectly. "
-                                 f"Must contain only 1 file name, "
-                                 f"but got {len(data[2:])}")
-            if "-d" in data:
-                raise ValueError("The command was entered incorrectly. "
-                                 "If you want use both flags (-d and -f), "
-                                 "you must use first -d flag and then -f flag")
 
-    def create_directory(directory: list) -> None:
-        path_to_directory = os.path.join(*directory)
-        if not os.path.exists(path_to_directory):
-            os.makedirs(path_to_directory)
+def create_directory(args: argparse.Namespace) -> None:
+    path_to_directory = os.path.join(*args.paths)
+    if not os.path.exists(path_to_directory):
+        os.makedirs(path_to_directory)
 
-    def create_file(file_name: str) -> None:
-        with open(file_name, "a") as file:
-            file.write((datetime.now()).strftime("%Y-%m-%d %H:%M:%S") + "\n")
-            while True:
-                input_line = input("Enter content line: ")
-                if input_line == "stop":
-                    file.write("\n")
-                    break
-                file.write(input_line + "\n")
 
-    validate_input(sys.argv)
-
-    if "-d" not in sys.argv[1] and "-f" not in sys.argv[1]:
-        create_directory(sys.argv[2:])
-    if "-f" in sys.argv[1]:
-        create_file(sys.argv[2])
+def create_file(args: argparse.Namespace) -> None:
+    if args.directory:
+        create_directory(args)
+        file_path = os.path.join(*args.paths, args.file)
     else:
-        path = sys.argv[2:]
-        path.remove("-f")
+        file_path = args.file
+    with open(file_path, "a") as file:
+        file.write((datetime.now()).strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        while True:
+            input_line = input("Enter content line: ")
+            if input_line == "stop":
+                file.write("\n")
+                break
+            file.write(input_line + "\n")
 
-        create_directory(path[:-1])
 
-        file_path = os.path.join(*path[:-1], path[-1])
+def main():
+    parser = argparse.ArgumentParser(
+        description="Create a directory and a file.")
+    parser.add_argument("-d", "--directory", action="store_true",
+                        help="Create a directory.")
+    parser.add_argument("-f", "--file", action="store",
+                        help="Create a file.")
+    parser.add_argument("paths", nargs="*",
+                        help="Paths to create the file.")
 
-        create_file(file_path)
+    args = parser.parse_args()
+    validate_input(args)
+
+    if args.directory and args.file is None:
+        create_directory(args)
+
+    elif args.file:
+        create_file(args)
 
 
-if __name__ == "__main__":
-    create_file()
+if __name__ == '__main__':
+    main()
