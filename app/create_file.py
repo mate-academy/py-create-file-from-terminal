@@ -35,7 +35,7 @@ def create_file(args: argparse.Namespace) -> None:
             file.write(input_line + "\n")
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(
         description="Create a directory and a file.")
     parser.add_argument("-d", "--directory", action="store_true",
@@ -55,5 +55,5 @@ def main():
         create_file(args)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
