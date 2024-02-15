@@ -1,25 +1,24 @@
 import os
 import sys
 from datetime import datetime
+from typing import Union
 
 
-def make_dir(arguments: list[str]) -> os.path:
-    joined_path = ""
+def make_dir(arguments: list[str]) -> Union[str, os.path]:
     if "-d" in arguments:
-        path = []
-        for argument in arguments[2:]:
-            if argument == "-f":
-                break
-            path.append(argument)
+        path = arguments[arguments.index("-d") + 1:]
+        if "-f" in arguments and arguments.index("-f") > arguments.index("-d"):
+            path = path[:path.index("-f")]
         joined_path = os.path.join(*path)
         if not os.path.exists(joined_path):
             os.makedirs(joined_path)
-    return joined_path
+        return joined_path
+    return ""
 
 
 def file_name(arguments: list[str]) -> str:
     if "-f" in arguments:
-        return arguments[-1]
+        return arguments[arguments.index("-f") + 1]
     return ""
 
 
