@@ -7,7 +7,7 @@ arguments = sys.argv
 file_name = ""
 joined_path = ""
 
-if "-b" in arguments:
+if "-d" in arguments:
     path = []
     for argument in arguments[2:]:
         if argument == "-f":
