@@ -21,16 +21,14 @@ def create_file(file_name: str) -> None:
         else:
             file.write(f"\n{timestamp}\n")
         while True:
-            if mode_file == "w":
-                content = input(f"content line: Line{line_number} ")
-                file.write(f"{line_number} Line{line_number} {content}\n")
-            else:
-                content = input(f"content line: "
-                                f"Another Line{line_number} ")
-                file.write(f"{line_number} "
-                           f"Another Line{line_number} {content}\n")
+            content = input("Enter content line: ")
             if content.lower() == "stop":
                 break
+            if mode_file == "w":
+                file.write(f"{line_number} Line{line_number} {content}\n")
+            else:
+                file.write(f"{line_number} "
+                           f"Another Line{line_number} {content}\n")
             line_number += 1
 
 
