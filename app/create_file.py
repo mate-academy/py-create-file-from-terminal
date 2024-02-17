@@ -9,10 +9,7 @@ def create_directory(directory: str) -> None:
 
 
 def create_file(file_name: str) -> None:
-    if os.path.exists(file_name) is not True:
-        mode_file = "w"
-    else:
-        mode_file = "a"
+    mode_file = "w" if not os.path.exists(file_name) else "a"
     line_number = 1
     with open(file_name, mode_file) as file:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -24,30 +21,32 @@ def create_file(file_name: str) -> None:
             content = input("Enter content line: ")
             if content.lower() == "stop":
                 break
-            if mode_file == "w":
-                file.write(f"{line_number} Line{line_number} {content}\n")
-            else:
-                file.write(f"{line_number} "
-                           f"Another Line{line_number} {content}\n")
+            file.write(f"{line_number} Line{line_number} {content}\n")
             line_number += 1
 
 
 if "-d" in sys.argv and "-f" in sys.argv:
     dir_index = sys.argv.index("-d") + 1
     file_index = sys.argv.index("-f") + 1
-    directory_path = os.path.join(*sys.argv[dir_index:file_index - 1])
     file_name = sys.argv[file_index]
-    file_url = os.path.join(directory_path, file_name)
-    create_directory(directory_path)
-    create_file(file_url)
+    if sys.argv[1] == "-d" and "-f" in sys.argv:
+        directory_path = os.path.join(*sys.argv[dir_index:file_index - 1])
+        file_url = os.path.join(directory_path, file_name)
+        create_directory(directory_path)
+        create_file(file_url)
 
+    elif sys.argv[1] == "-f" and "-d" in sys.argv:
+        directory = os.path.join(*sys.argv[dir_index:])
+        create_file(file_name)
+        create_directory(directory)
 
-elif "-d" in sys.argv:
-    dir_index = sys.argv.index("-d") + 1
-    directory = os.path.join(*sys.argv[dir_index:])
-    create_directory(directory)
+else:
+    if sys.argv[1] == "-d":
+        dir_index = sys.argv.index("-d") + 1
+        directory = os.path.join(*sys.argv[dir_index:])
+        create_directory(directory)
 
-elif "-f" in sys.argv:
-    file_index = sys.argv.index("-f") + 1
-    file_name = sys.argv[file_index]
-    create_file(file_name)
+    elif sys.argv[1] == "-f":
+        file_index = sys.argv.index("-f") + 1
+        file_name = sys.argv[file_index]
+        create_file(file_name)
