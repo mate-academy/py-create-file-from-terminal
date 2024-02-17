@@ -5,8 +5,7 @@ import sys
 
 def create_directory(dirs: str) -> None:
     dirs_path = os.path.join(dirs)
-    if not os.path.isdir(dirs_path):
-        os.makedirs(dirs_path, exist_ok=True)
+    os.makedirs(dirs_path, exist_ok=True)
 
 
 def create_file(dirs: str, filename: str) -> None:
@@ -28,14 +27,19 @@ def create_file(dirs: str, filename: str) -> None:
 
 
 def start() -> None:
-    command_list = " ".join(sys.argv[1:]).split("-")
-
+    index_d, index_f = [-1, -1]
     dirs, filename = ["", ""]
-    for command in command_list[1:]:
-        if command[0] == "d":
-            dirs = command[1:].strip().replace(" ", "/")
-        if command[0] == "f":
-            filename = command[1:].strip()
+    command_list = sys.argv[1:]
+
+    if "-f" in command_list:
+        index_f = command_list.index("-f")
+        filename = command_list[index_f + 1]
+
+    if "-d" in command_list:
+        index_d = command_list.index("-d")
+        dirs = "/".join(command_list[index_d + 1:])
+        if index_f > index_d:
+            dirs = "/".join(command_list[index_d + 1:index_f])
 
     if dirs != "":
         create_directory(dirs)
