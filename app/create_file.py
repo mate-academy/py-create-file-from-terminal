@@ -30,15 +30,15 @@ if "-d" in sys.argv and "-f" in sys.argv:
     file_index = sys.argv.index("-f") + 1
     file_name = sys.argv[file_index]
     if sys.argv[1] == "-d" and "-f" in sys.argv:
-        directory_path = os.path.join(*sys.argv[dir_index:file_index - 1])
-        file_url = os.path.join(directory_path, file_name)
-        create_directory(directory_path)
-        create_file(file_url)
+        directory = os.path.join(*sys.argv[dir_index:file_index - 1])
+        file_name = os.path.join(directory, file_name)
 
     elif sys.argv[1] == "-f" and "-d" in sys.argv:
         directory = os.path.join(*sys.argv[dir_index:])
-        create_file(file_name)
-        create_directory(directory)
+
+    create_directory(directory)
+    create_file(file_name)
+
 
 else:
     if sys.argv[1] == "-d":
