@@ -4,10 +4,11 @@ from datetime import datetime
 
 
 def create_file(directory: str, filename: str) -> None:
-    if directory and not os.path.exists(directory):
+    if not os.path.exists(directory):
         os.makedirs(directory)
     with open(os.path.join(directory, filename), "a") as file:
-        file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        file.write(f""
+                   f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         line_number = 1
         while True:
             line = input("Enter content line: ")
@@ -26,16 +27,15 @@ def main() -> None:
             directory = os.path.join(*args[dir_index + 1:file_index])
             filename = args[file_index + 1]
         else:
-            print("Invalid arguments")
-            return
+            directory = os.path.join(*args[file_index + 1:dir_index])
+            filename = args[dir_index + 1]
     elif "-d" in args:
         directory = os.path.join(*args[args.index("-d") + 1:])
-        filename = input("Enter file name: ")
+        filename = input("Enter filename: ")
     elif "-f" in args:
-        directory = ""
+        directory = os.getcwd()
         filename = args[args.index("-f") + 1]
     else:
-        print("Invalid arguments")
         return
     create_file(directory, filename)
 
