@@ -46,7 +46,6 @@ else:
         directory = os.path.join(*sys.argv[dir_index:])
         create_directory(directory)
 
-
     elif sys.argv[1] == "-f":
         file_index = sys.argv.index("-f") + 1
         file_name = sys.argv[file_index]
