@@ -26,36 +26,34 @@ def create_file(name_file: str) -> None:
 
 def creating_file_and_directory_in_terminal() -> None:
 
-    if "-d" in sys.argv and "-f" in sys.argv:
+    if "-d" in sys.argv:
         directories = []
-        file_name = []
         index_dir = sys.argv.index("-d") + 1
-        index_file = sys.argv.index("-f") + 1
 
         for i in range(index_dir, len(sys.argv)):
             if sys.argv[i] == "-f":
                 break
             directories.append(sys.argv[i])
 
+        directories_path = os.path.join(*directories)
+        create_directory(directories_path)
+        print(directories_path)
+
+    if "-f" in sys.argv:
+        file_name = []
+        index_file = sys.argv.index("-f") + 1
+
         for i in range(index_file, len(sys.argv)):
             if sys.argv[i] == "-d":
                 break
             file_name.append(sys.argv[i])
 
-        directories_path = os.path.join(*directories)
-        file_name_path = os.path.join(*directories, *file_name)
-        create_directory(directories_path)
-        create_file(file_name_path)
-
-    elif "-d" in sys.argv:
-        index_dir = sys.argv.index("-d") + 1
-        directories_path = os.path.join(*sys.argv[index_dir:])
-        create_directory(directories_path)
-
-    elif "-f" in sys.argv:
-        index_file = sys.argv.index("-f") + 1
-        file_name_path = os.path.join(*sys.argv[index_file:])
+        if "-d" in sys.argv:
+            file_name_path = os.path.join(*directories, *file_name)
+        else:
+            file_name_path = os.path.join(*file_name)
         create_file(file_name_path)
 
 
-creating_file_and_directory_in_terminal()
+if __name__ == "__main__":
+    creating_file_and_directory_in_terminal()
