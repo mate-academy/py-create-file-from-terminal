@@ -37,7 +37,6 @@ def creating_file_and_directory_in_terminal() -> None:
 
         directories_path = os.path.join(*directories)
         create_directory(directories_path)
-        print(directories_path)
 
     if "-f" in sys.argv:
         file_name = []
