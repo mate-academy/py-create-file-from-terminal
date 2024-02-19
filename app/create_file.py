@@ -3,7 +3,7 @@ import sys
 import datetime
 
 
-if __name__ == "__main__":
+def read_command() -> str:
     terminal_commands = sys.argv
     command_count = len(terminal_commands)
     dirs = []
@@ -26,13 +26,27 @@ if __name__ == "__main__":
         else:
             dirs = terminal_commands[dir_index + 1: file_index]
     if dir_index != 0 and len(dirs) > 0 and file_index == 0:
-        os.mkdir(os.path.join(*dirs))
+        dir_path = os.path.join(*dirs)
+        os.mkdir(dir_path)
+        file_path = os.path.join(*dirs, file_name)
+    else:
+        file_path = file_name
+    return file_path
 
-    with open(file_name, "r") as file_:
+
+def write_to_file(file_path: str) -> None:
+    with open(file_path, "w") as file_:
+        now = datetime.datetime.now()
+        file_.write(now.strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        index_line = 0
         while True:
-            now = datetime.datetime.now()
-            file_.write(now.strftime("%Y-%m-%d %H:%M:%S"))
+            index_line += 1
             txt = input()
             if txt == "stop":
                 break
-            file_.write(txt)
+            file_.write(str(index_line) + " " + txt + "\n")
+
+
+if __name__ == "__main__":
+    file_full_name = read_command()
+    write_to_file(file_full_name)
