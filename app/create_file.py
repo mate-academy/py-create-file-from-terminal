@@ -17,10 +17,10 @@ def management_by_terminal() -> None:
         return create_file(current_path)
 
     elif args.d is not None:
-        return create_dir(args.d)
+        create_dir(args.d)
 
     elif args.f is not None:
-        return create_file(args.f)
+        create_file(args.f)
 
 
 def create_dir(dirs: list) -> None:
