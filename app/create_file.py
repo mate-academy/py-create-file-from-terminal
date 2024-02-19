@@ -16,10 +16,10 @@ def management_by_terminal() -> None:
         current_path = os.path.join(*args.d, args.f)
         create_file(current_path)
 
-    if args.d is not None:
+    elif args.d is not None:
         create_dir(args.d)
 
-    if args.f is not None:
+    elif args.f is not None:
         create_file(args.f)
 
 
