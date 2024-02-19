@@ -55,4 +55,5 @@ def create_file() -> None:
     if file_creating:
         create_file_from_input(dir_path, file_name)
 
+
 create_file()
