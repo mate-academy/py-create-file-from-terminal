@@ -33,8 +33,8 @@ def main() -> None:
 
     if "-d" in sys.argv:
         dir_index = sys.argv.index("-d") + 1
-        create_dir(sys.argv[dir_index:sys.argv.index('-f')]
-                   if '-f' in sys.argv else sys.argv[dir_index:])
+        create_dir(sys.argv[dir_index:sys.argv.index("-f")]
+                   if "-f" in sys.argv else sys.argv[dir_index:])
 
     if "-f" in sys.argv:
         file_index = sys.argv.index("-f") + 1
