@@ -9,7 +9,7 @@ path_to_create_file = ""
 
 if "-d" in args:
     d_index = args.index("-d")
-    if "-f" in args:
+    if "-f" in args[d_index:]:
         f_index = args[d_index:].index("-f")
     else:
         f_index = len(args[d_index:])
