@@ -32,12 +32,14 @@ def create_file(d_path: list[str], f_file: str) -> None:
         content_lines.append(text_line)
 
     with open(full_path, "a") as file:
+        if os.path.getsize(full_path) != 0:
+            file.write("\n\n")
+
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        file.write(f"{current_time}\n")
+        file.write(current_time)
 
         for line_number, line in enumerate(content_lines, start=1):
-            file.write(f"{line_number} {line}\n")
-        file.write("\n")
+            file.write(f"\n{line_number} {line}")
 
 
 if __name__ == "__main__":
