@@ -1,59 +1,38 @@
+import argparse
 from datetime import datetime
 import os
-import sys
-
-
-def create_dirs(path: sys) -> None:
-    if not os.path.exists(path):
-        os.makedirs(path)
 
 
 def create_file_from_input(dir_path: str, file_name: str) -> None:
     with open(os.path.join(dir_path, file_name), "w") as file:
         content_lines = [datetime.now().strftime("%Y-%m-%d %H:%M:%S")]
 
-        while True:
-            line = input("Enter content line:")
+        input_line = ""
 
-            if line.lower() == "stop":
-                break
-            else:
-                content_lines.append(line)
+        while input_line.lower() != "stop":
+            input_line = input("Enter content line:")
+
+            if input_line != "stop":
+                content_lines.append(input_line)
 
         file.write("\n".join(content_lines))
 
 
 def create_file() -> None:
-    dir_path = ""
-    file_name = ""
+    parser = argparse.ArgumentParser(description="File creating arguments")
 
-    dir_creating = False
-    file_creating = False
+    parser.add_argument("-d", "--directories", nargs="+", help="directory names")
+    parser.add_argument("-f", "--filename", help="file name")
 
-    for arg in sys.argv[1:]:
-        if arg == "-d":
-            dir_creating = True
-            file_creating = False
+    args = parser.parse_args()
 
-            continue
+    dir_path = os.path.join(*args.directories if args.directories else "")
 
-        elif arg == "-f":
-            dir_creating = False
-            file_creating = True
+    if args.directories:
+        os.makedirs(dir_path, exist_ok=True)
 
-            continue
-
-        if dir_creating:
-            dir_path = os.path.join(dir_path, arg)
-
-        if file_creating:
-            file_name = arg
-
-    if dir_path:
-        create_dirs(dir_path)
-
-    if file_creating:
-        create_file_from_input(dir_path, file_name)
+    if args.filename:
+        create_file_from_input(dir_path, args.filename)
 
 
 create_file()
