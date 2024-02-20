@@ -36,8 +36,12 @@ def handler_file(file_path: str, file_name: str) -> None:
             file.write("\n".join(lines))
 
 
+def main(arguments: list) -> None:
+    filename, arguments = parse_args(arguments, "-f")
+    filepath, arguments = parse_args(arguments, "-d")
+    handler_file(filepath, filename)
+
+
 if __name__ == "__main__":
     args = sys.argv[1:]
-    filename, args = parse_args(args, "-f")
-    filepath, args = parse_args(args, "-d")
-    handler_file(filepath, filename)
+    main(args)
