@@ -21,7 +21,12 @@ def create_file_from_input(dir_path: str, file_name: str) -> None:
 def create_file() -> None:
     parser = argparse.ArgumentParser(description="File creating arguments")
 
-    parser.add_argument("-d", "--directories", nargs="+", help="directory names")
+    parser.add_argument(
+        "-d",
+        "--directories",
+        nargs="+",
+        help="directory names"
+    )
     parser.add_argument("-f", "--filename", help="file name")
 
     args = parser.parse_args()
