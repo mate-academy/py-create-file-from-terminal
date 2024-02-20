@@ -7,9 +7,11 @@ def parse_args(arguments: list, param: str) -> tuple[str | bytes, list]:
     result = ""
     if param in arguments:
         cursor = arguments.index(param)
-        result = os.path.join(*arguments[cursor + 1:])
+        arguments.pop(cursor)
         if param == "-f":
-            arguments = arguments[:cursor]
+            result = arguments.pop(cursor)
+        else:
+            result = os.path.join(*arguments[cursor:])
     return result, arguments
 
 
