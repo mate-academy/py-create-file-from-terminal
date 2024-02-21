@@ -9,14 +9,8 @@ def main() -> None:
 
     if "-d" in sys.argv:
         dir_index = sys.argv.index("-d") + 1
-        dir_args = []
 
-        for arg in sys.argv[dir_index:]:
-            if arg.startswith("-f"):
-                break
-            dir_args.append(arg)
-
-        dir_path = os.path.join(*dir_args)
+        dir_path = os.path.join(*sys.argv[dir_index : sys.argv.index("-f")])
 
     if "-f" in sys.argv:
         file_index = sys.argv.index("-f") + 1
@@ -41,10 +35,7 @@ def append_to_file(file_path: os.path) -> None:
 
         f.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 
-        if file_exists:
-            line_num = sum(1 for _ in open(file_path)) + 1
-        else:
-            line_num = 1
+        line_num = 1
 
         print("Enter content line (or 'stop' to finish):")
 
@@ -55,3 +46,7 @@ def append_to_file(file_path: os.path) -> None:
 
             f.write(f"{line_num} {line}\n")
             line_num += 1
+
+
+if __name__ == "__main__":
+    main()
