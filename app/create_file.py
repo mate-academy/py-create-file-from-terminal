@@ -22,10 +22,14 @@ if "-d" in args:
 if "-f" in args:
     f_index = args.index("-f")
     path_to_create_file = os.path.join(path_to_create_file, args[f_index + 1])
-    with open(path_to_create_file, "a") as file:
+    with open(path_to_create_file, "r+") as file:
         row = 1
         time = datetime.datetime.now()
-        file.write("\n" + str(time.strftime("%Y-%m-%d %H:%M:%S")))
+        is_first_row = (file.read() == "")
+        file.seek(0, 2)
+        if not is_first_row:
+            file.write("\n\n")
+        file.write(str(time.strftime("%Y-%m-%d %H:%M:%S")))
         while True:
             content = input("Enter content line: ")
             if content == "stop":
