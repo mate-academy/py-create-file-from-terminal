@@ -28,13 +28,10 @@ def create_directories_and_file(args: list[str]) -> None:
 
 def create_file(path: str, filename: str) -> None:
     path_to_create_file = os.path.join(path, filename)
-    with open(path_to_create_file, "a+") as file:
-        file.seek(0)
+    with open(path_to_create_file, "r+") as file:
         row = 1
         time = datetime.datetime.now()
-        is_first_row = (file.read() == "")
-        file.seek(0, 2)
-        if not is_first_row:
+        if file.read():
             file.write("\n\n")
         file.write(str(time.strftime("%Y-%m-%d %H:%M:%S")))
         while True:
