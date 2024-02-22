@@ -22,7 +22,7 @@ if "-d" in args:
 if "-f" in args:
     f_index = args.index("-f")
     path_to_create_file = os.path.join(path_to_create_file, args[f_index + 1])
-    with open(path_to_create_file, "r+") as file:
+    with open(path_to_create_file, "w+") as file:
         row = 1
         time = datetime.datetime.now()
         is_first_row = (file.read() == "")
