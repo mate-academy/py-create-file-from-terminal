@@ -28,7 +28,10 @@ def create_directories_and_file(args: list[str]) -> None:
 
 def create_file(path: str, filename: str) -> None:
     path_to_create_file = os.path.join(path, filename)
-    with open(path_to_create_file, "r+") as file:
+    with open(
+            path_to_create_file,
+            mode_to_create_or_append_file(path_to_create_file)
+    ) as file:
         row = 1
         time = datetime.datetime.now()
         if file.read():
@@ -40,6 +43,10 @@ def create_file(path: str, filename: str) -> None:
                 break
             file.write(f"\n{row} {content}")
             row += 1
+
+
+def mode_to_create_or_append_file(path: str) -> str:
+    return "r+" if os.path.isfile(path) else "w+"
 
 
 if __name__ == "__main__":
