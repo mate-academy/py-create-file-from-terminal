@@ -64,7 +64,6 @@ def main() -> None:
         make_file(filename)
 
     elif d_flag in cmd_args:
-        print('d')
         directories = create_dirs_with_index()
         make_dirs(directories)
 
