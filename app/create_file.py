@@ -27,35 +27,47 @@ def make_dirs(directories: list) -> None:
 
 
 def create_filename_with_index() -> str:
+    cmd_args, _, f_flag = get_args_and_flags()
     flag_index = cmd_args.index(f_flag)
     filename = cmd_args[flag_index + 1]
     return filename
 
 
 def create_dirs_with_index() -> list:
+    cmd_args, d_flag, _ = get_args_and_flags()
     flag_index = cmd_args.index(d_flag)
     directories = cmd_args[flag_index + 1:]
     return directories
 
 
-cmd_args = sys.argv
-d_flag = "-d"
-f_flag = "-f"
+def get_args_and_flags() -> tuple:
+    cmd_args = sys.argv
+    d_flag = "-d"
+    f_flag = "-f"
+    return cmd_args, d_flag, f_flag
 
-if d_flag in cmd_args and f_flag in cmd_args:
-    d_flag_index = cmd_args.index(d_flag)
-    f_flag_index = cmd_args.index(f_flag)
 
-    directories = cmd_args[d_flag_index + 1:f_flag_index]
-    filename = cmd_args[f_flag_index + 1]
+def main():
+    cmd_args, d_flag, f_flag = get_args_and_flags()
 
-    make_dirs(directories)
-    make_file(filename)
+    if d_flag in cmd_args and f_flag in cmd_args:
+        d_flag_index = cmd_args.index(d_flag)
+        f_flag_index = cmd_args.index(f_flag)
 
-elif d_flag in cmd_args:
-    directories = create_dirs_with_index()
-    make_dirs(directories)
+        directories = cmd_args[d_flag_index + 1:f_flag_index]
+        filename = cmd_args[f_flag_index + 1]
 
-elif f_flag in cmd_args:
-    filename = create_filename_with_index()
-    make_file(filename)
+        make_dirs(directories)
+        make_file(filename)
+
+    elif d_flag in cmd_args:
+        directories = create_dirs_with_index()
+        make_dirs(directories)
+
+    elif f_flag in cmd_args:
+        filename = create_filename_with_index()
+        make_file(filename)
+
+
+if __name__ == "__main__":
+    main()
