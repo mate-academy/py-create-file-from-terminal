@@ -3,7 +3,7 @@ import os
 from sys import argv
 
 
-def create_file():
+def create_file() -> None:
     file_path = os.getcwd()
     if "-d" in argv:
         file_path = os.path.join(file_path, *argv[argv.index("-d") + 1:])
@@ -14,13 +14,13 @@ def create_file():
         write_to_file(file_name, file_path)
 
 
-def create_change_dirs(path):
+def create_change_dirs(path: str) -> None:
     if not os.path.exists(path):
         os.makedirs(path)
     os.chdir(path)
 
 
-def write_to_file(name, path):
+def write_to_file(name: str, path: str) -> None:
     with open(name, "a") as file:
         time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         file_size = os.path.getsize(os.path.join(path, name))
