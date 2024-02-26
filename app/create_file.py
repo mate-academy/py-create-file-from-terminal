@@ -4,13 +4,17 @@ from sys import argv
 
 
 def create_file() -> None:
+    file_name = argv[argv.index("-f") + 1] if "-f" in argv else ""
+    if file_name:
+        argv.remove("-f")
+        argv.remove(file_name)
+
     file_path = os.getcwd()
     if "-d" in argv:
         file_path = os.path.join(file_path, *argv[argv.index("-d") + 1:])
         create_change_dirs(file_path)
 
-    if "-f" in argv:
-        file_name = argv[argv.index("-f") + 1]
+    if file_name:
         write_to_file(file_name, file_path)
 
 
