@@ -47,20 +47,24 @@ def get_args_and_flags() -> tuple:
     return cmd_args, d_flag, f_flag
 
 
-def main():
+def main() -> None:
     cmd_args, d_flag, f_flag = get_args_and_flags()
 
     if d_flag in cmd_args and f_flag in cmd_args:
         d_flag_index = cmd_args.index(d_flag)
         f_flag_index = cmd_args.index(f_flag)
 
-        directories = cmd_args[d_flag_index + 1:f_flag_index]
+        if f_flag_index < d_flag_index:
+            directories = cmd_args[d_flag_index + 1:]
+        else:
+            directories = cmd_args[d_flag_index + 1:f_flag_index]
         filename = cmd_args[f_flag_index + 1]
 
         make_dirs(directories)
         make_file(filename)
 
     elif d_flag in cmd_args:
+        print('d')
         directories = create_dirs_with_index()
         make_dirs(directories)
 
