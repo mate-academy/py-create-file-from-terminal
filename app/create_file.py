@@ -5,72 +5,64 @@ from datetime import datetime
 
 def make_file(filename: str) -> None:
     line_number = 1
-    with open(filename, "a") as f:
-        if f.tell() != 0:
-            f.write("\n\n")
+    with open(filename, "a") as file:
+        if file.tell() != 0:
+            file.write("\n\n")
 
-        f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
         while 1:
-            inp = input("Enter content line:")
-            if inp == "stop":
+            file_content = input("Enter content line:")
+            if file_content == "stop":
                 break
 
-            f.write(f"\n{line_number} {inp}")
+            file.write(f"\n{line_number} {file_content}")
             line_number += 1
 
 
-def make_dirs(directories: list) -> None:
-    for directory in directories:
-        os.makedirs(directory)
-        os.chdir(directory)
+def make_and_change_dirs(directories: list) -> None:
+    os.makedirs(os.path.join(*directories), exist_ok=True)
+    os.chdir(os.path.join(*directories))
 
 
-def create_filename_with_index() -> str:
-    cmd_args, _, f_flag = get_args_and_flags()
-    flag_index = cmd_args.index(f_flag)
-    filename = cmd_args[flag_index + 1]
-    return filename
+def find_flag_index(cmd_args, flag):
+    try:
+        flag_index = cmd_args.index(flag)
+    except Exception as e:
+        flag_index = None
+    return flag_index
 
 
-def create_dirs_with_index() -> list:
-    cmd_args, d_flag, _ = get_args_and_flags()
-    flag_index = cmd_args.index(d_flag)
-    directories = cmd_args[flag_index + 1:]
-    return directories
-
-
-def get_args_and_flags() -> tuple:
+def parse_and_create_data() -> None:
     cmd_args = sys.argv
     d_flag = "-d"
     f_flag = "-f"
-    return cmd_args, d_flag, f_flag
+    directories = ""
 
-
-def main() -> None:
-    cmd_args, d_flag, f_flag = get_args_and_flags()
+    d_flag_index = find_flag_index(cmd_args, d_flag)
+    f_flag_index = find_flag_index(cmd_args, f_flag)
 
     if d_flag in cmd_args and f_flag in cmd_args:
-        d_flag_index = cmd_args.index(d_flag)
-        f_flag_index = cmd_args.index(f_flag)
-
         if f_flag_index < d_flag_index:
             directories = cmd_args[d_flag_index + 1:]
-        else:
+        elif d_flag_index < f_flag_index:
             directories = cmd_args[d_flag_index + 1:f_flag_index]
+
         filename = cmd_args[f_flag_index + 1]
 
-        make_dirs(directories)
+        make_and_change_dirs(directories)
         make_file(filename)
 
     elif d_flag in cmd_args:
-        directories = create_dirs_with_index()
-        make_dirs(directories)
+        directories = cmd_args[d_flag_index + 1:]
+
+        make_and_change_dirs(directories)
 
     elif f_flag in cmd_args:
-        filename = create_filename_with_index()
+        filename = cmd_args[f_flag_index + 1]
+
         make_file(filename)
 
 
 if __name__ == "__main__":
-    main()
+    parse_and_create_data()
