@@ -25,10 +25,10 @@ def make_and_change_dirs(directories: list) -> None:
     os.chdir(os.path.join(*directories))
 
 
-def find_flag_index(cmd_args, flag):
+def find_flag_index(cmd_args: list, flag: str) -> int:
     try:
         flag_index = cmd_args.index(flag)
-    except Exception as e:
+    except ValueError:
         flag_index = None
     return flag_index
 
