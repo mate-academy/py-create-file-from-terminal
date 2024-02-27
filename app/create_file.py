@@ -33,11 +33,14 @@ def find_flag_index(cmd_args: list, flag: str) -> int:
     return flag_index
 
 
+def make_filename(cmd_args: list, f_flag_index: int) -> str:
+    return cmd_args[f_flag_index + 1]
+
 def parse_and_create_data() -> None:
     cmd_args = sys.argv
     d_flag = "-d"
     f_flag = "-f"
-    directories = ""
+    directories, filename = "", ""
 
     d_flag_index = find_flag_index(cmd_args, d_flag)
     f_flag_index = find_flag_index(cmd_args, f_flag)
@@ -48,20 +51,19 @@ def parse_and_create_data() -> None:
         elif d_flag_index < f_flag_index:
             directories = cmd_args[d_flag_index + 1:f_flag_index]
 
-        filename = cmd_args[f_flag_index + 1]
-
-        make_and_change_dirs(directories)
-        make_file(filename)
+        filename = make_filename(cmd_args, f_flag_index)
 
     elif d_flag in cmd_args:
         directories = cmd_args[d_flag_index + 1:]
 
-        make_and_change_dirs(directories)
-
     elif f_flag in cmd_args:
-        filename = cmd_args[f_flag_index + 1]
+        filename = make_filename(cmd_args, f_flag_index)
 
+    if directories:
+        make_and_change_dirs(directories)
+    if filename:
         make_file(filename)
+
 
 
 if __name__ == "__main__":
