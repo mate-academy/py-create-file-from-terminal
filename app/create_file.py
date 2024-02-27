@@ -36,6 +36,7 @@ def find_flag_index(cmd_args: list, flag: str) -> int:
 def make_filename(cmd_args: list, f_flag_index: int) -> str:
     return cmd_args[f_flag_index + 1]
 
+
 def parse_and_create_data() -> None:
     cmd_args = sys.argv
     d_flag = "-d"
@@ -63,7 +64,6 @@ def parse_and_create_data() -> None:
         make_and_change_dirs(directories)
     if filename:
         make_file(filename)
-
 
 
 if __name__ == "__main__":
