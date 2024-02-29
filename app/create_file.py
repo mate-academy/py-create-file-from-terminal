@@ -1,37 +1,55 @@
-import argparse
 import os
-from datetime import datetime
-
-
-def write_content(path: str = None, file_name: str = None) -> None:
-    input_count = 0
-
-    if path is None:
-        path = os.getcwd()
-    else:
-        os.makedirs(path)
-
-    if file_name:
-        with open(path + "/" + file_name, "a") as f:
-            f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
-
-            while True:
-                content = input("Enter content line: ")
-                if content == "stop":
-                    break
-                input_count += 1
-                f.write(str(input_count) + " " + content + "\n")
+import sys
+import datetime
 
 
 def create_file() -> None:
-    parser = argparse.ArgumentParser(
-        prog="Create File",
-        description="This app creates file from yours terminal input"
-    )
+    direct = sys.argv
+    directories = direct[2:]
 
-    parser.add_argument("-d", dest="create_path", type=str)
-    parser.add_argument("-f", dest="file_name", type=str)
+    if "-d" and "-f" in direct:
+        name = []
+        for word in direct[2:]:
+            if word == "-f":
+                break
+            name.append(word)
+        path_name = "/".join(name)
 
-    args = parser.parse_args()
+        if not os.path.exists(path_name):
+            os.makedirs(path_name, exist_ok=True)
 
-    write_content(args.create_path, args.file_name)
+        name_of_txt = direct[-1]
+        with open(name_of_txt, "a") as file:
+            file.write(write_in_file())
+
+    elif "-d" in direct and "-f" not in direct:
+        path_name = "/".join(directories)
+        if not os.path.exists(path_name):
+            os.makedirs(path_name, exist_ok=True)
+
+    elif "-f" in direct and "-d" not in direct:
+        name_of_txt = direct[-1]
+        if os.path.isfile(name_of_txt):
+            with open(name_of_txt, "a") as file:
+                file.write(write_in_file())
+        else:
+            with open(name_of_txt, "w") as file:
+                file.write(write_in_file())
+
+
+def write_in_file() -> str:
+    content = []
+
+    datetime_now = datetime.datetime.now()
+    date_and_time = datetime_now.strftime("%Y-%m-%d %H:%M:%S")
+
+    while True:
+        print("Enter content line: ")
+        line = input()
+        if "stop" == line.lower():
+            break
+        content.append(line)
+
+    content_in_txt = [f"{i+1} {line}" for i, line in enumerate(content)]
+    result = [date_and_time] + content_in_txt
+    return "\n".join(result) + "\n"
