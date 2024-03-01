@@ -31,10 +31,15 @@ def create_file_with_path(command: list) -> None:
 
 
 input_command = sys.argv[1:]
+
+if input_command[0] == "-f":
+    if input_command.count("-d"):
+        input_command = input_command[2:] + input_command[:2]
+    else:
+        create_file(input_command[-1])
+
 if input_command[0] == "-d":
     if input_command.count("-f"):
         create_file_with_path(input_command)
     else:
         create_directory(input_command)
-if input_command[0] == "-f":
-    create_file(input_command[-1])
