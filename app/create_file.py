@@ -1,18 +1,43 @@
 import os
 import sys
+
 from datetime import datetime
 from typing import Union
 
 
 def get_directory_path(args: list) -> Union[str | None]:
-    if "-d" in args:
-        start_index = args.index("-d") + 1
-        end_index = args.index("-f") if "-f" in args else len(args)
-        return str(os.path.join(*args[start_index:end_index]))
+    if "-d" not in args:
+        return None
+
+    start_index = args.index("-d") + 1
+    end_index = len(args)
+
+    if "-f" in args:
+        index_f = args.index("-f")
+        end_index = index_f if index_f > start_index else len(args)
+
+    return (
+        str(os.path.join(*args[start_index:end_index]))
+        if end_index != -1
+        else str(os.path.join(*args[start_index:]))
+    )
 
 
 def get_file_name(args: list) -> Union[str, None]:
-    return args[-1] if "-f" in args else None
+    if "-f" not in args:
+        return None
+
+    args_str = "".join(args)
+
+    start_index = args_str.index("-f") + 2
+    index_d = args_str.find("-d")
+    end_index = index_d if index_d > start_index else len(args_str)
+
+    return (
+        args_str[start_index:end_index]
+        if end_index != -1
+        else args_str[start_index:]
+    )
 
 
 def create_file(file_path: Union[str, None]) -> None:
