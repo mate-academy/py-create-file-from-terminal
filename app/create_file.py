@@ -32,15 +32,18 @@ if len(sys.argv) == 1:
     print("Usage: python create_file.py -d directory_path -f filename")
     sys.exit(1)
 
+directory = None
+filename = None
+
 if "-d" in sys.argv:
     directory_index = sys.argv.index("-d") + 1
     directory = os.path.join(*sys.argv[directory_index:])
-    filename = None
-elif "-f" in sys.argv:
+
+if "-f" in sys.argv:
     filename_index = sys.argv.index("-f") + 1
-    directory = None
     filename = sys.argv[filename_index]
-else:
+
+if not directory and not filename:
     print("Invalid arguments. Use either -d or -f flag.")
     sys.exit(1)
 
