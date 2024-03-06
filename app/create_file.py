@@ -16,7 +16,7 @@ def make_dir() -> str:
 
 def create_file(file_name: str) -> None:
     with (open(os.path.join(file_name), "a") as file):
-        file.write(f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")} \n")
+        file.write(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")} \n')
         line_counter = 1
         while True:
             line_content = input("Enter content line: ")
