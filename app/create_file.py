@@ -15,7 +15,8 @@ def create_directory(directory: str) -> str:
 def create_file(file_name: str) -> None:
     with open(file_name, "a") as file:
         is_true = True
-        file.write("\n" + str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + "\n")
+        current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write("\n" + str(current_time) + "\n")
         line_number = 1
         while is_true:
             user_input = input("Enter content line: ")
@@ -33,18 +34,18 @@ def create_file_in_directory(directory: list, file_name: str) -> None:
     create_file(file_in_directory)
 
 
-def main():
+def main() -> None:
     args = sys.argv[1:]
 
     if "-d" in args:
         reformat = str(args)
         create_directory(reformat)
-    elif '-f' in args:
-        file_index = args.index('-f') + 1
+    elif "-f" in args:
+        file_index = args.index("-f") + 1
         file_name = args[file_index]
         create_file(file_name)
     if "-d" in args and "-f" in args:
-        file_index = args.index('-f') + 1
+        file_index = args.index("-f") + 1
         directory_paths = args[:file_index - 1]
         file_name = args[file_index]
         create_file_in_directory(directory_paths, file_name)
