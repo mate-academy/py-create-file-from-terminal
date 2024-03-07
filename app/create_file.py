@@ -16,9 +16,7 @@ def create_file(file_name: str) -> None:
             mode = "a"
         else:
             mode = "w"
-        with open(file_name, mode) as file:
-            if mode == "w":
-                file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
+
         i = 1
         line_count = 1
         with open(file_name, mode) as file:
