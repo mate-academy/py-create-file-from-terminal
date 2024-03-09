@@ -34,8 +34,9 @@ def create_file(
 
     if file_name:
         full_path = (
-            os.path.join(directory_path, file_name)) \
+            os.path.join(directory_path, file_name)
             if directory_path else file_name
+        )
         with open(full_path, "a") as file:
             file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
             for i, line in enumerate(content_lines, start=1):
