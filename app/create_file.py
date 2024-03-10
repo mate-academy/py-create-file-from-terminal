@@ -3,7 +3,7 @@ import sys
 from datetime import datetime
 
 
-def create_file(directory, filename) -> None:
+def create_file(directory: str, filename: str) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     content = []
     if os.path.exists(os.path.join(directory, filename)):
@@ -47,4 +47,3 @@ def main() -> None:
 
     if __name__ == "__main__":
         main()
-
