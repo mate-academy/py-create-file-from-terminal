@@ -4,7 +4,6 @@ from datetime import datetime
 
 
 def parse_args(arguments: list[str]) -> dict:
-    print(arguments)
     args = {"file": "", "directory": [], "flag": []}
     flag = None
     for argument in arguments:
@@ -27,13 +26,13 @@ def create_dir(directory_args: dict) -> str:
         return ""
 
 
-def create_file(file_args: dict, path: str):
+def create_file(file_args: dict, path: str) -> None:
     if file_args["file"]:
-        file = file_args["file"]
+        file_txt: str = file_args["file"]
         if path != "":
-            file_name = f"{path}/{file}"
+            file_name = f"{path}/{file_txt}"
         else:
-            file_name = file
+            file_name = file_txt
         date_time = datetime.now().strftime("%m-%d-%Y %H:%M:%S")
         input_str: str = ""
         counter: int = 0
@@ -52,4 +51,3 @@ if __name__ == "__main__":
     parsed_args = parse_args(command_line_args)
     path_dir = create_dir(parsed_args)
     create_file(parsed_args, path_dir)
-
