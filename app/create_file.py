@@ -1,32 +1,35 @@
 import argparse
 import os
+from datetime import datetime
 
 
-def read_file_content(directory: str, filename: str) -> list:
+def join_file_content(directory: str, filename: str) -> list:
     content = []
-    if os.path.exists(os.path.join(directory, filename)):
-        with open(os.path.join(directory, filename), "r") as file:
+    file_path = os.path.join(directory, filename)
+    if os.path.exists(file_path):
+        with open(file_path, "r") as file:
             content = file.readlines()
     return content
 
 
-def write_file_content(directory: str, filename: str, content: list) -> None:
-    with open(os.path.join(directory, filename), "w") as file:
-        file.writelines(content)
-
-
 def create_file(directory: str, filename: str) -> None:
-    content = read_file_content(directory, filename)
-    line_number = len(content) + 1
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    content = join_file_content(directory, filename)
+
+    if not content:
+        content.append(timestamp + "\n")
+
+    line_number = len(content) - 1
 
     while True:
         line = input("Enter content line: ")
         if line == "stop":
             break
-        content.append(f"{line_number} {line}\n")
         line_number += 1
+        content.append(f"{line_number} {line}\n")
 
-    write_file_content(directory, filename, content)
+    with open(os.path.join(directory, filename), "w") as file:
+        file.writelines(content)
 
 
 def main() -> None:
