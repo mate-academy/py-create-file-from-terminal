@@ -1,5 +1,5 @@
+import argparse
 import os
-import sys
 from datetime import datetime
 
 
@@ -19,31 +19,26 @@ def create_file(directory: str, filename: str) -> None:
         if line == "stop":
             break
         line_number += 1
-        content.append(f"{line_number} {line}\n")
+        content.append(f"{line_number} {line}")
 
     with open(os.path.join(directory, filename), "w") as file:
         file.writelines(content)
 
 
 def main() -> None:
-    if "-d" in sys.argv:
-        directory_index = sys.argv.index("-d") + 1
-        directory = os.path.join(*sys.argv[directory_index:])
-        os.makedirs(directory, exist_ok=True)
-        filename = None
-    elif "-f" in sys.argv:
-        filename_index = sys.argv.index("-f") + 1
-        filename = sys.argv[filename_index]
-        directory = os.getcwd()
-    else:
-        print("Please specify either -d or -f flag.")
-        return
+    parser = argparse.ArgumentParser(
+        description="Create or append content to a file")
+    parser.add_argument("-d", "--directory", nargs="+",
+                        help="Directories to search for or create the file")
+    parser.add_argument("-f", "--filename",
+                        help="Name of the file to create or append content to")
+    args = parser.parse_args()
 
-    if filename:
-        create_file(directory, filename)
-        print(f"File {filename} created at {directory}")
-    else:
-        print(f"Directory {directory} created.")
+    if args.directory:
+        for directory in args.directory:
+            if args.filename:
+                create_file(directory, args.filename)
 
-    if __name__ == "__main__":
-        main()
+
+if __name__ == "__main__":
+    main()
