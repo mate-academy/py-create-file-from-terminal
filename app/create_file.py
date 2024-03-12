@@ -1,56 +1,54 @@
-import argparse
+import sys
 import os
-from datetime import datetime
+import datetime
 
 
-def join_file_content(directory: str, filename: str) -> list:
-    content = []
-    file_path = os.path.join(directory, filename)
-    if os.path.exists(file_path):
-        with open(file_path, "r") as file:
-            content = file.readlines()
-    return content
+class ArgumentError(Exception):
+    pass
 
 
-def create_file(directory: str, filename: str) -> None:
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    content = join_file_content(directory, filename)
+def create_dir(dir_parts: list[str]) -> str:
+    directory = os.path.join(*dir_parts)
+    os.makedirs(directory, exist_ok=True)
+    return directory
 
-    if not content:
-        content.append(timestamp + "\n")
 
-    line_number = len(content) - 1
-
-    while True:
+def write_to_file(directory: str, file_name: str) -> None:
+    with open(os.path.join(directory, file_name), "a") as file:
+        file.write(
+            datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
+        )
         line = input("Enter content line: ")
-        if line == "stop":
-            break
-        line_number += 1
-        content.append(f"{line_number} {line}\n")
-
-    with open(os.path.join(directory, filename), "w") as file:
-        file.writelines(content)
-
-
-def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Create or append content to a file"
-    )
-    parser.add_argument(
-        "-d", "--directory", nargs="+",
-        help="Directories to search for or create the file"
-    )
-    parser.add_argument(
-        "-f", "--filename",
-        help="Name of the file to create or append content to"
-    )
-    args = parser.parse_args()
-
-    if args.directory:
-        for directory in args.directory:
-            if args.filename:
-                create_file(directory, args.filename)
+        while line != "stop":
+            file.write(line + "\n")
+            line = input("Enter content line: ")
+        file.write("\n")
 
 
 if __name__ == "__main__":
-    main()
+    argv = sys.argv[1:]
+    if "-f" not in argv and "-d" not in argv:
+        raise ArgumentError("you need arguments like -f or -d.")
+
+    index_of_f = argv.index("-f") if "-f" in argv else None
+    index_of_d = argv.index("-d") if "-d" in argv else None
+
+    if index_of_f is not None and index_of_f + 1 < len(argv):
+        file_name = argv[index_of_f + 1]
+    else:
+        file_name = None
+    if index_of_d is not None and index_of_d + 1 < len(argv):
+        if index_of_f is not None and index_of_f > index_of_d + 1:
+            dir_parts = argv[index_of_d + 1:index_of_f]
+        else:
+            dir_parts = argv[index_of_d + 1:]
+    else:
+        dir_parts = None
+
+    if file_name and dir_parts:
+        created_dir = create_dir(dir_parts)
+        write_to_file(created_dir, file_name)
+    elif file_name:
+        write_to_file(os.getcwd(), file_name)
+    elif dir_parts:
+        create_dir(dir_parts)
