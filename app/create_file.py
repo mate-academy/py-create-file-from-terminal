@@ -1,54 +1,55 @@
 import os
 import sys
 from datetime import datetime
-from typing import Optional
 
 
-def create_file_content() -> str:
-    content_lines = []
-    while True:
-        line = input("Enter content line: ")
-        if line.lower() == "stop":
-            break
-        content_lines.append(line)
-    return "\n".join(content_lines)
-
-
-def create_file(
-        directory: Optional[str] = None,
-        filename: Optional[str] = None
+def create_dir_and_file(
+        path: list,
+        file_name: str,
+        value: list,
 ) -> None:
-    if directory:
-        os.makedirs(directory, exist_ok=True)
-        os.chdir(directory)
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    if filename:
-        with open(filename, "a" if os.path.exists(filename) else "w") as file:
-            file.write("\n\n" + timestamp + "\n")
-            file.write(create_file_content())
-            print(f"File {filename} created successfully.")
+    timestamp = datetime.now().strptime("%Y-%m-%d-%H-%M-%S")
+    line = [f"{i} {text}" for i, text in enumerate(value, start=1)]
+
+    if path:
+        destination = os.path.join(*path, file_name)
     else:
-        print(f"Directory {directory} created successfully.")
+        destination = file_name
+
+    if os.path.exists(destination):
+        with open(destination, "a") as file:
+            file.write("\n\n" + timestamp + "\n" + "\n".join(line))
+    else:
+        with open(path, "w") as file:
+            file.write(timestamp + "\n" + "\n".join(line))
 
 
-def main() -> None:
-    if len(sys.argv) < 2:
-        print("Usage: python create_file.py -d [directory_path] -f [filename]")
-        return
+def create_data_for_file() -> None:
+    path = []
+    file_name = ""
+    value = []
 
-    args = sys.argv[1:]
-    directory = None
-    filename = None
+    for element in sys.argv[1:]:
+        if element == "-d":
+            for_path = True
+        elif element == "-f":
+            for_path = False
+        elif for_path:
+            path.append(element)
+        elif file_name == "":
+            file_name = element
 
-    if "-d" in args:
-        directory_index = args.index("-d") + 1
-        directory = os.path.join(*args[directory_index:])
-    if "-f" in args:
-        filename_index = args.index("-f") + 1
-        filename = args[filename_index]
+    if path:
+        os.makedirs(os.path.join(*path), exist_ok=True)
+    if file_name:
+        while True:
+            new_line = input("Enter your message: ")
+            if new_line == "stop":
+                break
+            value.append(new_line)
 
-    create_file(directory, filename)
+        create_dir_and_file(path, file_name, value)
 
 
 if __name__ == "__main__":
-    main()
+    create_data_for_file()
