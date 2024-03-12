@@ -47,7 +47,10 @@ def create_file(file_args: dict, path: str) -> None:
 
 
 if __name__ == "__main__":
-    command_line_args = sys.argv[1:]
-    parsed_args = parse_args(command_line_args)
-    path_dir = create_dir(parsed_args)
-    create_file(parsed_args, path_dir)
+    if len(sys.argv) > 2:
+        command_line_args = sys.argv[1:]
+        parsed_args = parse_args(command_line_args)
+        path_dir = create_dir(parsed_args)
+        create_file(parsed_args, path_dir)
+    else:
+        print("Command doesn't have all arguments")
