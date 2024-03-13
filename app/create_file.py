@@ -15,14 +15,15 @@ def create_dir(dir_parts: list[str]) -> str:
 
 def write_to_file(directory: str, file_name: str) -> None:
     with open(os.path.join(directory, file_name), "a") as file:
-        file.write(
-            datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
-        )
+        file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         line = input("Enter content line: ")
+        line_number = 1
         while line != "stop":
-            file.write(line + "\n")
+            file.write(f"{line_number}. {line}\n")
+            line_number += 1
             line = input("Enter content line: ")
-        file.write("\n")
+        if line_number > 1:
+            file.write("\n")
 
 
 if __name__ == "__main__":
