@@ -4,7 +4,6 @@ from datetime import datetime
 
 
 terminal = argv[1:]
-our_path = ""
 
 
 def write_into_file(our_path: str) -> None:
@@ -18,13 +17,25 @@ def write_into_file(our_path: str) -> None:
             file.write(file_text + "\n")
 
 
-if "-f" in terminal and "-d" in terminal:
+def d_and_f_flags() -> None:
     our_path = path.join(*terminal[1:terminal.index("-f")])
     makedirs(our_path)
     write_into_file(our_path)
-elif "-d" in terminal:
+
+
+def d_flag() -> None:
     our_path = path.join(*terminal[1:])
     makedirs(our_path)
+
+
+def f_flag() -> None:
+    our_path = path.join(*terminal[1:])
+    write_into_file(our_path)
+
+
+if "-f" in terminal and "-d" in terminal:
+    d_and_f_flags()
+elif "-d" in terminal:
+    d_flag()
 else:
-    our_path = terminal[1:]
-    write_into_file()
+    f_flag()
