@@ -21,7 +21,7 @@ def create_file(file_path: LiteralString) -> None:
         current_date_and_time = datetime.now()
         if file_exist:
             file.write("\n")
-        file.write(f"{current_date_and_time.strftime("%Y-%m-%d %H:%M:%S")}\n")
+        file.write(f'{current_date_and_time.strftime("%Y-%m-%d %H:%M:%S")}\n')
 
         line_number = 1
         while True:
@@ -33,6 +33,7 @@ def create_file(file_path: LiteralString) -> None:
             line_number += 1
 
 
+# noinspection PyTypeChecker
 def main() -> None:
     if "-d" in sys.argv and "-f" in sys.argv:
         dir_index = sys.argv.index("-d") + 1
