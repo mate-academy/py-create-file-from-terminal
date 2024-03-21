@@ -23,7 +23,7 @@ def create_file(file_name):
     if os.path.exists(file_name):
         write_content(file_name)
     else:
-        with open(file_name, 'w') as file:
+        with open(file_name, 'w'):
             write_content(file_name)
 
 
@@ -37,7 +37,8 @@ def create_file_with_directory(directory_path, file_name):
 def main():
     args = sys.argv[1:]
     if not args:
-        print("Usage: python create_file.py [-d directory_path] [-f file_name]")
+        print("Usage: python create_file.py"
+              " [-d directory_path] [-f file_name]")
         return
 
     if '-d' in args:
@@ -54,7 +55,8 @@ def main():
         file_name = args[file_index]
         create_file(file_name)
     else:
-        print("Usage: python create_file.py [-d directory_path] [-f file_name]")
+        print("Usage: python create_file.py"
+              " [-d directory_path] [-f file_name]")
 
 
 if __name__ == "__main__":
