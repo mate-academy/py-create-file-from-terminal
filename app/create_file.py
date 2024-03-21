@@ -22,7 +22,7 @@ def create_file(command: list) -> None:
 
 
 def open_file(command: str) -> None:
-    with open(command, "w") as file:
+    with open(command, "a") as file:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         file.write(timestamp + "\n")
         line_number = 1
