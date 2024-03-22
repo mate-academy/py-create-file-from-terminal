@@ -23,13 +23,13 @@ def create_file(file_name: str) -> None:
     if os.path.exists(file_name):
         write_content(file_name)
     else:
-        with open(file_name, "w"):
+        with open(file_name, "a"):
             write_content(file_name)
 
 
 def create_file_with_directory(directory_path: str, file_name: str) -> None:
     if not os.path.exists(directory_path):
-        os.makedirs(directory_path)
+        os.makedirs(directory_path, exist_ok=True)
     file_path = os.path.join(directory_path, file_name)
     create_file(file_path)
 
