@@ -29,8 +29,8 @@ def read_input() -> list:
     return content
 
 
-def write_info(file: str, content: list):
-    with open(file, "a") as f:
+def write_info(file_to_write_info: str, content: list) -> None:
+    with open(file_to_write_info, "a") as f:
         f.write(f"{datetime.datetime.now().strftime('%I:%M%p %d/%B/%Y')}\n")
         for i in range(len(content)):
             f.write(f"{i + 1} Line{i+1} {content[i]}\n")
@@ -56,5 +56,3 @@ if __name__ == "__main__":
         os.makedirs(path)
     if file_name:
         write_info(os.path.join(path, file_name), read_input())
-
-
