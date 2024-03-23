@@ -27,14 +27,14 @@ new_path = current_path
 
 try:
     flag_file_pos = current_messege.index("-f")
-except IndexError:
+except ValueError:
     quit("I don't have file to write, so bay.")
 else:
     new_file_name = current_messege[flag_file_pos + 1]
 
 try:
     flag_dir_pos = current_messege.index("-d")
-except IndexError:
+except ValueError:
     pass
 else:
     while (flag_dir_pos < len(current_messege) - 1
