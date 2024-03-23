@@ -53,6 +53,6 @@ if __name__ == "__main__":
     path = ""
     if directory_path:
         path = os.path.join(*directory_path)
-        os.makedirs(path)
+        os.makedirs(path, exist_ok=True)
     if file_name:
         write_info(os.path.join(path, file_name), read_input())
