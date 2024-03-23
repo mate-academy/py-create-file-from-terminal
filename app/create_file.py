@@ -1,53 +1,46 @@
 import sys
 import os
-from datetime import datetime
+import datetime
 from typing import List
 
 
-def create_path(directories: List[str]) -> str:
-    path = os.path.join(*directories)
-    if not os.path.exists(path):
-        os.makedirs(path)
-    return path
+def create_path(directories: List[str]) -> None:
+    os.makedirs(os.path.join(*directories), exist_ok=True)
 
 
-def add_content_to_file(file_path: str, content_lines: List[str]) -> None:
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with open(file_path, "w") as file:
-        file.write(f"{timestamp}\n")
-        for i, line in enumerate(content_lines, start=1):
-            file.write(f"{i} {line}\n")
-
-
-def main() -> None:
-    args: List[str] = sys.argv[1:]
-    dir_path: str = ""
-    file_name: str = ""
-    content_lines: List[str] = []
-    if "-d" in args and "-f" in args:
-        dir_index = args.index("-d")
-        file_index = args.index("-f")
-        directories = args[dir_index + 1:file_index]
-        dir_path = create_path(directories)
-        file_name = args[file_index + 1]
-    elif "-d" in args:
-        dir_index = args.index("-d")
-        directories = args[dir_index + 1:]
-        dir_path = create_path(directories)
-    elif "-f" in args:
-        file_index = args.index("-f")
-        file_name = args[file_index + 1]
-    while True:
-        line: str = input("Enter content line: ")
-        if line.lower() == "stop":
-            break
-        content_lines.append(line)
-    if dir_path:
-        file_path = os.path.join(dir_path, file_name)
-    else:
-        file_path = file_name
-    add_content_to_file(file_path, content_lines)
+def add_content_to_file(file_path: str) -> None:
+    with open(os.path.join(*file_path), "a") as file:
+        file.write(
+            datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            + "\n"
+        )
+        while True:
+            content_line = input("Enter content line:")
+            if content_line == "stop":
+                file.write("\n")
+                break
+            string_number = 1
+            file.write(str(string_number)
+                       + " "
+                       + content_line
+                       + "\n")
+            string_number += 1
 
 
 if __name__ == "__main__":
-    main()
+    files = []
+
+    if "-d" in sys.argv:
+        for element in sys.argv[sys.argv.index("-d") + 1:]:
+            if element == "-f":
+                break
+
+            files.append(element)
+        create_path(files)
+
+        if "-f" in sys.argv:
+            file_path = files + [
+                sys.argv[sys.argv.index("-f") + 1]
+            ]
+
+            add_content_to_file(file_path)
