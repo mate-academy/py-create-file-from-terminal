@@ -21,7 +21,7 @@ def read_file_name() -> str:
 
 def read_input() -> list:
     content = []
-    while 1:
+    while True:
         new_line = input("Enter content line: ")
         if new_line == "stop":
             break
@@ -30,11 +30,11 @@ def read_input() -> list:
 
 
 def write_info(file_to_write_info: str, content: list) -> None:
-    with open(file_to_write_info, "a") as f:
-        f.write(f"{datetime.datetime.now().strftime('%I:%M%p %d/%B/%Y')}\n")
-        for i in range(len(content)):
-            f.write(f"{i + 1} Line{i+1} {content[i]}\n")
-        f.write("\n")
+    with open(file_to_write_info, "a") as file:
+        file.write(f"{datetime.datetime.now().strftime('%I:%M%p %d/%B/%Y')}\n")
+        for line in range(len(content)):
+            file.write(f"{line + 1} Line{line+1} {content[line]}\n")
+        file.write("\n")
 
 
 if __name__ == "__main__":
