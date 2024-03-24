@@ -20,10 +20,7 @@ def add_content_to_file(file_path: str) -> None:
                 file.write("\n")
                 break
             string_number = 1
-            file.write(str(string_number)
-                       + " "
-                       + content_line
-                       + "\n")
+            file.write(f"{str(string_number)} {content_line}\n")
             string_number += 1
 
 
