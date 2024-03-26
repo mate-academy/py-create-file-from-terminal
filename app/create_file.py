@@ -17,7 +17,7 @@ def create_file() -> None:
         f.write("\n")
 
 
-def create_data_for_file() -> None:
+def make_dirs_and_create_file() -> None:
     if "-d" in sys.argv and "-f" in sys.argv:
         os.makedirs("/".join(sys.argv[2:-2]))
         os.chdir("/".join(sys.argv[2:-2]))
@@ -29,4 +29,4 @@ def create_data_for_file() -> None:
 
 
 if __name__ == "__main__":
-    create_data_for_file()
+    make_dirs_and_create_file()
