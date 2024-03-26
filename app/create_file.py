@@ -17,7 +17,7 @@ def create_file() -> None:
         f.write("\n")
 
 
-def create_directories(directory_list):
+def create_directories(directory_list: list) -> None:
     directory_path = "/".join(directory_list)
     os.makedirs(directory_path)
     os.chdir(directory_path)
