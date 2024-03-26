@@ -8,32 +8,31 @@ def create_dir_or_file(
         directory: list[str] | None, file_name: list[str] | None
 ) -> None:
 
+    directory_path = os.getcwd()
+
     if directory:
-        directory_path = os.path.join(*directory)
+        directory_path = os.path.join(directory_path, *directory)
         os.makedirs(directory_path, exist_ok=True)
-    else:
-        directory_path = ""
 
     if file_name:
         file_path = os.path.join(directory_path, *file_name)
-        write_to_file(file_path)
 
-
-def write_to_file(file_path: str) -> None:
-    count = 1
-
-    with open(file_path, "a") as file:
-        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        count = 1
+        text = [datetime.now().strftime("%Y-%m-%d %H:%M:%S")]
 
         while True:
             content = input("Enter content line: ")
 
             if content.lower() == "stop":
-                file.write("\n")
+                text.append("\n")
                 break
 
-            file.write(str(count) + " " + content + "\n")
+            text.append(f"{count} {content}")
             count += 1
+
+        with open(file_path, "a") as file:
+
+            file.write("\n".join(text))
 
 
 def main() -> None:
