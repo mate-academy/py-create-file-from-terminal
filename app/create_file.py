@@ -11,24 +11,25 @@ def create_file(
     if parts_directory:
         directory_path = os.path.join(*parts_directory)
         os.makedirs(directory_path, exist_ok=True)
-        filepath = os.path.join(directory_path, file_name)
+        if file_name:
+            filepath = os.path.join(directory_path, file_name)
     else:
         filepath = file_name
 
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    if file_name:
+        if file_content:
+            file_exists = os.path.exists(filepath)
+            with open(filepath, "a") as f:
+                if file_exists:
+                    f.write("\n")
+                f.write(timestamp + "\n")
+                for i, content_line in enumerate(file_content, start=1):
+                    f.write(f"{i} {content_line}\n")
 
-    if file_content:
-        file_exists = os.path.exists(filepath)
-        with open(filepath, "a") as f:
-            if file_exists:
-                f.write("\n")
-            f.write(timestamp + "\n")
-            for i, content_line in enumerate(file_content, start=1):
-                f.write(f"{i} {content_line}\n")
-
-    else:
-        with open(filepath, "w") as f:
-            f.write(timestamp + "\n")
+        else:
+            with open(filepath, "w") as f:
+                f.write(timestamp + "\n")
 
 
 def main() -> None:
@@ -47,19 +48,22 @@ def main() -> None:
         else:
             directory = argv[d_index:]
             filename = argv[f_index]
+    elif "-d" in argv:
+        d_index = argv.index("-d") + 1
+        directory = argv[d_index:]
     elif "-f" in argv:
         filename_index = argv.index("-f") + 1
         filename = argv[filename_index]
 
-    if not filename:
-        print("Please provide a filename.")
-        return
-
-    while True:
-        line = input("Enter content line: ")
-        if line == "stop":
-            break
-        content.append(line)
+    # if not filename:
+    #     print("Please provide a filename.")
+    #     return
+    if filename:
+        while True:
+            line = input("Enter content line: ")
+            if line == "stop":
+                break
+            content.append(line)
 
     create_file(
         parts_directory=directory or [],
