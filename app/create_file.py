@@ -3,31 +3,33 @@ import sys
 from datetime import datetime
 
 
+def collect_content():
+    content_lines = []
+    line_number = 1
+    while True:
+        content = input(f"Enter content line {line_number} (type 'stop' to finish): ")
+        if content.lower() == "stop":
+            break
+        content_lines.append((line_number, content))
+        line_number += 1
+    return content_lines
+
+
 def create_file(directory: str, filename: str) -> None:
     filepath = os.path.join(directory, filename)
-    if os.path.exists(filepath):
-        mode = "a"
-    else:
-        mode = "w"
 
-    with open(filepath, mode) as file:
-        if mode == "a":
-            file.write("\n\n")
+    content_lines = collect_content()
 
+    with open(filepath, "a") as file:
+        file.write("\n\n")
         file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
-
-        line_number = 1
-        while True:
-            content = input(f"Enter content line {line_number}: ")
-            if content.lower() == "stop":
-                break
+        for line_number, content in content_lines:
             file.write(f"{line_number} {content}\n")
-            line_number += 1
 
 
 def create_directory(directory_path: str) -> None:
     try:
-        os.makedirs(directory_path)
+        os.makedirs(directory_path, exist_ok=True)
     except FileExistsError:
         print(f'Directory "{directory_path}" already exists.')
     except Exception as e:
@@ -46,11 +48,6 @@ def main() -> None:
     elif flag == "-f":
         filename = sys.argv[2]
         create_file(".", filename)
-    elif flag == "-h":
-        print("Usage: python create_file.py -d <directory_path> -f <filename>")
-        print("Flags:")
-        print("-d: Create directory")
-        print("-f: Create file")
     else:
         print("Invalid flag. Use -h for help.")
 
