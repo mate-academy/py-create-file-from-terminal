@@ -3,11 +3,12 @@ import sys
 from datetime import datetime
 
 
-def collect_content():
+def collect_content() -> list:
     content_lines = []
     line_number = 1
     while True:
-        content = input(f"Enter content line {line_number} (type 'stop' to finish): ")
+        content = input(f"Enter content line {line_number} "
+                        f"(type 'stop' to finish): ")
         if content.lower() == "stop":
             break
         content_lines.append((line_number, content))
