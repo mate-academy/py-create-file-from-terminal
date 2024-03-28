@@ -10,51 +10,63 @@ def create_file(
 ) -> None:
     if parts_directory:
         directory_path = os.path.join(*parts_directory)
-        os.makedirs(str(directory_path), exist_ok=True)
-        filepath = os.path.join(str(directory_path), str(file_name))
+        os.makedirs(directory_path, exist_ok=True)
+        filepath = os.path.join(directory_path, file_name)
     else:
         filepath = file_name
 
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     if file_content:
-        mode = "a" if os.path.exists(filepath) else "w"
-        with open(filepath, mode) as f:
+        file_exists = os.path.exists(filepath)
+        with open(filepath, "a") as f:
+            if file_exists:
+                f.write("\n")
             f.write(timestamp + "\n")
             for i, content_line in enumerate(file_content, start=1):
                 f.write(f"{i} {content_line}\n")
-                if content_line.strip().lower() == "stop":
-                    break
+
     else:
         with open(filepath, "w") as f:
             f.write(timestamp + "\n")
 
 
-if __name__ == "__main__":
-    flags = sys.argv[1:]
+def main() -> None:
+    argv = sys.argv[1:]
 
     directory = None
     filename = None
     content = []
 
-    if "-d" in flags and "-f" in flags:
-        start_directory_index = flags.index("-d")
-        end_directory_index = flags.index("-f")
-        directory = flags[start_directory_index + 1:end_directory_index]
-        filename = flags[end_directory_index + 1:]
-    elif "-f" in flags:
-        filename_index = flags.index("-f")
-        filename = flags[filename_index + 1]
+    if "-d" in argv and "-f" in argv:
+        d_index = argv.index("-d") + 1
+        f_index = argv.index("-f") + 1
+        if d_index < f_index:
+            directory = argv[d_index: f_index - 1]
+            filename = argv[f_index]
+        else:
+            directory = argv[d_index:]
+            filename = argv[f_index]
+    elif "-f" in argv:
+        filename_index = argv.index("-f") + 1
+        filename = argv[filename_index]
 
-    if filename:
-        while True:
-            line = input("Enter content line: ")
-            content.append(line)
-            if line == "stop":
-                break
+    if not filename:
+        print("Please provide a filename.")
+        return
+
+    while True:
+        line = input("Enter content line: ")
+        if line == "stop":
+            break
+        content.append(line)
 
     create_file(
-        parts_directory=directory,
+        parts_directory=directory or [],
         file_name=filename,
         file_content=content
     )
+
+
+if __name__ == "__main__":
+    main()
