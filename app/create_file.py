@@ -1,3 +1,4 @@
+import argparse
 import sys
 import os
 import datetime
@@ -22,29 +23,15 @@ def write_info(file_name: str) -> None:
 
 
 new_path = os.path.dirname(os.path.abspath(__file__))
-current_messege = sys.argv
 
-for flag in ["-f", "-d"]:
-    try:
-        flag_position = current_messege.index(flag)
-    except ValueError:
-        if flag == "-f":
-            quit("I don't have file to write, so bay.")
-    else:
-        next_messege = current_messege[flag_position + 1]
-        if flag == "-f":
-            new_file_name = next_messege
-        else:
-            while (flag_position < len(current_messege) - 1
-                   and next_messege != "-f"):
-                new_path = os.path.join(new_path,
-                                        next_messege)
-                os.makedirs(new_path, exist_ok=True)
-                flag_position += 1
+parser = argparse.ArgumentParser()
+parser.add_argument("-f", nargs=1, dest="file_work", required=True,
+                    help="Only 1 name of file to write")
+parser.add_argument("-d", nargs="*", dest="dicts", default=None)
+parser.add_argument("baz", nargs="*")
+argss = parser.parse_args(sys.argv)
 
-
-try:
-    _ = open(os.path.join(new_path, new_file_name), "x")
-except IOError:
-    pass
-write_info(os.path.join(new_path, new_file_name))
+if argss.dicts:
+    new_path = os.path.join(new_path, os.path.sep.join(argss.dicts))
+os.makedirs(new_path, exist_ok=True)
+write_info(os.path.join(new_path, argss.file_work[0]))
