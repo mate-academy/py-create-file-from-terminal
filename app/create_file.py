@@ -3,42 +3,52 @@ import sys
 from datetime import datetime
 
 
-def create_dirs(path_parts: list) -> str:
-    dir_path = os.path.join(*path_parts)
-    os.makedirs(dir_path, exist_ok=True)
-    return dir_path
+def create_file(
+        directory: str,
+        filename: str,
+        content_lines: list[str]
+) -> None:
+    filepath = os.path.join(directory, filename)
 
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    numbered_lines = [f"{i} {line}"
+                      for i, line in enumerate(content_lines, start=1)]
+    content = f"{timestamp}\n" + "\n".join(numbered_lines)
 
-def create_file(dir_path: str, file_name: str) -> None:
-    content = []
-    file_path = os.path.join(dir_path, file_name)
-
-    with open(file_path, "a") as file:
-        while True:
-            data_input = input("Enter content line: ")
-            if data_input.strip().lower() == "stop":
-                break
-            content.append(data_input)
-
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        content_with_timestamp = [
-            f"{timestamp}\n",
-            *[f"{i + 1} {line}\n" for i, line in enumerate(content)]
-        ]
-
-        file.write("".join(content_with_timestamp))
-        file.write("\n")
+    if os.path.exists(filepath):
+        with open(filepath, "a") as file:
+            file.write("\n\n" + content)
+    else:
+        with open(filepath, "w") as file:
+            file.write(content)
 
 
 def main() -> None:
-    if len(sys.argv) > 1:
-        if "-d" in sys.argv:
-            dir_index = sys.argv.index("-d")
-            dir_path = create_dirs(sys.argv[dir_index + 1:sys.argv.index("-f")
-                                   if "-f" in sys.argv else None])
+    directory = None
+    filename = None
+    content_lines = []
 
-            if "-f" in sys.argv:
-                create_file(dir_path, sys.argv[sys.argv.index("-f") + 1])
+    if "-d" in sys.argv:
+        directory_index = sys.argv.index("-d") + 1
+        directory = os.path.join(*sys.argv[directory_index:])
+        os.makedirs(directory, exist_ok=True)
 
-        elif "-f" in sys.argv:
-            create_file(".", sys.argv[sys.argv.index("-f") + 1])
+    if "-f" in sys.argv:
+        filename_index = sys.argv.index("-f") + 1
+        filename = sys.argv[filename_index]
+
+    if not directory and not filename:
+        print("Please provide either -d or -f flag.")
+        return
+
+    if filename:
+        while True:
+            line = input("Enter content line: ")
+            if line.lower() == "stop":
+                break
+            content_lines.append(line)
+        create_file(directory, filename, content_lines)
+
+
+if __name__ == "__main__":
+    main()
