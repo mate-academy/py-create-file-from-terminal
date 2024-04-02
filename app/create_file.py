@@ -26,13 +26,15 @@ def create_dir(terminal: list) -> str:
 
 
 def create_notation(terminal: list, path: str = None) -> None:
-    current_date = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+    current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     text = f"{current_date}\n"
+    count = 0
     while True:
+        count += 1
         last_text = input("Enter content line: ")
         if last_text == "stop":
             break
-        text += last_text + "\n"
+        text += f"{count} " + last_text + "\n"
     text = text.rstrip()
     if path:
         new_path = os.path.join(path, terminal[-1])
