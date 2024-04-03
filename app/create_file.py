@@ -19,7 +19,7 @@ def create_file(directory: List[str], filename: str) -> None:
             print("Enter content line:")
             line_number = 1
             while True:
-                line = input()
+                line = input("Enter content line:")
                 if line == "stop":
                     break
                 file_handle.write(f"{line_number} {line}\n")
