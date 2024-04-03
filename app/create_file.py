@@ -30,8 +30,10 @@ def parse_arguments() -> tuple:
     args = sys.argv[1:]
     if "-d" in args:
         flag_index = args.index("-d")
-        directory = args[flag_index + 1:args.index("-f")] \
-            if "-f" in args else args[flag_index + 1:]
+        if "-f" in args:
+            directory = args[flag_index + 1:args.index("-f")]
+        else:
+            directory = args[flag_index + 1:]
     else:
         directory = []
 
