@@ -8,12 +8,12 @@ command: list = sys.argv
 
 def create_dir() -> str:
     full_path: str = "."
-    end_of_dir: int = command.index("-f") if "-f" in command \
-        else len(command) + 1
+    end_of_dir: int = (command.index("-f") if "-f" in command
+                       else len(command) + 1)
     for part_path in command[command.index("-d") + 1:end_of_dir]:
         full_path = os.path.join(full_path, part_path)
-    if not os.path.exists(full_path):
-        os.makedirs(full_path)
+    if full_path:
+        os.makedirs(full_path, exist_ok=True)
     return full_path
 
 
