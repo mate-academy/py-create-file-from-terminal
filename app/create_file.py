@@ -21,13 +21,12 @@ def create_file(directory: List[str], filename: str,
                 f.write("\n")
             else:
                 f.write(content_with_timestamp)
-
-    line_number = 1
-    for line in content:
-        if line == "stop":
-            break
-        f.write(f"{line_number} {line}\n")
-        line_number += 1
+            line_number = 1
+            for line in content:
+                if line == "stop":
+                    break
+                f.write(f"{line_number} {line}\n")
+                line_number += 1
 
 
 def parse_arguments() -> tuple:
