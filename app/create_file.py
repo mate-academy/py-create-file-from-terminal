@@ -3,6 +3,23 @@ import os
 from datetime import datetime
 
 
+def while_for_f(file_path: str) -> None:
+    count = 0
+    current_time = datetime.now()
+    formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
+    with open(file_path, "w") as file_time:
+        file_time.write(formatted_time + "\n")
+        file_time.close()
+    while True:
+        count += 1
+        text = input("write text here: ")
+        if text == "stop":
+            break
+
+        with open(file_path, "a") as file:
+            file.write(f"{count} {text} \n")
+
+
 def with_d_and_f() -> None:
     if "-d" in sys.argv and "-f" in sys.argv:
         ind_d = sys.argv.index("-d")
@@ -11,30 +28,13 @@ def with_d_and_f() -> None:
         list_d = []
 
         list_d.extend(sys.argv[ind_d + 1:ind_f])
-        str_list = "/".join(list_d)
-        if not os.path.exists(str_list):
-            os.makedirs(str_list)
-        else:
-            print("your directory alredy exist")
+        path_to_directory = os.path.join(*list_d)
+        if path_to_directory:
+            os.makedirs(path_to_directory, exist_ok=True)
 
-        file_path = os.path.join(str_list, sys.argv[ind_f + 1])
-        count = 0
+        file_path = os.path.join(path_to_directory, sys.argv[ind_f + 1])
 
-        current_time = datetime.now()
-        formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
-
-        with open(file_path, "w") as file_time:
-            file_time.write(formatted_time + "\n")
-            file_time.close()
-
-        while True:
-            count += 1
-            text = input("write text here: ")
-            if text == "stop":
-                break
-
-            with open(file_path, "a") as file:
-                file.write(f"{count} {text} \n")
+        while_for_f(file_path)
 
 
 def only_d() -> None:
@@ -42,16 +42,14 @@ def only_d() -> None:
         ind_d = sys.argv.index("-d")
         list_d = []
         list_d.extend(sys.argv[ind_d + 1:])
-        str_list = "/".join(list_d)
-        if not os.path.exists(str_list):
-            os.makedirs(str_list)
-        else:
-            print("your directory alredy exist")
+        path_to_directory = os.path.join(list_d)
+        if path_to_directory:
+            os.makedirs(path_to_directory, exist_ok=True)
 
 
 def only_f() -> None:
     if "-f" in sys.argv and "-d" not in sys.argv:
-        count = 0
+
         ind_f = sys.argv.index("-f")
 
         current_time = datetime.now()
@@ -60,15 +58,7 @@ def only_f() -> None:
         with open(sys.argv[ind_f + 1], "w") as file_time:
             file_time.write(formatted_time + "\n")
             file_time.close()
-
-        while True:
-            count += 1
-            text = input("write text here: ")
-            if text == "stop":
-                break
-
-            with open(sys.argv[ind_f + 1], "a") as file:
-                file.write(f"{count} {text} \n")
+        while_for_f(sys.argv[ind_f + 1])
 
 
 with_d_and_f()
