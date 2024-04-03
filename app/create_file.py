@@ -34,8 +34,8 @@ def create_file_in_path() -> None:
         return
 
     filepath = os.path.join(*path_list, file_name)
-    with open(filepath, mode="a", newline="") as file:
-        file.write(f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
+    with open(filepath, mode="a") as file:
+        file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         line_num = 1
         while True:
             line = input("Enter content line: ")
