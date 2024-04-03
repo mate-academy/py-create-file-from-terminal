@@ -4,8 +4,7 @@ from datetime import datetime
 from typing import List
 
 
-def create_file(directory: List[str], filename: str,
-                content: List[str]) -> None:
+def create_file(directory: List[str], filename: str) -> None:
     if directory:
         directory_path = os.path.join(*directory)
         os.makedirs(directory_path, exist_ok=True)
@@ -13,15 +12,10 @@ def create_file(directory: List[str], filename: str,
             filename = os.path.join(directory_path, filename)
 
     if filename:
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        content_with_timestamp = f"{timestamp}\n"
-
         with open(filename, "a") as file_handle:
-            line_to_write = (
-                "\n" if os.path.exists(filename)
-                else content_with_timestamp
-            )
-            file_handle.write(line_to_write)
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            file_handle.write(timestamp + "\n")
+
             print("Enter content line:")
             line_number = 1
             while True:
