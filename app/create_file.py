@@ -16,16 +16,19 @@ def create_file(directory: List[str], filename: str,
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         content_with_timestamp = f"{timestamp}\n"
 
-        with open(filename, "a") as f:
-            if os.path.exists(filename):
-                f.write("\n")
-            else:
-                f.write(content_with_timestamp)
+        with open(filename, "a") as file_handle:
+            line_to_write = (
+                "\n" if os.path.exists(filename)
+                else content_with_timestamp
+            )
+            file_handle.write(line_to_write)
+            print("Enter content line:")
             line_number = 1
-            for line in content:
+            while True:
+                line = input()
                 if line == "stop":
                     break
-                f.write(f"{line_number} {line}\n")
+                file_handle.write(f"{line_number} {line}\n")
                 line_number += 1
 
 
@@ -41,17 +44,15 @@ def parse_arguments() -> tuple:
     if "-f" in args:
         flag_index = args.index("-f")
         filename = args[flag_index + 1]
-        content = args[flag_index + 2:] if flag_index + 2 < len(args) else []
     else:
         filename = ""
-        content = []
 
-    return directory, filename, content
+    return directory, filename
 
 
 def main() -> None:
-    directory, filename, content = parse_arguments()
-    create_file(directory, filename, content)
+    directory, filename = parse_arguments()
+    create_file(directory, filename)
 
 
 if __name__ == "__main__":
