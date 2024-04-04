@@ -29,12 +29,21 @@ if commands:
         else:
             file_path = file_name
 
+        exists_file = False
+        if os.path.exists(file_path):
+            exists_file = True
+
         with open(file_path, "a") as file:
+            if exists_file:
+                file.write("\n")
             time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             file.write(time + "\n")
 
+            line_number = 0
             while 1:
-                text = input()
+                line_number += 1
+                text = input("Enter content line: ")
                 if text == "stop":
                     break
-                file.write(text + "\n")
+                file.write(f"{line_number} {text}\n")
+                content_written = True
