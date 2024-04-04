@@ -26,11 +26,12 @@ def create_file_in_path() -> None:
                 break
             path_list.append(cl_input[i])
 
+    if path_list:
+        path = os.path.join(*path_list)
+        if not os.path.exists(path):
+            os.makedirs(path)
+
     if not file_name:
-        if path_list:
-            path = os.path.join(*path_list)
-            if not os.path.exists(path):
-                os.makedirs(path)
         return
 
     filepath = os.path.join(*path_list, file_name)
