@@ -46,4 +46,3 @@ if commands:
                 if text == "stop":
                     break
                 file.write(f"{line_number} {text}\n")
-                content_written = True
