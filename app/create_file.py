@@ -3,39 +3,42 @@ import sys
 from datetime import datetime
 
 
-def create_file(directory: list, filename: str) -> None:
-    if directory:
-        directory_path = os.path.join(*directory)
-        os.makedirs(directory_path, exist_ok=True)
-    if filename:
-        filepath = os.path.join(*directory, filename)
-        with open(filepath, "a") as file_handle:
-            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            file_handle.write(timestamp + "\n")
-            line_number = 1
-            while True:
-                line = input("Enter content line:")
-                if line == "stop":
-                    break
-                file_handle.write(f"{line_number} {line}\n")
-                line_number += 1
+def make_directories(dirs: list) -> None:
+    return os.makedirs(os.path.join(*dirs), exist_ok=True)
 
 
-def main() -> None:
-    args = sys.argv[1:]
-    directory = []
-    filename = ""
-
-    if "-d" in args:
-        flag_index = args.index("-d")
-        directory = args[flag_index + 1:]
-
-    if "-f" in args:
-        flag_index = args.index("-f")
-        filename = args[flag_index + 1]
-
-    create_file(directory, filename)
+def input_file_contents(path_name: str) -> None:
+    with open(path_name, "a") as file:
+        time_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(time_now)
+        line_number = 0
+        while True:
+            line_number += 1
+            content = input("Enter content line: ")
+            if content == "stop":
+                file.write("\n\n")
+                break
+            file.write(f"\n{line_number} {content}")
 
 
-if __name__ == "__main__":
-    main()
+if "-d" in sys.argv and "-f" in sys.argv:
+    d_flag_index = sys.argv.index("-d")
+    f_flag_index = sys.argv.index("-f")
+    if f_flag_index > d_flag_index:
+        directories = sys.argv[2:-2]
+        file_name = sys.argv[-1]
+    else:
+        directories = sys.argv[d_flag_index + 1:]
+        file_name = sys.argv[2]
+
+    make_directories(directories)
+    joined_path = os.path.join(*directories, file_name)
+    input_file_contents(joined_path)
+
+elif "-d" in sys.argv:
+    directories = sys.argv[2:]
+    make_directories(directories)
+
+elif "-f" in sys.argv:
+    file_name = sys.argv[-1]
+    input_file_contents(file_name)
