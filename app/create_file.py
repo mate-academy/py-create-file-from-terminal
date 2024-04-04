@@ -3,15 +3,24 @@ import sys
 from datetime import datetime
 
 
-def create_file(
-        file_path: list[str] | str,
-        content_lines: list[str] | str
-) -> None:
+def create_directory(directory_path: str) -> None:
+    """Create a directory."""
+    os.makedirs(directory_path, exist_ok=True)
+    print(f"Directory '{directory_path}' created.")
+
+
+def write_content_to_file(file_path: str, content_lines: list[str]) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     content = [f"{timestamp}"] + [
         f"{i} {line}" for i, line in enumerate(content_lines, 1)
     ]
-    with open(file_path, "a" if os.path.exists(file_path) else "w") as file:
+
+    file_exists_and_not_empty = (os.path.exists(file_path)
+                                 and os.path.getsize(file_path) > 0)
+
+    with open(file_path, "a") as file:
+        if file_exists_and_not_empty:
+            file.write("\n")
         file.write("\n".join(content) + "\n")
 
 
@@ -29,8 +38,7 @@ def main() -> None:
         directory_path = os.path.join(*args[dir_index:file_index - 1])
         file_name = args[file_index]
 
-        os.makedirs(directory_path, exist_ok=True)
-        file_path = os.path.join(directory_path, file_name)
+        create_directory(directory_path)
 
         content_lines = []
         print("Enter content line (input 'stop' to finish):")
@@ -40,14 +48,14 @@ def main() -> None:
                 break
             content_lines.append(line)
 
-        create_file(file_path, content_lines)
+        file_path = os.path.join(directory_path, file_name)
+        write_content_to_file(file_path, content_lines)
         print(f"File '{file_name}' created in directory '{directory_path}'.")
 
     elif "-d" in args:
         dir_index = args.index("-d") + 1
         directory_path = os.path.join(*args[dir_index:])
-        os.makedirs(directory_path, exist_ok=True)
-        print(f"Directory '{directory_path}' created.")
+        create_directory(directory_path)
 
     elif "-f" in args:
         file_index = args.index("-f") + 1
@@ -62,7 +70,7 @@ def main() -> None:
                 break
             content_lines.append(line)
 
-        create_file(file_path, content_lines)
+        write_content_to_file(file_path, content_lines)
         print(f"File '{file_name}' created in current directory.")
 
 
