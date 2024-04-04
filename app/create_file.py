@@ -10,7 +10,6 @@ permission_create_file = False
 
 if commands:
     for index, part in enumerate(commands):
-
         if part == "-d":
             for word in commands[(index + 1):]:
                 if word == "-f":
