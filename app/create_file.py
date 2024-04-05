@@ -67,6 +67,7 @@ def main() -> None:
         file_name = args[file_index]
         file_path = os.path.join(os.getcwd(), file_name)
 
+
         content_lines = []
         print("Enter content line (input 'stop' to finish):")
         while True:
