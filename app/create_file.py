@@ -28,8 +28,7 @@ def create_file_in_path() -> None:
 
     if path_list:
         path = os.path.join(*path_list)
-        if not os.path.exists(path):
-            os.makedirs(path)
+        os.makedirs(path, exist_ok=True)
 
     if not file_name:
         return
