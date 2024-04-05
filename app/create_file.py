@@ -4,7 +4,6 @@ from datetime import datetime
 
 
 def create_directory(directory_path: str) -> None:
-    """Create a directory."""
     os.makedirs(directory_path, exist_ok=True)
     print(f"Directory '{directory_path}' created.")
 
@@ -24,6 +23,7 @@ def write_content_to_file(file_path: str, content_lines: list[str]) -> None:
         file.write("\n".join(content) + "\n")
 
 
+# noinspection PyTypeChecker
 def main() -> None:
     args = sys.argv[1:]
     if not args:
@@ -32,12 +32,17 @@ def main() -> None:
         )
         return
 
-    if "-d" in args and "-f" in args:
-        dir_index = args.index("-d") + 1
-        file_index = args.index("-f") + 1
-        directory_path = os.path.join(*args[dir_index:file_index - 1])
-        file_name = args[file_index]
+    if "-f" in args and "-d" in args:
+        f_index = args.index("-f")
+        d_index = args.index("-d")
+        if f_index < d_index:
+            directory_path = os.path.join(*args[d_index + 1:])
+            file_name = args[f_index + 1]
+        else:
+            directory_path = os.path.join(*args[d_index + 1:f_index])
+            file_name = args[f_index + 1]
 
+        # noinspection PyTypeChecker
         create_directory(directory_path)
 
         content_lines = []
