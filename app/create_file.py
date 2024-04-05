@@ -10,21 +10,16 @@ def create_file_in_path() -> None:
     cl_input = sys.argv
 
     if "-f" in cl_input:
-
-        try:
-            file_name = (
-                cl_input[cl_input.index("-f") + 1]
-                if cl_input[cl_input.index("-f") + 1] != "-d"
-                else ""
-            )
-        except IndexError:
-            pass
+        file_name = cl_input[cl_input.index("-f") + 1]
+        f_index = cl_input.index("-f")
 
     if "-d" in cl_input:
-        for i in range(cl_input.index("-d") + 1, len(cl_input)):
-            if cl_input[i] == "-f":
-                break
-            path_list.append(cl_input[i])
+        d_index = cl_input.index("-d")
+        path_list = (
+            cl_input[d_index + 1:]
+            if "-f" not in cl_input
+            else cl_input[d_index + 1:f_index]
+        )
 
     if path_list:
         path = os.path.join(*path_list)
