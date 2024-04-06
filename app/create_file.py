@@ -7,6 +7,17 @@ def time_code() -> str:
     return datetime.now().strftime("%Y-%m-%d, %H:%M:%S")
 
 
+def write_to_file(work_file: open) -> None:
+    work_file.write(f"{time_code()}\n")
+    num_line = 1
+    while True:
+        input_text = input("Enter content line: ")
+        if input_text == "stop":
+            break
+        work_file.write(f"{num_line} {input_text}\n")
+        num_line += 1
+
+
 def command_input() -> None:
     for line in sys.stdin:
         line = line.rstrip()
@@ -16,14 +27,7 @@ def command_input() -> None:
             with open(os.path.join(path,
                                    line[line.index("-f ") + 3:]),
                       "a") as file:
-                file.write(f"{time_code()}\n")
-                num_line = 1
-                while True:
-                    input_text = input("Enter content line: ")
-                    if input_text == "stop":
-                        break
-                    file.write(f"{num_line} {input_text}\n")
-                    num_line += 1
+                write_to_file(file)
             break
         elif "-d" == line[0:2]:
             path = os.path.join(*line[3:].split())
@@ -31,14 +35,7 @@ def command_input() -> None:
             break
         elif "-f" == line[0:2]:
             with open(line[3:], "a") as file:
-                file.write(f"{time_code()}\n")
-                num_line = 1
-                while True:
-                    input_text = input("Enter content line: ")
-                    if input_text == "stop":
-                        break
-                    file.write(f"{num_line} {input_text}\n")
-                    num_line += 1
+                write_to_file(file)
             break
 
 
