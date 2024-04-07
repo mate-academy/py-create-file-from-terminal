@@ -27,8 +27,8 @@ def create_file(args: str, path: str = "") -> None:
         if open_mode == "a":
             file.write("\n")
 
-        current_time = datetime.now()
-        file.write(f"{current_time.strftime("%Y-%m-%d %H:%M:%S")}\n")
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(f"{current_time}\n")
 
         line_count = 0
         while True:
