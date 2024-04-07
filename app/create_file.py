@@ -2,12 +2,14 @@ import os
 import sys
 from datetime import datetime
 
+
 def create_directory(path: str) -> None:
     try:
         os.makedirs(path)
         print(f"Directory '{path}' created successfully.")
     except FileExistsError:
         print(f"Directory '{path}' already exists.")
+
 
 def create_file_with_content(file_path: str, content: list) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -24,6 +26,7 @@ def create_file_with_content(file_path: str, content: list) -> None:
         print(f"File '{file_path}' created with content.")
     else:
         print(f"File '{file_path}' has been appended with content.")
+
 
 def main() -> None:
     args = sys.argv[1:]
@@ -64,6 +67,7 @@ def main() -> None:
             content.append(line)
 
         create_file_with_content(file_path, content)
+
 
 if __name__ == "__main__":
     main()
