@@ -3,27 +3,16 @@ import os
 from datetime import datetime
 
 
-def create_dir(dir_name: str) -> None:
-    path = os.path.join(dir_name)
+def create_dir(dir_name: list[str]) -> None:
+    path = os.path.join(*dir_name)
     os.makedirs(path, exist_ok=True)
 
 
-def create_file(file_name: str) -> bool:
-    if os.path.exists(file_name):
-        overwrite = input(f"File '{file_name}' already exists. "
-                          f"Do you want to overwrite it? (yes/no): ")
-        if overwrite.lower() != "yes":
-            print("Aborting file creation.")
-            return True
-
+def create_and_write_file(file_name: str) -> None:
     with open(file_name, "a") as f:
         f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
-    return False
+        print(f"Enter content for '{file_name}' (type 'stop' to finish): ")
 
-
-def write_content(file_name: str) -> None:
-    print(f"Enter content for '{file_name}' (type 'stop' to finish): ")
-    with open(file_name, "a") as f:
         line_num = 1
         while True:
             content = input(f"Enter content line {line_num}: ")
@@ -48,9 +37,7 @@ def main() -> None:
     if "-f" in args:
         file_index = args.index("-f") + 1
         file_name = args[file_index]
-        if not create_file(file_name):
-            return
-        write_content(file_name)
+        create_and_write_file(file_name)
 
 
 if __name__ == "__main__":
