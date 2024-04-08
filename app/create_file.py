@@ -24,7 +24,8 @@ def main():
     if not file_name:
         return
 
-    full_path = os.path.join(full_dir_path, file_name) if full_dir_path else file_name
+    full_path = os.path.join(full_dir_path, file_name) \
+        if full_dir_path else file_name
     print("Enter content lines (type 'stop' to finish):")
 
     content_lines = []
