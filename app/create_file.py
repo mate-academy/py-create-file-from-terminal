@@ -2,8 +2,9 @@ import sys
 import os
 from datetime import datetime
 
-def create_dir(path):
-    """Create a directory at the specified path."""
+
+def create_dir(path: any) -> None:
+
     if not path:
         return
     try:
@@ -12,18 +13,15 @@ def create_dir(path):
         print(f"Error creating directory {path}: {error}")
 
 
-def create_file(path, file_name):
-    """Create a file with the given name at the specified path and write content to it."""
+def create_file(path: any, file_name: str) -> None:
+
     full_path = os.path.join(path, file_name) if path else file_name
 
-    # Determine if the file already exists to decide on adding a newline before new content.
     file_exists = os.path.exists(full_path)
 
-    with open(full_path, 'a') as file:  # Always open in append mode
+    with open(full_path, "a") as file:
         if file_exists:
-            # Add a newline to separate previous content from the new content block
             file.write("\n")
-        # Write the current timestamp
         file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 
         line_count = 1
@@ -35,7 +33,7 @@ def create_file(path, file_name):
             line_count += 1
 
 
-def main():
+def main() -> None:
     args = sys.argv[1:]
     path_parts = []
     file_name = ""
@@ -52,7 +50,7 @@ def main():
             parsing_dirs = False
         elif parsing_dirs:
             path_parts.append(arg)
-        elif file_flag and not file_name:  # Only set file_name if not already set
+        elif file_flag and not file_name:
             file_name = arg
 
     path = os.path.join(*path_parts) if path_parts else ""
@@ -62,6 +60,6 @@ def main():
     if file_flag:
         create_file(path, file_name)
 
+
 if __name__ == "__main__":
     main()
-
