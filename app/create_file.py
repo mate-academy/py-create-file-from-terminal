@@ -3,7 +3,7 @@ import sys
 from datetime import datetime
 
 
-def main():
+def main() -> None:
     args = sys.argv[1:]
     try:
         dir_path = args[args.index("-d") + 1:args.index("-f")]
