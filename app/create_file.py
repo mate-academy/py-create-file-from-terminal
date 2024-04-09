@@ -5,7 +5,7 @@ import os
 
 def create_dir_or_file(dir_l: list, file_l: list) -> None:
     dir_str = os.path.join("app", *dir_l[1:])
-    os.makedirs(dir_str) if dir_l[1:] else None
+    os.makedirs(dir_str, exist_ok=True) if dir_l[1:] else None
 
     if file_l:
         with open(os.path.join(dir_str, *file_l[1:]), "a") as f:
