@@ -1,49 +1,53 @@
 import os
-import sys
+import argparse
 from datetime import datetime
 
 
-def create_file(directory: str, filename: str, content: list) -> None:
-    filepath = os.path.join(directory, filename)
+def create_file(directory: str, filename: str, content_lines: list) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    content = f"{timestamp}\n" + "\n".join(
-        [f"{i} {line}" for i, line in enumerate(content, 1)]
-    )
+
+    filepath = os.path.join(directory, filename)
+
     if os.path.exists(filepath):
-        with open(filepath, "a") as f:
-            f.write("\n\n" + content)
+        with open(filepath, "a") as file:
+            file.write("\n\n" + timestamp + "\n")
+            for idx, line in enumerate(content_lines, start=1):
+                file.write(f"{idx} {line}\n")
     else:
-        with open(filepath, "w") as f:
-            f.write(content)
+        with open(filepath, "w") as file:
+            file.write(timestamp + "\n")
+            for idx, line in enumerate(content_lines, start=1):
+                file.write(f"{idx} {line}\n")
+
+
+def get_content_lines() -> list:
+    content_lines = []
+    while True:
+        line = input("Enter content line: ")
+        if line.lower() == "stop":
+            break
+        content_lines.append(line)
+    return content_lines
 
 
 def main() -> None:
-    if "-d" in sys.argv and "-f" in sys.argv:
-        dir_index = sys.argv.index("-d") + 1
-        file_index = sys.argv.index("-f") + 1
-        directory = os.path.join(*sys.argv[dir_index : file_index - 1])
-        filename = sys.argv[file_index]
-        content = []
-        while True:
-            line = input("Enter content line: ")
-            if line == "stop":
-                break
-            content.append(line)
-        create_file(directory, filename, content)
-    elif "-d" in sys.argv:
-        dir_index = sys.argv.index("-d") + 1
-        directory = os.path.join(*sys.argv[dir_index:])
-        os.makedirs(directory, exist_ok=True)
-    elif "-f" in sys.argv:
-        file_index = sys.argv.index("-f") + 1
-        filename = sys.argv[file_index]
-        content = []
-        while True:
-            line = input("Enter content line: ")
-            if line == "stop":
-                break
-            content.append(line)
-        create_file(os.getcwd(), filename, content)
+    parser = argparse.ArgumentParser(
+        description="Create directory or file with content"
+    )
+    parser.add_argument("-d", "--directory", nargs="+", help="Directory path")
+    parser.add_argument("-f", "--file", help="File name")
+
+    args = parser.parse_args()
+
+    if args.directory:
+        directory_path = os.path.join(*args.directory)
+        os.makedirs(directory_path, exist_ok=True)
+        if args.file:
+            content_lines = get_content_lines()
+            create_file(directory_path, args.file, content_lines)
+    elif args.file:
+        content_lines = get_content_lines()
+        create_file(".", args.file, content_lines)
 
 
 if __name__ == "__main__":
