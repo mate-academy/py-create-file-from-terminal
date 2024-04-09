@@ -51,10 +51,9 @@ def main() -> None:
         file_name = "file.txt"
 
     full_dir_path = create_directory(dir_path)
-    full_path = os.path.join(full_dir_path, file_name) \
-        if full_dir_path else file_name
-    content_lines = collect_content_lines()
-    write_content_to_file(full_path, content_lines)
+    full_path = (os.path.join(full_dir_path, file_name)
+                 if full_dir_path else file_name)
+    write_content_to_file(full_path, collect_content_lines())
 
 
 if __name__ == "__main__":
