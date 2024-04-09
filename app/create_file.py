@@ -3,25 +3,26 @@ import sys
 from datetime import datetime
 
 
-def create_dir(dirs):
+def create_dir(dirs: list) -> None:
     path = os.path.join(*dirs)
     os.makedirs(path)
 
 
-def create_file(name):
-    formatted_datetime = datetime.now().strftime('%Y-%m-%d, %H:%M:%S')
+def create_file(name: str) -> None:
+    formatted_datetime = datetime.now().strftime("%Y-%m-%d, %H:%M:%S")
     with open(name, "a") as file:
         count_number = 1
         file.write(formatted_datetime + "\n")
         while True:
-            user_input = str(input('Write your string (or "stop" for ending): '))
+            user_input = str(input(
+                'Write your string (or "stop" for ending): '))
             if user_input.lower() == "stop":
                 break
             file.write(f"{count_number} {user_input} + \n")
             count_number += 1
 
 
-def find_argument():
+def find_argument() -> None:
     terminal_data = sys.argv
     if "-d" in terminal_data and "-f" in terminal_data:
         create_dir(terminal_data[2:-2])
