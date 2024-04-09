@@ -1,8 +1,8 @@
+import argparse
+
 import os
 
 from typing import List
-
-import argparse
 
 
 def main() -> None:
