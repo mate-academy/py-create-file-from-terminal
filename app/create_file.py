@@ -1,26 +1,22 @@
+import argparse
 import os
-import sys
 from datetime import datetime
 
 
-def create_folder(args: list) -> str:
-    if "-d" not in args:
+def create_folder(dirs: list[str]) -> str:
+    if not dirs:
         return ""
 
-    start_index = args.index("-d") + 1
-    end_index = args.index("-f") if "-f" in args[start_index:] else len(args)
-    paths = args[start_index:end_index]
-    path = os.path.join(*paths)
-
+    path = os.path.join(*dirs)
     os.makedirs(path, exist_ok=True)
     return path
 
 
-def create_file(args: str, path: str = "") -> None:
-    if "-f" not in args:
+def create_file(file_name: str, path: str = "") -> None:
+    if not file_name:
         return
 
-    file_name = os.path.join(path, args[args.index("-f") + 1])
+    file_name = os.path.join(path, file_name)
     open_mode = "a" if os.path.exists(file_name) else "w"
 
     with open(file_name, open_mode) as file:
@@ -39,5 +35,13 @@ def create_file(args: str, path: str = "") -> None:
             file.write(f"{line_count} {line_input}\n")
 
 
-arguments = sys.argv
-create_file(arguments, create_folder(arguments))
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--dir", action="extend", nargs="+", type=str)
+    parser.add_argument("-f", "--file", action="store", type=str)
+    args = parser.parse_args()
+    create_file(args.file, create_folder(args.dir))
+
+
+if __name__ == "__main__":
+    main()
