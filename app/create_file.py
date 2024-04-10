@@ -3,7 +3,16 @@ import argparse
 from datetime import datetime
 
 
-def main(dir_path: list[str] = None, file_name: str = None) -> None:
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Create file with input")
+
+    parser.add_argument("-d", nargs="+", dest="dir_path")
+    parser.add_argument("-f", dest="file_name")
+
+    args = parser.parse_args()
+    dir_path = args.dir_path
+    file_name = args.file_name
+
     if dir_path:
         path = os.path.join(*dir_path)
         os.makedirs(path, exist_ok=True)
@@ -17,31 +26,20 @@ def main(dir_path: list[str] = None, file_name: str = None) -> None:
 
 def data_input(file_path: str) -> None:
     count = 0
-    if os.path.exists(file_path):
-        with open(file_path) as file:
-            count = len(file.readlines()) - 1
-
     utc_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    while True:
-        count += 1
-        text = input("Enter content line: ")
-        if text.lower() == "stop":
-            break
-        if not os.path.exists(file_path):
-            with open(file_path, "w") as file_time:
-                file_time.write(utc_time + "\n")
-                file_time.write(f"{count} {text} \n")
-        else:
-            with open(file_path, "a") as file:
-                file.write(f"{count} {text} \n")
+    mode = "a" if os.path.exists(file_path) else "w"
+    with open(file_path, mode) as file_time:
+        file_time.write(f"{utc_time}\n")
 
+        while True:
+            count += 1
+            text = input("Enter content line: ")
+            if text.lower() == "stop":
+                break
+            file_time.write(f"{count} {text}\n")
 
-parser = argparse.ArgumentParser(description="Create file with input")
+        file_time.write("\n")
 
-parser.add_argument("-d", nargs="+", dest="dir_path")
-parser.add_argument("-f", dest="file_name")
-
-args = parser.parse_args()
 
 if __name__ == "__main__":
-    main(args.dir_path, args.file_name)
+    main()
