@@ -9,9 +9,8 @@ def create_file(directory: str, filename: str, content_lines: list) -> None:
     filepath = os.path.join(directory, filename)
 
     mode = "a" if os.path.exists(filepath) else "w"
-    escape_sequence = "\n\n" if os.path.exists(filepath) else ""
     with open(filepath, mode) as file:
-        file.write(escape_sequence + timestamp + "\n")
+        file.write("\n\n" if mode == "a" else "" + timestamp + "\n")
         for idx, line in enumerate(content_lines, start=1):
             file.write(f"{idx} {line}\n")
 
