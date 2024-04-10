@@ -1,5 +1,7 @@
+import argparse
 import os
-import sys
+
+
 from datetime import datetime
 
 
@@ -8,7 +10,12 @@ def create_dir(dirs: list) -> None:
     os.makedirs(path)
 
 
-def create_file(name: str) -> None:
+def create_file(directory: str, name: str) -> None:
+    if directory:
+        name = os.path.join(*directory, name)
+    else:
+        name = os.path.join(name)
+
     formatted_datetime = datetime.now().strftime("%Y-%m-%d, %H:%M:%S")
     with open(name, "a") as file:
         count_number = 1
@@ -22,17 +29,21 @@ def create_file(name: str) -> None:
             count_number += 1
 
 
-def find_argument() -> None:
-    terminal_data = sys.argv
-    if "-d" in terminal_data and "-f" in terminal_data:
-        create_dir(terminal_data[2:-2])
-        file_path = os.path.join(*terminal_data[2:-2], terminal_data[-1])
-        create_file(file_path)
-    elif "-d" in terminal_data and "-f" not in terminal_data:
-        create_dir(terminal_data[2:])
-    elif "-f" in terminal_data and "-d" not in terminal_data:
-        create_file(terminal_data[-1])
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Create directories and file.")
+    parser.add_argument("-d", "--directory",
+                        nargs="*", help="Directory path to create")
+    parser.add_argument("-f", "--file",
+                        help="File to create")
+
+    args = parser.parse_args()
+
+    if args.directory:
+        create_dir(args.directory)
+
+    create_file(args.directory, args.file)
 
 
 if __name__ == "__main__":
-    find_argument()
+    main()
