@@ -41,7 +41,8 @@ def app() -> None:
             sys.argv.index("-f") if need_file() else None
         ]
         target_dir = os.path.join(target_dir, *new_dir)
-        create_directory(*new_dir)
+        if not os.path.exists(target_dir):
+            create_directory(*new_dir)
 
     if need_file():
         file_path = os.path.join(
