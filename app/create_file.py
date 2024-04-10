@@ -24,7 +24,7 @@ def main() -> None:
 def create_directories(dirs: List[str]) -> None:
     path = os.path.join(*dirs)
     try:
-        os.makedirs(path)
+        os.makedirs(path, exist_ok=True)
         print(f"Directory created: {path}")
     except FileExistsError:
         print(f"Directory already exists: {path}")
