@@ -1,46 +1,76 @@
-from datetime import datetime
-from sys import argv
 import os
+import sys
+from datetime import datetime
+from typing import Union, LiteralString
 
 
-def create_dir_or_file(dir_l: list, file_l: list) -> None:
-    dir_str = os.path.join("app", *dir_l[1:])
-    os.makedirs(dir_str, exist_ok=True) if dir_l[1:] else None
+def main() -> None:
+    args = sys.argv
 
-    if file_l:
-        with open(os.path.join(dir_str, *file_l[1:]), "a") as f:
-            f.writelines(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-            count = 1
-            text = input("Enter content line: ")
-            while text.lower() != "stop":
-                f.writelines(f"\n{str(count)} {text}")
-                count += 1
-                text = input("Enter content line: ")
+    d_flag_is_used = "-d" in args
+    f_flag_is_used = "-f" in args
 
+    if not (d_flag_is_used or f_flag_is_used):
+        print("Flag '-f' or '-d' must be used but no flags were given")
+        return
 
-def read_flag() -> None:
-    flag_d = []
-    flag_f = []
-    index = {"-d": -1, "-f": -1}
-    for i in index:
+    f_arg = None
+    if f_flag_is_used:
         try:
-            index[i] = argv.index(i)
-        except ValueError:
-            continue
+            f_arg = args[args.index("-f") + 1]
+            if f_arg == "-d":
+                raise IndexError
 
-    if len(argv) <= 1 or all(x == -1 for x in index.values()):
-        raise Exception("Missing any flags")
+        except IndexError:
+            print("Flag '-f' was used but no parameters were given")
+            return
 
-    if index["-f"] > index["-d"] > -1:
-        flag_d = argv[index["-d"]:index["-f"]]
-    elif index["-f"] < index["-d"]:
-        flag_d = argv[index["-d"]:]
+    d_args = list()
+    if d_flag_is_used:
+        d_args = args[args.index("-d") + 1:(args.index("-f")
+                      if f_flag_is_used and args.index("-f") > args.index("-d")
+                      else None)]
+        if not len(d_args):
+            print("Flag '-d' was used but no parameters were given")
+            return
 
-    if index["-d"] < index["-f"]:
-        flag_f = argv[index["-f"]:]
+    filepath = create_path(["."] + d_args + [""]) if d_flag_is_used else "./"
+    filename = f_arg if f_flag_is_used else "file.txt"
+    full_filepath = filepath + filename
 
-    create_dir_or_file(flag_d, flag_f)
+    if d_flag_is_used and not os.path.isdir(filepath):
+        try:
+            os.makedirs(filepath)
+        except OSError as e:
+            print("Error during directory creation:", e)
+            return
+
+    fill_data(full_filepath)
+
+
+def create_path(directories: list) -> Union[str, LiteralString, bytes]:
+    path = os.path.join(*directories)
+    return path
+
+
+def fill_data(full_filepath: Union[str, LiteralString, bytes]) -> None:
+    file_exists = os.path.exists(full_filepath)
+
+    with open(full_filepath, "a+") as file:
+
+        if file_exists:
+            file.write("\n")
+
+        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        row_number = 1
+
+        while True:
+            data_to_write = input("Enter content line: ")
+            if data_to_write == "stop":
+                break
+            file.write(f"{row_number} {data_to_write}\n")
+            row_number += 1
 
 
 if __name__ == "__main__":
-    read_flag()
+    main()
