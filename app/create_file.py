@@ -5,16 +5,15 @@ from datetime import datetime
 
 def create_file(directory: str, filename: str, content_lines: list) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    if isinstance(filename, str):
-        raise TypeError
+
     filepath = os.path.join(directory, filename)
 
-    mode = "a" if os.path.exists(filepath) else "w"
-    with open(filepath, mode) as file:
-        if mode == "w":
+    try:
+        with open(filepath, "a") as file:
             file.write(timestamp + "\n")
-        file.writelines(content_lines)
-
+            file.writelines(content_lines)
+    except OSError:
+        raise
 
 def get_content_lines() -> list:
     content_lines = []
