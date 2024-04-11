@@ -4,26 +4,25 @@ from datetime import datetime
 
 
 def create_file(directory: str, filename: str, content_lines: list) -> None:
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     filepath = os.path.join(directory, filename)
 
     try:
         with open(filepath, "a") as file:
-            file.write(timestamp + "\n")
             file.writelines(content_lines)
     except OSError:
         raise
 
 
 def get_content_lines() -> list:
-    content_lines = []
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    content_lines = [timestamp]
     idx = 1
     while True:
         line = input("Enter content line: ")
         if line.lower() == "stop":
             break
-        content_lines += f"{idx} {line}\n"
+        content_lines.append(f"{idx} {line}\n")
         idx += 1
     return content_lines
 
