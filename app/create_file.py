@@ -5,23 +5,26 @@ from datetime import datetime
 
 def create_file(directory: str, filename: str, content_lines: list) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
+    if isinstance(filename, str):
+        raise TypeError
     filepath = os.path.join(directory, filename)
 
     mode = "a" if os.path.exists(filepath) else "w"
     with open(filepath, mode) as file:
-        file.write("\n\n" if mode == "a" else "" + timestamp + "\n")
-        for idx, line in enumerate(content_lines, start=1):
-            file.write(f"{idx} {line}\n")
+        if mode == "w":
+            file.write(timestamp + "\n")
+        file.writelines(content_lines)
 
 
 def get_content_lines() -> list:
     content_lines = []
+    idx = 1
     while True:
-        line = input("Enter content line: ")
+        line = input(f"Enter content line: ")
         if line.lower() == "stop":
             break
-        content_lines.append(line)
+        content_lines += f"{idx} {line}\n"
+        idx += 1
     return content_lines
 
 
