@@ -16,7 +16,7 @@ def create_file(directory: str, filename: str, content_lines: list) -> None:
 
 def get_content_lines() -> list:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    content_lines = [timestamp]
+    content_lines = [timestamp + "\n"]
     idx = 1
     while True:
         line = input("Enter content line: ")
