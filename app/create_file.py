@@ -38,7 +38,8 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.directory or args.file:
-        directory_path = os.path.join(*args.directory) if args.directory else "."
+        directory_path = os.path.join(*args.directory)\
+            if args.directory else "."
         os.makedirs(directory_path, exist_ok=True)
         if args.file:
             content_lines = get_content_lines()
