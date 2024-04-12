@@ -25,25 +25,34 @@ def write_info(file_name: str) -> None:
         file_open.write(string_to_file)
 
 
-new_path = os.path.dirname(os.path.abspath(__file__))
+def arg_parcing(command_line: list[str]) -> tuple:
+    new_path = os.path.dirname(os.path.abspath(__file__))
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-f", nargs=1, dest="file_work", required=True,
-                    help="Only 1 name of file to write")
-parser.add_argument("-d", nargs="*", dest="dicts", default=None)
-parser.add_argument("pos_args", nargs="*")
-argss = parser.parse_args(sys.argv)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-f", nargs=1, dest="file_work", required=True,
+                        help="Only 1 name of file to write")
+    parser.add_argument("-d", nargs="*", dest="dicts", default=None)
+    parser.add_argument("pos_args", nargs="*")
+    argss = parser.parse_args(sys.argv)
 
-if argss.dicts:
-    new_path = os.path.join(new_path, os.path.sep.join(argss.dicts))
+    if argss.dicts:
+        new_path = os.path.join(new_path, os.path.sep.join(argss.dicts))
 
-    for char in '|*?"</>':
-        if char in new_path:
-            raise OSError(f"Wrong char {char} in command dir")
+        for char in '|*?"</>':
+            if char in new_path:
+                raise OSError(f"Wrong char {char} in command dir")
 
-for char in ':|*?"</>':
-    if char in argss.file_work[0]:
-        raise OSError(f"Wrong char {char} in file")
+    for char in ':|*?"</>':
+        if char in argss.file_work[0]:
+            raise OSError(f"Wrong char {char} in file")
 
-os.makedirs(new_path, exist_ok=True)
-write_info(os.path.join(new_path, argss.file_work[0]))
+    return (new_path, argss.file_work[0],)
+
+
+def main() -> None:
+    new_path, file_name = arg_parcing(sys.argv)
+    os.makedirs(new_path, exist_ok=True)
+    write_info(os.path.join(new_path, file_name))
+
+
+main()
