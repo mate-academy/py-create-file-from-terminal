@@ -54,5 +54,6 @@ def main() -> None:
     os.makedirs(new_path, exist_ok=True)
     write_info(os.path.join(new_path, file_name))
 
+if __name__ == '__main__':
+    main()
 
-main()
