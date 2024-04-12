@@ -17,7 +17,7 @@ def get_path(argv: list) -> (str, str):
     return "", file_name
 
 
-if __name__ == "__main__":
+def create_file() -> None:
     dir_name, file_name = get_path(argv)
     current_date_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -33,3 +33,7 @@ if __name__ == "__main__":
                     break
                 new_file.write(new_line + "\n")
             new_file.write("\n")
+
+
+if __name__ == "__main__":
+    create_file()
