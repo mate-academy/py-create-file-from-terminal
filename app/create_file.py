@@ -37,12 +37,12 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    if args.directory:
-        directory_path = os.path.join(*args.directory)
+    if args.directory or args.file:
+        directory_path = os.path.join(*args.directory) if args.directory else "."
         os.makedirs(directory_path, exist_ok=True)
-    elif args.file:
-        content_lines = get_content_lines()
-        create_file(".", args.file, content_lines)
+        if args.file:
+            content_lines = get_content_lines()
+            create_file(directory_path, args.file, content_lines)
 
 
 if __name__ == "__main__":
