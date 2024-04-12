@@ -3,17 +3,11 @@ import datetime
 from sys import argv
 
 
-def get_file_name(argv: list) -> str:
-    if "-f" in argv:
-        return argv[-1]
-    return ""
-
-
-def get_dir_name(argv: list) -> (str, str):
-    file_name = get_file_name(argv)
-
+def get_path(argv: list) -> (str, str):
     f_index = argv.index("-f") if "-f" in argv else ""
     d_index = argv.index("-d") if "-d" in argv else ""
+
+    file_name = argv[-1] if f_index else ""
 
     if d_index and f_index:
         return os.path.join(*argv[d_index + 1:f_index]), file_name
@@ -24,7 +18,7 @@ def get_dir_name(argv: list) -> (str, str):
 
 
 if __name__ == "__main__":
-    dir_name, file_name = get_dir_name(argv)
+    dir_name, file_name = get_path(argv)
     current_date_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     if dir_name:
