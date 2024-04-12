@@ -24,6 +24,7 @@ def get_content_lines() -> list:
             break
         content_lines.append(f"{idx} {line}\n")
         idx += 1
+    content_lines.append("\n")
     return content_lines
 
 
@@ -39,9 +40,6 @@ def main() -> None:
     if args.directory:
         directory_path = os.path.join(*args.directory)
         os.makedirs(directory_path, exist_ok=True)
-        if args.file:
-            content_lines = get_content_lines()
-            create_file(directory_path, args.file, content_lines)
     elif args.file:
         content_lines = get_content_lines()
         create_file(".", args.file, content_lines)
