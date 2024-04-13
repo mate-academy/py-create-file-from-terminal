@@ -42,7 +42,8 @@ def main() -> None:
         create_dir(args.directory)
 
     if args.file:
-        file_path = os.path.join(*args.directory, args.file) if args.directory else args.file
+        file_path = os.path.join(
+            *args.directory, args.file) if args.directory else args.file
         user_data = collect_input()
         write_data_to_file(file_path, user_data)
 
