@@ -3,70 +3,73 @@ import sys
 from datetime import datetime
 
 
-def create_directory(path: str) -> None:
-    try:
-        os.makedirs(path)
-        print(f"Directory '{path}' created successfully.")
-    except FileExistsError:
-        print(f"Directory '{path}' already exists.")
-
-
-def create_file_with_content(file_path: str, content: list) -> None:
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    content_with_numbers = [
-        f"{i} {line}" for i, line in enumerate(content, start=1)
-    ]
-    content_with_numbers.insert(0, timestamp)
-
-    mode = "a" if os.path.exists(file_path) else "w"
-    with open(file_path, mode) as file:
-        file.write("\n".join(content_with_numbers) + "\n" * 2)
-
-    if mode == "w":
-        print(f"File '{file_path}' created with content.")
-    else:
-        print(f"File '{file_path}' has been appended with content.")
-
-
 def main() -> None:
-    args = sys.argv[1:]
+    args = sys.argv
 
-    if not args or ("-d" not in args and "-f" not in args):
-        print(
-            "Usage: python create_file.py -d [directory_path] "
-            "or -f [file_path]"
-        )
+    d_flag_is_used = "-d" in args
+    f_flag_is_used = "-f" in args
+
+    if not (d_flag_is_used or f_flag_is_used):
+        print("Flag '-f' or '-d' must be used but no flags were given")
         return
 
-    if "-d" in args and "-f" in args:
-        dir_index = args.index("-d") + 1
-        file_index = args.index("-f") + 1
+    f_arg = None
+    if f_flag_is_used:
+        try:
+            f_arg = args[args.index("-f") + 1]
+            if f_arg == "-d":
+                raise IndexError
 
-        directory_path = os.path.join(*args[dir_index:file_index - 1])
-        file_path = os.path.join(directory_path, args[file_index])
+        except IndexError:
+            print("Flag '-f' was used but no parameters were given")
+            return
 
-        create_directory(directory_path)
-        content = []
-    elif "-d" in args:
-        dir_index = args.index("-d") + 1
-        directory_path = os.path.join(*args[dir_index:])
+    d_args = list()
+    if d_flag_is_used:
+        d_args = args[args.index("-d") + 1:(args.index("-f")
+                      if f_flag_is_used and args.index("-f") > args.index("-d")
+                      else None)]
 
-        create_directory(directory_path)
-        return
-    else:
-        file_index = args.index("-f") + 1
-        file_path = args[file_index]
-        content = []
+        if not len(d_args):
+            print("Flag '-d' was used but no parameters were given")
+            return
 
-    if content is not None:
-        print("Enter content lines (type 'stop' to finish):")
+    filepath = create_path(["."] + d_args + [""]) if d_flag_is_used else "./"
+    filename = f_arg if f_flag_is_used else "file.txt"
+    full_filepath = filepath + filename
+
+    if d_flag_is_used and not os.path.isdir(filepath):
+        try:
+            os.makedirs(filepath)
+        except OSError as e:
+            print("Error during directory creation:", e)
+            return
+
+    fill_data(full_filepath)
+
+
+def create_path(directories: list) -> str:
+    path = os.path.join(*directories)
+    return path
+
+
+def fill_data(full_filepath: str) -> None:
+    file_exists = os.path.exists(full_filepath)
+
+    with open(full_filepath, "a+") as file:
+
+        if file_exists:
+            file.write("\n")
+
+        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        row_number = 1
+
         while True:
-            line = input("Enter content line: ")
-            if line.lower() == "stop":
+            data_to_write = input("Enter content line: ")
+            if data_to_write == "stop":
                 break
-            content.append(line)
-
-        create_file_with_content(file_path, content)
+            file.write(f"{row_number} {data_to_write}\n")
+            row_number += 1
 
 
 if __name__ == "__main__":
