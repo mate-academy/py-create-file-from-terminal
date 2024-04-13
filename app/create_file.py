@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import LiteralString
 import os
 import sys
 
@@ -15,11 +16,18 @@ def file_content_printer(file_name: str) -> None:
             counter += 1
 
 
+def create_path(argv: list) -> LiteralString | str | bytes:
+    path = os.path.join(*filter(lambda x: "." not in x
+                                          and x not in ["-f", "-d"], argv[1:]))
+    return path
+
+
 if "-d" in sys.argv and "-f" in sys.argv:
-    path = os.path.join(*sys.argv[2:-2])
+    path = create_path(sys.argv)
+    file_name = filter(lambda x: "." in x, sys.argv[1:])
     os.makedirs(path)
-    file_content_printer(f"{os.path.join(path, sys.argv[-1])}")
+    file_content_printer(f"{os.path.join(path, *file_name)}")
 elif sys.argv[1] == "-d":
-    os.makedirs(os.path.join(*sys.argv[2:]))
+    os.makedirs(create_path(sys.argv))
 elif sys.argv[1] == "-f":
     file_content_printer(sys.argv[2])
