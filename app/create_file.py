@@ -1,32 +1,31 @@
 import argparse
 import os
-
-
 from datetime import datetime
 
 
 def create_dir(dirs: list) -> None:
     path = os.path.join(*dirs)
-    os.makedirs(path)
+    os.makedirs(path, exist_ok=True)
 
 
-def create_file(directory: str, name: str) -> None:
-    if directory:
-        name = os.path.join(*directory, name)
-    else:
-        name = os.path.join(name)
+def collect_input() -> list:
+    data = []
+    count_number = 1
+    while True:
+        user_input = input('Write your string (or "stop" to end): ')
+        if user_input.lower() == "stop":
+            break
+        data.append(f"{count_number} {user_input}")
+        count_number += 1
+    return data
 
+
+def write_data_to_file(file_path: str, data: list) -> None:
     formatted_datetime = datetime.now().strftime("%Y-%m-%d, %H:%M:%S")
-    with open(name, "a") as file:
-        count_number = 1
+    with open(file_path, "a", encoding="utf-8") as file:
         file.write(formatted_datetime + "\n")
-        while True:
-            user_input = str(input(
-                'Write your string (or "stop" for ending): '))
-            if user_input.lower() == "stop":
-                break
-            file.write(f"{count_number} {user_input} + \n")
-            count_number += 1
+        for line in data:
+            file.write(line + "\n")
 
 
 def main() -> None:
@@ -42,7 +41,10 @@ def main() -> None:
     if args.directory:
         create_dir(args.directory)
 
-    create_file(args.directory, args.file)
+    if args.file:
+        file_path = os.path.join(*args.directory, args.file) if args.directory else args.file
+        user_data = collect_input()
+        write_data_to_file(file_path, user_data)
 
 
 if __name__ == "__main__":
