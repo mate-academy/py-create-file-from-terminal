@@ -22,11 +22,16 @@ def create_path(argv: list) -> LiteralString | str | bytes:
     return path
 
 
-if "-d" in sys.argv and "-f" in sys.argv:
-    path = create_path(sys.argv)
-    file_name = filter(lambda x: "." in x, sys.argv[1:])
+path = create_path(sys.argv)
+file_name = filter(lambda x: "." in x, sys.argv[1:])
+path_with_fn = os.path.join(path, *file_name)
+
+
+if os.path.exists(path_with_fn):
+    file_content_printer(path_with_fn)
+elif "-d" in sys.argv and "-f" in sys.argv:
     os.makedirs(path)
-    file_content_printer(f"{os.path.join(path, *file_name)}")
+    file_content_printer(path_with_fn)
 elif sys.argv[1] == "-d":
     os.makedirs(create_path(sys.argv))
 elif sys.argv[1] == "-f":
