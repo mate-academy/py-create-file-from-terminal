@@ -5,6 +5,8 @@ from datetime import datetime
 
 def file_content_printer(current_file: str) -> None:
     with open(current_file, "a") as new_file:
+        if new_file:
+            print(file=new_file)
         print(datetime.now().strftime("%Y-%m-%d %H:%M:%S"), file=new_file)
         counter = 1
         while True:
