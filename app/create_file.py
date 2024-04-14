@@ -23,7 +23,7 @@ def create_path(filename: str = None) -> str:
         return os.path.join(*dirs)
 
 
-def main():
+def main() -> None:
     if "-f" in sys.argv and "-d" in sys.argv:
         file_name = filter(lambda x: "." in x, sys.argv[1:])
         os.makedirs(create_path(), exist_ok=True)
