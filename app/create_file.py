@@ -8,8 +8,12 @@ def create_file(directory: str, filename: str) -> None:
         os.makedirs(directory)
     file_path = os.path.join(directory, filename)
     print(file_path)
-    with open(file_path, "w") as file:
-        file.write(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n')
+    with open(file_path, "a+") as file:
+        if os.path.getsize(file_path) > 0:
+            file.write("\n")
+            file.write(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n')
+        else:
+            file.write(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n')
         line_number = 1
         while True:
             line = input("Enter content line: ")
