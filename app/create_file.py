@@ -11,7 +11,7 @@ def create_file(directory_path: str, file_name: str, lines: List[str]) -> None:
 
     mode = "a" if os.path.exists(file_path) else "w"
     with open(file_path, mode) as file:
-        file.write("\n".join(content))
+        file.write("\n".join(content) + "\n\n")
 
 
 def main() -> None:
