@@ -9,7 +9,7 @@ def file_content_printer(current_file: str) -> None:
         counter = 1
         while True:
             line = input("Enter content line: ")
-            if "stop" == line:
+            if "stop" in line:
                 break
             new_file.write(f"{counter} {line}\n")
             counter += 1
@@ -18,10 +18,9 @@ def file_content_printer(current_file: str) -> None:
 
 def create_path(filename: str = None) -> str:
     dirs = filter(lambda x: "." not in x and x not in ["-f", "-d"], sys.argv)
-    if filename and dirs:
-        return os.path.join(*dirs, filename)
-    if dirs:
-        return os.path.join(*dirs)
+    if not dirs:
+        return
+    return os.path.join(*dirs, filename or "")
 
 
 def main() -> None:
