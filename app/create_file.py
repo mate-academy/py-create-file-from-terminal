@@ -35,8 +35,6 @@ def main() -> None:
                     terminal_line = input("Enter content line:")
 
                     file.write(str(count) + " " + terminal_line + "\n")
-                    if terminal_line.lower() == "stop":
-                        break
 
 
 if __name__ == "__main__":
