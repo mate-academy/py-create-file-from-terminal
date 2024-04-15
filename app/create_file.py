@@ -17,9 +17,7 @@ def create_file(file_name: str, path_parts: list = None) -> None:
     else:
         full_path = file_name
 
-    file_exists = os.path.isfile(full_path)
-
-    with (open(full_path, "a" if file_exists else "w") as file):
+    with (open(full_path, "a") as file):
         file.write(
             datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
         )
@@ -58,5 +56,6 @@ def main() -> None:
         create_file(args[args.index("-f") + 1])
 
 
+print(__name__)
 if __name__ == "__main__":
     main()
