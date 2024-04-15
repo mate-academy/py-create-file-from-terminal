@@ -11,7 +11,7 @@ def create_directory(path_parts: list) -> None:
 
 
 def create_file(file_name: str, path_parts: list = None) -> None:
-    if path_parts is not None:
+    if path_parts:
         create_directory(path_parts)
         full_path = os.path.join(os.path.join(*path_parts), file_name)
     else:
@@ -20,16 +20,16 @@ def create_file(file_name: str, path_parts: list = None) -> None:
         file.write(
             datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
         )
-        line = ""
+        content = ""
         line_number = 0
         while True:
-            line_in_cycle = input("Enter content line: ")
-            if line_in_cycle == "stop":
-                line += "\n"
+            line = input("Enter content content: ")
+            if line == "stop":
+                content += "\n"
                 break
             line_number += 1
-            line += f"{line_number} {line_in_cycle} \n"
-        file.write(line)
+            content += f"{line_number} {line} \n"
+        file.write(content)
 
 
 def main() -> None:
