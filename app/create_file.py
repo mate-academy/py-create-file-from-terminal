@@ -5,17 +5,15 @@ from datetime import datetime
 
 def file_content_printer(current_file: str) -> None:
     with open(current_file, "a") as new_file:
-        if new_file:
-            print(file=new_file)
-        print(datetime.now().strftime("%Y-%m-%d %H:%M:%S"), file=new_file)
+        new_file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         counter = 1
         while True:
             line = input("Enter content line: ")
             if "stop" in line:
                 break
-            print(f"{counter} {line}", file=new_file)
+            new_file.write(f"{counter} {line}\n")
             counter += 1
-
+        new_file.write("\n")
 
 def create_path(filename: str = None) -> str:
     dirs = filter(lambda x: "." not in x and x not in ["-f", "-d"], sys.argv)
