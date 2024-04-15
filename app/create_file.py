@@ -27,12 +27,12 @@ def create_path(filename: str = None) -> str:
 
 def main() -> None:
     if "-f" in sys.argv and "-d" in sys.argv:
-        file_name = filter(lambda x: "." in x, sys.argv[1:])
+        file_name = sys.argv[sys.argv.index("-f") + 1]
         os.makedirs(create_path(), exist_ok=True)
-        file_content_printer(create_path(*file_name))
+        file_content_printer(create_path(file_name))
     elif sys.argv[1] == "-f":
-        file_name = filter(lambda x: "." in x, sys.argv[1:])
-        file_content_printer(*file_name)
+        file_name = sys.argv[sys.argv.index("-f") + 1]
+        file_content_printer(file_name)
     elif sys.argv[1] == "-d":
         os.makedirs(create_path(), exist_ok=True)
 
