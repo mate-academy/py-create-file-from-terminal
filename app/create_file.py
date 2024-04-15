@@ -5,23 +5,24 @@ import os
 import sys
 
 
-def create_directory(path_parts):
+def create_directory(path_parts: list) -> None:
     directory_path = os.path.join(*path_parts)
     os.makedirs(directory_path, exist_ok=True)
 
 
-def create_file(file_name, path_parts=None):
+def create_file(file_name: str, path_parts: list = None) -> None:
     if path_parts is not None:
-        directory_path = os.path.join(*path_parts)
-        os.makedirs(directory_path, exist_ok=True)
-        full_path = os.path.join(directory_path, file_name)
+        create_directory(path_parts)
+        full_path = os.path.join(os.path.join(*path_parts), file_name)
     else:
         full_path = file_name
 
     file_exists = os.path.isfile(full_path)
 
-    with open(full_path, 'a' if file_exists else 'w') as file:
-        file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + '\n')
+    with (open(full_path, "a" if file_exists else "w") as file):
+        file.write(
+            datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
+        )
         line = ""
         line_number = 0
         while True:
@@ -34,7 +35,7 @@ def create_file(file_name, path_parts=None):
         file.write(line)
 
 
-def main():
+def main() -> None:
     args = sys.argv[1:]
     if "-d" in args and "-f" in args:
         dir_index = args.index("-d")
@@ -46,7 +47,7 @@ def main():
             create_file(file_name, path_parts)
         else:
             path_parts = args[dir_index + 1:]
-            file_name = args[file_index + 1:dir_index]
+            file_name = args[file_index + 1]
             print(file_name, path_parts)
             create_directory(path_parts)
             create_file(file_name, path_parts)
