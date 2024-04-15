@@ -16,7 +16,6 @@ def create_file(file_name: str, path_parts: list = None) -> None:
         full_path = os.path.join(os.path.join(*path_parts), file_name)
     else:
         full_path = file_name
-
     with (open(full_path, "a") as file):
         file.write(
             datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
@@ -30,7 +29,6 @@ def create_file(file_name: str, path_parts: list = None) -> None:
                 break
             line_number += 1
             line += f"{line_number} {line_in_cycle} \n"
-
         file.write(line)
 
 
