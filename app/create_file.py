@@ -28,6 +28,7 @@ def create_file(file_name: str, path_parts: list = None) -> None:
         while True:
             line_in_cycle = input("Enter content line: ")
             if line_in_cycle == "stop":
+                line += "\n"
                 break
             line_number += 1
             line += f"{line_number} {line_in_cycle} \n"
