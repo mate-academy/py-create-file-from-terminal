@@ -38,7 +38,7 @@ def main() -> None:
         dir_index = args.index("-d")
         file_index = args.index("-f")
         if dir_index < file_index:
-            path_parts = args[dir_index + 1: file_index]
+            path_parts = args[dir_index + 1:file_index]
             file_name = args[file_index + 1]
             create_directory(path_parts)
             create_file(file_name, path_parts)
