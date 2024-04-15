@@ -3,31 +3,51 @@ import sys
 import datetime
 
 
-def create_file(filename: str) -> None:
-    with open(filename, "w"):
-        pass
+def add_to_file(filename: str) -> None:
+    count = 0
+    with open(filename, "a") as file:
+        file.write("\n" + datetime.datetime.now().
+                   strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        while True:
+            count += 1
+            terminal_line = input("Enter content line:")
+
+            file.write(str(count) + " " + terminal_line + "\n")
+            if terminal_line.lower() == "stop":
+                break
 
 
-def main() -> None:
-    if len(sys.argv) >= 3:
-        if sys.argv[1] == "-d":
-            directory_path = os.path.join(*sys.argv[2:])
-            print(directory_path)
-            os.makedirs(directory_path, exist_ok=True)
-        if sys.argv[1] == "-f":
-            filename = sys.argv[2]
-            create_file(filename)
-            with open(filename, "a") as f:
-                f.write(datetime.datetime.now().
-                        strftime("%Y-%m-%d %H:%M:%S") + "\n")
-                while True:
-                    count = 0
-                    terminal_line = input("Enter content line:")
-                    count += 1
-                    f.write(str(count) + " " + terminal_line + "\n")
-                    if terminal_line.lower() == "stop":
-                        break
+def create_and_write_to_file(filename: str) -> None:
+    count = 0
+    with open(filename, "w") as file:
+        file.write(datetime.datetime.now().
+                   strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        while True:
+            count += 1
+            terminal_line = input("Enter content line:")
+
+            file.write(str(count) + " " + terminal_line + "\n")
+            if terminal_line.lower() == "stop":
+                break
+
+
+def create_file() -> None:
+
+    flag = sys.argv[1]
+
+    if flag == "-d" and len(sys.argv) >= 3:
+        directory_path = os.path.join(*sys.argv[2:])
+        print(directory_path)
+        os.makedirs(directory_path, exist_ok=True)
+
+    elif flag == "-f" and len(sys.argv) >= 3:
+        filename = sys.argv[2]
+        if os.path.exists(filename):
+            add_to_file(filename)
+
+        else:
+            create_and_write_to_file(filename)
 
 
 if __name__ == "__main__":
-    main()
+    create_file()
