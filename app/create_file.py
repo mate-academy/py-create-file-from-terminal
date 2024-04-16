@@ -43,7 +43,6 @@ def main() -> None:
             path_parts = args[dir_index + 1:file_index]
         else:
             path_parts = args[dir_index + 1:]
-            print(file_name, path_parts)
     elif "-d" in args and "-f" not in args:
         dir_index = args.index("-d")
         path_parts = args[dir_index + 1:]
