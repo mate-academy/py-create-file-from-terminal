@@ -14,7 +14,7 @@ def create_file(file_name: str, path_parts: list = None) -> None:
     if not file_name:
         return
     if path_parts:
-        full_path = os.path.join(os.path.join(*path_parts), file_name)
+        full_path = os.path.join(*path_parts, file_name)
     else:
         full_path = file_name
     with open(full_path, "a") as file:
@@ -24,7 +24,7 @@ def create_file(file_name: str, path_parts: list = None) -> None:
         content = ""
         line_number = 0
         while True:
-            line = input("Enter content content: ")
+            line = input("Enter content: ")
             if line == "stop":
                 content += "\n"
                 break
