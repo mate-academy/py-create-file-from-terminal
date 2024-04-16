@@ -43,16 +43,18 @@ def main() -> None:
             path_parts = args[dir_index + 1:file_index]
         else:
             path_parts = args[dir_index + 1:]
-    elif "-d" in args and "-f" not in args:
+    elif "-d" in args:
         dir_index = args.index("-d")
         path_parts = args[dir_index + 1:]
         file_name = None
-    elif "-f" in args and "-d" not in args:
+    elif "-f" in args:
         file_index = args.index("-f")
         file_name = args[file_index + 1]
         path_parts = None
+    else:
     create_directory(path_parts)
     create_file(file_name, path_parts)
+
 
 
 if __name__ == "__main__":
