@@ -51,8 +51,6 @@ def main() -> None:
         file_index = args.index("-f")
         file_name = args[file_index + 1]
         path_parts = None
-    else:
-        print("")
     create_directory(path_parts)
     create_file(file_name, path_parts)
 
