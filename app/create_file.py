@@ -52,9 +52,9 @@ def main() -> None:
         file_name = args[file_index + 1]
         path_parts = None
     else:
+        print("")
     create_directory(path_parts)
     create_file(file_name, path_parts)
-
 
 
 if __name__ == "__main__":
