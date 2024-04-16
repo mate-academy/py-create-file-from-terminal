@@ -37,10 +37,8 @@ def create_file(filename: str) -> None:
                 terminal_line = input("Enter content line:")
                 if terminal_line.lower() == "stop":
                     break
-
                 if terminal_line.strip():
                     file.write(str(count) + " " + terminal_line + "\n")
-
                 else:
                     break
 
