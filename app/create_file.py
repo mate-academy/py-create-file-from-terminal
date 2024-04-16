@@ -56,6 +56,5 @@ def main() -> None:
     create_file(file_name, path_parts)
 
 
-
 if __name__ == "__main__":
     main()
