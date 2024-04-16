@@ -21,18 +21,19 @@ def main() -> None:
                            strftime("%Y-%m-%d %H:%M:%S") + "\n")
                 while True:
                     count += 1
-                    terminal_line = input("Enter content line:")
-
-                    file.write(str(count) + " " + terminal_line + "\n")
+                    terminal_line = input("Enter content line: ")
+                    if terminal_line.strip():
+                        file.write(str(count) + " " + terminal_line + "\n")
                     if terminal_line.lower() == "stop":
                         break
+
         else:
             with open(filename, "w") as file:
                 file.write("\n" + datetime.datetime.now().
                            strftime("%Y-%m-%d %H:%M:%S") + "\n")
                 while True:
                     count += 1
-                    terminal_line = input("Enter content line:")
+                    terminal_line = input("Enter content line: ")
 
                     file.write(str(count) + " " + terminal_line + "\n")
 
