@@ -35,8 +35,13 @@ def main() -> None:
             return
 
     filepath = create_path(["."] + d_args + [""]) if d_flag_is_used else "./"
-    filename = f_arg if f_flag_is_used else "file.txt"
-    full_filepath = filepath + filename
+    filename = f_arg if f_flag_is_used else None
+
+    if f_flag_is_used and filename is None:
+        print("Flag '-f' was used but no parameters were given")
+        return
+
+    full_filepath = filepath + (filename if filename else "file.txt")
 
     if d_flag_is_used and not os.path.isdir(filepath):
         try:
