@@ -9,6 +9,8 @@ def create_file(filename: str) -> None:
         with open(filename, "r+") as file:
             content = file.read()
             file.write(content)
+            if content and content[-1] != "\n":
+                file.write("\n")
 
     with open(filename, "a") as file:
         file.write(datetime.datetime.now().
@@ -24,6 +26,7 @@ def create_file(filename: str) -> None:
 
             else:
                 break
+        file.write("\n")
 
 
 def main() -> None:
