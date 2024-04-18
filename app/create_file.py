@@ -1,50 +1,53 @@
 import os
 import argparse
 from datetime import datetime
-from typing import LiteralString
-
-parser = argparse.ArgumentParser(description="Create a file in specified directory.")
-parser.add_argument("-d", "--directory", nargs="+", required=False, help="Path to the directory: `-d dir1 dir2`.")
-parser.add_argument("-f", "--file", required=False, help="Specify the filename to create.")
-args = parser.parse_args()
-directory_args = args.directory
-filename = args.file
 
 
-def create_path(directories: list) -> LiteralString | str | bytes:
-    path = os.path.join(*directories)
-    return path
+def create_directory(directory_path: str) -> None:
+    """Create the directory if it does not exist."""
+    os.makedirs(directory_path, exist_ok=True)
 
 
-def get_last_line_number(path: LiteralString | str | bytes) -> int:
+def get_last_line_number(path: str) -> int:
+    """Return the number of lines in a file, or 0 if the file does not exist."""
     try:
-        with open(path, "r") as input_file:
-            lines = input_file.readlines()
-            return len(lines)
+        with open(path, "r") as file:
+            return len(file.readlines())
     except FileNotFoundError:
         return 0
 
 
-if directory_args:
-    dir_path = create_path(["./", *directory_args])
-    os.makedirs(dir_path, exist_ok=True)
-
-if filename:
-    file_path = create_path(["./", *directory_args, filename])
-    is_file_exists = os.path.exists(file_path)
-    modifier = "a" if is_file_exists else "w"
-    line_number = get_last_line_number(file_path) if is_file_exists else 0
-
-    with open(file_path, modifier) as input_file:
-        if not is_file_exists:
-            date_time_now = datetime.now()
-            input_file.write(date_time_now.strftime("%Y-%m-%d %H:%M:%S") + "\n")
+def append_lines_to_file(path: str, start_line: int) -> None:
+    """Append lines to the file with line numbers, starting from the last line number."""
+    with open(path, "a" if start_line > 0 else "w") as file:
+        if not start_line:
+            file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
 
         while True:
-            next_line = input("Enter content: ")
+            content = input("Enter content ('stop' to finish): ")
 
-            if next_line == "stop":
+            if content == "stop":
                 break
 
-            line_number += 1
-            input_file.write(f"{line_number} {next_line}\n")
+            start_line += 1
+            file.write(f"{start_line} {content}\n")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Create a file in specified directory.")
+    parser.add_argument("-d", "--directory", nargs="+", required=False, help="Path to the directory: `-d dir1 dir2`.")
+    parser.add_argument("-f", "--file", required=False, help="Specify the filename to create.")
+    args = parser.parse_args()
+    directory_path = os.path.join(".", *args.directory if args.directory else "")
+
+    if args.directory:
+        create_directory(directory_path)
+
+    if args.file:
+        file_path = os.path.join(directory_path if args.directory else "./", args.file)
+        last_line = get_last_line_number(file_path)
+        append_lines_to_file(file_path, last_line)
+
+
+if __name__ == "__main__":
+    main()
