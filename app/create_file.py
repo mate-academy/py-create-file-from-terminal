@@ -19,7 +19,7 @@ def create_file(filename: str, content: list[str]) -> None:
         print(f"Error occurred while writing to file: {e}")
 
 
-def writing_content() -> list[str]: 
+def writing_content() -> list[str]:
     content = []
     while True:
         line = input("Enter contenr line: ")
