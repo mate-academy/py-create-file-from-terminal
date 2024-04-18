@@ -8,25 +8,21 @@ def create_directory(directory_path: str) -> None:
     os.makedirs(directory_path, exist_ok=True)
 
 
-def get_last_line_number(path: str) -> int:
-    """
-    Return the number of lines in a file, or 0 if the file does not exist.
-    """
-    try:
-        with open(path, "r") as file:
-            return len(file.readlines())
-    except FileNotFoundError:
-        return 0
-
-
-def append_lines_to_file(path: str, start_line: int) -> None:
+def append_lines_to_file(path: str) -> None:
     """
     Append lines to the file with line numbers, starting from the
     last line number.
     """
-    with open(path, "a" if start_line > 0 else "w") as file:
-        if not start_line:
+    with open(path, "a+") as file:
+        file.seek(0)
+        lines = file.readlines()
+        start_line = len(lines)
+
+        if not lines:
             file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+            start_line = 1
+
+        file.seek(0, os.SEEK_END)
 
         while True:
             content = input("Enter content ('stop' to finish): ")
@@ -34,8 +30,8 @@ def append_lines_to_file(path: str, start_line: int) -> None:
             if content == "stop":
                 break
 
-            start_line += 1
             file.write(f"{start_line} {content}\n")
+            start_line += 1
 
 
 def main() -> None:
@@ -62,10 +58,9 @@ def main() -> None:
 
     if args.file:
         file_path = os.path.join(
-            directory_path if args.directory else ".", args.file
+            directory_path, args.file
         )
-        last_line = get_last_line_number(file_path)
-        append_lines_to_file(file_path, last_line)
+        append_lines_to_file(file_path)
 
 
 if __name__ == "__main__":
