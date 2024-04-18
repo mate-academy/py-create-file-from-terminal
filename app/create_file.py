@@ -25,7 +25,8 @@ def create_file() -> None:
 
     elif "-f" in direct and "-d" not in direct:
         name_of_txt = direct[-1]
-        with open(name_of_txt, "a" if os.path.isfile(name_of_txt) else "w") as file:
+        with (open(name_of_txt, "a" if os.path.isfile(name_of_txt) else "w")
+              as file):
             file.write(write_in_file())
 
 
