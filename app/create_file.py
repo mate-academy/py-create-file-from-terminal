@@ -5,21 +5,15 @@ import datetime
 
 def create_file(filename: str) -> None:
     count = 0
-    if os.path.exists(filename):
-        with open(filename, "r+") as file:
-            content = file.read()
-            file.write(content)
-            if content and content[-1] != "\n":
-                file.write("\n")
 
     with open(filename, "a") as file:
         file.write("\n" + datetime.datetime.now().
                    strftime("%Y-%m-%d %H:%M:%S") + "\n")
-
         while True:
             count += 1
             terminal_line = input("Enter content line: ")
-            if terminal_line.lower() == "stop":
+            if terminal_line == "stop":
+                file.write("\n")
                 break
             if terminal_line.strip():
                 file.write(str(count) + " " + terminal_line + "\n")
