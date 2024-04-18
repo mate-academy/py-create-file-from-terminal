@@ -25,7 +25,7 @@ def writing_content() -> list[str]:
         line = input("Enter contenr line: ")
         if line.lower() == "stop":
             break
-        content += [content]
+        content.append(line)
     return content
 
 
