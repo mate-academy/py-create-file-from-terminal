@@ -8,11 +8,7 @@ def create_file() -> None:
     directories = direct[2:]
 
     if "-d" and "-f" in direct:
-        name = []
-        for word in direct[2:]:
-            if word == "-f":
-                break
-            name.append(word)
+        name = direct[2:direct.index("-f")] if "-f" in direct else direct[2:]
         path_name = os.path.join(*name)
 
         if not os.path.exists(path_name):
@@ -29,11 +25,7 @@ def create_file() -> None:
 
     elif "-f" in direct and "-d" not in direct:
         name_of_txt = direct[-1]
-        if os.path.isfile(name_of_txt):
-            mode = "a"
-        else:
-            mode = "w"
-        with open(name_of_txt, mode) as file:
+        with open(name_of_txt, "a" if os.path.isfile(name_of_txt) else "w") as file:
             file.write(write_in_file())
 
 
