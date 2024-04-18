@@ -3,45 +3,40 @@ import sys
 from datetime import datetime
 
 
-def create_file(directory: str, filename: str) -> None:
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-    file_path = os.path.join(directory, filename)
-    print(file_path)
-    with open(file_path, "a+") as file:
-        if os.path.getsize(file_path) > 0:
-            file.write("\n")
-            file.write(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n')
-        else:
-            file.write(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n')
+def create_file(file_name: str) -> None:
+    with open(file_name, "a") as file:
+        file.write(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n')
         line_number = 1
         while True:
             line = input("Enter content line: ")
             if line.lower() == "stop":
+                file.write("\n")
                 break
             file.write(f"{line_number} {line}\n")
             line_number += 1
 
 
 if __name__ == "__main__":
-    args = sys.argv[1:]
-
+    args = sys.argv
     if "-d" in args and "-f" in args:
-        dir_index = args.index("-d") + 1
-        file_index = args.index("-f") + 1
+        d_index = args.index("-d")
+        f_index = args.index("-f")
+        file_name = args[f_index + 1]
 
-        directory = os.path.join(*args[dir_index:file_index - 1])
-        os.makedirs(directory, exist_ok=True)
+        if d_index < f_index:
+            path = os.path.join(*args[d_index + 1: f_index])
+        else:
+            path = os.path.join(*args[d_index + 1:])
 
-        filename = args[file_index]
-        create_file(directory, filename)
+        os.makedirs(path, exist_ok=True)
+        create_file(os.path.join(path, file_name))
 
     elif "-d" in args:
-        dir_index = args.index("-d") + 1
-        directory = os.path.join(*args[dir_index:])
-        os.makedirs(directory, exist_ok=True)
+        d_index = args.index("-d")
+        path = os.path.join(*args[d_index + 1:])
+        os.makedirs(path, exist_ok=True)
 
     elif "-f" in args:
-        file_index = args.index("-f") + 1
-        filename = args[file_index]
-        create_file(".", filename)
+        f_index = args.index("-f")
+        file_name = args[f_index + 1]
+        create_file(file_name)
