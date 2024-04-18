@@ -13,7 +13,7 @@ def create_file() -> None:
             if word == "-f":
                 break
             name.append(word)
-        path_name = "/".join(name)
+        path_name = os.path.join(*name)
 
         if not os.path.exists(path_name):
             os.makedirs(path_name, exist_ok=True)
@@ -23,18 +23,18 @@ def create_file() -> None:
             file.write(write_in_file())
 
     elif "-d" in direct and "-f" not in direct:
-        path_name = "/".join(directories)
+        path_name = os.path.join(*directories)
         if not os.path.exists(path_name):
             os.makedirs(path_name, exist_ok=True)
 
     elif "-f" in direct and "-d" not in direct:
         name_of_txt = direct[-1]
         if os.path.isfile(name_of_txt):
-            with open(name_of_txt, "a") as file:
-                file.write(write_in_file())
+            mode = "a"
         else:
-            with open(name_of_txt, "w") as file:
-                file.write(write_in_file())
+            mode = "w"
+        with open(name_of_txt, mode) as file:
+            file.write(write_in_file())
 
 
 def write_in_file() -> str:
