@@ -16,13 +16,13 @@ def append_lines_to_file(path: str) -> None:
     with open(path, "a+") as file:
         file.seek(0)
         lines = file.readlines()
-        start_line = len(lines)
+        start_line = 0
 
-        if not lines:
-            file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
-            start_line = 1
+        if lines:
+            file.write("\n")
 
         file.seek(0, os.SEEK_END)
+        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
 
         while True:
             content = input("Enter content ('stop' to finish): ")
@@ -30,8 +30,8 @@ def append_lines_to_file(path: str) -> None:
             if content == "stop":
                 break
 
-            file.write(f"{start_line} {content}\n")
             start_line += 1
+            file.write(f"{start_line} {content}\n")
 
 
 def main() -> None:
