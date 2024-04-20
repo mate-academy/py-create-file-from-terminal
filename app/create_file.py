@@ -42,7 +42,9 @@ def main() -> None:
         print("Flag '-f' was used but no parameters were given")
         return
 
-    full_filepath = os.path.join(filepath, filename if filename else "file.txt")
+    full_filepath = os.path.join(
+        filepath, filename if filename else "file.txt"
+    )
 
     if d_flag_is_used and not os.path.isdir(filepath):
         try:
