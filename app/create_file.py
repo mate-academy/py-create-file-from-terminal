@@ -24,24 +24,25 @@ def main() -> None:
             print("Flag '-f' was used but no parameters were given")
             return
 
-    d_args = list()
+    d_args = []
     if d_flag_is_used:
-        d_args = args[args.index("-d") + 1:(args.index("-f")
-                      if f_flag_is_used and args.index("-f") > args.index("-d")
-                      else None)]
-
-        if not len(d_args):
+        try:
+            d_index = args.index("-d") + 1
+            while d_index < len(args) and args[d_index][0] != "-":
+                d_args.append(args[d_index])
+                d_index += 1
+        except IndexError:
             print("Flag '-d' was used but no parameters were given")
             return
 
-    filepath = create_path(["."] + d_args + [""]) if d_flag_is_used else "./"
+    filepath = create_path(["."] + d_args) if d_flag_is_used else "./"
     filename = f_arg if f_flag_is_used else None
 
     if f_flag_is_used and filename is None:
         print("Flag '-f' was used but no parameters were given")
         return
 
-    full_filepath = filepath + (filename if filename else "file.txt")
+    full_filepath = os.path.join(filepath, filename if filename else "file.txt")
 
     if d_flag_is_used and not os.path.isdir(filepath):
         try:
@@ -54,15 +55,13 @@ def main() -> None:
 
 
 def create_path(directories: list) -> str:
-    path = os.path.join(*directories)
-    return path
+    return os.path.join(*directories)
 
 
 def fill_data(full_filepath: str) -> None:
     file_exists = os.path.exists(full_filepath)
 
     with open(full_filepath, "a+") as file:
-
         if file_exists:
             file.write("\n")
 
