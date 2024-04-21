@@ -28,7 +28,7 @@ def collect_content_lines() -> list:
     content_lines = []
     while True:
         line = input()
-        if line == 'stop':
+        if line == "stop":
             break
         content_lines.append(line)
     return content_lines
@@ -37,7 +37,8 @@ def collect_content_lines() -> list:
 def write_content_to_file(full_path: str, content_lines: list) -> None:
     try:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        content = [f"{timestamp}\n"] + [f"{i + 1}. {line}\n" for i, line in enumerate(content_lines)]
+        content = ([f"{timestamp}\n"] + [f"{i + 1}. {line}\n" for i,
+                   line in enumerate(content_lines)])
         with open(full_path, "a") as f:
             if os.path.getsize(full_path) > 0:
                 f.write("\n")
@@ -55,7 +56,8 @@ def main() -> None:
         sys.exit(1)
 
     full_dir_path = create_directory(dir_path)
-    full_path = os.path.join(full_dir_path, file_name) if full_dir_path else file_name
+    full_path = os.path.join(full_dir_path, file_name)\
+        if full_dir_path else file_name
     content_lines = collect_content_lines()
     write_content_to_file(full_path, content_lines)
 
