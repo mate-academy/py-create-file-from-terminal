@@ -8,7 +8,7 @@ def create_directory(dirs: list) -> None:
     os.makedirs(path, exist_ok=True)
 
 
-def get_user_input():
+def get_user_input() -> list:
     user_data = []
     while True:
         user_input = input("Write your content or enter 'stop' to exit: ")
