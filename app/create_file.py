@@ -24,7 +24,7 @@ def make_directory(commands: list) -> str:
     return path
 
 
-def create_file(filename, path) -> None:
+def create_file(filename: str, path:str) -> None:
     with open(path + filename, "a") as file:
         file.write(
             datetime.datetime.now().strftime("%y-%m-%d %H:%M:%S") + "\n"
