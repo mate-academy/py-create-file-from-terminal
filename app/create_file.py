@@ -38,7 +38,7 @@ def app() -> None:
     if need_directory():
         new_dir = sys.argv[
             sys.argv.index("-d") + 1:
-            sys.argv.index("-f") if need_file() else None
+            4 if need_file() and sys.argv.index("-f") == 4 else None
         ]
         target_dir = os.path.join(target_dir, *new_dir)
         if not os.path.exists(target_dir):
