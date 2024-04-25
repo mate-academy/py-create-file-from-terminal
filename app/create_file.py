@@ -13,13 +13,13 @@ def main() -> None:
         create_file(filename, path)
 
 
-def make_directory(commands: list) -> str:
+def make_directory(commands: list) -> str | bytes:
     directories = []
     for directory in commands[commands.index("-d") + 1:]:
         if directory == "-f":
             break
         directories.append(directory)
-    path = "/".join(directories) + "/"
+    path = os.path.join(*directories)
     os.makedirs(path, exist_ok=True)
     return path
 
