@@ -26,10 +26,10 @@ def read_arguments() -> tuple[str, str]:
     args = sys.argv[1:]
     dir_names, file_names = "", ""
     if "-f" in args:
-        file_names = args[-1]
-    if "-f" in args and "-d" in args:
-        dir_names = args[1:-2]
-    elif "-d" in args:
+        index_file = args.index("-f") + 1
+        file_names = args[index_file]
+        del args[index_file - 1: index_file + 1]
+    if "-d" in args:
         dir_names = args[1:]
     return dir_names, file_names
 
