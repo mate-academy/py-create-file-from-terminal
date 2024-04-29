@@ -43,8 +43,6 @@ def choice_of_creation(dirs: list | None, file_name: str | None) -> None:
     if dirs and file_name:  # dir and file
         if not create_directory(dirs):
             create_file(file_name, dirs)
-        else:
-            create_file(file_name, dirs)
     elif not file_name:  # dir
         if not create_directory(dirs):
             print("Directory already exists")
