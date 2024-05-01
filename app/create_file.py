@@ -8,7 +8,11 @@ def create_directory(directory_name: list[str]) -> None:
     os.makedirs(path, exist_ok=True)
 
 
-def create_file(file_name: str, content: list[str], directory_name: str = "") -> None:
+def create_file(
+        file_name: str,
+        content: list[str],
+        directory_name: str = ""
+) -> None:
     path = os.path.join(*directory_name, file_name)
     with open(path, "a") as file:
         file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
@@ -20,7 +24,7 @@ def get_user_input_content() -> list[str]:
     user_input = []
     line_number = 1
     while True:
-        content = input(f"Enter content line {line_number}: ")
+        content = input(f"Enter content line: ")
         if content.lower() == "stop":
             break
         user_input.append(f"{line_number} {content}")
