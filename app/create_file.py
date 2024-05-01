@@ -24,7 +24,7 @@ def get_user_input_content() -> list[str]:
     user_input = []
     line_number = 1
     while True:
-        content = input(f"Enter content line: ")
+        content = input("Enter content line: ")
         if content.lower() == "stop":
             break
         user_input.append(f"{line_number} {content}")
