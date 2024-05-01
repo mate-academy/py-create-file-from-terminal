@@ -1,33 +1,57 @@
-import os
-import sys
 from datetime import datetime
+import os
+import argparse
 
 
-def create_directory(path: str) -> None:
-    os.makedirs(path)
+def create_directory(directory_name: list[str]) -> None:
+    path = os.path.join(*directory_name)
+    os.makedirs(path, exist_ok=True)
 
 
-def create_file(filename: str) -> None:
-    with open(filename, "a") as f:
-        count = 1
-        f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
-        while True:
-            line_input = input("Enter content line: ")
-            if line_input == "stop":
-                break
-            f.writelines(f"{count} {line_input}\n")
-            count += 1
-        f.write("\n")
+def create_file(file_name: str, content: list[str], directory_name: str = "") -> None:
+    path = os.path.join(*directory_name, file_name)
+    with open(path, "a") as file:
+        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        for line in content:
+            file.write(f"{line}\n")
 
 
-if "-d" in sys.argv and "-f" in sys.argv:
-    index_f = sys.argv.index("-f")
-    directory_path = os.path.join(*sys.argv[2:index_f])
-    create_directory(directory_path)
-    create_file(os.path.join(directory_path, sys.argv[2]))
+def get_user_input_content() -> list[str]:
+    user_input = []
+    line_number = 1
+    while True:
+        content = input(f"Enter content line {line_number}: ")
+        if content.lower() == "stop":
+            break
+        user_input.append(f"{line_number} {content}")
+        line_number += 1
+    return user_input
 
-elif "-d" in sys.argv:
-    create_directory(os.path.join(*sys.argv[2:]))
 
-elif "-f" in sys.argv:
-    create_file(sys.argv[2])
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d",
+                        "--directory",
+                        help="Directory path",
+                        nargs="+",
+                        default="")
+    parser.add_argument("-f",
+                        "--filename",
+                        help="File name",
+                        default="")
+
+    args = parser.parse_args()
+
+    directory_paths = args.directory
+    file_name = args.filename
+
+    if directory_paths:
+        create_directory(directory_paths)
+
+    if file_name:
+        user_content = get_user_input_content()
+        create_file(file_name, user_content, directory_paths)
+
+
+if __name__ == "__main__":
+    main()
