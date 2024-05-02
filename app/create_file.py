@@ -35,6 +35,6 @@ elif "-f" in argv:
         line = input("Enter content line: ",)
         while line != "stop":
 
-            file1.write(str(row_number)+line)
+            file1.write(str(row_number)+" "+line+"/n")
             line = input("Enter content line: ",)
             row_number += 1
