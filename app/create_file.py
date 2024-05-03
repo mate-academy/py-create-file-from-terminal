@@ -1,4 +1,5 @@
 from sys import argv
+from os import makedirs, chdir
 import os
 import datetime
 
@@ -6,23 +7,24 @@ import datetime
 def create_path(list_of_args: list, index_d: int, index_f: int = None) -> None:
     if not index_f:
         index_f = len(list_of_args)
-    dir_path = os.path(os.getcwd(), *list_of_args[index_d + 1 : index_f - 1])
-    os.makedirs(dir_path)
-    os.chdir(dir_path)
+    cur_dir = os.getcwd()
+    dir_path = os.path.join(cur_dir, *list_of_args[index_d + 1 : index_f])
+    makedirs(dir_path)
+    chdir(dir_path)
 
 
 def make_file(file_name: str) -> None:
     with open(file_name, "a") as file1:
         file1.write("\n")
         line = datetime.datetime.now().strftime("%Y-%m-%d %I:%M:%S")
-        file1.write(line)
+        file1.write(f"{line}\n")
         row_number = 1
         line = input(
             "Enter content line: ",
         )
         while line != "stop":
 
-            file1.write(f"{str(row_number)} {line}/n")
+            file1.write(f"{str(row_number)} {line}\n")
             line = input(
                 "Enter content line: ",
             )
