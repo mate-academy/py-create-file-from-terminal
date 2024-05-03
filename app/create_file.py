@@ -22,7 +22,7 @@ def make_file(file_name: str) -> None:
         )
         while line != "stop":
 
-            file1.write(str(row_number) + line)
+            file1.write(f"{str(row_number)} {line}/n")
             line = input(
                 "Enter content line: ",
             )
