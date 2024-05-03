@@ -5,7 +5,10 @@ import argparse
 
 def create_directory(directory_name: list[str]) -> None:
     path = os.path.join(*directory_name)
-    os.makedirs(path, exist_ok=True)
+    try:
+        os.makedirs(path, exist_ok=True)
+    except OSError as e:
+        print(f"Error creating directory: {e}")
 
 
 def create_file(
@@ -14,17 +17,21 @@ def create_file(
         directory_name: str = ""
 ) -> None:
     path = os.path.join(*directory_name, file_name)
-    with open(path, "a") as file:
-        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
-        for line in content:
-            file.write(f"{line}\n")
+    try:
+        with open(path, "a") as file:
+            file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+            for line in content:
+                file.write(f"{line}\n")
+            file.write("\n")  # Add a blank line between data
+    except OSError as e:
+        print(f"Error creating file: {e}")
 
 
 def get_user_input_content() -> list[str]:
     user_input = []
     line_number = 1
     while True:
-        content = input("Enter content line: ")
+        content = input("Enter content line (type 'stop' to finish): ")
         if content.lower() == "stop":
             break
         user_input.append(f"{line_number} {content}")
