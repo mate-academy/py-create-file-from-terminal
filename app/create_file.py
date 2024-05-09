@@ -1,6 +1,7 @@
 from datetime import datetime
 import os
 import argparse
+import sys
 
 
 def create_directory(directory_name: list[str]) -> None:
@@ -9,13 +10,10 @@ def create_directory(directory_name: list[str]) -> None:
         os.makedirs(path, exist_ok=True)
     except OSError as e:
         print(f"Error creating directory: {e}")
+        sys.exit(1)
 
 
-def create_file(
-        file_name: str,
-        content: list[str],
-        directory_name: str = ""
-) -> None:
+def create_file(file_name: str, content: list[str], directory_name: str = "") -> None:
     path = os.path.join(*directory_name, file_name)
     try:
         with open(path, "a") as file:
@@ -25,6 +23,7 @@ def create_file(
             file.write("\n")  # Add a blank line between data
     except OSError as e:
         print(f"Error creating file: {e}")
+        sys.exit(1)
 
 
 def get_user_input_content() -> list[str]:
