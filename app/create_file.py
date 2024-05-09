@@ -27,9 +27,9 @@ def create_file(file_name: str, directory_name: str = "") -> None:
         sys.exit(1)
 
 
-def get_user_input_content(file: TextIO) -> list[str]:
+def get_user_input_content(file_handle: TextIO) -> list[str]:
     user_input = []
-    file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+    file_handle.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
     while True:
         content = input("Enter content line (type 'stop' to finish): ")
         if content.lower() == "stop":
