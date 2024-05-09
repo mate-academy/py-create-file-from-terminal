@@ -13,29 +13,28 @@ def create_directory(directory_name: list[str]) -> None:
         sys.exit(1)
 
 
-def create_file(file_name: str, content: list[str], directory_name: str = "") -> None:
-    path = os.path.join(*directory_name, file_name)
-    try:
-        with open(path, "a") as file:
-            file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
-            for line in content:
-                file.write(f"{line}\n")
-            file.write("\n")  # Add a blank line between data
-    except OSError as e:
-        print(f"Error creating file: {e}")
-        sys.exit(1)
-
-
-def get_user_input_content() -> list[str]:
+def get_user_input_content(file) -> list[str]:
     user_input = []
-    line_number = 1
+    file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")  # Write timestamp
     while True:
         content = input("Enter content line (type 'stop' to finish): ")
         if content.lower() == "stop":
             break
-        user_input.append(f"{line_number} {content}")
-        line_number += 1
+        user_input.append(content)
     return user_input
+
+
+def create_file(file_name: str, directory_name: str = "") -> None:
+    path = os.path.join(*directory_name, file_name)
+    try:
+        with open(path, "a") as file:
+            user_input = get_user_input_content(file)
+            for line_number, content in enumerate(user_input, start=1):
+                file.write(f"{line_number} {content}\n")
+            file.write("\n")  # Add a blank line between data
+    except OSError as e:
+        print(f"Error creating file: {e}")
+        sys.exit(1)
 
 
 def main() -> None:
@@ -59,8 +58,7 @@ def main() -> None:
         create_directory(directory_paths)
 
     if file_name:
-        user_content = get_user_input_content()
-        create_file(file_name, user_content, directory_paths)
+        create_file(file_name, directory_paths)
 
 
 if __name__ == "__main__":
