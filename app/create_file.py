@@ -17,11 +17,11 @@ def create_directory(directory_name: list[str]) -> None:
 def create_file(file_name: str, directory_name: str = "") -> None:
     path = os.path.join(*directory_name, file_name)
     try:
-        with open(path, "a") as file:
-            user_input = get_user_input_content(file)
+        with open(path, "a") as file_handle:
+            user_input = get_user_input_content(file_handle)
             for line_number, content in enumerate(user_input, start=1):
-                file.write(f"{line_number} {content}\n")
-            file.write("\n")
+                file_handle.write(f"{line_number} {content}\n")
+            file_handle.write("\n")
     except OSError as e:
         print(f"Error creating file: {e}")
         sys.exit(1)
