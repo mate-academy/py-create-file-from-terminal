@@ -1,3 +1,4 @@
+from typing import TextIO
 from datetime import datetime
 import os
 import argparse
@@ -13,17 +14,6 @@ def create_directory(directory_name: list[str]) -> None:
         sys.exit(1)
 
 
-def get_user_input_content(file) -> list[str]:
-    user_input = []
-    file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")  # Write timestamp
-    while True:
-        content = input("Enter content line (type 'stop' to finish): ")
-        if content.lower() == "stop":
-            break
-        user_input.append(content)
-    return user_input
-
-
 def create_file(file_name: str, directory_name: str = "") -> None:
     path = os.path.join(*directory_name, file_name)
     try:
@@ -31,10 +21,21 @@ def create_file(file_name: str, directory_name: str = "") -> None:
             user_input = get_user_input_content(file)
             for line_number, content in enumerate(user_input, start=1):
                 file.write(f"{line_number} {content}\n")
-            file.write("\n")  # Add a blank line between data
+            file.write("\n")
     except OSError as e:
         print(f"Error creating file: {e}")
         sys.exit(1)
+
+
+def get_user_input_content(file: TextIO) -> list[str]:
+    user_input = []
+    file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+    while True:
+        content = input("Enter content line (type 'stop' to finish): ")
+        if content.lower() == "stop":
+            break
+        user_input.append(content)
+    return user_input
 
 
 def main() -> None:
