@@ -14,8 +14,12 @@ def make_file(file_name: str) -> None:
         content.append(content_line)
     with open(file_name, "a") as f:
         f.write(datetime.now().strftime("%Y-%m-%d %H-%M-%S"))
+        line_number = 1
         for line in content:
-            f.write("\n" + line)
+            f.write("\n")
+            f.write(str(line_number) + " " + line)
+            line_number += 1
+
         f.write("\n")
         f.write("\n")
     print(f"File {file_name} has been created")
