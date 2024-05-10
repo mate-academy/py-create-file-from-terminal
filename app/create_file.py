@@ -23,38 +23,27 @@ def make_file(file_name: str) -> None:
 
 def make_dir(*path_way: str) -> None:
     path = os.path.join(*path_way)
-    if not os.path.exists(path):
-        os.makedirs(path)
-        print(f"A folder has been created by the path: {path}")
-    else:
-        print(f"The folder at path {path} already exists")
+    os.makedirs(path, exist_ok=True)
+    print(f"A folder has been created by the path: {path}")
 
 
-path_way = None
-file_name = None
+def obtaining_file_name() -> str:
+    if "-f" in sys.argv:
+        return "".join(sys.argv[sys.argv.index("-f") + 1])
 
-if "-d" in sys.argv and "-f" in sys.argv:  # якщо два ключі
-    f_index = sys.argv.index("-f")
-    d_index = sys.argv.index("-d")
-    if f_index > d_index:
-        file_name = sys.argv[f_index + 1]
-        path_way = sys.argv[d_index + 1: f_index]
-    else:
-        path_way = sys.argv[d_index + 1:]
-        file_name = sys.argv[f_index + 1]
 
-elif "-d" in sys.argv:
-    d_index = sys.argv.index("-d")
-    path_way = sys.argv[d_index + 1:]
+def obtaining_path_way() -> list:
+    if "-d" in sys.argv:
+        pathway = []
+        for element in sys.argv[sys.argv.index("-d") + 1:]:
+            if element == "-f":
+                break
+            pathway.append(element)
+        return pathway
 
-elif "-f" in sys.argv:
-    f_index = sys.argv.index("-f")
-    file_name = "".join(sys.argv[-1:])
-    print(f"file_name {file_name}")
 
-else:
-    print("No command line arguments are specified.")
-    sys.exit()
+file_name = obtaining_file_name()
+path_way = obtaining_path_way()
 
 
 if path_way:
