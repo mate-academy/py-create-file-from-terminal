@@ -4,7 +4,9 @@ import os
 
 new_path = ""
 file_name = ""
+file_pos = 0
 dirs = []
+dir_pos = 0
 lines = []
 number_line = 0
 input_string = ""
@@ -21,13 +23,22 @@ while True:
 for i, arg in enumerate(sys.argv):
     if arg == "-f":
         file_name = sys.argv[i + 1]
+        file_pos = i
 
     if arg == "-d":
-        dirs = sys.argv[i + 1:]
+        dir_pos = i
+
+    if file_pos:
+        dirs = sys.argv[dir_pos + 1 : file_pos]
+    else:
+        dirs = sys.argv[dir_pos + 1 :]
 
 if dirs:
     mode = 0o666
-    new_path = os.path.join(parent_dir, dirs[0], dirs[1])
+    new_path = parent_dir
+
+    for dir_name in dirs:
+        new_path = os.path.join(new_path, dir_name.strip())
     os.makedirs(new_path, mode)
 
 if file_name:
