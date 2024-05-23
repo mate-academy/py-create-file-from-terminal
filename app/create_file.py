@@ -3,35 +3,36 @@ import sys
 import os
 
 
-def input_strings() -> list:  
-    str, num, lines = "", 0, []
+def input_strings() -> list:
+    string, num, lines = "", 0, []
     while True:
-        str = input("Enter content line: ")
+        string = input("Enter content line: ")
         if str == "stop":
-           break
+            break
         num += 1
-        lines.append(f"\n{num} {str}")
-    return lines    
+        lines.append(f"\n{num} {string}")
+    return lines
+
 
 def parsing_file_and_directories() -> dict:
-    file, dirs = 0, 0
+    file_num, dirs = 0, 0
     for i, arg in enumerate(sys.argv):
         if arg == "-f":
-            file = i + 1
+            file_num = i + 1
         if arg == "-d":
             dirs = i + 1
-    
-    if file:
-        file_str = sys.argv[file] 
+
+    if file_num:
+        file_str = sys.argv[file_num]
     else:
         file_str = ""
 
-    if file and dirs and file > dirs:
-         dir_list = sys.argv[dirs : file - 1]
-    elif (file and dirs and file < dirs) or (not file and dirs):
-         dir_list = sys.argv[dirs : ]
-    
+    if file_num and dirs and file_num > dirs:
+        dir_list = sys.argv[dirs : file_num - 1]
+    elif (file_num and dirs and file_num < dirs) or (not file_num and dirs):
+        dir_list = sys.argv[dirs:]
     return {"file" : file_str, "dirs" : dir_list}
+
 
 def create_directories(dirs_name: list) -> str:
     new_path = ""
@@ -43,7 +44,7 @@ def create_directories(dirs_name: list) -> str:
     for dir_name in dirs_name:
         new_path = os.path.join(new_path, dir_name.strip())
     os.makedirs(new_path, mode)
-    
+
     return new_path
 
 
