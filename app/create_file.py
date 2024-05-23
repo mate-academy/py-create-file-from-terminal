@@ -6,7 +6,8 @@ from datetime import datetime
 
 def parse_args() -> argparse.Namespace:
     parses = argparse.ArgumentParser()
-    parses.add_argument("-d", "--directory", nargs="+", help="create directory")
+    parses.add_argument("-d", "--directory", nargs="+",
+                        help="create directory")
     parses.add_argument("-f", "--file", type=str, help="create file")
     return parses.parse_args()
 
