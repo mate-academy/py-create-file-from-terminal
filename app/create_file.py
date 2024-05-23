@@ -3,10 +3,6 @@ import argparse
 from datetime import datetime
 
 
-def create_directory(dir_path: str) -> None:
-    os.makedirs(dir_path, exist_ok=True)
-
-
 def create_file(file_path: str) -> None:
     create_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -14,17 +10,16 @@ def create_file(file_path: str) -> None:
 
     with open(file_path, "a") as file:
         if exist_file:
-            file.write("\n\n")
-        file.write(create_time + "\n")
+            file.write("\n")
+        file.write(create_time)
 
         line_count = 0
-        print("Enter content (use 'stop' to finish editing):")
         while True:
             line_count += 1
             line = input("Enter content line: ")
             if line.lower() == "stop":
                 break
-            file.write(f"{line_count} {line}\n")
+            file.write(f"\n{line_count} {line}")
 
 
 def main() -> None:
@@ -51,7 +46,7 @@ def main() -> None:
 
     if args.directory:
         directory = os.path.join(*args.directory)
-        create_directory(directory)
+        os.makedirs(directory, exist_ok=True)
         if args.file_name:
             file_path = os.path.join(directory, args.file_name)
             create_file(file_path)
