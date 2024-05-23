@@ -10,7 +10,7 @@ def create_file(file_path: str) -> None:
 
     with open(file_path, "a") as file:
         if exist_file:
-            file.write("\n")
+            file.write("\n\n")
         file.write(create_time)
 
         line_count = 0
