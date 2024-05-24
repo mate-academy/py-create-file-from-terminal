@@ -6,13 +6,14 @@ import sys
 def parse_command() -> None:
     dir_names = []
     file_name = ""
-    if "-d" not in sys.argv and "-f" not in sys.argv:
+    arguments = sys.argv
+    if "-d" not in arguments and "-f" not in arguments:
         print("Invalid command: You should add -f or/and -d flags to create "
               "new file or/and directories")
         return
-    if "-d" in sys.argv:
-        stat_index = sys.argv.index("-d") + 1
-        for directory in sys.argv[stat_index:]:
+    if "-d" in arguments:
+        start_index = arguments.index("-d") + 1
+        for directory in arguments[start_index:]:
             if directory == "-f":
                 break
             dir_names.append(directory)
@@ -20,9 +21,9 @@ def parse_command() -> None:
             print("Invalid command: Nothing to create! Type new directories "
                   "names separated by whitespace after flag -d")
             return
-    if "-f" in sys.argv:
+    if "-f" in arguments:
         try:
-            file_name = sys.argv[sys.argv.index("-f") + 1]
+            file_name = arguments[arguments.index("-f") + 1]
         except IndexError:
             print("Invalid command: After -f flag you should type new "
                   "filename")
@@ -50,9 +51,10 @@ def file_handing(file_path: str, filename: str, mode: str) -> None:
             if new_line.lower() == "stop":
                 break
             file_content.append(new_line)
-        file.write(str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + "\n")
+        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         for line_number, line_text in enumerate(file_content):
             file.write(str(line_number + 1) + " " + line_text + "\n")
 
 
-parse_command()
+if __name__ == "__main__":
+    parse_command()
