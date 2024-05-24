@@ -16,7 +16,8 @@ def create_file_from_terminal(commands_list: list) -> None:
         if not os.path.exists(path):
             os.makedirs(path)
     if "-f" in commands_list:
-        if commands_list.index("-f") > commands_list.index("-d"):
+        if "-d" in commands_list and commands_list.index(
+                "-f") > commands_list.index("-d"):
             file_name = commands_list[-1]
         else:
             file_name = commands_list[commands_list.index("-f") + 1]
