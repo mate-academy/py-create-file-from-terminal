@@ -35,7 +35,3 @@ def create_file(filename: str) -> None:
                 break
             file.write(str(line_number) + text + "\n")
             line_number += 1
-
-
-if __name__ == "__main__":
-    main()
