@@ -8,7 +8,7 @@ def main() -> None:
     if "-d" in commands:
         make_directory(commands)
     if "-f" in commands:
-        filename = commands[commands.index("-f") + 1]
+        filename = commands[-1]
         create_file(filename)
 
 
