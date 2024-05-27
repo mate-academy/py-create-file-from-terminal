@@ -14,12 +14,14 @@ def create_file(filename: str, path: str = ".") -> None:
     file_path = os.path.join(path, filename)
     with open(file_path, "a") as file:
         file.write(current.strftime("%Y-%m-%d %I:%M:%S") + "\n")
+        line_number = 0
         while True:
+            line_number += 1
             user_input = input("Enter content line: ")
             if user_input.lower() == "stop":
                 file.write("\n")
                 break
-            file.write(user_input + "\n")
+            file.write(f"{line_number} {user_input} \n")
 
 
 def main() -> None:
