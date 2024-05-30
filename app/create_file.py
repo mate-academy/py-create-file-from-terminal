@@ -3,7 +3,7 @@ import sys
 import os
 
 
-def create_file(is_path: bool, is_file: bool):
+def create_file(is_path: bool, is_file: bool) -> None:
     path_to_file = ""
 
     if is_path:
@@ -20,7 +20,9 @@ def create_file(is_path: bool, is_file: bool):
         file_name = sys.argv[-1]
         key = "a" if os.path.exists(path_to_file + file_name) else "w"
         with open(path_to_file + file_name, key) as file:
-            file.write(f"{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
+            file.write(
+                f"{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n"
+            )
             while True:
                 text = input("Enter content line: ")
                 if text == "stop":
