@@ -19,7 +19,7 @@ def create_file(path_to_file: str) -> None:
     key = "a" if os.path.exists(path_to_file + file_name) else "w"
     with open(path_to_file + file_name, key) as file:
         file.write(
-            f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+            f"{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n"
         )
         while True:
             text = input("Enter content line: ")
@@ -28,8 +28,9 @@ def create_file(path_to_file: str) -> None:
             file.write(f"{text}\n")
 
 
-path = ""
-if "-d" in sys.argv:
-    path = create_directory()
-if "-f" in sys.argv:
-    create_file(path)
+if __name__ == "__main__":
+    path = ""
+    if "-d" in sys.argv:
+        path = create_directory()
+    if "-f" in sys.argv:
+        create_file(path)
