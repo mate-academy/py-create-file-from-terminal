@@ -27,18 +27,18 @@ def get_path_from_args() -> str:
     return result_path
 
 
-# get information from console args
-path = get_path_from_args()
+def create_file(path: str) -> None:
+    with open(path, "w") as f:
+        f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        line_counter = 1
+        data = ""
+        while True:
+            data = input("Enter content line: ")
+            if data == "stop":
+                break
+            f.write(f"{line_counter} {data}\n")
+            line_counter += 1
 
 
-# Write file content
-with open(path, "w") as f:
-    f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
-    line_counter = 1
-    data = ""
-    while True:
-        data = input("Enter content line: ")
-        if data == "stop":
-            break
-        f.write(f"{line_counter} {data}\n")
-        line_counter += 1
+if __name__ == "__main__":
+    create_file(get_path_from_args())
