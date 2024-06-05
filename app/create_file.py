@@ -6,10 +6,13 @@ from sys import argv
 def create_file(path: str, filename: str, content: list[str]) -> None:
     full_path = os.path.join(path, filename)
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    file_exists = os.path.exists(full_path)
     try:
         with open(full_path, "a") as f:
-            if not os.path.exists(full_path):
+            if not file_exists:
                 f.write(f"{timestamp}\n")
+            else:
+                f.write(f"\n{timestamp}\n")
 
             for i, line in enumerate(content, 1):
                 f.write(f"{i} {line}\n")
@@ -33,19 +36,32 @@ def get_content() -> list[str]:
 
 def main() -> None:
     if len(argv) < 3:
-        print("Python create_file.py [-d dir1 dir2] -f filename")
+        print("Usage: python create_file.py [-d dir1 dir2] -f filename")
         return
-    create_dir = False
+
     dir_path = ""
-    for i, arg in enumerate(argv[1:]):
+    filename = ""
+    create_dir = False
+    create_file_flag = False
+
+    args = iter(argv[1:])
+    for arg in args:
         if arg == "-d":
             create_dir = True
-            dir_path = os.path.join(dir_path, argv[i + 2])
+            dir_parts = []
+            for dir_part in args:
+                if dir_part.startswith('-'):
+                    args = [dir_part] + list(args)
+                    break
+                dir_parts.append(dir_part)
+            dir_path = os.path.join(*dir_parts)
         elif arg == "-f":
-            filename = argv[i + 2]
+            create_file_flag = True
+            filename = next(args, "")
         else:
             print(f"Invalid argument: {arg}")
             return
+
     if create_dir:
         try:
             os.makedirs(dir_path, exist_ok=True)
@@ -53,6 +69,10 @@ def main() -> None:
         except PermissionError:
             print("Error: Permission denied to create directory.")
             return
+
+    if not create_file_flag or not filename:
+        print("Error: Filename not specified.")
+        return
 
     content = get_content()
     create_file(dir_path, filename, content)
