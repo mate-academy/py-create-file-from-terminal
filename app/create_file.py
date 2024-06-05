@@ -36,7 +36,7 @@ def get_content() -> list[str]:
 
 def main() -> None:
     if len(argv) < 3:
-        print("Usage: python create_file.py [-d dir1 dir2] -f filename")
+        print("Python create_file.py [-d dir1 dir2] -f filename")
         return
 
     dir_path = ""
@@ -44,22 +44,27 @@ def main() -> None:
     create_dir = False
     create_file_flag = False
 
-    args = iter(argv[1:])
-    for arg in args:
-        if arg == "-d":
+    i = 1
+    while i < len(argv):
+        if argv[i] == "-d":
             create_dir = True
             dir_parts = []
-            for dir_part in args:
-                if dir_part.startswith("-"):
-                    args = [dir_part] + list(args)
-                    break
-                dir_parts.append(dir_part)
+            i += 1
+            while i < len(argv) and not argv[i].startswith("-"):
+                dir_parts.append(argv[i])
+                i += 1
             dir_path = os.path.join(*dir_parts)
-        elif arg == "-f":
+        elif argv[i] == "-f":
             create_file_flag = True
-            filename = next(args, "")
+            i += 1
+            if i < len(argv):
+                filename = argv[i]
+                i += 1
+            else:
+                print("Error: Filename not specified.")
+                return
         else:
-            print(f"Invalid argument: {arg}")
+            print(f"Invalid argument: {argv[i]}")
             return
 
     if create_dir:
