@@ -50,7 +50,7 @@ def main() -> None:
             create_dir = True
             dir_parts = []
             for dir_part in args:
-                if dir_part.startswith('-'):
+                if dir_part.startswith("-"):
                     args = [dir_part] + list(args)
                     break
                 dir_parts.append(dir_part)
