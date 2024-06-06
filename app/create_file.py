@@ -9,10 +9,7 @@ def create_file(path: str, filename: str, content: list[str]) -> None:
     file_exists = os.path.exists(full_path)
     try:
         with open(full_path, "a") as f:
-            if not file_exists:
-                f.write(f"{timestamp}\n")
-            else:
-                f.write(f"\n{timestamp}\n")
+            f.write(f"\n{timestamp}\n" if file_exists else f"{timestamp}\n")
 
             for i, line in enumerate(content, 1):
                 f.write(f"{i} {line}\n")
