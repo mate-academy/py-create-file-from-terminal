@@ -11,8 +11,8 @@ def create_file(path: str, filename: str, content: list[str]) -> None:
         with open(full_path, "a") as f:
             f.write(f"\n{timestamp}\n" if file_exists else f"{timestamp}\n")
 
-            content_with_numbers = [f"{i + 1} {line}" for i
-            , line in enumerate(content)]
+            content_with_numbers = [f"{i + 1} {line}"
+                                    for i, line in enumerate(content)]
             f.write("\n".join(content_with_numbers) + "\n")
 
         print(f"File created successfully: {full_path}")
