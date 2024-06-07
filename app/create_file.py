@@ -17,9 +17,8 @@ def write_file(commands: list, anchor_d: bool) -> None:
         path += commands[-1:]
         directory = os.path.join(*path)
     with open(directory, "a") as file:
-        file.write(f"{datetime.datetime.now().strftime(
-            "%Y-%m-%d %H:%M:%S"
-        )}\n")
+        date = datetime.datetime.now()
+        file.write(f"{date.strftime("%Y-%m-%d %H:%M:%S")}\n")
         page_number = 1
         while True:
             line = input("Enter content line: ")
