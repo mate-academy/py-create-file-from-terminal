@@ -5,8 +5,7 @@ import datetime
 
 def create_dirs(dirs: list) -> None:
     path = os.path.join(*dirs)
-    if not os.path.exists(path):
-        os.makedirs(path)
+    os.makedirs(path, exist_ok=True)
 
 
 def write_file(commands: list, anchor_d: bool) -> None:
@@ -17,8 +16,8 @@ def write_file(commands: list, anchor_d: bool) -> None:
         path += commands[-1:]
         directory = os.path.join(*path)
     with open(directory, "a") as file:
-        date = datetime.datetime.now()
-        file.write(f"{date.strftime('%Y-%m-%d %H:%M:%S')}\n")
+        date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(f"{date}\n")
         page_number = 1
         while True:
             line = input("Enter content line: ")
@@ -29,11 +28,11 @@ def write_file(commands: list, anchor_d: bool) -> None:
         file.write("\n")
 
 
-commands = sys.argv[1:]
-
-if commands[0] == "-d" and not commands.count("-f"):
-    create_dirs(commands[1:])
-elif commands[0] == "-f":
-    write_file(commands, False)
-else:
-    write_file(commands, True)
+if __name__ == "__main__":
+    commands = sys.argv[1:]
+    if commands[0] == "-d" and not commands.count("-f"):
+        create_dirs(commands[1:])
+    elif commands[0] == "-f":
+        write_file(commands, False)
+    else:
+        write_file(commands, True)
