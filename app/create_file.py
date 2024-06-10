@@ -23,7 +23,7 @@ def create_directory(*args: list) -> str | bytes:
     return dir_path
 
 
-def operations_with_command():
+def operations_with_command() -> None:
     commands = sys.argv
     if "-d" in commands and "-f" in commands:
         path = create_directory(commands[2:-2])
@@ -32,8 +32,6 @@ def operations_with_command():
         create_directory(commands[2:])
     elif "-f" in commands:
         create_file(commands[-1])
-    elif commands == "exit":
-        print("Exiting proses.. ")
 
 
 if __name__ == "__main__":
