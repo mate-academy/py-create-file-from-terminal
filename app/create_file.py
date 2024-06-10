@@ -60,4 +60,7 @@ if __name__ == "__main__":
         file_command_index = args.index("-f")
         create_file(name=args[file_command_index + 1])
     else:
-        print("Invalid arguments. Use -d to specify directories and -f to specify filename.")
+        print(
+            "Invalid arguments. Use -d to specify "
+            "directories and -f to specify filename."
+        )
