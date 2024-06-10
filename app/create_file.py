@@ -20,9 +20,9 @@ if "-d" in sys.argv:
 if "-f" in sys.argv:
     path += sys.argv[-1]
 
-    with open(path, 'a') as file:
+    with open(path, "a") as file:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        file.write(f'\n{timestamp}\n')
+        file.write(f"\n{timestamp}\n")
 
         numerator = 1
         while True:
