@@ -6,8 +6,8 @@ from datetime import datetime
 def main() -> None:
     command = sys.argv
     if "-d" in command:
-        for dir_ in command[2:]:
-            os.mkdir(dir_)
+        dir_path = os.path.join("/".join(command[2:]))
+        os.makedirs(dir_path, exist_ok=True)
     elif "-f" in command:
         name = "".join(command[2:])
         with open(name, "a") as file:
