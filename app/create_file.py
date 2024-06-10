@@ -20,7 +20,7 @@ def create_or_append_file(file_path: str) -> None:
 
         line_number = 1 if not content else content.count("\n\n") + 1
         while True:
-            line = input(f"Enter content line: ")
+            line = input("Enter content line: ")
             if line.strip().lower() == "stop":
                 break
             f.write(f"{line_number} {line}\n")
