@@ -13,7 +13,7 @@ def get_content() -> list:
     return lines
 
 
-def write_to_file(file_path, content_lines) -> None:
+def write_to_file(file_path: str, content_lines: list) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open(file_path, "a") as f:
         f.write(f"{timestamp}\n")
