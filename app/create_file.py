@@ -22,7 +22,7 @@ def write_to_file(file_path: str, content_lines: list) -> None:
 
 
 def main() -> None:
-    args = sys.argv[1:
+    args = sys.argv[1:]
     if "-d" in args:
         d_index = args.index("-d")
         directory = os.path.join(*args[d_index + 1:])
