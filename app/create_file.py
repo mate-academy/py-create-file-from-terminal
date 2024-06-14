@@ -31,4 +31,5 @@ def create_file() -> None:
             file.write("\n\n")
 
 
-create_file()
+if __name__ == "__main__":
+    create_file()
