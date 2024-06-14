@@ -3,24 +3,22 @@ import sys
 from datetime import datetime
 
 
-path = ""
-
-if "-d" in sys.argv:
+def resolve_directory() -> str:
     if "-f" in sys.argv:
         end_index = sys.argv.index("-f")
     else:
         end_index = len(sys.argv)
-    path = "/".join(sys.argv[sys.argv.index("-d") + 1:end_index])
 
-    os.makedirs(path, exist_ok=True)
+    directory_path = "/".join(sys.argv[sys.argv.index("-d") + 1:end_index])
+    os.makedirs(directory_path, exist_ok=True)
+    directory_path += "/"
+    return directory_path
 
-    path += "/"
 
+def resolve_file(file_path: str) -> None:
+    file_path += sys.argv[-1]
 
-if "-f" in sys.argv:
-    path += sys.argv[-1]
-
-    with open(path, "a") as file:
+    with open(file_path, "a") as file:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         file.write(f"\n{timestamp}\n")
 
@@ -31,3 +29,12 @@ if "-f" in sys.argv:
                 break
             file.write(f"{numerator} {line}\n")
             numerator += 1
+
+
+if __name__ == "__main__":
+    path = ""
+    if "-d" in sys.argv:
+        path = resolve_directory()
+
+    if "-f" in sys.argv:
+        resolve_file(path)
