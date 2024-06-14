@@ -4,22 +4,30 @@ import datetime
 
 
 def get_command() -> None:
-    if "-f" in commamd:
-        create_file()
     if "-d" in commamd and "-f" not in commamd:
-        directory = os.path.join(*commamd[commamd.index("-d") + 1:])
-        os.makedirs(directory, exist_ok=True)
+        path_dest = os.path.join(*commamd[commamd.index("-d") + 1:])
+        create_directory(path_dest)
+    if "-d" in commamd and "-f" in commamd:
+        index_f = commamd.index("-f")
+        path_dest = os.path.join(*commamd[commamd.index("-d") + 1:index_f])
+        create_directory(path_dest)
+        create_file(path_dest)
+    if "-f" in commamd and "-d" not in commamd:
+        create_file("")
 
 
-def create_file() -> None:
-    f_ind = commamd.index("-f")
-    file_name = commamd[-1]
-    directory = ""
-    if "-d" in commamd:
-        directory = os.path.join(*commamd[commamd.index("-d") + 1: f_ind])
-        os.makedirs(directory, exist_ok=True)
-    mode = "a" if os.path.exists(directory + file_name) else "w"
-    with open(directory + file_name, mode) as file:
+def create_directory(path: str) -> None:
+    os.makedirs(path, exist_ok=True)
+
+
+def create_file(path: str) -> None:
+    path = os.path.join(path, commamd[-1])
+    mode = "a" if os.path.exists(path) else "w"
+    write_to_file(path, mode)
+
+
+def write_to_file(path_file: str, mode: str) -> None:
+    with open(path_file, mode) as file:
         file.write(
             f'{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n'
         )
@@ -32,5 +40,4 @@ def create_file() -> None:
 
 commamd = sys.argv
 if __name__ == "__main__":
-    # commamd = ["create_file.py", "-d", "dir1", "dir2", "-f", "file.txt"]
     get_command()
