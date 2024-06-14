@@ -18,7 +18,12 @@ def create_file() -> None:
 
     if "-f" in all_argv:
         file_name = all_argv[all_argv.index("-f") + 1]
+        exists = False
+        if os.path.exists(os.path.join(dirs_path, file_name)):
+            exists = True
         with open(os.path.join(dirs_path, file_name), "a") as file:
+            if exists:
+                file.write("\n\n")
             file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             line_counter = 1
             while True:
@@ -28,8 +33,7 @@ def create_file() -> None:
                 file.write(f"\n{line_counter} {entered_data}")
                 line_counter += 1
 
-            file.write("\n\n")
-
 
 if __name__ == "__main__":
     create_file()
+
