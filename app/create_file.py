@@ -9,7 +9,11 @@ def create_directory(path_parts: list) -> str | bytes:
     return path
 
 
-def create_file(file_name: str, path: str = ".", mode: str = "w") -> None:
+def create_file(
+        file_name: str,
+        path: str | os.PathLike | bytes = ".",
+        mode: str = "w"
+) -> None:
     file_path = os.path.join(path, file_name)
     if os.path.exists(file_path):
         mode = "a"
@@ -32,9 +36,17 @@ def create_file(file_name: str, path: str = ".", mode: str = "w") -> None:
 
 def main() -> None:
     command = sys.argv
+    print(command)
     if "-f" in command and "-d" in command:
-        path = create_directory(command[2:-2])
-        create_file(command[-1], path)
+        dir_index = command.index("-d")
+        file_index = command.index("-f")
+        file_name = command[file_index + 1]
+        if dir_index < file_index:
+            path = create_directory(command[dir_index + 1:file_index])
+            create_file(file_name, path)
+        else:
+            path = create_directory(command[dir_index + 1:])
+            create_file(file_name, path)
     elif "-d" in command:
         create_directory(command[2:])
     elif "-f" in command:
