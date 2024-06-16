@@ -5,23 +5,26 @@ from datetime import datetime
 
 def create_directory(args: list) -> str | bytes:
     path = os.path.join(*args)
-    if not os.path.exists(path):
-        os.makedirs(path)
+    os.makedirs(path, exist_ok=True)
     return path
 
 
-def create_file(file_name: str, path: str = ".") -> None:
+def create_file(file_name: str, path: str = ".", mode: str = "w") -> None:
     file_path = os.path.join(path, file_name)
-    with open(file_path, "a") as file:
+    if os.path.exists(file_path):
+        mode = "a"
+    with open(file_path, mode) as file:
+        if mode == "a":
+            file.write("\n")
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        file.write(f"{timestamp}\n")
+        file.write(f"\n{timestamp}")
 
         number_of_line = 1
         while True:
-            content_line = input(f"Enter content line {number_of_line}: ")
+            content_line = input(f"Enter content line: ")
             if content_line.lower() == "stop":
                 break
-            file.write(f"{number_of_line} {content_line}\n")
+            file.write(f"\n{number_of_line} {content_line}")
             number_of_line += 1
 
 
