@@ -27,7 +27,7 @@ def create_file(file_name: str, path: str = ".") -> None:
 
 def main() -> None:
     command = sys.argv
-    if "-f" in command and "-f" in command:
+    if "-f" in command and "-d" in command:
         path = create_directory(command[2:-2])
         create_file(command[-1], path)
     elif "-d" in command:
