@@ -34,3 +34,7 @@ def main() -> None:
         create_directory(command[2:])
     elif "-f" in command:
         create_file(command[-1])
+
+
+if __name__ == "__main__":
+    main()
