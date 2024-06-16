@@ -3,8 +3,8 @@ import os
 from datetime import datetime
 
 
-def create_directory(args: list) -> str | bytes:
-    path = os.path.join(*args)
+def create_directory(path_parts: list) -> str | bytes:
+    path = os.path.join(os.getcwd(), *path_parts)
     os.makedirs(path, exist_ok=True)
     return path
 
@@ -14,10 +14,12 @@ def create_file(file_name: str, path: str = ".", mode: str = "w") -> None:
     if os.path.exists(file_path):
         mode = "a"
     with open(file_path, mode) as file:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         if mode == "a":
             file.write("\n")
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        file.write(f"\n{timestamp}")
+            file.write(f"\n{timestamp}")
+        else:
+            file.write(f"{timestamp}")
 
         number_of_line = 1
         while True:
