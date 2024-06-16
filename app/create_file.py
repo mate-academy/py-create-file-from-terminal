@@ -21,7 +21,7 @@ def create_file(file_name: str, path: str = ".", mode: str = "w") -> None:
 
         number_of_line = 1
         while True:
-            content_line = input(f"Enter content line: ")
+            content_line = input("Enter content line: ")
             if content_line.lower() == "stop":
                 break
             file.write(f"\n{number_of_line} {content_line}")
