@@ -9,10 +9,15 @@ def resolve_directory() -> str:
     else:
         end_index = len(sys.argv)
 
-    directory_path = "/".join(sys.argv[sys.argv.index("-d") + 1:end_index])
+    directory_arguments = sys.argv[sys.argv.index("-d") + 1:end_index]
+    directory_path = os.path.join(*directory_arguments)
+
     os.makedirs(directory_path, exist_ok=True)
-    directory_path += "/"
-    return directory_path
+
+    if not directory_path.endswith(os.path.sep):
+        directory_path += os.path.sep
+
+    return str(directory_path)
 
 
 def resolve_file(file_path: str) -> None:
