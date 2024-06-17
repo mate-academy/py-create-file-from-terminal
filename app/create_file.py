@@ -36,21 +36,21 @@ def main() -> None:
 
     dir_path = []
     file_name = None
-    i = 0
+    index = 0
 
-    while i < len(args):
-        if args[i] == "-d":
-            i += 1
-            while i < len(args) and args[i] != "-f":
-                dir_path.append(args[i])
-                i += 1
-        elif args[i] == "-f":
-            i += 1
-            if i < len(args):
-                file_name = args[i]
-                i += 1
+    while index < len(args):
+        if args[index] == "-d":
+            index += 1
+            while index < len(args) and args[index] != "-f":
+                dir_path.append(args[index])
+                index += 1
+        elif args[index] == "-f":
+            index += 1
+            if index < len(args):
+                file_name = args[index]
+                index += 1
         else:
-            i += 1
+            index += 1
 
     if dir_path:
         create_directories(dir_path)
