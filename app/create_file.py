@@ -3,23 +3,19 @@ import os
 from datetime import datetime
 
 
-def create_directory(path_parts: list) -> str | bytes:
+def create_directory(path_parts: list) -> str:
     path = os.path.join(os.getcwd(), *path_parts)
     os.makedirs(path, exist_ok=True)
     return path
 
 
-def create_file(
-        file_name: str,
-        path: str | os.PathLike | bytes = ".",
-        mode: str = "w"
-) -> None:
+def create_file(file_name: str, path: str = ".") -> None:
     file_path = os.path.join(path, file_name)
-    if os.path.exists(file_path):
-        mode = "a"
-    with open(file_path, mode) as file:
+    with open(file_path, "a") as file:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        if mode == "a":
+        file.seek(0, os.SEEK_END)
+        if file.tell():
+            file.seek(0)
             file.write("\n")
             file.write(f"\n{timestamp}")
         else:
@@ -36,7 +32,6 @@ def create_file(
 
 def main() -> None:
     command = sys.argv
-    print(command)
     if "-f" in command and "-d" in command:
         dir_index = command.index("-d")
         file_index = command.index("-f")
