@@ -3,7 +3,7 @@ import sys
 from datetime import datetime
 
 
-def create_file(directory=None, filename=None) -> None:
+def create_file(directory: str = None, filename: str = None) -> None:
     if directory:
         dir_path = os.path.join(*directory)
         os.makedirs(dir_path, exist_ok=True)
@@ -17,7 +17,7 @@ def create_file(directory=None, filename=None) -> None:
               "(-d flag) or a filename (-f flag).")
 
 
-def create_or_append_file(file_path) -> None:
+def create_or_append_file(file_path: str) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     content = []
     if os.path.exists(file_path):
