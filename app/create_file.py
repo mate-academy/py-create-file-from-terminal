@@ -35,6 +35,7 @@ def create_file(directories: str = "") -> None:
                 break
             file.write(f"{test}\n")
 
+
 if __name__ == "__main__":
     directory = ""
     if "-d" in sys.argv:
@@ -43,4 +44,3 @@ if __name__ == "__main__":
         create_file(directory)
     else:
         print("Error: Use -b or -f flags")
-
