@@ -9,7 +9,7 @@ def create_file(something: list[str]) -> None:
     if "-d" in something:
         for i in range(something.index("-d") + 1,
                        something.index("-f")):
-            dir_string = os.path.join(dir_string, something[i])  
+            dir_string = os.path.join(dir_string, something[i])
             os.makedirs(dir_string)
 
     if "-f" in something:
