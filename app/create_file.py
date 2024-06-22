@@ -13,10 +13,10 @@ def create_file(something: list[str]) -> None:
         file_creation(something, dir_string, date)
 
 
-def directory_creation(args_var: str, path: str) -> str:
-    for i in range(args_var.index("-d") + 1,
-                   args_var.index("-f") if "-f" in args_var else len(args_var)):
-        path = os.path.join(path, args_var[i])
+def directory_creation(args: str, path: str) -> str:
+    for i in range(args.index("-d") + 1,
+                   args.index("-f") if "-f" in args else len(args)):
+        path = os.path.join(path, args[i])
         os.makedirs(path)
     return path
 
