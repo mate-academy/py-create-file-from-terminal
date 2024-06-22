@@ -4,7 +4,7 @@ import datetime
 
 
 def create_file(something: list[str]) -> None:
-    dir_string = f"{os.getcwd()}\\"
+    dir_string = os.getcwd() + os.path.sep
     date = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     if "-d" in something:
         dir_string = directory_creation(something, dir_string)
