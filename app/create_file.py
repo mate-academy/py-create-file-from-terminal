@@ -21,8 +21,7 @@ def directory_creation(args_var: str, path: str) -> str:
 
 
 def file_creation(args_var: str, path: str, date: datetime) -> None:
-    file_path = os.path.join(path,
-                            args_var[args_var.index("-f") + 1])
+    file_path = os.path.join(path, args_var[args_var.index("-f") + 1])
     with open(file_path, "w") as f:
         flag = ""
         f.write(date + "\n")
