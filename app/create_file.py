@@ -10,20 +10,19 @@ def create_file(something: list[str]) -> None:
         dir_string = directory_creation(something, dir_string)
 
     if "-f" in something:
-        file_creation(something,  dir_string, date)
+        file_creation(something, dir_string, date)
 
 
-def directory_creation(args_var: str, path: str):
-    for i in range(args_var.index("-d") + 1,
-                       args_var.index("-f")):
-            path = os.path.join(path, args_var[i])
-            os.makedirs(path)
+def directory_creation(args_var: str, path: str) -> str:
+    for i in range(args_var.index("-d") + 1, args_var.index("-f")):
+        path = os.path.join(path, args_var[i])
+        os.makedirs(path)
     return path
 
 
-def file_creation(args_var: str, path: str, date: datetime):
+def file_creation(args_var: str, path: str, date: datetime) -> None:
     file_path = os.path.join(path,
-                                 args_var[args_var.index("-f") + 1])
+                            args_var[args_var.index("-f") + 1])
     with open(file_path, "w") as f:
         flag = ""
         f.write(date + "\n")
