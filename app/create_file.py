@@ -8,12 +8,12 @@ def create_file() -> None:
     directory_path = ""
     if "-d" in args:
         if "-f" in args:
-            directory_path = args[1:args.index("-f")]
+            directory_path = args[2:args.index("-f")]
         else:
-            directory_path = args[1:]
+            directory_path = args[2:]
         os.makedirs(os.path.join(*directory_path), exist_ok=True)
     if "-f" in args:
-        file_name = args[args.index("-f") + 1]
+        file_name = args[-1]
         file_exists = False
         if os.path.exists(os.path.join(directory_path, file_name)):
             file_exists = True
@@ -28,3 +28,7 @@ def create_file() -> None:
                     break
                 file.write(f"/n{row_number} {entered_info}")
                 row_number += 1
+
+
+if __name__ == '__main__':
+    create_file()
