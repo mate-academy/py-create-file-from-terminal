@@ -13,8 +13,7 @@ if "-d" == sys.argv[1]:
 if "-f" in sys.argv:
     index_sys = sys.argv.index("-f")
 
-    with (open(f"{parent_dir + f"/{sys.argv[index_sys + 1]}"}", "a")
-          as source_file):
+    with open(parent_dir + f"/{sys.argv[index_sys + 1]}", "a") as source_file:
         number_line = 0
         now = datetime.datetime.now()
         source_file.write(f"{now.strftime("%Y-%m-%d %H:%M:%S")}\n")
