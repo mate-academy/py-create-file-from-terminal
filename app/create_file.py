@@ -30,5 +30,5 @@ def create_file() -> None:
                 row_number += 1
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     create_file()
