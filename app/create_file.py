@@ -19,14 +19,14 @@ def create_file() -> None:
             file_exists = True
         with open(os.path.join(directory_path, file_name), "a") as file:
             if file_exists:
-                file.write("/n/n")
+                file.write("\n\n")
             file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             row_number = 1
             while True:
                 entered_info = input("Enter content line: ")
                 if entered_info == "stop":
                     break
-                file.write(f"/n{row_number} {entered_info}")
+                file.write(f"\n{row_number} {entered_info}")
                 row_number += 1
 
 
