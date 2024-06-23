@@ -1,10 +1,11 @@
+import argparse
 import datetime
 import os
-import sys
 
 
 def create_directory_structure(path: str) -> None:
-    os.makedirs(path, exist_ok=True)
+    if not os.path.exists(path):
+        os.makedirs(path, exist_ok=True)
 
 
 def create_file(file_name: str, path: str = None) -> None:
@@ -26,28 +27,26 @@ def create_file(file_name: str, path: str = None) -> None:
             file_path.write("\n")
         local = datetime.datetime.now()
         file_path.write(local.strftime("%m-%d-%Y %H:%M:%S\n"))
+        i = 0
         while True:
+            i += 1
             line = input("Enter content line (type 'stop' to finish): ")
             if line == "stop":
                 break
-            file_path.write(f"{line}\n")
+            file_path.write(f"{i} {line}\n")
 
 
-args = sys.argv
-directory_path = None
-file_name = None
 
-if "-d" in args:
-    index_of_directory = args.index("-d") + 1
-    dir_end_index = len(args)
-    for flag in ["-f"]:
-        if flag in args:
-            dir_end_index = min(dir_end_index, args.index(flag))
-    directory_path = os.path.join(*args[index_of_directory:dir_end_index])
+parser = argparse.ArgumentParser(
+    description="Create a directory and/or a file within it with timestamp and user-provided content.")
+parser.add_argument('-d', '--directory', nargs='+', help='Path to directory where the file will be created.')
+parser.add_argument('-f', '--file', help='Name of the file to be created.')
+
+args = parser.parse_args()
+
+if args.directory:
+    directory_path = os.path.join(*args.directory)
     create_directory_structure(path=directory_path)
 
-if "-f" in args:
-    index_of_file = args.index("-f") + 1
-    if index_of_file < len(args):
-        file_name = args[index_of_file]
-        create_file(file_name=file_name, path=directory_path)
+if args.file:
+    create_file(file_name=args.file, path=directory_path if args.directory else None)
