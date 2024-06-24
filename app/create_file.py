@@ -17,7 +17,7 @@ def directory_creation(args: str, path: str) -> str:
     for i in range(args.index("-d") + 1,
                    args.index("-f") if "-f" in args else len(args)):
         path = os.path.join(path, args[i])
-        os.makedirs(path)
+        os.makedirs(path, exist_ok=True)
     return path
 
 
