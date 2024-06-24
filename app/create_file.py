@@ -36,11 +36,14 @@ def create_file(file_name: str, path: str = None) -> None:
             file_path.write(f"{i} {line}\n")
 
 
-
 parser = argparse.ArgumentParser(
-    description="Create a directory and/or a file within it with timestamp and user-provided content.")
-parser.add_argument('-d', '--directory', nargs='+', help='Path to directory where the file will be created.')
-parser.add_argument('-f', '--file', help='Name of the file to be created.')
+    description="Create a directory and/or a file "
+                "within it with timestamp and user-provided content."
+)
+parser.add_argument("-d", "--directory", nargs="+",
+                    help="Path to directory where the file will be created."
+                    )
+parser.add_argument("-f", "--file", help="Name of the file to be created.")
 
 args = parser.parse_args()
 
@@ -49,4 +52,6 @@ if args.directory:
     create_directory_structure(path=directory_path)
 
 if args.file:
-    create_file(file_name=args.file, path=directory_path if args.directory else None)
+    create_file(
+        file_name=args.file,
+        path=directory_path if args.directory else None)
