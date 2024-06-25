@@ -22,7 +22,8 @@ def make_files() -> None:
               as source_file):
             number_line = 0
             now = datetime.datetime.now()
-            source_file.write(f"{now.strftime("%Y-%m-%d %H:%M:%S")}\n")
+            datetime_str = now.strftime("%Y-%m-%d %H:%M:%S")
+            source_file.write(f"{datetime_str}\n")
             while True:
                 new_line = input("Enter content line: ")
                 number_line += 1
