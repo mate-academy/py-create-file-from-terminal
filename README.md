@@ -41,7 +41,7 @@ Enter content line: stop
 ```
 
 ```python
-2022-02-01 14:41:10
+2022-02-01 14:41:10****
 1 Line1 content
 2 Line2 content
 3 Line3 content
