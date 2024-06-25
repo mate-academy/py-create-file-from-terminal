@@ -20,10 +20,10 @@ def create_file() -> None:
         file_name = sys.argv[-1]
         file_exists = False
 
-        if os.path.exists(os.path.join(directory_path, file_name)):
+        if os.path.exists(os.path.join(*directory_path, file_name)):
             file_exists = True
 
-        with open(os.path.join(directory_path, file_name), "a") as file:
+        with open(os.path.join(*directory_path, file_name), "a") as file:
             if file_exists:
                 file.write("\n\n")
 
