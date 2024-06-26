@@ -4,8 +4,7 @@ import os
 
 
 def create_directory_structure(path: str) -> None:
-    if not os.path.exists(path):
-        os.makedirs(path, exist_ok=True)
+    os.makedirs(path, exist_ok=True)
 
 
 def create_file(file_name: str, path: str = None) -> None:
@@ -13,8 +12,6 @@ def create_file(file_name: str, path: str = None) -> None:
         full_path = os.path.join(path, file_name)
     else:
         full_path = os.path.join(os.getcwd(), file_name)
-
-    os.makedirs(os.path.dirname(full_path), exist_ok=True)
 
     file_exists = os.path.exists(full_path)
     if file_exists:
@@ -36,22 +33,26 @@ def create_file(file_name: str, path: str = None) -> None:
             file_path.write(f"{i} {line}\n")
 
 
-parser = argparse.ArgumentParser(
-    description="Create a directory and/or a file "
-                "within it with timestamp and user-provided content."
-)
-parser.add_argument("-d", "--directory", nargs="+",
-                    help="Path to directory where the file will be created."
-                    )
-parser.add_argument("-f", "--file", help="Name of the file to be created.")
+def parse_arguments() -> None:
+    parser = argparse.ArgumentParser(
+        description="Create a directory and/or a file "
+                    "within it with timestamp and user-provided content."
+    )
+    parser.add_argument(
+        "-d", "--directory",
+        nargs="+",
+        help="Path to directory where the file will be created."
+    )
+    parser.add_argument("-f", "--file", help="Name of the file to be created.")
 
-args = parser.parse_args()
+    args = parser.parse_args()
 
-if args.directory:
-    directory_path = os.path.join(*args.directory)
-    create_directory_structure(path=directory_path)
+    if args.directory:
+        directory_path = os.path.join(*args.directory)
+        create_directory_structure(path=directory_path)
 
-if args.file:
-    create_file(
-        file_name=args.file,
-        path=directory_path if args.directory else None)
+    if args.file:
+        create_file(
+            file_name=args.file,
+            path=directory_path if args.directory else None)
+parse_arguments()
