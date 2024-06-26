@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 
-def create_directory(path_parts):
+def create_directory(path_parts: list[str]) -> None:
     """
     Create directories recursively based on path_parts list.
     """
@@ -12,36 +12,36 @@ def create_directory(path_parts):
         os.makedirs(path, exist_ok=True)
 
 
-def create_file(file_name):
+def create_file(file_name: str) -> None:
     """
     Create or append content to a file.
     """
-    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     content = []
 
     if os.path.exists(file_name):
-        with open(file_name, 'r') as f:
+        with open(file_name, "r") as f:
             content = f.readlines()
 
-    print(f"Enter content lines (enter 'stop' to finish):")
+    print("Enter content lines (enter 'stop' to finish):")
     while True:
         line = input("Enter content line: ")
-        if line.strip().lower() == 'stop':
+        if line.strip().lower() == "stop":
             break
         content.append(line.strip())
 
-    with open(file_name, 'w') as f:
+    with open(file_name, "w") as f:
         f.write(f"{timestamp}\n")
         for idx, line in enumerate(content, start=1):
             f.write(f"{idx} {line}\n")
 
 
-def main():
+def main() -> None:
     args = sys.argv[1:]
 
-    if '-d' in args and '-f' in args:
-        dir_index = args.index('-d')
-        file_index = args.index('-f')
+    if "-d" in args and "-f" in args:
+        dir_index = args.index("-d")
+        file_index = args.index("-f")
 
         directory_parts = args[dir_index + 1:file_index]
         file_name = args[file_index + 1]
@@ -49,20 +49,21 @@ def main():
         create_directory(directory_parts)
         create_file(os.path.join(*directory_parts, file_name))
 
-    elif '-d' in args:
-        dir_index = args.index('-d')
+    elif "-d" in args:
+        dir_index = args.index("-d")
         directory_parts = args[dir_index + 1:]
 
         create_directory(directory_parts)
 
-    elif '-f' in args:
-        file_index = args.index('-f')
+    elif "-f" in args:
+        file_index = args.index("-f")
         file_name = args[file_index + 1]
 
         create_file(file_name)
 
     else:
-        print("Invalid arguments. Use -d for directory path or -f for file name.")
+        print("Invalid arguments. "
+              "Use -d for directory path or -f for file name.")
 
 
 if __name__ == "__main__":
