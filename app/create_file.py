@@ -1,16 +1,17 @@
 import sys
 import os
 from datetime import datetime
+from typing import List
 
 
-def create_directory(path_parts):
+def create_directory(path_parts: List[str]) -> str:
     path = os.path.join(*path_parts)
     os.makedirs(path, exist_ok=True)
     print(f"Directory '{path}' created successfully.")
     return path
 
 
-def create_file(file_path):
+def create_file(file_path: str) -> None:
     lines = []
     while True:
         line = input("Enter content line: ")
@@ -33,7 +34,7 @@ def create_file(file_path):
     print(f"File '{file_path}' created/updated successfully.")
 
 
-def main():
+def main() -> None:
     args = sys.argv[1:]
 
     if "-d" in args:
