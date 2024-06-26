@@ -55,4 +55,6 @@ def parse_arguments() -> None:
         create_file(
             file_name=args.file,
             path=directory_path if args.directory else None)
+
+
 parse_arguments()
