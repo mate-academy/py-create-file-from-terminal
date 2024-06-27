@@ -8,29 +8,28 @@ def create_directory_structure(path: str) -> None:
 
 
 def create_file(file_name: str, path: str = None) -> None:
-    if path is not None:
+    if path:
         full_path = os.path.join(path, file_name)
     else:
         full_path = os.path.join(os.getcwd(), file_name)
 
     file_exists = os.path.exists(full_path)
-    if file_exists:
-        file_is_empty = os.path.getsize(full_path) == 0
-    else:
-        file_is_empty = False
+    file_is_empty = not file_exists or os.path.getsize(full_path) == 0
 
     with open(full_path, "a+") as file_path:
         if file_exists and not file_is_empty:
             file_path.write("\n")
         local = datetime.datetime.now()
         file_path.write(local.strftime("%m-%d-%Y %H:%M:%S\n"))
-        i = 0
+        line_numbering = 0
+        lines = []
         while True:
-            i += 1
             line = input("Enter content line (type 'stop' to finish): ")
             if line == "stop":
                 break
-            file_path.write(f"{i} {line}\n")
+            line_numbering += 1
+            lines.append(f"{line_numbering} {line}")
+        file_path.write("\n".join(lines))
 
 
 def parse_arguments() -> None:
@@ -44,7 +43,6 @@ def parse_arguments() -> None:
         help="Path to directory where the file will be created."
     )
     parser.add_argument("-f", "--file", help="Name of the file to be created.")
-
     args = parser.parse_args()
 
     if args.directory:
@@ -54,7 +52,9 @@ def parse_arguments() -> None:
     if args.file:
         create_file(
             file_name=args.file,
-            path=directory_path if args.directory else None)
+            path=directory_path if args.directory else None
+        )
 
 
-parse_arguments()
+if __name__ == "__main__":
+    parse_arguments()
