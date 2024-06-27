@@ -9,9 +9,11 @@ def main() -> None:
     if "-d" in parameters and "-f" in parameters:
         d_index = parameters.index("-d")
         f_index = parameters.index("-f")
-        directory_parts = parameters[d_index + 1: f_index] \
-            if d_index < f_index \
+        directory_parts = (
+            parameters[d_index + 1: f_index]
+            if d_index < f_index
             else parameters[d_index + 1:]
+        )
 
         file_name = parameters[f_index + 1]
         new_file_location = os.path.join(*directory_parts, file_name)
@@ -25,8 +27,7 @@ def main() -> None:
 
 def create_directory(path_parts: list[str]) -> None:
     dir_name = os.path.join(*path_parts)
-    if not os.path.exists(dir_name):
-        os.makedirs(dir_name)
+    os.makedirs(dir_name, exist_ok=True)
 
 
 def create_file(file_name: str) -> None:
