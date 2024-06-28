@@ -33,14 +33,17 @@ def create_directory(path_parts: list[str]) -> None:
 def create_file(file_name: str) -> None:
     mode = "a" if os.path.exists(file_name) else "w"
     with open(file_name, mode) as file:
+        if mode == "a":
+            file.write("\n\n")
         file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         line_num = 1
         while True:
             text = input("Enter content line: ")
             if text == "stop":
-                file.write("\n")
                 break
-            file.write(f"{line_num} {text}\n")
+            if line_num > 1:
+                file.write("\n")
+            file.write(f"{line_num} {text}")
             line_num += 1
 
 
