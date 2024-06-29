@@ -25,7 +25,7 @@ def create_file(file_path: PathType) -> None:
                 break
             f.write(f"{line_number} {content}\n")
             line_number += 1
-        f.write("\n")  # Add a newline at the end for separation
+        f.write("\n")
 
 
 def main() -> None:
