@@ -2,7 +2,7 @@
 
 Read [the guideline](https://github.com/mate-academy/py-task-guideline/blob/main/README.md) before starting.
 
-Create an app `create_file.spy` that takes directory path, file name, file
+Create an app `create_file.py` that takes directory path, file name, file
 content from the terminal and creates file. There should be flags `-d` or `-f`:
 
 - If only `-d` flag passed, means all items after this flag are parts of the
