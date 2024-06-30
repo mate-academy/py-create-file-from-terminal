@@ -6,9 +6,9 @@ import datetime
 def command_name() -> None:
     if "-d" in commamd and "-f" not in commamd:
         path_info = os.path.join(*commamd[commamd.index("-d") + 1:])
-        create_directory(path_dest)
+        create_directory(path_info)
     if "-d" in commamd and "-f" in commamd:
-        path_dest = os.path.join(
+        path_info = os.path.join(
             *commamd[commamd.index("-d") + 1:commamd.index("-f")])
         create_directory(path_info)
         create_file(path_info)
