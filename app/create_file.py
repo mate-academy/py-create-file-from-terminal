@@ -18,13 +18,15 @@ def create_file_with_content(file_path: str) -> None:
             break
         content_lines.append(line)
 
-    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     new_content = f"{timestamp}\n"
-    new_content += "\n".join([f"{i + 1} {line}" for i, line in enumerate(content_lines)])
+    new_content += (
+        "\n".join([f"{i + 1} {line}" for i, line in enumerate(content_lines)])
+    )
 
-    mode = 'a' if os.path.exists(file_path) else 'w'
+    mode = "a" if os.path.exists(file_path) else "w"
     with open(file_path, mode) as file:
-        if mode == 'a':
+        if mode == "a":
             file.write("\n\n")
         file.write(new_content)
     print(f"File {file_path} created with content.")
