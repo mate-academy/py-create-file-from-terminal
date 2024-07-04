@@ -10,8 +10,8 @@ def create_file(directory: str, filename: str, content_lines: list) -> None:
     try:
         with open(filepath, "a") as file:
             file.writelines(content_lines)
-    except OSError:
-        raise
+    except:
+        raise ("Enter correct path, filepath isnt't correct")
 
 
 def get_content_lines() -> list:
