@@ -12,8 +12,9 @@ def create_file(path: str, file_name: str) -> None:
     file_path = os.path.join(path, file_name)
     with open(file_path, "a") as file_result:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        file_result.write(f"\n{timestamp}\n")
-
+        if os.path.getsize(file_path) > 0:
+            file_result.write("\n")
+        file_result.write(f"{timestamp}\n")
         line_number = 1
         while True:
             content = input(f"Enter content line {line_number}: ")
