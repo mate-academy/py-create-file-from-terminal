@@ -42,7 +42,7 @@ def main() -> None:
         directory_path = "."
 
     os.makedirs(directory_path, exist_ok=True)
-    
+
     if args.file:
         content_lines = get_content_lines()
         create_file(directory_path, args.file, content_lines)
