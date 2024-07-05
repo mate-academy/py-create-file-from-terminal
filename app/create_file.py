@@ -20,6 +20,7 @@ def create_file(file_path: str) -> None:
                 break
             f.write(f"{line_number} {content}\n")
             line_number += 1
+        f.write("\n")
 
 
 def main() -> None:
