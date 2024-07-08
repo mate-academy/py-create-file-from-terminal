@@ -6,12 +6,9 @@ from datetime import datetime
 def create_file(path: str, file_name: str) -> None:
     file_path = os.path.join(path, file_name)
 
-    if not os.path.exists(path):
-        os.makedirs(path)
+    os.makedirs(path, exist_ok =True)
 
-    mode = "a" if os.path.exists(path) else "w"
-
-    with open(file_path, mode) as file:
+    with open(file_path, "a") as file:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         file.write(f"{timestamp}\n")
 
