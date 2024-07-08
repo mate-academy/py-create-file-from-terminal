@@ -1,7 +1,7 @@
 import sys
 import os
 from datetime import datetime
-from typing import List, Tuple, LiteralString
+from typing import List, Tuple
 
 
 def parse_arguments() -> Tuple[List[str], str]:
@@ -23,21 +23,24 @@ def parse_arguments() -> Tuple[List[str], str]:
 
 def create_directories(
         directories: List[str]
-) -> LiteralString | str | bytes:
+) -> str:
     if directories:
         dir_path = os.path.join(*directories)
         os.makedirs(dir_path, exist_ok=True)
         return dir_path
+
     return ""
 
 
 def get_file_content() -> List[str]:
     content_lines = []
+
     while True:
         line = input("Enter content line: ")
         if line.strip().lower() == "stop":
             break
         content_lines.append(line)
+
     return content_lines
 
 
@@ -56,6 +59,7 @@ def write_to_file(
         content_lines: List[str]
 ) -> None:
     file_exists = os.path.exists(file_path)
+
     with open(file_path, "a") as f:
         if file_exists:
             f.write("\n")
