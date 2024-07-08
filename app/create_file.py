@@ -6,7 +6,7 @@ from datetime import datetime
 def create_file(path: str, file_name: str) -> None:
     file_path = os.path.join(path, file_name)
 
-    os.makedirs(path, exist_ok =True)
+    os.makedirs(path, exist_ok=True)
 
     with open(file_path, "a") as file:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
