@@ -19,11 +19,10 @@ def create_file(file_path: str) -> None:
             break
         content_lines.append(line)
 
-    with open(file_path, "a") as f:
-        f.write(f"\n{timestamp}\n")
+    with open(file_path, "a") as file:
+        file.write(f"\n{timestamp}\n")
         for i, line in enumerate(content_lines, start=1):
-            f.write(f"{i} {line}\n")
-
+            file.write(f"{i} {line}\n")
 
 
 def main() -> None:
