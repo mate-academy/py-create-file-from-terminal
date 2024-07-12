@@ -23,8 +23,8 @@ def create_file(file_path: str) -> None:
             file.write("\r\n")
     with open(file_path, "a") as file:
         file.write(f"{timestamp}")
-        for i, line in enumerate(content_lines, start=1):
-            file.write(f"\n{i} {line}")
+        for counter, line in enumerate(content_lines, start=1):
+            file.write(f"\n{counter} {line}")
 
 
 def main() -> None:
