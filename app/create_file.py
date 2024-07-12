@@ -6,7 +6,6 @@ from datetime import datetime
 def create_directory(path_parts: list) -> None:
     path = os.path.join(*path_parts)
     os.makedirs(path, exist_ok=True)
-    print(f"Directory created: {path}")
 
 
 def create_file(file_path: str) -> None:
@@ -25,7 +24,6 @@ def create_file(file_path: str) -> None:
         for i, line in enumerate(content_lines, start=1):
             f.write(f"{i} {line}\n")
 
-    print(f"File created/updated: {file_path}")
 
 
 def main() -> None:
