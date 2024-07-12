@@ -20,6 +20,8 @@ def create_file(file_path: str) -> None:
         content_lines.append(line)
 
     with open(file_path, "a") as file:
+        if os.path.getsize(file_path) > 0:
+            file.write("\n")
         file.write(f"{timestamp}")
         for i, line in enumerate(content_lines, start=1):
             file.write(f"\n{i} {line}")
