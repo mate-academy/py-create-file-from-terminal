@@ -18,10 +18,11 @@ def create_file(file_path: str) -> None:
         if line.lower() == "stop":
             break
         content_lines.append(line)
-
+    if os.path.exists(path=file_path):
+        file = open(file_path, "a")
+        file.write("\r\n")
+        file.close()
     with open(file_path, "a") as file:
-        if os.path.getsize(file_path) > 0:
-            file.write("\n")
         file.write(f"{timestamp}")
         for i, line in enumerate(content_lines, start=1):
             file.write(f"\n{i} {line}")
@@ -36,6 +37,7 @@ def main() -> None:
     if "-d" in args:
         d_index = args.index("-d")
         dir_path = args[d_index + 1:]
+        # dir_path = args[d_index + 1:]
         if "-f" in dir_path:
             f_index = dir_path.index("-f")
             dir_path = dir_path[:f_index]
