@@ -45,7 +45,10 @@ def main() -> None:
         file_name = args[f_index + 1]
         if "-d" in args:
             d_index = args.index("-d")
-            dir_path = args[d_index + 1:f_index]
+            if d_index < f_index:
+                dir_path = args[d_index + 1:f_index]
+            else:
+                dir_path = args[d_index + 1:]
             file_path = os.path.join(*dir_path, file_name)
         else:
             file_path = file_name
