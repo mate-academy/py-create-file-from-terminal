@@ -19,9 +19,8 @@ def create_file(file_path: str) -> None:
             break
         content_lines.append(line)
     if os.path.exists(path=file_path):
-        file = open(file_path, "a")
-        file.write("\r\n")
-        file.close()
+        with open(file_path, "a") as file:
+            file.write("\r\n")
     with open(file_path, "a") as file:
         file.write(f"{timestamp}")
         for i, line in enumerate(content_lines, start=1):
