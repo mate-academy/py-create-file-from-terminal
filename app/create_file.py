@@ -36,7 +36,6 @@ def main() -> None:
     if "-d" in args:
         d_index = args.index("-d")
         dir_path = args[d_index + 1:]
-        # dir_path = args[d_index + 1:]
         if "-f" in dir_path:
             f_index = dir_path.index("-f")
             dir_path = dir_path[:f_index]
