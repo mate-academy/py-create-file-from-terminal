@@ -3,28 +3,25 @@ import sys
 from datetime import datetime
 
 
-def create_path(path: str) -> None:
-    file_path = path.strip().split("-d")[-1].strip().split()
+def create_path(path: list[str]) -> str:
+    index = path.index("-d")
+    file_path = path[index + 1:]
     full_path = os.path.join(*[os.getcwd(), *file_path])
     if not os.path.exists(full_path):
         os.makedirs(full_path)
-    return
+    return full_path
 
 
 def create_file(command: list[str]) -> None:
-    command = " ".join(command)
     file_name = None
     full_path = None
     if "-f" in command:
-        file_name = command.strip().split("-f")[1].strip()
+        index = command.index("-f")
+        file_name = command[index + 1]
         full_path = file_name
 
     if "-d" in command and "-f" in command:
-        file_path = command.strip(
-
-        ).split("-f")[0].split("-d")[-1].strip().split()
-        full_path = os.path.join(*[os.getcwd(), *file_path, file_name])
-        create_path(os.path.join(os.getcwd(), *file_path))
+        full_path = os.path.join(create_path(command), file_name)
 
     if full_path is None:
         if "-d" in command:
