@@ -10,20 +10,18 @@ def create_directory(path_parts: list) -> None:
 
 def create_file(file_path: str) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    content_lines = []
 
     print("Enter content line (type 'stop' to finish):")
-    while True:
-        line = input()
-        if line.lower() == "stop":
-            break
-        content_lines.append(line)
-    if os.path.exists(path=file_path):
-        with open(file_path, "a") as file:
-            file.write("\r\n")
     with open(file_path, "a") as file:
+        if os.path.getsize(file_path) > 0:
+            file.write("\r\n")
         file.write(f"{timestamp}")
-        for counter, line in enumerate(content_lines, start=1):
+        counter = 0
+        while True:
+            line = input()
+            if line.lower() == "stop":
+                break
+            counter += 1
             file.write(f"\n{counter} {line}")
 
 
