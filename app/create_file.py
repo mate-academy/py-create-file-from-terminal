@@ -1,6 +1,7 @@
 import datetime
 import os
 import sys
+import argparse
 
 
 def create_argument() -> dict:
@@ -40,36 +41,15 @@ def create_argument() -> dict:
 
 def create_argument_new() -> dict:
     out = {}
-    args = sys.argv
-    filename = ""
-    path = ""
 
-    start_dir = False
-    start_file = False
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d")
+    parser.add_argument("-f")
+    args = parser.parse_args()
 
-    for arg in args:
-
-        if arg == "-d":
-            start_dir = True
-            start_file = False
-            continue
-
-        if arg == "-f":
-            start_dir = False
-            start_file = True
-            continue
-
-        if start_dir:
-            path += arg + "/"
-
-        if start_file:
-            filename = arg
-
-    if path:
-        out["path"] = path
-
-    if filename:
-        out["filename"] = filename
+    out["path"] = args.d
+    out["filename"] = args.f
+    print(out)
 
     return out
 
@@ -108,4 +88,8 @@ def create_file(input_arg: dict) -> None:
             file.write(f"{i + 1} {data}\n")
 
 
-create_file(create_argument())
+# create_argument_new()
+# # create_file(create_argument())
+if __name__ == "__main__":
+    create_file(create_argument_new())
+
