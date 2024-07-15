@@ -38,6 +38,41 @@ def create_argument() -> dict:
 
     return out
 
+def create_argument_new() -> dict:
+    out = {}
+    args = sys.argv
+    filename = ""
+    path = ""
+
+    start_dir = False
+    start_file = False
+
+    for arg in args:
+
+        if arg == "-d":
+            start_dir = True
+            start_file = False
+            continue
+
+        if arg == "-f":
+            start_dir = False
+            start_file = True
+            continue
+
+        if start_dir:
+            path += arg + "/"
+
+        if start_file:
+            filename = arg
+
+    if path:
+        out["path"] = path
+
+    if filename:
+        out["filename"] = filename
+
+    return out
+
 
 def create_dir(input_arg: dict) -> str:
     if "path" in input_arg:
