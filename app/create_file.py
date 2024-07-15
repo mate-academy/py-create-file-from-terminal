@@ -39,24 +39,25 @@ def create_argument() -> dict:
 
     return out
 
-def create_argument_new() -> dict:
-    out = {}
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-d")
-    parser.add_argument("-f")
-    args = parser.parse_args()
-
-    out["path"] = args.d
-    out["filename"] = args.f
-    print(out)
-
-    return out
+# def create_argument_new() -> dict:
+#     out = {}
+#
+#     parser = argparse.ArgumentParser()
+#     parser.add_argument("-d")
+#     parser.add_argument("-f")
+#     args = parser.parse_args()
+#
+#     out["path"] = args.d
+#     out["filename"] = args.f
+#     print(out)
+#
+#     return out
 
 
 def create_dir(input_arg: dict) -> str:
     if "path" in input_arg:
         path = os.path.join(input_arg["path"])
+        print("Path:",path)
         if not os.path.exists(path):
             os.makedirs(path)
         return path
@@ -79,7 +80,8 @@ def create_file(input_arg: dict) -> None:
     if not buff:
         return
 
-    file_name_str = create_dir(input_arg) + input_arg["filename"]
+    # file_name_str = create_dir(input_arg) + input_arg["filename"]
+    file_name_str = os.path.join(create_dir(input_arg), input_arg["filename"])
 
     with open(file_name_str, "at") as file:
         current = datetime.datetime.now()
@@ -91,5 +93,5 @@ def create_file(input_arg: dict) -> None:
 # create_argument_new()
 # # create_file(create_argument())
 if __name__ == "__main__":
-    create_file(create_argument_new())
+    create_file(create_argument())
 
