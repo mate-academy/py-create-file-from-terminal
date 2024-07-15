@@ -32,7 +32,9 @@ def main() -> None:
     if create_directory and directory_path:
         os.makedirs(directory_path, exist_ok=True)
     if create_file and file_path:
-        full_file_path = os.path.join(directory_path, file_path) if directory_path else file_path
+        full_file_path = os.path.join(directory_path, file_path) \
+            if directory_path \
+            else file_path
         with open(full_file_path, "a") as result_file:
             content = []
             current_date = datetime.now()
