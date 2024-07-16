@@ -26,7 +26,6 @@ def main() -> None:
             if i < len(args):
                 file_path = args[i]
                 create_file = True
-                break
             i += 1
 
     if create_directory and directory_path:
