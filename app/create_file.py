@@ -36,11 +36,14 @@ def create_file(file_path: str) -> None:
 
 def main() -> None:
     qwe = sys.argv[1:]
-    if "-f" in qwe and "-d" in qwe:
+    if "-d" in qwe and "-f" in qwe:
         dir_index = qwe.index("-d")
         file_index = qwe.index("-f")
 
-        directory_path = qwe[dir_index + 1:file_index]
+        if dir_index > file_index:
+            directory_path = qwe[dir_index + 1::]
+        else:
+            directory_path = qwe[dir_index + 1:file_index]
         file_name = qwe[file_index + 1]
 
         create_directory(directory_path)
