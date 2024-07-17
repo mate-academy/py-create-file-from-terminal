@@ -12,31 +12,59 @@ def create_argument() -> dict:
     new_filename = ""
     print(args)
 
-    if ("-d" in args) and ("-f" in args):
-        print("Directory and File")
-        filename = args[args.index("-f"):]
-        path = args[args.index("-d"):args.index("-f")]
+    for i, arg in enumerate(args):
+        if arg in "-d":
+            new_args = args[i + 1:]
+            if "-" in new_args:
+                path = args[args.index("-d"):args.index("-")]
+            path = args[args.index("-d"):]
 
-        new_filename = " ".join(filename[1:])
-        new_path = os.path.join("/".join(path[1:]))
+        if arg in "-f":
+            new_args = args[i + 1:]
+            if "-" in new_args:
+                filename = args[args.index("-f"):args.index("-")]
+            filename = args[args.index("-f"):]
 
-        print("File:", filename[1:])
-        print(new_filename)
-        print("Path:", path[1:])
-        print(new_path)
+    new_filename = " ".join(filename[1:])
+    new_path = os.path.join("/".join(path[1:]))
 
-    elif "-d" in args:
-        print("only Directory")
-        path = args[args.index("-d"):]
-        new_path = os.path.join("/".join(path[1:]))
-        print(new_path)
-    elif "-f" in args:
-        print("only File")
-        filename = args[args.index("-f"):]
-        new_filename = " ".join(filename[1:])
-        print(new_filename)
-    else:
-        print("No key")
+    print("File:", filename[1:])
+    print(new_filename)
+    print("Path:", path[1:])
+    print(new_path)
+
+
+
+
+
+
+
+
+    # if ("-d" in args) and ("-f" in args):
+    #     print("Directory and File")
+    #     filename = args[args.index("-f"):]
+    #     path = args[args.index("-d"):args.index("-f")]
+    #
+    #     new_filename = " ".join(filename[1:])
+    #     new_path = os.path.join("/".join(path[1:]))
+    #
+    #     print("File:", filename[1:])
+    #     print(new_filename)
+    #     print("Path:", path[1:])
+    #     print(new_path)
+    #
+    # elif "-d" in args:
+    #     print("only Directory")
+    #     path = args[args.index("-d"):]
+    #     new_path = os.path.join("/".join(path[1:]))
+    #     print(new_path)
+    # elif "-f" in args:
+    #     print("only File")
+    #     filename = args[args.index("-f"):]
+    #     new_filename = " ".join(filename[1:])
+    #     print(new_filename)
+    # else:
+    #     print("No key")
 
     if new_path:
         out["path"] = new_path
