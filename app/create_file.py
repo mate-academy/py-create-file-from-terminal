@@ -11,11 +11,6 @@ def create_directory(path: list[str]) -> None:
 
 def create_file(file_path: str) -> None:
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    lines = []
-
-    if os.path.exists(file_path):
-        with open(file_path, "r") as f:
-            lines = f.readlines()
 
     new_lines = []
     print("Enter content lines (enter 'stop' to finish):")
@@ -25,13 +20,11 @@ def create_file(file_path: str) -> None:
             break
         new_lines.append(line.strip())
 
-    with open(file_path, "w") as f:
+    with open(file_path, "a") as f:
         f.write(f"{timestamp}\n")
         for index, line in enumerate(new_lines, start=1):
             f.write(f"{index} {line}\n")
         f.write("\n")
-        for index, line in enumerate(lines, start=1):
-            f.write(line)
 
 
 def main() -> None:
