@@ -1,7 +1,6 @@
 import datetime
 import os
 import sys
-import argparse
 
 
 def create_argument() -> dict:
@@ -9,40 +8,41 @@ def create_argument() -> dict:
     args = sys.argv
     filename = ""
     path = ""
+    new_path = ""
+    new_filename = ""
     print(args)
 
-    if args in ["-d", "-f"]:
+    if ("-d" in args) and ("-f" in args):
         print("Directory and File")
+        filename = args[args.index("-f"):]
+        path = args[args.index("-d"):args.index("-f")]
 
-        
+        new_filename = " ".join(filename[1:])
+        new_path = os.path.join("/".join(path[1:]))
 
-    # start_dir = False
-    # start_file = False
+        print("File:", filename[1:])
+        print(new_filename)
+        print("Path:", path[1:])
+        print(new_path)
 
+    elif "-d" in args:
+        print("only Directory")
+        path = args[args.index("-d"):]
+        new_path = os.path.join("/".join(path[1:]))
+        print(new_path)
+    elif "-f" in args:
+        print("only File")
+        filename = args[args.index("-f"):]
+        new_filename = " ".join(filename[1:])
+        print(new_filename)
+    else:
+        print("No key")
 
-    # for arg in args:
-    #
-    #     if arg == "-d":
-    #         start_dir = True
-    #         start_file = False
-    #         continue
-    #
-    #     if arg == "-f":
-    #         start_dir = False
-    #         start_file = True
-    #         continue
-    #
-    #     if start_dir:
-    #         path += arg + "/"
-    #
-    #     if start_file:
-    #         filename = arg
+    if new_path:
+        out["path"] = new_path
 
-    if path:
-        out["path"] = path
-
-    if filename:
-        out["filename"] = filename
+    if new_filename:
+        out["filename"] = new_filename
 
     return out
 
@@ -64,7 +64,7 @@ def create_argument() -> dict:
 def create_dir(input_arg: dict) -> str:
     if "path" in input_arg:
         path = os.path.join(input_arg["path"])
-        print("Path:",path)
+        print("Path:", path)
         if not os.path.exists(path):
             os.makedirs(path)
         return path
@@ -101,4 +101,3 @@ def create_file(input_arg: dict) -> None:
 # # create_file(create_argument())
 if __name__ == "__main__":
     create_file(create_argument())
-
