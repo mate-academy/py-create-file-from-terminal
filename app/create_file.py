@@ -9,27 +9,34 @@ def create_argument() -> dict:
     args = sys.argv
     filename = ""
     path = ""
+    print(args)
 
-    start_dir = False
-    start_file = False
+    if args in ["-d", "-f"]:
+        print("Directory and File")
 
-    for arg in args:
+        
 
-        if arg == "-d":
-            start_dir = True
-            start_file = False
-            continue
+    # start_dir = False
+    # start_file = False
 
-        if arg == "-f":
-            start_dir = False
-            start_file = True
-            continue
 
-        if start_dir:
-            path += arg + "/"
-
-        if start_file:
-            filename = arg
+    # for arg in args:
+    #
+    #     if arg == "-d":
+    #         start_dir = True
+    #         start_file = False
+    #         continue
+    #
+    #     if arg == "-f":
+    #         start_dir = False
+    #         start_file = True
+    #         continue
+    #
+    #     if start_dir:
+    #         path += arg + "/"
+    #
+    #     if start_file:
+    #         filename = arg
 
     if path:
         out["path"] = path
