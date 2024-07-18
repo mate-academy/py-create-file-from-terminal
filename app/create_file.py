@@ -3,6 +3,23 @@ import os
 import sys
 
 
+def parser_simple(key: str) -> str:
+    args = sys.argv
+    out = ""
+    for i, arg in enumerate(args):
+        if key in arg:
+            out = args[i + 1:]
+
+            for j, new_arg in enumerate(path):
+                if "-" in new_arg:
+                    out = args[i + 1:i + j + 1]
+                    break
+
+    print("Path = ", out)
+    return out
+
+
+
 def create_argument() -> dict:
     out = {}
     args = sys.argv
@@ -13,32 +30,24 @@ def create_argument() -> dict:
     print(args)
 
     for i, arg in enumerate(args):
-        print(i, arg)
         if "-d" in arg:
-            print(i, arg)
-            path = args[args.index("-d") + 1:]
-            print("New str d:", path)
+            path = args[i + 1:]
+
             for j, new_arg in enumerate(path):
                 if "-" in new_arg:
-                    print("Bingo d", args, "i+j", i+j)
-                    path = args[args.index("-d") + 1:i + j + 1]
-                    print("Path new ", path)
+                    path = args[i + 1:i + j + 1]
                     break
 
     print("Path = ", path)
 
-
-
-
-
-        # if arg in "-f":
-        #     new_args = args[i + 1:]
-        #     print("New str f:", new_args)
-        #     for j, new_arg in enumerate(new_args):
-        #         if "-" in new_arg:
-        #             print("Bingo f")
-        #             filename = args[i + 1:j]
-        #     filename = args[args.index("-f"):]
+    # if arg in "-f":
+    #     new_args = args[i + 1:]
+    #     print("New str f:", new_args)
+    #     for j, new_arg in enumerate(new_args):
+    #         if "-" in new_arg:
+    #             print("Bingo f")
+    #             filename = args[i + 1:j]
+    #     filename = args[args.index("-f"):]
 
     new_filename = " ".join(filename[1:])
     new_path = os.path.join("/".join(path[1:]))
@@ -47,13 +56,6 @@ def create_argument() -> dict:
     print(new_filename)
     print("Path:", path[1:])
     print(new_path)
-
-
-
-
-
-
-
 
     # if ("-d" in args) and ("-f" in args):
     #     print("Directory and File")
@@ -88,6 +90,7 @@ def create_argument() -> dict:
         out["filename"] = new_filename
 
     return out
+
 
 # def create_argument_new() -> dict:
 #     out = {}
