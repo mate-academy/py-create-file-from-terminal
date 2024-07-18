@@ -10,28 +10,35 @@ def create_argument() -> dict:
     path = ""
     new_path = ""
     new_filename = ""
-    print(args, args.index("-f"))
+    print(args)
 
     for i, arg in enumerate(args):
         print(i, arg)
-        if arg in "-d":
-            new_args = args[i + 1:]
-            print("New str d:", new_args)
-            for j, new_arg in enumerate(new_args):
+        if "-d" in arg:
+            print(i, arg)
+            path = args[args.index("-d") + 1:]
+            print("New str d:", path)
+            for j, new_arg in enumerate(path):
                 if "-" in new_arg:
-                    print("Bingo d")
-                    path = args[i + 1:j]
+                    print("Bingo d", args, "i+j", i+j)
+                    path = args[args.index("-d") + 1:i + j + 1]
+                    print("Path new ", path)
+                    break
 
-            path = args[args.index("-d"):]
+    print("Path = ", path)
 
-        if arg in "-f":
-            new_args = args[i + 1:]
-            print("New str f:", new_args)
-            for j, new_arg in enumerate(new_args):
-                if "-" in new_arg:
-                    print("Bingo f")
-                    filename = args[i + 1:j]
-            filename = args[args.index("-f"):]
+
+
+
+
+        # if arg in "-f":
+        #     new_args = args[i + 1:]
+        #     print("New str f:", new_args)
+        #     for j, new_arg in enumerate(new_args):
+        #         if "-" in new_arg:
+        #             print("Bingo f")
+        #             filename = args[i + 1:j]
+        #     filename = args[args.index("-f"):]
 
     new_filename = " ".join(filename[1:])
     new_path = os.path.join("/".join(path[1:]))
