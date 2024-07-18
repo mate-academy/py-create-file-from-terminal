@@ -10,7 +10,7 @@ def parser_simple(key: str) -> str:
         if key in arg:
             out = args[i + 1:]
 
-            for j, new_arg in enumerate(path):
+            for j, new_arg in enumerate(out):
                 if "-" in new_arg:
                     out = args[i + 1:i + j + 1]
                     break
@@ -23,22 +23,24 @@ def parser_simple(key: str) -> str:
 def create_argument() -> dict:
     out = {}
     args = sys.argv
-    filename = ""
-    path = ""
+
     new_path = ""
     new_filename = ""
     print(args)
+    print(parser_simple("-d"))
+    print(parser_simple("-f"))
 
-    for i, arg in enumerate(args):
-        if "-d" in arg:
-            path = args[i + 1:]
 
-            for j, new_arg in enumerate(path):
-                if "-" in new_arg:
-                    path = args[i + 1:i + j + 1]
-                    break
-
-    print("Path = ", path)
+    # for i, arg in enumerate(args):
+    #     if "-d" in arg:
+    #         path = args[i + 1:]
+    #
+    #         for j, new_arg in enumerate(path):
+    #             if "-" in new_arg:
+    #                 path = args[i + 1:i + j + 1]
+    #                 break
+    #
+    # print("Path = ", path)
 
     # if arg in "-f":
     #     new_args = args[i + 1:]
@@ -49,12 +51,10 @@ def create_argument() -> dict:
     #             filename = args[i + 1:j]
     #     filename = args[args.index("-f"):]
 
-    new_filename = " ".join(filename[1:])
-    new_path = os.path.join("/".join(path[1:]))
+    new_filename = " ".join(parser_simple("-f"))
+    new_path = os.path.join("/".join(parser_simple("-d")))
 
-    print("File:", filename[1:])
     print(new_filename)
-    print("Path:", path[1:])
     print(new_path)
 
     # if ("-d" in args) and ("-f" in args):
