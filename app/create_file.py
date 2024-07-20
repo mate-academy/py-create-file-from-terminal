@@ -52,22 +52,22 @@ def create_file(input_arg: dict) -> None:
     input_str = ""
     buff = []
     file_name_str = os.path.join(create_dir(input_arg), input_arg["filename"])
+    index = 1
 
     while input_str != "stop":
         input_str = input("Enter content line:")
         if input_str != "stop":
+            input_str = str(index) + " " + input_str + "\n"
             buff.append(input_str)
-
+            index += 1
 
     if not buff:
         return
 
-
     with open(file_name_str, "at") as file:
         current = datetime.datetime.now()
         file.write(current.strftime("%Y-%m-%d %H:%M:%S") + "\n")
-        for i, data in enumerate(buff):
-            file.write(f"{i + 1} {data}\n")
+        file.write(str(buff))
 
 
 if __name__ == "__main__":
