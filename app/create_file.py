@@ -6,13 +6,13 @@ import sys
 def parser_simple(key: str) -> str:
     args = sys.argv
     out = ""
-    for i, arg in enumerate(args):
+    for index, arg in enumerate(args):
         if key in arg:
-            out = args[i + 1:]
+            out = args[index + 1:]
 
             for count, new_arg in enumerate(out):
                 if "-" in new_arg:
-                    out = args[i + 1:i + count + 1]
+                    out = args[index + 1:index + count + 1]
                     break
 
     print("Path = ", out)
@@ -51,17 +51,17 @@ def create_file(input_arg: dict) -> None:
 
     input_str = ""
     buff = []
+    file_name_str = os.path.join(create_dir(input_arg), input_arg["filename"])
 
     while input_str != "stop":
         input_str = input("Enter content line:")
         if input_str != "stop":
             buff.append(input_str)
 
+
     if not buff:
         return
 
-    # file_name_str = create_dir(input_arg) + input_arg["filename"]
-    file_name_str = os.path.join(create_dir(input_arg), input_arg["filename"])
 
     with open(file_name_str, "at") as file:
         current = datetime.datetime.now()
