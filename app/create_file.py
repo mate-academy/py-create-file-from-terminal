@@ -11,7 +11,7 @@ def create_directory(directories: list[str]) -> Union[str, LiteralString]:
     return path
 
 
-def file_creator(file):
+def file_creator(file: str) -> None:
     with open(file, "a") as f:
         time_now = datetime.now()
         f.write(time_now.strftime("%m-%d-%Y %H:%M:%S + /n"))
