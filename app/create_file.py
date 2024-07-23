@@ -42,9 +42,11 @@ def main() -> None:
         d_index = args.index("-d")
         if "-f" in args:
             f_index = args.index("-f")
-            path_join = create_directory(*args[d_index + 1:f_index])
+            if d_index < f_index:
+                path_join = create_directory(*args[d_index + 1:f_index])
+            else:
+                path_join = create_directory(*args[d_index + 1:])
             create_file(args[f_index + 1], path_join)
-            pass
         else:
             create_directory(*args[d_index + 1:])
 
