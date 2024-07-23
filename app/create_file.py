@@ -12,7 +12,8 @@ def create_directory(directories: str) -> str:
 
 def file_creator(file_name: str) -> None:
     with open(file_name, "a") as f:
-        pass
+        time_now = datetime.now()
+        f.write(time_now.strftime("%m-%d-%Y %H:%M:%S + /n"))
     content = []
     i = 1
     while True:
@@ -22,9 +23,7 @@ def file_creator(file_name: str) -> None:
         content.append(f"{i} {content_line}")
         i += 1
     if content:
-        with open(file_name, "w") as f:
-            time_now = datetime.now()
-            f.write(time_now.strftime("%m-%d-%Y %H:%M:%S + /n"))
+        with open(file_name, "a") as f:
             for line in content[:-1]:
                 f.write(line + "/n")
             f.write(content[-1])
