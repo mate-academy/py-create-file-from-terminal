@@ -33,12 +33,12 @@ def file_creator(file_name: str) -> None:
 def create_file() -> None:
     if "-f" in sys.argv and "-d" in sys.argv:
         directories = sys.argv[sys.argv.index("-d") + 1: sys.argv.index("-f")]
-        file = sys.argv[sys.argv.index("-f") + 1]
-        file_name = os.path.join(create_directory(directories), file)
+        file_ = sys.argv[sys.argv.index("-f") + 1]
+        file_name = os.path.join(create_directory(directories), file_)
         file_creator(file_name)
     elif "-f" in sys.argv:
-        file = sys.argv[sys.argv.index("-f") + 1]
-        file_creator(file)
+        file_ = sys.argv[sys.argv.index("-f") + 1]
+        file_creator(file_)
     elif "-d" in sys.argv:
         directories = sys.argv[sys.argv.index("-d") + 1:]
         create_directory(directories)
