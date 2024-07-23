@@ -1,28 +1,33 @@
 import os
 import sys
 from datetime import datetime
-from typing import Union, LiteralString
 
 
-def create_directory(directories: list[str]) -> Union[str, LiteralString]:
+def create_directory(directories: str) -> str:
     path = os.getcwd()
-    for directory in directories:
-        path = os.path.join(path, directory)
+    path = os.path.join(path, *directories)
+    os.makedirs(path)
     return path
 
 
-def file_creator(file: str) -> None:
-    with open(file, "a") as f:
-        time_now = datetime.now()
-        f.write(time_now.strftime("%m-%d-%Y %H:%M:%S + /n"))
-
-        i = 1
-        while True:
-            content_line = input("Enter content line:")
-            if content_line == "stop":
-                break
-            f.write(str(i) + ' ' + content_line + "/n")
-            i += 1
+def file_creator(file_name: str) -> None:
+    with open(file_name, "a") as f:
+        pass
+    content = []
+    i = 1
+    while True:
+        content_line = input("Enter content line:")
+        if content_line == "stop":
+            break
+        content.append(f"{i} {content_line}")
+        i += 1
+    if content:
+        with open(file_name, "w") as f:
+            time_now = datetime.now()
+            f.write(time_now.strftime("%m-%d-%Y %H:%M:%S + /n"))
+            for line in content[:-1]:
+                f.write(line + "/n")
+            f.write(content[-1])
 
 
 def create_file() -> None:
