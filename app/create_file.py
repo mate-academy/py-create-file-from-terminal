@@ -12,21 +12,21 @@ def create_directory(directories: str) -> str:
 
 def file_creator(file_name: str) -> None:
     with open(file_name, "a") as f:
-        time_now = datetime.now()
-        f.write(time_now.strftime("%m-%d-%Y %H:%M:%S + /n"))
+        pass
     content = []
     i = 1
     while True:
-        content_line = input("Enter content line:")
+        content_line = input("Enter content line: ")
         if content_line == "stop":
             break
         content.append(f"{i} {content_line}")
         i += 1
     if content:
         with open(file_name, "a") as f:
-            for line in content[:-1]:
-                f.write(line + "/n")
-            f.write(content[-1])
+            time_now = datetime.now()
+            f.write(time_now.strftime("%m-%d-%Y %H:%M:%S\n"))
+            for line in content:
+                f.write(line + "\n")
 
 
 def create_file() -> None:
