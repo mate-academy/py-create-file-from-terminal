@@ -39,7 +39,7 @@ def create_file() -> None:
             file_ = sys.argv[sys.argv.index("-f") + 1]
         else:
             directories = sys.argv[sys.argv.index("-d") + 1:]
-            file_ = sys.argv[sys.argv.index("-f") + 1: sys.argv.index("-d")]
+            file_ = sys.argv[sys.argv.index("-f") + 1]
         file_name = os.path.join(create_directory(directories), file_)
         file_creator(file_name)
     elif "-f" in sys.argv:
