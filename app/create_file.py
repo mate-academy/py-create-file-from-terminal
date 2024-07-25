@@ -10,13 +10,11 @@ if "-d" in data:
     d_index = data.index("-d")
     if f_index > d_index:
         d_data = data[d_index + 1: f_index]
-        path_dirs = os.path.join(*d_data)
-        file_path = os.path.join(path_dirs, data[f_index + 1])
     else:
         d_data = data[d_index + 1:]
-        path_dirs = os.path.join(*d_data)
-        file_path = os.path.join(path_dirs, *data[f_index + 1: d_index])
 
+    path_dirs = os.path.join(*d_data)
+    file_path = os.path.join(path_dirs, data[f_index + 1])
     os.makedirs(path_dirs, exist_ok=True)
 
 else:
