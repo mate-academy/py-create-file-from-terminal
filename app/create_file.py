@@ -33,5 +33,5 @@ while True:
     info_from_user += f"{counter} {line_from_user}\n"
     counter += 1
 
-with open(file_path, "w") as file:
+with open(file_path, "a") as file:
     file.write(info_from_user)
