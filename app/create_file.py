@@ -8,7 +8,7 @@ def create_directory(directories_path: list[str]) -> None:
     makedirs(directories_path, exist_ok=True)
 
 
-def create_file(file: str) -> None:
+def create_file(file_name: str) -> None:
     date_today = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     file_data = []
 
@@ -18,13 +18,13 @@ def create_file(file: str) -> None:
             break
         file_data.append(new_line)
 
-    with open(file, "w") as opened_file:
+    with open(file_name, "w") as opened_file:
         opened_file.write(f"{date_today}\n")
         for line in file_data:
             opened_file.write(f"{line}\n")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     commands = argv[1:]
     if not commands:
         raise ValueError("No command provided, such as '-f' or '-d'.")
