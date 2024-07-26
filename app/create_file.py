@@ -18,10 +18,11 @@ def create_file(file_name: str) -> None:
             break
         file_data.append(new_line)
 
-    with open(file_name, "w") as opened_file:
+    with open(file_name, "a") as opened_file:
         opened_file.write(f"{date_today}\n")
-        for line in file_data:
-            opened_file.write(f"{line}\n")
+        for i, line in enumerate(file_data):
+            opened_file.write(f"{i} {line}\n")
+        opened_file.write("\n")
 
 
 if __name__ == "__main__":
