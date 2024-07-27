@@ -25,8 +25,7 @@ def create_file(file_name: str) -> None:
         opened_file.write("\n")
 
 
-if __name__ == "__main__":
-    commands = argv[1:]
+def create_file_from_terminal(commands: list) -> None:
     if not commands:
         raise ValueError("No command provided, such as '-f' or '-d'.")
 
@@ -50,3 +49,8 @@ if __name__ == "__main__":
     elif "-f" in commands:
         f_index = commands.index("-f")
         create_file(commands[f_index + 1])
+
+
+if __name__ == "__main__":
+    create_file_from_terminal(argv[1:])
+
