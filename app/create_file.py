@@ -21,7 +21,7 @@ def create_file(file_name: str) -> None:
     with open(file_name, "a") as opened_file:
         opened_file.write(f"{date_today}\n")
         for i, line in enumerate(file_data):
-            opened_file.write(f"{i} {line}\n")
+            opened_file.write(f"{i + 1} {line}\n")
         opened_file.write("\n")
 
 
