@@ -53,4 +53,3 @@ def create_file_from_terminal(commands: list) -> None:
 
 if __name__ == "__main__":
     create_file_from_terminal(argv[1:])
-
