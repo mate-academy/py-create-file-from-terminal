@@ -3,56 +3,62 @@ import os
 from datetime import datetime
 
 
-def create_directories(directories: list) -> str:
-    path = os.path.join(*directories)
+def create_directory(path):
     os.makedirs(path, exist_ok=True)
-    return path
+    print(f"Directory '{path}' created successfully.")
 
 
-def write_to_file(file_path: str) -> None:
-    # Append timestamp and content to file
-    with open(file_path, "a") as file:
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        file.write(f"{timestamp}\n")
+def create_file(file_path):
+    directory = os.path.dirname(file_path)
+    if directory:
+        create_directory(directory)
+
+    file_exists = os.path.exists(file_path)
+    mode = 'a' if file_exists else 'w'
+
+    with open(file_path, mode) as f:
+        if file_exists:
+            f.write('\n')
+        f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + '\n')
+
         line_number = 1
         while True:
-            content = input(f"Enter content line {line_number}: ")
-            if content.strip().lower() == "stop":
+            content = input("Enter content line: ")
+            if content.lower() == 'stop':
                 break
-            file.write(f"{line_number} {content}\n")
+            f.write(f"{line_number} {content}\n")
             line_number += 1
 
+    print(f"File '{file_path}' {'updated' if file_exists else 'created'} successfully.")
 
-def main() -> None:
+
+def main():
     args = sys.argv[1:]
-    if "-d" in args:
-        d_index = args.index("-d")
-        if "-f" in args:
-            f_index = args.index("-f")
-            directories = args[d_index + 1:f_index]
+
+    if '-d' in args and '-f' in args:
+        d_index = args.index('-d')
+        f_index = args.index('-f')
+
+        if d_index < f_index:
+            path = os.path.join(*args[d_index + 1:f_index])
             file_name = args[f_index + 1]
         else:
-            directories = args[d_index + 1:]
-            file_name = None
-    elif "-f" in args:
-        f_index = args.index("-f")
-        file_name = args[f_index + 1]
-        directories = None
-    else:
-        print("Usage: python create_file.py -d dir1 dir2 -f file.txt")
-        print("or: python create_file.py -f file.txt")
+            path = os.path.join(*args[d_index + 1:])
+            file_name = args[f_index + 1]
 
-    if directories:
-        path = create_directories(directories)
-    else:
-        path = os.getcwd()
-
-    # Create file if specified
-    if file_name:
         file_path = os.path.join(path, file_name)
-        write_to_file(file_path)
-    elif directories:
-        print(f"Created directories: {os.path.join(*directories)}")
+        create_file(file_path)
+
+    elif '-d' in args:
+        path = os.path.join(*args[args.index('-d') + 1:])
+        create_directory(path)
+
+    elif '-f' in args:
+        file_name = args[args.index('-f') + 1]
+        create_file(file_name)
+
+    else:
+        print("Invalid arguments. Please use -d for directory and/or -f for file.")
 
 
 if __name__ == "__main__":
