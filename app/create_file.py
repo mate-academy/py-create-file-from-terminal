@@ -29,7 +29,7 @@ def create_file(file_path: str) -> None:
             f.write(f"{line_number} {content}\n")
             line_number += 1
 
-    print(f"File {file_path} "
+    print(f"File '{file_path}' "
           f"{"updated" if file_exists else "created"} successfully.")
 
 
