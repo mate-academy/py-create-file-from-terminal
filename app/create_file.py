@@ -12,7 +12,7 @@ args = parser.parse_args()
 
 if args.directory:
     directory_path = os.path.join(*args.directory)
-    os.makedirs(directory_path)
+    os.makedirs(directory_path, exist_ok=True)
 else:
     directory_path = os.getcwd()
 
@@ -23,5 +23,6 @@ with open(filepath, "a") as file:
     while True:
         content = input("Enter content line: ")
         if content == "stop":
+            file.write("\n")
             break
         file.write(content + "\n")
