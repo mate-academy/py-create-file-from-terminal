@@ -16,13 +16,16 @@ if args.directory:
 else:
     directory_path = os.getcwd()
 
-filepath = os.path.join(directory_path, args.filename)
+if args.filename:
+    filepath = os.path.join(directory_path, args.filename)
 
-with open(filepath, "a") as file:
-    file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
-    while True:
-        content = input("Enter content line: ")
-        if content == "stop":
-            file.write("\n")
-            break
-        file.write(content + "\n")
+    with open(filepath, "a") as file:
+        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        i = 1
+        while True:
+            content = input("Enter content line: ")
+            if content == "stop":
+                file.write("\n")
+                break
+            file.write(f"{i} " + content + "\n")
+            i += 1
