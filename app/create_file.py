@@ -33,6 +33,10 @@ if "-f" not in data_file:
 elif "-d" not in data_file:
     create_file(data_file[-1])
 elif "-d" and "-f" in data_file:
-    file_dir = make_directory(os.path.join(*data_file[1:3]))
-    file_path = os.path.join(file_dir, data_file[-1])
+    if data_file.index("-d") < data_file.index("-f"):
+        file_dir = make_directory(os.path.join(*data_file[1:3]))
+        file_path = os.path.join(file_dir, data_file[-1])
+    else:
+        file_dir = make_directory(os.path.join(*data_file[3:]))
+        file_path = os.path.join(file_dir, data_file[1])
     create_file(file_path)
