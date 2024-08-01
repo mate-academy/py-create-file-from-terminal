@@ -7,7 +7,7 @@ arguments = sys.argv[1:]
 path = []
 
 if "-d" in arguments:
-    for directory in arguments[2:]:
+    for directory in arguments[1:]:
         if directory == "-f":
             break
         path.append(directory)
