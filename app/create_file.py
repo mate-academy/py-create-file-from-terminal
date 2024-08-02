@@ -45,3 +45,7 @@ def main() -> None:
         create_a_directory(os.path.join(*data[data.index("-d") + 1:]))
     elif "-f" in data:
         create_a_file(data[data.index("-f") + 1])
+
+
+if __name__ == "__main__":
+    main()
