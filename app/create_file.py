@@ -1,15 +1,14 @@
 import os
 import sys
 import datetime
-from typing import Any
 
 
-def create_a_directory(dir_path: str | bytes) -> Any:
+def create_a_directory(dir_path: str | bytes) -> str:
     os.makedirs(dir_path, exist_ok=True)
     return dir_path
 
 
-def create_a_file(file_name: str) -> Any:
+def create_a_file(file_name: str) -> None:
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     text = []
 
