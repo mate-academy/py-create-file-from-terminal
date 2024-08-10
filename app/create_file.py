@@ -13,7 +13,7 @@ def create_new_file(new_file: str) -> None:
     with open(new_file, "a") as result_file:
         creation_time = datetime.datetime.now()
         counter = 1
-        result_file.write(f"{creation_time.strftime("%Y-%m-%d %H:%M:%S")}\n")
+        result_file.write(f"{creation_time.strftime('%Y-%m-%d %H:%M:%S')}\n")
         while True:
             new_text_line = input("enter additional "
                                   "text line or enter 'stop' to stop:_ ")
