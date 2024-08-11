@@ -13,20 +13,13 @@ def make_directory(name_dir: str | bytes) -> Any:
 
 
 def create_file(file_name: str) -> Any:
-    is_file = os.path.isfile(file_name)
 
     with open(file_name, "a") as new_file:
         line_number = 1
         new_file.write(f"{data}\n")
         while True:
             new_line = input("Enter content line:")
-
-            if not is_file:
-                new_file.write(f"{line_number} {new_line} \n")
-
-            if is_file:
-                new_file.write(f"{line_number} Another {new_line} \n")
-
+            new_file.write(f"{line_number} {new_line} \n")
             line_number += 1
             if new_line.lower() == "stop":
                 break
