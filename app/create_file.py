@@ -35,13 +35,15 @@ def create_file(file_name: str) -> Any:
 
 
 command = sys.argv[1:]
-f_ind = command.index("-f")
-d_ind = command.index("-d")
+if "-f" in command:
+    f_ind = command.index("-f")
+if "-d" in command:
+    d_ind = command.index("-d")
 
 if "-f" not in command:
     make_directory(os.path.join(*command[d_ind + 1:]))
-elif "-d" not in command:
-    create_file(command[-1])
+if "-d" not in command:
+    create_file(command[f_ind + 1])
 elif "-d" and "-f" in command:
     if d_ind < f_ind:
         file_dir = make_directory(os.path.join(*command[d_ind + 1:f_ind]))
