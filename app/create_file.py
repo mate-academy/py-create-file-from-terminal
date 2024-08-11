@@ -26,28 +26,29 @@ def create_file(file_path: str) -> None:
 
 def main() -> None:
     arg = sys.argv
-    if "-d" in arg[:2]:
+    dir_path = None
+    file_name = None
+
+    if "-d" in arg:
         d_index = arg.index("-d")
         if "-f" in arg:
             f_index = arg.index("-f")
-            path_dir = arg[d_index + 1:f_index]
-            full_dir_path = create_directories(path_dir)
+            dir_path = arg[d_index + 1:f_index]
             file_name = arg[f_index + 1]
-            file_path = os.path.join(full_dir_path, file_name)
-            create_file(file_path)
         else:
-            path_dir = arg[d_index + 1:]
-            create_directories(path_dir)
-    elif "-f" in arg[:2]:
+            dir_path = arg[d_index + 1:]
+    elif "-f" in arg:
         f_index = arg.index("-f")
         file_name = arg[f_index + 1]
-        if "-d" in arg:
-            d_index = arg.index("-d")
-            path_dir = arg[d_index + 1:]
-            full_dir_path = create_directories(path_dir)
+
+    if dir_path:
+        full_dir_path = create_directories(dir_path)
+        if file_name:
             file_path = os.path.join(full_dir_path, file_name)
-        else:
-            file_path = file_name
+    else:
+        file_path = file_name
+
+    if file_name:
         create_file(file_path)
 
 
