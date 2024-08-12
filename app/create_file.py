@@ -5,8 +5,7 @@ import sys
 
 def create_dir(directories: list) -> None:
     path_to_file = os.path.join(*directories)
-    if not os.path.exists(path_to_file):
-        os.makedirs(path_to_file)
+    os.makedirs(path_to_file, exist_ok=True)
 
 
 def create_new_file(new_file: str) -> None:
