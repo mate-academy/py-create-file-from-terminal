@@ -3,10 +3,6 @@ import os
 from datetime import datetime
 
 
-def create_directory(path: str) -> None:
-    os.makedirs(path, exist_ok=True)
-
-
 def get_mode(file_path: str) -> str:
     return "a" if os.path.exists(file_path) else "w"
 
@@ -31,7 +27,7 @@ def main() -> None:
     if "-d" in args:
         d_index = args.index("-d")
         dir_path = os.path.join(*args[d_index + 1:])
-        create_directory(dir_path)
+        os.makedirs(dir_path, exist_ok=True)
 
     if "-f" in args:
         f_index = args.index("-f")
