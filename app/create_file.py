@@ -33,8 +33,9 @@ def create_file() -> None:
         dirs = os.path.join(*create_path[index_d + 1: index_f])
         file_name = create_path[index_f + 1]
         path = os.path.join(dirs, file_name)
-        if not os.path.exists(dirs):
-            os.makedirs(dirs)
+        # if not os.path.exists(dirs):
+        #     os.makedirs(dirs)
+        os.makedirs(dirs, exist_ok=True)
         make_file(path)
 
     elif "-f" in create_path:
@@ -46,8 +47,7 @@ def create_file() -> None:
         index_d = create_path.index("-d")
         dirs = os.path.join(*create_path[index_d + 1:])
 
-        if not os.path.exists(dirs):
-            os.makedirs(dirs)
+        os.makedirs(dirs, exist_ok=True)
 
     else:
         raise InvalidCommandError("Invalid command specified")
