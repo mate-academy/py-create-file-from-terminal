@@ -8,7 +8,7 @@ def create_directory(path_ending: list[str]) -> None:
     os.makedirs(path, exist_ok=True)
 
 
-def create_file(filename, content_lines) -> None:
+def create_file(filename: str, content_lines: list[str]) -> None:
     content = f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n"
 
     for i, line in enumerate(content_lines, start=1):
@@ -36,14 +36,16 @@ def main() -> None:
         create_directory(directories)
 
     if filename:
-        filepath = os.path.join(*directories, filename) if directories else filename
         content_lines = []
         while True:
             line = input("Enter content line or type 'stop' to end: ")
             if line == "stop":
                 break
             content_lines.append(line)
-        create_file(filepath, content_lines)
+        create_file(
+            os.path.join(*directories, filename) if directories else filename,
+            content_lines
+        )
 
 
 if __name__ == "__main__":
