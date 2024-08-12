@@ -52,3 +52,7 @@ def main() -> None:
             "No valid flags provided."
             " Use -d for directories or -f for files"
         )
+
+
+if __name__ == "__main__":
+    main()
