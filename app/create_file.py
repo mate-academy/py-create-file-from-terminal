@@ -1,5 +1,5 @@
+import argparse
 import os
-import sys
 from datetime import datetime
 
 
@@ -9,7 +9,7 @@ def create_directory(path_ending: list[str]) -> None:
 
 
 def create_file(filename: str, content_lines: list[str]) -> None:
-    content = f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n'
+    content = f'\n{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n'
 
     for i, line in enumerate(content_lines, start=1):
         content += f"{i} {line}\n"
@@ -19,33 +19,25 @@ def create_file(filename: str, content_lines: list[str]) -> None:
 
 
 def main() -> None:
-    parts = sys.argv[1:]
-    directories = []
-    filename = ""
+    parser = argparse.ArgumentParser()
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("-d", nargs="+")
+    group.add_argument("-f")
 
-    while parts:
-        part = parts.pop(0)
-        if part == "-d":
-            while parts and parts[0] != "-f":
-                directories.append(parts.pop(0))
-        elif part == "-f":
-            if parts:
-                filename = parts.pop(0)
+    args = parser.parse_args()
 
-    if directories:
-        create_directory(directories)
+    if args.d:
+        create_directory(args.d)
 
-    if filename:
+    if args.f:
+        filepath = os.path.join(*args.d, args.f) if args.d else args.f
         content_lines = []
         while True:
             line = input("Enter content line or type 'stop' to end: ")
             if line == "stop":
                 break
             content_lines.append(line)
-        create_file(
-            os.path.join(*directories, filename) if directories else filename,
-            content_lines
-        )
+        create_file(filepath, content_lines)
 
 
 if __name__ == "__main__":
