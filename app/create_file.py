@@ -3,10 +3,6 @@ import sys
 import datetime
 
 
-def create_directory(path: str) -> None:
-    os.makedirs(path, exist_ok=True)
-
-
 def create_file(path_to_file: str) -> None:
     with open(path_to_file, "a") as file:
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -33,13 +29,13 @@ def main() -> None:
         file_name = command_args[index_f + 1:]
 
         dir_path = str(os.path.join(*direct))
-        create_directory(dir_path)
+        os.makedirs(dir_path, exist_ok=True)
 
         file_path = str(os.path.join(*file_name))
         create_file(file_path)
     elif "-d" in command_args:
         dir_path = str(os.path.join(*command_args[index_d + 1:]))
-        create_directory(dir_path)
+        os.makedirs(dir_path, exist_ok=True)
     elif "-f" in command_args:
         file_path = str(os.path.join(*command_args[index_f + 1:]))
         create_file(file_path)
