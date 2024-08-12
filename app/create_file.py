@@ -13,7 +13,7 @@ def create_file(file_path: str) -> None:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         f.write(f"\n{timestamp}\n")
 
-        print(f"(to stop the program write 'stop')")
+        print("(to stop the program write 'stop')")
         line_counter = 1
         while True:
             line = input("Enter content line: ")
