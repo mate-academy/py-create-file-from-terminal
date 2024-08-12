@@ -31,16 +31,12 @@ def write_content_to_file(path: str) -> None:
 
             new_line = input("Enter content line: ")
             if new_line == "stop":
+                lines.append("\n")
                 break
             lines.append(f"{str(num_line)} {new_line}\n")
             num_line += 1
 
-        file.seek(0)
-        content = file.read()
         date_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
-
-        if content:
-            date_str = "\n" + date_str
 
         file.write(date_str)
         file.writelines(lines)
@@ -50,14 +46,12 @@ def create_file() -> None:
     arr = sys.argv
 
     file_name = get_file_name(arr)
-    dir_path = "/".join(get_dirs(arr))
+    dir_path = os.path.join(*get_dirs(arr))
 
-    if not os.path.exists(dir_path):
-        os.makedirs(dir_path)
-    if file_name == "":
-        return
+    os.makedirs(dir_path, exist_ok=True)
 
-    write_content_to_file(f"{dir_path}/{file_name}")
+    if file_name != "":
+        write_content_to_file(os.path.join(dir_path, file_name))
 
 
 create_file()
