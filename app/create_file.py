@@ -1,37 +1,40 @@
+from datetime import datetime
 import os
 import sys
-from datetime import datetime
-
-list_args = sys.argv
 
 
 def write_file(path: str) -> None:
     with open(path, "w") as file:
         now = datetime.now().strftime("%Y-%m-%d  %H:%M:%S")
         index = 1
-        file.write(now)
+        file.write(f"{now}\n")
         while True:
             content = input("Enter content line: ")
             if content == "stop":
                 break
-            file.write(f"\n{index} Line {content}")
+            file.write(f"{index} Line {content}\n")
             index += 1
 
 
-if "-d" in list_args and "-f" in list_args:
-    file_index = list_args.index("-f")
-    dirs_list = list_args[list_args.index("-d") + 1:file_index]
+def create_dirs(args_list: str) -> str:
+    file_index = args_list.index("-f")
+    dirs_list = args_list[args_list.index("-d") + 1:file_index]
     dirs_path = os.path.join(*dirs_list)
     os.makedirs(dirs_path, exist_ok=True)
-    file_name = list_args[file_index + 1]
+    file_name = args_list[file_index + 1]
     file_path = os.path.join(dirs_path, file_name)
-    write_file(path=file_path)
+    print(type(file_path))
+    return file_path
 
-elif "-f" in list_args:
-    file_path = list_args[-1]
-    write_file(path=file_path)
 
-elif "-d" in list_args:
-    dirs_list = list_args[list_args.index("-d") + 1:]
-    dirs_path = os.path.join(*dirs_list)
-    os.makedirs(dirs_path, exist_ok=True)
+if __name__ == "__main__":
+    args = sys.argv
+    if "-d" in args and "-f" in args:
+        write_file(path=create_dirs(args))
+
+    elif "-f" in args:
+        write_file(path=args[-1])
+
+    elif "-d" in args:
+        dirs_path = os.path.join(*args[args.index("-d") + 1:])
+        os.makedirs(dirs_path, exist_ok=True)
