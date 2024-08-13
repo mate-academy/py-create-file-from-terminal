@@ -3,23 +3,19 @@ import sys
 from datetime import datetime
 
 
-def create_directory(directory_path: str) -> None:
-    os.makedirs(directory_path)
-    print(f"{directory_path} directory created.")
-
-
 def create_file(file_path: str) -> None:
-    with open(file_path, "a") as f:
+    with open(file_path, "a") as file:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        f.write(f"\n{timestamp}\n")
+        file.write(f"\n{timestamp}\n")
 
         print("(to stop the program write 'stop')")
         line_counter = 1
         while True:
             line = input("Enter content line: ")
             if line.lower() == "stop":
+                file.write("\n")
                 break
-            f.write(f"{line_counter} {line}\n")
+            file.write(f"{line_counter} {line}\n")
             line_counter += 1
 
     print(f"File {file_path} created successfully.")
@@ -38,8 +34,8 @@ def main() -> None:
         while dir_index < len(args):
             directory_parts.append(args[dir_index])
             dir_index += 1
-        directory_path = os.path.join(*directory_parts)
-        create_directory(directory_path)
+        os.makedirs(os.path.join(*directory_parts))
+        print(f"{directory_path} directory created.")
 
     if "-f" in args:
         file_index = args.index("-f") + 1
@@ -50,7 +46,7 @@ def main() -> None:
         else:
             raise ValueError("Please write a file name after '-f'.")
 
-    if not directory_path and "-f" not in args:
+    if not "-d" and "-f" not in args:
         raise ValueError("Neither '-d' nor '-f' flag provided.")
 
 
