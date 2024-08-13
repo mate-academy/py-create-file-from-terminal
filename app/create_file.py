@@ -5,18 +5,13 @@ from sys import argv as arguments
 
 
 def create_file(file_name: str) -> None:
-    if os.path.exists(file_name):
-        key = "a"
-    else:
-        key = "w"
-    with open(file_name, key) as writer:
-        if key == "a":
-            writer.write("\n")
+    with open(file_name, "a") as writer:
         writer.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         counter = 1
         while True:
             line = input("Enter content line: ")
             if line.lower() == "stop":
+                writer.write("\n")
                 break
             writer.write(str(counter) + " " + line + "\n")
             counter += 1
@@ -48,7 +43,8 @@ def create_file_from_console() -> None:
                     i += 1
                 except IndexError:
                     break
-            create_path("/".join(path_names))
+            full_path = os.path.join(*path_names)
+            create_path(full_path)
 
 
 create_file_from_console()
