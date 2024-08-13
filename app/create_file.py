@@ -16,10 +16,10 @@ def make_file(file_path: str) -> None:
             sys.argv = input("Enter content line: ")
             lines_list.append(sys.argv)
         for i in range(len(lines_list) - 1):
-            new_file.write("\n")
-            new_file.write(str(i + 1))
-            new_file.write(" ")
-            new_file.write(lines_list[i])
+            new_file.writelines("\n")
+            new_file.writelines(str(i + 1))
+            new_file.writelines(" ")
+            new_file.writelines(lines_list[i])
         new_file.write("\n")
 
 
@@ -33,8 +33,6 @@ def create_file() -> None:
         dirs = os.path.join(*create_path[index_d + 1: index_f])
         file_name = create_path[index_f + 1]
         path = os.path.join(dirs, file_name)
-        # if not os.path.exists(dirs):
-        #     os.makedirs(dirs)
         os.makedirs(dirs, exist_ok=True)
         make_file(path)
 
