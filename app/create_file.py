@@ -33,8 +33,9 @@ def create_file(path: str, file_name: str) -> None:
 
 def write_to_file(path_file: str, mode: str) -> None:
     with open(path_file, mode) as file:
-        file.write(f'{datetime.
-                   datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n')
+        file.write(
+            f'{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n'
+        )
         line_number = 1
         while True:
             text = input("Enter content line: ")
