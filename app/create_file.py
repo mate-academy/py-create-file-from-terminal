@@ -39,7 +39,12 @@ def main() -> None:
         d_index = sys.argv.index("-d")
         dir_parts = sys.argv[d_index + 1:]
 
-    if "-f" in sys.argv:
+        if "-f" in dir_parts:
+            f_index = dir_parts.index("-f")
+            file_name = dir_parts[f_index + 1]
+            dir_parts = dir_parts[:f_index]
+
+    elif "-f" in sys.argv:
         f_index = sys.argv.index("-f")
         file_name = sys.argv[f_index + 1]
 
