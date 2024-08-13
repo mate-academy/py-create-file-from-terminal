@@ -9,7 +9,7 @@ def create_directory(path_ending: list[str]) -> None:
 
 
 def create_file(filename: str, content_lines: list[str]) -> None:
-    content = f'\n{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n'
+    content = f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n'
 
     for i, line in enumerate(content_lines, start=1):
         content += f"{i} {line}\n"
@@ -35,6 +35,7 @@ def main() -> None:
         while True:
             line = input("Enter content line or type 'stop' to end: ")
             if line == "stop":
+                content_lines.append("\n")
                 break
             content_lines.append(line)
         create_file(filepath, content_lines)
