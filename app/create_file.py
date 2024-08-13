@@ -10,8 +10,7 @@ def create_dirs(sys_data: list, f_index: int) -> LiteralString | str | bytes:
         d_data = sys_data[d_index + 1: f_index]
     else:
         d_data = sys_data[d_index + 1:]
-    path_dirs = os.path.join(*d_data)
-    os.makedirs(path_dirs, exist_ok=True)
+    os.makedirs(os.path.join(*d_data), exist_ok=True)
     return os.path.join(*d_data, sys_data[f_index + 1])
 
 
