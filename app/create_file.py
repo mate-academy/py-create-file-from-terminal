@@ -5,11 +5,13 @@ import sys
 
 def get_user_input() -> list[str]:
     user_input = []
+    index = 1
     while True:
         content = input("Enter content line: ")
         if content == "stop":
             break
-        user_input.append(content)
+        user_input.append(f"{index} Line {content}\n")
+        index += 1
     return user_input
 
 
@@ -17,11 +19,8 @@ def write_file(path: str, content_lines: list[str]) -> None:
     try:
         with open(path, "a") as file:
             now = datetime.now().strftime("%Y-%m-%d  %H:%M:%S")
-            index = 1
             file.write(f"{now}\n")
-            for content in content_lines:
-                file.write(f"{index} Line {content}\n")
-                index += 1
+            file.writelines(content_lines)
             file.write("\n")
     except Exception as e:
         print(f"An Error while writing to file: {e}")
