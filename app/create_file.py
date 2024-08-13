@@ -22,14 +22,14 @@ def path_handler(file_name: str | None, path: str | None) -> None:
             print(f"You do not have permission: {e}")
 
 
-def get_file_output():
+def get_file_output() -> list:
     file_output = [f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"]
     file_output.extend(get_user_input())
     file_output.append("\n")
     return file_output
 
 
-def get_user_input():
+def get_user_input() -> list:
     lines = []
     n_line = 1
 
@@ -45,7 +45,7 @@ def get_user_input():
     return lines
 
 
-def get_arguments(args):
+def get_arguments(args: list) -> tuple:
     file_name = None
     path = None
 
