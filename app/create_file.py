@@ -6,7 +6,7 @@ from typing import LiteralString
 data = sys.argv[1:]
 
 
-def create_dirs(sys_data: list, f_index) -> LiteralString | str | bytes:
+def create_dirs(sys_data: list, f_index: int) -> LiteralString | str | bytes:
     d_index = sys_data.index("-d")
     if f_index > d_index:
         d_data = sys_data[d_index + 1: f_index]
