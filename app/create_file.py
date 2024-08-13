@@ -27,15 +27,14 @@ def process_flag(path_or_file_name: str, flag: str) -> None:
     if path_or_file_name:
         path = os.path.normpath(os.getcwd() + os.sep + path_or_file_name)
 
-        if not os.path.exists(path):
-            if flag == D_FLAG:
-                os.makedirs(path)
-            if flag == F_FLAG:
-                write_to_file(path, False)
-            return
+        if flag == D_FLAG:
+            os.makedirs(path, exist_ok=True)
 
         if flag == F_FLAG:
-            write_to_file(path, True)
+            non_empty = False
+            if os.path.exists(path):
+                non_empty = True
+            write_to_file(path, non_empty)
 
 
 def write_to_file(path: str, non_empty: bool) -> None:
