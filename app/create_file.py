@@ -1,16 +1,11 @@
-import sys
-import os
+import argparse
 import datetime
-
-
-def parsed_command() -> tuple[str, list]:
-    full_command = sys.argv
-    return full_command[1], full_command[2:]
+import os
 
 
 def create_file(
         name_of_the_file: str,
-        create_in_directory: list = None
+        create_in_directory: list
 ) -> None | Exception:
 
     first_line = datetime.datetime.now()
@@ -28,11 +23,12 @@ def create_file(
     line_num = 1
     while True:
         content = input("Enter content line: ")
-        if content == "stop":
-            break
 
         try:
             with open(name_of_the_file, "a") as editing_file:
+                if content == "stop":
+                    editing_file.write("\n")
+                    break
                 editing_file.write(f"{line_num} {content}\n")
                 line_num += 1
         except Exception as e_info:
@@ -47,29 +43,14 @@ def create_directory(path_to_implement: list) -> None:
         print(error_info)
 
 
-command, another_part_of_command = parsed_command()
+parser = argparse.ArgumentParser()
 
-if command == "-f":
-    create_file(another_part_of_command[0])
+parser.add_argument("-f", "--file_name")
+parser.add_argument("-d", "--dir_path", nargs="+")
 
-elif command == "-d":
-    path_to_create = []
+command = parser.parse_args()
 
-    for directory in another_part_of_command:
-        if directory != "-f":
-            path_to_create.append(directory)
-            continue
-        another_part_of_command = (
-            another_part_of_command
-            [another_part_of_command.index("-f"):]
-        )
-        break
-
-    create_directory(path_to_create)
-
-    if len(another_part_of_command) != 0:
-        command, file_to_create = another_part_of_command
-        if command == "-f":
-            create_file(file_to_create, path_to_create)
-    else:
-        print("Invalid command")
+if command.dir_path:
+    create_directory(command.dir_path)
+if command.file_name:
+    create_file(command.file_name, command.dir_path)
