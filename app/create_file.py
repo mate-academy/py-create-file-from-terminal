@@ -23,7 +23,7 @@ def path_handler(file_name: str | None, path: str | None) -> None:
 
 
 def get_file_output():
-    file_output = [f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n"]
+    file_output = [f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"]
     file_output.extend(get_user_input())
     file_output.append("\n")
     return file_output
