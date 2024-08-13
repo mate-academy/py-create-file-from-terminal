@@ -1,42 +1,43 @@
-import os
-
 import sys
-
-from datetime import datetime
-
-
-def get_content() -> list:
-    lines = []
-    while True:
-        line = input("Enter content line: ")
-        if line == "stop":
-            break
-        lines.append(line)
-    return lines
+import os
+import datetime
 
 
-def write_to_file(file_path: str, content_lines: list) -> None:
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with open(file_path, "a") as f:
-        f.write(f"{timestamp}\n")
-        for i, line in enumerate(content_lines, start=1):
-            f.write(f"{i} {line}\n")
+def get_command() -> None:
+    if "-d" in commamd and "-f" not in commamd:
+        path_dest = os.path.join(*commamd[commamd.index("-d") + 1:])
+        create_directory(path_dest)
+    if "-d" in commamd and "-f" in commamd:
+        index_f = commamd.index("-f")
+        path_dest = os.path.join(*commamd[commamd.index("-d") + 1:index_f])
+        create_directory(path_dest)
+        create_file(path_dest)
+    if "-f" in commamd and "-d" not in commamd:
+        create_file("")
 
 
-def main() -> None:
-    args = sys.argv[1:]
-    if "-d" in args:
-        d_index = args.index("-d")
-        directory = os.path.join(*args[d_index + 1:])
-        os.makedirs(directory, exist_ok=True)
+def create_directory(path: str) -> None:
+    os.makedirs(path, exist_ok=True)
 
-    if "-f" in args:
-        f_index = args.index("-f")
-        file_name = args[f_index + 1]
-        if "-d" in args:
-            file_path = os.path.join(directory, file_name)
-        else:
-            file_path = file_name
 
-    content_lines = get_content()
-    write_to_file(file_path, content_lines)
+def create_file(path: str) -> None:
+    path = os.path.join(path, commamd[-1])
+    mode = "a" if os.path.exists(path) else "w"
+    write_to_file(path, mode)
+
+
+def write_to_file(path_file: str, mode: str) -> None:
+    with open(path_file, mode) as file:
+        file.write(
+            f'{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n'
+        )
+        while True:
+            text = input("Enter content line: ")
+            if text == "stop":
+                break
+            file.write(f"{text}\n")
+
+
+commamd = sys.argv
+if __name__ == "__main__":
+    get_command()
