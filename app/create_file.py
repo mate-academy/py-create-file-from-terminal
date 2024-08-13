@@ -1,12 +1,13 @@
+import os
 import sys
 from datetime import datetime
 from pathlib import Path
 
 
 def create_directory(path: list) -> Path:
-    directory = Path(*path)
-    directory.mkdir(parents=True, exist_ok=True)
-    return directory
+    directory = os.path.join(*path)
+    os.makedirs(directory, exist_ok=True)
+    return Path(directory)
 
 
 def write_to_the_file(file_name: str) -> None:
