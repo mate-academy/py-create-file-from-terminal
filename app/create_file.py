@@ -20,6 +20,8 @@ def create_file(file_name: str, directory_name: str = None) -> None:
             file.write(f"Line{line} {text}\n")
             line += 1
 
+        file.write("\n")
+
 
 def main() -> None:
     parser = argparse.ArgumentParser()
