@@ -3,11 +3,11 @@ import os
 from datetime import datetime
 
 
-def create_directory(path):
+def create_directory(path: str) -> None:
     os.makedirs(path, exist_ok=True)
 
 
-def create_file(file_path):
+def create_file(file_path: str) -> None:
     with open(file_path, "a") as file:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         file.write(f"\n{timestamp}\n")
@@ -21,7 +21,7 @@ def create_file(file_path):
     print(f"File '{file_path}' created/updated successfully.")
 
 
-def parse_arguments():
+def parse_arguments() -> None:
     args = sys.argv[1:]
 
     if not args:
