@@ -3,8 +3,6 @@ import sys
 from datetime import datetime
 from typing import LiteralString
 
-data = sys.argv[1:]
-
 
 def create_dirs(sys_data: list, f_index: int) -> LiteralString | str | bytes:
     d_index = sys_data.index("-d")
@@ -34,7 +32,8 @@ def write_data(path: LiteralString | str | bytes) -> None:
         file.write(info_from_user)
 
 
-def create_file(sys_data: list) -> None:
+def create_file() -> None:
+    sys_data = sys.argv[1:]
     f_index = sys_data.index("-f")
     if "-d" in sys_data:
         path = create_dirs(sys_data, f_index)
@@ -44,4 +43,4 @@ def create_file(sys_data: list) -> None:
 
 
 if __name__ == "__main__":
-    create_file(data)
+    create_file()
