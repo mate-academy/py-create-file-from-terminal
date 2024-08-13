@@ -1,53 +1,42 @@
-import sys
 import os
+
+import sys
+
 from datetime import datetime
 
 
-def work_with_file(path: str) -> None:
-    with open(path, "a") as file:
-        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
-        counter = 1
-        while True:
-            text = input("Enter content line: ")
-            if text == "stop":
-                file.writelines("\n")
-                break
-            file.write(f"{counter} {text}\n")
-            counter += 1
+def get_content() -> list:
+    lines = []
+    while True:
+        line = input("Enter content line: ")
+        if line == "stop":
+            break
+        lines.append(line)
+    return lines
 
 
-def parse_arguments() -> tuple:
-    directory_name = ""
-    file_name = ""
-
-    if "-d" in sys.argv:
-        directory_name = (
-            os.path.join(*sys.argv[sys.argv.index("-d") + 1:])
-            if "-f" not in sys.argv
-            else os.path.join(
-                *sys.argv[sys.argv.index("-d") + 1: sys.argv.index("-f")]
-            )
-        )
-        if not os.path.isdir(directory_name):
-            os.makedirs(directory_name)
-
-    if "-f" in sys.argv:
-        file_name = sys.argv[sys.argv.index("-f") + 1]
-        if not directory_name:
-            directory_name = os.getcwd()
-
-    return directory_name, file_name
+def write_to_file(file_path: str, content_lines: list) -> None:
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    with open(file_path, "a") as f:
+        f.write(f"{timestamp}\n")
+        for i, line in enumerate(content_lines, start=1):
+            f.write(f"{i} {line}\n")
 
 
 def main() -> None:
-    directory_name, file_name = parse_arguments()
-    if file_name:
-        path_name = os.path.join(directory_name, file_name)
-        work_with_file(path_name)
-    else:
-        print("Filename not provided. "
-              "Use the -f option to specify the filename.")
+    args = sys.argv[1:]
+    if "-d" in args:
+        d_index = args.index("-d")
+        directory = os.path.join(*args[d_index + 1:])
+        os.makedirs(directory, exist_ok=True)
 
+    if "-f" in args:
+        f_index = args.index("-f")
+        file_name = args[f_index + 1]
+        if "-d" in args:
+            file_path = os.path.join(directory, file_name)
+        else:
+            file_path = file_name
 
-if __name__ == "__main__":
-    main()
+    content_lines = get_content()
+    write_to_file(file_path, content_lines)
