@@ -10,7 +10,7 @@ def create_directory(directories: list) -> None:
 
 
 def create_in_file(file_name: str) -> None:
-    with open(file_name, "w") as f:
+    with open(file_name, "a") as f:
         f.write(datetime.now().strftime("%Y.%m.%d %H:%M:%S"))
         line_numbers = 0
 
