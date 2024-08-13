@@ -1,13 +1,17 @@
 import sys
 import os
 import datetime
-from typing import Callable
+
+
+def parsed_command() -> tuple[str, list]:
+    full_command = sys.argv
+    return full_command[1], full_command[2:]
 
 
 def create_file(
         name_of_the_file: str,
         create_in_directory: list = None
-) -> None:
+) -> None | Exception:
 
     first_line = datetime.datetime.now()
 
@@ -15,42 +19,38 @@ def create_file(
         create_in_directory.append(name_of_the_file)
         name_of_the_file = os.path.join(*create_in_directory)
 
-    with open(name_of_the_file, "w") as creating_file:
-        creating_file.write(first_line.strftime("%Y-%m-%d %H:%M:%S\n"))
-        line_num = 1
-        while True:
-            content = input("Enter content line: ")
-            if len(content) == 0:
-                print("Cannot add empty line")
-                continue
-            if content == "stop":
-                break
-
-            creating_file.write(f"{line_num} {content}\n")
-            line_num += 1
-
-
-def create_path(func: Callable) -> Callable:
-    def inner(directories: list) -> None:
-        path = os.path.join(*directories)
-        func(path)
-
-    return inner
-
-
-@create_path
-def create_directory(path_to_implement: str) -> None:
     try:
-        os.makedirs(path_to_implement)
+        with open(name_of_the_file, "a") as creating_file:
+            creating_file.write(first_line.strftime("%Y-%m-%d %H:%M:%S\n"))
+    except Exception as e_info:
+        return e_info
+
+    line_num = 1
+    while True:
+        content = input("Enter content line: ")
+        if content == "stop":
+            break
+
+        try:
+            with open(name_of_the_file, "a") as editing_file:
+                editing_file.write(f"{line_num} {content}\n")
+                line_num += 1
+        except Exception as e_info:
+            return e_info
+
+
+def create_directory(path_to_implement: list) -> None:
+    try:
+        path = os.path.join(*path_to_implement)
+        os.makedirs(path, exist_ok=True)
     except OSError as error_info:
         print(error_info)
 
 
-full_command = sys.argv
-command, *another_part_of_command = full_command[1:]
+command, another_part_of_command = parsed_command()
 
 if command == "-f":
-    create_file(another_part_of_command)
+    create_file(another_part_of_command[0])
 
 elif command == "-d":
     path_to_create = []
@@ -71,3 +71,5 @@ elif command == "-d":
         command, file_to_create = another_part_of_command
         if command == "-f":
             create_file(file_to_create, path_to_create)
+    else:
+        print("Invalid command")
