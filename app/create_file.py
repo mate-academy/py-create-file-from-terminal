@@ -29,7 +29,7 @@ def write_data_into_file_if_exist(has_file: bool, file_name: str) -> None:
         expected_input = input("Enter content line: ")
         if expected_input == "stop":
             with open(file_name, "a") as file:
-                file.write(f"\n")
+                file.write("\n")
             break
 
         i += 1
