@@ -13,6 +13,9 @@ def create_path(path_dir: List[str]) -> str:
 
 def create_file(file_path: str) -> None:
     with open(file_path, "a") as source_file:
+        if os.path.getsize(file_path) > 0:
+            source_file.write("\n\n")
+
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         source_file.write(f"{timestamp}")
         line_number = 1
@@ -48,7 +51,6 @@ def main() -> None:
         f_index = sys.argv.index("-f")
         file_name = sys.argv[f_index + 1]
 
-        # Якщо `-d` йде після `-f`
         if "-d" in sys.argv and not dir_parts:
             d_index = sys.argv.index("-d")
             dir_parts = sys.argv[d_index + 1:]
