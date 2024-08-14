@@ -29,16 +29,14 @@ def create_file(file_name: str) -> Any:
 
 def main() -> None:
     command = sys.argv[1:]
-    if "-f" in command:
-        f_ind = command.index("-f")
-    if "-d" in command:
-        d_ind = command.index("-d")
+    f_ind = command.index("-f") if "-f" in command else None
+    d_ind = command.index("-d") if "-d" in command else None
 
-    if "-f" not in command:
+    if f_ind is None:
         make_directory(os.path.join(*command[d_ind + 1:]))
-    if "-d" not in command:
+    if d_ind is None:
         create_file(command[f_ind + 1])
-    elif "-d" and "-f" in command:
+    if d_ind is not None and f_ind is not None:
         if d_ind < f_ind:
             file_dir = make_directory(os.path.join(*command[d_ind + 1:f_ind]))
             file_path = os.path.join(file_dir, command[-1])
