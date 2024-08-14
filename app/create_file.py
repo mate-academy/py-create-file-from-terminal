@@ -14,13 +14,13 @@ def create_path(path_dir: List[str]) -> str:
 def create_file(file_path: str) -> None:
     with open(file_path, "a") as source_file:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        source_file.write(f"\n{timestamp}\n")
+        source_file.write(f"{timestamp}")
         line_number = 1
         while True:
-            content = input(f"Enter content line {line_number}: ")
+            content = input("Enter content line: ")
             if content.lower() == "stop":
                 break
-            source_file.write(f"{line_number} {content}\n")
+            source_file.write(f"\n{line_number} {content}")
             line_number += 1
 
 
@@ -44,9 +44,18 @@ def main() -> None:
             file_name = dir_parts[f_index + 1]
             dir_parts = dir_parts[:f_index]
 
-    elif "-f" in sys.argv:
+    if "-f" in sys.argv:
         f_index = sys.argv.index("-f")
         file_name = sys.argv[f_index + 1]
+
+        # Якщо `-d` йде після `-f`
+        if "-d" in sys.argv and not dir_parts:
+            d_index = sys.argv.index("-d")
+            dir_parts = sys.argv[d_index + 1:]
+
+            if "-f" in dir_parts:
+                f_index = dir_parts.index("-f")
+                dir_parts = dir_parts[:f_index]
 
     if dir_parts:
         dir_path = create_path(dir_parts)
@@ -59,7 +68,3 @@ def main() -> None:
 
     if file_name:
         create_file(file_path)
-
-
-if __name__ == "__main__":
-    main()
