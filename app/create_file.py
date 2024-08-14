@@ -9,35 +9,41 @@ def create_directory(directories: list) -> None:
     os.makedirs(path, exist_ok=True)
 
 
-def create_in_file(file_name: str) -> None:
-    with open(file_name, "a") as f:
-        f.write(datetime.now().strftime("%Y.%m.%d %H:%M:%S"))
-        line_numbers = 0
+def collect_user_input() -> list[str]:
+    lines = []
+    line_numbers = 0
 
-        while True:
-            input_user = input("Enter content line: ")
-            if input_user == "stop":
-                f.write("\n")
-                break
-            line_numbers += 1
-            f.write(f"{line_numbers} {input_user}\n")
+    while True:
+        input_user = input("Enter content line: ")
+        if input_user.lower() == "stop":
+            break
+        line_numbers += 1
+        lines.append(f"{line_numbers} {input_user}\n")
+
+    return lines
+
+
+def create_in_file(file_name: str) -> None:
+    lines = collect_user_input()
+
+    with open(file_name, "a") as file:
+        file.write(datetime.now().strftime("%Y.%m.%d %H:%M:%S\n"))
+        file.writelines(lines)
+        file.write("\n")
 
 
 def parse_args(args: list) -> dict:
     new_dict = {"-d": [], "-f": None}
-    i = 0
-    while i < len(args):
-        if args[i] == "-f":
-            if i + 1 < len(args):
-                new_dict["-f"] = args[i + 1]
-                i += 1
-        elif args[i] == "-d":
-            index = i + 1
-            while index < len(args) and not args[index].startswith("-"):
-                new_dict["-d"].append(args[index])
-                index += 1
-            i = index - 1
-        i += 1
+    if "-f" in args.index("-f"):
+        f_index = args.index("-f")
+        if f_index + 1 < len(args):
+            new_dict["-f"] = args[f_index + 1]
+
+    if "-d" in args.index("-d"):
+        d_index = args.index("-d")
+        new_dict["-d"] = args[d_index + 1:
+                              args.index("-f") if "f" in args
+                              and args.index("-f") > d_index else len(args)]
 
     return new_dict
 
@@ -45,14 +51,13 @@ def parse_args(args: list) -> dict:
 def main() -> None:
     directories, file_name = parse_args(sys.argv[1:])
 
-    if file_name and directories:
+    if directories:
         create_directory(directories)
-        full_name = os.path.join(*directories, file_name)
-        create_in_file(full_name)
+        if file_name:
+            full_name = os.path.join(*directories, file_name)
+            create_in_file(full_name)
     elif file_name:
         create_in_file(file_name)
-    elif directories:
-        create_directory(directories)
 
 
 if __name__ == "__main__":
