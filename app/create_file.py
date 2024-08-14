@@ -1,5 +1,5 @@
+import argparse
 import os
-import sys
 from datetime import datetime
 
 
@@ -22,32 +22,24 @@ def create_file(file_path: str) -> None:
 
 
 def main() -> None:
-    directory_path = ""
-    args = sys.argv[1:]
-    if not args:
-        raise ValueError("No arguments provided. Use '-d' to create "
-                         "directories or '-f' to create a file.")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--dir", nargs="*", help="Directory path")
+    parser.add_argument("-f", "--file", help="File path")
+    args = parser.parse_args()
 
-    if "-d" in args:
-        dir_index = args.index("-d") + 1
-        directory_parts = []
-        while dir_index < len(args):
-            directory_parts.append(args[dir_index])
-            dir_index += 1
-        os.makedirs(os.path.join(*directory_parts))
+    directory_path = ""
+
+    if args.dir:
+        directory_path = os.path.join(*args.dir)
+        os.makedirs(directory_path)
         print(f"{directory_path} directory created.")
 
-    if "-f" in args:
-        file_index = args.index("-f") + 1
-        if file_index < len(args):
-            file_name = args[file_index]
-            file_path = os.path.join(directory_path, file_name)
-            create_file(file_path)
-        else:
-            raise ValueError("Please write a file name after '-f'.")
+    if args.file:
+        file_path = os.path.join(directory_path, args.file)
+        create_file(file_path)
 
-    if not "-d" and "-f" not in args:
-        raise ValueError("Neither '-d' nor '-f' flag provided.")
+    if not args.dir and not args.file:
+        parser.error("Neither '-d' nor '-f' flag provided.")
 
 
 if __name__ == "__main__":
