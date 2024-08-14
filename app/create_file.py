@@ -1,10 +1,6 @@
-import sys
 import os
 from datetime import datetime
-
-
-def create_directory(path: str) -> None:
-    os.makedirs(path, exist_ok=True)
+import argparse
 
 
 def create_file(file_path: str) -> None:
@@ -22,40 +18,38 @@ def create_file(file_path: str) -> None:
 
 
 def parse_arguments() -> None:
-    args = sys.argv[1:]
+    parser = argparse.ArgumentParser(
+        description="Create or update a file in specified directory."
+    )
+    parser.add_argument(
+        "-d",
+        "--directories",
+        nargs="*",
+        help="Directories where the file should be created"
+    )
+    parser.add_argument(
+        "-f",
+        "--file",
+        help="Name of the file to create or update"
+    )
 
-    if not args:
-        print("Use: python create_file.py -d dir1 dir2 [-f filename.txt]")
+    args = parser.parse_args()
+
+    if not args.directories and not args.file:
+        parser.print_usage()
         return
 
-    if "-d" in args and "-f" in args:
-        d_index = args.index("-d")
-        f_index = args.index("-f")
-        path_parts = args[d_index + 1:f_index]
-        file_name = args[f_index + 1]
-
-    elif "-d" in args:
-        d_index = args.index("-d")
-        path_parts = args[d_index + 1:]
-        file_name = None
-
-    elif "-f" in args:
-        f_index = args.index("-f")
-        file_name = args[f_index + 1]
-        path_parts = []
-
+    if args.directories:
+        path = os.path.join(*args.directories)
+        os.makedirs(path, exist_ok=True)
     else:
-        print("Use: python create_file.py -d dir1 dir2 -f filename.txt")
-        return
+        path = ""
 
-    path = os.path.join(*path_parts)
-
-    if path_parts:
-        create_directory(path)
-
-    if file_name:
-        file_path = os.path.join(str(path), file_name) if path else file_name
+    if args.file:
+        file_path = os.path.join(str(path), args.file) if path else args.file
         create_file(file_path)
+    else:
+        print("File name not provided.")
 
 
 if __name__ == "__main__":
