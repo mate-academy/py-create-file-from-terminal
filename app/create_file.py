@@ -3,7 +3,7 @@ import sys
 from datetime import datetime
 
 
-def create_dirs(d_path) -> None:
+def create_dirs(d_path: str) -> None:
     os.makedirs(d_path, exist_ok=True)
 
 
@@ -22,8 +22,8 @@ def collect_data() -> str:
     return "".join(info)
 
 
-def write_data(file: str, path: str = None) -> bool:
-    file_path = os.path.join(path, file) if path else file
+def write_data(file_name: str, path: str = None) -> bool:
+    file_path = os.path.join(path, file_name) if path else file_name
     data_from_user = collect_data()
     try:
         with open(file_path, "a") as file:
