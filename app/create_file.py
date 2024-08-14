@@ -1,54 +1,63 @@
-import sys
 import os
 from datetime import datetime
+from typing import List
 
 
 class InvalidCommandError(Exception):
     pass
 
 
+def collecting_user_input(file_name: str) -> None:
+    current_date = datetime.now()
+    file_name.write(current_date.strftime("%Y-%m-%d % %H:%M:%S"))
+    lines_list = []
+    while True:
+        input_lines = input("Enter content line: ")
+        if input_lines == "stop":
+            break
+        lines_list.append(input_lines)
+    for i in range(len(lines_list)):
+        file_name.write("\n")
+        file_name.write(str(i + 1))
+        file_name.write(" ")
+        file_name.write(lines_list[i])
+    file_name.write("\n")
+
+
 def make_file(file_path: str) -> None:
-    with open(file_path, "a") as new_file:
-        current_date = datetime.now()
-        new_file.write(current_date.strftime("%Y-%m-%d % %H:%M:%S"))
-        lines_list = []
-        while sys.argv != "stop":
-            sys.argv = input("Enter content line: ")
-            lines_list.append(sys.argv)
-        for i in range(len(lines_list) - 1):
-            new_file.writelines("\n")
-            new_file.writelines(str(i + 1))
-            new_file.writelines(" ")
-            new_file.writelines(lines_list[i])
-        new_file.write("\n")
+    try:
+        with open(file_path, "a") as new_file:
+            collecting_user_input(new_file)
+    except Exception:
+        print("Invalid file path")
 
 
-def create_file() -> None:
-    create_path = input()
-    create_path = create_path.split()
+def parsing_args(entered_command: List[str]) -> None:
+    dirs = ""
 
-    if "-d" in create_path and "-f" in create_path:
-        index_d = create_path.index("-d")
-        index_f = create_path.index("-f")
-        dirs = os.path.join(*create_path[index_d + 1: index_f])
-        file_name = create_path[index_f + 1]
-        path = os.path.join(dirs, file_name)
+    if "-d" in entered_command:
+        index_d = entered_command.index("-d")
+        dirs = os.path.join(
+            *entered_command[
+                index_d + 1: entered_command.index("-f")
+                if "-f" in entered_command else None
+            ]
+        )
         os.makedirs(dirs, exist_ok=True)
-        make_file(path)
 
-    elif "-f" in create_path:
-        index_f = create_path.index("-f")
-        file_name = create_path[index_f + 1]
+    if "-f" in entered_command:
+        index_f = entered_command.index("-f")
+        file_name = entered_command[index_f + 1]
+        if len(dirs) != 0:
+            file_name = os.path.join(dirs, file_name)
         make_file(file_name)
 
-    elif "-d" in create_path:
-        index_d = create_path.index("-d")
-        dirs = os.path.join(*create_path[index_d + 1:])
-
-        os.makedirs(dirs, exist_ok=True)
-
-    else:
+    if "-d" not in entered_command and "-f" not in entered_command:
         raise InvalidCommandError("Invalid command specified")
 
 
-create_file()
+def create_file() -> None:
+    entered_command = input("Enter your command: ")
+    entered_command = entered_command.strip()
+    entered_command = entered_command.split()
+    parsing_args(entered_command)
