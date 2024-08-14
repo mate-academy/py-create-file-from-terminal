@@ -1,10 +1,11 @@
+import argparse
 import os
 import sys
 from datetime import datetime
 
 
-def create_dirs(d_path: str) -> None:
-    os.makedirs(d_path, exist_ok=True)
+def create_dirs(d_path: list) -> None:
+    os.makedirs(os.path.join(*d_path), exist_ok=True)
 
 
 def collect_data() -> str:
@@ -22,8 +23,8 @@ def collect_data() -> str:
     return "".join(info)
 
 
-def write_data(file_name: str, path: str = None) -> bool:
-    file_path = os.path.join(path, file_name) if path else file_name
+def write_data(file_name: str, path: list = None) -> bool:
+    file_path = os.path.join(*path, file_name) if path else file_name
     data_from_user = collect_data()
     try:
         with open(file_path, "a") as file:
@@ -35,35 +36,18 @@ def write_data(file_name: str, path: str = None) -> bool:
         return True
 
 
-def parse_argv(arg: list) -> tuple | None:
-    f_flag = None
-    d_flag = None
-    file_name = ""
-    dir_path = ""
-    if "-f" in arg:
-        f_flag = True
-        f_index = arg.index("-f")
-    if "-d" in arg:
-        d_flag = True
-        d_index = arg.index("-d")
-    if f_flag:
-        if d_flag:
-            dir_path = os.path.join(
-                *arg[d_index + 1:f_index]
-            ) if f_index > d_index else os.path.join(
-                *arg[d_index + 1:]
-            )
-        file_name = arg[f_index + 1]
-    else:
-        if d_flag:
-            dir_path = os.path.join(
-                *arg[d_index + 1:]
-            )
+def parse_argv() -> tuple | None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-f", "--file_name", type=str)
+    parser.add_argument("-d", "--dir_path", type=str, nargs="+")
+    sys_args = parser.parse_args()
+    file_name = sys_args.file_name if sys_args.file_name else None
+    dir_path = sys_args.dir_path if sys_args.dir_path else None
     return file_name, dir_path
 
 
 def create_file() -> None:
-    file, dirs = parse_argv(sys.argv[1:])
+    file, dirs = parse_argv()
     if file:
         if dirs:
             create_dirs(dirs)
