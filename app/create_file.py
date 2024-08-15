@@ -19,7 +19,6 @@ def collecting_user_input(file_name: str, file_path: str) -> None:
             break
         lines_list.append(input_lines)
 
-
     for i in range(len(lines_list)):
         file_name.writelines("\n")
         file_name.writelines(str(i + 1))
@@ -65,5 +64,3 @@ def create_file() -> None:
     entered_command = entered_command.strip()
     entered_command = entered_command.split()
     parsing_args(entered_command)
-
-create_file()
