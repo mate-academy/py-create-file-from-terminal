@@ -1,83 +1,44 @@
-import sys
+import datetime
 import os
-from datetime import datetime
-from typing import List, Tuple
+import sys
 
 
-def parse_arguments() -> Tuple[List[str], str]:
-    args = sys.argv[1:]
-    directories = []
-    file_name = None
-
-    if "-d" in args:
-        d_index = args.index("-d")
-        directories = args[d_index + 1:args.index("-f")]\
-            if ("-f" in args) else args[d_index + 1:]
-
-    if "-f" in args:
-        f_index = args.index("-f")
-        file_name = args[f_index + 1]
-
-    return directories, file_name
+def create_dir(directories: list) -> None:
+    path_to_file = os.path.join(*directories)
+    os.makedirs(path_to_file, exist_ok=True)
 
 
-def create_directories(
-        directories: List[str]
-) -> str:
-    if directories:
-        dir_path = os.path.join(*directories)
-        os.makedirs(dir_path, exist_ok=True)
-        return dir_path
-
-    return ""
-
-
-def get_file_content() -> List[str]:
-    content_lines = []
-
-    while True:
-        line = input("Enter content line: ")
-        if line.strip().lower() == "stop":
-            break
-        content_lines.append(line)
-
-    return content_lines
+def create_new_file(new_file: str) -> None:
+    with open(new_file, "a") as result_file:
+        creation_time = datetime.datetime.now()
+        counter = 1
+        result_file.write(f"{creation_time.strftime('%Y-%m-%d %H:%M:%S')}\n")
+        while True:
+            new_text_line = input("Enter additional "
+                                  "text line or enter 'stop' to stop:_ ")
+            if new_text_line != "stop":
+                result_file.write(f"{counter} {new_text_line}\n")
+                counter += 1
+            else:
+                result_file.write("\n")
+                break
 
 
-def format_content(
-        content_lines: List[str]
-) -> Tuple[str, List[str]]:
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    numbered_lines = [f"{i + 1} {line}" for i, line
-                      in enumerate(content_lines)]
-    return timestamp, numbered_lines
+def create_file() -> None:
+    command = sys.argv
 
+    d_index = command.index("-d") if "-d" in command else None
+    f_index = command.index("-f") if "-f" in command else None
 
-def write_to_file(
-        file_path: str,
-        timestamp: str,
-        content_lines: List[str]
-) -> None:
-    file_exists = os.path.exists(file_path)
+    dirs = command[d_index + 1: f_index] if d_index is not None else []
+    new_file = os.path.join(*dirs, command[-1]) if "-f" in command else None
 
-    with open(file_path, "a") as f:
-        if file_exists:
-            f.write("\n")
-        f.write(timestamp + "\n")
-        for line in content_lines:
-            f.write(line + "\n")
+    if dirs:
+        create_dir(dirs)
 
-
-def main() -> None:
-    directories, file_name = parse_arguments()
-    dir_path = create_directories(directories)
-
-    if file_name:
-        file_path = os.path.join(dir_path, file_name)
-        content_lines = get_file_content()
-        timestamp, formatted_content = format_content(content_lines)
-        write_to_file(file_path, timestamp, formatted_content)
+    if new_file:
+        create_new_file(new_file)
 
 
 if __name__ == "__main__":
-    main()
+    create_file()
