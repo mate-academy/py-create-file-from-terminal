@@ -1,44 +1,40 @@
-import datetime
 import os
 import sys
+import argparse
+from datetime import datetime
 
 
-def create_dir(directories: list) -> None:
-    path_to_file = os.path.join(*directories)
-    os.makedirs(path_to_file, exist_ok=True)
+argument_parser = argparse.ArgumentParser()
+argument_parser.add_argument("-d", nargs=argparse.ZERO_OR_MORE)
+argument_parser.add_argument("-f", nargs=argparse.OPTIONAL)
 
 
-def create_new_file(new_file: str) -> None:
-    with open(new_file, "a") as result_file:
-        creation_time = datetime.datetime.now()
-        counter = 1
-        result_file.write(f"{creation_time.strftime('%Y-%m-%d %H:%M:%S')}\n")
-        while True:
-            new_text_line = input("Enter additional "
-                                  "text line or enter 'stop' to stop:_ ")
-            if new_text_line != "stop":
-                result_file.write(f"{counter} {new_text_line}\n")
-                counter += 1
-            else:
-                result_file.write("\n")
-                break
+def main(args: list[str]) -> None:
+    args = argument_parser.parse_args(args)
 
+    if args.d:
+        full_path = os.path.join(*args.d)
+        os.makedirs(full_path, exist_ok=True)
+    else:
+        full_path = ""
 
-def create_file() -> None:
-    command = sys.argv
+    if not args.f:
+        return
 
-    d_index = command.index("-d") if "-d" in command else None
-    f_index = command.index("-f") if "-f" in command else None
+    full_path = os.path.join(full_path, args.f)
+    add_extra_newline = os.path.isfile(full_path)
+    with open(full_path, "a") as file:
+        if add_extra_newline:
+            file.write("\n")
 
-    dirs = command[d_index + 1: f_index] if d_index is not None else []
-    new_file = os.path.join(*dirs, command[-1]) if "-f" in command else None
+        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
 
-    if dirs:
-        create_dir(dirs)
-
-    if new_file:
-        create_new_file(new_file)
+        line_counter = 1
+        while (line := input("Enter content line: ")) != "stop":
+            file.write(f"{line_counter} {line}\n")
+            line_counter += 1
+        file.write("\n")
 
 
 if __name__ == "__main__":
-    create_file()
+    main(sys.argv[1:])
