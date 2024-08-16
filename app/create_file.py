@@ -4,9 +4,15 @@ import argparse
 
 
 def create_file(file_path: str) -> None:
-    with open(file_path, "a") as file:
+    with open(file_path, "a+") as file:
+        file.seek(0)
+
+        if file.read(1):
+            file.write("\n")
+
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        file.write(f"\n{timestamp}\n")
+        file.write(f"{timestamp}\n")
+
         line_number = 1
         while True:
             line = input("Enter content line: ")
@@ -14,6 +20,7 @@ def create_file(file_path: str) -> None:
                 break
             file.write(f"{line_number} {line}\n")
             line_number += 1
+
     print(f"File '{file_path}' created/updated successfully.")
 
 
