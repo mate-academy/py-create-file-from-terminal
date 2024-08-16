@@ -3,30 +3,38 @@ from datetime import datetime
 import argparse
 
 
-def create_file(file_path: str) -> None:
-    with open(file_path, "a+") as file:
-        file.seek(0)
+def collect_user_input() -> list:
+    lines = []
+    line_number = 1
+    while True:
+        line = input("Enter content line: ")
+        if line.strip().lower() == "stop":
+            break
+        lines.append(f"{line_number} {line}\n")
+        line_number += 1
+    return lines
 
-        if file.read(1):
-            file.write("\n")
 
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        file.write(f"{timestamp}\n")
+def create_file(file_path: str, lines: list) -> None:
+    try:
+        with open(file_path, "a+") as file:
+            file.seek(0)
 
-        line_number = 1
-        while True:
-            line = input("Enter content line: ")
-            if line.strip().lower() == "stop":
-                break
-            file.write(f"{line_number} {line}\n")
-            line_number += 1
+            if file.read(1):
+                file.write("\n")
 
-    print(f"File '{file_path}' created/updated successfully.")
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            file.write(f"{timestamp}\n")
+
+            file.writelines(lines)
+
+    except IOError as e:
+        print(f"Error occurred while working with the file: {e}")
 
 
 def parse_arguments() -> None:
     parser = argparse.ArgumentParser(
-        description="Create or update a file in specified directory."
+        description="Create or update a file in the specified directory."
     )
     parser.add_argument(
         "-d",
@@ -54,7 +62,8 @@ def parse_arguments() -> None:
 
     if args.file:
         file_path = os.path.join(str(path), args.file) if path else args.file
-        create_file(file_path)
+        lines = collect_user_input()
+        create_file(file_path, lines)
     else:
         print("File name not provided.")
 
