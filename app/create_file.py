@@ -1,4 +1,5 @@
 import os
+import sys
 from datetime import datetime
 from typing import List
 
@@ -7,30 +8,24 @@ class InvalidCommandError(Exception):
     pass
 
 
-def collecting_user_input(file_name: str, file_path: str) -> None:
-    if os.path.getsize(file_path) > 0:
-        file_name.write("\n")
+def collecting_user_input(file_name: str) -> None:
     current_date = datetime.now()
-    file_name.write(current_date.strftime("%Y-%m-%d % %H:%M:%S"))
+    file_name.write(current_date.strftime("%Y-%m-%d %H:%M:%S"))
+
     lines_list = []
     while True:
         input_lines = input("Enter content line: ")
-        if input_lines == "stop":
+        if input_lines.lower() == "stop":
             break
-        lines_list.append(input_lines)
+        lines_list.append(f"{len(lines_list) + 1} {input_lines}")
 
-    for i in range(len(lines_list)):
-        file_name.writelines("\n")
-        file_name.writelines(str(i + 1))
-        file_name.writelines(" ")
-        file_name.writelines(lines_list[i])
-    file_name.write("\n")
+    file_name.writelines("\n" + "\n".join(lines_list) + "\n" + "\n")
 
 
 def make_file(file_path: str) -> None:
     try:
         with open(file_path, "a") as new_file:
-            collecting_user_input(new_file, file_path)
+            collecting_user_input(new_file)
     except Exception:
         print("Invalid file path")
 
@@ -60,7 +55,5 @@ def parsing_args(entered_command: List[str]) -> None:
 
 
 def create_file() -> None:
-    entered_command = input()
-    entered_command = entered_command.strip()
-    entered_command = entered_command.split()
+    entered_command = sys.argv
     parsing_args(entered_command)
