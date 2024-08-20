@@ -41,11 +41,8 @@ def main() -> None:
 
     if args.dir:
         directory_path = os.path.join(*args.dir)
-        try:
-            os.makedirs(directory_path)
-            print(f"{directory_path} directory created.")
-        except FileExistsError:
-            print(f"{directory_path} directory already exists.")
+        os.makedirs(directory_path, exist_ok=True)
+        print(f"{directory_path} directory created.")
 
     if args.file:
         file_path = os.path.join(directory_path, args.file)
