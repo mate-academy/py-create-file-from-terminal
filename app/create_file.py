@@ -1,6 +1,5 @@
 import os
 import sys
-import time
 from datetime import datetime
 
 
@@ -26,7 +25,7 @@ def create_content(file_path: str) -> None:
         line_number += 1
 
 
-def main():
+def main() -> None:
     args = sys.argv[1:]
     if "-d" in args:
         dir_index = args.index("-d") + 1
