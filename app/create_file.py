@@ -26,7 +26,8 @@ if is_path:
 
 if is_file:
     with open(os.path.join(path, is_file), "a") as file:
-        file.write(f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")} \n")
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(f"{current_time} \n")
         num_line = 0
         while True:
             content = input("Enter content line: ")
