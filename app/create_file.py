@@ -6,6 +6,7 @@ from datetime import datetime
 type_elem = ""
 is_path = []
 is_file = ""
+path = ""
 for elem in sys.argv:
     if elem == "-d":
         type_elem = "path"
@@ -16,20 +17,21 @@ for elem in sys.argv:
     if type_elem == "path":
         is_path.append(elem)
     if type_elem == "file":
-        file_name = elem
+        is_file = elem
 
 if is_path:
-    path = os.path.join(is_path)
+    path = os.path.join(*is_path)
     if not os.path.exists(path):
         os.makedirs(path)
 
 if is_file:
-    with open(is_file, "w") as file:
-        file.write(datetime.now().strftime())
-        content = input("Enter content line: ")
-        num_line = 1
+    with open(os.path.join(path, is_file), "a") as file:
+        file.write(f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")} \n")
+        num_line = 0
         while True:
+            content = input("Enter content line: ")
+            num_line += 1
             if content == "stop":
-                file.write("")
+                file.write("\n")
                 break
-            file.write(f"{num_line} {content}")
+            file.write(f"{num_line} {content} \n")
