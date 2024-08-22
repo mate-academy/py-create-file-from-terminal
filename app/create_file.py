@@ -4,7 +4,7 @@ import sys
 from datetime import datetime
 
 
-def create_directory(path_parts: str) -> None:
+def create_directory(path_parts: list) -> None:
     path = os.path.join(*path_parts)
     os.makedirs(path, exist_ok=True)
     print(f"Directory '{path}' created or already exists.")
@@ -13,8 +13,6 @@ def create_directory(path_parts: str) -> None:
 def create_file(file_path: str) -> None:
     if os.path.exists(file_path):
         append_mode = "a"
-    else:
-        append_mode = "w"
 
     with open(file_path, append_mode) as f:
         if append_mode == "a":
@@ -23,9 +21,10 @@ def create_file(file_path: str) -> None:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         f.write(f"{timestamp}\n")
 
-        line_number = sum(
-            1 for line in open(file_path)
-        ) + 1 if append_mode == "a" else 1
+        with open(file_path, "r") as file_read:
+            line_number = sum(
+                1 for line in file_read
+            ) + 1 if append_mode == "a" else 1
 
         while True:
             line = input("Enter content line: ")
@@ -63,10 +62,8 @@ def main() -> None:
         create_directory(path_parts)
 
     if file_name:
-        create_file(
-            os.path.join(*path_parts)
-            if path_parts else ".", file_name
-        )
+        file_path = os.path.join(*path_parts, file_name) if path_parts else file_name
+        create_file(file_path)
 
 
 if __name__ == "__main__":
