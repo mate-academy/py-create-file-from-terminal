@@ -62,7 +62,9 @@ def main() -> None:
         create_directory(path_parts)
 
     if file_name:
-        file_path = os.path.join(*path_parts, file_name) if path_parts else file_name
+        file_path = os.path.join(
+            *path_parts, file_name
+        ) if path_parts else file_name
         create_file(file_path)
 
 
