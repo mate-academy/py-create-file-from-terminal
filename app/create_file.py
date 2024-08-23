@@ -4,26 +4,27 @@ from argparse import Namespace
 from datetime import datetime
 
 
-def datetime_collect() -> str:
-    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+def collect_data() -> list:
+    lines = []
+    line_counter = 1
+    while True:
+        line = input("Enter content line: ")
+        if line.lower() == "stop":
+            lines.append("\n")
+            break
+        lines.append(f"{line_counter} {line}\n")
+        line_counter += 1
+    return lines
 
 
 def create_file(file_path: str) -> None:
     try:
+        lines = collect_data()
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         with open(file_path, "a") as file:
-            timestamp = datetime_collect()
             file.write(f"{timestamp}\n")
-            line_counter = 1
-            while True:
-                line = input("Enter content line: ")
-                if line.lower() == "stop":
-                    file.write("\n")
-                    break
-                file.write(f"{line_counter} {line}\n")
-                line_counter += 1
-
-        print(f"File {file_path} created/ updated successfully.")
-    except IOError as e:
+            file.writelines(lines)
+    except OSError as e:
         print(f"Error: {e} while work with file")
 
 
