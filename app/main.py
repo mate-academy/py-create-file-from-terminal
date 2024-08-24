@@ -28,7 +28,7 @@ def create_content(file_name: str) -> None:
 def main() -> None:
     args = sys.argv[1:]
     if not args:
-        print("No arguments provided. Use '-d' for directory and '-f' for file.")
+        print("Use '-d' for directory and '-f' for file.")
         return
 
     path_parts = []
@@ -63,7 +63,8 @@ def main() -> None:
         create_path(path_parts)
 
     if file_name:
-        file_path = os.path.join(*path_parts, file_name) if path_parts else file_name
+        file_path = os.path.join(*path_parts, file_name)\
+            if path_parts else file_name
         create_content(file_path)
 
 
