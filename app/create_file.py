@@ -25,21 +25,29 @@ def create_file(name_file: str) -> Any:
             exist_file.write(f"{i + 1} {line} \n")
         exist_file.write("\n")
 
-    data_file = sys.argv[1:]
-    print(data_file)
 
-    if "-f" in data_file and "-d" in data_file:
-        if data_file.index("-d") < data_file.index("-f"):
-            dir_path = make_directory(os.path.join(*data_file[1:3]))
-            file_path = os.path.join(dir_path, data_file[-1])
+def parse_arguments(args):
+    if "-f" in args and "-d" in args:
+        d_index = args.index("-d")
+        f_index = args.index("-f")
+
+        if d_index < f_index:
+            dir_path = make_directory(os.path.join(*args[d_index + 1:f_index]))
+            file_path = os.path.join(dir_path, args[-1])
         else:
-            dir_path = make_directory(os.path.join(*data_file[3:]))
-            file_path = os.path.join(dir_path, data_file[1])
+            dir_path = make_directory(os.path.join(*args[f_index + 1:]))
+            file_path = os.path.join(dir_path, args[d_index + 1])
+
         create_file(file_path)
-    elif "-f" in data_file:
-        create_file(data_file[-1])
-    elif "-d" in data_file:
-        make_directory(os.path.join(*data_file[1:]))
+    elif "-f" in args:
+        create_file(args[-1])
+    elif "-d" in args:
+        make_directory(os.path.join(*args[args.index("-d") + 1:]))
     else:
-        print("Invalid arguments. Please provide"
-              " '-d' for directory or '-f' for file.")
+        print("Invalid arguments. Please provide '-d' for directory or '-f' for file.")
+
+
+def main():
+    args = sys.argv[1:]
+    print(args)
+    parse_arguments(args)
