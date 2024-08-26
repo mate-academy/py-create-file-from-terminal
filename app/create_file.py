@@ -25,8 +25,6 @@ def create_file(name_file: str) -> Any:
             exist_file.write(f"{i + 1} {line} \n")
         exist_file.write("\n")
 
-
-def main():
     data_file = sys.argv[1:]
     print(data_file)
 
@@ -43,4 +41,5 @@ def main():
     elif "-d" in data_file:
         make_directory(os.path.join(*data_file[1:]))
     else:
-        print("Invalid arguments. Please provide '-d' for directory or '-f' for file.")
+        print("Invalid arguments. Please provide"
+              " '-d' for directory or '-f' for file.")
