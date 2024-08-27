@@ -1,15 +1,15 @@
 import sys
 import os
 import datetime
-from typing import Any
+from typing import Optional, List
 
 
-def make_directory(name_dir: str) -> Any:
+def make_directory(name_dir: str) -> str:
     os.makedirs(name_dir, exist_ok=True)
     return name_dir
 
 
-def create_file(name_file: str) -> Any:
+def create_file(name_file: str) -> None:
     content = []
     data = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -26,7 +26,7 @@ def create_file(name_file: str) -> Any:
         exist_file.write("\n")
 
 
-def parse_arguments(*args) -> Any:
+def parse_arguments(args: List[str]) -> None:
     if "-f" in args and "-d" in args:
         d_index = args.index("-d")
         f_index = args.index("-f")
@@ -48,7 +48,12 @@ def parse_arguments(*args) -> Any:
               " '-d' for directory or '-f' for file.")
 
 
-def main(*args) -> Any:
-    args = sys.argv[1:]
+def main(args: Optional[List[str]] = None) -> None:
+    if args is None:
+        args = sys.argv[1:]
     print(args)
     parse_arguments(args)
+
+
+if __name__ == "__main__":
+    main()
