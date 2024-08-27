@@ -26,7 +26,7 @@ def create_file(name_file: str) -> Any:
         exist_file.write("\n")
 
 
-def parse_arguments(args):
+def parse_arguments(*args) -> Any:
     if "-f" in args and "-d" in args:
         d_index = args.index("-d")
         f_index = args.index("-f")
@@ -44,10 +44,11 @@ def parse_arguments(args):
     elif "-d" in args:
         make_directory(os.path.join(*args[args.index("-d") + 1:]))
     else:
-        print("Invalid arguments. Please provide '-d' for directory or '-f' for file.")
+        print("Invalid arguments. Please provide"
+              " '-d' for directory or '-f' for file.")
 
 
-def main():
+def main(*args) -> Any:
     args = sys.argv[1:]
     print(args)
     parse_arguments(args)
