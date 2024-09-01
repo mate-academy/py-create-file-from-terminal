@@ -11,12 +11,15 @@ def create_file_with_input_text(path: str) -> None:
         content_line = input("Enter content line: ")
         if content_line == "stop":
             break
+
         line_count += 1
-        input_text += f"{line_count} {content_line}\n"
+        if line_count > 1:
+            input_text += "\n"
+        input_text += f"{line_count} {content_line}"
 
     with open(path, "a") as file_to_write, open(path, "r") as file_to_read:
         if file_to_read.read():
-            file_to_write.write("\n")
+            file_to_write.write("\n\n")
 
         current_time = datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M:%S")
         file_to_write.write(f"{current_time}\n{input_text}")
@@ -30,10 +33,15 @@ def create_directories(directories_names: list) -> str:
 
 def create_file_from_terminal(variables: list) -> None:
     if "-d" in variables and "-f" in variables:
+        index_f = variables.index("-f")
+        index_d = variables.index("-d")
+
         directories_names = (
-            variables[variables.index("-d") + 1:variables.index("-f")]
+            variables[index_d + 1:]
+            if index_f < index_d
+            else variables[index_d + 1:index_f]
         )
-        file_name = variables[-1]
+        file_name = variables[index_f + 1]
 
         directories = create_directories(directories_names)
         create_file_with_input_text(os.path.join(directories, file_name))
