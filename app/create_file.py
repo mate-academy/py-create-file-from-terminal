@@ -29,7 +29,7 @@ if " -d " not in command and " -f " in command:
 
 if " -d " in command and " -f " in command:
     path = os.path.join(*command.split("-d")[1].split("-f")[0].strip().split())
-    name = command.split("-f")[1].strip()
+    name = command.split("-f")[1].split()[0].strip()
     file_path = os.path.join(path, name)
     create_directory(path)
     create_file(file_path)
