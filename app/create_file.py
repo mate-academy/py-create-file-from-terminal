@@ -19,7 +19,7 @@ def create_or_append_file(filepath: str) -> None:
 
     with open(filepath, "a") as file:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        file.write(f'\n{timestamp}\n')
+        file.write(f"\n{timestamp}\n")
 
         line_number = 1
         while True:
@@ -40,7 +40,7 @@ def main() -> None:
 
     if "-d" in args and "-f" in args:
         d_index = args.index("-d")
-        f_index = args.index('-f')
+        f_index = args.index("-f")
 
         path_parts = args[d_index + 1:f_index]
         filename = args[f_index + 1]
