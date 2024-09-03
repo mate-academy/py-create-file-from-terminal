@@ -9,7 +9,7 @@ def create_directory(dirname: str) -> None:
 
 def create_file(filename: str) -> None:
     with open(filename, "a") as f:
-        f.write(f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
+        f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         count = 0
         while True:
             count += 1
