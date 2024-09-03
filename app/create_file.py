@@ -1,23 +1,24 @@
 import os
 import sys
 from datetime import datetime
+from typing import List
 
 
-def create_directory(path_parts):
+def create_directory(path_parts: List[str]) -> str:
     directory = os.path.join(*path_parts)
     if not os.path.exists(directory):
         os.makedirs(directory)
-        print(f"Директорію '{directory}' створено успішно.")
+        print(f"Директорію \"{directory}\" створено успішно.")
     else:
-        print(f"Директорія '{directory}' вже існує.")
+        print(f"Директорія \"{directory}\" вже існує.")
     return directory
 
 
-def create_or_append_file(filepath):
+def create_or_append_file(filepath: str) -> None:
     is_new_file = not os.path.exists(filepath)
 
-    with open(filepath, 'a') as file:
-        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    with open(filepath, "a") as file:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         file.write(f"\n{timestamp}\n")
 
         line_number = 1
@@ -29,12 +30,12 @@ def create_or_append_file(filepath):
             line_number += 1
 
     if is_new_file:
-        print(f"Файл '{filepath}' створено успішно.")
+        print(f"Файл \"{filepath}\" створено успішно.")
     else:
-        print(f"Вміст додано до файлу '{filepath}'.")
+        print(f"Вміст додано до файлу \"{filepath}\".")
 
 
-def main():
+def main() -> None:
     args = sys.argv[1:]
 
     if "-d" in args and "-f" in args:
