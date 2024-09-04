@@ -25,8 +25,10 @@ def create_file_command(args: list) -> None:
 
             while True:
                 string = input("Enter content line: ")
+
                 if string == "stop":
                     file.write("\n")
                     break
+
                 file.write(str(number_of_string) + " " + string + "\n")
                 number_of_string += 1
