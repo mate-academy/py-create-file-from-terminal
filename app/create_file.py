@@ -17,6 +17,7 @@ def create_file(filename: str) -> None:
             if line.lower() == "stop":
                 break
             f.write(f"{count} " + line + "\n")
+        f.write("\n")
 
 
 def check_input(input_user: list) -> None:
@@ -31,11 +32,11 @@ def check_input(input_user: list) -> None:
         create_file(name)
 
     if "-d" in command and "-f" in command:
-        path = (os.path.join(*command
-                             .split("-d")[1]
-                             .split("-f")[0]
-                             .strip()
-                             .split()))
+        path = os.path.join(*command
+                            .split("-d")[1]
+                            .split("-f")[0]
+                            .strip()
+                            .split())
         name = command.split("-f")[1].split()[0].strip()
         file_path = os.path.join(path, name)
         create_directory(path)
