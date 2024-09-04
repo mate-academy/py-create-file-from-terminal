@@ -36,22 +36,16 @@ def main() -> None:
 
     if "-d" in args:
         d_index = args.index("-d")
-        if d_index + 1 < len(args) and args[d_index + 1] != "-f":
-            if "-f" in args:
-                f_index = args.index("-f")
-                path_parts = args[d_index + 1:f_index]
-                if f_index + 1 < len(args):
-                    file_name = args[f_index + 1]
-                else:
-                    print("No file name provided after '-f'")
-                    return
-            else:
-                path_parts = args[d_index + 1:]
+        next_flag_index = len(args)
+        if "-f" in args:
+            next_flag_index = args.index("-f")
+        if d_index + 1 < next_flag_index:
+            path_parts = args[d_index + 1:next_flag_index]
         else:
             print("No directory provided after '-d'")
             return
 
-    elif "-f" in args:
+    if "-f" in args:
         f_index = args.index("-f")
         if f_index + 1 < len(args):
             file_name = args[f_index + 1]
