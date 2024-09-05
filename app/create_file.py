@@ -23,8 +23,8 @@ def create_directory(path: Optional[str]) -> None:
 
 
 def build_file_path(
-        dirs: Optional[list[str]],
-        filename: Optional[str]
+    dirs: Optional[list[str]],
+    filename: Optional[str]
 ) -> str | None:
     if dirs and filename:
         return os.path.join(os.path.join(*dirs), filename)
@@ -34,16 +34,25 @@ def build_file_path(
 
 
 def write_to_file(file_path: str) -> None:
-    with open(file_path, "a") as file:
-        if os.stat(file_path).st_size != 0:
-            file.write("\n")
+    contents_str_list = []
 
-        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
-        while True:
-            new_line = input("Enter content line: ")
-            if new_line == "stop":
-                break
-            file.write(new_line + "\n")
+    if os.path.exists(file_path) and os.stat(file_path).st_size != 0:
+        contents_str_list.append("\n")
+
+    contents_str_list.append(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
+    line_number = 0
+    while True:
+        new_line = input("Enter content line: ")
+        if new_line == "stop":
+            break
+        line_number += 1
+        contents_str_list.append(f"{line_number} {new_line}\n")
+
+    try:
+        with open(file_path, "a") as file:
+            file.write("".join(contents_str_list))
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
 
 
 def create_file() -> None:
