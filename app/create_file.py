@@ -44,3 +44,6 @@ def check_input(input_user: list) -> None:
 
 
 check_input(sys.argv)
+
+if __name__ == "__main__":
+    pass
