@@ -43,7 +43,5 @@ def check_input(input_user: list) -> None:
         create_file(file_path)
 
 
-check_input(sys.argv)
-
 if __name__ == "__main__":
-    pass
+    check_input(sys.argv)
