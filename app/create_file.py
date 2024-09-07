@@ -7,24 +7,14 @@ args = sys.argv
 # print(args)
 # print(args.index("-d") + 1)
 
-if "-d" in args:
 
-    for i in range(args.index("-d") + 1, len(args), 1):
-        print(i)
+def working_with_file(file_name: str) -> None:
+    with open(f"{file_name}", "a") as file:
 
-        element = args[i]
-        if element == "-f":
-            break
-
-        os.mkdir(f"{element}")
-        os.chdir(f"{element}")
-
-if "-f" in args:
-
-    with open(f"{args[args.index("-f") + 1]}", "a") as file:
         formatted_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         file.write(f"{formatted_date}\n")
         num = 1
+
         while True:
             line = input("Enter content line:")
             if line == "stop":
@@ -32,3 +22,32 @@ if "-f" in args:
 
             file.write(f"{num} {line}\n")
             num += 1
+
+
+def working_with_directories(directories: list) -> None:
+
+    for directory in directories:
+
+        if os.path.isdir(directory):
+            os.chdir(directory)
+
+        else:
+            os.mkdir(f"{directory}")
+            os.chdir(f"{directory}")
+
+
+if "-d" in args:
+    directories = []
+
+    for i in range(args.index("-d") + 1, len(args), 1):
+
+        element = args[i]
+        if element == "-f":
+            break
+
+        directories.append(element)
+
+    working_with_directories(directories)
+
+if "-f" in args:
+    working_with_file(args[args.index("-f") + 1])
