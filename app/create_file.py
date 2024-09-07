@@ -15,8 +15,7 @@ def parse_args() -> Any:
 
 def create_directories(directories: list) -> None:
     path = os.path.join(os.curdir, *directories)
-    if not os.path.exists(path):
-        os.makedirs(path)
+    os.makedirs(path, exist_ok=True)
     os.chdir(path)
 
 
