@@ -12,12 +12,12 @@ def create_file(file_name: str) -> None:
 
     with open(file_name, mode) as f:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        f.write(f"{timestamp}\n")
+        f.write(f"{timestamp}")
 
         line_number = 1
         content = input("Enter content line: ")
         while content != "stop":
-            f.write(f"{line_number} {content}\n")
+            f.write(f"\n{line_number} {content}")
             line_number += 1
             content = input("Enter content line: ")
 
