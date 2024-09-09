@@ -32,13 +32,18 @@ def write_content_to_file(filename: str) -> None:
         file.write("\n")
 
 
-args = parse_args()
+def main() -> None:
+    args = parse_args()
 
-if args.f is None and args.d is None:
-    raise SystemExit("At least one argument must be specified")
+    if args.f is None and args.d is None:
+        raise SystemExit("At least one argument must be specified")
 
-if args.d is not None:
-    create_directories(args.d)
+    if args.d is not None:
+        create_directories(args.d)
 
-if args.f is not None:
-    write_content_to_file(args.f)
+    if args.f is not None:
+        write_content_to_file(args.f)
+
+
+if __name__ == "__main__":
+    main()
