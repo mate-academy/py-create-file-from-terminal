@@ -73,3 +73,6 @@ def main() -> None:
                   "Please provide a directory with -d or a file with -f.")
         else:
             print("Directory created without a file.")
+
+if __name__ == "__main__":
+    main()
