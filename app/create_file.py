@@ -4,8 +4,6 @@ import os
 
 
 args = sys.argv
-# print(args)
-# print(args.index("-d") + 1)
 
 
 def working_with_file(file_name: str) -> None:
@@ -24,7 +22,16 @@ def working_with_file(file_name: str) -> None:
             num += 1
 
 
-def working_with_directories(directories: list) -> None:
+def working_with_directories() -> None:
+    directories = []
+
+    for i in range(args.index("-d") + 1, len(args), 1):
+
+        element = args[i]
+        if element == "-f":
+            break
+
+        directories.append(element)
 
     for directory in directories:
 
@@ -37,17 +44,7 @@ def working_with_directories(directories: list) -> None:
 
 
 if "-d" in args:
-    directories = []
-
-    for i in range(args.index("-d") + 1, len(args), 1):
-
-        element = args[i]
-        if element == "-f":
-            break
-
-        directories.append(element)
-
-    working_with_directories(directories)
+    working_with_directories()
 
 if "-f" in args:
     working_with_file(args[args.index("-f") + 1])
