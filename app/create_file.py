@@ -1,7 +1,7 @@
 from datetime import datetime
 from sys import argv
 from os import makedirs
-from os.path import join, exists
+from os.path import join
 
 
 def create_file(file_name: str) -> None:
