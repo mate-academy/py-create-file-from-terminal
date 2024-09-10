@@ -5,19 +5,14 @@ from os.path import join, exists
 
 
 def create_file(file_name: str) -> None:
-    if exists(file_name):
-        mode = "a"
-    else:
-        mode = "w"
-
-    with open(file_name, mode) as f:
+    with open(file_name, "a") as f:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        f.write(f"{timestamp}")
+        f.write(f"{timestamp}\n")
 
         line_number = 1
         content = input("Enter content line: ")
         while content != "stop":
-            f.write(f"\n{line_number} {content}")
+            f.write(f"{line_number} {content}\n")
             line_number += 1
             content = input("Enter content line: ")
 
@@ -33,11 +28,11 @@ def main() -> None:
             file_name = join(*path_parts, args[f_index + 1])
             makedirs(join(*path_parts), exist_ok=True)
             create_file(file_name)
-
-        path_parts = args[d_index + 1:]
-        file_name = join(*path_parts, args[f_index + 1])
-        makedirs(join(*path_parts), exist_ok=True)
-        create_file(file_name)
+        else:
+            path_parts = args[d_index + 1:]
+            file_name = join(*path_parts, args[f_index + 1])
+            makedirs(join(*path_parts), exist_ok=True)
+            create_file(file_name)
 
     elif "-d" in args:
         d_index = args.index("-d")
