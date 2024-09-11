@@ -74,5 +74,6 @@ def main() -> None:
         else:
             print("Directory created without a file.")
 
+
 if __name__ == "__main__":
     main()
