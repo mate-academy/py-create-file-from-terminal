@@ -5,19 +5,24 @@ import datetime
 
 def create_path() -> None:
     command = sys.argv
-    if "-d" in command:
+    if command[1] == "-d":
         if "-f" not in command:
-            path = os.path.join("/".join(command[command.index("-d") + 1:]))
+            path = os.path.join("/".join(command[2:]))
             create_dir(path)
         else:
-            path = os.path.join("/".join(
-                command[command.index("-d") + 1:command.index("-f")]))
+            path = os.path.join("/".join(command[2:command.index("-f")]))
             create_dir(path)
             os.chdir(path)
             create_file("file.txt")
-    elif "-f" in command:
-        file_name = command[command.index("-f") + 1]
-        create_file(file_name)
+    elif command[1] == "-f":
+        file_name = command[2]
+        if "-d" not in command:
+            create_file(file_name)
+        else:
+            path = os.path.join("/".join(command[command.index("-d") + 1:]))
+            create_dir(path)
+            os.chdir(path)
+            create_file(file_name)
 
 
 def create_dir(path: str) -> None:
@@ -33,6 +38,7 @@ def create_file(file_path: str) -> None:
             content = input("Enter content line: ")
             count = 1
             if content == "stop":
+                file.write("\n")
                 break
             file.write(f"{count} " + content + "\n")
             count += 1
