@@ -5,19 +5,19 @@ import os
 
 def create_file(file_path: str) -> None:
     mode = "a" if os.path.isfile(file_path) else "w"
-    with open(f"{file_path}", mode) as f:
+    with open(f"{file_path}", mode) as file:
         if mode == "a":
             print(mode)
-            f.write("\n\n")
+            file.write("\n\n")
 
-        f.write(f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        file.write(f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
         line_number = 1
         while True:
             next_line = input("Enter content line: ")
             if next_line == "stop":
                 break
-            f.write(f"\n{line_number} {next_line}")
+            file.write(f"\n{line_number} {next_line}")
             line_number += 1
 
 
