@@ -3,9 +3,6 @@ import sys
 import os
 
 
-args = sys.argv
-
-
 def working_with_file(file_name: str) -> None:
     with open(f"{file_name}", "a") as file:
 
@@ -22,7 +19,7 @@ def working_with_file(file_name: str) -> None:
             num += 1
 
 
-def working_with_directories() -> None:
+def working_with_directories(args: list) -> None:
     directories = []
 
     for i in range(args.index("-d") + 1, len(args), 1):
@@ -43,8 +40,13 @@ def working_with_directories() -> None:
             os.chdir(f"{directory}")
 
 
-if "-d" in args:
-    working_with_directories()
+def detect_keys(args: list) -> None:
 
-if "-f" in args:
-    working_with_file(args[args.index("-f") + 1])
+    if "-d" in args:
+        working_with_directories(args)
+
+    if "-f" in args:
+        working_with_file(args[args.index("-f") + 1])
+
+
+detect_keys(sys.argv)
