@@ -1,6 +1,6 @@
 from datetime import datetime
-from os import makedirs, stat
-from os.path import join, getsize, abspath, exists
+from os import makedirs
+from os.path import join, exists
 from sys import argv
 
 
