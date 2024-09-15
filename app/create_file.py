@@ -23,8 +23,10 @@ def create_file(name: str) -> None:
 def handle_command() -> None:
     args = sys.argv
     if "-d" in args and "-f" in args:
-        dir_path = args[args.index("-d") + 1:args.index("-f")]
         file_name = args[args.index("-f") + 1:][0]
+        args.remove("-f")
+        args.remove(file_name)
+        dir_path = args[args.index("-d") + 1:]
         create_directory(dir_path)
         create_file(os.path.join(*dir_path, file_name))
     if "-d" not in args and "-f" in args:
