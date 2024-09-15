@@ -28,17 +28,17 @@ def handle_command() -> None:
     file_flag_index = args.index("-f") if "-f" in args else -1
     dir_flag_index = args.index("-d") if "-d" in args else -1
     file_name = args[file_flag_index + 1:][0]
-    dir_path = args[dir_flag_index + 1:file_flag_index]\
-        if file_flag_index > dir_flag_index \
-        else args[dir_flag_index + 1:]
+    dir_path = (args[dir_flag_index + 1:file_flag_index]
+                if file_flag_index > dir_flag_index
+                else args[dir_flag_index + 1:])
 
-    if "-d" in args and "-f" in args:
+    if dir_flag_index == -1:
+        create_file(file_name)
+    elif file_flag_index == -1:
+        create_directory(dir_path)
+    else:
         create_directory(dir_path)
         create_file(os.path.join(*dir_path, file_name))
-    if "-d" not in args and "-f" in args:
-        create_file(file_name)
-    if "-d" in args and "-f" not in args:
-        create_directory(dir_path)
 
 
 if __name__ == "__main__":
