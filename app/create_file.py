@@ -49,4 +49,5 @@ def detect_keys(args: list) -> None:
         working_with_file(args[args.index("-f") + 1])
 
 
-detect_keys(sys.argv)
+if __name__ == "__main__":
+    detect_keys(sys.argv)
