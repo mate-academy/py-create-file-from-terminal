@@ -35,8 +35,6 @@ def create_dir(path: str) -> None:
 
 def create_file(file_path: str) -> None:
     file_exists = os.path.exists(file_path)
-
-    print(file_path)
     with open(file_path, "a") as file:
         if file_exists:
             file.write("\n")
