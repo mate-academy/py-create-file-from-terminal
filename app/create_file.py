@@ -37,16 +37,16 @@ def create_file(file_path: str) -> None:
     file_exists = os.path.exists(file_path)
     with open(file_path, "a") as file:
         if file_exists:
-            file.write("\n")
+            file.write("\n\n")
         current_date = datetime.datetime.now()
-        file.write(current_date.strftime("%Y-%m-%d %H:%M:%S\n"))
+        file.write(current_date.strftime("%Y-%m-%d %H:%M:%S"))
         number_line = 0
         while True:
             file_content = input("Enter content line: ")
             if file_content.lower() == "stop":
                 break
             number_line += 1
-            file.write(f"{number_line} {file_content}\n")
+            file.write(f"\n{number_line} {file_content}")
 
 
 if __name__ == "__main__":
