@@ -24,16 +24,10 @@ if "-f" in sys.argv and "-d" not in sys.argv:
 
 
 if "-d" in sys.argv and "-f" in sys.argv:
-    # dir1 = sys.argv[sys.argv.index("-d") + 1]
-    # dir2 = sys.argv[sys.argv.index("-f")]
-    # path = os.path.join(dir1, dir2)
-    # os.makedirs(path, exist_ok=True)
-
     d_index = sys.argv.index("-d") + 1
     f_index = sys.argv.index("-f") + 1
     if d_index < f_index:
         path = os.path.join(*sys.argv[d_index:f_index - 1])
-
     else:
         path = os.path.join(*sys.argv[d_index:])
     os.makedirs(path, exist_ok=True)
