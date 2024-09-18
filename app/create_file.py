@@ -4,19 +4,22 @@ import os
 
 
 def working_with_file(file_name: str) -> None:
+    data_to_write = ""
+    num = 1
+
+    while True:
+        line = input("Enter content line:")
+        if line == "stop":
+            break
+
+        data_to_write += f"{num} {data_to_write}\n"
+        num += 1
+
     with open(f"{file_name}", "a") as file:
 
         formatted_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         file.write(f"{formatted_date}\n")
-        num = 1
-
-        while True:
-            line = input("Enter content line:")
-            if line == "stop":
-                break
-
-            file.write(f"{num} {line}\n")
-            num += 1
+        file.write(data_to_write)
 
 
 def working_with_directories(args: list) -> None:
