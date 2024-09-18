@@ -44,7 +44,6 @@ def working_with_directories(args: list) -> None:
 
 
 def detect_keys(args: list) -> None:
-
     if "-d" in args:
         working_with_directories(args)
 
