@@ -18,8 +18,7 @@ def working_with_file(file_name: str) -> None:
     with open(f"{file_name}", "a") as file:
 
         formatted_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        file.write(f"{formatted_date}\n")
-        file.write(data_to_write)
+        file.write(f"{formatted_date}\n{data_to_write}")
 
 
 def working_with_directories(args: list) -> None:
@@ -33,14 +32,12 @@ def working_with_directories(args: list) -> None:
 
         directories.append(element)
 
+    base_dir = os.getcwd()  # Get the current working directory
+
     for directory in directories:
-
-        if os.path.isdir(directory):
-            os.chdir(directory)
-
-        else:
-            os.mkdir(f"{directory}")
-            os.chdir(f"{directory}")
+        target_dir = os.path.join(base_dir, directory)
+        os.makedirs(target_dir, exist_ok=True)
+        os.chdir(target_dir)
 
 
 def detect_keys(args: list) -> None:
