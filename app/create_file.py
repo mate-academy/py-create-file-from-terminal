@@ -12,13 +12,19 @@ def working_with_file(file_name: str) -> None:
         if line == "stop":
             break
 
-        data_to_write += f"{num} {data_to_write}\n"
+        data_to_write += f"{num} {line}\n"
         num += 1
 
-    with open(f"{file_name}", "a") as file:
-
+    with open(file_name, "a") as file:
         formatted_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        file.write(f"{formatted_date}\n{data_to_write}")
+
+        with open(file_name, "r") as f:
+            new_file = True if f.read() == "" else False
+
+        if new_file:
+            file.write(f"{formatted_date}\n{data_to_write}")
+        else:
+            file.write(f"\n{formatted_date}\n{data_to_write}")
 
 
 def working_with_directories(args: list) -> None:
@@ -32,12 +38,11 @@ def working_with_directories(args: list) -> None:
 
         directories.append(element)
 
-    base_dir = os.getcwd()  # Get the current working directory
+    # Creating correct directories
+    path = os.path.join(*directories)
+    os.makedirs(path, exist_ok=True)
 
-    for directory in directories:
-        target_dir = os.path.join(base_dir, directory)
-        os.makedirs(target_dir, exist_ok=True)
-        os.chdir(target_dir)
+    os.chdir(path)
 
 
 def detect_keys(args: list) -> None:
