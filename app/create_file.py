@@ -6,10 +6,8 @@ from sys import argv
 
 def create_file(file_name: str) -> None:
     with open(file_name, "a") as source_file:
-        source_file.write(f"{datetime.
-                          datetime.
-                          now().
-                          strftime("%Y-%m-%d %H:%M:%S")}\n")
+        time_output = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        source_file.write(f"{time_output}\n")
         page_number = 1
         while True:
             line_content = input("Enter content line: ")
