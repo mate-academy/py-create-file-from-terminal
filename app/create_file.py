@@ -21,8 +21,6 @@ def create_directory() -> None:
     if "-f" in argv and "-d" in argv:
         create_directory_names_list = os.path.join(*argv[2:argv.index("-f"):])
         create_file_name = os.path.join(*argv[argv.index("-f") + 1::])
-        print(f"{os.path.isdir(create_directory_names_list) = }")
-        print(f"{create_directory_names_list = }")
         if os.path.isdir(create_directory_names_list):
             os.chdir(create_directory_names_list)
             create_file(create_file_name)
