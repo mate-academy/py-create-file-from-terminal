@@ -4,16 +4,17 @@ import datetime
 from sys import argv
 
 
-
 def create_file(file_name: str) -> None:
     with open(file_name, "a") as source_file:
-        source_file.write(f"{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
+        source_file.write(f"{datetime.datetime.now().strftime(
+            "%Y-%m-%d %H:%M:%S"
+        )}\n")
         page_number = 1
         while True:
-            Line_content = input(f"Enter content line: ")
-            if Line_content.lower() == "stop":
+            line_content = input("Enter content line: ")
+            if line_content.lower() == "stop":
                 break
-            source_file.write(f"{page_number} {Line_content}\n")
+            source_file.write(f"{page_number} {line_content}\n")
             page_number += 1
 
 
@@ -35,5 +36,6 @@ def create_directory() -> None:
 
     elif "-d" in argv:
         os.makedirs(os.path.join(*argv[2::]))
+
 
 create_directory()
