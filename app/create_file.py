@@ -19,7 +19,8 @@ def working_with_file(file_name: str) -> None:
         formatted_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         new_file = os.path.getsize(file_name) == 0
         data_to_write = (f"{formatted_date}\n{data_to_write}"
-                         if new_file else f"\n{formatted_date}\n{data_to_write}")
+                         if new_file else
+                         f"\n{formatted_date}\n{data_to_write}")
         file.write(data_to_write)
 
 
