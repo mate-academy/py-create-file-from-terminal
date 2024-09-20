@@ -10,7 +10,7 @@ def create_file(file_name: str) -> None:
         source_file.write(f"{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
         page_number = 1
         while True:
-            Line_content = input("Enter content line: ")
+            Line_content = input(f"Enter content line: ")
             if Line_content.lower() == "stop":
                 break
             source_file.write(f"{page_number} {Line_content}\n")
