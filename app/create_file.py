@@ -18,7 +18,7 @@ def create_file(file_name: str) -> None:
 
 
 def create_directory() -> None:
-    if "-f" in argv and "-d" in argv:
+    if "-f" in argv and "-d" in argv and argv.index("-f") > argv.index("-d"):
         create_directory_names_list = os.path.join(*argv[2:argv.index("-f"):])
         create_file_name = os.path.join(*argv[argv.index("-f") + 1::])
         if os.path.isdir(create_directory_names_list):
@@ -28,6 +28,18 @@ def create_directory() -> None:
         else:
             os.makedirs(create_directory_names_list)
             os.chdir(create_directory_names_list)
+            create_file(create_file_name)
+
+    elif "-f" in argv and "-d" in argv and argv.index("-f") < argv.index("-d"):
+        directory_names = os.path.join(*argv[argv.index("-d") + 1::])
+        create_file_name = os.path.join(*argv[2:argv.index("-d"):])
+        if os.path.isdir(directory_names):
+            os.chdir(directory_names)
+            create_file(create_file_name)
+
+        else:
+            os.makedirs(directory_names)
+            os.chdir(directory_names)
             create_file(create_file_name)
 
     elif "-f" in argv:
