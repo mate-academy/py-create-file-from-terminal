@@ -4,7 +4,7 @@ from dir import create_directory
 from file import create_file
 
 
-def creator():
+def creator() -> None:
     args = sys.argv
 
     dir_index = args.index("-d") + 1 if "-d" in args else None
