@@ -6,15 +6,27 @@ from sys import argv
 
 def create_file(file_name: str) -> None:
     with open(file_name, "a") as source_file:
-        time_output = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        source_file.write(f"{time_output}\n")
-        page_number = 1
-        while True:
-            line_content = input("Enter content line: ")
-            if line_content.lower() == "stop":
-                break
-            source_file.write(f"{page_number} {line_content}\n")
-            page_number += 1
+        if os.path.exists(file_name):
+            source_file.write("\n")
+            time_output = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            source_file.write(f"{time_output}\n")
+            page_number = 1
+            while True:
+                line_content = input("Enter content line: ")
+                if line_content.lower() == "stop":
+                    break
+                source_file.write(f"{page_number} {line_content}\n")
+                page_number += 1
+        else:
+            time_output = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            source_file.write(f"{time_output}\n")
+            page_number = 1
+            while True:
+                line_content = input("Enter content line: ")
+                if line_content.lower() == "stop":
+                    break
+                source_file.write(f"{page_number} {line_content}\n")
+                page_number += 1
 
 
 def create_directory() -> None:
@@ -46,7 +58,8 @@ def create_directory() -> None:
         create_file(argv[-1])
 
     elif "-d" in argv:
-        os.makedirs(os.path.join(*argv[2::]))
+        if not os.path.isdir(os.path.join(*argv[2::])):
+            os.makedirs(os.path.join(*argv[2::]))
 
 
 create_directory()
