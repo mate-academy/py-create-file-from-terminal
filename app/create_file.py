@@ -20,7 +20,7 @@ def create_file(file_path: str) -> None:
         current_date_and_time = datetime.now()
         if file_exist:
             file.write("\n")
-        file.write(f'{current_date_and_time.strftime("%y-%m-%d %H:%M:%S")}\n')
+        file.write(f"{current_date_and_time.strftime('%y-%m-%d %H:%M:%S')}\n")
 
         line_number = 1
         while True:
@@ -32,24 +32,22 @@ def create_file(file_path: str) -> None:
 
 
 def main() -> None:
-    if "-d" in sys.argv:
+    if "-d" in sys.argv and "-f" in sys.argv:
         dir_index = sys.argv.index("-d") + 1
-        base_dir = os.path.join(os.getcwd(), "app")
-        directory = os.path.join(base_dir, *sys.argv[dir_index:])
+        file_index = sys.argv.index("-f") + 1
+        directory = os.path.join(*sys.argv[dir_index: file_index - 1])
+        filename = sys.argv[file_index]
+        create_dir(directory)
+        file_path = os.path.join(directory, filename)
+        create_file(file_path)
+    elif "-d" in sys.argv:
+        dir_index = sys.argv.index("-d") + 1
+        directory = os.path.join(*sys.argv[dir_index:])
         create_dir(directory)
     elif "-f" in sys.argv:
         file_index = sys.argv.index("-f") + 1
         filename = sys.argv[file_index]
         create_file(filename)
-    else:
-        if "-d" in sys.argv and "-f" in sys.argv:
-            dir_index = sys.argv.index("-d") + 1
-            file_index = sys.argv.index("-f") + 1
-            directory = os.path.join(*sys.argv[dir_index: file_index - 1])
-            filename = sys.argv[file_index]
-            create_dir(directory)
-            file_path = os.path.join(directory, filename)
-            create_file(file_path)
 
 
 if __name__ == '__main__':
