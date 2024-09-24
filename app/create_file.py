@@ -27,8 +27,7 @@ def create_file(file_name: str) -> None:
             source_file.write("\n")
 
         time_output = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        source_file.write(f"{time_output}\n")
-        source_file.write(file_content)
+        source_file.write(f"{time_output}\n{file_content}")
 
 
 def main() -> None:
