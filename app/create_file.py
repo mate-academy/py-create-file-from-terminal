@@ -1,56 +1,78 @@
-import os
+from typing import Any
 import sys
-import datetime
+import os
+from datetime import datetime
 
 
-def create_file(directory: list[str], filename: str) -> None:
-    if directory:
-        dir_path = os.path.join(*directory)
-        os.makedirs(dir_path, exist_ok=True)
-        file_path = os.path.join(dir_path, filename)
-    else:
-        file_path = filename
+def create_directories(path_parts: Any) -> None:
+    path = os.path.join(*path_parts)
+    if not os.path.exists(path):
+        os.makedirs(path)
+    return path
 
-    content = []
+
+def get_timestamp() -> None:
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
+def get_content() -> None:
+    lines = []
+    print("Enter content line (type 'stop' to finish):")
     while True:
         line = input("Enter content line: ")
-        if line.lower() == "stop":
+        if line.strip().lower() == "stop":
             break
-        content.append(line)
+        lines.append(line)
+    return lines
 
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    numbered_content = [f"{i + 1} {line}" for i, line in enumerate(content)]
 
-    if os.path.exists(file_path):
-        with open(file_path, "a") as f:
-            f.write(f"\n{timestamp}\n")
-            f.write("\n".join(numbered_content) + "\n")
+def write_to_file(filepath: Any, content_lines: Any) -> None:
+    timestamp = get_timestamp()
+
+    if os.path.exists(filepath):
+        append_write = "a"
     else:
-        with open(file_path, "w") as f:
-            f.write(f"{timestamp}\n")
-            f.write("\n".join(numbered_content) + "\n")
+        append_write = "w"
+
+    with open(filepath, append_write) as f:
+        if append_write == "a":
+            f.write("\n\n")
+        f.write(f"{timestamp}\n")
+
+        for i, line in enumerate(content_lines, start=1):
+            f.write(f"{i} {line}\n")
+
+    print(f"Content successfully written to {filepath}")
+
+
+def main() -> None:
+    args = sys.argv[1:]
+
+    if "-d" in args:
+        dir_index = args.index("-d") + 1
+        if "-f" in args:
+            file_index = args.index("-f") + 1
+            directory_parts = args[dir_index:file_index - 1]
+            directory_path = create_directories(directory_parts)
+            file_name = args[file_index]
+            filepath = os.path.join(directory_path, file_name)
+        else:
+            directory_parts = args[dir_index:]
+            create_directories(directory_parts)
+            print(f"Directory {"/".join(directory_parts)} created.")
+            return
+    elif "-f" in args:
+        # Only file provided
+        file_index = args.index("-f") + 1
+        file_name = args[file_index]
+        filepath = os.path.join(os.getcwd(), file_name)
+    else:
+        print("Usage: python create_file.py [-d directory] [-f filename]")
+        return
+
+    content_lines = get_content()
+    write_to_file(filepath, content_lines)
 
 
 if __name__ == "__main__":
-    directory = []
-    filename = None
-
-    if "-d" in sys.argv:
-        dir_index = sys.argv.index("-d") + 1
-        if "-f" in sys.argv:
-            file_index = sys.argv.index("-f")
-            directory = sys.argv[dir_index:file_index]
-            filename = sys.argv[file_index + 1]
-        else:
-            print("Error: No filename provided.")
-            sys.exit(1)
-    elif "-f" in sys.argv:
-        file_index = sys.argv.index("-f") + 1
-        filename = sys.argv[file_index]
-
-    if directory and filename:
-        create_file(directory, filename)
-    elif filename:
-        create_file([], filename)
-    else:
-        print("Invalid arguments. Please use -d or -f flags.")
+    main()
