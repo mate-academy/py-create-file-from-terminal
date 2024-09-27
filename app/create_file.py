@@ -59,7 +59,7 @@ def main() -> None:
         else:
             directory_parts = args[dir_index:]
             create_directories(directory_parts)
-            print(f"Directory {"/".join(directory_parts)} created.")
+            print(f'Directory {"/".join(directory_parts)} created.')
             return
     elif "-f" in args:
         # Only file provided
