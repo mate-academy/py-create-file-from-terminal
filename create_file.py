@@ -1,13 +1,18 @@
-from typing import Any, List
-import sys
+from typing import List
 import os
 from datetime import datetime
+import argparse
 
 
-def create_directories(path_parts: Any) -> None:
+def create_directories(path_parts: List[str]) -> str:
+    if not path_parts:
+        raise ValueError("No directories specified. Please provide at least one directory.")
+
     path = os.path.join(*path_parts)
+
     if not os.path.exists(path):
         os.makedirs(path)
+
     return path
 
 
@@ -15,7 +20,7 @@ def get_timestamp() -> str:
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
-def get_content() -> list[str]:
+def get_content() -> List[str]:
     lines = []
     print("Enter content line (type 'stop' to finish):")
     while True:
@@ -26,7 +31,8 @@ def get_content() -> list[str]:
     return lines
 
 
-def write_to_file(filepath: Any, content_lines: Any) -> None:
+def write_to_file(filepath: str,
+                  content_lines: List[str]) -> None:
     timestamp = get_timestamp()
 
     if os.path.exists(filepath):
@@ -46,31 +52,23 @@ def write_to_file(filepath: Any, content_lines: Any) -> None:
 
 
 def main() -> None:
-    args = sys.argv[1:]
+    parser = argparse.ArgumentParser(description="Create file and directories")
+    parser.add_argument("-f", "--file",
+                        help="File name to create", required=True)
+    parser.add_argument("-d", "--dirs",
+                        nargs="+", help="Directories to create", required=True)
 
-    if "-d" in args:
-        dir_index = args.index("-d") + 1
-        if "-f" in args:
-            file_index = args.index("-f") + 1
-            directory_parts = args[dir_index:file_index - 1]
-            directory_path = create_directories(directory_parts)
-            file_name = args[file_index]
-            filepath = os.path.join(directory_path, file_name)
-        else:
-            directory_parts = args[dir_index:]
-            create_directories(directory_parts)
-            print(f'Directory {"/".join(directory_parts)} created.')
-            return
-    elif "-f" in args:
-        file_index = args.index("-f") + 1
-        file_name = args[file_index]
-        filepath = os.path.join(os.getcwd(), file_name)
-    else:
-        print("Usage: python create_file.py [-d directory] [-f filename]")
-        return
+    args = parser.parse_args()
+
+    file_name = args.file
+    directory_parts = args.dirs
+    directory_path = create_directories(directory_parts)
+    file_path = os.path.join(directory_path, file_name)
 
     content_lines = get_content()
-    write_to_file(filepath, content_lines)
+    write_to_file(file_path, content_lines)
+
+    print(f"File {file_name} created at {directory_path}")
 
 
 if __name__ == "__main__":
