@@ -6,7 +6,8 @@ import argparse
 
 def create_directories(path_parts: List[str]) -> str:
     if not path_parts:
-        raise ValueError("No directories specified. Please provide at least one directory.")
+        raise ValueError("No directories specified."
+                         " Please provide at least one directory.")
 
     path = os.path.join(*path_parts)
 
@@ -73,4 +74,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
