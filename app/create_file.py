@@ -13,6 +13,9 @@ def create_directories(path_parts: List[str]) -> str:
     if not os.path.exists(path):
         os.makedirs(path)
         print(f'Directory {"/".join(path_parts)} created.')
+    else:
+        print(f'Directory {"/".join(path_parts)} already exists.')
+
     return path
 
 
@@ -66,7 +69,10 @@ def main() -> None:
         file_index = args.index("-f") + 1
         if file_index < len(args):
             file_name = args[file_index]
-
+    if directory_parts:
+        create_directories(directory_parts)
+    else:
+        print("Usage: python create_file.py -d directory_parts")
     if directory_parts and file_name:
         directory_path = create_directories(directory_parts)
         filepath = os.path.join(directory_path, file_name)
