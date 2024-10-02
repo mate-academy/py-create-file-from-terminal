@@ -14,16 +14,25 @@ def write_file(file_path: str) -> None:
             new_file.write(row + "\n")
 
 
+def create_path(full_path: list) -> str:
+    index_path = full_path.index("-d") + 1
+    parts_of_path = []
+    while index_path < len(full_path) and full_path[index_path] != "-f":
+        parts_of_path.append(full_path[index_path])
+        index_path += 1
+    path = os.path.join(*parts_of_path)
+    return path
+
+
 def create_file() -> None:
     full_path = sys.argv
     file_name = ""
     path = ""
     if "-f" in full_path:
-        file_name = full_path[-1]
-        if "-d" in full_path:
-            path = full_path[2]
-    elif "-d" in full_path:
-        path = full_path[2]
+        index_file_name = full_path.index("-f") + 1
+        file_name = full_path[index_file_name]
+    if "-d" in full_path:
+        path = create_path(full_path)
     if path:
         os.makedirs(path, exist_ok=True)
         file_path = os.path.join(path, file_name)
