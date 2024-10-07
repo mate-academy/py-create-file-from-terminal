@@ -7,7 +7,7 @@ path = os.path.join(*(command[2:]))
 path_for_2_flags = os.path.join(*(command[2:-2]))
 
 
-def create_dirs():
+def create_dirs() -> None:
     if not os.path.exists(path_for_2_flags):
         if "-f" in command:
             os.makedirs(path_for_2_flags)
@@ -15,11 +15,12 @@ def create_dirs():
             os.makedirs(path)
 
 
-def create_file():
+def create_file() -> None:
     if "-d" in command:
         os.chdir(path_for_2_flags)
     with open(command[-1], "a") as new_file:
-        new_file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        new_file.write(datetime.datetime.now()
+                       .strftime("%Y-%m-%d %H:%M:%S") + "\n")
         text = input("Enter content line:")
         index = 0
         while text != "stop":
