@@ -33,9 +33,10 @@ def create_file(file_path: str) -> None:
 
 def main() -> None:
     if "-d" in sys.argv and "-f" in sys.argv:
+        path = os.getcwd()
         dir_index = sys.argv.index("-d") + 1
         file_index = sys.argv.index("-f") + 1
-        directory = os.path.join(*sys.argv[dir_index: file_index - 1])
+        directory = os.path.join(path, *sys.argv[dir_index: file_index - 1])
         filename = sys.argv[file_index]
         create_dir(directory)
         file_path = os.path.join(directory, filename)
