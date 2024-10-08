@@ -5,13 +5,13 @@ import datetime
 
 def create_path_and_file_name(arguments: list) -> None:
     flag = True
-    for val in arguments:
-        if val == "-f":
+    for value in arguments:
+        if value == "-f":
             flag = False
         if flag:
-            directory.append(val)
+            directory.append(value)
         else:
-            file_name.append(val)
+            file_name.append(value)
     directory.pop(0)
     file_name.pop(0)
 
@@ -25,7 +25,8 @@ def create_dir() -> None:
 
 def write_information_into_file() -> None:
     with open("file_name", "w") as file:
-        file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        file.write(datetime.datetime.now().strftime("%Y-%m-%d "
+                                                    "%H:%M:%S") + "\n")
     with open("file_name", "a") as file:
         while True:
             inp = input("Enter content line: ")
