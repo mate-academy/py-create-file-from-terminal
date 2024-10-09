@@ -21,12 +21,13 @@ def create_file() -> None:
     with open(command[-1], "a") as new_file:
         new_file.write(datetime.datetime.now()
                        .strftime("%Y-%m-%d %H:%M:%S") + "\n")
-        text = input("Enter content line:")
         index = 0
-        while text != "stop":
+        while True:
             index += 1
-            new_file.write(f"{index} {text}\n")
             text = input("Enter content line:")
+            if text == "stop":
+                break
+            new_file.write(f"{index} {text}\n")
         new_file.write("\n")
 
 
