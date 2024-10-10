@@ -27,8 +27,11 @@ def app_for_create_file() -> None:
 
     if "-d" in arg:
         dir_index = arg.index("-d") + 1
-        file_index = (arg.index("-f")
-                      if arg.index("-f") > arg.index("-d") else len(arg))
+        file_index = (
+            arg.index("-f")
+            if "-f" in arg and arg.index("-f") > arg.index("-d")
+            else len(arg)
+        )
         directory = os.path.join(*arg[dir_index:file_index])
 
     if "-f" in arg:
