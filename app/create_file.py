@@ -1,55 +1,44 @@
-import os
 import sys
-from datetime import datetime
-
-
-def create_dir(path: str) -> None:
-    try:
-        os.makedirs(path, exist_ok=True)
-    except EOFError as error:
-        print(f"Error: {error}")
-        sys.exit(1)
+import datetime
+import os
 
 
 def create_file(file_path: str) -> None:
-    file_exist = False
-    if os.path.exists(file_exist):
-        file_exist = True
+    mode = "a" if os.path.isfile(file_path) else "w"
+    with open(f"{file_path}", mode) as file:
+        if mode == "a":
+            file.write("\n\n")
 
-    with open(file_path, "a") as file:
-        current_date_and_time = datetime.now()
-        if file_exist:
-            file.write("\n")
-        file.write(f"{current_date_and_time.strftime('%y-%m-%d %H:%M:%S')}\n")
+        file.write(f"{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
         line_number = 1
         while True:
-            content = input("Enter content line: ")
-            if content.lower() == "stop":
+            next_line = input("Enter content line: ")
+            if next_line == "stop":
                 break
-            file.write(f"{line_number} {content}\n")
+            file.write(f"\n{line_number} {next_line}")
             line_number += 1
 
 
-def main() -> None:
-    if "-d" in sys.argv and "-f" in sys.argv:
-        path = os.getcwd()
-        dir_index = sys.argv.index("-d") + 1
-        file_index = sys.argv.index("-f") + 1
-        directory = os.path.join(path, *sys.argv[dir_index: file_index - 1])
-        filename = sys.argv[file_index]
-        create_dir(directory)
-        file_path = os.path.join(directory, filename)
-        create_file(file_path)
-    elif "-d" in sys.argv:
-        dir_index = sys.argv.index("-d") + 1
-        directory = os.path.join(*sys.argv[dir_index:])
-        create_dir(directory)
-    elif "-f" in sys.argv:
-        file_index = sys.argv.index("-f") + 1
-        filename = sys.argv[file_index]
-        create_file(filename)
+def app_for_create_file() -> None:
+    arg = sys.argv
+    directory = os.getcwd()
+    file_name = None
+
+    if "-d" in arg:
+        dir_index = arg.index("-d") + 1
+        file_index = (arg.index("-f")
+                      if arg.index("-f") > arg.index("-d") else len(arg))
+        directory = os.path.join(*arg[dir_index:file_index])
+
+    if "-f" in arg:
+        file_name = arg[arg.index("-f") + 1]
+
+    os.makedirs(directory, exist_ok=True)
+
+    if file_name:
+        create_file(os.path.join(directory, file_name))
 
 
 if __name__ == "__main__":
-    main()
+    app_for_create_file()
