@@ -1,22 +1,9 @@
-import sys
-import os
+import argparse
 import datetime
+import os
 
 
 def main() -> None:
-    def create_path_and_file_name(arguments: list) -> list:
-        file_name = ""
-        directory = []
-        flag = True
-        for value in arguments:
-            if value == "-f":
-                flag = False
-            if flag and value != "-d":
-                directory.append(value)
-            elif value not in ("-d", "-f"):
-                file_name = value
-        return [directory, file_name]
-
     def create_dir(directory: list) -> None:
         for direc in directory:
             if not os.path.exists(direc):
@@ -33,15 +20,18 @@ def main() -> None:
                     break
                 file.write(content_line + "\n")
 
-    input_arguments = sys.argv
-    input_arguments.pop(0)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-f", "--file",
+                        help="-d for create directory, -f for create file")
+    parser.add_argument("-d", "--dir", nargs="+",
+                        help="-d for create directory, -f for create file")
+    command = parser.parse_args()
     os.chdir("app")
-    path = create_path_and_file_name(input_arguments)
-    if "-d" not in input_arguments:
-        write_information_into_file(path[1])
+    if not command.dir:
+        write_information_into_file(command.file)
     else:
-        create_dir(path[0])
-        write_information_into_file(path[1])
+        create_dir(command.dir)
+        write_information_into_file(command.file)
 
 
 if __name__ == "__main__":
