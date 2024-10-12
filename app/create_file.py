@@ -30,7 +30,7 @@ def create_file_from_terminal() -> None:
             os.makedirs(dir_path)
 
 
-def write_content(full_path) -> None:
+def write_content(full_path: str) -> None:
     line_number = 1
     file_content = f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
     while True:
