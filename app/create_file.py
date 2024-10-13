@@ -16,26 +16,27 @@ def create_file_from_terminal() -> None:
     if len(commands) == 1:
         raise ValueError("No commands provided! Use '-d' for "
                          "directory and '-f' for file name.")
+
     if "-f" in commands:
         index_f = commands.index("-f")
         if not commands[index_f + 1:]:
             raise IndexError("No file name provided after '-f'.")
-        file_name = commands[index_f + 1:][0]
+        input_file_name = commands[index_f + 1:][0]
 
         if "-d" in commands:
-            dir_path = make_dir(commands, index_f)
+            dir_path = create_directory_path(commands, index_f)
 
-            full_path = os.path.join(dir_path, file_name)
+            full_path = os.path.join(dir_path, input_file_name)
         else:
-            full_path = file_name
+            full_path = input_file_name
 
-        write_content(full_path)
+        input_and_write_content_file(full_path)
 
     elif "-d" in commands:
-        make_dir(commands)
+        create_directory_path(commands)
 
 
-def make_dir(commands: list, index_f: int = None) -> str:
+def create_directory_path(commands: list, index_f: int = None) -> str:
     """
        Create a directory if it does not exist,
        based on the command-line arguments.
@@ -59,7 +60,7 @@ def make_dir(commands: list, index_f: int = None) -> str:
     return dir_path
 
 
-def write_content(full_path: str) -> None:
+def input_and_write_content_file(full_path: str) -> None:
     """
        Write content into the file specified by full_path.
        Appends a timestamp and content lines entered by the user.
