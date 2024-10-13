@@ -78,7 +78,8 @@ def write_content(full_path: str) -> None:
             line_content = input("Enter content line: ")
             if line_content.lower() == "stop":
                 break
-            file_to_write.write(f"{line_number} Line{line_number} {line_content}\n")
+            file_to_write.write(f"{line_number} "
+                                f"Line{line_number} {line_content}\n")
             line_number += 1
         file_to_write.write("\n")
 
