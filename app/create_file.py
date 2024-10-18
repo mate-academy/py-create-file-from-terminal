@@ -4,7 +4,7 @@ import sys
 
 
 def create_file(name: str, path_to_file: str = "") -> None:
-    
+
     with open(path_to_file + name, "w") as file:
         file.write(f"{datetime.datetime.now()}")
         line_number = 1
@@ -14,6 +14,7 @@ def create_file(name: str, path_to_file: str = "") -> None:
                 break
             file.write(f"{line_number} {content}")
             line_number += 1
+
 
 command = sys.argv
 if "-d" not in command and "-f" in command:
