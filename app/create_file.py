@@ -5,7 +5,7 @@ from datetime import datetime
 
 def write_file(filename: str | bytes) -> None:
     with open(filename, "a") as file:
-        file.write(f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
+        file.write(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n')
         count = 0
         while True:
             line = input("Enter content line: ")
@@ -25,11 +25,12 @@ def argument_parser() -> argparse.Namespace:
 
 def create_dir() -> None:
     args = argument_parser()
+    path = ""
     if args.directory:
-        path = os.path.join("", *args.directory)
+        path = os.path.join(*args.directory)
         os.makedirs(path, exist_ok=True)
     if args.file:
-        path = os.path.join(*args.directory, args.file)
+        path = os.path.join(path, args.file)
         write_file(path)
 
 
