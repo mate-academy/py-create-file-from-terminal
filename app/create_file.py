@@ -3,6 +3,21 @@ import os.path
 import sys
 
 
+def get_directory_data(data: list[str]) -> list[str] | bool:
+    """Extract directory data from the terminal arguments."""
+    if "-d" not in data:
+        return False
+    elif "-d" in data and "-f" in data:
+        return data[data.index("-d") + 1:data.index("-f")]
+
+    return data[data.index("-d") + 1:]
+
+
+def get_filename_data(data: list[str]) -> str:
+    """Extract file data from the terminal arguments."""
+    return data[-1] if "-f" in data else "file.txt"
+
+
 def get_directory_and_file(data: list[str]) -> tuple:
     """
     We receive data from the terminal and find directories and a file
@@ -10,26 +25,10 @@ def get_directory_and_file(data: list[str]) -> tuple:
     to False. If there is no final file, we write a string with
     the file name.
     """
-    if "-d" not in data:
-        directory_data = False
-    elif "-d" in data and "-f" in data:
-        directory_data = data[data.index("-d") + 1:data.index("-f")]
-    else:
-        directory_data = data[data.index("-d") + 1:]
-
-    if "-f" not in data:
-        file_data = "file.txt"
-    else:
-        file_data = data[-1]
+    directory_data = get_directory_data(data)
+    file_data = get_filename_data(data)
 
     return directory_data, file_data
-
-
-def get_path(*args: str | list) -> str:
-    """
-    Function for collecting path
-    """
-    return os.path.join(*args)
 
 
 def create_path(data: list[str]) -> str:
@@ -40,13 +39,11 @@ def create_path(data: list[str]) -> str:
     directory_path, file_name = get_directory_and_file(data)
 
     if not directory_path:
-        full_path = file_name
-    else:
-        path = get_path(*directory_path)
-        os.makedirs(path, exist_ok=True)
-        full_path = get_path(path, file_name)
+        return file_name
 
-    return full_path
+    os.makedirs(os.path.join(*directory_path), exist_ok=True)
+    # full_path = os.path.join(*directory_path, file_name)
+    return os.path.join(*directory_path, file_name)
 
 
 def write_to_file(path: str, mode: str) -> None:
@@ -58,7 +55,7 @@ def write_to_file(path: str, mode: str) -> None:
 
     with open(path, mode) as destination_file:
         destination_file.write(current_time.strftime("%Y-%m-%d %X\n"))
-        line_number = 1
+        line_counter = 1
 
         while True:
             user_input = input("Enter content line: ")
@@ -66,13 +63,14 @@ def write_to_file(path: str, mode: str) -> None:
                 destination_file.write("\n")
                 break
 
-            destination_file.write(f"{line_number} {user_input}\n")
-            line_number += 1
+            destination_file.write(f"{line_counter} {user_input}\n")
+            line_counter += 1
 
 
 def main() -> None:
-    data_from_terminal = sys.argv
-    full_path = create_path(data_from_terminal)
+    terminal_arguments = sys.argv
+    full_path = create_path(terminal_arguments)
+    print(full_path)
 
     if os.path.exists(full_path):
         write_to_file(full_path, "a")
