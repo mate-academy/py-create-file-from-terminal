@@ -42,7 +42,6 @@ def create_path(data: list[str]) -> str:
         return file_name
 
     os.makedirs(os.path.join(*directory_path), exist_ok=True)
-    # full_path = os.path.join(*directory_path, file_name)
     return os.path.join(*directory_path, file_name)
 
 
