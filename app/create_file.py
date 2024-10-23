@@ -10,8 +10,7 @@ def f_flag_func(file_name: str) -> None:
         if os.path.getsize(file_name) != 0:
             f.write("\n")
 
-        f.write(current_date.strftime("%Y-%m-%d %H:%M:%S"))
-        f.write("\n")
+        f.write(f"{current_date.strftime("%Y-%m-%d %H:%M:%S")}\n")
 
         while True:
             string = input("Enter content line: ")
@@ -21,8 +20,7 @@ def f_flag_func(file_name: str) -> None:
             f.write(str(counter_lines))
             f.write(" ")
             counter_lines += 1
-            f.write(string)
-            f.write("\n")
+            f.write(f"{string}\n")
 
 
 def d_flag_func(directories: list) -> None:
@@ -44,7 +42,6 @@ def main() -> None:
         d_flag_func(input_start[1:f_index])
         file_name_path = os.path.join(*input_start[1:f_index], input_start[-1])
         f_flag_func(str(file_name_path))
-        # f_flag_func(input_start[-1])
 
 
 if __name__ == "__main__":
