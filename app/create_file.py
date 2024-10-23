@@ -15,7 +15,7 @@ def create_file(file_path: str) -> None:
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         f.write(f"{current_time}\n")
 
-        line_number = 1
+        line_number = 0
 
         while True:
             line_number += 1
@@ -38,3 +38,7 @@ def main() -> None:
         file_name = sys.argv[f_index + 1]
         file_path = os.path.join(*directory_parts, file_name)
         create_file(file_path)
+
+
+if __name__ == "__main__":
+    main()
