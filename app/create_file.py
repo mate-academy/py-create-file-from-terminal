@@ -25,13 +25,13 @@ def argument_parser() -> argparse.Namespace:
 
 def create_dir() -> None:
     args = argument_parser()
-    path = ""
     if args.directory:
         path = os.path.join(*args.directory)
         os.makedirs(path, exist_ok=True)
     if args.file:
-        path = os.path.join(path, args.file)
+        path = os.path.join(*args.directory, args.file)
         write_file(path)
 
 
-create_dir()
+if __name__ == "__main__":
+    create_dir()
