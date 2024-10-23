@@ -3,19 +3,31 @@ import os
 from datetime import datetime
 
 
-command = sys.argv
-path_parts = command[2:] if "-f" not in command else command[2:-2]
-file_name = command[-1] if "-f" in command else ""
+def parse_comms() -> tuple:
+    command = sys.argv
+
+    if "-f" in command and "-d" in command:
+        path_parts = command[2:command.index("-f")]
+        file_name = command[command.index("-f") + 1]
+
+    elif "-d" in command:
+        path_parts = command[2:]
+        file_name = ""
+
+    elif "-f" in command:
+        path_parts = []
+        file_name = command[command.index("-f") + 1]
+    else:
+        raise ValueError("invalid command, you should use -d or -f")
+    return path_parts, file_name
 
 
-def create_dir() -> None:
+def create_dir(path_parts: list) -> None:
     if not os.path.exists(os.path.join(*path_parts)):
         os.makedirs(os.path.join(*path_parts))
 
 
-def create_file() -> None:
-    if "-d" in command:
-        os.chdir(os.path.join(*path_parts))
+def create_file(file_name: str) -> None:
     with open(file_name, "a") as f:
         f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
         line_num = 1
@@ -28,8 +40,10 @@ def create_file() -> None:
 
 
 if __name__ == "__main__":
-    if "-d" in command:
-        create_dir()
+    path_parts, file_name = parse_comms()
 
-    if "-f" in command:
-        create_file()
+    if path_parts:
+        create_dir(path_parts)
+
+    if file_name:
+        create_file(file_name)
