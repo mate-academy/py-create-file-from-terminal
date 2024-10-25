@@ -20,7 +20,7 @@ if "-f" in args:
     is_file = True
 
 if is_directory:
-    dir_path = os.path.join(*directory)
+    dir_path = os.path.join(directory)
     os.makedirs(dir_path, exist_ok=True)
 
 
