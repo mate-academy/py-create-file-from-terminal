@@ -33,12 +33,12 @@ def write_to_file(file_path: str, content_lines: list) -> None:
 def main() -> None:
     args = sys.argv[1:]
 
-    directory = []
+    directory = ""
     file_name = None
 
     for i, arg in enumerate(args):
         if arg == "-d":
-            directory.extend(args[i + 1:])
+            directory += args[i + 1:]
             break
         elif arg == "-f" and i + 1 < len(args):
             file_name = args[i + 1]
