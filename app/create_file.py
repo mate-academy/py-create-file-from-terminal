@@ -44,10 +44,8 @@ def main() -> None:
     else:
         dir_path = None
 
-    if args.file:
-        file_path = os.path.join(dir_path,
-                                 args.file) if dir_path else args.file
-        create_file(file_path)
+    file_path = os.path.join(dir_path, args.file) if dir_path else args.file
+    create_file(file_path)
 
 
 if __name__ == "__main__":
