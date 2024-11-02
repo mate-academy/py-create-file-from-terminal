@@ -1,7 +1,8 @@
-import sys
 import os
 
 from datetime import datetime
+
+import argparse
 
 
 def create_path(directories: list) -> str:
@@ -9,8 +10,13 @@ def create_path(directories: list) -> str:
     return path
 
 
-def create_file(path: os) -> None:
-    with open(path, "w") as f:
+def create_dictionary(path: str) -> None:
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+
+def create_file(path: str) -> None:
+    with open(path, "a") as f:
         f.write(f'{datetime.now().strftime("%m-%d-%Y %H:%M:%S")}\n')
         new_content = input("Enter new line of content: ")
 
@@ -21,19 +27,17 @@ def create_file(path: os) -> None:
             number_string += 1
 
 
-def create_dictionary(path: str) -> None:
-    if not os.path.exists(path):
-        os.makedirs(path)
+parser = argparse.ArgumentParser()
+parser.add_argument("-f", "--file", type=str, nargs="*")
+parser.add_argument("-d", "--dir", type=str, nargs="*")
+args = parser.parse_args()
 
+if args.file and args.dir:
+    create_dictionary(create_path(args.dir))
+    create_file(create_path(args.dir + args.file))
 
-path = sys.argv
-if path[1] == "-d" and path[-2] == "-f":
-    create_dictionary(create_path(path[2:-2]))
-    del [path[-2]]
-    create_file(create_path(path[2:]))
+elif args.dir:
+    create_dictionary(create_path(args.dir))
 
-if path[1] == "-d":
-    create_dictionary(create_path(path[2:]))
-
-if path[1] == "-f":
-    create_file(path[-1])
+elif args.file:
+    create_file(create_path(args.file))
