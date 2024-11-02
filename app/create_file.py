@@ -32,12 +32,17 @@ parser.add_argument("-f", "--file", type=str, nargs="*")
 parser.add_argument("-d", "--dir", type=str, nargs="*")
 args = parser.parse_args()
 
-if args.file and args.dir:
-    create_dictionary(create_path(args.dir))
-    create_file(os.path.join(create_path(args.dir), *args.file))
 
-elif args.dir:
-    create_dictionary(create_path(args.dir))
+def create_file_to_terminal(file_name, directories):
+    if args.file and args.dir:
+        create_dictionary(create_path(args.dir))
+        create_file(os.path.join(create_path(args.dir), *args.file))
 
-elif args.file:
-    create_file(create_path(args.file))
+    elif args.dir:
+        create_dictionary(create_path(args.dir))
+
+    elif args.file:
+        create_file(create_path(args.file))
+
+
+create_file_to_terminal(file_name=args.file, directories=args.dir)
