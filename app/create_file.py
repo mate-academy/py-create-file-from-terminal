@@ -34,7 +34,7 @@ args = parser.parse_args()
 
 if args.file and args.dir:
     create_dictionary(create_path(args.dir))
-    create_file(create_path(args.dir + args.file))
+    create_file(os.path.join(create_path(args.dir), *args.file))
 
 elif args.dir:
     create_dictionary(create_path(args.dir))
