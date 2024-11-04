@@ -3,54 +3,53 @@ import os
 from datetime import datetime
 
 
-args = sys.argv[1:]
+def create_directory(path_parts: list[str]) -> None:
+    if not os.path.exists(os.path.join(*path_parts)):
+        os.makedirs(os.path.join(*path_parts))
+        print(f"Directory '{os.path.join(*path_parts)}' created!")
 
-directory = None
-filename = None
-is_directory = False
-is_file = False
-
-if "-d" in args:
-    d_index = args.index("-d")
-    directory = args[d_index + 1]
-    is_directory = True
-
-if "-f" in args:
-    f_index = args.index("-f")
-    filename = args[f_index + 1]
-    is_file = True
-
-if is_directory:
-    dir_path = os.path.join(*directory)
-    os.makedirs(dir_path, exist_ok=True)
+    else:
+        print(f"Directory '{os.path.join(*path_parts)}' already exists.")
 
 
-def get_file_content() -> None:
-    content_lines = []
-    while True:
-        line = input("Enter content line: ")
-        if line.lower() == "stop":
-            break
-        content_lines.append(line)
-    return content_lines
-
-
-if is_file:
-    if not is_directory:
-        dir_path = ""
-
-    content = get_file_content()
+def create_file(file_path: str) -> None:
+    if os.path.exists(file_path):
+        print(f"File '{file_path}' exists. Appending new content...")
+    else:
+        print(f"Creating new file: '{file_path}'")
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    lines_with_numbers = [f"{i + 1} {line}" for i, line in enumerate(content)]
 
-    full_path = os.path.join(dir_path, filename)
+    with open(file_path, "a") as f:
+        f.write(f"\n{timestamp}\n")
 
-    with open(full_path, "a") as f:
-        if os.path.getsize(full_path) > 0:
-            f.write("\n")
-        f.write(f"{timestamp}\n")
-        f.write("\n".join(lines_with_numbers) + "\n")
+        str_count = 1
+        while True:
+            content = input(f"Enter content line {str_count}: ")
+            if content.lower() == "stop":
+                break
+                f.write(f"{str_count} {content}\n")
+                str_count += 1
 
-    if not is_directory and not is_file:
-        print("Please provide at least one flag (-d or -f).")
+        if __name__ == "__main__":
+            if len(sys.argv) < 2:
+                print("Arguments Error!")
+                sys.exit(1)
+
+    if "-d" in sys.argv:
+        dir_parts = sys.argv[sys.argv.index("-d") + 1:]
+        if "-f" in dir_parts:
+            dir_parts = dir_parts[:dir_parts.index("-f")]
+        create_directory(dir_parts)
+
+    if "-f" in sys.argv:
+        file_name = sys.argv[sys.argv.index("-f") + 1]
+        if "-d" in sys.argv:
+            directory_path = (os.path.join
+                              (*sys.argv[sys.argv.index("-d")
+                                         + 1:sys.argv.index("-f")]))
+            file_path = os.path.join(directory_path, file_name)
+        else:
+            file_path = file_name
+
+        create_file(file_path)
