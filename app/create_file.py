@@ -36,6 +36,10 @@ def write_content_to_file(file_path: str) -> None:
 
 def main() -> None:
     args = sys.argv[1:]
+    if "-f" not in args and "-d" not in args:
+        print("Please specify either -d (directory) or -f (file) flag.")
+        return
+
     if "-d" in args:
         # Handle directory creation
         dir_index = args.index("-d") + 1
@@ -51,15 +55,11 @@ def main() -> None:
         file_path = os.path.join(dir_path, file_name)
 
         # Create file if it does not exist
-        if not os.path.exists(file_path):
-            with open(file_path, "w"):
-                pass
+        open(file_path, "w").close()  # Creates file if it doesn't exist
         print(f"File created at: {file_path}")
 
         # Write content to file
         write_content_to_file(file_path)
-    elif "-d" not in args:
-        print("Please specify either -d (directory) or -f (file) flag.")
 
 
 if __name__ == "__main__":
