@@ -1,63 +1,63 @@
 import os
+import sys
 from datetime import datetime
+from typing import List
 
 
-def create_directory(path_parts: str) -> str:
+def create_directory(path_parts: List[str]) -> str:
     path = os.path.join(*path_parts)
     os.makedirs(path, exist_ok=True)
     return path
 
 
-def write_to_file(file_path: str) -> str:
+def write_to_file(file_path: str) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    print("Enter content lines (type 'stop' to finish):")
+
     content_lines = []
-    print("Enter content line: ", end="")
     while True:
-        line = input()
-        if line.strip().lower() == "stop":
+        line = input("Enter line: ").strip()
+        if line.lower() == "stop":
             break
         content_lines.append(line)
-    existing_content = []
-    if os.path.exists(file_path):
-        with open(file_path, "r") as f:
-            existing_content = f.readlines()
 
-    with open(file_path, "a") as f:
-        if existing_content:
-            f.write("\n")
-        f.write(f"{timestamp}\n")
+    with open(file_path, "a") as file:
+        if os.path.getsize(file_path) > 0:
+            file.write("\n")
+        file.write(f"{timestamp}\n")
         for i, line in enumerate(content_lines, start=1):
-            f.write(f"{i} {line}\n")
+            file.write(f"{i} {line}\n")
 
 
 def main() -> None:
-    print("Welcome to the file creation program!")
-    action = input("What would you like to do? "
-                   "Create a directory, a file, "
-                   "or both? (dir/file/both): ").strip().lower()
 
-    if action == "dir" or action == "both":
-        directory_parts = input("Enter the directory path as "
-                                "space-separated parts "
-                                "(e.g., 'dir1 dir2'): ").split()
-        if directory_parts:
-            target_path = create_directory(directory_parts)
-            print(f"Directory created at: {target_path}")
-        else:
-            print("Error: No directory path provided.")
-            return
-    else:
-        target_path = os.getcwd()
+    if len(sys.argv) < 2:
+        print("Usage: python create_file.py "
+              "-d [directory parts] -f [file name]")
+        return
 
-    if action == "file" or action == "both":
-        file_name = input("Enter the file name (e.g., 'file.txt'): ").strip()
-        if not file_name:
-            print("Error: No file name provided.")
-            return
+    args = sys.argv[1:]
+    directory_parts = []
+    file_name = None
+
+    if "-d" in args:
+        d_index = args.index("-d")
+        for item in args[d_index + 1:]:
+            if item == "-f":
+                break
+            directory_parts.append(item)
+
+    if "-f" in args:
+        f_index = args.index("-f")
+        if f_index + 1 < len(args):
+            file_name = args[f_index + 1]
+
+    target_path = os.getcwd()
+    if directory_parts:
+        target_path = create_directory(directory_parts)
+        print(f"Directory created: {target_path}")
+
+    if file_name:
         file_path = os.path.join(target_path, file_name)
         write_to_file(file_path)
-        print(f"File created at: {file_path}")
-
-
-if __name__ == "__main__":
-    main()
+        print(f"File created/updated at: {file_path}")
