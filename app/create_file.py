@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 
-def create_directories(path_components:  list[str]) -> str:
+def create_directories(path_components: list[str]) -> str:
     path = os.path.join(*path_components)
     if not os.path.exists(path):
         os.makedirs(path)
@@ -58,9 +58,15 @@ def main() -> None:
 
     if not file_name:
         if directories:
-            print("Directories created successfully. No file specified. Use the -f flag to create or update a file.")
+            print(
+                "Directories created successfully. No file specified."
+                " Use the -f flag to create or update a file."
+            )
         else:
-            print("Error: No file specified. Use the -f flag to create or update a file.")
+            print(
+                "Error: No file specified. "
+                "Use the -f flag to create or update a file."
+            )
         sys.exit(1)
 
     target_path = os.getcwd()
