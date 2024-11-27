@@ -1,10 +1,9 @@
 import sys
 import os
 from datetime import datetime
-from typing import LiteralString
 
 
-def create_directories(path_components: str) -> LiteralString | str | bytes:
+def create_directories(path_components:  list[str]) -> str:
     path = os.path.join(*path_components)
     if not os.path.exists(path):
         os.makedirs(path)
@@ -26,7 +25,7 @@ def write_to_file(file_path: str) -> None:
             content = input("Enter content line: ")
             if content.lower() == "stop":
                 break
-            f.write(f"{line_number} {content}\\n")
+            f.write(f"{line_number} {content}\n")
             line_number += 1
 
     print(f"File updated: {file_path}")
@@ -56,6 +55,13 @@ def main() -> None:
 
         if f_index + 1 < len(args):
             file_name = args[f_index + 1]
+
+    if not file_name:
+        if directories:
+            print("Directories created successfully. No file specified. Use the -f flag to create or update a file.")
+        else:
+            print("Error: No file specified. Use the -f flag to create or update a file.")
+        sys.exit(1)
 
     target_path = os.getcwd()
     if directories:
