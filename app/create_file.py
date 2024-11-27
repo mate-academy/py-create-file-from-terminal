@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import LiteralString
 
 
-def create_directories(path_components) -> LiteralString | str | bytes:
+def create_directories(path_components: str) -> LiteralString | str | bytes:
     path = os.path.join(*path_components)
     if not os.path.exists(path):
         os.makedirs(path)
@@ -15,7 +15,7 @@ def create_directories(path_components) -> LiteralString | str | bytes:
     return path
 
 
-def write_to_file(file_path) -> None:
+def write_to_file(file_path: str) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     with open(file_path, "a") as f:
@@ -23,7 +23,7 @@ def write_to_file(file_path) -> None:
         line_number = 1
 
         while True:
-            content = input(f"Enter content line: ")
+            content = input("Enter content line: ")
             if content.lower() == "stop":
                 break
             f.write(f"{line_number} {content}\\n")
@@ -64,6 +64,7 @@ def main() -> None:
     if file_name:
         file_path = os.path.join(target_path, file_name)
         write_to_file(file_path)
+
 
 if __name__ == "__main__":
     main()
