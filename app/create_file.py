@@ -4,6 +4,7 @@ import datetime
 
 param = sys.argv[1:]  # Ігноруємо перший елемент (назву сценарію)
 
+
 def create_from_terminal_file(arguments: list) -> None:
     if "-d" in arguments and "-f" not in arguments:
         base_path = os.getcwd()
@@ -49,5 +50,6 @@ def create_from_terminal_file(arguments: list) -> None:
                     file.close()
                     return
                 file.write(f"{nums} {user_input}\n")
+
 
 create_from_terminal_file(param)
