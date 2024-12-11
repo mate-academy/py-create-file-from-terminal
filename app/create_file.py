@@ -21,10 +21,10 @@ def create_file() -> None:
                 if line.lower() == "stop":
                     break
                 file.write(line + "\n")
-    elif "-d" and "-f":
-        file_path = os.path.join(sys.argv[2], sys.argv[3])
-        os.makedirs(file_path, exist_ok=True)
+    elif "-d" and "-f" in sys.argv:
         file_name = sys.argv[5]
+        file_path = os.path.join(sys.argv[2], sys.argv[3], file_name)
+        os.makedirs(file_path, exist_ok=True)
         with open(file_name, "w") as file:
             file.write(formatted)
             print("Enter content line: ")
