@@ -30,7 +30,7 @@ def create_file() -> None:
     content_line = []
     print("Enter content line (type 'stop' to finish):")
     while True:
-        line = input("Enter content line")
+        line = input("Enter content line: ")
         if line == "stop":
             break
         content_line.append(line)
