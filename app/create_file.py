@@ -9,10 +9,12 @@ def fill_file_content(name_file: str) -> None:
         new_file.write(time_label + "\n")
         content = ""
         data = ""
+        count = 1
         while data != "stop":
             data = input("Enter content line:")
             if data != "stop":
-                content += data + "\n"
+                content += f"{count} " + data + "\n"
+                count += 1
         new_file.write(content + "\n")
 
 
@@ -36,9 +38,7 @@ def create_file_from_terminal() -> None:
     if "-d" in arguments and "-f" in arguments:
         index_flag = arguments.index("-f")
         path = os.path.join(*arguments[1:index_flag])
-        name_file = path + "/" + arguments[index_flag + 1:]
-        print(name_file)
-        print(path)
+        name_file = os.path.join(path, arguments[index_flag + 1:][0])
         create_dir(path)
         create_file(name_file)
 
@@ -50,3 +50,5 @@ def create_file_from_terminal() -> None:
     elif "-f" in arguments:
         name_file = arguments[1]
         create_file(name_file)
+
+create_file_from_terminal()
