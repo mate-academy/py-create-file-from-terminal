@@ -1,12 +1,11 @@
 import sys
 import os
 from datetime import datetime
-"""
-імпорт бібліотек
-"""
+# імпорт бібліотек
 
-def create_file():
-    args = sys.argv[1:] #зріз з командної строки
+
+def create_file() -> None:
+    args = sys.argv[1:]   # зріз з командної строки
     if "-d" in args:
         dir_index = args.index("-d") + 1
         directories = args[dir_index:]
@@ -28,7 +27,6 @@ def create_file():
         print("Error: Missing '-f' flag for file creation.")
         return
 
-
     content_line = []
     print("Enter content line (type 'stop' to finish):")
     while True:
@@ -39,7 +37,8 @@ def create_file():
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     formatted_ts = f"\n{timestamp}\n"
-    formatted_ts += "\n".join(f"{i + 1} {line}" for i, line in enumerate(content_line))
+    formatted_ts += "\n".join(f"{i + 1} {line}"
+                              for i, line in enumerate(content_line))
 
     if os.path.exists(file_path):
         with open(file_path, "a") as f:
@@ -49,13 +48,3 @@ def create_file():
             f.write(formatted_ts)
 
     print(f"File created/updated at: {file_path}")
-
-
-
-
-if __name__ == "__main__":
-    create_file("-d dir1 ,dir2 -f file.txt")
-
-
-
-
