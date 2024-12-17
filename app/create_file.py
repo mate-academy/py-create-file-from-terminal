@@ -50,5 +50,3 @@ def create_file_from_terminal() -> None:
     elif "-f" in arguments:
         name_file = arguments[1]
         create_file(name_file)
-
-create_file_from_terminal()
