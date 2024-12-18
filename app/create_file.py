@@ -2,10 +2,9 @@ import os
 import sys
 from datetime import datetime
 from typing import TextIO
-from xmlrpc.client import DateTime
 
 
-def create_directory(path_parts) -> str:
+def create_directory(path_parts: str) -> str:
     path = os.path.join(*path_parts)
     os.makedirs(path, exist_ok=True)
     return path
@@ -15,16 +14,17 @@ def get_timestamp() -> str:
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
-def create_or_append_file(file_path) -> TextIO:
+def create_or_append_file(file_path: str) -> TextIO:
     return open(file_path, "a")
 
 
-def main():
+def main() -> None:
     args = sys.argv[1:]
     if "-d" in args:
         d_index = args.index("-d")
         f_index = args.index("-f") if "-f" in args else None
-        path_parts = args[d_index + 1: f_index] if f_index else args[d_index + 1:]
+        path_parts = args[d_index + 1: f_index] \
+            if f_index else args[d_index + 1:]
         directory = create_directory(path_parts)
     else:
         directory = "."
