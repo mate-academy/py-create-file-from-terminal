@@ -6,9 +6,9 @@ from datetime import datetime
 def create_file_with_content(file_path: str) -> None:
     timestomp = datetime.now()
     timestomp = timestomp.strftime("%Y-%m-%d %H:%M:%S")
-    print("Enter content (tiping 'stop' to finish)")
+    print("Enter content (typing 'stop' to finish)")
     while True:
-        input_line = input("Input contetent: ")
+        input_line = input("Input content: ")
         if input_line.lower() == "stop":
             break
         if os.path.exists(file_path):
@@ -24,11 +24,12 @@ def create_file_with_content(file_path: str) -> None:
 def main() -> None:
     args = sys.argv[1:]
     dir_path = os.getcwd()
+    file_name = "NewTextFile.txt"
     if not args:
-        print("No arguments. Use -b for show puth or -f to show file ")
+        print("No arguments. Use -d for show path or -f to show file ")
         return
-    if "-b" in args:
-        dir_index = args.index("-b")
+    if "-d" in args:
+        dir_index = args.index("-d")
         if "-f" in args:
             file_index = args.index("-f")
             dir_path = os.path.join(*args[dir_index + 1:file_index])
@@ -36,8 +37,11 @@ def main() -> None:
             dir_path = os.path.join(*args[dir_index + 1:])
 
         if dir_path:
-            os.makedirs(dir_path, exist_ok=True)
-            print(f"Directory created: {dir_path}")
+            if os.path.exists(dir_path):
+                print(f"{dir_path}, is already created")
+            else:
+                os.makedirs(dir_path, exist_ok=True)
+                print(f"Directory created: {dir_path}")
 
     if "-f" in args:
         file_index = args.index("-f")
