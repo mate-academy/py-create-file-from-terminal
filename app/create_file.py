@@ -8,6 +8,7 @@ def create_directory(path_parts: list[str]) -> str | bytes:
     os.makedirs(path, exist_ok=True)
     return path
 
+
 def write_to_file(file_path: str) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print("Enter content lines (type 'stop' to finish):")
