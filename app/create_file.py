@@ -4,12 +4,14 @@ from datetime import datetime
 
 
 def create_content_for_file() -> list[str]:
-    lines = [f"{datetime.now()}\n"]
+    lines = [f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"]
     number_of_line = 1
     line = input("Enter content line:")
     lines.append(f"{number_of_line} {line}\n")
-    while line != "stop":
+    while True:
         line = input("Enter content line:")
+        if line == "stop":
+            break
         number_of_line += 1
         lines.append(f"{number_of_line} {line}\n")
     lines.append("\n")
