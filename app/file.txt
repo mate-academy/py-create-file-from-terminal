@@ -1,0 +1,2 @@
+#Y-12-21 16:50:56
+1 (type 'stop' to finish): Line 1 content2 (type 'stop' to finish): Line 2 content3 (type 'stop' to finish): stop4 іеstop
