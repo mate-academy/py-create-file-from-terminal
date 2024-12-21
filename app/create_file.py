@@ -1,10 +1,11 @@
 import sys
 import os
 from datetime import datetime
+from typing import List
 
 
-def main():
-    args = sys.argv[1:]
+def main() -> None:
+    args: List[str] = sys.argv[1:]
     if not args:
         print("No arguments provided. Use -d for directories or -f for files.")
         return
@@ -16,15 +17,16 @@ def main():
         process_file(args)
 
     else:
-        print("No valid options provided. Please provide -d for directories or "
-              "-f for files.")
+        print("No valid options provided. Please provide -d for directories "
+              "or -f for files.")
 
-def process_directories(args):
+
+def process_directories(args: List[str]) -> None:
     """
     Create directories based on -d flag
     """
     dir_index = args.index("-d") + 1
-    dirs = []
+    dirs: List[str] = []
     while dir_index < len(args) and args[dir_index] != "-f":
         dirs.append(args[dir_index])
         dir_index += 1
@@ -42,7 +44,7 @@ def process_directories(args):
         print("No directories specified after -d.")
 
 
-def process_file(args):
+def process_file(args: List[str]) -> None:
     """
     Create or overwrite files based on -f flag
     """
@@ -52,18 +54,19 @@ def process_file(args):
         return
 
     filename = args[file_index]
-    content_lines = []
+    content_lines: List[str] = []
     print("Enter content line (type 'stop' to finish):")
 
     while True:
-        line = input("Enter content line: ")
+        line: str = input("Enter content line: ")
         if line.strip().lower() == "stop":
             break
         content_lines.append(line)
 
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    formatted_lines = [f"{timestamp}\n"] + [f"{i + 1} {line}" for i, line in
-                                            enumerate(content_lines)]
+    timestamp: str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    formatted_lines: List[str] = [
+        f"{timestamp}\n"
+    ] + [f"{i + 1} {line}" for i, line in enumerate(content_lines)]
 
     file_path = os.path.join(".", filename)
     with open(file_path, "a") as file:
