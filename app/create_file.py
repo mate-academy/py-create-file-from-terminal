@@ -15,6 +15,9 @@ def main():
     if "-f" in args:
         process_file(args)
 
+    else:
+        print("No valid options provided. Please provide -d for directories or "
+              "-f for files.")
 
 def process_directories(args):
     """
@@ -27,9 +30,14 @@ def process_directories(args):
         dir_index += 1
 
     if dirs:
-        path = os.path.join(*dirs)
-        os.makedirs(path, exist_ok=True)
-        print(f"Directory created: {path}")
+        try:
+            path = os.path.join(*dirs)
+            os.makedirs(path, exist_ok=True)
+            print(f"Directory created: {path}")
+        except PermissionError:
+            print(f"Permission denied to create directory: {path}")
+        except Exception as e:
+            print(f"Failed to create directory {path}: {e}")
     else:
         print("No directories specified after -d.")
 
