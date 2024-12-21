@@ -20,13 +20,12 @@ def create_content_for_file() -> list[str]:
 
 def create_dirs(path: str, terminal_args: list[str]) -> str:
     index = terminal_args.index("-f")
-    path_dir = os.path.join("/".join(sys.argv[2:index]))
-    os.makedirs(path_dir)
-    dir_path = os.path.join(path, path_dir)
-    return dir_path
+    path_dir = os.path.join(*sys.argv[2:index])
+    os.makedirs(path_dir, exist_ok=True)
+    return path_dir
 
 
-def write_file_content(path: str, file_name: str, content: str) -> None:
+def write_file_content(path: str, file_name: str, content: list[str]) -> None:
     with open(os.path.join(path, file_name), "a+") as file:
         file.writelines(content)
 
