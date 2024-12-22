@@ -36,7 +36,7 @@ def get_created_dirs_path(
 
     file_command_index = terminal_args.index("-f")
     dirs_names = terminal_args[1:file_command_index]
-    os.makedirs("/".join(dirs_names), exist_ok=True)
+    os.makedirs(os.path.join(*dirs_names), exist_ok=True)
     return os.path.join(root_path, *dirs_names)
 
 
@@ -46,7 +46,7 @@ def generate_file(
         content: str
 ) -> None:
 
-    with open(os.path.join(path, file_name), "w", encoding="utf-8") as file:
+    with open(os.path.join(path, file_name), "a", encoding="utf-8") as file:
         file.write(content)
 
 
