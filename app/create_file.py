@@ -2,10 +2,12 @@ import sys
 import os
 from datetime import datetime
 
+
 def create_directory(path_components: list[str]) -> None:
     path = os.path.join(*path_components)
     os.makedirs(path, exist_ok=True)
     print(f"Directory '{path}' created successfully.")
+
 
 def create_file(file_path: str) -> None:
     if os.path.exists(file_path):
@@ -27,6 +29,7 @@ def create_file(file_path: str) -> None:
             file.write(f"{line_number} {content}\n")
             line_number += 1
 
+
 def main() -> None:
     args = sys.argv[1:]
 
@@ -41,7 +44,9 @@ def main() -> None:
         if "-f" in args:
             file_index = args.index("-f")
             dir_components = args[dir_index + 1:file_index]
-            file_name = args[file_index + 1] if len(args) > file_index + 1 else None
+            file_name = args[file_index + 1] if (
+                    len(args) > file_index + 1
+            ) else None
         else:
             dir_components = args[dir_index + 1:]
             file_name = None
@@ -57,7 +62,9 @@ def main() -> None:
             create_file(file_path)
     elif "-f" in args:
         file_index = args.index("-f")
-        file_name = args[file_index + 1] if len(args) > file_index + 1 else None
+        file_name = args[file_index + 1] if (
+                len(args) > file_index + 1
+        ) else None
 
         if not file_name:
             print("Error: No file name specified after -f flag.")
@@ -66,6 +73,7 @@ def main() -> None:
         create_file(file_name)
     else:
         print("Usage: python create_file.py [-d dir1 dir2] [-f filename]")
+
 
 if __name__ == "__main__":
     main()
