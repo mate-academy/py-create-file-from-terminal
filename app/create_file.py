@@ -8,7 +8,7 @@ def get_command_from_terminal() -> tuple:
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--directories", nargs="*",
                         help="creates directories -d dir1 dir2")
-    parser.add_argument("-f", "--filename", default="file.txt", required=True,
+    parser.add_argument("-f", "--filename", default="file.txt", required=False,
                         help="creates file -f filename")
     args = parser.parse_args()
     directories = args.directories
