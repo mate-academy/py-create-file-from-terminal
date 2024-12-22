@@ -1,5 +1,4 @@
 import os
-import sys
 from datetime import datetime
 import argparse
 
@@ -18,7 +17,7 @@ def get_command_from_terminal() -> tuple:
 
 def file_manager() -> str:
     dir_names, file_name = get_command_from_terminal()
-    dir_path = "".join(sys.argv[0].split("/")[:-1])
+    dir_path = "".join(os.getcwd())
     if dir_names:
         for directory in dir_names:
             dir_path = os.path.join(dir_path, directory)
@@ -35,8 +34,8 @@ def getting_timestamp() -> str:
 
 def writing_to_file() -> None:
     file_path = file_manager()
+    line_index = 0
     with open(file_path, "a") as file:
-        line_index = 0
         file.write("\n" + getting_timestamp() + "\n")
         while True:
             user_input = input("Enter content line or 'stop': ")
