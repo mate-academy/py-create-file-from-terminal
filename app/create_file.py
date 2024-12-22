@@ -45,7 +45,7 @@ def main() -> None:
             file_index = args.index("-f")
             dir_components = args[dir_index + 1:file_index]
             file_name = args[file_index + 1] if (
-                    len(args) > file_index + 1
+                len(args) > file_index + 1
             ) else None
         else:
             dir_components = args[dir_index + 1:]
@@ -63,7 +63,7 @@ def main() -> None:
     elif "-f" in args:
         file_index = args.index("-f")
         file_name = args[file_index + 1] if (
-                len(args) > file_index + 1
+            len(args) > file_index + 1
         ) else None
 
         if not file_name:
