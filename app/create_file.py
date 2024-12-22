@@ -17,7 +17,7 @@ def get_command_from_terminal() -> tuple:
 
 def file_manager() -> str:
     dir_names, file_name = get_command_from_terminal()
-    dir_path = "".join(os.getcwd())
+    dir_path = os.getcwd()
     if dir_names:
         for directory in dir_names:
             dir_path = os.path.join(dir_path, directory)
@@ -34,9 +34,9 @@ def getting_timestamp() -> str:
 
 def writing_to_file() -> None:
     file_path = file_manager()
-    line_index = 0
     with open(file_path, "a") as file:
         file.write("\n" + getting_timestamp() + "\n")
+        line_index = 0
         while True:
             user_input = input("Enter content line or 'stop': ")
             if user_input == "stop":
