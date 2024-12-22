@@ -33,7 +33,8 @@ def getting_timestamp() -> str:
     return timestamp.strftime("%Y-%m-%d %H:%M:%S")
 
 
-def writing_to_file(file_path: str) -> None:
+def writing_to_file() -> None:
+    file_path = file_manager()
     with open(file_path, "a") as file:
         line_index = 0
         file.write("\n" + getting_timestamp() + "\n")
@@ -46,5 +47,4 @@ def writing_to_file(file_path: str) -> None:
 
 
 if __name__ == "__main__":
-    filepath = file_manager()
-    writing_to_file(filepath)
+    writing_to_file()
