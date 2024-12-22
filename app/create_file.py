@@ -3,13 +3,13 @@ import os
 import datetime as dt
 
 
-def filling_content(file_name: str) -> None:
+def filling_content(file_name) -> None:
     try:
         with open(file_name, "a") as f:
             timestamp = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             f.write(f"\n{timestamp}\n")
 
-            number_line = 0
+            number_line = 1
             while True:
 
                 text_input = input("Enter content line: ")
@@ -35,7 +35,7 @@ def create_file() -> None:
             os.makedirs(dir_path, exist_ok=True)
             print(f"Directory created: {dir_path}")
 
-            if "-f" in dir_path:
+            if "-f" in args:
                 f_index = args.index("-f") + 1
                 file_name = args[f_index]
                 file_path = os.path.join(dir_path, file_name)
