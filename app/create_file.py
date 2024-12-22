@@ -3,7 +3,7 @@ import os
 import datetime as dt
 
 
-def filling_content(file_name) -> None:
+def filling_content(file_name: str) -> None:
     try:
         with open(file_name, "a") as f:
             timestamp = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
