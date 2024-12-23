@@ -1,6 +1,7 @@
 import os
 import sys
 import datetime
+import argparse
 
 
 def create_directory(directory_path: str = "") -> None:
@@ -42,6 +43,10 @@ def create_directory_and_file() -> None:
 
 def main() -> None:
 
+    parser = argparse.ArgumentParser(description="Script to receive file path and file name")
+    parser.add_argument("-d", "--direction", nargs="+")
+    parser.add_argument("-f", "--file")
+    args = parser.parse_args()
     flags = ["-d", "-f"]
     if all(flag in sys.argv for flag in flags):
         create_directory_and_file()
