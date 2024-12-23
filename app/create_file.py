@@ -3,7 +3,7 @@ import sys
 from datetime import datetime
 
 
-def create_file():
+def create_file() -> None:
     current_dir = os.getcwd()
     if "-d" in sys.argv and "-f" in sys.argv:
         for i in range(sys.argv.index("-d"), sys.argv.index("f")):
@@ -34,4 +34,3 @@ def create_file():
                     break
                 f.write(f"{index_line}, {file_line}\n")
                 index_line += 1
-
