@@ -3,7 +3,7 @@ import sys
 from datetime import datetime
 
 
-def create_dict(dirs):
+def create_dict(dirs: list) -> str:
     path = os.path.join(*dirs)
     os.makedirs(path)
     return path
@@ -52,7 +52,7 @@ def main() -> None:
 
     target_path = os.getcwd()
     if directory_parts:
-        target_path = create_directory(directory_parts)
+        target_path = create_dict(directory_parts)
         print(f"Directory created: {target_path}")
 
     if file_name:
