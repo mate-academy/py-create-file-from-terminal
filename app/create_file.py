@@ -5,7 +5,6 @@ import datetime
 
 def create_folders(directions: list) -> str:
     directions_to_file = os.path.join(*directions)
-
     if not os.path.exists(directions_to_file):
         os.makedirs(directions_to_file)
     return directions_to_file
@@ -13,21 +12,16 @@ def create_folders(directions: list) -> str:
 
 def write_to_file(file_name: str, path: str = "") -> None:
     full_path = os.path.join(path, file_name)
-
     with open(full_path, "a") as file:
         now = datetime.datetime.now()
         formatted_time = now.strftime("%Y-%m-%d %H:%M:%S")
-
         file.write(str(formatted_time) + "\n")
         counter_lines = 1
-
         while True:
             content = input("Enter content line: ")
-
             if content == "stop":
-                file.write(f"\n")
+                file.write("\n")
                 break
-
             file.write(f"{counter_lines} {content}\n")
             counter_lines += 1
 
