@@ -43,7 +43,7 @@ def create_directory_and_file() -> None:
 
 def main() -> None:
 
-    parser = argparse.ArgumentParser(description="Script to receive file path and file name")
+    parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--direction", nargs="+")
     parser.add_argument("-f", "--file")
     args = parser.parse_args()
