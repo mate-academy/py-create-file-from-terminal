@@ -18,7 +18,7 @@ def create_file() -> None:
     if "-f" in sys.argv:
         data_current = datetime.now()
         index_line = 1
-
+        file_line = None
         with open(str(sys.argv[sys.argv.index("-f") + 1]), "a") as f:
             f.write(f"{data_current.strftime('%Y-%m-%d-%H-%M-%S')}")
 
