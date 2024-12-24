@@ -60,5 +60,3 @@ def create_file() -> None:
                 file.write("\n")
                 file.write(formatted_time)
                 read_input(file)
-
-create_file()
