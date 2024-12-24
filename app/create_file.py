@@ -21,7 +21,6 @@ def create_file() -> None:
         d_index = sys.argv.index("-d")
         d_params = sys.argv[d_index + 1:]
         name_dir = os.path.join(current_dir, "/".join(d_params))
-        os.makedirs(name_dir)
 
         if not os.path.exists(name_dir):
             os.makedirs(name_dir)
@@ -29,11 +28,15 @@ def create_file() -> None:
         dir_path = name_dir
 
     if "-f" in sys.argv:
+
+        if sys.argv.index("-f") + 1 >= len(sys.argv):
+            raise Exception("Please provide value after -f flag")
+
         f_name = sys.argv[sys.argv.index("-f") + 1:][0]
         if dir_path:
-            file_path = dir_path + "/" + f_name
+            file_path = os.path.join(dir_path, f_name)
         else:
-            file_path = f_name
+            file_path = os.path.join(current_dir, f_name)
 
         def read_input(file_to_process: TextIO) -> None:
             line_num = 1
@@ -57,3 +60,5 @@ def create_file() -> None:
                 file.write("\n")
                 file.write(formatted_time)
                 read_input(file)
+
+create_file()
