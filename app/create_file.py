@@ -10,9 +10,7 @@ def get_command_from_terminal() -> tuple:
     parser.add_argument("-f", "--filename", default="file.txt", required=False,
                         help="creates file -f filename")
     args = parser.parse_args()
-    directories = args.directories
-    filename = args.filename
-    return directories, filename
+    return args.directories, args.filename
 
 
 def file_manager() -> str:
@@ -23,8 +21,7 @@ def file_manager() -> str:
             dir_path = os.path.join(dir_path, directory)
             if not os.path.exists(dir_path):
                 os.mkdir(dir_path)
-    file_path = os.path.join(dir_path, file_name)
-    return file_path
+    return os.path.join(dir_path, file_name)
 
 
 def getting_timestamp() -> str:
