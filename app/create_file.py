@@ -17,16 +17,10 @@ def create_file() -> None:
 
     if "-f" in sys.argv:
         data_current = datetime.now()
-        file_line = ""
         index_line = 1
 
         with open(str(sys.argv[sys.argv.index("-f") + 1]), "a") as f:
-            f.write(f"{data_current.strftime('%Y')}-"
-                    f"{data_current.strftime('%m')}-"
-                    f"{data_current.strftime('%d')}-"
-                    f"{data_current.strftime('%H')}-"
-                    f"{data_current.strftime('%M')}-"
-                    f"{data_current.strftime('%S')}-")
+            f.write(f"{data_current.strftime('%Y-%m-%d-%H-%M-%S')}")
 
             while file_line != "stop":
                 file_line = input("Enter content line: ")
