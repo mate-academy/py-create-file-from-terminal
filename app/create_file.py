@@ -29,6 +29,10 @@ for _ in inp:
         mkdir(_)
 cdate = datetime.datetime.now()
 str_to_file = cdate.strftime("%Y-%m-%d %H:%M:%S") + "\n"
+line = 1
 while str_to_file != "stop\n":
-    fil.write(str_to_file)
+    fil.write(str(line) + " " + str_to_file)
+    line += 1
     str_to_file = str(input("Enter content line:")) + "\n"
+
+fil.close()
