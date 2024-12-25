@@ -4,11 +4,16 @@ from datetime import datetime
 
 
 def create_directory_and_file() -> None:
+    path = os.getcwd()
     if "-d" in sys.argv:
         index_d_command = sys.argv.index("-d")
-        directory = sys.argv[index_d_command + 1:]
-        path = os.path.join(*directory)
-        os.makedirs(path, exist_ok=True)
+        if (
+            (index_d_command + 1) < len(sys.argv)
+            and not sys.argv[index_d_command + 1].startswith("-")
+        ):
+            directory = sys.argv[index_d_command + 1]
+            path = os.path.abspath(directory)
+            os.makedirs(path, exist_ok=True)
 
     if "-f" in sys.argv:
         index_f_command = sys.argv.index("-f")
