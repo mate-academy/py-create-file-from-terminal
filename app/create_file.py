@@ -1,38 +1,30 @@
-import os
 import sys
-import datetime
-
-mode = "f"
-inp = sys.argv
+import os
+from datetime import datetime
 
 
-def mkdir(path: str) -> None:
-    if path != "-f":
-        cwd = os.getcwd()
-        os.mkdir(path)
-        os.chdir(cwd + "\\" + path)
+def create_directory_and_file() -> None:
+    if "-d" in sys.argv:
+        index_d_command = sys.argv.index("-d")
+        directory = sys.argv[index_d_command + 1:]
+        path = os.path.join(*directory)
+        os.makedirs(path, exist_ok=True)
+
+    if "-f" in sys.argv:
+        index_f_command = sys.argv.index("-f")
+        file_name = sys.argv[index_f_command + 1]
+        file_path = os.path.join(path, file_name)
+        with open(file_path, "a") as f:
+            timestamp = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+            f.write(f"{timestamp}\n")
+            line_number = 1
+            while True:
+                content = input(f"enter content line {line_number}: ")
+                if content.lower() == "stop":
+                    break
+                f.write(f"{line_number} {content}\n")
+                line_number += 1
 
 
-def mkfile(name: str) -> object:
-    fil = open(name, "a")
-    return fil
-
-
-for _ in inp:
-    if _ == "-d":
-        mode = "d"
-    if _ == "-f":
-        mode = "f"
-    if _ not in ["-f", "-d"] and mode == "f":
-        fil = mkfile(_)
-    if _ not in ["-f", "-d"] and mode == "d":
-        mkdir(_)
-cdate = datetime.datetime.now()
-str_to_file = cdate.strftime("%Y-%m-%d %H:%M:%S") + "\n"
-line = 1
-while str_to_file != "stop\n":
-    fil.write(str(line) + " " + str_to_file)
-    line += 1
-    str_to_file = str(input("Enter content line:")) + "\n"
-
-fil.close()
+if __name__ == "__main__":
+    create_directory_and_file()
