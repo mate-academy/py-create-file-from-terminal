@@ -17,18 +17,22 @@ def create_directory_and_file() -> None:
 
     if "-f" in sys.argv:
         index_f_command = sys.argv.index("-f")
-        file_name = sys.argv[index_f_command + 1]
-        file_path = os.path.join(path, file_name)
-        with open(file_path, "a") as f:
-            timestamp = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-            f.write(f"{timestamp}\n")
-            line_number = 1
-            while True:
-                content = input(f"enter content line {line_number}: ")
-                if content.lower() == "stop":
-                    break
-                f.write(f"{line_number} {content}\n")
-                line_number += 1
+        if (
+            index_f_command + 1 < len(sys.argv)
+            and not sys.argv[index_f_command + 1].startswith("-")
+        ):
+            file_name = sys.argv[index_f_command + 1]
+            file_path = os.path.join(path, file_name)
+            with open(file_path, "a") as f:
+                timestamp = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+                f.write(f"{timestamp}\n")
+                line_number = 1
+                while True:
+                    content = input(f"Enter content line {line_number}: ")
+                    if content.lower() == "stop":
+                        break
+                    f.write(f"{line_number} {content}\n")
+                    line_number += 1
 
 
 if __name__ == "__main__":
