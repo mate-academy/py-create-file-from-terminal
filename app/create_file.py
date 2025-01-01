@@ -3,14 +3,14 @@ import os
 import datetime
 
 
-def get_line_count(filename):
+def get_line_count(filename: str) -> int | None:
     if not os.path.exists(filename) or os.path.getsize(filename) == 0:
         return 0
 
-    with open(filename, 'rb') as file:
+    with open(filename, "rb") as file:
         file.seek(0, os.SEEK_END)  # Перемещаем курсор в конец файла
         position = file.tell()  # Получаем общую длину файла
-        line = b''
+        line = b""
 
         # Читаем файл с конца, пока не найдём последнюю строку
         while position > 0:
@@ -19,7 +19,7 @@ def get_line_count(filename):
             char = file.read(1)
 
             # Проверяем на конец строки
-            if char == b'\n' and line:
+            if char == b"\n" and line:
                 break
             line = char + line
 
