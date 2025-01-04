@@ -35,4 +35,3 @@ if "-f" in sys.argv:
                 break
             line_number += 1
             file.write(f"Line{line_number} {file_input}\n")
-
