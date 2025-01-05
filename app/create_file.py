@@ -7,15 +7,15 @@ directories = []
 file_name = None
 
 
-if '-d' in argv:
-    d_index = argv.index('-d') + 1
-    while d_index < len(argv) and not argv[d_index].startswith('-'):
+if "-d" in argv:
+    d_index = argv.index("-d") + 1
+    while d_index < len(argv) and not argv[d_index].startswith("-"):
         directories.append(argv[d_index])
         d_index += 1
 
-if '-f' in argv:
-    f_index = argv.index('-f') + 1
-    if f_index < len(argv) and not argv[f_index].startswith('-'):
+if "-f" in argv:
+    f_index = argv.index("-f") + 1
+    if f_index < len(argv) and not argv[f_index].startswith("-"):
         file_name = argv[f_index]
 
 
@@ -41,5 +41,3 @@ elif directories:
     os.makedirs(path)
 elif file_name:
     create_file(file_name)
-
-
