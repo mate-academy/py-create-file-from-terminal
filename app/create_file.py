@@ -4,19 +4,20 @@ import datetime
 
 
 args = sys.argv[1:]
+directory = os.getcwd()
 
 if "-d" in args:
     d_index = args.index("-d")
     dirs = []
     for i in range(d_index + 1, len(args)):
         dirs.append(args[i])
-    directory = os.path.join(os.getcwd(), *dirs)
+    directory = os.path.join(directory, *dirs)
     os.makedirs(directory, exist_ok=True)
 
 if "-f" in args:
     f_index = args.index("-f")
     file_name = args[f_index + 1]
-    file_path = os.path.join(os.getcwd(), file_name)
+    file_path = os.path.join(directory, file_name)
 
     if os.path.exists(file_path):
         mode = "a"
@@ -31,8 +32,8 @@ if "-f" in args:
         if mode == "a":
             file.write("\n")
 
+        line = 1
         while True:
-            line = 1
             text = input("Enter content line: ")
             if text.lower() == "stop":
                 break
