@@ -1,6 +1,6 @@
 import os
 import sys
-import datetime
+from datetime import datetime
 
 
 def create_directory(path_parts: str | list) -> str:
@@ -10,7 +10,7 @@ def create_directory(path_parts: str | list) -> str:
     return full_path
 
 
-def write_to_file(file_path: str, content_lines: list) -> None:
+def write_to_file(file_path: str, content_lines: str) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open(file_path, "a") as f:
         f.write(f"{timestamp}\n")
@@ -44,12 +44,19 @@ def main() -> None:
         else:
             i += 1
     if flag_d:
+        if not dirs:
+            print("Error: Missing directory path after -d.")
+            sys.exit(1)
         create_directory(dirs)
     if flag_f:
+        if not file_name:
+            print("Error: Missing file name after -f.")
+            sys.exit(1)
         if flag_d:
             file_path = os.path.join(os.getcwd(), *dirs, file_name)
         else:
             file_path = os.path.join(os.getcwd(), file_name)
+        print(f"Enter content for {file_path}. Type 'stop' to finish: ")
         content_lines = []
         while True:
             line = input("Enter content line: ")
@@ -57,6 +64,7 @@ def main() -> None:
                 break
             content_lines.append(line)
         write_to_file(file_path, content_lines)
+        print(f"Content written to {file_path}.")
 
 
 if __name__ == "__main__":
