@@ -21,7 +21,7 @@ def create_file(file_name: str) -> None:
 
 
 def create_directory(path_list: list) -> None:
-    path = create_path(os.getcwd(), path_list)
+    path = create_path(os.getcwd(), *path_list)
     os.makedirs(path, exist_ok=True)
 
 
@@ -38,11 +38,11 @@ def main(list_argv: list) -> None:
 
     if index_d is not None:
         if index_f is not None:
-            path = create_path(list_argv[index_d + 1:index_f])
+            path = create_path(*list_argv[index_d + 1:index_f])
             create_directory(path)
             create_file(os.path.join(path, list_argv[index_f + 1]))
         else:
-            path = create_path(list_argv[index_d + 1:])
+            path = create_path(*list_argv[index_d + 1:])
             create_directory(path)
 
     if index_f is not None:
