@@ -4,7 +4,7 @@ import sys
 
 
 def create_directory(directory: str) -> None:
-    os.makedirs(os.getcwd() + "/" + directory)
+    os.makedirs(os.path.join(os.getcwd(), directory))
 
 
 def create_file(file_path: str) -> None:
@@ -23,10 +23,10 @@ def create_file(file_path: str) -> None:
 def main_function() -> None:
     input_data = sys.argv
     if "-d" in input_data and "-f" not in input_data:
-        create_directory("/".join(input_data[2:]))
+        create_directory(os.path.join(*input_data[2:]))
     if "-f" in input_data and "-d" not in input_data:
         create_file(input_data[-1])
     if "-d" in input_data and "-f" in input_data:
         input_data.remove("-f")
-        create_directory("/".join(input_data[2:len(input_data) - 1]))
-        create_file("/".join(input_data[2:]))
+        create_directory(os.path.join(*input_data[2:len(input_data) - 1]))
+        create_file(os.path.join(*input_data[2:]))
