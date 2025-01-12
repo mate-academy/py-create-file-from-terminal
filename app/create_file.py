@@ -30,3 +30,6 @@ def main_function() -> None:
         input_data.remove("-f")
         create_directory(os.path.join(*input_data[2:len(input_data) - 1]))
         create_file(os.path.join(*input_data[2:]))
+
+
+main_function()
