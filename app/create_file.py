@@ -1,10 +1,13 @@
+import argparse
 import datetime
 import os
 import sys
 
 
 def create_directory(directory: str) -> None:
-    os.makedirs(os.path.join(os.getcwd(), directory))
+    path = os.path.join(os.getcwd(), directory)
+    if not os.path.exists(path):
+        os.makedirs(path)
 
 
 def create_file(file_path: str) -> None:
@@ -21,15 +24,17 @@ def create_file(file_path: str) -> None:
 
 
 def main_function() -> None:
-    input_data = sys.argv
-    if "-d" in input_data and "-f" not in input_data:
-        create_directory(os.path.join(*input_data[2:]))
-    if "-f" in input_data and "-d" not in input_data:
-        create_file(input_data[-1])
-    if "-d" in input_data and "-f" in input_data:
-        input_data.remove("-f")
-        create_directory(os.path.join(*input_data[2:len(input_data) - 1]))
-        create_file(os.path.join(*input_data[2:]))
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--directory", nargs="+")
+    parser.add_argument("-f", "--file")
+    args = parser.parse_args()
+    if args.directory and args.file:
+        create_directory(os.path.join(*args.directory))
+        create_file(os.path.join(os.path.join(*args.directory), args.file))
+    elif args.directory:
+        create_directory(os.path.join(*args.directory))
+    elif args.file:
+        create_file(args.file)
 
 
 main_function()
