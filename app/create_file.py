@@ -8,12 +8,12 @@ cur_dir = os.getcwd()
 
 if "-d" in cmd_string:
     d_indx = cmd_string.index("-d")
-    dir = []
+    cmd_path = []
     d_indx += 1
     while d_indx < len(cmd_string) and not cmd_string[d_indx].startswith("-"):
-        dir.append(cmd_string[d_indx])
+        cmd_path.append(cmd_string[d_indx])
         d_indx += 1
-    cur_dir = os.path.join(cur_dir, *dir)
+    cur_dir = os.path.join(cur_dir, *cmd_path)
     os.makedirs(cur_dir, exist_ok=True)
 
 if "-f" in cmd_string:
