@@ -11,7 +11,8 @@ def main() -> None:
         d_indx = cmd_string.index("-d")
         cmd_path = []
         d_indx += 1
-        while d_indx < len(cmd_string) and not cmd_string[d_indx].startswith("-"):
+        while (d_indx < len(cmd_string) and 
+               not cmd_string[d_indx].startswith("-")):
             cmd_path.append(cmd_string[d_indx])
             d_indx += 1
         cur_dir = os.path.join(cur_dir, *cmd_path)
@@ -27,7 +28,8 @@ def main() -> None:
             f_path = os.path.join(cur_dir, f_name)
             try:
                 with open(f_path, "a") as f:
-                    f.write(datetime.now().strftime("%Y-%M-%D %H:%M:%S") + "\n")
+                    f.write(datetime.now().strftime("%Y-%M-%D %H:%M:%S") 
+                            + "\n")
                     line = 1
                     text = input("Enter content line: ")
                     while text.lower() != "stop":
@@ -41,4 +43,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-    
