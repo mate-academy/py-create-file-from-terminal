@@ -4,7 +4,11 @@ import sys
 
 
 def main() -> None:
-    cmd_string = sys.argv[1:]
+    if len(sys.argv[1:]) > 0:
+        cmd_string = sys.argv[1:]
+    else:
+        print("The command line doesn't have any flags")
+        cmd_string = []
     cur_dir = os.getcwd()
 
     if "-d" in cmd_string:
@@ -28,14 +32,15 @@ def main() -> None:
             f_path = os.path.join(cur_dir, f_name)
             try:
                 with open(f_path, "a") as f:
-                    f.write(datetime.now().strftime("%Y-%M-%D %H:%M:%S")
+                    f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                             + "\n")
                     line = 1
-                    text = input("Enter content line: ")
-                    while text.lower() != "stop":
-                        f.write(f"{line} {text}\n")
+                    while True:
+                        line_input = input("Enter content line: ").strip()
+                        if line_input.lower() == "stop":
+                            break
+                        f.write(f"{line} {line_input}\n")
                         line += 1
-                        text = input("Enter content line: ")
                     f.write("\n")
             except OSError:
                 print("Unexpected file name after -f")
