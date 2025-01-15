@@ -1,16 +1,17 @@
-import sys
 import os
+import sys
+from typing import List
 from datetime import datetime
 
 
-def create_directory(path_parts: str) -> any:
+def create_directory(path_parts: List[str]) -> str:
     directory = os.path.join(*path_parts)
     os.makedirs(directory, exist_ok=True)
     print(f"Directory created: {directory}")
     return directory
 
 
-def create_file(file_path: str) -> any:
+def create_file(file_path: str):
     lines = []
     print("Enter content lines (type 'stop' to finish):")
 
@@ -21,8 +22,7 @@ def create_file(file_path: str) -> any:
         lines.append(line)
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    content = f"\n{timestamp}\n"
-    content += "\n".join(f"{i + 1} {line}" for i, line in enumerate(lines))
+    content = f"\n{timestamp}\n" + "\n".join(f"{i + 1} {line}" for i, line in enumerate(lines))
 
     if os.path.exists(file_path):
         print(f"File already exists. Appending content to {file_path}")
@@ -33,11 +33,10 @@ def create_file(file_path: str) -> any:
 
     with open(file_path, mode) as file:
         file.write(content + "\n")
-
     print(f"Content written to {file_path}")
 
 
-def main() -> any:
+def main():
     args = sys.argv[1:]
     if not args:
         print("Usage: python create_file.py -d [dir ...] -f [file]")
@@ -62,7 +61,7 @@ def main() -> any:
                 return
 
     if not directory_parts and not file_name:
-        print("Error: No valid directory or file specified.")
+        print("Error: You must specify at least a directory (-d) or a file (-f).")
         return
 
     current_path = os.getcwd()
