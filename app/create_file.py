@@ -10,7 +10,8 @@ def main() -> None:
 
     if "-d" in args:
         d_index = args.index("-d")
-        directory = args[d_index + 1:args.index("-f")] if "-f" in args else args[d_index + 1:]
+        directory = args[d_index + 1:args.index("-f")] if "-f" in args \
+            else args[d_index + 1:]
     if "-f" in args:
         f_index = args.index("-f")
         file_name = args[f_index + 1]
@@ -32,7 +33,7 @@ def main() -> None:
     file_path = os.path.join(*directory, file_name) if directory else file_name
 
     with open(file_path, "a") as file:
-        file.write(f"\n{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        file.write(f"\n{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
         for index, line in enumerate(lines, start=1):
             file.write(f"{index} {line}\n")
 
