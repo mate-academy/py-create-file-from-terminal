@@ -5,7 +5,7 @@ from datetime import datetime
 
 def main() -> None:
     args = sys.argv[1:]
-    if "d" in args:
+    if "-d" in args:
         # получение пути
         dir_index = args.index("d") + 1
         path_parts = []
