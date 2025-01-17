@@ -34,9 +34,9 @@ def main() -> None:
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         with open(file_path, "a") as f:
-            f.write(f"{timestamp}")
+            f.write(f"\n{timestamp}\n")
             for i, line in enumerate(lines, 1):
-                f.write(f"{i} {line}")
+                f.write(f"{i} {line}\n")
         print(f"File {file_path} has been successfully created/updated!")
 
 if __name__ == "__main__":
