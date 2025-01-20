@@ -34,9 +34,7 @@ def create_directory_and_file(
         os.makedirs(os.path.join(*dir_path), exist_ok=True)
 
     if file_name:
-
         with open(file_name, "a") as f:
-
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             f.write(f"{timestamp}\n")
             line_num = 1
@@ -59,5 +57,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-

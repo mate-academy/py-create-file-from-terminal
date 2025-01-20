@@ -35,7 +35,8 @@ def create_directory_and_file(
         print(f"Created directories: {os.path.join(*dir_path)}")
 
     if file_name:
-        file_path = os.path.join(*dir_path, file_name) if dir_path else file_name
+        file_path = os.path.join(*dir_path, file_name) \
+            if dir_path else file_name
         with open(file_path, "a") as f:
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             f.write(f"{timestamp}\n")
