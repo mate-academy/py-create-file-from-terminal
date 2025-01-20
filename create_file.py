@@ -32,11 +32,11 @@ def create_directory_and_file(
 
     if dir_path:
         os.makedirs(os.path.join(*dir_path), exist_ok=True)
-        print(f"Created directories: {os.path.join(*dir_path)}")
 
     if file_name:
-        file_path = os.path.join(*dir_path, file_name) if dir_path else file_name
-        with open(file_path, "a") as f:
+
+        with open(file_name, "a") as f:
+
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             f.write(f"{timestamp}\n")
             line_num = 1
@@ -49,10 +49,15 @@ def create_directory_and_file(
 
 
 def main() -> None:
+
     parse_arguments(3)
+
     dir_path, file_name = parse_flags()
+
     create_directory_and_file(dir_path, file_name)
 
 
 if __name__ == "__main__":
     main()
+
+
