@@ -19,7 +19,7 @@ def create_file(filepath: Union[str, Path]) -> None:
     else:
         with open(filepath, "a") as file:
             file.write("\n")
-            file.write(f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
+            file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 
     print(f"File is ready: {filepath}")
     with open(filepath, "a") as file:
