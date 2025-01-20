@@ -22,7 +22,7 @@ args = sys.argv[1:]
 
 if "-d" not in args:
     if "-f" in args:
-        filename = args[args.index('-f') + 1]
+        filename = args[args.index("-f") + 1]
         write_to_file_by_console(filename)
 else:
     d_index = args.index("-d") + 1
