@@ -15,7 +15,7 @@ def create_file(filepath: Union[str, Path]) -> None:
     filepath = str(filepath)
     if not os.path.exists(filepath):
         with open(filepath, "w") as file:
-            file.write(f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
+            file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
     else:
         with open(filepath, "a") as file:
             file.write("\n")
