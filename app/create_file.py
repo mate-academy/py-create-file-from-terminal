@@ -22,14 +22,14 @@ args = sys.argv[1:]
 
 if "-d" not in args:
     if "-f" in args:
-        filename = args[-1]
+        filename = args[args.index('-f') + 1]
         write_to_file_by_console(filename)
 else:
     d_index = args.index("-d") + 1
 
     if "-f" in args:
         f_index = args.index("-f")
-        filename = args[-1]
+        filename = args[f_index + 1]
 
         path = os.path.join(*args[d_index:f_index], filename)
 
@@ -41,5 +41,3 @@ else:
         write_to_file_by_console(path)
     else:
         os.makedirs(os.path.join(*args[d_index:]))
-
-print(args)
