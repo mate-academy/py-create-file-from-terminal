@@ -2,21 +2,20 @@
 from datetime import datetime
 import os.path
 import sys
-from ctypes import ArgumentError
 
 
-def create_folders(list_folders: list) -> os.path:
+def create_folders(list_folders: list) -> str:
     path_folder = ""
     for dir_name in list_folders:
         path_folder = os.path.join(path_folder, dir_name)
         if os.path.exists(path_folder):
             continue
         os.mkdir(path_folder)
-    return path_folder
+    return str(path_folder)
 
 
 def write_to_file(files_name: str) -> None:
-    with open(files_name, "w") as f:
+    with open(files_name, "a") as f:
         print(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         i = 0
         while True:
@@ -34,7 +33,7 @@ def check_argv(args: list) -> None:
             or (args.count("-d") == 0 and args.count("-f") == 0)
             or (args.count("-d") > 1 or args.count("-f") > 1)
     ):
-        raise ArgumentError(
+        raise ValueError(
             "It should be one flag -d or -f "
             "and at least one argument"
         )
