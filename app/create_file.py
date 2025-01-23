@@ -37,6 +37,6 @@ def text_test() -> None:
             while True:
                 name = input("Enter content line: ")
                 if name.lower() == "stop":
-                    return
+                    return None
                 f.write(f"{number} {name}\n")
                 number += 1
