@@ -6,12 +6,12 @@ from datetime import datetime
 def text_test() -> None:
     print(sys.argv)
     dict_one = sys.argv
-    file = None
+    file_one = None
     for i in dict_one:
         if i == "-f":
             file_index = dict_one.index("-f") + 1
             if file_index < len(dict_one):
-                file = dict_one[file_index]
+                file_one = dict_one[file_index]
     dirs = []
     if "-d" in dict_one:
         dir_index = dict_one.index("-d") + 1
@@ -24,9 +24,9 @@ def text_test() -> None:
     if dirs:
         directory_path = "/".join(dirs)
         os.makedirs(directory_path, exist_ok=True)
-    if file:
+    if file_one:
         file_path = os.path.join(directory_path,
-                                 file) if  directory_path else file
+                                 file_one) if directory_path else file_one
         mode = "a" if os.path.exists(file_path) else "w"
 
         with open(file_path, mode) as f:
@@ -35,8 +35,8 @@ def text_test() -> None:
             f.write(f"\n{timestamp}\n")
             number = 1
             while True:
-                name = input(f"Enter content line: ")
+                name = input("Enter content line: ")
                 if name.lower() == "stop":
-                    return 0
+                    return
                 f.write(f"{number} {name}\n")
                 number += 1
