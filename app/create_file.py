@@ -40,17 +40,17 @@ def create_directory(path: Union[str, bytes]) -> None:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        '-d',
-        '--directory',
+        "-d",
+        "--directory",
         type=str,
-        nargs='+',
-        help='List of directory'
+        nargs="+",
+        help="List of directory"
     )
     parser.add_argument(
-        '-f',
-        '--file',
+        "-f",
+        "--file",
         type=str,
-        help='File'
+        help="File"
     )
 
     args = parser.parse_args()
