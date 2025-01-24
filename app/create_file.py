@@ -7,11 +7,11 @@ from typing import Union
 
 def create_file(file_name: str) -> None:
 
-    is_new_file = not os.path.exists("file_name")
+    is_new_file = not os.path.exists(file_name)
 
     with open(file_name, "a") as source_file:
 
-        if is_new_file:
+        if not is_new_file:
             source_file.write("\n")
 
         line_count = 0
@@ -55,7 +55,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     if args.directory:
-        create_directory(os.path.join(*args.dirertory))
+        create_directory(os.path.join(*args.directory))
 
     if args.file:
         create_file(args.file)
