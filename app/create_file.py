@@ -25,7 +25,8 @@ def create_file(name: str) -> None:
 
         line_number = 1
         while True:
-            temp = input(f"Enter line {line_number} of content (or type 'stop' to finish): ")
+            temp = input(f"Enter line {line_number} "
+                         f"of content (or type 'stop' to finish): ")
             if temp.lower() == "stop":
                 break
             text_file.write(f"{line_number}. {temp}\n")
@@ -36,7 +37,8 @@ def main() -> None:
     args = sys.argv[1:]
 
     if not args:
-        print("No arguments provided. Please provide either '-d' or '-f' flags.")
+        print("No arguments provided. "
+              "Please provide either '-d' or '-f' flags.")
         return
 
     if "-d" in args and "-f" in args:
