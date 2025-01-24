@@ -1,15 +1,17 @@
 import os
-import sys
 import datetime
+import argparse
+
+from typing import Union
 
 
 def create_file(file_name: str) -> None:
 
-    is_new_file = os.path.exists("file_name")
+    is_new_file = not os.path.exists("file_name")
 
     with open(file_name, "a") as source_file:
 
-        if not is_new_file:
+        if is_new_file:
             source_file.write("\n")
 
         line_count = 0
@@ -24,10 +26,10 @@ def create_file(file_name: str) -> None:
                 break
 
             line_count += 1
-            source_file.write(f"{line_count} {input_line}")
+            source_file.write(f"{line_count} {input_line}\n")
 
 
-def create_directory(path: str | bytes) -> None:
+def create_directory(path: Union[str, bytes]) -> None:
 
     if not os.path.exists(path):
         os.makedirs(path)
@@ -36,13 +38,24 @@ def create_directory(path: str | bytes) -> None:
 
 
 if __name__ == "__main__":
-    command = sys.argv[1:]
-    if command[0] == "-d":
-        path = []
-        for directory in command[1:]:
-            if directory == "-f":
-                break
-            path.append(str(directory))
-        create_directory(os.path.join(*path))
-    if "-f" in command:
-        create_file(command[-1])
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '-d',
+        '--directory',
+        type=str,
+        nargs='+',
+        help='List of directory'
+    )
+    parser.add_argument(
+        '-f',
+        '--file',
+        type=str,
+        help='File'
+    )
+
+    args = parser.parse_args()
+    if args.directory:
+        create_directory(os.path.join(*args.dirertory))
+
+    if args.file:
+        create_file(args.file)
