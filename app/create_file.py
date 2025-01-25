@@ -26,7 +26,7 @@ try:
                 f.write("\n")
         os.makedirs(path, exist_ok=True)
     elif sys.argv[1] == "-f":
-        with open(sys.argv[1 + 1], "a") as f:
+        with open(sys.argv[2], "a") as f:
             f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
             line = input("Enter content line: ")
             line = "1 " + line + "\n"
