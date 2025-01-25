@@ -6,10 +6,10 @@ import datetime
 try:
     if sys.argv[1] == "-d":
         if "-f" not in sys.argv:
-            path = os.path.join("/".join(sys.argv[2:]))
+            path = os.path.join(*sys.argv[2:])
         else:
             index_of_f = sys.argv.index("-f")
-            path = os.path.join("/".join(sys.argv[2:index_of_f]))
+            path = os.path.join(*sys.argv[2:index_of_f])
             os.makedirs(path, exist_ok=True)
             with open(f"{path}/{sys.argv[index_of_f + 1]}", "a") as f:
                 f.write(datetime.datetime.now().strftime(
@@ -39,5 +39,5 @@ try:
             f.write("\n")
     else:
         print("argv[1] must be either -d or -f!!!")
-except IndexError:
-    print(f"Not much arguments in {sys.argv}!!!")
+except IndexError as e:
+    print(f"Not much arguments in sys.argv!!! {e}")
