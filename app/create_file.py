@@ -19,7 +19,7 @@ def read_text_for_file() -> list:
     return text_to_write
 
 
-def create_dirs() -> os.path:
+def create_dirs() -> str:
     index_d_flag = sys.argv.index("-d")
     path_to_dirs = os.path.join(
         sys.argv[index_d_flag + 1], sys.argv[index_d_flag + 2]
@@ -28,7 +28,7 @@ def create_dirs() -> os.path:
     return path_to_dirs
 
 
-def create_file(dir_path: os.path = "") -> None:
+def create_file(dir_path: str = "") -> None:
     file_name = sys.argv[sys.argv.index("-f") + 1]
     file_path = os.path.join(dir_path, file_name)
 
