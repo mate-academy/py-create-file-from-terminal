@@ -10,8 +10,10 @@ file_name = ""
 for i in directory:
     if i not in flags:
         directory_path += f"{i} "
-    if i == "-f":
-        file_name = directory[-1]
+if "-f" in directory:
+    f_index = directory.index("-f") + 1
+    if f_index < len(directory):
+        file_name = directory[f_index]
 path = "/".join(directory_path.split())
 dir_path = os.path.dirname(path)
 if dir_path:
