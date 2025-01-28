@@ -2,10 +2,12 @@ import sys
 import os
 from datetime import datetime
 
-def create_directory(path):
+
+def create_directory(path: str) -> None:
     os.makedirs(path, exist_ok=True)
 
-def create_file(file_name):
+
+def create_file(file_name: str) -> None:
     content_lines = []
     print("Enter content line (type 'stop' to finish):")
     while True:
@@ -17,12 +19,13 @@ def create_file(file_name):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     numbered_content = [f"{i+1} {line}" for i, line in enumerate(content_lines)]
 
-    with open(file_name, 'a') as file:
+    with open(file_name, "a") as file:
         file.write(f"\n{timestamp}\n")
         file.write("\n".join(numbered_content))
         file.write("\n")
 
-def main():
+
+def main() -> None:
     args = sys.argv[1:]
 
     if "-d" in args:
@@ -37,6 +40,7 @@ def main():
             dir_path = os.path.join(*args[args.index("-d") + 1: f_index])
             file_name = os.path.join(dir_path, file_name)
         create_file(file_name)
+
 
 if __name__ == "__main__":
     main()
