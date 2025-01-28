@@ -17,7 +17,9 @@ def create_file(file_name: str) -> None:
         content_lines.append(line)
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    numbered_content = [f"{i+1} {line}" for i, line in enumerate(content_lines)]
+    numbered_content = [
+        f"{i+1} {line}" for i, line in enumerate(content_lines)
+    ]
 
     with open(file_name, "a") as file:
         file.write(f"\n{timestamp}\n")
