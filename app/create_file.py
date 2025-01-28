@@ -37,7 +37,9 @@ def main() -> None:
         f_index = args.index("-f")
         file_name = args[f_index + 1]
         if "-d" in args:
-            dir_path = os.path.join(*args[args.index("-d") + 1: f_index])
+            dir_path = os.path.join(
+                *args[args.index("-d") + 1: f_index]
+            )
             file_name = os.path.join(dir_path, file_name)
         create_file(file_name)
 
