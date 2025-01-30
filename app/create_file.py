@@ -18,25 +18,28 @@ if "-f" in args and "-d" not in args:
             current_file.write(
                 datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 + "\n")
+            line_number = 1
             while True:
                 current_line = input("Enter content line: ")
                 if current_line == "stop":
                     break
-                current_file.write(f"{current_line}\n")
+                current_file.write(f"{line_number} {current_line}\n")
+                line_number += 1
 
 if "-f" in args and "-d" in args:
-    file_name = args.pop(-1)
-    args = args[1:-1]
+    args = args[1:]
+    del args[-2]
     if len(args) > 0:
         path = os.path.join(*args)
-        os.makedirs(path, exist_ok=True)
-        path = os.path.join(*args, file_name)
+        os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, "a") as current_file:
             current_file.write(
                 datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 + "\n")
+            line_number = 1
             while True:
                 current_line = input("Enter content line: ")
                 if current_line == "stop":
                     break
-                current_file.write(f"{current_line}\n")
+                current_file.write(f"{line_number} {current_line}\n")
+                line_number += 1
