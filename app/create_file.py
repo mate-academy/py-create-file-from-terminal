@@ -3,14 +3,13 @@ import os
 from datetime import datetime
 
 
-
 def create_directory(path: str) -> None:
     os.makedirs(path, exist_ok=True)
 
 
 def write_to_file(file_path: str) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    result_lines = []
+    content_lines = []
 
     print("Enter content line (type 'stop' to finish):")
     line_number = 1
@@ -18,14 +17,14 @@ def write_to_file(file_path: str) -> None:
         line = input(f"Enter content line: ")
         if line.lower() == "stop":
             break
-        result_lines.append(f"{line_number} {line}")
+        content_lines.append(f"{line_number} {line}")
         line_number += 1
 
     with open(file_path, "a", encoding="utf-8") as file:
         if os.path.getsize(file_path) > 0:
-            file.write("\n\n")
+            file.write("\n\n")  # Separate previous content
         file.write(timestamp + "\n")
-        file.write("\n".join(result_lines) + "\n")
+        file.write("\n".join(content_lines) + "\n")
 
 
 def main() -> None:
@@ -44,15 +43,19 @@ def main() -> None:
             dir_path = os.path.join(*args[d_index + 1:f_index])
         else:
             dir_path = os.path.join(*args[d_index + 1:])
-            create_directory(dir_path)
-            return
+        create_directory(dir_path)
 
     if "-f" in args:
         f_index = args.index("-f")
+        if f_index + 1 >= len(args):
+            print("Error: Missing file name after '-f' flag.")
+            return
         file_name = args[f_index + 1]
+    else:
+        print("Error: Missing '-f' flag and file name.")
+        return
 
     if dir_path:
-        create_directory(dir_path)
         file_path = os.path.join(dir_path, file_name)
     else:
         file_path = file_name
