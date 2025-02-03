@@ -1,20 +1,20 @@
 import argparse
 from datetime import datetime
 import os
-#directory_path: str, file_name: str, file_content: str
+
 
 def create_file() -> None:
     # why did i spell it create_life at first
     # parser / flag setup
-    parser = argparse.ArgumentParser(description=\
-        "Create a file with inputted name and content.")
+    parser = argparse.ArgumentParser(description="Create a \
+        file with inputted name and content.")
 
-    #flags setup
-    parser.add_argument('-d', metavar="directory-name",\
-        type=str, help="Enter a directory for new file.")
+    # flags setup
+    parser.add_argument("-d", metavar="directory-name", type=str, help="Enter \
+        a directory for new file.")
 
-    parser.add_argument('-f', metavar="file-name",\
-        type=str, help="Enter a name for new file.")
+    parser.add_argument("-f", metavar="file-name", type=str, help="Enter \
+        a name for new file.")
 
     args = parser.parse_args()
 
