@@ -23,7 +23,6 @@ def create_file() -> None:
         directory_path = args.d
     else:
         directory_path = input("Enter directory path: ")
-    os.makedirs(directory_path, exist_ok=True)
 
     if args.f:
         file_name = args.f
