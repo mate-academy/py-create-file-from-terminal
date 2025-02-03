@@ -3,9 +3,9 @@ import os
 from datetime import datetime
 
 
-def create_directory(path: None) -> None:
+def create_directory(path: str) -> str:
     try:
-        os.mkdir(path, exist_ok=True)
+        os.makedirs(path, exist_ok=True)
         print(f"Directory '{path}' created successfully.")
     except FileExistsError:
         print(f"Directory '{path}' already exists.")
@@ -37,7 +37,7 @@ def write_to_file(file_path: str, content_lines: list[str]) -> None:
 
 def main() -> None:
     args = sys.argv[1:]
-    if not args:
+    if not args or ("-d" not in args and "-f" not in args):
         print("Usage: python create_file.py -d [directory path] -f [filename]")
         return
 
@@ -65,4 +65,3 @@ def main() -> None:
             if directory else filename
         content_lines = get_file_content()
         write_to_file(file_path, content_lines)
-
