@@ -30,7 +30,8 @@ def main() -> None:
     args = sys.argv[1:]
 
     if not args:
-        print("Please provide flags and arguments. Use -d for directory and -f for file.")
+        print("Please provide flags and arguments."
+              " Use -d for directory and -f for file.")
         sys.exit(1)
 
     path = None
