@@ -7,6 +7,7 @@ def create_dir(path: str) -> str:
     os.makedirs(path, exist_ok=True)
     print(f"Directory '{path}' created successfully")
 
+
 def get_content_from_user() -> list[str]:
     print("Enter content line (type 'stop' to finish):")
     content_lines = []
@@ -17,14 +18,21 @@ def get_content_from_user() -> list[str]:
         content_lines.append(line)
     return content_lines
 
+
 def write_files(file_path: str, content_lines: list[str]) -> None:
     with open(file_path, "a") as file:
         file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         for i, line in enumerate(content_lines, 1):
             file.write(f"{i} {line}\n")
 
+
 def main() -> None:
     args = sys.argv[1:]
+
+    if not args:
+        print("Please provide flags and arguments. Use -d for directory and -f for file.")
+        sys.exit(1)
+
     path = None
     file_name = None
     if "-d" in args:
