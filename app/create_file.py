@@ -2,30 +2,30 @@ import os
 import sys
 from datetime import datetime
 
-def create_file():
+
+def create_file() -> str:
     dir_path = ""
     file_name = ""
     file_path = ""
 
-    # Проверка наличия флагов
     if "-d" in sys.argv:
         dir_index = sys.argv.index("-d") + 1
-        while dir_index < len(sys.argv) and not sys.argv[dir_index].startswith("-"):
+        while (dir_index < len(sys.argv)
+               and not sys.argv[dir_index].startswith("-")):
             dir_path = os.path.join(dir_path, sys.argv[dir_index])
             dir_index += 1
 
     if "-f" in sys.argv:
         file_name = sys.argv[sys.argv.index("-f") + 1]
-        file_path = os.path.join(dir_path, file_name) if dir_path else file_name
+        file_path = os.path.join(dir_path, file_name) \
+            if dir_path else file_name
     else:
         print("Both -d and -f flags are required to create a file.")
         return
 
-    # Создание директории, если необходимо
     if dir_path:
         os.makedirs(dir_path, exist_ok=True)
 
-    # Добавление содержимого в файл
     with open(file_path, "a") as file:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         file.write(f"{timestamp}\n")
@@ -38,6 +38,7 @@ def create_file():
             line_number += 1
 
     print(f"File '{file_path}' created/updated successfully.")
+
 
 if __name__ == "__main__":
     create_file()
