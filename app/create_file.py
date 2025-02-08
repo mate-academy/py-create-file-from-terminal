@@ -11,18 +11,16 @@ def create_directory(dir_path: list) -> str:
     return full_path
 
 
-def write_to_file(file_path: str) -> None:
+def write_to_file(file_path: str, max_lines: int = 10) -> None:
     with open(file_path, "a") as f:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         f.write(f"\n{timestamp}\n")
 
-        num = 1
-        while True:
-            line = input("Enter content line: ")
+        for num in range(1, max_lines + 1):
+            line = input(f"Enter content line (1-{max_lines}): ")
             if line.lower() == "stop":
                 break
             f.write(f"{num} {line}\n")
-            num += 1
 
 
 def main() -> None:
@@ -42,7 +40,7 @@ def main() -> None:
         dir_path = []
         file_name = args[f_index + 1]
     else:
-        print("How to write: python_create.py -d dir1 dir2 -f filename")
+        print("How to write: create_file.py -d dir1 dir2 -f filename")
         return
 
     full_dir_path = create_directory(dir_path) if dir_path else os.getcwd()
