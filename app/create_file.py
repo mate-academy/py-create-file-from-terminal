@@ -21,7 +21,7 @@ def main() -> None:
         file_path = os.path.join(dir_path, file_name)
         with open(file_path, 'a') as file:
             print(f"File '{file_path}' opened for writing")
-            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             file.write(f"\n{timestamp}")
             line_number = 1
             while True:
@@ -29,6 +29,6 @@ def main() -> None:
                 if content.lower() == "stop":
                     break
                 file.write(f"{line_number} {content}\n")
-                line_number = 1
+                line_number += 1
         print(f"File {file_path} written")
 
