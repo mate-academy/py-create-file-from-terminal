@@ -11,7 +11,7 @@ def create_directory(path: str) -> None:
 
 
 def write_to_file(file_path: str) -> None:
-    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     content_lines = []
     print("Enter content line (type 'stop' to finish):")
@@ -27,7 +27,7 @@ def write_to_file(file_path: str) -> None:
     else:
         separator = ""
 
-    with open(file_path, 'a', encoding='utf-8') as f:
+    with open(file_path, "a", encoding="utf-8") as f:
         f.write(f"{separator}{timestamp}\n")
         for i, line in enumerate(content_lines, 1):
             f.write(f"{i} {line}\n")
