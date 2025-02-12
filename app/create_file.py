@@ -39,7 +39,7 @@ def reading_initial_args() -> None:
                     break
                 folder_names.append(folder_name)
             make_dir(folder_names)
-        elif arg == "-f":
+        elif arg == "-f" and arg != initial_args[-1]:
             file_name = initial_args[ind + 1]
             make_file(folder_names, file_name)
 
