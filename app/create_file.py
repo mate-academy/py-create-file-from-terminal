@@ -1,5 +1,5 @@
 import os
-import datetime
+from datetime import datetime
 from sys import argv
 
 
@@ -27,10 +27,9 @@ def create_file_from_terminal() -> None:
                 if file.readline():
                     text += "\n\n"
 
-        text += f"{datetime.datetime.strftime(
-            datetime.datetime.now(),
-            "%Y-%m-%d %H:%M:%S"
-        )}\n"
+        text += f"{
+            datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M:%S")
+        }\n"
 
         while True:
             new_line = input("Enter content line: ")
