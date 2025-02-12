@@ -54,8 +54,9 @@ def main() -> None:
     if full_dir_path:
         create_directory(full_dir_path)
 
-    file_path = str(Path(full_dir_path) / args.file)\
-        if full_dir_path else args.file
+    file_path = str(
+        Path(full_dir_path) / args.file
+    ) if full_dir_path else args.file
     write_to_file(file_path)
 
 
