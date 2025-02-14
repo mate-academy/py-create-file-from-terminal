@@ -31,7 +31,6 @@ def init_data(data: list) -> None:
 
     dst_dir = Path(*data).parent
     dst_file = Path(*data)
-    print(dst_dir)
 
     match cmd1, cmd2:
         case ("-d", None):
