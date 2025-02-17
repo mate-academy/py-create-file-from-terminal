@@ -1,12 +1,6 @@
-from __future__ import annotations
-
 import sys
 from datetime import datetime
 from pathlib import Path
-
-
-def makes_dir(path_file: Path) -> None:
-    path_file.mkdir(parents=True, exist_ok=True)
 
 
 def write_data(file_name: Path) -> None:
@@ -18,6 +12,7 @@ def write_data(file_name: Path) -> None:
         while True:
             line = input("Enter content line: ")
             if line == "stop":
+                file.write("\n")
                 break
             file.write(line + "\n")
 
@@ -34,11 +29,11 @@ def init_data(data: list) -> None:
 
     match cmd1, cmd2:
         case ("-d", None):
-            makes_dir(dst_dir)
+            dst_dir.mkdir(parents=True, exist_ok=True)
         case ("-f", None):
             write_data(dst_file)
         case ("-d", "-f"):
-            makes_dir(dst_dir)
+            dst_dir.mkdir(parents=True, exist_ok=True)
             write_data(dst_file)
 
 
