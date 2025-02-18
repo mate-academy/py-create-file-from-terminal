@@ -26,7 +26,7 @@ def create_file(*args) -> None:
         if os.path.isfile(file_path):
             mode = "a"
         with open(file_path, mode) as file:
-            line = datetime.datetime.now().strftime('%m/%d/%Y %H:%M:%S')
+            line = datetime.datetime.now().strftime("%m/%d/%Y %H:%M:%S")
             file.write(line)
             line = ""
             lint = 1
