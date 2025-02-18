@@ -26,14 +26,15 @@ def create_file(*args) -> None:
         if os.path.isfile(file_path):
             mode = "a"
         with open(file_path, mode) as file:
+            if mode == "a":
+                file.write("\n")
             line = datetime.datetime.now().strftime("%m/%d/%Y %H:%M:%S")
-            file.write(line)
+            file.write(f"{line}\n")
             line = ""
             lint = 1
             while True:
                 line = input()
                 if line == "stop":
-                    file.write("\n")
                     break
                 file.write(f"{line} {line}\n")
                 lint += 1
@@ -42,11 +43,11 @@ def create_file(*args) -> None:
 
 
 def get_path(directories: list[str]) -> str:
-    return str(os.path.join(*directories))
+    return str(os.path.join(*directories, ""))
 
 
 def create_path(directories: list[str]) -> str:
-    path = get_path(directories) + "\\"
+    path = get_path(directories)
     return path
 
 

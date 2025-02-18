@@ -16,8 +16,8 @@ class TestClass:
     def run_create_file_with_args_and_handle_input(cls, args: str, file_contents: list[str]) -> None:
         create_file(args)
         file_contents.append("stop")
-        for line in file_contents:
-            with mock.patch("builtins.input") as mock_input:
+        with mock.patch("builtins.input") as mock_input:
+            for line in file_contents:            
                 mock_input.return_value = line
                 input()
 
@@ -32,7 +32,7 @@ class TestClass:
         print(f"Deleting {folder}")
         if os.path.exists(folder):
             shutil.rmtree(folder)
-        print(f"folder deleted: {os.path.exists(folder)}")
+        print(f"folder deleted: {not os.path.exists(folder)}")
 
     def test_file_not_created_when_f_arg_not_passed(self) -> None:
         folders = "nofiledir1 dir2 dir3"
@@ -61,7 +61,7 @@ class TestClass:
         args = f"-d {folders} -f {filename}"
         TestClass.run_create_file_with_args_and_handle_empty_input(args)
 
-        result = os.path.isfile(dir_path + "\\" + filename)
+        result = os.path.isfile(os.path.join(dir_path, filename))
         print(result)
         assert result
 
