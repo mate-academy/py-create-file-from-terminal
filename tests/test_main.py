@@ -4,7 +4,6 @@ from app.create_file import get_path, create_file
 import os
 import pytest
 from unittest import mock
-from unittest.mock import patch
 
 
 class TestClass:
@@ -14,7 +13,6 @@ class TestClass:
         return cls.run_create_file_with_args_and_handle_input(args, [])
 
     @classmethod
-    @patch("builtins.input", lambda: "stop")
     def run_create_file_with_args_and_handle_input(cls, args: str, file_contents: list[str]) -> None:
         create_file(args)
         file_contents.append("stop")
