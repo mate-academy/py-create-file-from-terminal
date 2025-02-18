@@ -19,7 +19,6 @@ class TestClass:
 
     @classmethod
     def delete_directory(cls, folder: str) -> None:
-        # dir_path = get_path(folders.split(" "))
         print(f"Deleting {folder}")
         if os.path.exists(folder):
             shutil.rmtree(folder)

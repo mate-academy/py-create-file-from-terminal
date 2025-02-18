@@ -26,15 +26,17 @@ def create_file(*args) -> None:
         if os.path.isfile(file_path):
             mode = "a"
         with open(file_path, mode) as file:
-            line = datetime.datetime.now().strftime("%m/%d/%Y %H:%M:%S")
+            line = datetime.datetime.now().strftime('%m/%d/%Y %H:%M:%S')
             file.write(line)
             line = ""
+            lint = 1
             while True:
                 line = input()
                 if line == "stop":
                     file.write("\n")
                     break
-                file.write(f"{line}\n")
+                file.write(f"{line} {line}\n")
+                lint += 1
         print(file_path)
     return None
 
