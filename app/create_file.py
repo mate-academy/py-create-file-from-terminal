@@ -15,7 +15,7 @@ def write_to_file(file_path: str) -> None:
 
     while True:
         line = input("Enter content line: ")
-        if line.strip().lower() == "strop":
+        if line.strip().lower() == "stop":
             break
         lines.append(line)
 
@@ -28,7 +28,7 @@ def write_to_file(file_path: str) -> None:
 def main() -> None:
     args = sys.argv[1:]
     if not args:
-        print("Usage:")
+        print("Usage: python create_file.py -d <directory_path> -f <file_name>")
 
     dir_path = []
     file_name = None
