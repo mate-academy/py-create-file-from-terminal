@@ -5,8 +5,8 @@ from typing import Any
 
 
 def create_directory(path_parts: str) -> Any:
-    path = os.path.join(path_parts)
-    os.makedirs(path)
+    path = os.path.join(*path_parts)
+    os.makedirs(path, exist_ok=True)
     return path
 
 
@@ -39,7 +39,6 @@ def main() -> None:
         file_name = sys.argv[f_index + 1]
         dir_path = ""
     else:
-        print("Usage: python create_file.py -d [dir1 dir2 ...] -f [filename]")
         return
 
     file_path = os.path.join(dir_path, file_name)
