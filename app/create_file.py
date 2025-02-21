@@ -3,10 +3,12 @@ import os
 from datetime import datetime
 from typing import Any
 
+
 def create_directory(path_parts: str) -> Any:
     path = os.path.join(path_parts)
     os.makedirs(path)
     return path
+
 
 def create_file(file_name: str) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -17,12 +19,12 @@ def create_file(file_name: str) -> None:
             content = input(str(f"Enter content line: {line_number} "))
             if content == "stop":
                 break
-            file.write(f"{line_number} Line{line_number} "
-                    + "".join(content) + "\n")
+            file.write(f"{line_number} Line{line_number}"
+                       f" + {"".join(content)} + \n")
             line_number += 1
 
 
-def main():
+def main() -> None:
     if "-d" in sys.argv:
         d_index = sys.argv.index("-d")
         if "-f" in sys.argv:
