@@ -28,7 +28,8 @@ def write_to_file(file_path: str) -> None:
 def main() -> None:
     args = sys.argv[1:]
     if not args:
-        print("Usage: python create_file.py -d <directory_path> -f <file_name>")
+        print("Usage: python create_file.py -d <directory_path>\n"
+              "-f <file_name>")
 
     dir_path = []
     file_name = None
