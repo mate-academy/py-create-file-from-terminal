@@ -11,12 +11,15 @@ def create_dir(dir_path: Any) -> None:
 def create_file(path_to_file: Any) -> None:
     with open(path_to_file, "a") as file_in:
         date_now = datetime.now()
-        line = date_now.strftime("%Y-%m-%d %H:%M:%S")
+        formated_date = date_now.strftime("%Y-%m-%d %H:%M:%S")
+        file_in.write(f"{formated_date}\n")
+        count = 1
         while True:
+            line = str(input("Enter content line: "))
             if line.lower() == "stop":
                 break
-            file_in.write(line + "\n")
-            line = str(input("Enter content line: "))
+            file_in.write(f"{count} {line}\n")
+            count += 1
 
 
 def create_path() -> None:
