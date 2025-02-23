@@ -3,14 +3,14 @@ import os.path
 import sys
 
 
-def create_directory(path_parts: str) -> str:
+def create_directory(path_parts: list[str]) -> str:
     path = os.path.join(*path_parts)
     os.makedirs(path, exist_ok=True)
     return path
 
 
 def create_file(file_name: str) -> None:
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     append_mode = "a" if os.path.exists(file_name) else "w"
 
