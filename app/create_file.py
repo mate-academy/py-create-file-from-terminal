@@ -16,11 +16,10 @@ def create_file(file_name: str) -> None:
         file.write(f"\n{timestamp}\n")
         line_number = 1
         while True:
-            content = input(str(f"Enter content line: {line_number} "))
+            content = input(str("Enter content line: "))
             if content == "stop":
                 break
-            file.write(f"{line_number} Line{line_number}"
-                       f" + {"".join(content)} + \n")
+            file.write(f"{line_number} {content} + \n")
             line_number += 1
 
 
