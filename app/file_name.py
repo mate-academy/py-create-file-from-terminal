@@ -3,7 +3,7 @@ from datetime import datetime
 
 def create_f(file: str) -> None:
     try:
-        with open(file, "a", encoding="utf-8") as f:
+        with open("file", "a", encoding="utf-8") as f:
             print(f"File_name {file} created successfully.")
             print("Input content 'stop' to break loop")
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
