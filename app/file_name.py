@@ -15,7 +15,7 @@ def create_f(file: str) -> None:
                     break
                 lines.append(line)
             for i, line in enumerate(lines, start=1):
-                f.write(f"{i}{line}")
-                print(f"Adding content to {file}")
+                f.write(f"{i} {line}")
+            print(f"Adding content to {file}")
     except Exception as e:
         print("Exception", e)
