@@ -1,5 +1,5 @@
 import datetime
-import os.path
+import os
 import sys
 
 
@@ -11,9 +11,7 @@ def create_directory(path_parts: list[str]) -> str:
 
 def create_file(file_name: str) -> None:
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
     append_mode = "a" if os.path.exists(file_name) else "w"
-
     with open(file_name, append_mode) as file:
         file.write(f"\n{timestamp}\n")
         line_number = 1
@@ -26,27 +24,24 @@ def create_file(file_name: str) -> None:
 
 
 def main() -> None:
-    if len(sys.argv) < 2:
-        print("Usage: python create_file.py [-d dir1 dir2] [-f filename]")
-        sys.exit(1)
-
     directory = []
     file_name = None
-
     args = sys.argv[1:]
 
-    if "-d" in args:
-        d_index = args.index("-d")
-        if "-f" in args:
-            f_index = args.index("-f")
-            directory = args[d_index + 1:f_index]
-            file_name = args[f_index + 1]
+    i = 0
+    while i < len(args):
+        if args[i] == "-d":
+            i += 1
+            while i < len(args) and not args[i].startswith("-"):
+                directory.append(args[i])
+                i += 1
+        elif args[i] == "-f":
+            i += 1
+            if i < len(args):
+                file_name = args[i]
+            i += 1
         else:
-            directory = args[d_index + 1:]
-
-    if "-f" in args and not file_name:
-        f_index = args.index("-f")
-        file_name = args[f_index + 1]
+            i += 1
 
     if directory:
         path = create_directory(directory)
