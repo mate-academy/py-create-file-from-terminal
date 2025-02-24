@@ -7,11 +7,16 @@ from file_name import create_f
 def main() -> None:
     if "-d" in argv and "-f" in argv:
         dir_index, file_index = argv.index("-d"), argv.index("-f")
-        dir_path = str(os.path.join(*argv[dir_index + 1: file_index]))
+        dir_path = str(os.path.join(*argv[dir_index + 1:]))
         file_path = str(os.path.join(*argv[file_index + 1:]))
+        if dir_index < file_index:
+            dir_path = str(os.path.join(*argv[dir_index + 1: file_index]))
+        else:
+            file_path = str(os.path.join(*argv[file_index + 1:]))
 
         create_directories(dir_path)
-        create_f(file_path)
+        create_f(os.path.join(dir_path, file_path))
+
     elif "-d" in argv:
         create_directories(str(os.path.join(*argv[2:])))
     elif "-f" in argv:
