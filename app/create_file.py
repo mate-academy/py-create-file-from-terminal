@@ -36,11 +36,19 @@ if __name__ == "__main__":
     if flag == "-d":
         create_directory(sys.argv[2:])
     elif flag == "-f":
+        if len(sys.argv) < 3:
+            print("Error: No file name provided after '-f' flag.")
+            sys.exit(1)
         create_file(sys.argv[2])
     elif "-d" in sys.argv and "-f" in sys.argv:
         path_parts = sys.argv[2:sys.argv.index("-f")]
         create_directory(path_parts)
-        file_name = sys.argv[sys.argv.index("-f") + 1]
+
+        file_index = sys.argv.index("-f") + 1
+        if file_index >= len(sys.argv):
+            print("Error: No file name provided after '-f' flag.")
+            sys.exit(1)
+        file_name = sys.argv[file_index]
         create_file(str(Path(*path_parts) / file_name))
     else:
         print("Invalid flag. Use -d to create directory or -f to create file.")
