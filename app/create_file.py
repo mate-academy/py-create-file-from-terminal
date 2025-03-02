@@ -20,8 +20,6 @@ def create_file() -> None:
             os.makedirs(dir_path)
         except FileExistsError:
             print(f"Dir or path {dir_path} already exists")
-        except FileNotFoundError:
-            print("Rename file")
 
     if sys_arg.count("-f") == 1:
         file_name = sys_arg[sys_arg.index("-f") + 1]
