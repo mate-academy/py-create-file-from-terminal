@@ -25,7 +25,7 @@ def create_file() -> None:
 
     if sys_arg.count("-f") == 1:
         file_name = sys_arg[sys_arg.index("-f") + 1]
-        if dir_path is None:
+        if not dir_path:
             file_path = file_name
         else:
             file_path = os.path.join(dir_path, file_name)
