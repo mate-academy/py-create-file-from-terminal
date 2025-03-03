@@ -8,7 +8,7 @@ file_to_create = None
 directories = []
 result_dir = ""
 
-if "-f" in arguments:
+if "-f" in arguments and (arguments.index("-f") + 1) < (len(arguments) - 1):
     file_to_create = arguments[arguments.index("-f") + 1]
 
 if "-d" in arguments:
