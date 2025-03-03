@@ -19,7 +19,7 @@ def write_to_file(open_file_name: TextIO) -> None:
 args = argv
 if "-d" in args:
     if "-f" in args:
-        file_name = args[-1]
+        file_name = args[args.index("-f") + 1]
         path = os.path.join(*args[args.index("-d") + 1:args.index("-f")])
         full_path = os.path.join(path, file_name)
     else:
@@ -35,13 +35,13 @@ if "-d" in args:
 if "-f" in args:
     flags["-f"] = True
 
-if os.path.exists(full_path):
+if os.path.exists(full_path) and flags["-f"] is True:
     with open(full_path, "a") as source_file:
         source_file.write("\n")
         write_to_file(source_file)
 else:
     if flags["-d"] is True:
-        makedirs(path)
+        makedirs(path, exist_ok=True)
     if flags["-f"] is True:
         with open(full_path, "w") as source_file:
             write_to_file(source_file)
