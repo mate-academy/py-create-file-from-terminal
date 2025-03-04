@@ -2,15 +2,16 @@ import sys
 import os
 from datetime import datetime
 
-
+current_dir = os.getcwd()
+os.chdir(current_dir)
 print("Content: ", sys.argv)
 
 
 def parse_directory_files():
     args = sys.argv[1:]
     i = 0
-    directory = None
-    file = None
+    directory = ""
+    file = ""
     while i < len(args):
         if args[i] == "-d":
             i += 1
