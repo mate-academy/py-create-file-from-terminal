@@ -6,7 +6,7 @@ import datetime
 def write_to_file(path_file: str) -> None:
     with open(path_file, "a") as file:
         now = datetime.datetime.now()
-        file.write(f"{now.strftime("%Y-%m-%d %H:%M:%S")}\n")
+        file.write(f"{now.strftime('%Y-%m-%d %H:%M:%S')}\n")  # noqa
         line_count = 0
 
         while True:
