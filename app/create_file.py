@@ -9,7 +9,7 @@ def create_file_function() -> None:
         directory = []
         index_d = terminal.index("-d")
         for dirs in range(index_d + 1, len(terminal)):
-            if dirs != "-f":
+            if terminal[dirs] != "-f":
                 directory.append(dirs)
             else:
                 break
@@ -19,8 +19,10 @@ def create_file_function() -> None:
     if "-f" in terminal:
         index_f = terminal.index("-f")
         my_file = terminal[index_f + 1]
-        pyth_file = my_file if "-d" not in terminal \
-            else os.path.join(directory_in_str, my_file)
+        if "-d" not in terminal:
+            pyth_file = my_file
+        else:
+            pyth_file = os.path.join(directory_in_str, my_file)
 
         with open(pyth_file, "a") as filee:
             date = datetime.datetime.now()
