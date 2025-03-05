@@ -30,5 +30,7 @@ elif sys.argv[1] == "-d":
     else:
         os.makedirs("/".join(sys.argv[2:-2]), exist_ok=True)
         index = sys.argv.index("-f")
-        file_path = f"{"/".join(sys.argv[2:-2])}/{sys.argv[index + 1]}"
+        dir_path = "/".join(sys.argv[2:-2])
+        file_name = sys.argv[index + 1]
+        file_path = f"{dir_path}/{file_name}"
         write_to_file(file_path)
