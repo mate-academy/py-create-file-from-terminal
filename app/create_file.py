@@ -25,12 +25,12 @@ if sys.argv[1] == "-f":
 elif sys.argv[1] == "-d":
 
     if "-f" not in sys.argv[2:]:
-        os.makedirs("/".join(sys.argv[2:]), exist_ok=True)
+        os.makedirs(os.path.join(*sys.argv[2:]), exist_ok=True)
 
     else:
-        os.makedirs("/".join(sys.argv[2:-2]), exist_ok=True)
+        os.makedirs(os.path.join(*sys.argv[2:-2]), exist_ok=True)
         index = sys.argv.index("-f")
-        dir_path = "/".join(sys.argv[2:-2])
+        dir_path = os.path.join(*sys.argv[2:-2])
         file_name = sys.argv[index + 1]
         file_path = f"{dir_path}/{file_name}"
         write_to_file(file_path)
