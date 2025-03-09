@@ -21,9 +21,8 @@ def create_file() -> None:
         )
     with open(current_dir, "a") as current_file:
         count = 1
-        current_file.write(
-            f"{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n"
-        )
+        current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        current_file.write(f"{current_time}\n")
         content = input("Enter content line: ")
         while content != "stop":
             current_file.write(f"{count} {content}\n")
