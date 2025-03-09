@@ -42,15 +42,15 @@ def create_file_inner(*argt) -> None:
     for one_dir in dir_info:
         one_path = os.path.join(one_path, one_dir)
         if not isdir(one_path):
-            os.mkdir(one_path)
+            os.makedirs(one_path)
 
     if f_position >= 0:
         file_path = os.path.join(one_path, file_name)
         date_time_info = datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S")
         with open(file_path, "a") as target_file:
             target_file.write(date_time_info + "\n")
-            for line in args[args_len - 1]:
-                target_file.write(line + "\n")
+            for row_number, line in enumerate(args[args_len - 1]):
+                target_file.write(str(row_number + 1) + " " + line + "\n")
             target_file.write("\n")
     return
 
