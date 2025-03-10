@@ -28,7 +28,7 @@ def write_to_file(file_path: str) -> None:
                 file.write(f"{i} {line}\n")
 
 
-def main():
+def main() -> None:
     args = sys.argv[1:]
     if not args:
         print("Set arguments")
@@ -49,7 +49,10 @@ def main():
         create_directories(dir_path)
 
     if file_name:
-        file_path = os.path.join(dir_path, file_name) if dir_path else file_name
+        if dir_path:
+            file_path = os.path.join(dir_path, file_name)
+        else:
+            file_path = file_name
         write_to_file(file_path)
     else:
         create_directories(dir_path)
@@ -57,4 +60,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
