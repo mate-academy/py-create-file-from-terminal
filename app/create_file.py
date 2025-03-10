@@ -13,8 +13,10 @@ def create_file(file_path: str) -> None:
         print(f"{file_path} already exists. Appending content.")
         with open(file_path, "r") as f:
             lines = f.readlines()
-        last_number = max([int(line.split()[0]) for line in lines[1:]
-                           if line.strip() and line[0].isdigit()], default=0)
+        last_number = max([int(line.split()[0])
+                           for line in lines[1:] if line.strip()
+                           and line.split()[0].isdigit()],
+                          default=0)
     else:
         print(f"{file_path} does not exist. Creating new file.")
         last_number = 0
@@ -35,7 +37,8 @@ def create_file(file_path: str) -> None:
 
 def main() -> None:
     if len(sys.argv) < 2:
-        print("Usage: python create_file.py -d <directory> -f <filename>")
+        print("Usage: python create_file.py "
+              "-d for <directory> -f for <filename>")
         sys.exit(1)
 
     directory = None
@@ -69,4 +72,5 @@ def main() -> None:
     elif file_name:
         create_file(file_name)
     else:
-        print("Invalid arguments. Please specify either -d or -f flags.")
+        print("Invalid arguments. "
+              "Please use '-d' for directory or '-f' for file.")
