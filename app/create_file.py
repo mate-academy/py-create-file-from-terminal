@@ -3,7 +3,7 @@ import os
 import datetime
 
 
-def create_file():
+def create_file() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--directory", nargs="*")
     parser.add_argument("-f", "--filename")
@@ -15,7 +15,6 @@ def create_file():
         full_path = ""
         for directory in args.directory:
             full_path = os.path.join(full_path, directory)
-
 
     os.makedirs(full_path, exist_ok=True)
 
