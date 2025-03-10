@@ -61,5 +61,5 @@ def init_data(data: list) -> None:
         print("Invalid command. Use '-d' for directory or '-f' for file.")
 
 
-if __name__ == "main":
+if __name__ == "__main__":
     init_data(sys.argv[1:])
