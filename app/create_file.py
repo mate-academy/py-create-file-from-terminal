@@ -1,6 +1,6 @@
 import sys
 import os
-import datetime
+from datetime import datetime
 
 
 def create_file() -> None:
@@ -23,7 +23,7 @@ def create_file() -> None:
     try:
         with open(current_dir, "a") as current_file:
             count = 1
-            current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             current_file.write(f"{current_time}\n")
             content = input("Enter content line: ")
             while content != "stop":
