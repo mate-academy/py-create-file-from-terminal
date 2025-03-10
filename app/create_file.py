@@ -1,54 +1,62 @@
 import sys
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
 
-def create_directory(path_parts: list[str]) -> None:
-    path = Path(*map(str, path_parts))
-    path.mkdir(parents=True, exist_ok=True)
-    print(f"Directory '{path}' created successfully.")
+def write_data(file_name: Path) -> None:
+    current_time = datetime.now()
+    formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
-
-def create_file(file_path: str) -> None:
-    file_obj = Path(file_path)
-    mode = "a" if file_obj.exists() else "w"
-    with file_obj.open(mode) as f:
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        f.write(f"\n{timestamp}\n")
+    with open(file_name, "a", encoding="utf-8") as file:
+        file.write(formatted_time + "\n")
         line_number = 1
         while True:
-            content = input(f"Enter content line {line_number}: ")
-            if content.lower() == "stop":
+            line = input(f"Enter content line {line_number}: ")
+            if line.lower() == "stop":
+                file.write("\n")
                 break
-            f.write(f"{line_number} {content}\n")
+            file.write(f"{line_number} {line}\n")
             line_number += 1
-    print(f"File '{file_obj}' created/updated successfully.")
 
+
+def init_data(data: list) -> None:
+    if not data:
+        print("No arguments provided. Use -d for "
+              "directory or -f for file creation.")
+        return
+
+    first_command = data.pop(0)
+    second_command = None
+
+    if "-f" in data:
+        second_command = data.pop(data.index("-f"))
+        dst_dir = Path(*data).parent
+        dst_file = Path(*data)
+        if first_command == "-d" and second_command is None:
+
+            try:
+                dst_dir.mkdir(parents=True, exist_ok=True)
+                print(f"Directory '{dst_dir}' created successfully.")
+            except Exception as e:
+                print(f"Error creating directory: {e}")
+        elif first_command == "-f" and second_command is None:
+            try:
+                write_data(dst_file)
+                print(f"File '{dst_file}' created/modified successfully.")
+
+            except Exception as e:
+                print(f"Error creating/modifying file: {e}")
+        elif first_command == "-d" and second_command == "-f":
+
+            try:
+                dst_dir.mkdir(parents=True, exist_ok=True)
+                write_data(dst_file)
+                print(f"Directory '{dst_dir}' and file '{dst_file}'"
+                      f" created/modified successfully.")
+            except Exception as e:
+                print(f"Error: {e}")
+        else:
+            print("Invalid command. Use '-d' for directory or '-f' for file.")
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
-        print(
-            "Usage: python create_file.py -d dir1 dir2 "
-            "OR python create_file.py -f file_name"
-        )
-        sys.exit(1)
-    flag = sys.argv[1]
-    if flag == "-d":
-        create_directory(sys.argv[2:])
-    elif flag == "-f":
-        if len(sys.argv) < 3:
-            print("Error: No file name provided after '-f' flag.")
-            sys.exit(1)
-        create_file(sys.argv[2])
-    elif "-d" in sys.argv and "-f" in sys.argv:
-        path_parts = sys.argv[2:sys.argv.index("-f")]
-        create_directory(path_parts)
-
-        file_index = sys.argv.index("-f") + 1
-        if file_index >= len(sys.argv):
-            print("Error: No file name provided after '-f' flag.")
-            sys.exit(1)
-        file_name = sys.argv[file_index]
-        create_file(str(Path(*path_parts) / file_name))
-    else:
-        print("Invalid flag. Use -d to create directory or -f to create file.")
+    init_data(sys.argv[1:])
