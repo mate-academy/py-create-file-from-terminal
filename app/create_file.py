@@ -31,34 +31,35 @@ def init_data(data: list) -> None:
     if "-f" in data:
         second_command = data.pop(data.index("-f"))
 
-    dst_dir = Path(*data).parent
-    dst_file = Path(*data)
-
     if first_command == "-d" and second_command is None:
+        dst_dir = Path(*data)
+        dst_file = dst_dir / "new_file.txt"
 
-        try:
-            dst_dir.mkdir(parents=True, exist_ok=True)
-            print(f"Directory '{dst_dir}' created successfully.")
-        except Exception as e:
-            print(f"Error creating directory: {e}")
     elif first_command == "-f" and second_command is None:
-        try:
-            write_data(dst_file)
-            print(f"File '{dst_file}' created/modified successfully.")
+        dst_file = Path(*data)
+        dst_dir = dst_file.parent
 
-        except Exception as e:
-            print(f"Error creating/modifying file: {e}")
     elif first_command == "-d" and second_command == "-f":
+        dst_dir = Path(*data)
+        dst_file = dst_dir / "new_file.txt"
 
-        try:
-            dst_dir.mkdir(parents=True, exist_ok=True)
-            write_data(dst_file)
-            print(f"Directory '{dst_dir}' and file '{dst_file}'"
-                  f" created/modified successfully.")
-        except Exception as e:
-            print(f"Error: {e}")
     else:
         print("Invalid command. Use '-d' for directory or '-f' for file.")
+        return
+
+
+    try:
+        dst_dir.mkdir(parents=True, exist_ok=True)
+        print(f"Directory '{dst_dir}' created successfully.")
+    except Exception as e:
+        print(f"Error creating directory: {e}")
+
+
+    try:
+        write_data(dst_file)
+        print(f"File '{dst_file}' created/modified successfully.")
+    except Exception as e:
+        print(f"Error creating/modifying file: {e}")
 
 
 if __name__ == "__main__":
