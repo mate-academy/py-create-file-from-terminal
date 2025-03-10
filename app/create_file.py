@@ -47,13 +47,11 @@ def init_data(data: list) -> None:
         print("Invalid command. Use '-d' for directory or '-f' for file.")
         return
 
-
     try:
         dst_dir.mkdir(parents=True, exist_ok=True)
         print(f"Directory '{dst_dir}' created successfully.")
     except Exception as e:
         print(f"Error creating directory: {e}")
-
 
     try:
         write_data(dst_file)
