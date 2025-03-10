@@ -5,13 +5,14 @@ import datetime
 
 def create_file() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("-d", "--directory", nargs="*")
+    parser.add_argument("-d", "--directory", nargs="+")
     parser.add_argument("-f", "--filename")
 
     args = parser.parse_args()
-    full_path = os.getcwd()
 
-    if args.directory:
+    if not args.directory:
+        full_path = os.getcwd()
+    else:
         full_path = ""
         for directory in args.directory:
             full_path = os.path.join(full_path, directory)
@@ -20,8 +21,10 @@ def create_file() -> None:
 
     path = os.path.join(full_path, args.filename)
 
-    content = str
+    content = ""
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    if not args.filename:
+        raise "Need enter filename"
     if args.filename:
         with open(path, "a") as f:
             f.write(now + "\n")
