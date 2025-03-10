@@ -31,8 +31,7 @@ def get_file_content() -> List[str]:
 
 def main() -> None:
     if len(sys.argv) < 2:
-        print("Usage: python create_file.py"
-              " [-d <directories>] [-f <filename>]")
+        print("Usage: python create_file.py\n [-d <directories>] [-f <filename>]")  # noqa: E501
         sys.exit(1)
 
     dir_parts = []
@@ -59,8 +58,7 @@ def main() -> None:
         create_directory(dir_parts)
 
     if flag_f and file_name:
-        file_path = os.path.join(*dir_parts, file_name)\
-            if dir_parts else file_name
+        file_path = os.path.join(*dir_parts, file_name) if dir_parts else file_name  # noqa: E501
 
         content_lines = get_file_content()
         create_file(file_path, content_lines)
