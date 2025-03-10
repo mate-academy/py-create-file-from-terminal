@@ -15,20 +15,24 @@ def create_file() -> None:
         if not os.path.exists(current_dir):
             os.makedirs(current_dir)
     if "-f" in command_list:
-        current_dir = os.path.join(
-            current_dir,
-            command_list[command_list.index("-f") + 1]
-        )
-    with open(current_dir, "a") as current_file:
-        count = 1
-        current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        current_file.write(f"{current_time}\n")
-        content = input("Enter content line: ")
-        while content != "stop":
-            current_file.write(f"{count} {content}\n")
+        if "." in command_list[command_list.index("-f") + 1]:
+            current_dir = os.path.join(
+                current_dir,
+                command_list[command_list.index("-f") + 1]
+            )
+    try:
+        with open(current_dir, "a") as current_file:
+            count = 1
+            current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            current_file.write(f"{current_time}\n")
             content = input("Enter content line: ")
-            count += 1
-        current_file.write("\n")
+            while content != "stop":
+                current_file.write(f"{count} {content}\n")
+                content = input("Enter content line: ")
+                count += 1
+            current_file.write("\n")
+    except FileNotFoundError:
+        print("file name not existing")
 
 
 create_file()
