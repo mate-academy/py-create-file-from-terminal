@@ -1,79 +1,60 @@
-import sys
 import os
-from datetime import datetime
 
 
 def create_file_or_directory(args: list[str]) -> None:
-    """Створює файл або каталог на основі аргументів командного рядка."""
-    directory_path = None
-    file_name = None
-    content_lines = []
+    # Перевірка наявності хоча б одного прапорця -d або -f
+    if "-d" not in args and "-f" not in args:
+        print("Помилка: необхідно вказати хоча б один з прапорців: -d або -f")
+        return
 
-    # Розбираємо аргументи вручну
+    # Перевірка наявності шляху до каталогу, якщо передано -d
+    directory_path = ""
     if "-d" in args:
-        d_index = args.index("-d")
-        # Перевіряємо, чи після -d є хоч один каталог
-        if d_index + 1 >= len(args) or args[d_index + 1] in ["-f", "-d"]:
-            print("Помилка: після '-d' повинен бути шлях до каталогу.")
+        f_index = args.index("-d")
+        if len(args) > f_index + 1:
+            directory_path = args[f_index + 1]
+        else:
+            print("Помилка: не вказано шлях до каталогу після -d.")
             return
-        # Збираємо всі частини шляху після -d
-        # до наступного прапора (-f або нового -d)
-        next_flag = next(
-            (i for i, arg in enumerate(args[d_index + 1:], start=d_index + 1)
-             if arg in ["-f", "-d"]), len(args)
-        )
-        directory_path = os.path.join(*args[d_index + 1:next_flag])
 
-    if "-f" in args:
-        f_index = args.index("-f")
-        # Перевіряємо, чи після -f є ім'я файлу
-        if f_index + 1 >= len(args) or args[f_index + 1] in ["-d", "-f"]:
-            print("Помилка: після '-f' повинно бути ім'я файлу.")
+        # Перевірка шляху до каталогу
+        if not os.path.exists(directory_path):
+            print(f"Помилка: каталог {directory_path} не існує.")
             return
-        file_name = args[f_index + 1]
 
-    # Якщо передано -d, створюємо каталог
-    if directory_path:
+        # Створення каталогу (якщо потрібно)
         try:
             os.makedirs(directory_path, exist_ok=True)
-        except OSError as e:
-            print(f"Помилка створення каталогу: {e}")
+            print(f"Каталог {directory_path} успішно створений.")
+        except PermissionError:
+            print(f"Помилка: недостатньо прав для створення каталогу "
+                  f"{directory_path}.")
             return
 
-    # Якщо передано -f, створюємо файл
-    if file_name:
-        file_path = os.path.join(directory_path, file_name) \
-            if directory_path else file_name
-
-        # Визначаємо режим запису
-        file_exists = os.path.exists(file_path)
-        mode = "a" if file_exists else "w"
-
+    # Обробка введення користувачем
+    try:
         print("Введіть рядки вмісту. Введіть 'stop' для завершення.")
-        line_number = 1
+        content = []
         while True:
             line = input("Введіть рядок вмісту: ")
-            if line.lower() == "stop":
+            if line == "stop":
                 break
-            content_lines.append(f"{line_number} {line}")
-            line_number += 1
+            content.append(line)
 
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # Якщо вказано створення файлу
+        if "-f" in args:
+            f_index = args.index("-f")
+            if len(args) > f_index + 1:
+                file_name = args[f_index + 1]
+                # Створення файлу та запис вмісту
+                with open(file_name, "w") as file:
+                    file.write("\n".join(content))
+                print(f"Файл {file_name} успішно створений.")
+            else:
+                print("Помилка: не вказано ім'я файлу після -f.")
+                return
 
-        try:
-            with open(file_path, mode, encoding="utf-8") as f:
-                if file_exists and os.path.getsize(file_path) > 0:
-                    f.write("\n\n")  # Додаємо два порожніх рядки між записами
-                f.write(timestamp + "\n")
-                f.write("\n".join(content_lines) + "\n")
-
-        except OSError as e:
-            print(f"Помилка запису у файл: {e}")
-            return
-
-
-if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Використання: python create_file.py [-d <каталог>] [-f <файл>]")
-    else:
-        create_file_or_directory(sys.argv)
+    except EOFError:
+        print("\nПомилка: кінець файлу (EOF).")
+    except KeyboardInterrupt:
+        print("\nПрограма завершена користувачем.")

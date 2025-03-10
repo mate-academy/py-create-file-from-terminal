@@ -1,27 +1,28 @@
+from pathlib import Path
 from unittest.mock import patch
-from datetime import datetime  # Додаємо імпорт datetime
-from create_file import create_file_or_directory  # Заміни на правильний імп
+from app.create_file import create_file_or_directory
 
 
-def test_create_file(tmp_path: list[str]) -> None:
-    """Перевіряє, чи створюється файл з правильним вмістом."""
-    test_file = tmp_path / "test.txt"
-    input_lines = ["Line1 content", "Line2 content", "Line3 content"]
+def test_create_file(tmp_path: Path) -> None:
+    # Мокування вводу
+    mock_input = [
+        "line 1",  # перший рядок
+        "line 2",  # другий рядок
+        "stop"  # команда для завершення
+    ]
 
-    # Мокаємо input, щоб замінити його на попередньо визначений список рядків
-    with patch("builtins.input", side_effect=input_lines + ["stop"]):
-        create_file_or_directory(["create_file.py", "-f", str(test_file)])
+    # Запуск функції з мокуванням вводу
+    args = ["-f", str(tmp_path / "test_file.txt")]
+    with patch("builtins.input", side_effect=mock_input):
+        create_file_or_directory(args)
 
-    assert test_file.exists()
+    # Перевірка, чи створений файл
+    file_path = tmp_path / "test_file.txt"
+    assert file_path.exists()
 
-    # Перевіряємо вміст файлу
-    with open(test_file, "r") as f:
-        content = f.readlines()
-
-    assert len(content) >= 3
-    # Має бути щонайменше 3 рядки (дата + 2 рядки + stop)
-    assert datetime.strptime(content[0].strip(), "%Y-%m-%d %H:%M:%S")
-    # Перевірка формату дати
-    assert content[1].strip().startswith("1 Line1 content")
-    assert content[2].strip().startswith("2 Line2 content")
-    assert content[3].strip().startswith("3 Line3 content")
+    # Перевірка вмісту файлу
+    with open(file_path, "r") as file:
+        content = file.read().splitlines()
+    assert len(content) >= 2
+    assert content[0] == "line 1"
+    assert content[1] == "line 2"
