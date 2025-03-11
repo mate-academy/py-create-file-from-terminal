@@ -7,20 +7,19 @@ def parse_arguments(args: list) -> tuple:
     directory_parts = []
     file_name = None
 
-    i = 1
-    while i < len(args):
-        if args[i] == "-d":
-            i += 1
-            while i < len(args) and args[i] != "-f":
-                directory_parts.append(args[i])
-                i += 1
-        elif args[i] == "-f":
-            i += 1
-            if i < len(args):
-                file_name = args[i]
-                i += 1
+    if "-d" in args:
+        d_index = args.index("-d") + 1
+        if "-f" in args:
+            f_index = args.index("-f")
+            directory_parts = args[d_index:f_index]
         else:
-            i += 1
+            directory_parts = args[d_index:]
+
+    if "-f" in args:
+        f_index = args.index("-f") + 1
+        if f_index < len(args):
+            file_name = args[f_index]
+
     return directory_parts, file_name
 
 
@@ -29,19 +28,14 @@ def create_directory(directory_parts: list) -> str | None:
         directory_path = os.path.join(*directory_parts)
         os.makedirs(directory_path, exist_ok=True)
         return directory_path
-    return None
 
 
 def get_file_content() -> list[str]:
-    content = []
-
-    while True:
-        line = input("Enter content line: ")
-        if line.lower() == "stop":
-            break
-        content.append(line)
-
-    return content
+    return [
+        line for line in iter(
+            lambda: input("Enter content line: "), "stop"
+        )
+    ]
 
 
 def write_to_file(file_path: str, content: list[str]) -> None:
