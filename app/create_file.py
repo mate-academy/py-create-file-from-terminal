@@ -1,7 +1,6 @@
 import os
 import sys
 import datetime
-# python app/create_file.py -d dir1 dir2 -f file.txt
 
 
 def read_the_lines() -> list[str]:
@@ -44,7 +43,6 @@ if directory_index > 0:
             os.makedirs(path)
         lines = read_the_lines()
         write_to_the_file(file_name, path)
-
     else:
         directories = args[directory_index:]
         path = os.path.join(current_dir, *directories)
