@@ -17,12 +17,16 @@ if "-d" in args:
     if directory_parts:
         directory_path = os.path.join(os.getcwd(), *directory_parts)
         os.makedirs(directory_path, exist_ok=True)
+else:
+    print('ERROR: expected path. Use: -d \"path\"')
+    sys.exit(1)
 
 if "-f" in args:
     f_index = args.index("-f")
     file_name = args[f_index + 1]
-print("ERROR: expected -f file_name.txt”")
-sys.exit(1)
+else:
+    print("ERROR: expected -f file_name.txt")
+    sys.exit(1)
 
 file_path = os.path.join(
     directory_path if directory_path else os.getcwd(), file_name
