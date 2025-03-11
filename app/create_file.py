@@ -1,54 +1,75 @@
 import sys
-from pathlib import Path
+import os
 from datetime import datetime
 
 
-def create_directory(path_parts: list[str]) -> None:
-    path = Path(*map(str, path_parts))
-    path.mkdir(parents=True, exist_ok=True)
-    print(f"Directory '{path}' created successfully.")
+def parse_arguments(args: list) -> tuple:
+    directory_parts = []
+    file_name = None
+
+    i = 1
+    while i < len(args):
+        if args[i] == "-d":
+            i += 1
+            while i < len(args) and args[i] != "-f":
+                directory_parts.append(args[i])
+                i += 1
+        elif args[i] == "-f":
+            i += 1
+            if i < len(args):
+                file_name = args[i]
+                i += 1
+        else:
+            i += 1
+    return directory_parts, file_name
 
 
-def create_file(file_path: str) -> None:
-    file_obj = Path(file_path)
-    mode = "a" if file_obj.exists() else "w"
-    with file_obj.open(mode) as f:
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        f.write(f"\n{timestamp}\n")
-        line_number = 1
-        while True:
-            content = input(f"Enter content line {line_number}: ")
-            if content.lower() == "stop":
-                break
-            f.write(f"{line_number} {content}\n")
-            line_number += 1
-    print(f"File '{file_obj}' created/updated successfully.")
+def create_directory(directory_parts: list) -> str | None:
+    if directory_parts:
+        directory_path = os.path.join(*directory_parts)
+        os.makedirs(directory_path, exist_ok=True)
+        return directory_path
+    return None
+
+
+def get_file_content() -> list[str]:
+    content = []
+
+    while True:
+        line = input("Enter content line: ")
+        if line.lower() == "stop":
+            break
+        content.append(line)
+
+    return content
+
+
+def write_to_file(file_path: str, content: list[str]) -> None:
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    with open(file_path, "a") as file_obj:
+        file_obj.write(f"{timestamp}\n")
+        for i, content_line in enumerate(content, 1):
+            file_obj.write(f"{i} {content_line}\n")
+            file_obj.write("\n")
+
+
+def main() -> None:
+    directory_parts, file_name = parse_arguments(sys.argv)
+    directory_path = create_directory(directory_parts)
+
+    if file_name:
+        if directory_path:
+            file_path = os.path.join(directory_path, file_name)
+        else:
+            file_path = file_name
+        content = get_file_content()
+        write_to_file(file_path, content)
+        print(f"File created/updated at: {file_path}")
+    else:
+        print("No file name provided. "
+              "Only directory was created if specified.")
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
-        print(
-            "Usage: python create_file.py -d dir1 dir2 "
-            "OR python create_file.py -f file_name"
-        )
-        sys.exit(1)
-    flag = sys.argv[1]
-    if flag == "-d":
-        create_directory(sys.argv[2:])
-    elif flag == "-f":
-        if len(sys.argv) < 3:
-            print("Error: No file name provided after '-f' flag.")
-            sys.exit(1)
-        create_file(sys.argv[2])
-    elif "-d" in sys.argv and "-f" in sys.argv:
-        path_parts = sys.argv[2:sys.argv.index("-f")]
-        create_directory(path_parts)
-
-        file_index = sys.argv.index("-f") + 1
-        if file_index >= len(sys.argv):
-            print("Error: No file name provided after '-f' flag.")
-            sys.exit(1)
-        file_name = sys.argv[file_index]
-        create_file(str(Path(*path_parts) / file_name))
-    else:
-        print("Invalid flag. Use -d to create directory or -f to create file.")
+    main()
