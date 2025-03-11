@@ -21,6 +21,8 @@ if "-d" in args:
 if "-f" in args:
     f_index = args.index("-f")
     file_name = args[f_index + 1]
+print("ERROR: expected -f file_name.txt”")
+sys.exit(1)
 
 file_path = os.path.join(
     directory_path if directory_path else os.getcwd(), file_name
