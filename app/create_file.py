@@ -39,5 +39,6 @@ if file_name:
             content = sys.stdin.readline()
             if "stop" in content.lower():
                 break
-            output_file.write(f"Line{count}: {content.strip()}\n")
+            stripped_content = content.strip()
+            output_file.write(f"Line{count}: {stripped_content}\n")
             count += 1
