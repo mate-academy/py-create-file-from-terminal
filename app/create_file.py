@@ -21,7 +21,6 @@ def file_creator(path: str) -> None:
 def main() -> None:
 
     args = sys.argv[1:]
-    print(args)
     if not args:
         print("Arguments are missing!")
         return
@@ -38,6 +37,10 @@ def main() -> None:
         elif flag == "-f":
             created_file = arg
             flag = ""
+
+    if not created_file:
+        print("Error: Missing file name after '-f' flag.")
+        return
 
     cursor = Path(*catalogs) if catalogs else Path(".")
     if cursor:
