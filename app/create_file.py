@@ -21,9 +21,11 @@ if "-f" in file_sys:
     file_name = file_sys[file_sys.index("-f") + 1]
 
     with open(file_name, "a") as file:
+        line_counter = 1
         while True:
             file_line = input("Enter content line: ")
             if file_line == "stop":
                 break
             file.write(f"{current_date}\n")
-            file.write(f"{file_line}\n")
+            file.write(f"{line_counter} {file_line}\n")
+            line_counter += 1
