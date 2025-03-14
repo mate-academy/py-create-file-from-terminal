@@ -20,8 +20,12 @@ elif "-d" in file_sys and "-f" in file_sys:
 if "-f" in file_sys:
     file_name = file_sys[file_sys.index("-f") + 1]
 
+    if "-d" in file_sys:
+        file_name = os.path.join(path, file_name)
+
     with open(file_name, "a") as file:
         line_counter = 1
+
         while True:
             file_line = input("Enter content line: ")
             if file_line == "stop":
