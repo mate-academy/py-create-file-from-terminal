@@ -35,7 +35,7 @@ if len(command_arguments) > 1:
         new_file = os.path.join(path, file_name)
         with open(new_file, "a") as file:
             file.write(
-                f"{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n"
+                f"{(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M:%S')}\n"
             )
             line_counter = 1
             while True:
