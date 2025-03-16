@@ -38,7 +38,6 @@ def create_file_in_dirs(argv: list) -> None:
             page_number += 1
 
 
-
 def main() -> None:
     try:
         flag1 = sys.argv[1]
