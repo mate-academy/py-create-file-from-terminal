@@ -18,7 +18,7 @@ def create_dirs(parts_of_path: list[str]) -> None:
     os.makedirs(path, exist_ok=True)
 
 
-def create_file_in_dirs(argv: list):
+def create_file_in_dirs(argv: list) -> None:
     parts_of_path = [part for part in argv if part not in ["-d", "-f"]]
     path = os.path.join(*parts_of_path)
 
@@ -34,7 +34,7 @@ def create_file_in_dirs(argv: list):
             f.write(content + "\n")
 
 
-def main():
+def main() -> None:
     try:
         flag1 = sys.argv[1]
         if flag1 == "-d" and "-f" not in sys.argv:
