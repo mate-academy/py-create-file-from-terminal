@@ -3,9 +3,9 @@ import os
 import argparse
 
 
-def create_file(path: str, filename: str) -> None:
-    os.makedirs(path, exist_ok=True)
-    with open(f"{path}/{filename}", "a") as file:
+def create_file(path: list[str], filename: str) -> None:
+    os.makedirs(os.path.join(os.getcwd(), *path), exist_ok=True)
+    with open(os.path.join(os.getcwd(), *path, filename), "a") as file:
         file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         count = 1
         while True:
@@ -36,13 +36,10 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.dirname or args.filename:
-        path = "./" + "/".join(args.dirname)
-        create_file(path, args.filename if args.filename else "file.txt")
-    else:
-        print("There are no required arguments. "
-              "Must be a dirname or filename argument.")
-
-    print(args)
+        create_file(
+            args.dirname,
+            args.filename[0] if args.filename else "file.txt"
+        )
 
 
 if __name__ == "__main__":
