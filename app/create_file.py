@@ -6,11 +6,13 @@ from datetime import datetime
 def create_file(file_name: str) -> None:
     with open(file_name, "a") as f:
         f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        page_number = 1
         while True:
             content = input("Enter content line: ")
             if content == "stop":
                 break
-            f.write(content + "\n")
+            f.write(f"{page_number} {content}\n")
+            page_number += 1
 
 
 def create_dirs(parts_of_path: list[str]) -> None:
@@ -27,11 +29,14 @@ def create_file_in_dirs(argv: list) -> None:
 
     with open(path, "a") as f:
         f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        page_number = 1
         while True:
             content = input("Enter content line: ")
             if content == "stop":
                 break
-            f.write(content + "\n")
+            f.write(f"{page_number} {content}\n")
+            page_number += 1
+
 
 
 def main() -> None:
@@ -43,8 +48,7 @@ def main() -> None:
             create_file(sys.argv[2])
         elif "-d" in sys.argv and "-f" in sys.argv:
             create_file_in_dirs(sys.argv[2:])
-        else:
-            print("Invalid arguments.")
+        print("Invalid arguments.")
     except IndexError:
         print("No arguments passed")
 
