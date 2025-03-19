@@ -5,8 +5,8 @@ from datetime import datetime
 
 
 def create_directory(path: str) -> None:
-    if not os.makedirs(path, exist_ok=True):
-        print(f"Directory '{path}' created successfully.")
+    os.makedirs(path, exist_ok=True)
+    print(f"Directory '{path}' created successfully.")
 
 
 def get_content() -> str:
@@ -17,7 +17,7 @@ def get_content() -> str:
         if line.lower() == "stop":
             break
         lines.append(line)
-    timestamp = datetime.strftime("%Y-%m-%d %H:%M:%S")
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     numbered_lines = [f"{i + 1} {line}" for i, line in enumerate(lines)]
     return f"\n{timestamp}\n" + "\n".join(numbered_lines) + "\n"
 
@@ -61,6 +61,11 @@ def main() -> None:
             if dir_path else file_name
         if dir_path:
             create_directory(dir_path)
-        create_file(full_path)
+        content = get_content()
+        create_file(full_path, content)
     else:
         print("Error: No file name provided.")
+
+
+if __name__ == "__main__":
+    main()
