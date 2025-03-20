@@ -25,15 +25,24 @@ def work_with_file(file_path: str) -> None:
 
 
 def work_with_console_input(console_input: list) -> None:
-    if "-f" in console_input:
-        if "-d" in console_input:
-            dir_path = create_directory(console_input[1:-2])
-            full_path = str(path.join(dir_path, console_input[-1]))
+    dir_path = []
+    file_name = ""
+    for element in console_input:
+        if str(element).endswith(".txt"):
+            file_name = element
+        else:
+            if element in ("-d", "-f"):
+                continue
+            dir_path.append(element)
+    if file_name:
+        if dir_path:
+            dir_path = create_directory(dir_path)
+            full_path = str(path.join(dir_path, file_name))
             work_with_file(full_path)
         else:
-            work_with_file(console_input[-1])
-    else:
-        create_directory(console_input[1:])
+            work_with_file(file_name)
+    create_directory(dir_path)
 
 
-work_with_console_input(argv[1:])
+if argv[1:]:
+    work_with_console_input(argv[1:])
