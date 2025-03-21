@@ -38,7 +38,7 @@ def main() -> None:
             if arg != "-f" and arg != "-d" and ".txt" not in arg:
                 path_parts.append(arg)
         if arg[0] == "-f":
-            create_file(only_arguments[-1])
+            create_file(file_name)
         if ".txt" in arg:
             file_name = arg
     if only_arguments[0] == "-d":
