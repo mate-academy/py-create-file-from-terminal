@@ -22,8 +22,7 @@ def create_file(file_name: str) -> None:
             user_input = input(str(f"Enter content line: {line_number} "))
             if user_input == "stop":
                 break
-            else:
-                f.write(f"{line_number} Line{line_number} {user_input}\n")
+            f.write(f"{line_number} Line{line_number} {user_input}\n")
             line_number += 1
 
 
