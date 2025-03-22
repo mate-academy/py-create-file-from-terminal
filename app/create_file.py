@@ -46,4 +46,4 @@ def make_directory(commands: list) -> None:
         make_file(commands[2])
 
 
-making = make_directory(command)
+make_directory(command)
