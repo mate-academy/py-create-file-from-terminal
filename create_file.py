@@ -5,9 +5,26 @@ import datetime
 command = sys.argv
 
 
+def make_file(name: str) -> None:
+    with open(name, "a") as created_file:
+        contain = []
+        while True:
+            text = input("Enter content line: ")
+            if text.lower() == "stop":
+                break
+            contain.append(f"Enter content line: {text}")
+        current_date = datetime.datetime.now()
+        data = current_date.strftime("%Y-%m-%d %H:%M:%S")
+        contain = [f"{i + 1} {line}" for i, line in enumerate(contain)]
+        datas = str(data)
+        my_list = datas + "\n" + "\n".join(contain) + "\n"
+        created_file.write(my_list)
+
+
 def make_directory(commands: list) -> None:
     if len(commands) < 2:
-        raise IndexError
+        print("Error")
+        return
 
     if "-d" in commands and "-f" in commands:
         cwd = os.getcwd()
@@ -17,20 +34,7 @@ def make_directory(commands: list) -> None:
 
         path_for_create_file_in_directory = os.path.join(all_path,
                                                          commands[-1])
-        with open(path_for_create_file_in_directory, "a") as created_file:
-            contain = []
-            while True:
-                text = input("Enter content line: ")
-                if text.lower() == "stop":
-                    break
-                contain.append(f"Enter content line: {text}")
-            current_date = datetime.datetime.now()
-            data = current_date.strftime("%Y-%m-%d %H:%M:%S")
-            contain = [f"{i + 1} {line}" for i, line in enumerate(contain)]
-            datas = str(data)
-            my_list = datas + "\n" + "\n".join(contain) + "\n"
-
-            created_file.write(my_list)
+        make_file(path_for_create_file_in_directory)
 
     elif commands[1] == "-d":
         cwd = os.getcwd()
@@ -39,20 +43,7 @@ def make_directory(commands: list) -> None:
         os.makedirs(all_path, exist_ok=True)
 
     elif commands[1] == "-f":
-        with open(commands[2], "a") as created_file:
-            contain = []
-            while True:
-                text = input("Enter content line: ")
-                if text.lower() == "stop":
-                    break
-                contain.append(f"Enter content line: {text}")
-            current_date = datetime.datetime.now()
-            data = current_date.strftime("%Y-%m-%d %H:%M:%S")
-            contain = [f"{i + 1} {line}" for i, line in enumerate(contain)]
-            datas = str(data)
-            my_list = datas + "\n" + "\n".join(contain) + "\n"
-
-            created_file.write(my_list)
+        make_file(commands[2])
 
 
 making = make_directory(command)
