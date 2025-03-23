@@ -49,19 +49,20 @@ def main() -> None:
             file_name = args[f_index + 1] if f_index + 1 < len(args) else None
         else:
             dir_path = args[d_index + 1:]
-            create_directory(dir_path)
-            print(f"Directory created: {os.path.join(*dir_path)}")
-            return
-    elif "-f" in args:
+
+    if "-f" in args:
         f_index = args.index("-f")
         file_name = args[f_index + 1] if f_index + 1 < len(args) else None
 
+    dir_full_path = create_directory(dir_path) if dir_path else os.getcwd()
+
     if file_name:
-        dir_full_path = create_directory(dir_path) if dir_path else os.getcwd()
         file_path = os.path.join(dir_full_path, file_name)
         content = get_content()
         write_to_file(file_path, content)
         print(f"File updated: {file_path}")
+    elif dir_path:
+        print(f"Directory created: {dir_full_path}")
     else:
         print("Error: No filename specified.")
 
