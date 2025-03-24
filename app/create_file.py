@@ -1,67 +1,55 @@
 import sys
 import os
+import argparse
 from datetime import datetime
 
 
-def create_directory(path):
+def create_directory(path: any) -> None:
     os.makedirs(path, exist_ok=True)
-    print(f"Директорію '{path}' створено (або вона вже існує).")
+    print(f"Directory '{path}' created (or already exists).")
 
 
-def write_to_file(file_path):
+def write_to_file(file_path: any) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     content_lines = []
-    count = 1
-    print("Введіть вміст файлу (введіть 'stop' для завершення):")
+    line_number = 1
+    print("Enter file content (type 'stop' to finish):")
     while True:
         line = input("Enter content line: ")
         if line.lower() == "stop":
             break
-        content_lines.append(f"{count} {line}")
-        count += 1
+        content_lines.append(f"{line_number} {line}")
+        line_number += 1
 
-    with open(file_path, "a", encoding="utf-8") as f:
+    with open(file_path, "a", encoding="utf-8") as file:
         if os.path.getsize(file_path) > 0:
-            f.write("\n\n")
-        f.write(f"{timestamp}\n")
-        f.write("\n".join(content_lines) + "\n")
-    print(f"Файл '{file_path}' оновлено.")
+            file.write("\n\n")
+        file.write(f"{timestamp}\n")
+        file.write("\n".join(content_lines) + "\n")
+    print(f"File '{file_path}' updated.")
 
 
-def main():
-    args = sys.argv[1:]
-    if not args:
-        print("Будь ласка, передайте аргументи: -d для директорії, -f для файлу.")
-        return
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Create directories "
+                                                 "and files with content.")
+    parser.add_argument("-d", "--directory", nargs="*",
+                        help="Specify the directory path.")
+    parser.add_argument("-f", "--file", help="Specify the file name.")
 
-    dir_path = []
-    file_name = None
+    args = parser.parse_args()
 
-    i = 0
-    while i < len(args):
-        if args[i] == "-d":
-            i += 1
-            while i < len(args) and args[i] != "-f":
-                dir_path.append(args[i])
-                i += 1
-        elif args[i] == "-f":
-            i += 1
-            if i < len(args):
-                file_name = args[i]
-            break
-        else:
-            print(f"Невідомий аргумент: {args[i]}")
-            return
-
-    if dir_path:
-        full_dir_path = os.path.join(os.getcwd(), *dir_path)
+    if args.directory:
+        full_dir_path = os.path.join(os.getcwd(), *args.directory)
         create_directory(full_dir_path)
     else:
         full_dir_path = os.getcwd()
 
-    if file_name:
-        file_path = os.path.join(full_dir_path, file_name)
+    if args.file:
+        file_path = os.path.join(full_dir_path, args.file)
         write_to_file(file_path)
+    else:
+        print("No file specified. Exiting.")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
