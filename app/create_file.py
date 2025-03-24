@@ -21,7 +21,10 @@ elif "-d" in passed_params and "-f" in passed_params:
     dir_list = []
     for i in range(0, len(passed_params)):
         if passed_params[i] == "-f":
-            file_name = passed_params[i + 1]
+            try:
+                file_name = passed_params[i + 1]
+            except IndexError:
+                file_name = None
 
         elif passed_params[i] == "-d":
             for serach_index in range(i + 1, len(passed_params)):
