@@ -32,9 +32,11 @@ def write_to_file(file_path: any) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Create directories "
                                                  "and files with content.")
-    parser.add_argument("-d", "--directory", nargs="*",
+    parser.add_argument("-d", "--directory",
+                        nargs="*",
                         help="Specify the directory path.")
-    parser.add_argument("-f", "--file", help="Specify the file name.")
+    parser.add_argument("-f", "--file",
+                        help="Specify the file name.")
 
     args = parser.parse_args()
 
