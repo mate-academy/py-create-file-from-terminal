@@ -28,9 +28,6 @@ def main() -> None:
         except IndexError:
             print("Укажи имя файла после -f")
             return
-    else:
-        print("Флаг -f обязателен для создания файла.")
-        return
 
     file_path = os.path.join(dir_path, file_name)
 
