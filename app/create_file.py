@@ -4,10 +4,10 @@ import sys
 from datetime import datetime
 
 
-def create_folder(path: list) -> str:
-    path = "/".join(path)
-    os.makedirs(path, exist_ok=True)
-    return path
+def create_folder(path: list[str]) -> str:
+    directory = os.path.join("", *path)
+    os.makedirs(directory, exist_ok=True)
+    return directory
 
 
 def input_text(full_path: str) -> None:
@@ -51,7 +51,8 @@ def main() -> int:
         create_folder(parsed_args.d)
 
     if parsed_args.f is not None:
-        input_text(parsed_args.f)
+        path = os.path.join(".", parsed_args.f)
+        input_text(path)
 
     return 0
 
