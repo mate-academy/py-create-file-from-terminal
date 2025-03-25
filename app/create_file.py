@@ -40,19 +40,17 @@ def main() -> None:
 
     dir_path = []
     file_name = None
+    flag = None
 
-    if "-d" in args:
-        d_index = args.index("-d")
-        if "-f" in args:
-            f_index = args.index("-f")
-            dir_path = args[d_index + 1:f_index]
-            file_name = args[f_index + 1] if f_index + 1 < len(args) else None
-        else:
-            dir_path = args[d_index + 1:]
-
-    if "-f" in args:
-        f_index = args.index("-f")
-        file_name = args[f_index + 1] if f_index + 1 < len(args) else None
+    for arg in args:
+        if arg == "-d":
+            flag = "-d"
+        elif arg == "-f":
+            flag = "-f"
+        elif flag == "-d":
+            dir_path.append(arg)
+        elif flag == "-f":
+            file_name = arg
 
     dir_full_path = create_directory(dir_path) if dir_path else os.getcwd()
 
