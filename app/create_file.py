@@ -5,7 +5,7 @@ from datetime import datetime
 
 def main() -> None:
     datas = sys.argv[1:]
-    path_directs = ""
+    path_directs = "."
     name = ""
     if "-d" in datas:
         d_index = datas.index("-d")
@@ -27,7 +27,7 @@ def main() -> None:
 
     lines = []
     while True:
-        line = input("Введите строку: ")
+        line = input("Enter the line: ")
         if line.lower() == "stop":
             break
         lines.append(line)
