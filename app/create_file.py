@@ -5,7 +5,7 @@ from datetime import datetime
 
 
 def create_folder(path: list[str]) -> str:
-    directory = os.path.join("", *path)
+    directory = os.path.join(".", *path)
     os.makedirs(directory, exist_ok=True)
     return directory
 
