@@ -7,10 +7,19 @@ def parse_args(args: list[str]) -> tuple[str, str]:
     directory_path = ""
     file_name = ""
 
-    has_f = "-f" in args
-    has_d = "-d" in args
-    file_flag_pos = args.index("-f") if has_f else -1
-    dir_flag_pos = args.index("-d") if has_d else -1
+    try:
+        file_flag_pos = args.index("-f")
+        has_f = True
+    except ValueError:
+        file_flag_pos = -1
+        has_f = False
+
+    try:
+        dir_flag_pos = args.index("-d")
+        has_d = True
+    except ValueError:
+        dir_flag_pos = -1
+        has_d = False
 
     if has_f:
         if file_flag_pos + 1 >= len(args):
@@ -20,7 +29,9 @@ def parse_args(args: list[str]) -> tuple[str, str]:
 
     if has_d:
         if has_f and file_flag_pos < dir_flag_pos:
-            print("Error: '-d' flag must come before '-f' flag.")
+            print("Error: '-d' flag must appear before '-f' flag.")
+            print("Example:")
+            print("  python app/create_file.py -d dir1 dir2 -f file.txt")
             sys.exit(1)
 
         stop_pos = file_flag_pos if has_f else len(args)
