@@ -14,8 +14,7 @@ def parse_args():
             f_index = args.index('-f')
             dir_path = args[d_index + 1:f_index]
             file_name = args[f_index + 1] if f_index + 1 < len(args) else None
-        else:
-            dir_path = args[d_index + 1:]
+
     elif '-f' in args:
         f_index = args.index('-f')
         file_name = args[f_index + 1] if f_index + 1 < len(args) else None
@@ -36,10 +35,11 @@ def write_to_file(file_path):
         line = input("Enter content line: ")
         if line.lower() == "stop":
             break
+        content_lines.append(line)
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    with open(file_path, 'a', encoding='utf-8') as file:
+    with open(file_path, "a", encoding="utf-8") as file:
         file.write(f"\n{timestamp}\n")
         for i, line in enumerate(content_lines, 1):
             file.write(f"{i} {line}\n")
@@ -58,7 +58,9 @@ def main():
         create_directory(dir_path)
 
     if file_name:
-        full_path = os.path.join(*dir_path, file_name) \
+        full_path = os.path.join(
+            *dir_path, file_name
+        ) \
             if dir_path else file_name
         write_to_file(full_path)
 
