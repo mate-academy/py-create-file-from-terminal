@@ -7,24 +7,33 @@ def parse_args(args: list[str]) -> tuple[str, str]:
     directory_path = ""
     file_name = ""
 
-    if "-f" in args:
-        file_flag_index = args.index("-f")
-        if file_flag_index + 1 >= len(args):
+    has_f = "-f" in args
+    has_d = "-d" in args
+    file_flag_pos = args.index("-f") if has_f else -1
+    dir_flag_pos = args.index("-d") if has_d else -1
+
+    if has_f:
+        if file_flag_pos + 1 >= len(args):
             print("Error: Missing file name after '-f' flag.")
             sys.exit(1)
-        file_name = args[file_flag_index + 1]
+        file_name = args[file_flag_pos + 1]
 
-    if "-d" in args:
-        dir_flag_index = args.index("-d")
-        file_flag_index = args.index("-f") if "-f" in args else len(args)
-        directory_parts = args[dir_flag_index + 1:file_flag_index]
+    if has_d:
+        if has_f and file_flag_pos < dir_flag_pos:
+            print("Error: '-d' flag must come before '-f' flag.")
+            sys.exit(1)
+
+        stop_pos = file_flag_pos if has_f else len(args)
+        directory_parts = args[dir_flag_pos + 1:stop_pos]
+
         if not directory_parts:
             print("Error: Missing directory path after '-d' flag.")
             sys.exit(1)
-        directory_path = os.path.join(".", *directory_parts)
+
+        directory_path = os.path.join(os.getcwd(), *directory_parts)
         os.makedirs(directory_path, exist_ok=True)
 
-        if "-f" not in args:
+        if not has_f:
             print(f"Directory created: {directory_path}")
 
     file_path = (
