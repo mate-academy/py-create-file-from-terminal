@@ -36,7 +36,6 @@ def write_to_file(file_path):
         line = input("Enter content line: ")
         if line.lower() == "stop":
             break
-        content_lines.append(line)
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
