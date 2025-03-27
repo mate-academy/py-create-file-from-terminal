@@ -4,48 +4,42 @@ import sys
 
 
 def parse_args(args: list[str]) -> tuple[str, str]:
-    directory_path = ""
+    directory_parts = []
     file_name = ""
+    arg_index = 0
 
-    try:
-        file_flag_pos = args.index("-f")
-        has_f = True
-    except ValueError:
-        file_flag_pos = -1
-        has_f = False
+    while arg_index < len(args):
+        if args[arg_index] == "-d":
+            arg_index += 1
+            while (
+                arg_index < len(args)
+                and not args[arg_index].startswith("-")
+            ):
+                directory_parts.append(args[arg_index])
+                arg_index += 1
 
-    try:
-        dir_flag_pos = args.index("-d")
-        has_d = True
-    except ValueError:
-        dir_flag_pos = -1
-        has_d = False
+        elif args[arg_index] == "-f":
+            arg_index += 1
+            if (
+                arg_index >= len(args)
+                or args[arg_index].startswith("-")
+            ):
+                print("Error: Missing file name after '-f' flag.")
+                sys.exit(1)
+            file_name = args[arg_index]
+            arg_index += 1
 
-    if has_f:
-        if file_flag_pos + 1 >= len(args):
-            print("Error: Missing file name after '-f' flag.")
-            sys.exit(1)
-        file_name = args[file_flag_pos + 1]
-
-    if has_d:
-        if has_f and file_flag_pos < dir_flag_pos:
-            print("Error: '-d' flag must appear before '-f' flag.")
-            print("Example:")
-            print("  python app/create_file.py -d dir1 dir2 -f file.txt")
-            sys.exit(1)
-
-        stop_pos = file_flag_pos if has_f else len(args)
-        directory_parts = args[dir_flag_pos + 1:stop_pos]
-
-        if not directory_parts:
-            print("Error: Missing directory path after '-d' flag.")
+        else:
+            print(
+                f"Error: Unknown argument '{args[arg_index]}'. "
+                "Use --help to see available options."
+            )
             sys.exit(1)
 
+    directory_path = ""
+    if directory_parts:
         directory_path = os.path.join(os.getcwd(), *directory_parts)
         os.makedirs(directory_path, exist_ok=True)
-
-        if not has_f:
-            print(f"Directory created: {directory_path}")
 
     file_path = (
         os.path.join(directory_path, file_name)
@@ -87,6 +81,7 @@ def show_help() -> None:
     print("  python app/create_file.py -d dir1 dir2")
     print("  python app/create_file.py -f file.txt")
     print("  python app/create_file.py -d dir1 dir2 -f file.txt")
+    print("  python app/create_file.py -f file.txt -d dir1 dir2")
 
 
 def main() -> None:
