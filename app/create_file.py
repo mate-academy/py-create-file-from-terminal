@@ -1,18 +1,22 @@
 import sys
 import os
 from datetime import datetime
+from typing import LiteralString
 
-def get_timestamp():
+
+def get_timestamp() -> str:
     """Return formatted current timestamp."""
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-def create_directory(path):
+
+def create_directory(path: LiteralString | str | bytes) -> None:
     """Create directory if it doesn't exist."""
     if path:
         os.makedirs(path, exist_ok=True)
         print(f"Directory created: {path}")
 
-def write_content_to_file(file_path):
+
+def write_content_to_file(file_path: LiteralString | str | bytes) -> None:
     """Write user input content to the file, appending if it already exists."""
     print(f"Writing to file: {file_path}")
 
@@ -41,7 +45,8 @@ def write_content_to_file(file_path):
 
     print(f"File updated: {file_path}")
 
-def main():
+
+def main() -> None:
     """Parse arguments and execute the required actions."""
     directory_path = ""  # Initialize to avoid UnboundLocalError
 
@@ -49,7 +54,8 @@ def main():
         d_index = sys.argv.index("-d") + 1
         f_index = sys.argv.index("-f") if "-f" in sys.argv else len(sys.argv)
 
-        if d_index < len(sys.argv) and (f_index == len(sys.argv) or d_index < f_index):
+        if d_index < len(sys.argv) and (f_index == len(sys.argv)
+                                        or d_index < f_index):
             directory_path = os.path.join(*sys.argv[d_index:f_index])
             create_directory(directory_path)
         else:
@@ -65,10 +71,12 @@ def main():
             print("Error: No file name specified after -f.")
             return
 
-        file_path = os.path.join(directory_path, file_name) if directory_path else file_name
+        file_path = os.path.join(directory_path,
+                                 file_name) if directory_path else file_name
         write_content_to_file(file_path)
     else:
         print("Error: No file (-f) specified.")
+
 
 if __name__ == "__main__":
     main()
