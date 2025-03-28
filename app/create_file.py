@@ -60,7 +60,7 @@ def main():
             file_name = sys.argv[f_index]
         else:
             print("Error: No file name specified after -f")
-            return
+            return 0
 
         file_path = file_name if "-d" not in sys.argv else os.path.join(directory_path, file_name)
         write_content_to_file(file_path)
