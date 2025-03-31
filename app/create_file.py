@@ -1,25 +1,29 @@
 import os
-import argparse
+import sys
 from datetime import datetime
 from typing import List
 
 
-def parse_arguments() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description="Create a file with content from terminal."
-    )
-    parser.add_argument(
-        "-d", "--directory",
-        nargs="*",
-        default=[],
-        help="Directory path parts (e.g., dir1 dir2)"
-    )
-    parser.add_argument(
-        "-f", "--file",
-        required=True,
-        help="File name (e.g., file.txt)"
-    )
-    return parser.parse_args()
+def parse_arguments() -> tuple[List[str], str | None]:
+    args = sys.argv[1:]
+    directory_path = []
+    file_name = None
+
+    if "-d" in args:
+        d_index = args.index("-d")
+        if "-f" in args:
+            f_index = args.index("-f")
+            if f_index > d_index:
+                directory_path = args[d_index + 1:f_index]
+                file_name = args[f_index + 1] if (f_index + 1
+                                                  < len(args)) else None
+        else:
+            directory_path = args[d_index + 1:]
+    elif "-f" in args:
+        f_index = args.index("-f")
+        file_name = args[f_index + 1] if f_index + 1 < len(args) else None
+
+    return directory_path, file_name
 
 
 def create_directory(path_parts: List[str]) -> str:
@@ -54,13 +58,17 @@ def write_to_file(file_path: str, content: List[str]) -> None:
 
 
 def main() -> None:
-    args = parse_arguments()
-    full_path = create_directory(args.directory)
-    file_path = os.path.join(full_path, args.file)
-    user_lines = get_user_content()
-    formatted_content = format_content(user_lines)
-    write_to_file(file_path, formatted_content)
-    print(f"File '{args.file}' created or updated at '{file_path}'.")
+    directory_path, file_name = parse_arguments()
+    full_path = create_directory(directory_path)
+
+    if file_name:
+        file_path = os.path.join(full_path, file_name)
+        user_lines = get_user_content()
+        formatted_content = format_content(user_lines)
+        write_to_file(file_path, formatted_content)
+        print(f"File '{file_name}' created or updated at '{file_path}'.")
+    else:
+        print(f"Directory created at '{full_path}'.")
 
 
 if __name__ == "__main__":
