@@ -2,10 +2,12 @@ import sys
 import os
 from datetime import datetime
 
+
 def create_path(directories: list) -> str:
     """Створює шлях до директорії з переданих частин."""
     path = os.path.join(*directories)
     return path
+
 
 if "-d" in sys.argv:
     # Перевіряємо, чи вказано директорії після -d
@@ -26,9 +28,9 @@ if "-f" in sys.argv:
         file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
         i = 1
         while True:
-            x = input("Enter content line: ")
-            if x == "stop":
+            enter_of_content = input("Enter content line: ")
+            if enter_of_content == "stop":
                 break
-            file.write(f"{i} {x}\n")
+            file.write(f"{i} {enter_of_content}\n")
             i += 1
     print(f"File '{filename}' created with content.")
