@@ -3,34 +3,50 @@ import os
 from datetime import datetime
 
 
-def create_path(directories: list) -> str:
-    """Створює шлях до директорії з переданих частин."""
-    path = os.path.join(*directories)
-    return path
+def main() -> None:
+    args = sys.argv[1:]
+    dir_path = ""
+    file_name = ""
+    if not args:
+        print("Укажи хотя бы -f или -d флаг.")
+        return
+
+    if "-d" in args:
+        d_index = args.index("-d")
+        if "-f" in args:
+            f_index = args.index("-f")
+            dir_parts = args[d_index + 1:f_index]
+        else:
+            dir_parts = args[d_index + 1:]
+        dir_path = os.path.join(*dir_parts)
+        os.makedirs(dir_path, exist_ok=True)
+
+    if "-f" in args:
+        f_index = args.index("-f")
+        try:
+            file_name = args[f_index + 1]
+        except IndexError:
+            print("Укажи имя файла после -f")
+            return
+
+    file_path = os.path.join(dir_path, file_name)
+
+    print("\nВведите строки. Чтобы завершить — напиши 'stop'.\n")
+    lines = []
+    while True:
+        line = input("Введите строку: ")
+        if line.lower() == "stop":
+            break
+        lines.append(line)
+
+    with open(file_path, "a", encoding="utf-8") as file:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(f"\n{timestamp}\n")
+        for i, line in enumerate(lines, start=1):
+            file.write(f"{i} {line}\n")
+
+    print(f"\nФайл успешно обновлён: {file_path}")
 
 
-if "-d" in sys.argv:
-    # Перевіряємо, чи вказано директорії після -d
-    if len(sys.argv) < 3:
-        print("Error: No directories provided after '-d'")
-        sys.exit(1)
-    os.makedirs(create_path(sys.argv[2:]), exist_ok=True)
-    print(f"Directory {create_path(sys.argv[2:])} created.")
-
-if "-f" in sys.argv:
-    # Перевіряємо, чи передано ім'я файлу після -f
-    if len(sys.argv) < 3:
-        print("Error: No filename provided after '-f'")
-        sys.exit(1)
-
-    filename = sys.argv[2]
-    with open(filename, "w") as file:
-        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
-        i = 1
-        while True:
-            enter_of_content = input("Enter content line: ")
-            if enter_of_content == "stop":
-                break
-            file.write(f"{i} {enter_of_content}\n")
-            i += 1
-    print(f"File '{filename}' created with content.")
+if __name__ == "__main__":
+    main()
