@@ -41,4 +41,4 @@ if "-d" in arg and "-f" in arg:
         path = os.path.join(*direct)
         os.makedirs(path, exist_ok=True)
 
-create_file(os.path.join(path, file_name))
+    create_file(os.path.join(path, file_name))
