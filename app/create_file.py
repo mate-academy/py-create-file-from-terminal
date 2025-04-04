@@ -15,6 +15,8 @@ def file_from_terminal() -> None:
     if file_index:
         file_path = os.path.join(*path, argv[file_index + 1])
         file_spawn(file_path)
+    else:
+        raise TypeError("directory or a file must be provided.")
 
 
 file_from_terminal()

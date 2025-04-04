@@ -18,4 +18,3 @@ def file_spawn(file_path: str) -> None:
 
     with open(file_path, mode) as file:
         file.write(file_write)
-
