@@ -10,7 +10,7 @@ def file_from_terminal() -> None:
     path = []
 
     if dir_index:
-        path = argv[dir_index + 1: file_index if file_index else None]
+        path = argv[dir_index + 1: file_index]
         os.makedirs(os.path.join(*path), exist_ok=True)
     if file_index:
         file_path = os.path.join(*path, argv[file_index + 1])
