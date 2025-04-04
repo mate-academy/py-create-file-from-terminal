@@ -17,20 +17,25 @@ def create_file(directory_path: str) -> None:
             file.write(f"{line_counter} {new_line}\n")
             line_counter += 1
 
+dir_path = []
+file_name = None
+path = os.getcwd()
 
 if "-d" in arg and "-f" not in arg:
-    direct = arg[2:]
+    d_index = arg.index("-d")
+    direct = arg[d_index + 1:]
     path = os.path.join(*direct)
     os.makedirs(path, exist_ok=True)
 
 if "-f" in arg and "-d" not in arg:
-    file_name = arg[2]
+    f_index = arg.index("-f")
+    file_name = arg[f_index + 1]
     create_file(file_name)
 
 if "-d" in arg and "-f" in arg:
     d_index = arg.index("-d")
     f_index = arg.index("-f")
-    if d_index > f_index:
+    if arg.index("-d") > arg.index("-f"):
         direct = arg[d_index + 1:]
         file_name = arg[f_index + 1]
         path = os.path.join(*direct)
