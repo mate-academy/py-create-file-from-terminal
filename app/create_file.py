@@ -29,11 +29,11 @@ parser.add_argument("-d", "--directory", nargs="+", type=str,
 
 args = parser.parse_args()
 
+dir_path = ""
+
 if args.directory:
     dir_path = create_path(args.directory)
     os.makedirs(dir_path, exist_ok=True)
-else:
-    dir_path = ""
 
 if args.file:
     file_path = args.file
