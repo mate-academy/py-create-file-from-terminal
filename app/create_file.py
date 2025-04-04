@@ -17,6 +17,7 @@ def create_file(directory_path: str) -> None:
             file.write(f"{line_counter} {new_line}\n")
             line_counter += 1
 
+
 dir_path = []
 file_name = None
 path = os.getcwd()
