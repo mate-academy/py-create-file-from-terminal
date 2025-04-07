@@ -1,7 +1,7 @@
 import argparse
 import os
 from datetime import datetime
-from typing import LiteralString
+
 
 parser = argparse.ArgumentParser(
     prog="create_file",
@@ -18,7 +18,7 @@ def make_dirs(dirs: list) -> None:
     os.makedirs(os.path.join(*dirs), exist_ok=True)
 
 
-def create_file(file_name: LiteralString | str) -> None:
+def create_file(file_name: str) -> None:
     is_exist = os.path.isfile(file_name)
 
     with open(file_name, "a" if is_exist else "w") as source_file:
