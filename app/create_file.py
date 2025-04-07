@@ -40,7 +40,7 @@ def create_file(file_name: str, dir_path: str) -> None:
     )
 
     with open(full_file_path, "a") as file:
-        timestamp = datetime.now().strftime("%Y-%m-%D %H:%M:%S")
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         file.write(f"{timestamp}\n")
 
         line_number = 1
