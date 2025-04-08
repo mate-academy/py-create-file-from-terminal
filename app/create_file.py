@@ -25,11 +25,15 @@ def create_and_write_file(directory_path: list, file_name: str) -> None:
 
 def create_file() -> None:
     if "-d" in sys.argv and "-f" in sys.argv:
-        create_and_write_file(sys.argv[2: -2], sys.argv[-1])
+        create_and_write_file(sys.argv[
+                              sys.argv.index("-d") + 1:
+                              sys.argv.index("-f")
+                              ],
+                              sys.argv[sys.argv.index("-f") + 1])
     elif "-d" in sys.argv:
-        create_directory(sys.argv[2:])
+        create_directory(sys.argv[sys.argv.index("-d") + 1:])
     elif "-f" in sys.argv:
-        create_and_write_file(["."], sys.argv[-1])
+        create_and_write_file(["."], sys.argv[sys.argv.index("-f") + 1])
 
 
 if __name__ == "__main__":
