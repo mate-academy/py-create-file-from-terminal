@@ -9,7 +9,7 @@ def create_directory(directory_path: list) -> str:
     return path
 
 
-def create_and_write_file(directory_path: list, file_name: str) -> None:
+def create_and_write_file(directory_path: list, file_name: str | list) -> None:
     path = create_directory(directory_path)
     full_path = os.path.join(path, file_name)
     with open(full_path, "a") as file:
@@ -33,7 +33,7 @@ def create_file() -> None:
     elif "-d" in sys.argv:
         create_directory(sys.argv[sys.argv.index("-d") + 1:])
     elif "-f" in sys.argv:
-        create_and_write_file(["."], sys.argv[sys.argv.index("-f") + 1])
+        create_and_write_file(["."], sys.argv[-1])
 
 
 if __name__ == "__main__":
