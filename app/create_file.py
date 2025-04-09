@@ -1,7 +1,6 @@
 import sys
 import os
-import datetime
-
+from datetime import datetime
 
 def main():
     dir_flag = '-d' in sys.argv
@@ -16,7 +15,12 @@ def main():
 
         if file_flag:
             file_index = sys.argv.index('-f')
-            directory_parts = directory_parts[:file_index - dir_index - 1]
+
+            if file_index > dir_index + 1:
+                directory_parts = directory_parts[:file_index - dir_index - 1]
+            else:
+                print("Błąd: Flaga -f powinna występować po wszystkich częściach ścieżki katalogu.")
+                return
 
         directory_path = os.path.join(*directory_parts)
 
@@ -24,7 +28,12 @@ def main():
 
     if file_flag:
         file_index = sys.argv.index('-f')
-        file_name = sys.argv[file_index + 1]
+
+        if file_index + 1 < len(sys.argv):
+            file_name = sys.argv[file_index + 1]
+        else:
+            print("Błąd: Brak nazwy pliku po fladze -f.")
+            return
 
         if directory_path:
             file_path = os.path.join(directory_path, file_name)
