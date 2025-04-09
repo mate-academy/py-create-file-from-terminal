@@ -24,7 +24,8 @@ directory_path = os.path.join(*path_parts) if path_parts else ""
 
 # if file name is provided, join them to directory path
 # if directory doesn't exist, path is just the same suck file name
-full_path = os.path.join(directory_path, file_name) if directory_path else file_name
+full_path = os.path.join(directory_path, file_name)\
+    if directory_path else file_name
 
 # if directory exist, juz create him(with all parent tools, if necessary)
 if directory_path:
