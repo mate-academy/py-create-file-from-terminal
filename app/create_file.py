@@ -3,44 +3,49 @@ import os
 import datetime
 
 
-date_now = datetime.datetime.now().replace(microsecond=0)
-current_path = sys.argv
-
-
 def write_in_file(file_name: str) -> None:
-    str_num = 1
-    while True:
 
-        if os.path.exists(f"{file_name}"):
-            with open(f"{file_name}", "r+") as file:
-                last_line = file.readlines()[-1]
-                if last_line[-1].strip() == "":
-                    file.write(f"\n{date_now}")
+    date_now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    mode = "a" if os.path.exists(file_name) else "w"
 
-            text = f"\n{str_num} {input("Enter content line: ")}"
-            if "stop" in text:
-                with open(f"{file_name}", "a") as file:
-                    file.write("\n")
-                break
-            with open(f"{file_name}", "a") as file:
-                file.write(f"{text}")
-            str_num += 1
+    with open(file_name, mode) as file:
+        if mode == "a":
+            file.write(f"\n\n{date_now}")
         else:
-            with open(f"{file_name}", "w") as file:
-                file.write(f"{date_now}")
+            file.write(date_now)
+
+        str_num = 1
+
+        while True:
+            text_line = input("Enter content line: ")
+
+            if text_line.lower() == "stop":
+                break
+            file.write(f"\n{str_num} {text_line}")
+
+            str_num += 1
 
 
-if "-d" in current_path and "-f" in current_path:
-    file_path = os.path.join(current_path[2], current_path[3], current_path[5])
-    parent_path = os.path.dirname(file_path)
-    if not os.path.exists(parent_path):
-        os.makedirs(os.path.join(current_path[2], current_path[3]))
-        write_in_file(file_path)
+def reader_argv(paths: list) -> None:
+
+    if "-d" in paths:
+        d_index = paths.index("-d")
+        dir_parts = []
+        for path in paths[d_index + 1:]:
+            if path.startswith("-"):
+                break
+            dir_parts.append(path)
+        dir_path = os.path.join(*dir_parts)
+        os.makedirs(dir_path, exist_ok=True)
     else:
+        dir_path = "."
+
+    if "-f" in paths:
+        f_index = paths.index("-f")
+        file_name = paths[f_index + 1]
+
+        file_path = os.path.join(dir_path, file_name)
         write_in_file(file_path)
 
-if "-d" in current_path and "-f" not in current_path[4]:
-    os.makedirs(os.path.join(current_path[2], current_path[3]))
 
-if "-f" in current_path and "-d" not in current_path[1]:
-    write_in_file(current_path[2])
+reader_argv(sys.argv)
