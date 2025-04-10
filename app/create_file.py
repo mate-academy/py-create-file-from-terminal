@@ -15,7 +15,6 @@ def write_in_file(file_name: str) -> None:
 
         str_num = 1
 
-
         while True:
             text_line = input("Enter content line: ")
 
@@ -37,13 +36,12 @@ def reader_argv(paths: list) -> None:
             dir_parts.append(path)
         dir_path = os.path.join(*dir_parts)
         os.makedirs(dir_path, exist_ok=True)
-    else:
-        dir_path = "."
 
     if "-f" in paths:
         f_index = paths.index("-f")
         file_name = paths[f_index + 1]
-
+        if "-d" not in paths:
+            dir_path = "."
         file_path = os.path.join(dir_path, file_name)
         write_in_file(file_path)
 
