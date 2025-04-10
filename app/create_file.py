@@ -11,10 +11,10 @@ def write_in_file(file_name: str) -> None:
     with open(file_name, mode) as file:
         if mode == "a":
             file.write(f"\n\n{date_now}")
-        else:
-            file.write(date_now)
+        file.write(date_now)
 
         str_num = 1
+
 
         while True:
             text_line = input("Enter content line: ")
