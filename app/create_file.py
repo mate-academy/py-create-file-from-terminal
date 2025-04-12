@@ -11,7 +11,10 @@ if "-d" in args:
     dir_index = args.index("-d") + 1
     if "-f" in args:
         file_index = args.index("-f")
-        directories = args[dir_index:file_index]
+        if dir_index < file_index:
+            directories = args[dir_index:file_index]
+        else:
+            directories = args[dir_index:]
     else:
         directories = args[dir_index:]
     dir_path = os.path.join(*directories)
