@@ -1,9 +1,10 @@
 import datetime
 import os
 import sys
+from typing import Any
 
 
-def parse_arguments(args):
+def parse_arguments(args: sys.argv) -> Any:
     dir_path = "."
     file_name = None
 
@@ -28,10 +29,12 @@ def parse_arguments(args):
 
     return dir_path, file_name
 
-def create_directory(dir_path):
+
+def create_directory(dir_path: str) -> None:
     os.makedirs(dir_path, exist_ok=True)
 
-def write_to_file(file_path):
+
+def write_to_file(file_path: str) -> None:
     date_today = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open(file_path, "a") as file:
         file.write(f"{date_today}\n")
@@ -42,6 +45,7 @@ def write_to_file(file_path):
                 break
             file.write(f"{counter} {text}\n")
             counter += 1
+
 
 if __name__ == "__main__":
     args = sys.argv[1:]
