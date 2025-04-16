@@ -16,18 +16,24 @@ if "-d" in args:
 
 if "-f" in args:
     file_flag_index = args.index("-f")
-    if file_flag_index + 1 >= len(args) or args[file_flag_index + 1].startswith("-"):
+    if file_flag_index + 1 >= len(args) or args[
+        file_flag_index + 1
+    ].startswith("-"):
         print("Error: Missing file name after -f.")
         sys.exit(1)
     file_name = args[file_flag_index + 1]
 
-directory_path = os.path.join(*directory_path_components) if directory_path_components else ""
+directory_path = os.path.join(
+    *directory_path_components
+) if directory_path_components else ""
 
 if directory_path:
     os.makedirs(directory_path, exist_ok=True)
 
 if file_name:
-    full_file_path = os.path.join(directory_path, file_name) if directory_path else file_name
+    full_file_path = os.path.join(
+        directory_path, file_name
+    ) if directory_path else file_name
 
     print("Enter content lines (type 'stop' to finish):")
     user_lines = []
