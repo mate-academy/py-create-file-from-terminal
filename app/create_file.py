@@ -8,18 +8,18 @@ file_name = ""
 content_lines = []
 
 if "-d" in args:
-    d_index = args.index("-d")
+    directory_flag_index = args.index("-d")
     try:
-        next_flag = args.index("-d", d_index + 1)
-        dir_parts = args[d_index + 1: next_flag]
+        next_flag = args.index("-d", directory_flag_index + 1)
+        directory_parts = args[directory_flag_index + 1: next_flag]
     except ValueError:
-        dir_parts = args[d_index + 1:]
-    dir_path = os.path.join(*dir_parts)
+        directory_parts = args[directory_flag_index + 1:]
+    dir_path = os.path.join(*directory_parts)
     os.makedirs(dir_path, exist_ok=True)
 
 if "-f" in args:
-    f_index = args.index("-f")
-    file_name = args[f_index + 1]
+    file_flag_index = args.index("-f")
+    file_name = args[file_flag_index + 1]
 
     full_path = os.path.join(dir_path, file_name) if dir_path else file_name
 
