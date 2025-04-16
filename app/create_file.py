@@ -14,7 +14,7 @@ def create_file() -> None:
                 file_obj.write("\n")
                 write_to_file(file_obj)
         else:
-            os.makedirs(os.path.join(*og_path[:2]), exist_ok=True)
+            os.makedirs(os.path.join(*og_path[:-1]), exist_ok=True)
             with open(path, "a") as file_obj:
                 write_to_file(file_obj)
     elif "-f" in params and os.path.exists(sys.argv[-1]):
