@@ -7,10 +7,8 @@ def create_file() -> None:
     params = sys.argv
     if "-f" in params and "-d" in params:
         folder_path = os.path.join(*sys.argv[sys.argv.index("-d") + 1 :
-                                        sys.argv.index(
-            "-f")])
+                                             sys.argv.index("-f")])
         file_path = os.path.join(*folder_path.copy().append(sys.argv[-1]))
-
 
         if os.path.exists(file_path):
             with open(file_path, "a") as file_obj:
