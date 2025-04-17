@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 
 
-def create_directory(path_parts: [str]) -> [str]:
+def create_directory(path_parts: list[str]) -> None:
     path = os.path.join(*path_parts)
     try:
         os.makedirs(path, exist_ok=True)
