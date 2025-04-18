@@ -25,13 +25,12 @@ if not content:
         content_lines.append(user_input)
         content = "\n".join(content_lines)
 
-current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 file_path = os.path.join(directory, filename)
 
 with open(file_path, "a") as file:
     file.write(current_time + "\n")
-
-for index, line in enumerate(content.splitlines(), 1):
-    file.write(f"{index}{line}\n")
+    for index, line in enumerate(content.splitlines(), 1):
+        file.write(f"{index} {line}\n")
 
 print(f"Content has been written to {file_path}")
