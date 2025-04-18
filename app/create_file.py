@@ -1,7 +1,6 @@
 import sys
 import os
 from datetime import datetime
-from typing import LiteralString
 
 
 def create_directories(args: list) -> str:
