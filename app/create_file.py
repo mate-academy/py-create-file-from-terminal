@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import LiteralString
 
 
-def create_directories(args: list) -> LiteralString | str | bytes:
+def create_directories(args: list) -> str:
     dir_path = os.path.join(*args)
     os.makedirs(dir_path, exist_ok=True)
     return dir_path
@@ -27,8 +27,9 @@ def main() -> None:
     arg = sys.argv
     dir_path = None
     file_name = None
+    file_path = None
 
-    if "-d" in arg:
+    if "-d" in arg and len(arg) > 3:
         d_index = arg.index("-d")
 
         if "-f" in arg:
@@ -37,7 +38,7 @@ def main() -> None:
             file_name = arg[f_index + 1]
         else:
             dir_path = arg[d_index + 1:]
-    elif "-f" in arg:
+    elif "-f" in arg and len(arg) > 3:
         f_index = arg.index("-f")
         file_name = arg[f_index + 1]
 
