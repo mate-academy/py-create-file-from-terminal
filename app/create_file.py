@@ -50,7 +50,8 @@ def verify_arguments(
     if directory_index + 1 - file_index == 0:
         sys.exit("There should be at least one argument after flag -d!")
     if file_index < directory_index:
-        sys.exit("Incorrect order of flags. Please make order as follows: -d args -f args")
+        sys.exit("Incorrect order of flags. Please make order as follows: "
+                 "-d args -f args")
 
 
 def verify_single_argument(
@@ -60,7 +61,8 @@ def verify_single_argument(
     if index == len(arguments_list) - 1:
         sys.exit("There should be at least one argument after the flag!")
     if arguments_list[index] in arguments_list[index + 1:]:
-        sys.exit("Duplicate flag detected. Please make sure you're using only one instance of the flag.")
+        sys.exit("Duplicate flag detected. Please make sure you're using "
+                 "only one instance of the flag.")
 
 
 arguments = argv
@@ -69,7 +71,12 @@ if "-d" in arguments and "-f" in arguments:
     directory_index = arguments.index("-d")
 
     verify_arguments(arguments, directory_index, index_of_arg_create_flag)
-    directory = create_directories(arguments, directory_index, index_of_arg_create_flag)
+    directory = create_directories(
+        arguments,
+        directory_index,
+        index_of_arg_create_flag
+    )
+
     chdir(directory)
     write_lines_to_file(arguments, index_of_arg_create_flag + 1)
 
@@ -85,5 +92,6 @@ elif "-f" in arguments:
     write_lines_to_file(arguments, index_of_arg_create_flag + 1)
 
 else:
-    sys.exit("No flags or arguments provided. Please add -d, -f or both after file name. "
-          "Expected format: -d dir1 dir2 -f filename")
+    sys.exit("No flags or arguments provided. Please add -d, -f "
+             "or both after file name. "
+             "Expected format: -d dir1 dir2 -f filename")
