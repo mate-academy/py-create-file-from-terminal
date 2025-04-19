@@ -9,9 +9,9 @@ def write_lines_to_file(
         file_flag: int
 ) -> None:
     paragraph_sign = ""
-    with open(arguments_list[file_flag], "a") as write_file:
+    with open(arguments_list[file_flag + 1], "a") as write_file:
 
-        with open(arguments_list[file_flag], "r") as read_file:
+        with open(arguments_list[file_flag + 1], "r") as read_file:
             if bool(read_file.readline()) is True:
                 paragraph_sign = "\n"
 
@@ -47,7 +47,7 @@ def verify_arguments(
 ) -> None:
     if file_index == len(arguments_list) - 1:
         sys.exit("There should be at least one argument after flag -f!")
-    if directory_index + 1 - file_index == 0:
+    if file_index == directory_index + 1:
         sys.exit("There should be at least one argument after flag -d!")
     if file_index < directory_index:
         sys.exit("Incorrect order of flags. Please make order as follows: "
@@ -78,7 +78,7 @@ if "-d" in arguments and "-f" in arguments:
     )
 
     chdir(directory)
-    write_lines_to_file(arguments, index_of_arg_create_flag + 1)
+    write_lines_to_file(arguments, index_of_arg_create_flag)
 
 elif "-d" in arguments:
     directory_index = arguments.index("-d")
@@ -89,7 +89,7 @@ elif "-d" in arguments:
 elif "-f" in arguments:
     index_of_arg_create_flag = arguments.index("-f")
     verify_single_argument(arguments, index_of_arg_create_flag)
-    write_lines_to_file(arguments, index_of_arg_create_flag + 1)
+    write_lines_to_file(arguments, index_of_arg_create_flag)
 
 else:
     sys.exit("No flags or arguments provided. Please add -d, -f "
