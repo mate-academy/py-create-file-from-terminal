@@ -3,10 +3,11 @@ import os
 import datetime
 
 args = sys.argv
+
 directory = ""
-file_name = ""
 
 if "-d" in args:
+    directory = ""
     d_index = args.index("-d") + 1
     directories = []
     for arg in args[d_index:]:
@@ -19,6 +20,9 @@ if "-d" in args:
 
 if "-f" in args:
     f_index = args.index("-f") + 1
+    if f_index >= len(args):
+        print("No filename provided")
+        exit()
     file_name = args[f_index]
 
     full_path = os.path.join(directory, file_name)
