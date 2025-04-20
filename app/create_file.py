@@ -27,19 +27,19 @@ def create_file(file_name: str, dir_path: str = None) -> None:
 
 def main_run() -> None:
     command_list = sys.argv
-    try:
-        if "-d" in command_list and "-f" in command_list:
-            directory_path = create_dirs(
-                command_list[command_list.index("-d")
-                             + 1: command_list.index("-f")])
-            create_file(command_list[command_list.index("-f")
-                                     + 1:][0], directory_path)
-        elif "-d" in command_list:
-            create_dirs(command_list[command_list.index("-d") + 1:])
-        elif "-f" in command_list:
-            create_file(command_list[command_list.index("-f") + 1:][0])
-    except Exception as exe:
-        raise Exception(f"{exe}")
+
+    if "-d" in command_list and "-f" in command_list:
+        directory_path = create_dirs(
+            command_list[command_list.index("-d")
+                         + 1: command_list.index("-f")])
+        create_file(command_list[command_list.index("-f")
+                                 + 1:][0], directory_path)
+    elif "-d" in command_list:
+        create_dirs(command_list[command_list.index("-d") + 1:])
+    elif "-f" in command_list:
+        create_file(command_list[command_list.index("-f") + 1:][0])
+    else:
+        raise TypeError("Missing required -d or -f argument")
 
 
 if __name__ == "__main__":
