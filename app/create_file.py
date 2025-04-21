@@ -5,18 +5,23 @@ from _datetime import datetime
 
 def parse_args(argv: list) -> dict:
     flags = {}
-    for i, arg in enumerate(argv):
-        if arg.startswith("-") and i + 1 < len(argv):
-            flags[arg] = argv[i + 1]
+    i = 0
+    while i < len(argv):
+        if argv[i].startswith("-"):
+            if i + 1 < len(argv) and not argv[i + 1].startswith("-"):
+                flags[argv[i]] = argv[i + 1]
+                i += 2
+            else:
+                flags[argv[i]] = True
+                i += 1
+        else:
+            i += 1
     return flags
 
 
 def create_directory(path: str) -> None:
     if not os.path.exists(path):
         os.makedirs(path)
-        print(f"Directory created: {path}")
-    else:
-        print(f"Directory already exists: {path}")
 
 
 def write_to_file(file_path: str) -> None:
