@@ -40,8 +40,8 @@ def create_folder(args: list) -> str:
     if len(args) == 0:
         return os.getcwd()
     else:
-        new_folder = "/".join(args)
-        if not os.path.exists(f"{os.getcwd()}/{new_folder}"):
+        new_folder = os.path.join(os.getcwd(), *args)
+        if not os.path.exists(new_folder):
             os.makedirs(new_folder)
             return new_folder
         else:
@@ -55,9 +55,11 @@ def create_file(args: list, folder: str) -> None:
         print("No file name provided.")
         return
     else:
-        with open(f"{folder}/{args[0]}", "a") as file:
+        file_path = os.path.join(folder, args[0])
+        with open(file_path, "a") as file:
             time = datetime.datetime.now()
-            file.write(f"{time.strftime("%Y-%m-%d %H:%M:%S")}\n")
+            note_time = time.strftime("%Y-%m-%d %H:%M:%S")
+            file.write(f"{note_time}\n")
             while True:
                 input_text = input("Enter content line: ")
                 if input_text == "stop":
