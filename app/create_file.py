@@ -10,7 +10,7 @@ def create_directory(path: str) -> None:
 
 def create_file(file_path: str) -> None:
     with open(file_path, "a") as file:
-        file.write(f"\n{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
+        file.write(f'\n{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n')
         line_num = 1
         while True:
             line = input("Enter content line: ")
