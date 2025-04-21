@@ -23,6 +23,8 @@ def create_file(file_path: str) -> None:
 
 if __name__ == "__main__":
     args = sys.argv[1:]
+    path = ""
+
     if "-d" in args:
         d_index = args.index("-d")
         path = "/".join(args[d_index + 1:])
