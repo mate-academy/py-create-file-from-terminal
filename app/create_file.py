@@ -47,7 +47,7 @@ if __name__ == "__main__":
 
     if not (
         file_info["path"] is None
-        or os.path.exists(f"{os.getcwd()}\\{file_info["path"]}")
+        or os.path.exists(f"{os.getcwd()}\\{file_info['path']}")
     ):
         os.makedirs(file_info["path"])
 
