@@ -17,8 +17,7 @@ def create_file() -> None:
         os.makedirs(path_dir, exist_ok=True)
     if "-f" in first_str:
         f_index = first_list.index("-f")
-        name_list = first_list[f_index + 1]
-        file_name = "".join(name_list)
+        file_name = first_list[f_index + 1]
         with open(file_name, "a") as file:
             now = datetime.now()
             current_time = now.strftime("%Y-%m-%d %H:%M:%S")
@@ -30,8 +29,7 @@ def create_file() -> None:
                     file.write("\n")
                     break
                 file.write(f"{i} {file_content}\n")
-        path_join = os.path.join("path_dir", "file_name")
-        os.makedirs(path_join, exist_ok=True)
+        os.path.join("path_dir", file_name)
 
 
 if __name__ == "__main__":
