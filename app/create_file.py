@@ -23,7 +23,7 @@ def write_content(filepath: str, lines: list[str]) -> None:
     try:
         with open(filepath, "a", encoding="utf-8") as f:
             f.write("\n".join(block))
-            print(f"Content written to \"{filepath}\".")
+            print(f'Content written to "{filepath}".')
     except Exception as e:
         print(f"Failed to write to file: {e}")
 
@@ -56,7 +56,7 @@ def main() -> None:
     if directory:
         try:
             os.makedirs(directory, exist_ok=True)
-            print(f"Directory \"{directory}\" is ready.")
+            print(f'Directory "{directory}" is ready.')
         except Exception as e:
             print(f"Failed to create directory: {e}")
             return
