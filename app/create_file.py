@@ -42,13 +42,27 @@ def main() -> None:
         d_index = args.index("-d")
         if "-f" in args:
             f_index = args.index("-f")
-            directory = os.path.join(*args[d_index + 1:f_index])
-            filename = args[f_index + 1] if len(args) > f_index + 1 else ""
+            if d_index + 1 >= f_index:
+                print("Error: No directory path specified between '-d' and '-f'.")
+                return
+            directory_parts = args[d_index + 1:f_index]
+            directory = os.path.join(*directory_parts)
+            if f_index + 1 >= len(args):
+                print("Error: No filename specified after '-f'.")
+                return
+            filename = args[f_index + 1]
         else:
-            directory = os.path.join(*args[d_index + 1:])
+            if d_index + 1 >= len(args):
+                print("Error: No directory path specified after '-d'.")
+                return
+            directory_parts = args[d_index + 1:]
+            directory = os.path.join(*directory_parts)
     elif "-f" in args:
         f_index = args.index("-f")
-        filename = args[f_index + 1] if len(args) > f_index + 1 else ""
+        if f_index + 1 >= len(args):
+            print("Error: No filename specified after '-f'.")
+            return
+        filename = args[f_index + 1]
     else:
         print("Error: You must provide at least -d or -f flag.")
         return
@@ -66,8 +80,7 @@ def main() -> None:
         lines = get_content()
         write_content(filepath, lines)
     else:
-        if not directory:
-            print("Error: No file specified.")
+        print("Error: No file specified.")
 
 
 if __name__ == "__main__":
