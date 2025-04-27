@@ -32,7 +32,7 @@ def main() -> None:
     args = sys.argv[1:]
 
     if not args:
-        print("No arguments provided. Use -d for directory and/or -f for file.")
+        print("No arguments provided. Use -d for directory or -f for file.")
         return
 
     directory = ""
