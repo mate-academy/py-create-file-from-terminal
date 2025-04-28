@@ -28,7 +28,8 @@ def main() -> None:
         create_file(filename)
 
     else:
-        print("Invalid arguments provided. Please use -d for directory or -f for file.")
+        print("Invalid arguments provided. "
+              "Please use -d for directory or -f for file.")
 
 
 def create_file(filepath: str) -> None:
@@ -45,11 +46,17 @@ def create_file(filepath: str) -> None:
 
         line_number = 1
         while True:
-            user_input = input("Enter content line (or type 'stop' to finish): ")
+            user_input = input("Enter content line "
+                               "(or type 'stop' to finish): ")
             if user_input.lower() == "stop":
                 break
             file.write(f"{line_number} {user_input}\n")
             line_number += 1
+
+    if file_exists:
+        print(f"Appended to the existing file: {filepath}")
+    else:
+        print(f"Created new file: {filepath}")
 
 
 if __name__ == "__main__":
