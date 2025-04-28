@@ -6,39 +6,35 @@ import sys
 def main() -> None:
     args = sys.argv[1:]
 
-    if "-d" in args and "-f" in args:
+    directory = None
+    filename = None
+
+    if "-d" in args:
         dir_index = args.index("-d")
+        directory = " ".join(args[dir_index + 1:])
+        for flag in ["-f"]:
+            if flag in directory:
+                directory = directory.split(flag)[0].strip()
+                break
+
+    if "-f" in args:
         file_index = args.index("-f")
+        filename = " ".join(args[file_index + 1:])
 
-        if file_index < dir_index:
-            print("Error: -d flag must appear before -f flag")
-            return
+    if directory is None:
+        print("Error: Directory (-d) is required.")
+        return
+    if filename is None:
+        print("Error: Filename (-f) is required.")
+        return
 
-        if len(args) <= file_index + 1:
-            print("Error: Missing file argument after -f")
-            return
+    filepath = os.path.join(directory, filename)
 
-        directory = os.path.join(*args[dir_index + 1:file_index])
-        filename = args[file_index + 1]
-        filepath = os.path.join(directory, filename)
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+        print(f"Directory '{directory}' created.")
 
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-
-        create_file(filepath)
-
-    elif "-d" in args:
-        directory = os.path.join(*args[args.index("-d") + 1:])
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-
-    elif "-f" in args:
-        filename = args[args.index("-f") + 1]
-        create_file(filename)
-
-    else:
-        print("Invalid arguments provided. "
-              "Please use -d for directory or -f for file.")
+    create_file(filepath)
 
 
 def create_file(filepath: str) -> None:
