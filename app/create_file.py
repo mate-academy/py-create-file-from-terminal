@@ -3,9 +3,11 @@ import os
 from datetime import datetime
 from typing import List
 
+
 def create_dir(path_parts: List[str]) -> None:
     if path_parts:
         os.makedirs("/".join(path_parts), exist_ok=True)
+
 
 def create_file(file_path: str) -> None:
     with open(file_path, "a") as f:
@@ -20,7 +22,8 @@ def create_file(file_path: str) -> None:
             count += 1
             user_input = input("Enter content line: ")
 
-def main():
+
+def main() -> None:
     args = sys.argv
     if len(args) < 3:
         print("Error: Not enough arguments provided.")
@@ -72,6 +75,7 @@ def main():
     else:
         print("Error: No -d or -f flags found.")
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()
