@@ -9,6 +9,15 @@ def main() -> None:
     if "-d" in args and "-f" in args:
         dir_index = args.index("-d")
         file_index = args.index("-f")
+
+        if file_index < dir_index:
+            print("Error: -d flag must appear before -f flag")
+            return
+
+        if len(args) <= file_index + 1:
+            print("Error: Missing file argument after -f")
+            return
+
         directory = os.path.join(*args[dir_index + 1:file_index])
         filename = args[file_index + 1]
         filepath = os.path.join(directory, filename)
