@@ -1,6 +1,6 @@
-from datetime import datetime
+import argparse
 import os
-import sys
+from datetime import datetime
 
 
 def write_from_input(file_name: str) -> None:
@@ -16,23 +16,22 @@ def write_from_input(file_name: str) -> None:
 
 
 def create_file() -> None:
-    terminal_list = sys.argv[1:]
+    parser = argparse.ArgumentParser(description="Create file optionally in a directory.")
+    parser.add_argument("-d", "--directory", action='extend', nargs="+", help="Directory path")
+    parser.add_argument("-f", "--file", help="File name")
+    args = parser.parse_args()
 
-    if "-d" in terminal_list and "-f" in terminal_list:
-        if terminal_list[0] == "-d":
-            file_path = "/".join(terminal_list[1:-2])
-            file_name = terminal_list[-1]
-        else:
-            file_path = "/".join(terminal_list[3:])
-            file_name = terminal_list[1]
+    if args.directory and args.file:
+
+        file_path = "/".join(args.directory)
+
         os.makedirs(file_path, exist_ok=True)
-        write_from_input(file_path + "/" + file_name)
+        write_from_input(file_path + "/" + args.file)
         return None
-    elif "-f" in terminal_list:
-        file_name = terminal_list[1]
-        write_from_input(file_name)
-    elif "-d" in terminal_list:
-        file_path = "/".join(terminal_list[1:])
+    elif args.file:
+        write_from_input(args.file)
+    elif args.directory:
+        file_path = "/".join(args.directory)
         os.makedirs(file_path, exist_ok=True)
 
 
