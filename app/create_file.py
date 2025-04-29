@@ -35,5 +35,6 @@ def create_file() -> None:
         os.makedirs(file_path,
                     exist_ok=True)
 
+
 if __name__ == "__main__":
     create_file()
