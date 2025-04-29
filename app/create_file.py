@@ -21,7 +21,9 @@ def write_from_input(file_path: str) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Create file and/or directories and write content into file.")
+        description="Create file "
+                    "and/or directories "
+                    "and write content into file.")
     parser.add_argument(
         "-d", "--dirs", nargs="+",
         help="Directory path(s) to create", default=[]
@@ -53,7 +55,9 @@ def main() -> None:
         except Exception as e:
             print(f"Error writing to file: {e}")
     elif not args.dirs:
-        print("Error: You must provide at least -f (filename) or -d (directory path).")
+        print("Error: You must "
+              "provide at least -f (filename) "
+              "or -d (directory path).")
 
 
 if __name__ == "__main__":
