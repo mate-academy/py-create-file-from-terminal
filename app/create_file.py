@@ -26,7 +26,7 @@ def create_file() -> None:
             file_path = "/".join(terminal_list[3:])
             file_name = terminal_list[1]
         os.makedirs(file_path, exist_ok=True)
-        write_from_input(file_path+"/"+file_name)
+        write_from_input(file_path + "/" + file_name)
         return None
     elif "-f" in terminal_list:
         file_name = terminal_list[1]
@@ -35,6 +35,5 @@ def create_file() -> None:
         file_path = "/".join(terminal_list[1:])
         os.makedirs(file_path, exist_ok=True)
 
+
 create_file()
-
-
