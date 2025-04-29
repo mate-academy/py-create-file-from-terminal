@@ -1,40 +1,51 @@
 from datetime import datetime
 import os
-import sys
+import argparse
 
 
-def write_from_input(file_name: str) -> None:
-    write_text = datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
+def write_from_input(file_path: str) -> None:
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    lines = [timestamp]
+    counter = 1
+
     while True:
-        text_input = input("Enter content line: ")
-        if text_input == "stop":
+        line = input("Enter content line: ")
+        if line.strip().lower() == "stop":
             break
-        write_text += text_input + "\n"
-    with open(file_name, "a") as file:
-        file.write(write_text)
+        lines.append(f"{counter} {line}")
+        counter += 1
+
+    with open(file_path, "a", encoding="utf-8") as file:
+        file.write("\n" + "\n".join(lines) + "\n")
 
 
-def create_file() -> None:
-    terminal_list = sys.argv[1:]
+def main():
+    parser = argparse.ArgumentParser(description="Create file and/or directories and write content into file.")
+    parser.add_argument("-d", "--dirs", nargs="+", help="Directory path(s) to create", default=[])
+    parser.add_argument("-f", "--file", help="File name to create/write to")
 
-    if "-d" in terminal_list and "-f" in terminal_list:
-        if terminal_list[0] == "-d":
-            file_path = "/".join(terminal_list[1:-2])
-            file_name = terminal_list[-1]
-        else:
-            file_path = "/".join(terminal_list[3:])
-            file_name = terminal_list[1]
-        os.makedirs(file_path, exist_ok=True)
-        write_from_input(file_path + "/" + file_name)
-        return None
-    elif "-f" in terminal_list:
-        file_name = terminal_list[1]
-        write_from_input(file_name)
-    elif "-d" in terminal_list:
-        file_path = "/".join(terminal_list[1:])
-        os.makedirs(file_path,
-                    exist_ok=True)
+    args = parser.parse_args()
+
+    # Create directory if -d is used
+    full_dir_path = ""
+    if args.dirs:
+        full_dir_path = os.path.join(*args.dirs)
+        try:
+            os.makedirs(full_dir_path, exist_ok=True)
+        except Exception as e:
+            print(f"Error creating directories: {e}")
+            return
+
+    # If file is specified
+    if args.file:
+        file_path = os.path.join(full_dir_path, args.file) if full_dir_path else args.file
+        try:
+            write_from_input(file_path)
+        except Exception as e:
+            print(f"Error writing to file: {e}")
+    elif not args.dirs:
+        print("Error: You must provide at least -f (filename) or -d (directory path).")
 
 
 if __name__ == "__main__":
-    create_file()
+    main()
