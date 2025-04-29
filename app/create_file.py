@@ -16,8 +16,9 @@ def write_from_input(file_name: str) -> None:
 
 
 def create_file() -> None:
-    parser = argparse.ArgumentParser(description="Create file optionally in a directory.")
-    parser.add_argument("-d", "--directory", action='extend', nargs="+", help="Directory path")
+    parser = argparse.ArgumentParser(description="Create file.")
+    parser.add_argument("-d", "--directory", action="extend",
+                        nargs="+", help="Directory path")
     parser.add_argument("-f", "--file", help="File name")
     args = parser.parse_args()
 
