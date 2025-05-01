@@ -12,6 +12,7 @@ def create_directory(path_parts: list) -> Union[LiteralString, str, bytes]:
     print(f"Directory created: {path}")
     return path
 
+
 def create_file(file_name: Union[LiteralString, str, bytes]) -> None:
     content = []
     while True:
@@ -28,6 +29,7 @@ def create_file(file_name: Union[LiteralString, str, bytes]) -> None:
 
     print(f"File was created: {file_name}")
 
+
 def main() -> None:
     args = argv[1:]
     print(args)
@@ -41,7 +43,8 @@ def main() -> None:
             i += 1
             file_name = args[i]
             i += 1
-        # If only -d flag passed, means all items after this flag are parts of the path.
+        # If only -d flag passed, means all items
+        # after this flag are parts of the path.
         elif args[i] == "-d":
             i += 1
             dir_parts = []
@@ -51,8 +54,9 @@ def main() -> None:
             if dir_parts:
                 directory_path = create_directory(dir_parts)
     if file_name:
-        file_path= os.path.join(directory_path, file_name)
+        file_path = os.path.join(directory_path, file_name)
         create_file(file_path)
+
 
 if __name__ == "__main__":
     main()
