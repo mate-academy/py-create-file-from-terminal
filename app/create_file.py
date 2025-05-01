@@ -25,7 +25,7 @@ def create_file(file_path: str) -> None:
         f.write("\n")
 
 
-def main():
+def main() -> None:
     args = sys.argv[1:]
     if not args:
         print("Usage: python create_file.py -d [dirs] -f [file]")
@@ -44,7 +44,8 @@ def main():
     if "-f" in args:
         f_index = args.index("-f") + 1
         file_name = args[f_index]
-        full_path = os.path.join(dir_path, file_name) if dir_path else file_name
+        full_path = os.path.join(dir_path, file_name) \
+            if dir_path else file_name
         create_file(full_path)
 
 
