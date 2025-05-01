@@ -8,7 +8,7 @@ from typing_extensions import LiteralString
 
 def create_directory(path_parts: list) -> Union[LiteralString, str, bytes]:
     path = os.path.join(*path_parts)
-    os.path.exists(path)
+    os.makedirs(path, exist_ok=True)
     print(f"Directory created: {path}")
     return path
 
@@ -40,7 +40,6 @@ def main() -> None:
         if args[i] == "-f":
             i += 1
             file_name = args[i]
-            create_file(file_name)
             i += 1
         # If only -d flag passed, means all items after this flag are parts of the path.
         elif args[i] == "-d":
@@ -52,7 +51,8 @@ def main() -> None:
             if dir_parts:
                 directory_path = create_directory(dir_parts)
     if file_name:
-        os.path.join(directory_path, file_name)
+        file_path= os.path.join(directory_path, file_name)
+        create_file(file_path)
 
 if __name__ == "__main__":
     main()
