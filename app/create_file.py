@@ -39,6 +39,8 @@ def main() -> None:
             if dirs:
                 path = os.path.join(path, *dirs)
                 os.makedirs(path, exist_ok=True)
+                print(f"✅ Directory created: {path}")
+                return  # Exit immediately after creating the directory
         elif args[i] == "-f":
             i += 1
             if i < len(args):
@@ -60,7 +62,5 @@ def main() -> None:
                 file.write(line + "\n")
             file.write("\n")
         print(f"✅ File written to: {filepath}")
-    elif path != os.getcwd():
-        print(f"✅ Directory created: {path}")
     else:
         print("❌ No operation performed.")
