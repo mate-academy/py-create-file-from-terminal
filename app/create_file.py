@@ -28,19 +28,16 @@ def create_file(file_name: str) -> None:
 
 
 def create_file_from_terminal() -> None:
-    if len(sys.argv) < 2:
-        return
-
-    if sys.argv[1] == "-d" and sys.argv[-2] == "-f":
+    if "-d" in sys.argv and "-f" in sys.argv:
         dir_path = create_path(sys.argv[2:-2])
         file_path = os.path.join(dir_path, sys.argv[-1])
         create_dir(dir_path)
         create_file(file_path)
 
-    elif sys.argv[1] == "-d":
+    elif "-d" in sys.argv:
         create_dir(create_path(sys.argv[2:-2]))
 
-    elif sys.argv[-2] == "-f":
+    elif "-f" in sys.argv:
         create_file(sys.argv[-1])
 
 
