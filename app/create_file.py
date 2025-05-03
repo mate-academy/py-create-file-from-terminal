@@ -31,7 +31,7 @@ def create_directory(path: list[str], file_name: str) \
         os.makedirs(full_dir_path, exist_ok=True)
     if file_name == "":
         return full_dir_path
-    return os.path.join(full_dir_path, file_name) \
+    return os.path.join(full_dir_path, file_name)\
         if full_dir_path else file_name
 
 
