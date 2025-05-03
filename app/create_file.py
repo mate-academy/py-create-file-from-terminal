@@ -24,7 +24,8 @@ def parse_args() -> tuple[list[str], str]:
     return dir_path, file_name
 
 
-def create_directory(path: list[str], file_name: str) -> LiteralString | str | bytes:
+def create_directory(path: list[str], file_name: str) \
+        -> LiteralString | str | bytes:
     full_dir_path = os.path.join(*path) if path else ""
     if full_dir_path:
         os.makedirs(full_dir_path, exist_ok=True)
