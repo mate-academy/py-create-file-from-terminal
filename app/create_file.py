@@ -2,35 +2,48 @@ import os
 import sys
 from datetime import datetime
 
-
-entered_data = sys.argv
-print(entered_data)
+entered_data = sys.argv[1:]  # пропускаємо ім’я скрипта
 directory_path = "."
+file_name = None
 
-if "-d" in entered_data:
-    index_d = entered_data.index("-d")
-    if "-f" in entered_data:
-        index_f = entered_data.index("-f")
-        path = entered_data[index_d + 1:index_f]
+# Ручний парсинг аргументів
+i = 0
+while i < len(entered_data):
+    if entered_data[i] == "-d":
+        i += 1
+        path_parts = []
+        while i < len(entered_data) and not entered_data[i].startswith("-"):
+            path_parts.append(entered_data[i])
+            i += 1
+        if not path_parts:
+            print("Error: Missing directory path after -d flag.")
+            sys.exit(1)
+        directory_path = os.path.join(*path_parts)
+        os.makedirs(directory_path, exist_ok=True)
+    elif entered_data[i] == "-f":
+        i += 1
+        if i >= len(entered_data) or entered_data[i].startswith("-"):
+            print("Error: Missing file name after -f flag.")
+            sys.exit(1)
+        file_name = entered_data[i]
+        i += 1
     else:
-        path = entered_data[index_d + 1:]
-    directory_path = os.path.join(*path)
-    print(directory_path)
-    os.makedirs(directory_path, exist_ok=True)
+        print(f"Unknown argument: {entered_data[i]}")
+        sys.exit(1)
 
-if "-f" in entered_data:
-    index_f = entered_data.index("-f")
-    file_name = entered_data[index_f + 1]
+# Створення файлу (якщо вказано)
+if file_name:
     file_path = os.path.join(directory_path, file_name)
     with open(file_path, "a") as file:
-        text = ""
-        current_date = datetime.now()
-        timestamp = current_date.strftime("%Y-%m-%d %H:%M:%S")
         file.write("\n")
-        file.write(str(timestamp) + "\n")
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(f"{timestamp}\n")
         counter = 1
-        while text != "stop":
+        while True:
             text = input("Enter content line: ")
-            if text != "stop":
-                file.write(f"{counter} {text}" + "\n")
-                counter += 1
+            if text.lower() == "stop":
+                break
+            file.write(f"{counter} {text}\n")
+            counter += 1
+else:
+    print("No -f flag provided. Only directory was created.")
