@@ -26,13 +26,12 @@ def parse_args() -> tuple[list[str], str]:
 
 def create_directory(path: list[str], file_name: str) \
         -> LiteralString | str | bytes:
-    full_dir_path = os.path.join(*path) if path else ""
-    if full_dir_path:
-        os.makedirs(full_dir_path, exist_ok=True)
+    full_dir = os.path.join(*path) if path else ""
+    if full_dir:
+        os.makedirs(full_dir, exist_ok=True)
     if file_name == "":
-        return full_dir_path
-    return os.path.join(full_dir_path, file_name)\
-        if full_dir_path else file_name
+        return full_dir
+    return os.path.join(full_dir, file_name) if full_dir else file_name
 
 
 def get_content() -> list[str]:
