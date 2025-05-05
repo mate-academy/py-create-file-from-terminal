@@ -40,6 +40,10 @@ def make_file() -> None:
 
 
 def add_content_to_file() -> None:
+    if not file_path:
+        print("Error: file path not set, you fucking idiot! Use -f to specify a file.")
+        return
+
     content_lines = []
 
     while True:
