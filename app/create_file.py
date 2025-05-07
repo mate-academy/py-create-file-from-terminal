@@ -30,7 +30,11 @@ def create_dir(input_data: list[str]) -> str:
 def create_file(path: str = None) -> None:
     count = 1
     try:
-        file_name = next(file for file in main_input_data if file.endswith(".txt"))
+        file_name = next(
+            file
+            for file in main_input_data
+            if file.endswith(".txt")
+        )
     except StopIteration:
         print("No file name after '-f'.")
         sys.exit(1)
