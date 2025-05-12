@@ -12,17 +12,19 @@ dir_list = None
 
 if "-f" in main_input_data:
     f_index = main_input_data.index("-f")
-    file_name = "".join(main_input_data[f_index + 1:])
+    if f_index + 1 < len(main_input_data):
+        file_name = main_input_data[f_index + 1:][0]
 
 if "-d" in main_input_data:
-    d_index = main_input_data.index("-d") + 1
-    dir_list = main_input_data[d_index:f_index]
+    d_index = main_input_data.index("-d")
+    if d_index < len(main_input_data):
+        dir_list = main_input_data[d_index + 1:f_index]
 
 
 def create_dir() -> str:
     try:
         if not dir_list:
-            raise ValueError("No directories provided after '-d'.")
+            raise ValueError("No directories provided after '-d'!")
     except ValueError as e:
         print(e)
         sys.exit(1)
@@ -43,7 +45,7 @@ def create_file(path: str = "") -> None:
     count = 1
     try:
         if not file_name:
-            raise ValueError("No directories provided after '-f'.")
+            raise ValueError("No file name provided after '-f'!")
     except ValueError as e:
         print(e)
         sys.exit(1)
@@ -66,4 +68,7 @@ if "-f" in main_input_data and "-d" not in main_input_data:
     create_file()
 
 if "-d" in main_input_data and "-f" in main_input_data:
-    create_file(create_dir())
+    if main_input_data.index("-d") > main_input_data.index("-f"):
+        print("Incorrect order of characters, first should be '-d' then '-f'!")
+    else:
+        create_file(create_dir())
