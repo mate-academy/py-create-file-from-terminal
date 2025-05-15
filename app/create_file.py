@@ -1,11 +1,14 @@
 import sys
 import os
 from datetime import datetime
+from typing import List
 
-def create_directories(path_parts):
+
+def create_directories(path_parts: List[str]) -> str:
     directory_path = os.path.join(os.getcwd(), *path_parts)
     os.makedirs(directory_path, exist_ok=True)
     return directory_path
+
 
 def create_file(file_path: str) -> None:
     time_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -13,13 +16,14 @@ def create_file(file_path: str) -> None:
         f.write(f"\n{time_now}\n")
         line_number = 1
         while True:
-            user_input = input(f"Enter content line: ")
+            user_input = input("Enter content line: ")
             if user_input.strip().lower() == "stop":
                 break
             f.write(f"{line_number} {user_input}\n")
             line_number += 1
 
-def main():
+
+def main() -> None:
     args = sys.argv[1:]
     if not args:
         print("Usage: python create_file.py -d [dirs] -f [filename]")
@@ -54,6 +58,7 @@ def main():
         print(f"File saved at: {file_path}")
     elif dir_parts:
         print(f"Directory created at: {target_directory}")
+
 
 if __name__ == "__main__":
     main()
