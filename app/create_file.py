@@ -69,7 +69,7 @@ def create_file():
             for idx, line in enumerate(lines_blocks, start=1):
                 f.write(f"{idx} {line}\n")
 
-        print(f"Fale '{file_path}' was successfully updated.")
+        print(f"File '{file_path}' was successfully updated.")
 
 if __name__ == "__main__":
     create_file()
