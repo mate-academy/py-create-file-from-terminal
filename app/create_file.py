@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 
-def create_file_with_content(filepath: str, content_lines: str) -> None:
+def create_file_with_content(filepath: str, content_lines: list[str]) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     numbered_content = [
         f"{i + 1}{line}" for i, line in enumerate(content_lines)]
