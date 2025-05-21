@@ -8,20 +8,30 @@ from typing import LiteralString
 def parse_args(argv: list[str]) -> tuple[list[str], str | None]:
     dir_parts = []
     file_name = None
-    i = 1
-    while i < len(argv):
-        if argv[i] == "-d":
-            i += 1
-            while i < len(argv) and not argv[i].startswith("-"):
-                dir_parts.append(argv[i])
-                i += 1
-        elif argv[i] == "-f":
-            i += 1
-            if i < len(argv):
-                file_name = argv[i]
-                i += 1
+
+    try:
+        # find index of -d flag
+        d_index = argv.index("-d")
+        # add to dir_parts from next element
+        for arg in argv[d_index + 1:]:
+            if arg.startswith("-"):
+                break
+            dir_parts.append(arg)
+    except ValueError:
+        # -d not present
+        pass
+
+    try:
+        # find index of -f flag
+        f_index = argv.index("-f")
+        if f_index + 1 < len(argv) and not argv[f_index + 1].startswith("-"):
+            file_name = argv[f_index + 1]
         else:
-            i += 1
+            print("Warning: missing file name after '-f' flag.")
+    except ValueError:
+        # -f not present
+        pass
+
     return dir_parts, file_name
 
 
