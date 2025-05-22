@@ -19,8 +19,9 @@ for index in range(len(arguments)):
         with open(
                 path.join(*directories, arguments[index + 1])
                 , "w") as output_file:
+            current_date_mark = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             output_file.write(
-                f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
+                f"{current_date_mark}\n")
             while True:
                 input_value = input("Enter content line:")
                 if input_value == "exit":
