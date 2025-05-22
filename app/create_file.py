@@ -36,31 +36,40 @@ def main() -> None:
     if not args:
         return
 
-    dir_parts: list[str] = ["dir1", "dir2"]
-    file_name: str = "file.txt"
+    dir_parts: list[str] = []
+    file_name: str = ""
 
-    if "-d" in args:
-        d_index = args.index("-d")
-        next_flag_index = (
-            args.index("-f")
-            if "-f" in args and args.index("-f") > d_index
-            else len(args)
-        )
-        dir_parts = args[d_index + 1:next_flag_index]
+    i = 0
+    while i < len(args):
+        if args[i] == "-d":
+            i += 1
+            while i < len(args) and not args[i].startswith("-"):
+                dir_parts.append(args[i])
+                i += 1
+            continue
+        if args[i] == "-f":
+            i += 1
+            if i < len(args):
+                file_name = args[i]
+                i += 1
+            continue
+        i += 1
 
-    if "-f" in args:
-        f_index = args.index("-f")
-        if f_index + 1 < len(args):
-            file_name = args[f_index + 1]
+    if not dir_parts:
+        dir_parts = []
+
+    if not file_name:
+        if dir_parts:
+            create_directory(dir_parts)
+        return
 
     base_path = os.getcwd()
     if dir_parts:
         base_path = create_directory(dir_parts)
 
-    if file_name:
-        file_path = os.path.join(base_path, file_name)
-        content = prompt_for_content()
-        write_to_file(file_path, content)
+    file_path = os.path.join(base_path, file_name)
+    content = prompt_for_content()
+    write_to_file(file_path, content)
 
 
 if __name__ == "__main__":
