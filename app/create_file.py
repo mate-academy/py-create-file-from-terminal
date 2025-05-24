@@ -25,7 +25,7 @@ def write_to_file(file_path: str, content_lines: list[str]) -> None:
             file.write(f"{line}\n")
 
 
-def main():
+def main() -> None:
     args = sys.argv[1:]
 
     dir_path = ""
@@ -58,6 +58,7 @@ def main():
 
     elif "-d" in args and not file_name:
         print(f"Directory created at: {os.path.abspath(dir_path)}")
+
 
 if __name__ == "__main__":
     main()
