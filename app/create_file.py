@@ -2,8 +2,10 @@ import os
 import sys
 from datetime import datetime
 
+
 def get_timestamp() -> str:
-    return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
 
 def get_user_input() -> list:
     lines = []
@@ -14,6 +16,7 @@ def get_user_input() -> list:
         lines.append(line)
     return lines
 
+
 def write_content_to_file(file_path: str, lines: list) -> None:
     with open(file_path, "a", encoding="utf-8") as f:
         f.write(f"{get_timestamp()}\n")
@@ -21,7 +24,8 @@ def write_content_to_file(file_path: str, lines: list) -> None:
             f.write(f"{idx} {line}\n")
         f.write("\n")  # Add an empty line after each session
 
-def main():
+
+def main() -> None:
     args = sys.argv[1:]
 
     if not args:
@@ -49,14 +53,15 @@ def main():
         except IndexError:
             print("File name not provided after -f.")
             return
-        file_path = os.path.join(dir_path, file_name) if dir_path else file_name
+        file_path = os.path.join(dir_path, file_name)if dir_path else file_name
         user_lines = get_user_input()
         write_content_to_file(file_path, user_lines)
         print(f"\nFile saved to: {file_path}")
 
-    elif not "-f" in args:
+    elif "-f" not in args:
         print("Directory created.")
         return
+
 
 if __name__ == "__main__":
     main()
