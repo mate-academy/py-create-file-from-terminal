@@ -5,33 +5,18 @@ from os.path import exists
 
 
 def sort_args(args: list) -> dict:
-    result = {
-        "path_parts": [],
-        "file_parts": []
-    }
+    result = {"path_parts": [], "file_parts": []}
 
-    dir_idx = 0
-    file_idx = 0
-    for i in range(len(args)):
-        if args[i].lower() == "-d":
-            dir_idx = i
-        elif args[i].lower() == "-f":
-            file_idx = i
-
-    if dir_idx == 0 and file_idx == 0:
-        exit("No args given")
-
-    if file_idx == 0:
+    if "-d" in args:
+        dir_idx = args.index("-d")
         result["path_parts"] = args[dir_idx + 1:]
-    elif dir_idx == 0:
+
+    if "-f" in args:
+        file_idx = args.index("-f")
         result["file_parts"] = args[file_idx + 1:]
-    else:
-        if dir_idx < file_idx:
-            result["path_parts"] = args[dir_idx + 1:file_idx]
-            result["file_parts"] = args[file_idx + 1:]
-        else:
-            result["path_parts"] = args[dir_idx + 1:]
-            result["file_parts"] = args[file_idx + 1:dir_idx]
+
+    if not result["path_parts"] and not result["file_parts"]:
+        exit("No args given")
 
     return result
 
@@ -54,7 +39,7 @@ def open_fill_file(full_file_name: str) -> None:
         if is_file_exist:
             file.write("\n")
 
-        file.write(f"{datetime.now().strftime("%Y-%m-%D %H:%M:%S")}\n")
+        file.write(f"{datetime.now().strftime('%Y-%m-%D %H:%M:%S')}\n")
         print("You will now fill file content. Enter 'stop' to finish.")
         line_number = 1
         while True:
@@ -65,7 +50,7 @@ def open_fill_file(full_file_name: str) -> None:
             line_number += 1
 
 
-sorted_args = sort_args(sys.argv)
+sorted_args = sort_args(sys.argv[1:])
 
 if len(sorted_args["file_parts"]) == 0:
     exit("No filename provided")
