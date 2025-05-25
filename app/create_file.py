@@ -1,67 +1,58 @@
-import os
 import sys
+import os
 from datetime import datetime
 
 
-def get_timestamp() -> str:
-    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-
-def get_user_input() -> list:
+def get_content_lines() -> list[str]:
     lines = []
+    line_number = 1
     while True:
         line = input("Enter content line: ")
         if line.strip().lower() == "stop":
             break
-        lines.append(line)
+        lines.append(f"{line_number} {line}")
+        line_number += 1
     return lines
 
 
-def write_content_to_file(file_path: str, lines: list) -> None:
-    with open(file_path, "a", encoding="utf-8") as f:
-        f.write(f"{get_timestamp()}\n")
-        for idx, line in enumerate(lines, 1):
-            f.write(f"{idx} {line}\n")
-        f.write("\n")
+def write_to_file(file_path: str, content_lines: list[str]) -> None:
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    with open(file_path, "a", encoding="utf-8") as file:
+        if os.path.getsize(file_path) > 0:
+            file.write("\n")
+        file.write(f"{timestamp}\n")
+        for line in content_lines:
+            file.write(f"{line}\n")
 
 
-def main():
+def main() -> None:
     args = sys.argv[1:]
-
-    if not args:
-        print("No arguments provided. Use -d for directory or -f for file.")
-        return
 
     dir_path = ""
     file_name = ""
-
     if "-d" in args:
         d_index = args.index("-d")
-        # Check if there's -f as well
+        next_flag = len(args)
         if "-f" in args:
-            f_index = args.index("-f")
-            dir_parts = args[d_index + 1:f_index]
-        else:
-            dir_parts = args[d_index + 1:]
+            next_flag = args.index("-f")
+        dir_parts = args[d_index + 1:next_flag]
         dir_path = os.path.join(*dir_parts)
         os.makedirs(dir_path, exist_ok=True)
-
     if "-f" in args:
         f_index = args.index("-f")
-        try:
-            file_name = args[f_index + 1]
-        except IndexError:
-            print("File name not provided after -f.")
+        if f_index + 1 >= len(args):
+            print("Error: Missing file name after -f flag.")
             return
-        file_path = os.path.join(dir_path, file_name) if dir_path else file_name
-        user_lines = get_user_input()
-        write_content_to_file(file_path, user_lines)
-        print(f"\nFile saved to: {file_path}")
-
-    elif "-f" not in args:
-
-        print("Directory created.")
-        return
+        file_name = args[f_index + 1]
+        if dir_path:
+            file_path = os.path.join(dir_path, file_name)
+        else:
+            file_path = file_name
+        content = get_content_lines()
+        write_to_file(file_path, content)
+        print(f"File saved at: {file_path}")
+    elif "-d" in args and not file_name:
+        print(f"Directory created at: {os.path.abspath(dir_path)}")
 
 
 if __name__ == "__main__":
