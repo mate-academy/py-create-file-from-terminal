@@ -45,6 +45,7 @@ def main() -> None:
             file_path = os.path.join(directory_path, file_name)
         else:
             file_path = file_name
+
         write_content(file_path)
 
 
