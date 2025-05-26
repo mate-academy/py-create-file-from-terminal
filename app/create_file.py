@@ -30,6 +30,14 @@ def write_content(file_path: str) -> None:
 
 def main() -> None:
     args = sys.argv
+
+    if "-f" not in args or args.index("-f") + 1 >= len(args):
+        print("Error: Missing -f flag or file name.")
+        print("Usage:")
+        print("  python create_file.py -f file.txt")
+        print("  python create_file.py -d dir1 dir2 -f file.txt")
+        sys.exit(1)
+
     d_index = args.index("-d") if "-d" in args else -1
     f_index = args.index("-f") if "-f" in args else -1
     directories = args[d_index + 1 : f_index] if "-d" in args else []
