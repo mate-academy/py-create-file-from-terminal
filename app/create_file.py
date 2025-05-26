@@ -2,10 +2,13 @@ import sys
 import os
 from datetime import datetime
 
-def create_directory(path_parts: list[str]) -> None:
+
+def create_directory(path_parts: list[str]) -> str:
     directory = os.path.join(*path_parts)
     os.makedirs(directory, exist_ok=True)
     print(f"✅ Directory '{directory}' created!")
+    return directory
+
 
 def create_file(file_path: str) -> None:
     mode = "a" if os.path.exists(file_path) else "w"
@@ -24,22 +27,32 @@ def create_file(file_path: str) -> None:
 
     print(f"✅ File '{file_path}' created successfully!")
 
+
 def main() -> None:
+    path_parts = []
+    file_name = ""
+
     if "-d" in sys.argv:
         d_index = sys.argv.index("-d")
-        path_parts = []
         for i in range(d_index + 1, len(sys.argv)):
             if sys.argv[i] == "-f":
                 break
             path_parts.append(sys.argv[i])
-        create_directory(path_parts)
 
     if "-f" in sys.argv:
         f_index = sys.argv.index("-f")
+        if f_index + 1 >= len(sys.argv):
+            print("❌ Error: Missing file name after '-f'")
+            return
         file_name = sys.argv[f_index + 1]
-        directory = os.path.join(*sys.argv[1:f_index]) if "-d" in sys.argv else ""
-        file_path = os.path.join(directory, file_name) if directory else file_name
+
+    directory = create_directory(path_parts) if path_parts else ""
+
+    if file_name:
+        file_path = os.path.join(directory, file_name) \
+            if directory else file_name
         create_file(file_path)
+
 
 if __name__ == "__main__":
     main()
