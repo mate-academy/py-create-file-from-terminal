@@ -5,32 +5,33 @@ from datetime import datetime
 from typing import LiteralString
 
 
+def get_flag_index(argv: list[str], flag: str) -> int | None:
+    try:
+        return argv.index(flag)
+    except ValueError:
+        return None
+
+
 def parse_args(argv: list[str]) -> tuple[list[str], str | None]:
     dir_parts = []
     file_name = None
 
-    try:
-        # find index of -d flag
-        d_index = argv.index("-d")
-        # add to dir_parts from next element
+    # find index of -d flag
+    d_index = get_flag_index(argv, "-d")
+    # add to dir_parts from next element
+    if d_index is not None:
         for arg in argv[d_index + 1:]:
             if arg.startswith("-"):
                 break
             dir_parts.append(arg)
-    except ValueError:
-        # -d not present
-        pass
 
-    try:
-        # find index of -f flag
-        f_index = argv.index("-f")
+    # find index of -f flag
+    f_index = get_flag_index(argv, "-f")
+    if f_index is not None:
         if f_index + 1 < len(argv) and not argv[f_index + 1].startswith("-"):
             file_name = argv[f_index + 1]
         else:
             print("Warning: missing file name after '-f' flag.")
-    except ValueError:
-        # -f not present
-        pass
 
     return dir_parts, file_name
 
