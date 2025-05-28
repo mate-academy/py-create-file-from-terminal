@@ -28,9 +28,9 @@ def create_file(file_path: str) -> None:
 
 def main() -> None:
     args = sys.argv[1:]
-    # if not args:
-    #     print("Usage: python create_file.py -d [dirs] -f [file]")
-    #     return
+    if not args:
+        print("Usage: python create_file.py -d [dirs] -f [file]")
+        return
 
     dir_path = ""
 
