@@ -49,9 +49,9 @@ def create_file_or_directory() -> None:
 
     if "-f" in command_terminal and "-d" not in command_terminal:
         index_file = command_terminal[command_terminal.index("-f") + 1:]
-        path_file = os.path.join(cwd_dir, str(index_file))
+        path_file = os.path.join(cwd_dir, index_file[0])
         create_file(path_file)
-    if "-f" and "-d" in command_terminal:
+    if "-f" in command_terminal and "-d" in command_terminal:
         path_directory = command_terminal[command_terminal.index("-d") + 1: command_terminal.index("-f")]
         file_index = command_terminal[command_terminal.index("-f") + 1:]
         list_direct = []
@@ -60,7 +60,7 @@ def create_file_or_directory() -> None:
         path_d = os.path.join(*list_direct)
         create_directory(path_d)
 
-        path_f = os.path.join(path_d, str(file_index))
+        path_f = os.path.join(path_d, file_index[0])
         create_file(path_f)
 
 
