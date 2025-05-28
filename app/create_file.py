@@ -37,8 +37,8 @@ def main() -> None:
         d_index = args.index("-d")
         # directory arguments start after -d
         next_flag = (args[d_index + 1:].index("-f")
-                     + d_index + 1) if "-f" in args[d_index + 1:]\
-            else len(args)
+                     + d_index + 1) if ("-f" in
+                                        args[d_index + 1:]) else len(args)
         dir_parts = args[d_index + 1:next_flag]
         dir_path = os.path.join(*dir_parts)
         os.makedirs(dir_path, exist_ok=True)
@@ -52,8 +52,8 @@ def main() -> None:
             return
 
     if file_name:
-        file_path = os.path.join(dir_path, file_name) \
-            if dir_path else file_name
+        file_path = os.path.join(dir_path,
+                                 file_name) if dir_path else file_name
         lines = get_content_lines()
         write_to_file(file_path, lines)
         print(f"File written to: {file_path}")
