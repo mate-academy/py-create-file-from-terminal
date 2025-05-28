@@ -48,10 +48,11 @@ def main() -> None:
     if "-f" in args:
         f_index = args.index("-f") + 1
         file_name = args[f_index]
-        complete_path = os.path.join(dir_path, file_name) \
+        full_path = (
+            os.path.join(dir_path, file_name)
             if dir_path else file_name
-        create_file(complete_path)
-
+        )
+        create_file(full_path)
 
 if __name__ == "__main__":
     main()
