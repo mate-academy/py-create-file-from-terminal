@@ -27,8 +27,10 @@ def create_file() -> None:
         os.makedirs(file_path, exist_ok=True)
         file_contents(file_path + "/" + args.file)
         return
+
     elif args.file:
         file_contents(args.file)
+
     elif args.directory:
         file_path = "/".join(args.directory)
         os.makedirs(file_path, exist_ok=True)
