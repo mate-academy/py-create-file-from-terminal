@@ -33,5 +33,3 @@ if "-d" in arguments:
                 lines.append(line)
             for i, line in enumerate(lines, start=1):
                 f.write(f"{i} {line}\n")
-
-
