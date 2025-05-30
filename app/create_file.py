@@ -20,16 +20,13 @@ if "-d" in arguments:
     os.makedirs(path, exist_ok=True)
     file_path = os.path.join(path, file_name)
 
-    if "-f" in arguments:
-        f_index = arguments.index("-f")
-        file_name = arguments[f_index + 1]
-        with open(file_name, "a") as f:
-            f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
-            lines = []
-            while True:
-                line = input("Enter content line:")
-                if line == "stop":
-                    break
-                lines.append(line)
-            for i, line in enumerate(lines, start=1):
-                f.write(f"{i} {line}\n")
+    with open(file_path, "a") as f:
+        f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        lines = []
+        while True:
+            line = input("Enter content line:")
+            if line == "stop":
+                break
+            lines.append(line)
+        for i, line in enumerate(lines, start=1):
+            f.write(f"{i} {line}\n")
