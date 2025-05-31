@@ -5,24 +5,18 @@ import datetime
 
 def create_file() -> None:
     full_path = ""
+    if "-d" in sys.argv:
+        d_index = sys.argv.index("-d") + 1
+        if "-f" in sys.argv:
+            f_index = sys.argv.index("-f") +1
+            dir_pars = sys.argv[d_index:f_index]
+        else:
+            dir_pars = sys.argv[d_index:]
+
     file_name = ""
-
-    is_dir = False
-    is_file = False
-
-    for item in sys.argv:
-        if item == "-d":
-            is_dir = True
-            is_file = False
-            continue
-        if item == "-f":
-            is_dir = False
-            is_file = True
-            continue
-        if is_dir:
-            full_path = os.path.join(full_path, item)
-        if is_file:
-            file_name = item
+    if "-f" in sys.argv:
+        f_index = sys.argv.index("-f") + 1
+        file_name = sys.argv[f_index]
 
     if not os.path.isdir(full_path):
         os.makedirs(full_path)
@@ -34,7 +28,7 @@ def create_file() -> None:
 
     input_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
     count = 0
-    while input_str != "stop":
+    while True:
         temp_str = input("Enter content line: ")
         if temp_str == "stop":
             break
