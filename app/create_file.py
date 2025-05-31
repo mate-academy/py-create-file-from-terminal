@@ -8,10 +8,11 @@ def create_file() -> None:
     if "-d" in sys.argv:
         d_index = sys.argv.index("-d") + 1
         if "-f" in sys.argv:
-            f_index = sys.argv.index("-f") +1
+            f_index = sys.argv.index("-f") + 1
             dir_pars = sys.argv[d_index:f_index]
         else:
             dir_pars = sys.argv[d_index:]
+        full_path = os.path.join(*dir_pars)
 
     file_name = ""
     if "-f" in sys.argv:
