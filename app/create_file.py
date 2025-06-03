@@ -23,7 +23,7 @@ def create_file(file_path: str) -> None:
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     numbered_content = (
-        "\n".join(f"{i + 1}{line}" for i, line in enumerate(content_lines))
+        "\n".join(f"{i + 1}: {line}" for i, line in enumerate(content_lines))
     )
 
     if os.path.exists(file_path):
