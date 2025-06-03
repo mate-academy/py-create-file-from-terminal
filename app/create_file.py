@@ -1,1 +1,41 @@
-# write your code here
+import sys
+import os
+from datetime import datetime
+from typing import List
+
+
+def create_directory(path_parts: List | str) -> None:
+    path = os.path.join(*path_parts)
+    os.makedirs(path, exist_ok=True)
+    print(f"Directory created: {path}")
+
+
+def created_file(file_path: str) -> None:
+    content_lines = []
+    print("Enter content line (type 'stop' to finish):")
+
+    while True:
+        line = input("Enter content line: ")
+        if line.lower() == "stop":
+            break
+        content_lines.append(line)
+
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    numbered_content = (
+        "\n".join(f"{i + 1}{line}" for i, line in enumerate(content_lines))
+    )
+
+    if os.path.exists(file_path):
+        with open(file_path, "a") as f:
+            f.write(f"{timestamp}\n{numbered_content}\n")
+    else:
+        with open(file_path, "w") as f:
+            f.write(f"{timestamp}\n{numbered_content}\n")
+
+    print(f"File created/updated: {file_path}")
+
+
+def main() -> None:
+    if len(sys.argv) < 2:
+        print("Usage: python created_file.py [-d dir1 dir2 ...] [-f filename]")
+        return
