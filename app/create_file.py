@@ -1,16 +1,17 @@
-import sys
 import os
 from datetime import datetime
-from typing import List
+from typing import List, Union
 
 
-def create_directory(path_parts: List | str) -> None:
+def create_directory(path_parts: Union[List[str], str]) -> None:
+    if isinstance(path_parts, str):
+        path_parts = [path_parts]
     path = os.path.join(*path_parts)
     os.makedirs(path, exist_ok=True)
     print(f"Directory created: {path}")
 
 
-def created_file(file_path: str) -> None:
+def create_file(file_path: str) -> None:
     content_lines = []
     print("Enter content line (type 'stop' to finish):")
 
@@ -33,9 +34,3 @@ def created_file(file_path: str) -> None:
             f.write(f"{timestamp}\n{numbered_content}\n")
 
     print(f"File created/updated: {file_path}")
-
-
-def main() -> None:
-    if len(sys.argv) < 2:
-        print("Usage: python created_file.py [-d dir1 dir2 ...] [-f filename]")
-        return
