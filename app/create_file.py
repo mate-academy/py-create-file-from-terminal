@@ -11,7 +11,7 @@ def is_valid_flag(args: list, flag: str) -> int | None:
         index = args.index(flag)
     except ValueError:
         return None
-    
+
     if index + 1 < len(args) and not args[index + 1].startswith("-"):
         return index
     else:
