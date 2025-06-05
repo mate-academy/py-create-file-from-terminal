@@ -6,13 +6,16 @@ import datetime
 args = sys.argv
 
 
-def is_valid_flag(args: list, flag: str) -> int:
+def is_valid_flag(args: list, flag: str) -> int | None:
     try:
         index = args.index(flag)
-        if index + 1 < len(args) and not args[index + 1].startswith("-"):
-            return index
     except ValueError:
         return None
+    
+    if index + 1 < len(args) and not args[index + 1].startswith("-"):
+        return index
+    else:
+        raise ValueError(f"There is no value after flag {flag}")
 
 
 d_index = is_valid_flag(args, "-d")
