@@ -20,6 +20,12 @@ if "-f" in args:
     if f_index < len(args):
         filename = args[f_index]
 
+if "-f" not in args or not filename:
+    print("❌ Помилка: Потрібно вказати ім'я файлу з прапорцем -f.")
+    print("▶ Приклад: python create_file.py -f file.txt")
+    print("▶ Або:     python create_file.py -d dir1 dir2 -f file.txt")
+    exit(1)
+
 if directory_parts:
     path = os.path.join(*directory_parts)
     os.makedirs(path, exist_ok=True)
