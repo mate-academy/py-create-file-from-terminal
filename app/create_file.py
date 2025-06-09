@@ -30,7 +30,7 @@ if directories:
 
 for file_name in files:
     with open(os.path.join(path, file_name), "w") as file:
-        content = str(datetime.now()) + "\n"
+        content = datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
         line = 1
         while True:
             user_input = input("Enter content line: ").strip()
