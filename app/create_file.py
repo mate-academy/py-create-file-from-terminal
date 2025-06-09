@@ -8,7 +8,7 @@ flag_f = False
 directories = []
 files = []
 
-for arg in sys.argv:
+for arg in sys.argv[1:]:
     if arg == "-d":
         flag_d = True
         flag_f = False
@@ -17,10 +17,13 @@ for arg in sys.argv:
         flag_f = True
         flag_d = False
         continue
-
+    if arg.startswith("-"):
+        flag_d = False
+        flag_f = False
+        continue
     if flag_d:
         directories.append(arg)
-    if flag_f:
+    elif flag_f:
         files.append(arg)
 
 path = ""
