@@ -49,7 +49,3 @@ def create_file() -> None:
             print("Such file already exists")
         except OSError as e:
             print(f"Error creating directory: {e}")
-
-
-if __name__ == "__main__":
-    create_file()
