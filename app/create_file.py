@@ -4,7 +4,7 @@ import sys
 
 
 dir_path = []
-filename = ""
+filename = None
 
 
 if "-d" in sys.argv:
@@ -15,6 +15,8 @@ if "-d" in sys.argv:
         dir_path = sys.argv[index_d + 1 : index_f]
 
     else:
+        print("Error: Please specify a file name using -f")
+        sys.exit(1)
         dir_path = sys.argv[index_d + 1:]
 
 if "-f" in sys.argv:
@@ -43,3 +45,6 @@ def write_to_file() -> None:
             if line.lower() == "stop":
                 break
             f.write(line + "\n")
+
+if __name__ == "__main__":
+    write_to_file()
