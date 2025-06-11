@@ -45,6 +45,3 @@ def write_to_file() -> None:
             if line.lower() == "stop":
                 break
             f.write(line + "\n")
-
-if __name__ == "__main__":
-    write_to_file()
