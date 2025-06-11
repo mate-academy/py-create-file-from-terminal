@@ -11,8 +11,9 @@ def decode_parameters() -> tuple:
         try:
             index = parameters.index("-f") + 1
             file_name = parameters[index]
-        except IndexError as e:
-            print(f"File name is missing. Error: {e}")
+        except IndexError:
+            # print(f"File name is missing. Error: {e}")
+            pass
     if "-d" in parameters:
         index = parameters.index("-d") + 1
         for i in range(index, len(parameters)):
@@ -24,7 +25,6 @@ def decode_parameters() -> tuple:
 
 def create_file() -> None:
     directory, file_name = decode_parameters()
-    print()
     if directory:
         try:
             path = os.path.join(*directory)
@@ -37,7 +37,7 @@ def create_file() -> None:
         current_date = datetime.datetime.now()
         try:
             file_name = os.path.join(*directory, file_name)
-            with open(file_name, "x") as f:
+            with open(file_name, "a") as f:
                 f.write(f"{current_date.strftime("%Y-%m-%d %H:%M:%S")}\n")
                 data = input("Enter content line: ")
                 count = 0
@@ -48,4 +48,4 @@ def create_file() -> None:
         except FileExistsError:
             print("Such file already exists")
         except OSError as e:
-            print(f"Error creating directory: {e}")
+            print(f"Error creating file: {e}")
