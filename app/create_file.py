@@ -4,7 +4,7 @@ import sys
 
 
 dir_path = []
-filename = None
+filename = ""
 
 
 if "-d" in sys.argv:
