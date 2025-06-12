@@ -20,41 +20,64 @@ def format_content(lines: List[str]) -> str:
     return f"{timestamp}\n" + "\n".join(numbered_lines) + "\n"
 
 
+def parse_args(args: List[str]) -> tuple[list[str], str | None]:
+    dirs = []
+    filename = None
+
+    # We iterate through args and collect accordingly
+    i = 0
+    while i < len(args):
+        if args[i] == "-d":
+            i += 1
+            # Collect all subsequent args that are not flags
+            while i < len(args) and not args[i].startswith("-"):
+                dirs.append(args[i])
+                i += 1
+        elif args[i] == "-f":
+            i += 1
+            if i < len(args):
+                filename = args[i]
+                i += 1
+            else:
+                # -f flag present but no filename
+                print("Error: -f flag provided but no filename specified.")
+                sys.exit(1)
+        else:
+            # Skip unknown arguments or raise error
+            print(f"Warning: Unknown argument {args[i]} skipped.")
+            i += 1
+
+    return dirs, filename
+
+
 def main() -> None:
     args = sys.argv[1:]
     if not args:
         print("No arguments provided.")
         return
 
-    dir_parts = []
-    file_name = None
+    dirs, filename = parse_args(args)
 
-    if "-d" in args:
-        d_index = args.index("-d")
-        next_flag_index = len(args)
-        if "-f" in args[d_index + 1:]:
-            next_flag_index = args.index("-f")
-        dir_parts = args[d_index + 1:next_flag_index]
+    base_path = os.getcwd()
+    if dirs:
+        base_path = os.path.join(base_path, *dirs)
+        os.makedirs(base_path, exist_ok=True)
 
-    if "-f" in args:
-        f_index = args.index("-f")
-        if f_index + 1 < len(args):
-            file_name = args[f_index + 1]
-
-    path = os.getcwd()
-    if dir_parts:
-        path = os.path.join(path, *dir_parts)
-        os.makedirs(path, exist_ok=True)
-
-    if file_name:
-        file_path = os.path.join(path, file_name)
+    if filename:
+        file_path = os.path.join(base_path, filename)
         lines = get_input_lines()
         content = format_content(lines)
-        with open(file_path, "a", encoding="utf-8") as f:
-            if os.path.getsize(file_path) > 0:
+        if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
+            with open(file_path, "a", encoding="utf-8") as f:
                 f.write("\n" + content)
-            else:
+        else:
+            with open(file_path, "w", encoding="utf-8") as f:
                 f.write(content)
+    elif dirs:
+        # Only directory creation requested, no file
+        pass
+    else:
+        print("No directory or file specified.")
 
 
 if __name__ == "__main__":
