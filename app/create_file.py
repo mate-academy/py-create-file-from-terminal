@@ -27,7 +27,8 @@ def parse_args(argv: list[str]) -> tuple[list[str], str | None]:
 
     # find index of -f flag
     f_index = get_flag_index(argv, "-f")
-    if f_index is None or f_index + 1 >= len(argv) or argv[f_index + 1].startswith("-"):
+    if (f_index is None or f_index + 1 >= len(argv)
+            or argv[f_index + 1].startswith("-")):
         print("Warning: missing file name after '-f' flag.")
     else:
         file_name = argv[f_index + 1]
