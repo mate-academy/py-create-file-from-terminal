@@ -2,8 +2,10 @@ import os
 import sys
 from datetime import datetime
 
+
 def get_timestamp() -> str:
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
 
 def collect_content() -> list[str]:
     lines = []
@@ -14,10 +16,12 @@ def collect_content() -> list[str]:
         lines.append(line)
     return lines
 
+
 def format_content(lines: list[str]) -> str:
     timestamp = get_timestamp()
     numbered_lines = [f"{i + 1} {line}" for i, line in enumerate(lines)]
     return f"{timestamp}\n" + "\n".join(numbered_lines) + "\n"
+
 
 def parse_arguments(args: list[str]) -> tuple[str, str]:
     dir_parts = []
@@ -44,6 +48,7 @@ def parse_arguments(args: list[str]) -> tuple[str, str]:
 
     dir_path = os.path.join(*dir_parts) if dir_parts else ""
     return dir_path, file_name
+
 
 def main() -> None:
     args = sys.argv[1:]
@@ -73,6 +78,7 @@ def main() -> None:
         f.write(content)
 
     print(f"File written to: {full_path}")
+
 
 if __name__ == "__main__":
     main()
