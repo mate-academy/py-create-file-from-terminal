@@ -41,7 +41,9 @@ def parse_arguments(args: list[str]) -> tuple[str, str]:
             else:
                 raise ValueError("Error: No valid file name specified after -f")
         else:
-            raise ValueError(f"Unknown flag or argument: {args[i]}")
+            raise ValueError(
+                f"Unknown flag or argument: {args[i]}"
+            )
 
     if not file_name:
         raise ValueError("Error: -f flag with a valid file name is required.")
