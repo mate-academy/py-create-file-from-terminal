@@ -54,6 +54,7 @@ def main() -> None:
     dirs, file_name = parse_arguments()
 
     if not dirs and not file_name:
+        print("Usage: create_file.py [-d dir1 [dir2 ...]] [-f file_name]")
         return
 
     base_path = os.getcwd()
