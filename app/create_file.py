@@ -36,9 +36,8 @@ def create_file(file_path: str = sys.argv[2]) -> None:
 
 def create_both() -> None:
     create_directory()
-    file_name = str(sys.argv[5])
-    folder_1 = str(sys.argv[2])
-    folder_2 = str(sys.argv[3])
+    folder_1, folder_2 = sys.argv[2:4]
+    file_name = sys.argv[5]
     path = os.path.join(folder_1, folder_2, file_name)
     create_file(file_path=path)
 
@@ -50,7 +49,8 @@ def main() -> None:
     if len(sys.argv) == 3 and sys.argv[1] == "-f":
         create_file()
 
-    create_both()
+    if sys.argv[1] == "-d" and sys.argv[4] == "-f":
+        create_both()
 
 
 print(main())
