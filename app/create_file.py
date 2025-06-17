@@ -51,6 +51,3 @@ def main() -> None:
 
     if sys.argv[1] == "-d" and sys.argv[4] == "-f":
         create_both()
-
-
-print(main())
