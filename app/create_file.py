@@ -49,5 +49,6 @@ def main() -> None:
     if len(sys.argv) == 3 and sys.argv[1] == "-f":
         create_file()
 
-    if sys.argv[1] == "-d" and sys.argv[4] == "-f":
-        create_both()
+    if len(sys.argv) == 6:
+        if sys.argv[1] == "-d" and sys.argv[4] == "-f":
+            create_both()
