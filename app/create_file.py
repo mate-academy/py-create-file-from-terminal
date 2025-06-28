@@ -61,4 +61,4 @@ if dir_dest != "" and file_name != "":
 elif dir_dest == "" and file_name != "":
     write_in_file(file_name)
 elif dir_dest != "" and file_name == "":
-    os.makedirs(dir_dest)
+    os.makedirs(dir_dest, exist_ok=True)
