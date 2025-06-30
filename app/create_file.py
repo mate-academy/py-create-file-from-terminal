@@ -25,6 +25,10 @@ def create_file() -> None:
 
     if "-f" in args:
         f_index = args.index("-f")
+        if f_index + 1 >= len(args):
+            print("Error: missing filename after '-f'")
+            return
+
         filename = args[f_index + 1]
         filepath = os.path.join(path, filename) if path else filename
 
