@@ -3,48 +3,38 @@ import sys
 from datetime import datetime
 
 
-def create_path() -> str:
-    current_dir = os.getcwd()
-    cur_path = []
-    for elem in sys.argv[2:]:
-        if elem == "-f":
-            break
-        cur_path.append(elem)
-    whole_path = os.path.join(current_dir, *cur_path)
-    return whole_path
+def create_directory(directory_path: list) -> str:
+    path = os.path.join(*directory_path)
+    os.makedirs(path, exist_ok=True)
+    return str(path)
+
+
+def create_and_write_file(directory_path: list, file_name: str | list) -> None:
+    path = create_directory(directory_path)
+    full_path = os.path.join(path, file_name)
+    with open(full_path, "a") as file:
+        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
+        line = 1
+        while True:
+            content = input("Enter content line: ")
+            if content == "stop":
+                break
+            file.write(f"{line} {content}\n")
+            line += 1
 
 
 def create_file() -> None:
-    current_dir = os.getcwd()
-    file_name = ""
-    for index, elem in enumerate(sys.argv[:]):
-        if elem == "-f":
-            file_name = sys.argv[index + 1]
-    path_with_file = os.path.join(current_dir, file_name)
-    page_number = 1
-    with open(path_with_file, "a") as source_file:
-        current_data = datetime.now()
-        source_file.write(current_data.strftime("%Y-%m-%d %X\n"))
-        while True:
-            line_content = input("Enter content line: ")
-            if line_content == "stop":
-                break
-            source_file.write(f"{page_number} {line_content}\n")
-            page_number += 1
-
-
-def create_file_with_command() -> None:
-    if "-d" in sys.argv[1:] and "-f" in sys.argv[1:]:
-        make_dir = create_path()
-        os.makedirs(make_dir, exist_ok=True)
-        os.chdir(make_dir)
-        create_file()
-    elif sys.argv[1] == "-d":
-        make_dir = create_path()
-        os.makedirs(make_dir, exist_ok=True)
-    elif sys.argv[1] == "-f":
-        create_file()
+    if "-d" in sys.argv and "-f" in sys.argv:
+        create_and_write_file(sys.argv[
+                              sys.argv.index("-d") + 1:
+                              sys.argv.index("-f")
+                              ],
+                              sys.argv[sys.argv.index("-f") + 1])
+    elif "-d" in sys.argv:
+        create_directory(sys.argv[sys.argv.index("-d") + 1:])
+    elif "-f" in sys.argv:
+        create_and_write_file(["."], sys.argv[-1])
 
 
 if __name__ == "__main__":
-    create_file_with_command()
+    create_file()
