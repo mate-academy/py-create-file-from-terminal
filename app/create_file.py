@@ -16,7 +16,11 @@ def create_path() -> str:
 
 def create_file() -> None:
     current_dir = os.getcwd()
-    path_with_file = os.path.join(current_dir, sys.argv[-1])
+    file_name = ""
+    for index, elem in enumerate(sys.argv[:]):
+        if elem == "-f":
+            file_name = sys.argv[index + 1]
+    path_with_file = os.path.join(current_dir, file_name)
     page_number = 1
     with open(path_with_file, "a") as source_file:
         current_data = datetime.now()
@@ -32,12 +36,12 @@ def create_file() -> None:
 def create_file_with_command() -> None:
     if "-d" in sys.argv[1:] and "-f" in sys.argv[1:]:
         make_dir = create_path()
-        os.makedirs(make_dir)
+        os.makedirs(make_dir, exist_ok=True)
         os.chdir(make_dir)
         create_file()
     elif sys.argv[1] == "-d":
         make_dir = create_path()
-        os.makedirs(make_dir)
+        os.makedirs(make_dir, exist_ok=True)
     elif sys.argv[1] == "-f":
         create_file()
 
