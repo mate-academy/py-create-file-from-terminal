@@ -4,7 +4,6 @@ import os
 
 
 args = sys.argv[1:]
-print(args)
 
 full_path = os.getcwd()
 
@@ -20,7 +19,7 @@ if "-d" in args:
     full_path = os.path.join(os.getcwd(), *path_parts)
     os.makedirs(full_path, exist_ok=True)
 
-if "-f" in args:
+if "-f" in args and args.index("-f") != len(args) - 1:
     # file name
     f_index = args.index("-f")
 
