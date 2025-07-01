@@ -7,7 +7,7 @@ directory_name = []
 file_name = ""
 marker_d = False
 marker_f = False
-for marker in arg:
+for i, marker in enumerate(arg):
     if marker == "-d":
         marker_d = True
 
@@ -19,7 +19,8 @@ for marker in arg:
         directory_name.append(marker)
 
     if marker_d is False and marker_f is True and marker != "-f":
-        file_name += marker
+        file_name = ".".join(arg[i:])
+        break
 timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 if directory_name:
     path = os.path.join(*directory_name)
