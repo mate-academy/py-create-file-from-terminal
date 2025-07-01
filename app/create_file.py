@@ -1,7 +1,6 @@
 import sys
 import os
-from datetime import datetime
-
+import datetime
 
 arg = sys.argv[1:]
 directory_name = []
@@ -26,21 +25,36 @@ if directory_name:
     path = os.path.join(*directory_name)
     os.makedirs(path, exist_ok=True)
     full_path = os.path.join(path, file_name)
-    with open(full_path, "a", encoding="utf-8") as f:
+    if os.path.exists(full_path):
+        mode = "a"
+    else:
+        mode = "w"
+    with open(full_path, mode, encoding="utf-8") as f:
+        if mode == "a":
+            f.write("\n")
         f.write(timestamp + "\n")
         add_line = ""
+        count = 1
         while True:
             add_line = input("Enter content line:")
             if add_line.lower() == "stop":
                 break
-            f.write(add_line + "\n")
-
+            f.write(str(count) + " " + add_line + "\n")
+            count += 1
 else:
-    with open(file_name, "a", encoding="utf-8") as f:
+    if os.path.exists(file_name):
+        mode = "a"
+    else:
+        mode = "w"
+    with open(file_name, mode, encoding="utf-8") as f:
+        if mode == "a":
+            f.write("\n")
         f.write(timestamp + "\n")
         add_line = ""
+        count = 1
         while True:
             add_line = input("Enter content line:")
             if add_line.lower() == "stop":
                 break
-            f.write(add_line + "\n")
+            f.write(str(count) + " " + add_line + "\n")
+            count += 1
