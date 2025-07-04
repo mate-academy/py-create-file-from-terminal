@@ -1,1 +1,51 @@
-# write your code here
+import os
+import sys
+from typing import Any
+from datetime import datetime
+
+
+def writing(filename: Any) -> None:
+    count = 0
+    filename.write(datetime.now().isoformat() + "\n")
+    while True:
+        line = input("Enter content line: ")
+        if line == "stop":
+            break
+        count += 1
+        filename.write(f"{count} {line}\n")
+
+
+def f_command(filename: str) -> None:
+    mode = "a" if os.path.exists(filename) else "w"
+    with open(filename, mode) as file:
+        writing(file)
+
+
+def d_command(dirs: list[str]) -> None:
+    str_dirs = os.path.join(*dirs)
+    os.makedirs(str_dirs, exist_ok=True)
+
+
+if "-d" in sys.argv and "-f" in sys.argv:
+    d_idx = sys.argv.index("-d")
+    f_idx = sys.argv.index("-f")
+    dirs = sys.argv[d_idx + 1:f_idx]
+    filename = sys.argv[f_idx + 1]
+
+    if len(dirs) == 1:
+        os.mkdir(dirs[0])
+    else:
+        str_dirs = os.path.join(*dirs)
+        os.makedirs(str_dirs, exist_ok=True)
+
+    file_path = os.path.join(str_dirs, filename)
+    with open(file_path, "w") as file:
+        writing(file)
+
+elif "-f" in sys.argv:
+    f_idx = sys.argv.index("-f")
+    f_command(sys.argv[f_idx + 1])
+
+elif "-d" in sys.argv:
+    d_idx = sys.argv.index("-d")
+    d_command(sys.argv[d_idx + 1:])
