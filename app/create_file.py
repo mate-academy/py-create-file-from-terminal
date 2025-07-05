@@ -4,7 +4,6 @@ from datetime import datetime as dt
 from typing import Any
 
 
-
 def run() -> None:
     """
     Receives data from the console, handles errors,
