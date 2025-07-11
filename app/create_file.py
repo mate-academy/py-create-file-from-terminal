@@ -11,9 +11,11 @@ def create_file() -> Any:
 
     if "-d" in arguments:
         flag_d = arguments.index("-d")
-        next_flag = arguments.index("-f")\
-            if "-f" in arguments\
+        next_flag = (
+            arguments.index("-f")
+            if "-f" in arguments
             else len(arguments)
+        )
         dir_path = "/".join(arguments[flag_d + 1 : next_flag])
         os.makedirs(dir_path, exist_ok=True)
 
@@ -30,12 +32,14 @@ def create_file() -> Any:
             print("For stop input please write stop")
             date_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             file.write(f"{date_str}\n")
+            count = 1
             while True:
                 line = input("Print your massege: ")
                 if line.lower() == "stop":
                     break
-                file.write(f"{line}\n")
-                file.write("\n")
+                file.write(f"{count} {line}\n")
+                count += 1
+            file.write("\n")
 
 
 create_file()
