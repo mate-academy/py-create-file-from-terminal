@@ -1,9 +1,10 @@
 import sys
 import datetime
 import os
+from typing import Any
 
 
-def create_file():
+def create_file() -> Any:
     arguments = sys.argv
     dir_path = ""
     file_name = ""
@@ -11,7 +12,9 @@ def create_file():
     try:
         if "-d" in arguments:
             flag_d = arguments.index("-d")
-            next_flag = arguments.index("-f") if "-f" in arguments else len(arguments)
+            next_flag = arguments.index("-f")\
+                if "-f" in arguments\
+                else len(arguments)
             dir_path = "/".join(arguments[flag_d + 1 : next_flag])
             os.makedirs(dir_path, exist_ok=True)
 
@@ -29,8 +32,6 @@ def create_file():
                 if line.strip().lower() == "stop":
                     break
                 f.write(line + "\n")
-
-
     except Exception as e:
         print(f"Error: {e}")
 
