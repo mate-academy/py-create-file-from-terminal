@@ -7,7 +7,7 @@ def create_file(command: list, file_path: str) -> None:
     os.chdir(file_path)
     file_name = command[-1]
     with open(file_name, "a") as new_file:
-        file_time = datetime.datetime.now().strftime("%Y-%M-%d %H:%M:%S")
+        file_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         new_file.write(f"{file_time}\n")
         num_of_line = 1
         input_line = ""
