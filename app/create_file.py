@@ -46,6 +46,10 @@ def check_input() -> Any:
                 print("Missing filename")
                 sys.exit()
 
+            if filename == "-d":
+                print("Missing filename")
+                sys.exit()
+
             filepath = None
 
             if "-d" in sys.argv:
