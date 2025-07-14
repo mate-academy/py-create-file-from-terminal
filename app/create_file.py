@@ -3,7 +3,7 @@ import sys
 from datetime import datetime
 
 
-def create_directory(lst):
+def create_directory(lst: list) -> str:
     parent_dir = os.getcwd()
     d_index = lst.index("-d")
     if "-f" in lst:
@@ -16,9 +16,10 @@ def create_directory(lst):
     return path
 
 
-def create_file(lst, path):
+def create_file(lst: list, path: str) -> None:
     if "-d" in lst:
-        file_path = f"{path}/{lst[lst.index('-f') + 1]}"
+        f_index = lst.index("-f")
+        file_path = f"{path}/{lst[f_index + 1]}"
     else:
         f_index = lst.index("-f")
         file_path = lst[f_index + 1]
