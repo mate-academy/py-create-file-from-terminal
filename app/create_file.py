@@ -2,10 +2,12 @@ import sys
 import os
 from datetime import datetime
 
+
 def create_directories(dirs: list) -> str:
     path = os.path.join(*dirs)
     os.makedirs(path, exist_ok=True)
     return path
+
 
 def read_input_lines() -> list:
     lines = []
@@ -16,12 +18,14 @@ def read_input_lines() -> list:
         lines.append(line)
     return lines
 
+
 def append_to_file(path: str, lines: list) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open(path, "a", encoding="utf-8") as file:
         file.write(f"\n{timestamp}\n")
         for i, line in enumerate(lines, 1):
             file.write(f"{i} {line}\n")
+
 
 def parse_arguments(args: list) -> list:
     dirs = []
@@ -47,6 +51,7 @@ def parse_arguments(args: list) -> list:
             sys.exit(1)
 
     return dirs, filename
+
 
 def main() -> None:
     args = sys.argv[1:]
