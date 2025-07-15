@@ -56,7 +56,10 @@ def parse_arguments(args: list) -> list:
 def main() -> None:
     args = sys.argv[1:]
     if not args:
-        print("Usage:\n  python create_file.py [-d dir1 dir2 ...] [-f filename]")
+        print(
+              "Usage:\n"
+              "  python create_file.py [-d dir1 dir2 ...] [-f filename]"
+        )
         return
 
     dirs, filename = parse_arguments(args)
