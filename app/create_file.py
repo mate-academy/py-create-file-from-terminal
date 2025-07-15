@@ -68,7 +68,6 @@ def check_input() -> Any:
                   " -d directory -f filename")
             sys.exit()
 
-
     return filepath, filename
 
 
