@@ -13,6 +13,7 @@ def main() -> None:
             print("File for create:", file_name)
         else:
             print("Error: after -f must be file name")
+            sys.exit()
     else:
         print("Error: no -f")
         sys.exit()
