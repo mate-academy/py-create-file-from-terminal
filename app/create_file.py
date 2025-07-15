@@ -23,8 +23,8 @@ def create_file() -> None:
         os.makedirs(base_path, exist_ok=True)
 
     if not file_name:
-        print(f"Directory created at: {base_path}")
-        return
+        print("Error: Missing required '-f' flag for file name.")
+        sys.exit(1)
 
     content_lines = []
     line_num = 1
