@@ -20,13 +20,15 @@ def parse_arguments(arguments: List[str]) -> Tuple[List[str], Optional[str]]:
         elif current_flag == "-f":
             if filename is not None:
                 print(
-                    "Error: Only one filename is allowed after -f flag."
+                    "Error: Only one filename is allowed "
+                    "after -f flag."
                 )
                 sys.exit(1)
             filename = arg
         else:
             print(
-                f"Error: Unexpected argument '{arg}'. Use -d and -f flags properly."
+                f"Error: Unexpected argument '{arg}'. "
+                "Use -d and -f flags properly."
             )
             sys.exit(1)
     return directory_parts, filename
@@ -54,8 +56,10 @@ def read_content_lines() -> List[str]:
 
 def append_content_to_file(filepath: str, lines: List[str]) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    lines_to_write = [f"{timestamp}\n"] + [
-        "{} {}\n".format(index, content) for index, content in enumerate(lines, start=1)
+    lines_to_write = [f"{timestamp}\n"]
+    lines_to_write += [
+        "{} {}\n".format(index, content)
+        for index, content in enumerate(lines, start=1)
     ]
     mode = "a" if os.path.exists(filepath) else "w"
     with open(filepath, mode, encoding="utf-8") as file:
