@@ -2,21 +2,23 @@ import sys
 import os
 from datetime import datetime
 
-def create_file():
+
+def create_file() -> None:
     args = sys.argv[1:]
     directory_parts, file_name = [], None
 
-    if '-d' in args:
-        d_index = args.index('-d') + 1
-        while d_index < len(args) and not args[d_index].startswith('-'):
+    if "-d" in args:
+        d_index = args.index("-d") + 1
+        while d_index < len(args) and not args[d_index].startswith("-"):
             directory_parts.append(args[d_index])
             d_index += 1
-    if '-f' in args:
-        f_index = args.index('-f') + 1
-        if f_index < len(args) and not args[f_index].startswith('-'):
+    if "-f" in args:
+        f_index = args.index("-f") + 1
+        if f_index < len(args) and not args[f_index].startswith("-"):
             file_name = args[f_index]
 
-    base_path = os.path.join(os.getcwd(), *directory_parts) if directory_parts else os.getcwd()
+    base_path = os.path.join(
+        os.getcwd(), *directory_parts) if directory_parts else os.getcwd()
     if directory_parts:
         os.makedirs(base_path, exist_ok=True)
 
@@ -38,10 +40,10 @@ def create_file():
 
     file_path = os.path.join(base_path, file_name)
     file_exists = os.path.exists(file_path)
-    with open(file_path, 'a', encoding='utf-8') as f:
+    with open(file_path, "a", encoding="utf-8") as f:
         if file_exists:
-            f.write('\n\n')
-        f.write('\n'.join(content_block) + '\n')
+            f.write("\n\n")
+        f.write("\n".join(content_block) + "\n")
 
     print(f"File saved at: {file_path}")
 
