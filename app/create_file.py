@@ -19,7 +19,9 @@ def parse_arguments(arguments: List[str]) -> Tuple[List[str], Optional[str]]:
             directory_parts.append(arg)
         elif current_flag == "-f":
             if filename is not None:
-                print("Error: Only one filename is allowed after -f flag.")
+                print(
+                    "Error: Only one filename is allowed after -f flag."
+                )
                 sys.exit(1)
             filename = arg
         else:
@@ -66,7 +68,8 @@ def main() -> None:
     args = sys.argv[1:]
     if not args:
         print(
-            "Usage: python create_file.py [-d dir1 dir2 ...] [-f filename]"
+            "Usage: python create_file.py [-d dir1 dir2 ...] "
+            "[-f filename]"
         )
         sys.exit(1)
 
@@ -79,7 +82,9 @@ def main() -> None:
 
     if filename:
         target_dir = create_directory_path(directories) if directories else ""
-        filepath = os.path.join(target_dir, filename) if target_dir else filename
+        filepath = (
+            os.path.join(target_dir, filename) if target_dir else filename
+        )
         content_lines = read_content_lines()
         append_content_to_file(filepath, content_lines)
         print(
