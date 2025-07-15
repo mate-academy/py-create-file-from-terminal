@@ -26,7 +26,7 @@ def create_directories(dirs_list: list) -> str:
     return dir_path
 
 
-def parse_args():
+def parse_args() -> list | str:
     args = sys.argv[1:]
 
     dirs_list = []
