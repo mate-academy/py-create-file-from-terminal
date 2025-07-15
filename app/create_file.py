@@ -14,30 +14,37 @@ def file_writer(name: str) -> None:
 
             if content.lower() == "stop":
                 break
-            file_open.write(f"{line} {content}/n")
+            file_open.write(f"{line} {content}\n")
             line += 1
+
         file_open.write("\n")
 
 
 def create_file(args: list) -> None:
-    d_index = args.index("-d")
     f_index = args.index("-f")
 
     if "-d" in args and "-f" in args:
+        d_index = args.index("-d")
         dir_path = args[d_index + 1 : f_index]
         file_name = args[f_index + 1]
+
     elif "-d" in args:
+        d_index = args.index("-d")
         dir_path = args[d_index + 1 : f_index]
         file_name = None
+
     elif "-f" in args:
         dir_path = []
         file_name = args[f_index + 1]
+
     else:
         print("Error: No flags provided")
         return
+
     if dir_path:
         dir_path = os.path.join(*dir_path)
         os.makedirs(dir_path, exist_ok=True)
+    dir_path = "."
 
     if file_name:
         file_path = os.path.join(dir_path, file_name)
