@@ -55,16 +55,25 @@ def check_input() -> Any:
             if "-d" in sys.argv:
                 d_index = sys.argv.index("-d")
                 filepath = sys.argv[d_index + 1:]
+
+            if not filepath:
+                print("Incorrect filepath")
+                sys.exit()
+            else:
+                if "-f" in filepath or "-d" in filepath:
+                    print("Incorrect filepath")
+                    sys.exit()
         case _:
             print("Wrong usage! Usage is: create_file.py"
                   " -d directory -f filename")
             sys.exit()
 
+
     return filepath, filename
 
 
 # Creating file
-def create_file(filepath: str | None, filename: str | None) -> None:
+def create_file(filepath: list | None, filename: str | None) -> None:
     if filepath:
         filepath = os.path.join(*filepath)
         os.makedirs(filepath, exist_ok=True)
