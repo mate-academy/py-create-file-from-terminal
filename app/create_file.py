@@ -26,28 +26,35 @@ def create_directories(dirs_list: list) -> str:
     return dir_path
 
 
-module_args = sys.argv
+def parse_args():
+    args = sys.argv[1:]
 
-d_index = module_args.index("-d") if "-d" in module_args else -1
-f_index = module_args.index("-f") if "-f" in module_args else -1
+    dirs_list = []
+    file_name = None
 
-if "-d" in module_args and "-f" in module_args:
-    if d_index < f_index:
-        dirs_list = module_args[d_index + 1:f_index]
-        file_name = module_args[f_index + 1]
-    else:
-        file_name = module_args[f_index + 1]
-        dirs_list = module_args[d_index + 1:f_index] \
-            if f_index + 1 < d_index \
-            else module_args[d_index + 1:]
+    i = 0
+    while i < len(args):
+        if args[i] == "-d":
+            i += 1
+            while i < len(args) and not args[i].startswith("-"):
+                dirs_list.append(args[i])
+                i += 1
+            i -= 1
+        elif args[i] == "-f":
+            if i + 1 < len(args):
+                file_name = args[i + 1]
+                i += 1
+        i += 1
 
-    dir_path = create_directories(dirs_list)
-    create_file_with_content(f"{dir_path}/{file_name}")
+    return dirs_list, file_name
 
-elif "-d" in module_args:
-    dirs_list = module_args[d_index + 1:]
+
+dirs_list, file_name = parse_args()
+
+if dirs_list and file_name:
+    dirs_path = create_directories(dirs_list)
+    create_file_with_content(f"{dirs_path}/{file_name}")
+elif dirs_list:
     create_directories(dirs_list)
-
-elif "-f" in module_args:
-    file_name = module_args[f_index + 1]
+elif file_name:
     create_file_with_content(file_name)
