@@ -17,11 +17,10 @@ def create_directory(lst: list) -> str:
 
 
 def create_file(lst: list, path: str) -> None:
+    f_index = lst.index("-f")
     if "-d" in lst:
-        f_index = lst.index("-f")
         file_path = f"{path}/{lst[f_index + 1]}"
     else:
-        f_index = lst.index("-f")
         file_path = lst[f_index + 1]
     with open(file_path, "a") as file:
         current_date = datetime.now()
@@ -42,8 +41,8 @@ if "-d" in lst and "-f" in lst:
     path = create_directory(lst)
     create_file(lst, path)
 
-if lst[1] == "-d":
+if "-d" in lst and "-f" not in lst:
     create_directory(lst)
 
-if lst[1] == "-f":
-    create_file(lst, None)
+if "-f" in lst and "-d" not in lst:
+    create_file(lst, os.getcwd())
