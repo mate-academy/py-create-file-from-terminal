@@ -51,7 +51,8 @@ def read_content_lines() -> List[str]:
 def append_content_to_file(filepath: str, lines: List[str]) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     lines_to_write = [f"{timestamp}\n"] + [
-        f"{index} {content}\n" for index, content in enumerate(lines, start=1)
+        f"{index} {content}\n"
+        for index, content in enumerate(lines, start=1)
     ]
     mode = "a" if os.path.exists(filepath) else "w"
     with open(filepath, mode, encoding="utf-8") as file:
@@ -63,7 +64,9 @@ def append_content_to_file(filepath: str, lines: List[str]) -> None:
 def main() -> None:
     args = sys.argv[1:]
     if not args:
-        print("Usage: python create_file.py [-d dir1 dir2 ...] [-f filename]")
+        print(
+            "Usage: python create_file.py [-d dir1 dir2 ...] [-f filename]"
+        )
         sys.exit(1)
 
     directories, filename = parse_arguments(args)
