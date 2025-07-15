@@ -27,15 +27,19 @@ def create_directories(dirs_list: list) -> str:
 
 
 module_args = sys.argv
-d_index = module_args.index("-d")
-f_index = module_args.index("-f")
+
+d_index = module_args.index("-d") if "-d" in module_args else -1
+f_index = module_args.index("-f") if "-f" in module_args else -1
+
 if "-d" in module_args and "-f" in module_args:
     if d_index < f_index:
         dirs_list = module_args[d_index + 1:f_index]
         file_name = module_args[f_index + 1]
     else:
-        dirs_list = module_args[d_index + 1:]
         file_name = module_args[f_index + 1]
+        dirs_list = module_args[d_index + 1:f_index] \
+            if f_index + 1 < d_index \
+            else module_args[d_index + 1:]
 
     dir_path = create_directories(dirs_list)
     create_file_with_content(f"{dir_path}/{file_name}")
