@@ -32,6 +32,7 @@ def main() -> None:
                     timestamp = datetime.datetime.now(
                     ).strftime("%Y-%m-%d %H:%M:%S")
                     f.write(f"{timestamp}\n")
+                    counter += 1
                 f.write(f"{content}\n")
             else:
                 break
