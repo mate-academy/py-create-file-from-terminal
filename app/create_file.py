@@ -7,7 +7,7 @@ parser = argparse.ArgumentParser(
     description="Created full path from command line "
                 "with file if needed, append new lines "
                 "if file exists")
-parser.add_argument("-d", "--dir", nargs="+", help="Directory path")
+parser.add_argument("-d", "--dir", nargs="*", help="Directory path")
 parser.add_argument("-f", "--file", help="File name")
 args = parser.parse_args()
 
@@ -49,7 +49,7 @@ def main() -> None:
         create_file(file_path)
 
     if not args.dir and not args.file:
-        parser.print_help()
+        print("You need to specify a directory or file name")
 
 
 if __name__ == "__main__":
