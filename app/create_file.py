@@ -35,14 +35,20 @@ def create_file(filedir: str) -> None:
             file.write(f"{page_number} {elem}\n")
             page_number += 1
 
-
-if args.dir:
-    path_dir = os.path.join(*args.dir)
-    os.makedirs(path_dir, exist_ok=True)
-
-if args.file:
+def main() -> None:
     if args.dir:
-        file_path = os.path.join(*args.dir, args.file)
-    else:
-        file_path = args.file
-    create_file(file_path)
+        path_dir = os.path.join(*args.dir)
+        os.makedirs(path_dir, exist_ok=True)
+
+    if args.file:
+        if args.dir:
+            file_path = os.path.join(*args.dir, args.file)
+        else:
+            file_path = args.file
+        create_file(file_path)
+
+    if not args.dir and not args.file:
+        parser.print_help()
+
+if __name__ == "__main__":
+    main()
