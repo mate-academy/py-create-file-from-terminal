@@ -5,8 +5,8 @@ from typing import List
 
 
 def create_patch(segments: List[str]) -> str:
-    patch = os.path.join(*segments)
-    return patch
+    path = os.path.join(*segments)
+    return path
 
 
 def make_dir(patch_dir: str) -> None:
@@ -41,11 +41,11 @@ def create_file() -> None:
         patch_to_create_file = [*args.d, args.f]
         create_and_write_file(create_patch(patch_to_create_file))
 
-    if args.d:
+    elif args.d:
         dears_to_create = create_patch(args.d)
         make_dir(dears_to_create)
 
-    if args.f:
+    elif args.f:
         make_file = args.f
         create_and_write_file(os.path.abspath(make_file))
 
