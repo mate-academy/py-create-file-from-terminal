@@ -24,8 +24,8 @@ def main() -> None:
         return
 
     with open(filename, "a+") as f:
+        counter = 0
         while True:
-            counter = 0
             content = input("Enter content line: ")
             if not content == "stop":
                 if counter == 0:
