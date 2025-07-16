@@ -25,27 +25,26 @@ def d_command(dirs: list[str]) -> None:
     str_dirs = os.path.join(*dirs)
     os.makedirs(str_dirs, exist_ok=True)
 
+def main():
+    if "-d" in sys.argv and "-f" in sys.argv:
+        d_idx = sys.argv.index("-d")
+        f_idx = sys.argv.index("-f")
+        dirs = sys.argv[d_idx + 1:f_idx]
+        filename = sys.argv[f_idx + 1]
 
-if "-d" in sys.argv and "-f" in sys.argv:
-    d_idx = sys.argv.index("-d")
-    f_idx = sys.argv.index("-f")
-    dirs = sys.argv[d_idx + 1:f_idx]
-    filename = sys.argv[f_idx + 1]
+        if len(dirs) == 1:
+            os.mkdir(dirs[0])
+            str_dirs = dirs[0]
+        else:
+            d_command(dirs)
 
-    if len(dirs) == 1:
-        os.mkdir(dirs[0])
-    else:
-        str_dirs = os.path.join(*dirs)
-        os.makedirs(str_dirs, exist_ok=True)
+        file_path = os.path.join(str_dirs, filename)
+        f_command(file_path)
 
-    file_path = os.path.join(str_dirs, filename)
-    with open(file_path, "w") as file:
-        writing(file)
+    elif "-f" in sys.argv:
+        f_command(sys.argv[sys.argv.index("-f") + 1])
 
-elif "-f" in sys.argv:
-    f_idx = sys.argv.index("-f")
-    f_command(sys.argv[f_idx + 1])
-
-elif "-d" in sys.argv:
-    d_idx = sys.argv.index("-d")
-    d_command(sys.argv[d_idx + 1:])
+    elif "-d" in sys.argv:
+        d_command(sys.argv[sys.argv.index("-d") + 1])
+if __name__ == "__main__":
+    main()
