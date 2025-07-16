@@ -21,34 +21,35 @@ def file_writer(name: str) -> None:
 
 
 def create_file(args: list) -> None:
-    f_index = args.index("-f")
+    dir_path = "."
+    file_name = None
 
-    if "-d" in args and "-f" in args:
+    if "-d" in args:
         d_index = args.index("-d")
-        dir_path = args[d_index + 1 : f_index]
-        file_name = args[f_index + 1]
+        dir_parts = []
 
-    elif "-d" in args:
-        d_index = args.index("-d")
-        dir_path = args[d_index + 1 : f_index]
-        file_name = None
+        for arg in args[d_index + 1:]:
+            if arg.startswith("-"):
+                break
+            dir_parts.append(arg)
 
-    elif "-f" in args:
-        dir_path = []
-        file_name = args[f_index + 1]
+        if dir_parts:
+            dir_path = os.path.join(*dir_parts)
+            os.makedirs(dir_path, exist_ok=True)
 
+    if "-f" in args:
+        f_index = args.index("-f")
+        if f_index + 1 < len(args):
+            file_name = args[f_index + 1]
+        else:
+            print("Error: No file name provided after -f")
+            return
     else:
-        print("Error: No flags provided")
+        print("Error: No -f flag provided")
         return
 
-    if dir_path:
-        dir_path = os.path.join(*dir_path)
-        os.makedirs(dir_path, exist_ok=True)
-    dir_path = "."
-
-    if file_name:
-        file_path = os.path.join(dir_path, file_name)
-        file_writer(file_path)
+    file_path = os.path.join(dir_path, file_name)
+    file_writer(file_path)
 
 
 if __name__ == "__main__":
