@@ -57,6 +57,9 @@ def main() -> None:
         content = get_user_input()
         write_to_file(file_path, content)
 
+    if not args.d and not args.f:
+        print("No directories or files were given")
+
 
 if __name__ == "__main__":
     main()
