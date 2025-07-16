@@ -45,9 +45,9 @@ def create_file() -> None:
         dears_to_create = create_patch(args.d)
         make_dir(dears_to_create)
 
-    elif args.f:
-        make_file = args.f
-        create_and_write_file(os.path.abspath(make_file))
+    else:
+        args.f
+        create_and_write_file(os.path.join(os.getcwd(), args.f))
 
 
 if __name__ == "__main__":
