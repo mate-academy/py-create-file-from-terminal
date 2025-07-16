@@ -25,7 +25,8 @@ def d_command(dirs: list[str]) -> None:
     str_dirs = os.path.join(*dirs)
     os.makedirs(str_dirs, exist_ok=True)
 
-def main():
+
+def main() -> None:
     if "-d" in sys.argv and "-f" in sys.argv:
         d_idx = sys.argv.index("-d")
         f_idx = sys.argv.index("-f")
@@ -46,5 +47,7 @@ def main():
 
     elif "-d" in sys.argv:
         d_command(sys.argv[sys.argv.index("-d") + 1])
+
+
 if __name__ == "__main__":
     main()
