@@ -38,7 +38,6 @@ def create_file(filedir: str) -> None:
 
 if args.dir:
     path_dir = os.path.join(*args.dir)
-    print(path_dir)
     os.makedirs(path_dir, exist_ok=True)
 
 if args.file:
@@ -46,5 +45,4 @@ if args.file:
         file_path = os.path.join(*args.dir, args.file)
     else:
         file_path = args.file
-    print(file_path)
     create_file(file_path)
