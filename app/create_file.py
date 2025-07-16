@@ -4,13 +4,18 @@ import sys
 
 
 def main() -> None:
-    if len(sys.argv) < 3 or not sys.argv[1] in ["-f", "-d"]:
+    if len(sys.argv) < 3:
         return
 
     if sys.argv[1] == "-d" and sys.argv[-2] == "-f":
         path = sys.argv[2:-2]
         new_path = create_path(path)
-        filename = new_path + sys.argv[-1]
+        filename = os.path.join(new_path, sys.argv[-1])
+
+    elif sys.argv[1] == "-f" and "-d" in sys.argv:
+        path_index = sys.argv.index("-d")
+        new_path = create_path(sys.argv[path_index + 1:])
+        filename = os.path.join(new_path, sys.argv[2])
 
     elif sys.argv[1] == "-d":
         path = sys.argv[2:]
@@ -40,7 +45,7 @@ def main() -> None:
 
 def create_path(items: list) -> str:
     curr = os.getcwd()
-    new_path = os.path.join(curr, *items) + os.sep
+    new_path = os.path.join(curr, *items)
     if not os.path.exists(new_path):
         os.makedirs(new_path)
     return new_path
