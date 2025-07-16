@@ -1,9 +1,9 @@
-import argparse
 import datetime
 import os
+from argparse import ArgumentParser
 
 
-parser = argparse.ArgumentParser(description="Create file with timestamped content.")
+parser = ArgumentParser(description="Create file with timestamped content.")
 
 parser.add_argument("-d", nargs="+", help="Path components for directory")
 parser.add_argument("-f", help="Filename to create or append to")
@@ -20,7 +20,7 @@ else:
     os.makedirs(os.path.join(*args.d))
     file_path = os.path.join(*args.d, args.f) if args.d else args.f
     with open(file_path, "a") as f:
-        f.write(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + "\n")
+        f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         line_number = 1
         while True:
             content = input("Enter content line: ")
