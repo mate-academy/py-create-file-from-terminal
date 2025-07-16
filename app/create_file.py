@@ -10,7 +10,6 @@ def get_arguments() -> dict[str, Any]:
     result = {
         "has_directory_flag": False,
         "has_file_flag": False,
-        "directories": [],
         "filename": "",
         "directory_path": ""
     }
@@ -18,21 +17,23 @@ def get_arguments() -> dict[str, Any]:
     if not args:
         return result
 
+    directories = []
     i = 0
+
     while i < len(args):
         if args[i] == "-d":
             result["has_directory_flag"] = True
             i += 1
             while i < len(args) and not args[i].startswith("-"):
-                result["directories"].append(args[i])
+                directories.append(args[i])
                 i += 1
-            result["directory_path"] = os.path.join(*result["directories"])
+            result["directory_path"] = os.path.join(*directories)
             continue
 
         elif args[i] == "-f":
-            result["has_file_flag"] = True
             i += 1
             if i < len(args):
+                result["has_file_flag"] = True
                 result["filename"] = args[i]
             i += 1
 
@@ -42,62 +43,45 @@ def get_arguments() -> dict[str, Any]:
     return result
 
 
-def make_directory(directories: list[str]) -> None:
-    if not directories:
-        return
-
-    full_path = os.path.join(*directories)
-
-    os.makedirs(full_path, exist_ok=True)
-
-
-def input_content_lines() -> list[str]:
-    content_lines = []
-
-    while True:
-        line = input("Enter content line: ")
-
-        if line.lower() == "stop":
-            break
-
-        content_lines.append(line)
-
-    return content_lines
-
-
-def fill_file_with_content(filepath: str, lines: list[str]) -> None:
+def fill_file_with_content(filepath: str) -> None:
     timestamp = dt.now().strftime("%Y-%m-%d %H:%M:%S")
-
-    file_exists = os.path.exists(filepath)
+    has_content = os.path.exists(filepath) and os.path.getsize(filepath) > 0
 
     with open(filepath, "a") as file:
-        if file_exists:
+        if has_content:
             file.write("\n")
 
         file.write(f"{timestamp}\n")
 
-        for i, line in enumerate(lines, 1):
+        i = 1
+        while True:
+            line = input("Enter content line: ")
+
+            if line.lower() == "stop":
+                break
+
             file.write(f"{i} {line}\n")
+            i += 1
 
 
 def run() -> None:
     parsed_data = get_arguments()
+    has_dir_flag = parsed_data["has_directory_flag"]
+    has_file_flag = parsed_data["has_file_flag"]
 
-    if (parsed_data["has_directory_flag"]
-       and parsed_data["has_file_flag"]):
+    if has_dir_flag:
+        if parsed_data["directory_path"]:
+            os.makedirs(parsed_data["directory_path"], exist_ok=True)
 
-        make_directory(parsed_data["directories"])
-        content = input_content_lines()
-        full_path = os.path.join(parsed_data["directory_path"],
-                                 parsed_data["filename"])
-        fill_file_with_content(full_path, content)
+    if has_file_flag:
+        full_path = os.path.join(
+            parsed_data["directory_path"],
+            parsed_data["filename"]
+        )
+        fill_file_with_content(str(full_path))
 
-    elif parsed_data["has_directory_flag"]:
-        make_directory(parsed_data["directories"])
-
-    elif parsed_data["has_file_flag"]:
-        content = input_content_lines()
-        fill_file_with_content(parsed_data["filename"], content)
+    if not (has_dir_flag or has_file_flag):
+        print("No -d or -f flags were given")
 
 
 if __name__ == "__main__":
