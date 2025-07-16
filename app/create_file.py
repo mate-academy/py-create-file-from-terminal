@@ -29,6 +29,9 @@ def create_parser() -> argparse.Namespace:
 if __name__ == "__main__":
     try:
         args = create_parser()
+        if not args.d and not args.f:
+            raise ValueError("Neither -d nor -f is provided.")
+
         if args.d:
             for directory in args.d:
                 validate_name(directory)
