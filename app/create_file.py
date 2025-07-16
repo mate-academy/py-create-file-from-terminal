@@ -35,6 +35,7 @@ def create_file(filedir: str) -> None:
             file.write(f"{page_number} {elem}\n")
             page_number += 1
 
+
 def main() -> None:
     if args.dir:
         path_dir = os.path.join(*args.dir)
@@ -49,6 +50,7 @@ def main() -> None:
 
     if not args.dir and not args.file:
         parser.print_help()
+
 
 if __name__ == "__main__":
     main()
