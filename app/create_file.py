@@ -2,6 +2,11 @@ import os
 import argparse
 from datetime import datetime
 
+
+class NotFileOrDirectory(Exception):
+    pass
+
+
 parser = argparse.ArgumentParser(
     prog="File-Creator",
     description="Created full path from command line "
@@ -29,7 +34,8 @@ def create_file(filedir: str) -> None:
         if file_exist:
             file.write("\n")
 
-        file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(f"{current_date}\n")
 
         for elem in result_data:
             file.write(f"{page_number} {elem}\n")
@@ -37,6 +43,11 @@ def create_file(filedir: str) -> None:
 
 
 def main() -> None:
+    if not args.dir and not args.file:
+        raise NotFileOrDirectory(
+            "You need to specify a "
+            "directory or file name")
+
     if args.dir:
         path_dir = os.path.join(*args.dir)
         os.makedirs(path_dir, exist_ok=True)
@@ -47,9 +58,6 @@ def main() -> None:
         else:
             file_path = args.file
         create_file(file_path)
-
-    if not args.dir and not args.file:
-        print("You need to specify a directory or file name")
 
 
 if __name__ == "__main__":
