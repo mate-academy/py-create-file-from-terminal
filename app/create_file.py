@@ -1,35 +1,30 @@
+import argparse
 import datetime
 import os
-import sys
 
 
-if "-d" in sys.argv and "-f" in sys.argv:
-    path = sys.argv[3:sys.argv.index("-f")]
-    os.makedirs(os.path.join(*path))
-    with open(os.path.join(*path, sys.argv[-1]), "a") as my_file:
-        my_file.write(
-            os.path.join(*path, sys.argv[-1]) + "\n"
-            + f'{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n'
-        )
-        line_number = 1
-        while True:
-            content = input("Enter content line:")
-            if content == "stop":
-                break
-            my_file.write(f"{line_number} {content}\n")
-            line_number += 1
-elif sys.argv[2] == "-d":
-    path = sys.argv[3:]
-    os.makedirs(os.path.join(*path))
+parser = argparse.ArgumentParser(description="Create file with timestamped content.")
+
+parser.add_argument("-d", nargs="+", help="Path components for directory")
+parser.add_argument("-f", help="Filename to create or append to")
+
+args = parser.parse_args()
+
+if not args.f:
+    parser.error("Missing filename. Use -f <filename> to specify file.")
+
+
+if not args.d:
+    parser.error("Missing directory path. Use -d dir1 dir2 to specify folder.")
 else:
-    with open(sys.argv[3], "a") as my_file:
-        my_file.write(
-            datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
-        )
+    os.makedirs(os.path.join(*args.d))
+    file_path = os.path.join(*args.d, args.f) if args.d else args.f
+    with open(file_path, "a") as f:
+        f.write(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + "\n")
         line_number = 1
         while True:
-            content = input("Enter content line:")
+            content = input("Enter content line: ")
             if content == "stop":
                 break
-            my_file.write(f"{line_number} {content}\n")
+            f.write(f"{line_number} {content}\n")
             line_number += 1
