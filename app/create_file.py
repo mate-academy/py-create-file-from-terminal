@@ -29,7 +29,7 @@ def create_file(filedir: str) -> None:
         if file_exist:
             file.write("\n")
 
-        file.write(f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
+        file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 
         for elem in result_data:
             file.write(f"{page_number} {elem}\n")
