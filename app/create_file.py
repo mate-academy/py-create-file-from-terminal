@@ -4,23 +4,14 @@ from datetime import datetime
 
 
 def create_path(directories: list) -> str:
-    """
-    Join list of into a path cross-platform
-    """
     return os.path.join(*directories)
 
 
 def make_directories(path: str) -> None:
-    """
-    Create directories if they do not exist.
-    """
     os.makedirs(path, exist_ok=True)
 
 
 def collect_content_lines() -> list:
-    """
-    Prompt the user for content lines until 'stop; is entered.
-    """
     lines = []
     while True:
         user_input = input("Enter content line: ")
@@ -31,10 +22,6 @@ def collect_content_lines() -> list:
 
 
 def write_content_to_file(filepath: str, lines: list) -> None:
-    """
-    Write timestamp and numbered lines to file.
-    Append if the dile exists.
-    """
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     with open(filepath, "a", encoding="utf-8") as file:
@@ -44,47 +31,50 @@ def write_content_to_file(filepath: str, lines: list) -> None:
         file.write("\n")
 
 
-def main() -> None:
-    args = sys.argv[1:]
+def find_flag_index(args: list, flag: str) -> int | None:
+    try:
+        return args.index(flag)
+    except ValueError:
+        return None
+
+
+def parse_arguments(args: list) -> tuple[list, str | None]:
     directory_path = []
     file_name = None
 
-    i = 0
-    while i < len(*args):
-        if args[i] == "-d":
-            i += 1
-            while i < len(args) and not args[i].startswith("-"):
-                directory_path.append(args[i])
-                i += 1
-        elif args[i] == "-f":
-            i += 1
-            if i < len(args):
-                file_name = args[i]
-                i += 1
-        else:
-            # Ignore unknown arguments
+    d_index = find_flag_index(args, "-d")
+    f_index = find_flag_index(args, "-f")
+
+    if d_index is not None:
+        i = d_index + 1
+        while i < len(args) and not args[i].startswith("-"):
+            directory_path.append(args[i])
             i += 1
 
-    # Only files
-    if file_name and not directory_path:
-        path = file_name
-        lines = collect_content_lines()
-        write_content_to_file(path, lines)
-        print(f"File created/updated: {path}")
+    if f_index is not None and f_index + 1 < len(args):
+        file_name = args[f_index + 1]
 
-    if directory_path and file_name:
+    return directory_path, file_name
+
+
+def handle_file_creation(directory_path: list, file_name: str) -> None:
+    if directory_path:
         dir_path = create_path(directory_path)
-        make_directories((dir_path))
-        path = os.path.join(dir_path, file_name)
-        lines = collect_content_lines()
-        write_content_to_file(path, lines)
-        print(f"Directory and file created/updated: {path}")
-        return
+        make_directories(dir_path)
+        filepath = os.path.join(dir_path, file_name)
+    else:
+        filepath = file_name
 
-    print("Usage:")
-    print(" python create_file.py -d dir1 dir2")
-    print(" python create_file.py -f filename.txt")
-    print(" python create_file.py -d dir1 dir2 -f filename.txt")
+    lines = collect_content_lines()
+    write_content_to_file(filepath, lines)
+
+
+def main() -> None:
+    args = sys.argv[1:]
+    directory_path, file_name = parse_arguments(args)
+
+    if file_name:
+        handle_file_creation(directory_path, file_name)
 
 
 if __name__ == "__main__":
