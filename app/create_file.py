@@ -46,7 +46,9 @@ def main() -> None:
         f_command(sys.argv[sys.argv.index("-f") + 1])
 
     elif "-d" in sys.argv:
-        d_command(sys.argv[sys.argv.index("-d") + 1])
+        d_idx = sys.argv.index("-d")
+        dirs = sys.argv[d_idx + 1:]
+        d_command(dirs)
 
 
 if __name__ == "__main__":
