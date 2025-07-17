@@ -6,7 +6,7 @@ from datetime import datetime
 def create_dir(parts: list, num_of_dirs: int) -> str:
     my_path = os.getcwd()
     my_path = os.path.join(my_path, *parts[2:num_of_dirs])
-    os.makedirs(my_path)
+    os.makedirs(my_path, exist_ok=True)
     return my_path
 
 
@@ -33,4 +33,7 @@ def create_file() -> None:
         my_path = os.getcwd()
         create_file_with_content(parts, my_path)
     elif "-d" in parts and "-f" in parts:
-        create_file_with_content(parts, create_dir(parts, parts.index("-f")))
+        if parts.index("-d") < parts.index("-f"):
+            create_file_with_content(parts, create_dir(parts, parts.index("-f")))
+        else:
+            create_file_with_content(parts, create_dir(parts, len(parts)))
