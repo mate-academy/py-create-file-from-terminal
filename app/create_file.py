@@ -1,6 +1,6 @@
 import argparse
 import os
-import datetime
+from datetime import datetime
 
 
 if __name__ == "__main__":
@@ -19,14 +19,14 @@ if __name__ == "__main__":
 
     def write_to_file(file_name: str) -> None:
         with open(file_name, "w") as file:
-            file.write(str(datetime.datetime.now()))
+            (file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"))
             line_counter = 1
             while True:
                 line_input = input("Enter content line: ")
-                file.write(f"line {line_counter} {line_input}\n")
-                line_counter += 1
                 if line_input == "stop":
                     return
+                file.write(f"line {line_counter}: {line_input}")
+                line_counter += 1
 
     path = os.path.join(*args.d)
     if args.d and not args.f:
