@@ -34,6 +34,7 @@ def create_file() -> None:
         create_file_with_content(parts, my_path)
     elif "-d" in parts and "-f" in parts:
         if parts.index("-d") < parts.index("-f"):
-            create_file_with_content(parts, create_dir(parts, parts.index("-f")))
+            create_file_with_content(parts,
+                                     create_dir(parts, parts.index("-f")))
         else:
             create_file_with_content(parts, create_dir(parts, len(parts)))
