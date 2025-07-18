@@ -14,7 +14,7 @@ if args.d:
 if args.f:
     file_path = os.path.join(*args.d, args.f) if args.d else args.f
     with open(file_path, "a") as file:
-        file.write(f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
+        file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         line_count = 0
         while True:
             new_line = input("Enter content line: ")
