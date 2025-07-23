@@ -5,6 +5,8 @@ import os
 path = "/Users/trickster/projects/tests/"
 now = datetime.now()
 
+dir_path = path
+
 if "-d" in sys.argv:
     index1 = sys.argv.index("-d")
     index2 = sys.argv.index("-f")
