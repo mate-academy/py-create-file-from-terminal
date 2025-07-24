@@ -2,7 +2,7 @@ from sys import argv
 from os import makedirs, path
 from datetime import datetime
 
-name = argv
+name = argv[1:]
 
 
 def with_d(road: list) -> None:
