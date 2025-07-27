@@ -30,13 +30,14 @@ def write_to_file(path: str, filename: str) -> None:
     file_path = os.path.join(path, filename)
     line_num = 1
     with open(file_path, "a") as f:
-        f.write("\n")
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         while True:
             line = input("Enter content line: ")
             if line.lower() == "stop":
+                f.write("\n\n")
                 break
-            f.write(f"{line_num} [{timestamp}] {line}\n")
+            f.write(f"{line_num} "
+                    f"[{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] "
+                    f"{line}\n")
             line_num += 1
 
 
