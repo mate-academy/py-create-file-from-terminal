@@ -35,6 +35,7 @@ if args.f is not None:  # Проверяем, был ли передан -f (д�
             print("Enter content line: ")
             string = input()
             if string == "stop":
+                print(file_path)
                 break
             file.write(f"{i} {string}\n")
             i += 1
