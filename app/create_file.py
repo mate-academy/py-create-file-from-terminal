@@ -28,14 +28,16 @@ def create_file_in_current_dir(filename: str) -> None:
 
 def write_to_file(path: str, filename: str) -> None:
     file_path = os.path.join(path, filename)
+    line_num = 1
     with open(file_path, "a") as f:
-        f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        f.write("\n")
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         while True:
             line = input("Enter content line: ")
             if line.lower() == "stop":
-                f.write("\n")
                 break
-            f.write(line)
+            f.write(f"{line_num} [{timestamp}] {line}\n")
+            line_num += 1
 
 
 def execute_command(command: list) -> None:
