@@ -57,5 +57,6 @@ def execute_command(command: list) -> None:
 
         write_to_file(path, command[-1])
 
+
 if __name__ == "__main__":
     execute_command(sys.argv[1:])
