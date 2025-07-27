@@ -35,9 +35,11 @@ def write_to_file(path: str, filename: str) -> None:
             if line.lower() == "stop":
                 f.write("\n\n")
                 break
-            f.write(f"{line_num} "
-                    f"[{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] "
-                    f"{line}\n")
+            f.write(
+                f"{line_num} "
+                f"[{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] "
+                f"{line}\n"
+            )
             line_num += 1
 
 
