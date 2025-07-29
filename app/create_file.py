@@ -10,12 +10,12 @@ content_lines = []
 if "-d" in args:
     d_index = args.index("-d")
     try:
-        next_flag = args.index("-d", d_index + 1)
+        next_flag = args.index("-f", d_index + 1)
         dir_parts = args[d_index + 1: next_flag]
     except ValueError:
         dir_parts = args[d_index + 1:]
-        dir_path = os.path.join(*dir_parts)
-        os.makedirs(dir_path, exist_ok=True)
+    dir_path = os.path.join(*dir_parts)
+    os.makedirs(dir_path, exist_ok=True)
 
 if "-f" in args:
     f_index = args.index("-f")
