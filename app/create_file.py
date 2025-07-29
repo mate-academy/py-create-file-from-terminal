@@ -7,7 +7,7 @@ name = argv[1:]
 
 def with_d(road: list) -> None:
     dirs = path.join(*road)
-    makedirs(dirs)
+    makedirs(dirs, exist_ok=True)
 
 
 def with_f(file_name: str) -> None:
