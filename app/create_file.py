@@ -25,11 +25,15 @@ def main() -> None:
     if "-d" in args:
         d_index = args.index("-d")
         i = d_index + 1
+        if i >= len(args) or args[i].startswith("-"):
+            print("Błąd: nie podano katalogów po fladze -d.")
+            return
+
         while i < len(args) and args[i] not in ["-f"]:
             dir_path = os.path.join(dir_path, args[i])
             i += 1
-        if dir_path:
-            os.makedirs(dir_path, exist_ok=True)
+
+        os.makedirs(dir_path, exist_ok=True)
 
     if "-f" in args:
         f_index = args.index("-f")
