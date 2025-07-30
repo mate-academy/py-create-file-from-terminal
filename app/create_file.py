@@ -1,7 +1,6 @@
 import sys
 import os
-from datetime import datetime
-
+from typing import List  # jeśli chcesz być kompatybilny ze starszymi wersjami Pythona
 
 def parse_args() -> tuple[str, str]:
     args = sys.argv[1:]
@@ -25,4 +24,6 @@ def parse_args() -> tuple[str, str]:
     return dir_path, file_name
 
 
-def collect_content() -> list[s]()_
+def collect_content() -> List[str]:
+    # tutaj możesz dodać implementację funkcji
+    return []
