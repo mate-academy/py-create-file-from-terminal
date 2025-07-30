@@ -1,5 +1,6 @@
 import sys
 import os
+from datetime import datetime
 
 
 def parse_args() -> tuple[str, str]:
@@ -10,7 +11,10 @@ def parse_args() -> tuple[str, str]:
     if "-d" in args:
         d_index = args.index("-d")
         next_flag = args[d_index + 1:]
-        f_index = next_flag.index("-f") if "-f" in next_flag else len(next_flag)
+        if "-f" in next_flag:
+            f_index = next_flag.index("-f")
+        else:
+            f_index = len(next_flag)
         path_parts = next_flag[:f_index]
         dir_path = os.path.join(*path_parts)
 
@@ -21,9 +25,4 @@ def parse_args() -> tuple[str, str]:
     return dir_path, file_name
 
 
-def collect_content() -> list[str]:
-    lines = []
-    while True:
-        line = input("Enter content line: ")
-        if line.strip().lower() == "stop":
-            break
+def collect_content() -> list[s]()_
