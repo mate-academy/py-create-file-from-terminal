@@ -1,6 +1,7 @@
 import sys
 import os
-from typing import List  # jeśli chcesz być kompatybilny ze starszymi wersjami Pythona
+from typing import List
+
 
 def parse_args() -> tuple[str, str]:
     args = sys.argv[1:]
@@ -25,5 +26,4 @@ def parse_args() -> tuple[str, str]:
 
 
 def collect_content() -> List[str]:
-    # tutaj możesz dodać implementację funkcji
     return []
