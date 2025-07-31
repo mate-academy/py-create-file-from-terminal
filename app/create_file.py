@@ -3,6 +3,7 @@ import os
 from datetime import datetime
 from typing import List
 
+
 def parse_args() -> tuple[str, str]:
     args = sys.argv[1:]
     dir_path = ""
@@ -28,6 +29,7 @@ def parse_args() -> tuple[str, str]:
 
     return dir_path, file_name
 
+
 def collect_content() -> List[str]:
     lines = []
     while True:
@@ -37,6 +39,7 @@ def collect_content() -> List[str]:
         lines.append(line)
     return lines
 
+
 def write_to_file(path: str, content: List[str]) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open(path, "a", encoding="utf-8") as f:
@@ -44,7 +47,8 @@ def write_to_file(path: str, content: List[str]) -> None:
         for i, line in enumerate(content, start=1):
             f.write(f"{i} {line}\n")
 
-def main():
+
+def main() -> None:
     dir_path, file_name = parse_args()
 
     if dir_path:
@@ -58,6 +62,7 @@ def main():
     content = collect_content()
     write_to_file(full_path, content)
     print(f"Content written to {full_path}")
+
 
 if __name__ == "__main__":
     main()
