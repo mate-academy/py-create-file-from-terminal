@@ -30,7 +30,6 @@ def parse_args() -> tuple[str, str]:
     return dir_path, file_name
 
 
-
 def collect_content() -> List[str]:
     lines = []
     while True:
@@ -41,14 +40,12 @@ def collect_content() -> List[str]:
     return lines
 
 
-
 def write_to_file(path: str, content: List[str]) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open(path, "a", encoding="utf-8") as f:
         f.write(f"\n{timestamp}\n")
         for i, line in enumerate(content, start=1):
             f.write(f"{i} {line}\n")
-
 
 
 def main() -> None:
@@ -65,7 +62,6 @@ def main() -> None:
     content = collect_content()
     write_to_file(full_path, content)
     print(f"Content written to {full_path}")
-
 
 
 if __name__ == "__main__":
