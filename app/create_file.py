@@ -58,8 +58,8 @@ def main() -> None:
             return
 
     dir_path: str = (
-        os.path.join(os.getcwd(), *dir_parts) 
-        if dir_parts 
+        os.path.join(os.getcwd(), *dir_parts)
+        if dir_parts
         else os.getcwd()
     )
 
@@ -73,6 +73,6 @@ def main() -> None:
     else:
         print("No file flag (-f) provided; only directories created.")
 
+
 if __name__ == "__main__":
     main()
-
