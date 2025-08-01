@@ -43,5 +43,5 @@ def create_file(args: list) -> None:
 create_file(args)
 
 
-if __name__ == "main":
+if __name__ == "__main__":
     pass
