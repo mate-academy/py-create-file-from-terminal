@@ -33,6 +33,11 @@ if len(dirs) > 0:
 else:
     filepath = filename
 
+if not filename:
+    print("Error: Filename is missing. "
+          "Please specify a filename with -f flag.")
+    sys.exit(1)
+
 lines = []
 while True:
     line = input("Enter new line of content: ")
