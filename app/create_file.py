@@ -26,6 +26,7 @@ if "-f" in command_parts:
             if text == "stop":
                 break
             file.write(f"{line_number} {text}\n")
+            line_number += 1
 elif "-d" in command_parts:
     dir_parts = command_parts[command_parts.index("-d") + 1:]
     dir_path = "/".join(dir_parts)
