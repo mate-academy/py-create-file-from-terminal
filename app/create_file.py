@@ -59,8 +59,8 @@ def main() -> None:
 
     # Перевірка, чи задано файл
     if file_name:
-        full_file_path = os.path.join(dir_path, file_name)
-            if dir_path else file_name
+        full_file_path = os.path.join(dir_path, file_name) if (
+            dir_path) else file_name
         content_lines = get_content_lines()
         write_to_file(full_file_path, content_lines)
         print(f"Файл створено або оновлено: {full_file_path}")
