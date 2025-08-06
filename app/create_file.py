@@ -1,8 +1,10 @@
 import sys
 import os
 from datetime import datetime
+from typing import List
 
-def create_file(args, input_lines):
+
+def create_file(args: List[str], input_lines: List[str]) -> str:
     has_d = "-d" in args
     has_f = "-f" in args
 
@@ -35,11 +37,10 @@ def create_file(args, input_lines):
         f.write(ts + "\n")
         for i, line in enumerate(input_lines, start=1):
             f.write(f"{i} {line}\n")
-
     return full_path
 
 
-def main():
+def main() -> None:
     args = sys.argv[1:]
     lines = []
     while True:
