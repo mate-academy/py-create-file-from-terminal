@@ -38,7 +38,8 @@ def create_dirs(names: list[str]) -> None:
 
 if __name__ == "__main__":
     args = sys.argv
-    print(args)
+    if len(args) < 2:
+        raise ValueError("No flag provided. Use -f or -d.")
     if args[1] not in ["-f", "-d"]:
         raise ValueError("Wrong flags")
     if sum(value in ["-f", "-d"] for value in args) == 2:
@@ -46,7 +47,7 @@ if __name__ == "__main__":
         create_dirs(args[2:f_index])
         write_to_file(os.path.join(*args[2:f_index], args[-1]))
     elif args[1] == "-f":
-        if not args[2] or len(args[2].split(".")) != 2:
+        if not args[2]:
             raise ValueError("Needed file name")
         write_to_file(args[2])
     elif args[1] == "-d":
