@@ -5,7 +5,7 @@ from datetime import datetime
 
 command = sys.argv
 directories_to_do = ""
-all_content = f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n"
+all_content = f"{datetime.now.strftime("%Y-%m-%d %H:%M:%S")}\n"
 line_count = 1
 if command[1] == "-d":
 
