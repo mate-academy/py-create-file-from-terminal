@@ -10,6 +10,7 @@ line_count = 1
 if command[1] == "-d":
 
     if "-f" in command:
+
         f_index = command.index("-f")
         directories_to_do = os.path.join(command[2: f_index])
         os.makedirs(directories_to_do, exist_ok=True)
@@ -38,6 +39,7 @@ if command[1] == "-d":
         os.makedirs(directories_to_do, exist_ok=True)
 
 if command[1] == "-f":
+
     name = os.path.join(directories_to_do, command[2])
 
     if os.path.isfile(name):
