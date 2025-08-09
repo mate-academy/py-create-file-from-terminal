@@ -18,6 +18,7 @@ if command[1] == "-d":
         name = os.path.join(directories_to_do, command[f_index + 1])
         if os.path.isfile(name):
             content = "\n" + input("Enter content line: ")
+
             while content != "stop":
                 all_content += f"{line_count} {content}\n"
                 content = input("Enter content line: ")
