@@ -5,14 +5,14 @@ from daytime import daytime
 
 command = sys.argv
 directories_to_do = "app/"
-all_content = f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n"
+all_content = f"{daytime.daytime.now().strftime("%Y-%m-%d %H:%M:%S")}\n"
 line_count = 1
 if command[1] == "-d":
 
     if "-f" in command:
         f_index = command.index("-f")
-        for dir in command[2: f_index]:
-            directories_to_do += f"{dir}/"
+        for directory in command[2: f_index]:
+            directories_to_do += f"{directory}/"
         os.makedirs(directories_to_do, exist_ok=True)
 
         name = command[f_index + 1]
@@ -35,8 +35,8 @@ if command[1] == "-d":
                 f.write(all_content)
 
     else:
-        for dir in command[2:]:
-            directories_to_do += f"{dir}/"
+        for directory in command[2:]:
+            directories_to_do += f"{directory}/"
         os.makedirs(directories_to_do, exist_ok=True)
 
 if command[1] == "-f":
