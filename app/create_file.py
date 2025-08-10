@@ -14,7 +14,7 @@ try:
         if args[i] == "-f":
             index_f = i
             break
-        path += args[i] + "/"
+        path = os.path.join(path, args[i])
         if not os.path.exists(path):
             os.makedirs(path)
 except ValueError:
@@ -22,7 +22,7 @@ except ValueError:
 
 try:
     index_f = args.index("-f")
-    name_file = path + args[index_f + 1]
+    name_file = os.path.join(path, args[index_f + 1])
     exist = 0
     if os.path.exists(name_file):
         exist = 1
