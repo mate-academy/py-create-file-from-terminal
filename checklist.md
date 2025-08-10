@@ -55,7 +55,7 @@ Good example:
 ```python
 page_number = 1
 
-with open("file.txt", "a") as source_file:
+with open("dir1/dir2/file.txt", "a") as source_file:
     source_file.write(f"{page_number} line\n")
 ```
 
@@ -64,7 +64,7 @@ Bad example:
 ```python
 i = 1
 
-with open("file.txt", "a") as f:
+with open("dir1/dir2/file.txt", "a") as f:
     f.write(f"{i} line\n")
 ```
 
