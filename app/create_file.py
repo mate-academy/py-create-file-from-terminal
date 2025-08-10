@@ -10,7 +10,7 @@ index_f = 0
 path = ""
 try:
     index_d = args.index("-d")
-    for i in range(index_d + 1, len(args) + 1):
+    for i in range(index_d + 1, len(args)):
         if args[i] == "-f":
             index_f = i
             break
@@ -20,7 +20,8 @@ try:
 except ValueError:
     pass
 
-if index_f > 0 and index_f < len(args):
+try:
+    index_f = args.index("-f")
     name_file = path + args[index_f + 1]
     exist = 0
     if os.path.exists(name_file):
@@ -40,3 +41,6 @@ if index_f > 0 and index_f < len(args):
             if text == "stop":
                 break
             f.write(str(number_str) + " " + text + "\n")
+
+except ValueError:
+    pass
