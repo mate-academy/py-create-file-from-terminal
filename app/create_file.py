@@ -3,7 +3,7 @@ import os
 import datetime
 
 
-def parse_args():
+def parse_args() -> tuple:
     directory_parts = []
     file_name = None
 
@@ -21,7 +21,7 @@ def parse_args():
     return directory_parts, file_name
 
 
-def create_directory(directory_parts):
+def create_directory(directory_parts: list) -> str:
     if not directory_parts:
         return os.getcwd()
     directory_path = os.path.join(os.getcwd(), *directory_parts)
@@ -29,10 +29,17 @@ def create_directory(directory_parts):
     return directory_path
 
 
-def create_file(file_path):
+def create_file(file_path: str) -> None:
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    file_exists_and_not_empty = (
+        os.path.exists(file_path) and os.path.getsize(file_path) > 0
+    )
     with open(file_path, "a", encoding="utf-8") as source_file:
-        source_file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        if file_exists_and_not_empty:
+            source_file.write("\n")
+        source_file.write(
+            datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
+        )
         line_number = 1
         while True:
             line = input("Enter content line: ")
@@ -42,7 +49,7 @@ def create_file(file_path):
             line_number += 1
 
 
-def main():
+def main() -> None:
     directory_parts, file_name = parse_args()
 
     if directory_parts:
