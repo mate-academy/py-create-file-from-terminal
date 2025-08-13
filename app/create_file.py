@@ -9,7 +9,7 @@ def write_file(file_name: str) -> None:
         file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         counter = 1
         user_input = ""
-        while user_input.strip().lower() != "stop":
+        while user_input != "stop":
             user_input = input("Enter content line: ")
             if user_input != "stop":
                 file.write(f"{counter} {user_input}\n")
