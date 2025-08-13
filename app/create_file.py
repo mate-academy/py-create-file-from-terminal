@@ -3,16 +3,17 @@ import sys
 from datetime import datetime
 
 
-def write_file(file_path: str) -> None:
-    with open(file_path, "a", encoding="utf-8") as file:
+def write_file(file_name: str) -> None:
+
+    with open(file_name, "a") as file:
         file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         counter = 1
-        while True:
-            user_input = input("Enter content line: ").strip()
-            if user_input == "stop":
-                break
-            file.write(f"{counter} {user_input}\n")
-            counter += 1
+        user_input = ""
+        while user_input.strip().lower() != "stop":
+            user_input = input("Enter content line: ")
+            if user_input != "stop":
+                file.write(f"{counter} {user_input}\n")
+                counter += 1
 
 
 def create_file() -> None:
