@@ -2,12 +2,14 @@ import os
 import sys
 from datetime import datetime
 
+
 def create_directories(directories: list) -> str:
     path = os.path.join(*directories)
     os.makedirs(path, exist_ok=True)
     return path
 
-def write_file_with_content(file_path: str):
+
+def write_file_with_content(file_path: str) -> None:
     lines = []
     while True:
         line = input()
@@ -23,15 +25,20 @@ def write_file_with_content(file_path: str):
             f.write(f"{i} {line}\n")
         f.write("\n")
 
-def main():
+
+def main() -> None:
     args = sys.argv[1:]
     directories = []
     file_name = None
 
     if "-d" in args:
         d_index = args.index("-d")
-        next_flag_index = min([i for i, x in enumerate(args[d_index+1:], start=d_index+1) if x.startswith("-")] + [len(args)])
-        directories = args[d_index+1:next_flag_index]
+        next_flag_index = min(
+            [i for i, x in enumerate(args[d_index + 1:], start=d_index + 1)
+             if x.startswith("-")]
+            + [len(args)]
+        )
+        directories = args[d_index + 1:next_flag_index]
 
     if "-f" in args:
         f_index = args.index("-f")
@@ -42,6 +49,7 @@ def main():
     if file_name:
         file_path = os.path.join(path, file_name)
         write_file_with_content(file_path)
+
 
 if __name__ == "__main__":
     main()
