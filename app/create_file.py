@@ -12,7 +12,7 @@ def create_directories(directories: list) -> str:
 def write_file_with_content(file_path: str) -> None:
     lines = []
     while True:
-        line = input()
+        line = input("Enter content line: ")
         if line.lower() == "stop":
             break
         lines.append(line)
