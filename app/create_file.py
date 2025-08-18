@@ -49,44 +49,37 @@ def write_file_content(file_path: str, content_lines: List[str]) -> None:
 
 def main() -> None:
     if len(sys.argv) < 2:
-        print("Usage: python create_file.py [-d dir1 dir2 ...] [-f filename]")
-        print("  -d: Create directories (each directory as separate argument)")
-        print("  -f: Create file with specified name")
         sys.exit(1)
 
     directories = []
     filename = None
 
-    i = 1
-    while i < len(sys.argv):
-        if sys.argv[i] == "-d":
-            i += 1
-            while i < len(sys.argv) and not sys.argv[i].startswith("-"):
-                directories.append(sys.argv[i])
-                i += 1
-        elif sys.argv[i] == "-f":
-            i += 1
-            if i < len(sys.argv):
-                filename = sys.argv[i]
-                i += 1
+    arg_index = 1
+    while arg_index < len(sys.argv):
+        if sys.argv[arg_index] == "-d":
+            arg_index += 1
+            while (arg_index < len(sys.argv) and not
+                   sys.argv[arg_index].startswith("-")):
+                directories.append(sys.argv[arg_index])
+                arg_index += 1
+        elif sys.argv[arg_index] == "-f":
+            arg_index += 1
+            if arg_index < len(sys.argv):
+                filename = sys.argv[arg_index]
+                arg_index += 1
         else:
-            i += 1
+            arg_index += 1
 
     target_path = create_directories(directories)
 
     if filename:
         file_path = os.path.join(target_path, filename)
-        print(f"Creating file: {file_path}")
-
         content_lines = get_file_content()
         write_file_content(file_path, content_lines)
-
-        print(f"File '{filename}' created successfully in '{target_path}'")
     elif directories:
-        print(f"Directories created successfully: {target_path}")
+        pass
     else:
-        print("No action specified. Use -d for directories or -f for file "
-              "creation.")
+        pass
 
 
 if __name__ == "__main__":
