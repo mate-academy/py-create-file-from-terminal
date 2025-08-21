@@ -25,7 +25,8 @@ def create_file() -> None:
         with open(f"{file_path}", "a") as file:
             if file_exists:
                 file.write("\n")
-            file.write(f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
+            time_stamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            file.write(f"{time_stamp}\n")
             line_number = 1
             while True:
                 line = input("Enter content line: ")
