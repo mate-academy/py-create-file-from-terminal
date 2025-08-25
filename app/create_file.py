@@ -22,7 +22,8 @@ if "-f" in args:
     f_index: int = args.index("-f")
     file_name = args[f_index + 1]
 
-    full_path: str = os.path.join(dir_path, file_name) if dir_path else file_name
+    full_path: str = os.path.join(dir_path, file_name) \
+        if dir_path else file_name
 
     while True:
         line: str = input("Enter content line: ")
