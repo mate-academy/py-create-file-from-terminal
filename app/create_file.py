@@ -7,7 +7,8 @@ from datetime import datetime
 def parse_args(argv: List[str]) -> Tuple[List[str], Optional[str]]:
     """
     Parse flags from argv (supports -d and -f in any order).
-    -d collects all subsequent non-flag tokens as path parts until next flag or end.
+    -d collects all subsequent non-flag tokens as path parts until
+    next flag or end.
     -f takes exactly one token (file name).
     Returns (dir_parts, file_name).
     """
@@ -27,7 +28,8 @@ def parse_args(argv: List[str]) -> Tuple[List[str], Optional[str]]:
         elif token == "-f":
             i += 1
             if i >= len(argv) or argv[i].startswith("-"):
-                raise ValueError("Flag -f requires a file name right after it.")
+                raise ValueError("Flag -f requires a file name right "
+                                 "after it.")
             file_name = argv[i]
             i += 1
             continue
@@ -37,7 +39,8 @@ def parse_args(argv: List[str]) -> Tuple[List[str], Optional[str]]:
 
 
 def ensure_directory(dir_parts: List[str]) -> Optional[str]:
-    """Create directory from parts (if provided). Return the created path or None."""
+    """Create directory from parts (if provided). Return the created path
+    or None."""
     if not dir_parts:
         return None
     dir_path = os.path.join(*dir_parts)
@@ -58,14 +61,16 @@ def prompt_lines() -> List[str]:
 
 
 def format_block(lines: List[str]) -> str:
-    """Return a text block: timestamp line, then numbered lines, ending with newline."""
+    """Return a text block: timestamp line, then numbered lines,
+    ending with newline."""
     ts: str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     numbered = [f"{i+1} {line}" for i, line in enumerate(lines)]
     return f"{ts}\n" + "\n".join(numbered) + "\n"
 
 
 def write_block(file_path: str, block: str) -> None:
-    """Append a block to file, inserting a blank line if file already has content."""
+    """Append a block to file, inserting a blank line if
+    file already has content."""
     add_blank = os.path.exists(file_path) and os.path.getsize(file_path) > 0
     with open(file_path, "a", encoding="utf-8") as f:
         if add_blank:
@@ -93,8 +98,10 @@ def main() -> None:
             sys.exit(1)
         return
 
-    # If -f present → create (or append to) file, possibly inside created directory.
-    file_path = file_name if not created_dir else os.path.join(created_dir, file_name)
+    # If -f present → create (or append to) file, possibly inside
+    # created directory.
+    file_path = file_name if not created_dir \
+        else os.path.join(created_dir, file_name)
 
     print("(Type lines, then 'stop' to finish.)")
     lines = prompt_lines()
