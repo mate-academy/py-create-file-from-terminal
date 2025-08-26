@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 
-def main():
+def main() -> None:
     args = sys.argv[1:]
 
     # Перевіряємо чи є аргументи
