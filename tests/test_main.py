@@ -1,22 +1,19 @@
 import pytest
+import os
 
-from app.create_file import parse_sys_argv
+
+from app.create_file import create_file_or_dir
 
 
 @pytest.mark.parametrize(
-    "command, result"
+    "command",
     [
-        (['app/create_filw.py', '-d', 'dir1', 'dir2', '-f', 'file.txt'], {"path": "dir1\dir2", "name_file": "file.txt"}),
-        (['app/create_file.py', '-f', 'file.txt', '-d', 'dir1', 'dir2'], {"path": "dir1\dir2", "name_file": "file.txt"}),
-        (['app/create_file.py', '-f', 'file.txt'], {"path": None, "name-file": "file.txt"}),
-        (['app/create_file.py', '-d', 'dir1' 'dir2'], {"path": "dir1\dir2", "name_file": None}),
-    ],
-    ids=[
-        "dir_then_file",
-        "file_then_dir",
-        "only_file_provided",
-        "only_dir_provided",
+        pytest.param(
+            ['.\\app\\create-file.py', '-d', 'dir1', 'dir2', '-f', 'file.txt'],
+            id="Test"
+        ),
     ]
 )
-def test_func_parce_sys_argv(command: list, result: dict) -> None:
-    assert parse_sys_argv(command) == result
+def test_create_file_or_dict(self, command: list) -> None:
+    assert os.path.exists(create_file_or_dir(command))
+

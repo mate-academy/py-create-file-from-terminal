@@ -1,57 +1,57 @@
 import sys
 import os
-import datetime
+from datetime import datetime
 
 
 def create_file(name_file: str) -> None:
-    with open(name_file, "a") as file:
-        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
-        count = 1
+    if os.path.exists(name_file):
+        with open(name_file, "a") as file:
+            file.write("\n")
+            file.write(f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
+            number_line = 1
+            while True:
+                pyting_line = input("Enter content line: ")
+                if pyting_line == "stop":
+                    break
+                file.writelines(f"{number_line} {pyting_line}\n")
+                number_line += 1
+        return
+    with open(name_file, "w") as file:
+        file.write(f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
+        number_line = 1
         while True:
-            text = input("Enter content line:")
-            if text.lower() == "stop":
-                file.write("\n")
+            pyting_line = input("Enter content line: ")
+            if pyting_line == "stop":
                 break
-            file.writelines(f"{count} {text}\n")
-            count += 1
+            file.write(f"{number_line} {pyting_line}\n")
+            number_line += 1
 
 
-def parse_sys_argv(command: list) -> dict:
-    check_flag_f = command.index("-f") if "-f" in command else None
-    check_flag_d = command.index("-d") if "-d" in command else None
-    result = {"path": None, "name_file": None }
-
-    if (check_flag_f is not None) and (check_flag_d is not None):
-        if check_flag_d < check_flag_f:
-            result["path"] = os.path.join(command[check_flag_d + 1: check_flag_f])
-        else:
-            result["path"] = os.path.join(command[check_flag_d + 1:])
-
-        result["name_file"] = command[check_flag_f + 1]
-
-    elif check_flag_d is not None:
-        new_path = command[check_flag_d + 1:]
-        result["path"] = os.path.join(new_path)
-
-    elif check_flag_f is not None:
-        file_name = command [check_flag_f + 1]
-        result["name_file"] = file_name
-
-    return result
-
-
-if __name__ == "__main__":
-    create_new_info = sys.argv
-    file_info = parse_sys_argv(create_new_info)
-
-    if not (
-        file_info["path"] is None
-        or os.path.exists(f"{os.getcwd()}\\{file_info["path"]}")
-    ):
-        os.makedirs(file_info["path"])
-
-    if file_info["path"] is not None:
-        os.chdir(file_info["path"])
-
-    if file_info["name_file"] is not None:
-        create_file(file_info["name_file"])
+def create_file_or_dir(command: list) -> str | None:
+    flag_f_index = command.index("-f") if "-f" in command else None
+    flag_d_index = command.index("-d") if "-d" in command else None
+    path = ""
+    if not flag_f_index and not flag_d_index:
+        print("Typing command!!!")
+        return None
+    if flag_f_index:
+        if not (len(command) > flag_f_index + 1):
+            print("Please typing name file with extension!!!")
+            return None
+        if not command[flag_f_index + 1].endswitch(".txt"):
+            print("Please typing name file with extension!!!")
+            return None
+    if flag_d_index and flag_f_index:
+            path = "/".join(command[flag_d_index + 1:flag_f_index])
+    elif flag_d_index:
+            path = "/".join(command[flag_d_index + 1:])
+    if flag_d_index:
+        if not os.path.exists(path):
+                os.makedirs(path)
+        if flag_f_index:
+            path += f"/{command[flag_f_index + 1]}"
+            create_file(path)
+            return path
+    if flag_f_index:
+        create_file(command[flag_f_index + 1])
+        return path
