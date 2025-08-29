@@ -9,7 +9,7 @@ def create_file(file_path: str) -> None:
         if mode == "a":
             file.write("\n\n")
 
-        file.write(f"{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}")
+        file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
         line_number = 1
         while True:
