@@ -1,59 +1,47 @@
+import sys
 import datetime
 import os
-import sys
-from typing import Any
 
 
-def parse_arguments(args: sys.argv) -> Any:
-    dir_path = "."
+def create_file(file_path: str) -> None:
+    mode = "a" if os.path.isfile(file_path) else "w"
+    with open(f"{file_path}", mode) as file:
+        if mode == "a":
+            file.write("\n\n")
+
+        file.write(f"{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}")
+
+        line_number = 1
+        while True:
+            next_line = input("Enter content line: ")
+            if next_line == "stop":
+                break
+            file.write(f"\n{line_number} {next_line}")
+            line_number += 1
+
+
+def app_for_create_file() -> None:
+    arg = sys.argv
+    directory = os.getcwd()
     file_name = None
 
-    if "-d" in args:
-        dir_index = args.index("-d") + 1
-        if "-f" in args:
-            file_index = args.index("-f")
-            if dir_index < file_index:
-                directories = args[dir_index:file_index]
-            else:
-                directories = args[dir_index:]
-        else:
-            directories = args[dir_index:]
-        dir_path = os.path.join(*directories)
+    if "-d" in arg:
+        dir_index = arg.index("-d") + 1
+        file_index = (
+            arg.index("-f")
+            if "-f" in arg and arg.index("-f") > arg.index("-d")
+            else len(arg)
+        )
+        directory = os.path.join(*arg[dir_index:file_index])
 
-    if "-f" in args:
-        file_index = args.index("-f") + 1
-        if file_index >= len(args):
-            print("Error: No file name provided after -f")
-            sys.exit(1)
-        file_name = args[file_index]
+    if "-f" in arg:
+        file_name = arg[arg.index("-f") + 1]
 
-    return dir_path, file_name
+    os.makedirs(directory, exist_ok=True)
 
-
-def create_directory(dir_path: str) -> None:
-    os.makedirs(dir_path, exist_ok=True)
-
-
-def write_to_file(file_path: str) -> None:
-    date_today = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with open(file_path, "a") as file:
-        file.write(f"{date_today}\n")
-        counter = 1
-        while True:
-            text = input("Enter content line: ")
-            if text.lower() == "stop":
-                break
-            file.write(f"{counter} {text}\n")
-            counter += 1
+    if file_name:
+        create_file(os.path.join(directory, file_name))
 
 
 if __name__ == "__main__":
-    args = sys.argv[1:]
-    dir_path, file_name = parse_arguments(args)
-
-    if dir_path != ".":
-        create_directory(dir_path)
-
-    if file_name:
-        file_path = os.join(dir_path, file_name)
-        write_to_file(file_path)
+    app_for_create_file()
