@@ -5,8 +5,6 @@ import datetime
 
 del sys.argv[0]
 
-check_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
 
 def f_flag(directory: str = None) -> None:
     filename = sys.argv[sys.argv.index("-f") + 1]
@@ -14,10 +12,12 @@ def f_flag(directory: str = None) -> None:
         filename = os.path.join(*directory, filename)
 
     with open(filename, "a") as f:
+        check_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         f.write(check_time + "\n")
         while True:
             input_value = str(input("Enter content line: "))
             if input_value.lower() == "stop":
+                f.write("\n")
                 break
             f.write(input_value + "\n")
 
