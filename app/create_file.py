@@ -14,12 +14,14 @@ def f_flag(directory: str = None) -> None:
     with open(filename, "a") as f:
         check_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         f.write(check_time + "\n")
+        count = 1
         while True:
             input_value = str(input("Enter content line: "))
-            if input_value.lower() == "stop":
+            if input_value == "stop":
                 f.write("\n")
                 break
-            f.write(input_value + "\n")
+            f.write(f"{count} {input_value}\n")
+            count += 1
 
 
 def d_flag() -> list:
@@ -34,7 +36,7 @@ def d_flag() -> list:
 
 if "-d" in sys.argv and "-f" in sys.argv:
     f_flag(d_flag())
-elif "-d" in sys.argv[0]:
+if "-d" in sys.argv[0]:
     d_flag()
-elif "-f" in sys.argv[0]:
+if "-f" in sys.argv[0]:
     f_flag()
