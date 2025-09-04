@@ -25,7 +25,7 @@ def write_to_file(lines: list, file_path: str) -> None:
 
     with open(file_path, "a") as file:
         if need_leading_newline:
-            file.write("\n\n")
+            file.write("\n")
         file.write(content_text)
 
 
