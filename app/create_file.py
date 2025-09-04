@@ -20,7 +20,8 @@ def write_to_file(lines: list, file_path: str) -> None:
     content = [timestamp] + lines
     content_text = "\n".join(content)
 
-    need_leading_newline = os.path.exists(file_path) and os.path.getsize(file_path) > 0
+    need_leading_newline = (os.path.exists(file_path)
+                            and os.path.getsize(file_path) > 0)
 
     with open(file_path, "a") as file:
         if need_leading_newline:
