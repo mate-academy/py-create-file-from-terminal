@@ -31,6 +31,7 @@ def write_to_file(lines: list, file_path: str) -> None:
 
 def main() -> None:
     args = sys.argv[1:]
+    print(args)
     if not args:
         return
     dir_path = ""
