@@ -37,7 +37,9 @@ def create_file_with_content(list_of_args: list) -> Optional[str]:
         return file_name
 
     else:
-        raise ValueError("No valid flags provided. Use -d for directories and/or -f for file name.")
+        raise ValueError(
+            "No valid flags provided. Use -d for directories and/or -f for file name."
+        )
 
 
 def get_file_content() -> list:
@@ -53,16 +55,20 @@ def get_file_content() -> list:
 def write_to_file(file_path: str, content_of_file: list) -> None:
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     add_newline = os.path.exists(file_path) and os.path.getsize(file_path) > 0
+
     with open(file_path, "a") as file:
         if add_newline:
-            file.write("\n")
+            file.write("\n")  # только между блоками
         file.write(f"{timestamp}\n")
+
         for index, line in enumerate(content_of_file, start=1):
-            file.write(f"{index} {line}\n")
+            file.write(
+                f"{index} {line}\n"
+            )
 
 
 if __name__ == "__main__":
     file_path = create_file_with_content(list_of_args)
-    if file_path:
+    if file_path:  # записываем только если есть файл
         lines = get_file_content()
         write_to_file(file_path, lines)
