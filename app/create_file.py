@@ -38,9 +38,9 @@ def create_file_with_content(list_of_args: list) -> Optional[str]:
 
     else:
         raise ValueError(
-        "No valid flags provided. "
-        "Use -d for directories and/or -f for file name."
-    )
+            "No valid flags provided. "
+            "Use -d for directories and/or -f for file name."
+        )
 
 
 def get_file_content() -> list:
