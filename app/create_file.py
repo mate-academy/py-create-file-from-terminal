@@ -7,8 +7,8 @@ def get_input_lines() -> list:
     input_lines = []
     line_number = 1
     while True:
-        user_input = input("Enter content: ")
-        if user_input.strip().lower() == "stop":
+        user_input = input("Enter content line: ")
+        if user_input == "stop":
             break
         input_lines.append(f"{line_number} {user_input}")
         line_number += 1
@@ -18,15 +18,18 @@ def get_input_lines() -> list:
 def write_to_file(lines: list, file_path: str) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     content = [timestamp] + lines
-    content_text = "\n".join(content) + "\n\n"
+    content_text = "\n".join(content)
+
+    need_leading_newline = os.path.exists(file_path) and os.path.getsize(file_path) > 0
 
     with open(file_path, "a") as file:
+        if need_leading_newline:
+            file.write("\n\n")
         file.write(content_text)
 
 
 def main() -> None:
     args = sys.argv[1:]
-    print(args)
     if not args:
         return
     dir_path = ""
@@ -39,7 +42,7 @@ def main() -> None:
             while i < len(args) and not args[i].startswith("-"):
                 dir_parts.append(args[i])
                 i += 1
-                dir_path = os.path.join(*dir_parts)
+            dir_path = os.path.join(*dir_parts)
         elif args[i] == "-f":
             i += 1
             if i < len(args):
@@ -50,8 +53,10 @@ def main() -> None:
     if dir_path:
         os.makedirs(dir_path, exist_ok=True)
     if file_name:
-        full_path = os.path.join(dir_path, file_name) \
+        full_path = (
+            os.path.join(dir_path, file_name)
             if dir_path else file_name
+        )
         lines = get_input_lines()
         write_to_file(lines, full_path)
 
