@@ -4,19 +4,24 @@ from datetime import datetime
 
 
 def create_file() -> str:
-    list_arg = sys.argv
-    if "-d" in list_arg and "-f" in list_arg:
-        flag_d = list_arg.index("-d")
-        flag_f = list_arg.index("-f")
-        os.makedirs(os.path.join(*list_arg[flag_d + 1:flag_f]), exist_ok=True)
-        path = os.path.join(*list_arg[flag_d + 1:flag_f], list_arg[flag_f + 1])
+    list_arg = sys.argv[1:]
+    flag_d = list_arg.index("-d")
+    flag_f = list_arg.index("-f")
+    dir_arg = list_arg[flag_d + 1:flag_f]
+    file_arg = list_arg[flag_f + 1]
+    if not dir_arg:
+        raise ValueError("A directory name is expected after -d")
+    if not file_arg:
+        raise ValueError("A file name is expected after -f")
+    if (("-d" in list_arg and "-f" in list_arg)
+            or ("-f" in list_arg and "-d" in list_arg)):
+        os.makedirs(os.path.join(*dir_arg), exist_ok=True)
+        path = os.path.join(*dir_arg, file_arg)
         return path
     if "-d" in list_arg and "-f" not in list_arg:
-        flag_d = list_arg.index("-d")
         os.makedirs(os.path.join(*list_arg[flag_d + 1:]), exist_ok=True)
     if "-f" in list_arg and "-d" not in list_arg:
-        flag_f = list_arg.index("-f")
-        path = os.path.join(list_arg[flag_f + 1])
+        path = os.path.join(os.getcwd(), file_arg)
         return path
 
 
