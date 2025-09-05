@@ -34,7 +34,7 @@ def write_content(path: str) -> None:
         page_number = 1
         while True:
             content = input("Enter content line: ")
-            if content.lower() == "stop":
+            if content == "stop":
                 break
             file.write(f"{page_number} {content}\n")
             page_number += 1
