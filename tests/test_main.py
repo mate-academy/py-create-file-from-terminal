@@ -42,7 +42,6 @@ def test_append_block_creates_and_appends(tmp_path):
     # другий блок
     append_block(str(file_path), ["line3"])
     content2 = file_path.read_text().strip().splitlines()
-    # другий блок теж має починатись із timestamp і мати "1 line3"
     assert any("1 line3" in line for line in content2)
 
 
