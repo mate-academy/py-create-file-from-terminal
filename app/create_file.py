@@ -41,7 +41,7 @@ def create_directory(directory_parts: List) -> str:
 def get_content_from_user() -> List:
     content_lines = []
     while True:
-        user_input = input("Enter content line: ")
+        user_input = input("Enter content line:")
         if user_input == "stop":
             break
         content_lines.append(user_input)
@@ -61,7 +61,7 @@ def write_content_to_file(file_path: str, content_lines: List) -> None:
 
         target_file.write(f"{timestamp}\n")
         for line_number, content_line in enumerate(content_lines, 1):
-            target_file.write(f"Line{line_number} {content_line}\n")
+            target_file.write(f"{line_number} {content_line}\n")
 
 
 def main() -> None:
