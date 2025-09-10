@@ -25,6 +25,7 @@ def write_lines_in_file(file_name: str, blank_line: bool) -> None:
             opened_file.write(str(page_number) + " " + new_line + "\n")
             new_line = input("Enter content line: ")
 
+
 def write_into_file(file_name: str) -> None:
     if os.path.exists(file_name):
         write_lines_in_file(file_name, True)
