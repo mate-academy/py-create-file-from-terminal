@@ -54,7 +54,6 @@ def build_and_create_path(folder_names: list[str]) -> None:
 
 
 if "-d" not in arguments and "-f" not in arguments:
-    print(arguments)
     raise NoExpectedAttributes("Wrong arguments, -f and -d expected")
 
 
