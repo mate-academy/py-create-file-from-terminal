@@ -41,6 +41,18 @@ def write_into_file(file_name: str) -> None:
         write_lines_in_file(file_name, False)
 
 
+def build_and_create_path(folder_names: list[str]) -> None:
+    if len(folder_names) == 0:
+        raise NoProvidedFolderNames
+
+    new_folder_path = os.path.join(
+        os.getcwd(),
+        *folder_names
+    )
+
+    os.makedirs(new_folder_path, exist_ok=True)
+
+
 if "-d" not in arguments and "-f" not in arguments:
     print(arguments)
     raise NoExpectedAttributes("Wrong arguments, -f and -d expected")
@@ -49,41 +61,32 @@ if "-d" not in arguments and "-f" not in arguments:
 if "-d" in arguments and "-f" in arguments:
     folder_names = arguments[arguments.index("-d") + 1:arguments.index("-f")]
 
-    if len(folder_names) == 0:
-        raise NoProvidedFolderNames
-
-    new_folder_path = os.path.join(
-        os.getcwd(),
-        *folder_names
-    )
-
     try:
         file_name = arguments[arguments.index("-f") + 1]
     except IndexError:
         raise NotProvidedFileName
 
-    os.makedirs(new_folder_path, exist_ok=True)
     filepath = os.path.join(
+        os.getcwd(),
         *folder_names,
         file_name
     )
+
+    build_and_create_path(folder_names)
     write_into_file(filepath)
 elif "-d" in arguments:
     folder_names = arguments[arguments.index("-d") + 1:]
 
-    if len(folder_names) == 0:
-        raise NoProvidedFolderNames
-
-    new_folder_path = os.path.join(
-        os.getcwd(),
-        *folder_names
-    )
-
-    os.makedirs(new_folder_path, exist_ok=True)
+    build_and_create_path(folder_names)
 else:
     try:
         file_name = arguments[arguments.index("-f") + 1]
     except IndexError:
         raise NotProvidedFileName
+
+    file_name = os.path.join(
+        os.getcwd(),
+        file_name
+    )
 
     write_into_file(file_name)
