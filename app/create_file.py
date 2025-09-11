@@ -1,37 +1,67 @@
-import os
 from datetime import datetime
+from pathlib import Path
+from typing import List
+import argparse
 
 
-def create_file() -> None:
-    path = input()
-    words = path.split()
-    flag = words[0]
-    if flag == "-d":
-        create_directory_from_input(words)
-    elif flag == "-f":
-        create_file_from_input(words[1])
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-d", "--dirs", nargs="+", help="List of directories to create")
+    parser.add_argument("-f", "--file", help="File name to create")
+    args = parser.parse_args()
+    if not args.dirs and not args.file:
+        parser.error("You must provide -d or -f")
+    return args
 
 
-def create_directory_from_input(words: list[str]) -> None:
-    path = ""
-    for i in range(1, len(words)):
-        if words[i] == "stop":
-            return
-        if words[i] == "-f":
-            create_file_from_input(words[i + 1], path)
-            return
-        path = os.path.join(path, words[i])
-    os.makedirs(path, exist_ok=True)
+def create_directories(dirs: List[str]) -> str:
+    if not dirs:
+        return ""
+    path = Path(*dirs)
+    path.mkdir(parents=True, exist_ok=True)
+    return str(path)
 
 
-def create_file_from_input(word: str, path: str = "") -> str:
-    full_path = os.path.join(path, word)
-    os.makedirs(os.path.dirname(full_path), exist_ok=True)
-    open(full_path, "a").close()
-    return full_path
+def create_file(file_name: str, base_path: str = "") -> str:
+    full_path = Path(base_path) / file_name
+    full_path.parent.mkdir(parents=True, exist_ok=True)
+    full_path.touch(exist_ok=True)
+    return str(full_path)
 
 
-def add_content(content: list[str]) -> None:
-    with open("content.txt", "a", encoding="utf-8") as file:
-        file.write(str(datetime.now().strftime("%Y-%m-%d %H:%M:%S")) + "\n")
-        file.write("\n".join(content) + "\n")
+def collect_content() -> List[str]:
+    print("Enter content line (type 'stop' to finish):")
+    lines: List[str] = []
+    while True:
+        line = input()
+        if line.strip().lower() == "stop":
+            break
+        lines.append(line)
+    return lines
+
+
+def write_content(file_path: str, lines: List[str]) -> None:
+    path = Path(file_path)
+    need_newline = path.exists() and path.stat().st_size > 0
+    with path.open("a", encoding="utf-8") as f:
+        if need_newline:
+            f.write("\n")
+        f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        for idx, line in enumerate(lines, start=1):
+            f.write(f"{idx}. {line}\n")
+
+
+def main():
+    args = parse_args()
+    base_path = ""
+    if args.dirs:
+        base_path = create_directories(args.dirs)
+    if args.file:
+        file_path = create_file(args.file, base_path)
+        content = collect_content()
+        write_content(file_path, content)
+        print(f"Content saved to {file_path}")
+
+
+if __name__ == "__main__":
+    main()
