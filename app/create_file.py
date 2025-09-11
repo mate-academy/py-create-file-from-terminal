@@ -4,9 +4,11 @@ from typing import List
 import argparse
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("-d", "--dirs", nargs="+", help="List of directories to create")
+    parser.add_argument(
+        "-d", "--dirs", nargs="+", help="List of directories to create"
+    )
     parser.add_argument("-f", "--file", help="File name to create")
     args = parser.parse_args()
     if not args.dirs and not args.file:
@@ -51,7 +53,7 @@ def write_content(file_path: str, lines: List[str]) -> None:
             f.write(f"{idx}. {line}\n")
 
 
-def main():
+def main() -> None:
     args = parse_args()
     base_path = ""
     if args.dirs:
