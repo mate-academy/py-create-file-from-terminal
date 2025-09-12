@@ -32,11 +32,10 @@ def create_file(file_name: str, base_path: str = "") -> str:
 
 
 def collect_content() -> List[str]:
-    print("Enter content line (type 'stop' to finish):")
     lines: List[str] = []
     while True:
-        line = input()
-        if line.strip().lower() == "stop":
+        line = input("Enter content line:")
+        if line.strip() == "stop":
             break
         lines.append(line)
     return lines
@@ -44,13 +43,21 @@ def collect_content() -> List[str]:
 
 def write_content(file_path: str, lines: List[str]) -> None:
     path = Path(file_path)
-    need_newline = path.exists() and path.stat().st_size > 0
+
+    need_newline = False
+    if path.exists() and path.stat().st_size > 0:
+        with path.open("rb") as f:
+            f.seek(-1, 2)
+            last_char = f.read(1)
+            if last_char != b"\n":
+                need_newline = True
+
     with path.open("a", encoding="utf-8") as f:
         if need_newline:
             f.write("\n")
         f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         for idx, line in enumerate(lines, start=1):
-            f.write(f"{idx}. {line}\n")
+            f.write(f"{idx} {line}\n")
 
 
 def main() -> None:
