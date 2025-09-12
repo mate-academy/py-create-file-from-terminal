@@ -18,18 +18,27 @@ def create_file() -> None:
 
     if "-f" in args_terminal:
         pos_name_file = args_terminal.index("-f")
-        file_name = args_terminal[pos_name_file + 1]
+        try:
+            file_name = args_terminal[pos_name_file + 1]
+        except IndexError("without name file after -f."):
+            return IndexError
 
     path_file_complete_name = os.path.join(name_path_dirs, file_name)
     file_exist = os.path.exists(path_file_complete_name)
 
-    with open(path_file_complete_name, "+a") as file:
+    with open(path_file_complete_name, "a") as file:
         if not file_exist:
             first_line = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             file.write(first_line + "\n")
+        count = 1
         while 1:
             value_input = input("Enter content line: ")
-            if value_input.lower() == "stop":
+            if value_input == "stop":
                 break
 
-            file.write(value_input + "\n")
+            file.write(f"{count} {value_input}\n")
+            count += 1
+
+
+if __name__ == "__main__":
+    create_file()
