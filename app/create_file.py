@@ -60,7 +60,10 @@ def main() -> None:
     parser.add_argument(
         "-f",
         "--file",
-        help="File name (e.g., file.txt). If omitted, only directories are made.",
+        help=(
+            "File name (e.g., file.txt). "
+            "If omitted, only directories are made."
+        ),
     )
     args = parser.parse_args()
 
@@ -71,7 +74,7 @@ def main() -> None:
     if not args.file:
         return
 
-    file_path = os.path.join(dir_path, args.file)   
+    file_path = os.path.join(dir_path, args.file)
     lines = prompt_content_lines()
     write_block(file_path, lines)
 
