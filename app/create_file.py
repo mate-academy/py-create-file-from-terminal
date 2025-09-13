@@ -5,25 +5,27 @@ import datetime
 
 def create_file() -> None:
     args_terminal = argv
-    name_path_dirs = file_name = ""
+    name_path_dirs = []
+    file_name = ""
+
+    if "-f" in args_terminal:
+        pos_name_file = args_terminal.index("-f")
+        try:
+            file_name = args_terminal[pos_name_file + 1]
+        except IndexError():
+            return print("no name file after -f.")
 
     if "-d" in args_terminal:
         pos_dir = (args_terminal.index("-d")) + 1
         for i in range(pos_dir, len(args_terminal)):
             if args_terminal[i] == "-f":
                 break
-            name_path_dirs += args_terminal[i] + "/"
+            name_path_dirs.append(args_terminal[i])
 
+        name_path_dirs = os.path.join(*name_path_dirs)
         os.makedirs(name_path_dirs, exist_ok=True)
 
-    if "-f" in args_terminal:
-        pos_name_file = args_terminal.index("-f")
-        try:
-            file_name = args_terminal[pos_name_file + 1]
-        except IndexError("without name file after -f."):
-            return IndexError
-
-    path_file_complete_name = os.path.join(name_path_dirs, file_name)
+    path_file_complete_name = os.path.join(*name_path_dirs, file_name)
     file_exist = os.path.exists(path_file_complete_name)
 
     with open(path_file_complete_name, "a") as file:
