@@ -42,12 +42,15 @@ def main() -> None:
 
         with open(file_path, "a", encoding="utf-8") as f:
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            f.write(f"\n{timestamp}\n")
+            if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
+                f.write(f"\n{timestamp}\n")
+            else:
+                f.write(f"{timestamp}\n")
 
             line_num = 1
             while True:
                 line = input("Enter content line: ")
-                if line.strip().lower() == "stop":
+                if line == "stop":
                     break
                 f.write(f"{line_num} {line}\n")
                 line_num += 1
