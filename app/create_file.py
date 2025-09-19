@@ -6,45 +6,47 @@ import datetime
 def read_the_lines() -> list[str]:
     lines = []
     line_number = 0
+    inp = ""
     while True:
         inp = input("Enter content line: ")
-        if inp.lower() == "stop":
+        if inp == "stop":
             break
         line_number += 1
-        lines.append(f"{line_number} {inp}")
+        line = str(line_number) + " " + inp
+        lines.append(line)
     return lines
 
 
-def write_to_the_file(filename: str, lines: list[str], path: str = "") -> None:
-    full_path = os.path.join(path, filename)
-    with open(full_path, "a", encoding="utf-8") as f:
-        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        f.write(f"{timestamp}\n")
+def write_to_the_file(filename: str, path: str = "") -> None:
+    with open(os.path.join(path, file_name), "a") as f:
+        f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         for line in lines:
             f.write(line + "\n")
 
 
+directory_index = -1
+file_index = -1
+directories = []
 args = sys.argv
 current_dir = os.getcwd()
-
-file_name = ""
-directories: list[str] = []
-path = current_dir
-
-if "-f" in args:
-    file_index = args.index("-f")
-    if file_index + 1 >= len(args):
-        sys.exit("Error: -f flag requires a filename.\nUsage: python create_file.py -f <filename> [-d <dirs>]")
-    file_name = args[file_index + 1]
-
-
 if "-d" in args:
     directory_index = args.index("-d")
-    stop_index = file_index if "-f" in args else None
-    directories = args[directory_index + 1:stop_index]
-    path = os.path.join(current_dir, *directories)
-    os.makedirs(path, exist_ok=True)
-
-if file_name:
+if "-f" in args:
+    file_index = args.index("-f")
+    file_name = args[file_index + 1]
+if directory_index > 0:
+    if file_index > 0:
+        directories = args[directory_index + 1:file_index]
+        path = os.path.join(current_dir, *directories)
+        if not os.path.exists(path):
+            os.makedirs(path)
+        lines = read_the_lines()
+        write_to_the_file(file_name, path)
+    else:
+        directories = args[directory_index:]
+        path = os.path.join(current_dir, *directories)
+        os.makedirs(path)
+if file_index > 0 and directory_index == -1:
     lines = read_the_lines()
-    write_to_the_file(file_name, lines, path)
+    path = os.path.join(current_dir, *directories)
+    write_to_the_file(file_name)
