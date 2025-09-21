@@ -47,8 +47,7 @@ def append_block(file_path: str, lines: List[str]) -> None:
     Inserts a separating newline if the file already has content.
     """
     parent = os.path.dirname(file_path)
-    if parent:
-        os.makedirs(parent, exist_ok=True)
+    ensure_dir(parent)
 
     needs_leading_newline = (
         os.path.exists(file_path) and os.path.getsize(file_path) > 0
@@ -98,3 +97,22 @@ def parse_args(argv: List[str]) -> tuple[List[str], Optional[str]]:
 def main() -> None:
     if len(sys.argv) <= 1:
         print(USAGE)
+        sys.exit(1)
+
+    args = sys.argv[1:]
+    dir_parts, file_name = parse_args(args)
+
+    dir_path = build_dir_path(dir_parts)
+    ensure_dir(dir_path)
+
+    if file_name is None:
+        return
+
+    file_path = os.path.join(dir_path, file_name) if dir_path else file_name
+
+    lines = collect_lines()
+    append_block(file_path, lines)
+
+
+if __name__ == "__main__":
+    main()
