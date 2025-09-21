@@ -8,7 +8,7 @@ if len(sys.argv) < 2:
 
 mode = None
 directory = []
-file = None
+filename = None
 
 for arg in sys.argv[1:]:
     if arg == "-d":
@@ -20,8 +20,8 @@ for arg in sys.argv[1:]:
     if mode == "dirs":
         directory.append(arg)
     elif mode == "file":
-        if file is None:
-            file = arg
+        if filename is None:
+            filename = arg
         else:
             print(f"Ігнорую зайвий аргумент для файлу: {arg}")
 if directory:
@@ -30,13 +30,13 @@ if directory:
 else:
     path = ""
 
-if file:
-    full_file_path = os.path.join(path, file)
+if filename:
+    full_file_path = os.path.join(path, filename)
     now = datetime.now()
     if os.path.exists(full_file_path):
-        file_mode = 'a'  # додаємо у кінець
+        file_mode = "a"  # додаємо у кінець
     else:
-        file_mode = 'w'  # новий файл
+        file_mode = "w"  # новий файл
 
     with open(full_file_path, file_mode) as f:
         f.write(now.strftime("%m/%d/%Y %H:%M:%S") + "\n")
@@ -47,7 +47,3 @@ if file:
                 break
             f.write(f"{counter} {text}\n")
             counter += 1
-
-
-
-
