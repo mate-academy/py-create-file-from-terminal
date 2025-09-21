@@ -34,16 +34,18 @@ if filename:
     full_file_path = os.path.join(path, filename)
     now = datetime.now()
     if os.path.exists(full_file_path):
-        file_mode = "a"  # додаємо у кінець
+        file_mode = "a"
     else:
-        file_mode = "w"  # новий файл
+        file_mode = "w"
 
-    with open(full_file_path, file_mode) as f:
-        f.write(now.strftime("%m/%d/%Y %H:%M:%S") + "\n")
+    with open(full_file_path, file_mode) as output_file:
+        if file_mode == 'a':
+            output_file.write("\n")
+        output_file.write(now.strftime("%Y-%m-%d %H:%M:%S") + "\n")
         counter = 1
         while True:
             text = input("Enter content line: ")
             if text == "stop":
                 break
-            f.write(f"{counter} {text}\n")
+            output_file.write(f"{counter} {text}\n")
             counter += 1
