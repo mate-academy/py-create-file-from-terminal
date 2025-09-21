@@ -39,7 +39,7 @@ if filename:
         file_mode = "w"
 
     with open(full_file_path, file_mode) as output_file:
-        if file_mode == 'a':
+        if file_mode == "a":
             output_file.write("\n")
         output_file.write(now.strftime("%Y-%m-%d %H:%M:%S") + "\n")
         counter = 1
