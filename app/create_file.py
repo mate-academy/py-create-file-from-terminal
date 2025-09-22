@@ -34,7 +34,12 @@ def get_args_after_flag(
 
 if "-d" in sys.argv and "-f" in sys.argv:
     dirs = get_args_after_flag("-d", sys.argv, ["-f"])
+    if not dirs:
+        print("No directories were provided after the -d flag.")
+        sys.exit(1)
     file_name = get_args_after_flag("-f", sys.argv, ["-d"])[0]
+    if not file_name:
+        print("No file name provided after the -f flag.")
     path = os.path.join(*dirs)
     os.makedirs(path, exist_ok=True)
     file_path = os.path.join(path, file_name)
@@ -49,8 +54,11 @@ elif "-d" in sys.argv:
 
 elif "-f" in sys.argv:
     f_index = sys.argv.index("-f")
-    file_name = sys.argv[f_index + 1]
-    write_content_to_file(file_name)
+    if len(sys.argv) > f_index + 1:
+        file_name = sys.argv[f_index + 1]
+        write_content_to_file(file_name)
+    else:
+        print("No file name provided after the -f flag.")
 
 else:
     print("Please provide the -d (directories), -f (file), or both flags.")
