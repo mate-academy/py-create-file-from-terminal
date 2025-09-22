@@ -3,6 +3,20 @@ import os
 from datetime import datetime
 
 
+def write_content_to_file(file_path: str) -> None:
+    with open(file_path, "a") as file:
+        if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
+            file.write("\n")
+        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
+        line_number = 1
+        while True:
+            line = input("Enter content line: ")
+            if line == "stop":
+                break
+            file.write(f"{line_number} {line}\n")
+            line_number += 1
+
+
 if "-d" in sys.argv and "-f" in sys.argv:
     d_index = sys.argv.index("-d")
     f_index = sys.argv.index("-f")
@@ -11,14 +25,7 @@ if "-d" in sys.argv and "-f" in sys.argv:
     path = os.path.join(*dirs)
     os.makedirs(path, exist_ok=True)
     file_path = os.path.join(path, file_name)
-    with open(file_path, "a") as file:
-        file.write(datetime.now().strftime("%d/%m/%Y %H:%M:%S\n"))
-        i = 1
-        while True:
-            line = input("Enter content line: ")
-            if line == "stop":
-                break
-            file.write(f"{i} {line}\n")
+    write_content_to_file(file_path)
 
 elif "-d" in sys.argv:
     d_index = sys.argv.index("-d")
@@ -30,13 +37,7 @@ elif "-d" in sys.argv:
 elif "-f" in sys.argv:
     f_index = sys.argv.index("-f")
     file_name = sys.argv[f_index + 1]
-    with open(file_name, "a") as file:
-        file.write(datetime.now().strftime("%d/%m/%Y %H:%M:%S\n"))
-        i = 1
-        while True:
-            line = input("Enter content line: ")
-            if line == "stop":
-                break
-            file.write(f"{i} {line}\n")
+    write_content_to_file(file_name)
+
 else:
     print("Please provide the -d (directories), -f (file), or both flags.")
