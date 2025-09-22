@@ -13,7 +13,10 @@ if "-d" in args:
 
     if "-f" in args:
         f_index = args.index("-f")
-        dirs = args[d_index + 1: f_index]
+        if d_index < f_index:
+            dirs = args[d_index + 1: f_index]
+        else:
+            dirs = args[d_index + 1:]
     else:
         dirs = args[d_index + 1:]
 
@@ -39,7 +42,7 @@ if "-f" in args:
             break
         lines.append(line)
 
-    with open(f"{file_path}", "a") as source_file:
+    with open(file_path, "a") as source_file:
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         source_file.write(timestamp + "\n")
 
