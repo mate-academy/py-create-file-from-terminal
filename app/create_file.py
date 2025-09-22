@@ -1,52 +1,52 @@
 import os
 import sys
-import datetime
+from datetime import datetime
 
 
-def read_the_lines() -> list[str]:
+def read_lines() -> list[str]:
     lines = []
-    line_number = 0
-    inp = ""
     while True:
-        inp = input("Enter content line: ")
-        if inp == "stop":
+        text = input("Enter content line: ")
+        if text == "stop":
             break
-        line_number += 1
-        line = str(line_number) + " " + inp
-        lines.append(line)
-    return lines
+        lines.append(text)
+    return [f"{i + 1} {line}" for i, line in enumerate(lines)]
 
 
-def write_to_the_file(filename: str, path: str = "") -> None:
-    with open(os.path.join(path, file_name), "a") as f:
-        f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+def write_to_file(path: str, filename: str, lines: list[str]) -> None:
+    os.makedirs(path, exist_ok=True)
+    full_path = os.path.join(path, filename)
+    with open(full_path, "a", encoding="utf-8") as f:
+        f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         for line in lines:
             f.write(line + "\n")
+        f.write("\n")
 
 
-directory_index = -1
-file_index = -1
-directories = []
-args = sys.argv
-current_dir = os.getcwd()
-if "-d" in args:
-    directory_index = args.index("-d")
-if "-f" in args:
-    file_index = args.index("-f")
-    file_name = args[file_index + 1]
-if directory_index > 0:
-    if file_index > 0:
-        directories = args[directory_index + 1:file_index]
-        path = os.path.join(current_dir, *directories)
-        if not os.path.exists(path):
-            os.makedirs(path)
-        lines = read_the_lines()
-        write_to_the_file(file_name, path)
-    else:
-        directories = args[directory_index:]
-        path = os.path.join(current_dir, *directories)
-        os.makedirs(path)
-if file_index > 0 and directory_index == -1:
-    lines = read_the_lines()
-    path = os.path.join(current_dir, *directories)
-    write_to_the_file(file_name)
+def main() -> None:
+    args = sys.argv[1:]
+    path = os.getcwd()
+    filename = None
+
+    if "-d" in args:
+        idx = args.index("-d")
+        end = args.index("-f") if "-f" in args else len(args)
+        dirs = args[idx + 1:end]
+        if dirs:
+            path = os.path.join(path, *dirs)
+
+    if "-f" in args:
+        idx = args.index("-f")
+        if idx + 1 < len(args):
+            filename = args[idx + 1]
+
+    if not filename:
+        print("Musisz podać nazwę pliku za pomocą -f")
+        sys.exit(1)
+
+    lines = read_lines()
+    write_to_file(path, filename, lines)
+
+
+if __name__ == "__main__":
+    main()
