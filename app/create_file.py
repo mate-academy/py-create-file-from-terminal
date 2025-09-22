@@ -17,11 +17,24 @@ def write_content_to_file(file_path: str) -> None:
             line_number += 1
 
 
+def get_args_after_flag(
+        flag: str,
+        argv: list[str],
+        stop_flags: list[str]
+) -> list[str]:
+    idx = argv.index(flag) + 1
+    args = []
+    while idx < len(argv):
+        if argv[idx].startswith("-") and argv[idx] in stop_flags:
+            break
+        args.append(argv[idx])
+        idx += 1
+    return args
+
+
 if "-d" in sys.argv and "-f" in sys.argv:
-    d_index = sys.argv.index("-d")
-    f_index = sys.argv.index("-f")
-    file_name = sys.argv[f_index + 1]
-    dirs = sys.argv[d_index + 1 : f_index]
+    dirs = get_args_after_flag("-d", sys.argv, ["-f"])
+    file_name = get_args_after_flag("-f", sys.argv, ["-d"])[0]
     path = os.path.join(*dirs)
     os.makedirs(path, exist_ok=True)
     file_path = os.path.join(path, file_name)
