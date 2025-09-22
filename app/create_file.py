@@ -28,18 +28,19 @@ if dirs:
 else:
     file_path = file_name
 
-lines = []
-while True:
-    line = input("Enter content line: ")
-    if line.lower() == "stop":
-        break
-    lines.append(line)
+if "-f" in args:
+    lines = []
+    while True:
+        line = input("Enter content line: ")
+        if line == "stop":
+            break
+        lines.append(line)
 
-with open(f"{file_path}", "a") as f:
-    timestamp = datetime.datetime.now().strftime("%y-%m-%d %H:%M:%S")
-    f.write(timestamp + "\n")
+    with open(f"{file_path}", "a") as source_file:
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        source_file.write(timestamp + "\n")
 
-    for i, line in enumerate(lines, start=1):
-        f.write(f"{i} {line}\n")
+        for line_number, line in enumerate(lines, start=1):
+            source_file.write(f"{line_number} {line}\n")
 
-    f.write("\n")
+        source_file.write("\n")
