@@ -24,7 +24,10 @@ if "-f" in args:
 if dirs:
     dir_path : str = os.path.join(*dirs)
     os.makedirs(dir_path, exist_ok=True)
-    file_path = os.path.join(dir_path, file_name)
+    if "-f" in args:
+        file_path = os.path.join(dir_path, file_name)
+    else:
+        file_path = dir_path
 else:
     file_path = file_name
 
