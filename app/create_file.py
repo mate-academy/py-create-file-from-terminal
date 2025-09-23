@@ -10,13 +10,20 @@ def write_content_to_file(file_path: str) -> None:
         if line == "stop":
             break
         lines.append(line)
-    for i in range(len(lines)):
-        lines[i] = f"{i + 1} " + lines[i]
+    for line_index in range(len(lines)):
+        lines[line_index] = f"{line_index + 1} " + lines[line_index]
     result = "\n".join(lines)
-    with open(file_path, "a") as file:
-        file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                   + "\n")
-        file.write(result)
+    if os.path.exists(file_path):
+        with open(file_path, "a") as content_file:
+            content_file.write("\n")
+            content_file.write(
+                datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+            content_file.write(result)
+    else:
+        with open(file_path, "a") as content_file:
+            content_file.write(
+                datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+            content_file.write(result)
 
 
 if "-d" in sys.argv:
