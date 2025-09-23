@@ -5,11 +5,12 @@ Read [the guideline](https://github.com/mate-academy/py-task-guideline/blob/main
 Create an app `create_file.py` that takes directory path, file name, file
 content from the terminal and creates file. There should be flags `-d` or `-f`:
 
-- If only `-d` flag passed, means all items after this flag are parts of the
-path.
+- If only `-d` flag passed, it means all items after this flag are treated as separate parts of the path (i.e., individual directory names).
 
+When using `-d`, each directory name must be passed as a separate argument, e.g.,
 `python create_file.py -d dir1 dir2` - creates directory `dir1/dir2` inside
 current directory.
+
 - If only `-f` flag passed, means first item is the file name.
 
 `python create_file.py -f file.txt`
