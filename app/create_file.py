@@ -1,11 +1,11 @@
+import argparse
 import os
 import sys
 import datetime
 
 
-def name_and_path(args):
+def name_and_path(args : argparse.Namespace) -> list:
     file_name = None
-    dir_path = []
     f_index = None
     d_index = None
     if "-f" in args:
@@ -18,7 +18,7 @@ def name_and_path(args):
     return dir_parts, file_name
 
 
-def user_input():
+def user_input() -> list:
     user_text = []
     while True:
         text = input("Enter content line:  ")
@@ -27,19 +27,22 @@ def user_input():
         user_text.append(text)
     return user_text
 
-def write_to_file(full_filename, user_text):
+
+def write_to_file(full_filename : list, user_text : list) -> None:
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     lines_to_write = [timestamp]
     for index, item in enumerate(user_text, start=1):
         formatted_line = f"{index} {item}"
         lines_to_write.append(formatted_line)
-    file_exists_and_not_empty = os.path.exists(full_filename) and os.path.getsize(full_filename) > 0
+    file_exists_and_not_empty = (os.path.exists(full_filename)
+                                 and os.path.getsize(full_filename) > 0)
     with open(full_filename, "a", encoding="utf-8") as output_file:
         if file_exists_and_not_empty:
             output_file.write("\n")
         output_file.write("\n".join(lines_to_write))
 
-def main():
+
+def main() -> None:
     args = sys.argv
     args = sys.argv[1:]
     dir_parts, file_name = name_and_path(args)
@@ -52,6 +55,6 @@ def main():
         if content:
             write_to_file(full_path, content)
 
+
 if __name__ == "__main__":
     main()
-
