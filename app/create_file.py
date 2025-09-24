@@ -3,30 +3,55 @@ import sys
 import datetime
 
 
-args = sys.argv
-file_name = None
-directory_path_parts = []
+def name_and_path(args):
+    file_name = None
+    dir_path = []
+    f_index = None
+    d_index = None
+    if "-f" in args:
+        f_index = args.index("-f")
+        file_name = args[f_index + 1]
+    if "-d" in args:
+        d_index = args.index("-d")
+        end_index = f_index if f_index is not None else len(args)
+        dir_parts = args[d_index + 1 : end_index]
+    return dir_parts, file_name
 
-d_index = args.index("-d")
-f_index = args.index("-f")
-directory = args[d_index+1:f_index]
-file_name = args[f_index+1]
 
-directory_path = os.path.join(*directory)
-os.makedirs(directory_path, exist_ok=True)
-full_filename = os.path.join(directory_path, file_name)
+def user_input():
+    user_text = []
+    while True:
+        text = input("Enter content line:  ")
+        if text == "stop":
+            break
+        user_text.append(text)
+    return user_text
 
-user_text =[]
-while True:
-    text = input()
-    if text == "stop":
-        break
-    user_text.append(text)
+def write_to_file(full_filename, user_text):
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    lines_to_write = [timestamp]
+    for index, item in enumerate(user_text, start=1):
+        formatted_line = f"{index} {item}"
+        lines_to_write.append(formatted_line)
+    file_exists_and_not_empty = os.path.exists(full_filename) and os.path.getsize(full_filename) > 0
+    with open(full_filename, "a", encoding="utf-8") as output_file:
+        if file_exists_and_not_empty:
+            output_file.write("\n")
+        output_file.write("\n".join(lines_to_write))
 
-timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-lines_to_write = [timestamp]
-for index, item in enumerate(user_text, start=1):
-    formatted_line = f"{index} {item}"
-    lines_to_write.append(formatted_line)
-with open(full_filename, "a", encoding="utf-8") as f:
-    f.write("\n".join(lines_to_write))
+def main():
+    args = sys.argv
+    args = sys.argv[1:]
+    dir_parts, file_name = name_and_path(args)
+    dir_path = os.path.join(*dir_parts) if dir_parts else "."
+    if dir_path != ".":
+        os.makedirs(dir_path, exist_ok=True)
+    if file_name:
+        full_path = os.path.join(dir_path, file_name)
+        content = user_input()
+        if content:
+            write_to_file(full_path, content)
+
+if __name__ == "__main__":
+    main()
+
