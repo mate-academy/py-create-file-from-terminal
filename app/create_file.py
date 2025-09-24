@@ -5,7 +5,7 @@ import datetime
 
 def name_and_path(args: list[str]) -> tuple[list[str], str | None]:
     file_name = None
-    dir_parts =[]
+    dir_parts = []
     f_index = None
     d_index = None
     if "-f" in args:
