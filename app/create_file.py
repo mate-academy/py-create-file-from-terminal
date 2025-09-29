@@ -45,7 +45,6 @@ def read_lines_until_stop() -> List[str]:
 
 def write_with_timestamp(path: str, lines: List[str]) -> None:
     if not lines:
-        print("No content entered, file not modified.")
         return
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -67,8 +66,8 @@ def main() -> None:
 
     dir_path = os.path.join(*dir_parts) if dir_parts else ""
 
-    if dir_path:
-        os.makedirs(dir_path, exist_ok=True)
+    # if dir_path:
+    #     os.makedirs(dir_path, exist_ok=True)
 
     if file_name:
         full_path = (
@@ -78,7 +77,7 @@ def main() -> None:
         lines = read_lines_until_stop()
         write_with_timestamp(full_path, lines)
     else:
-        print(f"Каталог '{dir_path}' створено (або вже існував).")
+        return
 
 
 if __name__ == "__main__":
