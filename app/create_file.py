@@ -2,6 +2,7 @@ import sys
 import os
 from datetime import datetime
 
+
 # def main():
 #     i = 1
 #     while i < len(sys.argv):
@@ -17,7 +18,9 @@ from datetime import datetime
 #
 #
 #
-def main():
+
+
+def main() -> None:
     args = sys.argv[1:]
 
     dir_parts = []
