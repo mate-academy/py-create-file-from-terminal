@@ -73,7 +73,10 @@ def main() -> None:
         os.makedirs(dir_path, exist_ok=True)
 
     if file_name:
-        full_path = os.path.join(dir_path, file_name) if dir_path else file_name
+        full_path = (
+            os.path.join(dir_path, file_name)
+            if dir_path else file_name
+        )
         lines = read_lines_until_stop()
         write_with_timestamp(full_path, lines)
     else:
