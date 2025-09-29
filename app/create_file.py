@@ -4,8 +4,6 @@ from datetime import datetime
 from typing import List, Tuple, Optional
 
 
-from typing import List, Tuple, Optional
-
 def parse_args(argv: List[str]) -> Tuple[List[str], Optional[str]]:
 
     dir_parts: List[str] = []
