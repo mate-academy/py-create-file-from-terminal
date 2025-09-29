@@ -62,7 +62,9 @@ def main() -> None:
     dir_parts, file_name = parse_args(sys.argv[1:])
 
     if not dir_parts and not file_name:
-        print("Використання: python create_file.py [-d dir1 dir2 ...] [-f file.txt]")
+        print(
+            "Використання: python create_file.py"
+            "[-d dir1 dir2 ...] [-f file.txt]")
         return
 
     dir_path = os.path.join(*dir_parts) if dir_parts else ""
