@@ -50,7 +50,7 @@ def main() -> None:
     else:
         dir_path = "."
 
-    full_file_path = os.path.join("dir_path", "file_name")
+    full_file_path = os.path.join(dir_path, file_name)
 
     collected_lines = []
     while True:
@@ -62,7 +62,7 @@ def main() -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     with open(full_file_path, "a", encoding="utf-8") as f:
-        f.write(f"\n{timestamp}\n")
+        f.write(f"{timestamp}\n")
         for idx, line in enumerate(collected_lines, start=1):
             f.write(f"{idx} {line}\n")
 
