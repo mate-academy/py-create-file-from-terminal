@@ -4,26 +4,31 @@ from datetime import datetime
 from typing import List, Tuple, Optional
 
 
+from typing import List, Tuple, Optional
+
 def parse_args(argv: List[str]) -> Tuple[List[str], Optional[str]]:
 
     dir_parts: List[str] = []
     file_name: Optional[str] = None
+    i = 0
 
-    if "-d" in argv:
-        d_idx = argv.index("-d")
-        f_idx = argv.index("-f") if "-f" in argv else len(argv)
-        dir_parts = argv[d_idx + 1: f_idx]
-
-    if "-f" in argv:
-        f_idx = argv.index("-f")
-        d_idx = argv.index("-d") if "-d" in argv else len(argv)
-        if f_idx + 1 < len(argv) and (f_idx + 1 < d_idx or "-d" not in argv):
-            file_name = argv[f_idx + 1]
-        elif f_idx + 1 < len(argv) and "-d" not in argv:
-            file_name = argv[f_idx + 1]
+    while i < len(argv):
+        arg = argv[i]
+        if arg == "-d":
+            i += 1
+            while i < len(argv) and not argv[i].startswith("-"):
+                dir_parts.append(argv[i])
+                i += 1
+            continue
+        elif arg == "-f":
+            if i + 1 < len(argv) and not argv[i + 1].startswith("-"):
+                file_name = argv[i + 1]
+                i += 2
+                continue
+            else:
+                raise ValueError("Після -f очікується ім’я файлу")
         else:
-            if f_idx + 1 < len(argv):
-                file_name = argv[f_idx + 1]
+            i += 1
 
     return dir_parts, file_name
 
@@ -32,8 +37,8 @@ def read_lines_until_stop() -> List[str]:
     lines: List[str] = []
     counter = 1
     while True:
-        line = input("Введіть рядок вмісту: ")
-        if line.strip().lower() == "stop":
+        line = input("Enter content line: ")
+        if line == "stop":
             break
         lines.append(f"{counter} {line}")
         counter += 1
@@ -42,7 +47,7 @@ def read_lines_until_stop() -> List[str]:
 
 def write_with_timestamp(path: str, lines: List[str]) -> None:
     if not lines:
-        print("Вміст не введено, файл не змінено.")
+        print("No content entered, file not modified.")
         return
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -55,16 +60,11 @@ def write_with_timestamp(path: str, lines: List[str]) -> None:
             f.write("\n")
         f.write(content)
 
-    print(f"Файл '{path}' створено/оновлено.")
-
 
 def main() -> None:
     dir_parts, file_name = parse_args(sys.argv[1:])
 
     if not dir_parts and not file_name:
-        print(
-            "Використання: python create_file.py"
-            "[-d dir1 dir2 ...] [-f file.txt]")
         return
 
     dir_path = os.path.join(*dir_parts) if dir_parts else ""
