@@ -50,12 +50,12 @@ def main() -> None:
     else:
         dir_path = "."
 
-    full_file_path = os.path.join(dir_path, file_name)
+    full_file_path = os.path.join("dir_path", "file_name")
 
     collected_lines = []
     while True:
         user_input = input("Enter content line: ")
-        if user_input.lower() == "stop":
+        if user_input == "stop":
             break
         collected_lines.append(user_input)
 
