@@ -69,5 +69,6 @@ def main() -> None:
         for line_number, line in enumerate(collected_lines, start=1):
             f.write(f"{line_number} {line}\n")
 
+
 if __name__ == "__main__":
     main()
