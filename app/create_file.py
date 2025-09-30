@@ -41,16 +41,15 @@ def main() -> None:
         else:
             i += 1
 
-    if file_name is None:
-        return
-
     if dir_parts:
         dir_path = os.path.join(*dir_parts)
         os.makedirs(dir_path, exist_ok=True)
     else:
         dir_path = "."
+    if file_name is None:
+        return
 
-    full_file_path = os.path.join("dir_path", "file_name")
+    full_file_path = os.path.join(dir_path, file_name)
 
     collected_lines = []
     while True:
@@ -60,12 +59,15 @@ def main() -> None:
         collected_lines.append(user_input)
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
+    file_exists = os.path.exists(full_file_path)
+    file_is_not_empty = file_exists and os.path.getsize(full_file_path) > 0
     with open(full_file_path, "a", encoding="utf-8") as f:
-        f.write(f"{timestamp}\n")
-        for idx, line in enumerate(collected_lines, start=1):
-            f.write(f"{idx} {line}\n")
 
+        if file_is_not_empty:
+            f.write("\n")
+        f.write(f"{timestamp}\n")
+        for line_number, line in enumerate(collected_lines, start=1):
+            f.write(f"{line_number} {line}\n")
 
 if __name__ == "__main__":
     main()
