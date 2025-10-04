@@ -28,12 +28,17 @@ def build_path(find_list: list) -> str:
                 break
             patch.append(find_list[i])
 
+        if not patch:
+            raise ValueError("No directory components specified after -d")
+
         folder_s_patch = os.path.join(*patch)
         return folder_s_patch
 
 
 def find_name_file(find_list: list) -> str:
     f_index = find_list.index("-f")
+    if f_index == len(find_list) - 1:
+        raise ValueError("File name not specified after -f flag")
     return find_list[f_index + 1]
 
 
@@ -64,6 +69,8 @@ def work_with_f(name_file: str) -> None:
 if "-d" in input_list:
     if "-f" not in input_list:
         patch = build_path(input_list)
+        if not patch:
+            raise ValueError("No valid directory path provided after -d")
         os.makedirs(patch, exist_ok=True)
 
 if "-f" in input_list:
@@ -73,7 +80,9 @@ if "-f" in input_list:
 if "-f" in input_list:
     if "-d" in input_list:
         dir_components = build_path(input_list)
+        if not dir_components:
+            raise ValueError("No directory components provided after -d")
         os.makedirs(dir_components, exist_ok=True)
         file_patch = os.path.join(dir_components, find_name_file(input_list))
 
-        work_with_f(dir_components)
+        work_with_f(file_patch)
