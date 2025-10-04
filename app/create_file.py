@@ -4,6 +4,7 @@ import datetime
 
 input_list = sys.argv[1:]
 
+
 def find_pacth(find_list: list) -> str:
     patch = []
     if "-d" in find_list:
@@ -24,6 +25,7 @@ def find_name_file(find_list: list) -> str:
 
 
 def work_with_f(name_file: str) -> None:
+
     today = datetime.datetime.now()
     data_time = f"{today.date()} {today.hour}:{today.minute}:{today.second}"
 
