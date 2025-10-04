@@ -2,10 +2,23 @@ import sys
 import os
 import datetime
 
+
+class Flagerror(Exception):
+    pass
+
+
+class LenError(Exception):
+    pass
+
+
 input_list = sys.argv[1:]
+if "-d" not in input_list and "-f" not in input_list:
+    raise Flagerror("Flags not found")
+if len(input_list) == 1:
+    raise LenError("Found only flag")
 
 
-def find_pacth(find_list: list) -> str:
+def build_path(find_list: list) -> str:
     patch = []
     if "-d" in find_list:
         d_index = find_list.index("-d")
@@ -27,26 +40,30 @@ def find_name_file(find_list: list) -> str:
 def work_with_f(name_file: str) -> None:
 
     today = datetime.datetime.now()
-    data_time = f"{today.date()} {today.hour}:{today.minute}:{today.second}"
+    data_to_write = today.strftime("%Y-%m-%d %H:%M:%S")
 
     if not os.path.exists(name_file):
         with open(name_file, "w") as file:
-            file.write(f"{data_time}\n")
+            file.write(f"{data_to_write}\n")
     elif os.path.exists(name_file):
         with open(name_file, "a") as file:
-            file.write(f"\n{data_time}\n")
+            file.write(f"\n{data_to_write}\n")
 
+    lines_to_write = []
+    number_string = 1
     while True:
         line = str(input("Enter content line: "))
         if line == "stop":
+            with open(name_file, "a") as file:
+                file.writelines(lines_to_write)
             break
-        with open(name_file, "a") as file:
-            file.write(f"{line}\n")
+        lines_to_write.append(f"{number_string} {line}\n")
+        number_string += 1
 
 
 if "-d" in input_list:
     if "-f" not in input_list:
-        patch = find_pacth(input_list)
+        patch = build_path(input_list)
         os.makedirs(patch, exist_ok=True)
 
 if "-f" in input_list:
@@ -55,8 +72,8 @@ if "-f" in input_list:
 
 if "-f" in input_list:
     if "-d" in input_list:
-        patch = find_pacth(input_list)
-        os.makedirs(patch, exist_ok=True)
-        file_patch = os.path.join(patch, find_name_file(input_list))
+        dir_components = build_path(input_list)
+        os.makedirs(dir_components, exist_ok=True)
+        file_patch = os.path.join(dir_components, find_name_file(input_list))
 
-        work_with_f(file_patch)
+        work_with_f(dir_components)
