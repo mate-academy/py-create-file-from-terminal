@@ -72,6 +72,9 @@ def main() -> None:
 
     if file_name:
         file_path = os.path.join(dir_path, file_name)
+
+        open(file_path, "a").close()
+
         lines = prompt_for_lines()
         if lines:
             write_to_file(file_path, lines)
