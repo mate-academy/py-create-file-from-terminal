@@ -13,7 +13,7 @@ def prompt_for_lines() -> List[str]:
     count = 1
     while True:
         line = input("Enter content line: ")
-        if line.strip().lower() == "stop":
+        if line.strip() == "stop":  # Case-sensitive check
             break
         lines.append(f"{count} {line}")
         count += 1
@@ -23,8 +23,14 @@ def prompt_for_lines() -> List[str]:
 def write_to_file(file_path: str, lines: List[str]) -> None:
     timestamp = get_timestamp()
     content = [timestamp] + lines
+
+    needs_separator = (os.path.exists(file_path)
+                       and os.path.getsize(file_path) > 0)
+
     with open(file_path, "a") as f:
-        f.write("\n" + "\n".join(content) + "\n")
+        if needs_separator:
+            f.write("\n")
+        f.write("\n".join(content) + "\n")
 
 
 def main() -> None:
