@@ -4,12 +4,11 @@ from datetime import datetime
 
 
 def create_file_with_content(full_path: str) -> None:
-    print("Digite o conteúdo. Digite 'stop' em uma nova linha para terminar.")
     lines = []
     while True:
         try:
             line = input("Enter content line: ")
-            if line.lower() == "stop":
+            if line == "stop":
                 break
             lines.append(line)
         except EOFError:
@@ -27,15 +26,11 @@ def create_file_with_content(full_path: str) -> None:
 
         f.write("\n".join(content_block))
 
-    print(f"\nConteúdo adicionado com sucesso ao arquivo: {full_path}")
-
 
 def main() -> None:
     args = sys.argv[1:]
 
     if not args:
-        print("Erro: Nenhum argumento fornecido.")
-        print("Uso: python create_file.py [-d dir1 dir2 ...] [-f file.txt]")
         return
 
     dir_parts = []
@@ -56,10 +51,9 @@ def main() -> None:
             if f_index + 1 < len(args):
                 file_name = args[f_index + 1]
             else:
-                raise ValueError("Flag -f requer um nome de arquivo.")
+                return
 
-    except (ValueError, IndexError) as e:
-        print(f"Erro ao analisar argumentos: {e}")
+    except (ValueError, IndexError):
         return
 
     directory_path = os.path.join(*dir_parts) if dir_parts else "."
@@ -67,16 +61,12 @@ def main() -> None:
     if directory_path != ".":
         try:
             os.makedirs(directory_path, exist_ok=True)
-            print(f"Diretório '{directory_path}' criado com sucesso.")
-        except OSError as e:
-            print(f"Erro ao criar diretório: {e}")
+        except OSError:
             return
 
     if file_name:
         full_path = os.path.join(directory_path, file_name)
         create_file_with_content(full_path)
-    elif not dir_parts:
-        print("Erro: Nenhuma ação a ser executada. Forneça -d ou -f.")
 
 
 if __name__ == "__main__":
