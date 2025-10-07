@@ -52,10 +52,9 @@ def create_directory(dir_parts: list[str]) -> str | None:
 def get_content_from_user() -> list[str]:
     """Get content lines from user until 'stop' is entered."""
     lines = []
-    print()
     while True:
         line = input("Enter content line: ")
-        if line.strip().lower() == "stop":
+        if line == "stop":
             break
         lines.append(line)
     return lines
@@ -70,10 +69,20 @@ def create_or_append_file(
     # Check if file exists and has content
     file_exists = os.path.exists(filepath) and os.path.getsize(filepath) > 0
 
-    with open(filepath, "a") as f:
-        # Add blank line if appending to existing content
+    with open(filepath, "a", encoding="utf-8") as f:
+        # Add exactly one blank line if appending to existing content
         if file_exists:
-            f.write("\n\n")
+            # Read the last character to check if file ends with newline
+            with open(filepath, "rb") as check_file:
+                check_file.seek(-1, 2)  # Go to last byte
+                last_char = check_file.read(1)
+                ends_with_newline = last_char == b"\n"
+
+            # Write minimal newlines to create exactly one blank line
+            if ends_with_newline:
+                f.write("\n")  # Just one more newline creates blank line
+            else:
+                f.write("\n\n")  # Need two: one to end line, one for blank
 
         # Write timestamp
         f.write(f"{timestamp}\n")
