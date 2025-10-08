@@ -1,16 +1,27 @@
 import sys
 import os
-from _datetime import datetime
+from datetime import datetime
 from typing import LiteralString
 
 
 class MissingArgumentError(Exception):
 
     def __init__(self,
+                 flag: str = "",
                  message: str = "A required argument is missing."
                  ) -> None:
         self.message = message
+        self.flag = flag
         super().__init__(self.message)
+
+    def __str__(self) -> str:
+        message_map = {
+            "-d": "A directory name is required.",
+            "-f": "A file name is required."
+        }
+        if self.flag in message_map:
+            return f"{self.message} \n\n{message_map[self.flag]}"
+        return self.message
 
 
 class MissingFlagError(MissingArgumentError):
@@ -39,14 +50,8 @@ class MissingFlagError(MissingArgumentError):
 
 
 def make_path(parts: list) -> LiteralString | str | bytes:
-    path = ""
 
-    if len(parts) == 1:
-        path = os.path.join(parts[0])
-    else:
-        path = os.path.join(parts[0], *parts[1:])
-
-    return path
+    return os.path.join(*parts)
 
 
 def create_directories(directory_path: LiteralString | str | bytes) -> bool:
@@ -60,15 +65,12 @@ def create_directories(directory_path: LiteralString | str | bytes) -> bool:
 
 
 def write_to_file(filename: LiteralString | str | bytes) -> None:
+    open_mode = "x"
+
     if os.path.exists(filename):
         open_mode = "a"
-        print("File already exists.")
-    else:
-        open_mode = "x"
 
-        print("File created.")
-
-    with open(filename, open_mode) as file:
+    with open(filename, "a") as file:
 
         input_counter = 1
 
@@ -77,20 +79,19 @@ def write_to_file(filename: LiteralString | str | bytes) -> None:
 
             if user_input == "stop":
                 break
-            else:
 
-                if input_counter == 1:
+            if input_counter == 1:
 
-                    if open_mode == "a":
-                        file.write("\n")
+                if open_mode == "a":
+                    file.write("\n")
 
-                    date_format = "%Y-%m-%d %H:%M:%S"
+                date_format = "%Y-%m-%d %H:%M:%S"
 
-                    file.write(f"{datetime.now().strftime(date_format)}\n")
+                file.write(f"{datetime.now().strftime(date_format)}\n")
 
-                file.write(f"{input_counter} {user_input}\n")
+            file.write(f"{input_counter} {user_input}\n")
 
-                input_counter += 1
+            input_counter += 1
 
 
 def process_arguments() -> None:
@@ -98,6 +99,10 @@ def process_arguments() -> None:
         raise MissingFlagError()
     else:
         if sys.argv[1] == "-d":
+
+            if len(sys.argv) < 4:
+                raise MissingArgumentError("-d")
+
             if "-f" in sys.argv:
                 dir_path = make_path(sys.argv[2:sys.argv.index("-f")])
                 if create_directories(dir_path):
@@ -107,6 +112,9 @@ def process_arguments() -> None:
             else:
                 create_directories(make_path(sys.argv[2:]))
         elif sys.argv[1] == "-f":
+            if len(sys.argv) < 4:
+                raise MissingArgumentError("-f")
+
             write_to_file(make_path([sys.argv[2]]))
 
 
