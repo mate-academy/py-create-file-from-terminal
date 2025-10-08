@@ -50,7 +50,7 @@ def create_directory(dir_parts: list[str]) -> str | None:
 
 
 def get_content_from_user() -> list[str]:
-    """Get content lines from user until 'stop' is entered."""
+    """Get content lines from user until exactly 'stop' is entered."""
     lines = []
     while True:
         line = input("Enter content line: ")
