@@ -51,24 +51,23 @@ class MissingFlagError(MissingArgumentError):
 
 def make_path(parts: list) -> LiteralString | str | bytes:
 
-    return os.path.join(*parts)
+    if len(parts) > 0:
+        return os.path.join(*parts)
+    else:
+        return ""
 
 
 def create_directories(directory_path: LiteralString | str | bytes) -> bool:
     try:
         os.makedirs(directory_path, exist_ok=True)
     except OSError as ex:
-        print(f"Error creating directory: {ex}")
         return False
     else:
         return True
 
 
 def write_to_file(filename: LiteralString | str | bytes) -> None:
-    open_mode = "x"
-
-    if os.path.exists(filename):
-        open_mode = "a"
+    file_exists = os.path.exists(filename)
 
     with open(filename, "a") as file:
 
@@ -82,7 +81,7 @@ def write_to_file(filename: LiteralString | str | bytes) -> None:
 
             if input_counter == 1:
 
-                if open_mode == "a":
+                if file_exists:
                     file.write("\n")
 
                 date_format = "%Y-%m-%d %H:%M:%S"
@@ -100,7 +99,9 @@ def process_arguments() -> None:
     else:
         if sys.argv[1] == "-d":
 
-            if len(sys.argv) < 4:
+            print(len(sys.argv))
+
+            if len(sys.argv) < 3:
                 raise MissingArgumentError("-d")
 
             if "-f" in sys.argv:
@@ -112,7 +113,7 @@ def process_arguments() -> None:
             else:
                 create_directories(make_path(sys.argv[2:]))
         elif sys.argv[1] == "-f":
-            if len(sys.argv) < 4:
+            if len(sys.argv) < 3:
                 raise MissingArgumentError("-f")
 
             write_to_file(make_path([sys.argv[2]]))
