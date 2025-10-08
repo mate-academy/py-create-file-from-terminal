@@ -60,7 +60,7 @@ def make_path(parts: list) -> LiteralString | str | bytes:
 def create_directories(directory_path: LiteralString | str | bytes) -> bool:
     try:
         os.makedirs(directory_path, exist_ok=True)
-    except OSError as ex:
+    except OSError:
         return False
     else:
         return True
@@ -98,8 +98,6 @@ def process_arguments() -> None:
         raise MissingFlagError()
     else:
         if sys.argv[1] == "-d":
-
-            print(len(sys.argv))
 
             if len(sys.argv) < 3:
                 raise MissingArgumentError("-d")
