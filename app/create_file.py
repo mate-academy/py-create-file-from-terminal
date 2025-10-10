@@ -15,7 +15,7 @@ def create_file(file_path: str) -> None:
     while True:
         file_line = input("Enter content line: ")
 
-        if file_line.strip().lower() == "stop":
+        if file_line == "stop":
             break
 
         file_data.append(file_line)
@@ -24,7 +24,7 @@ def create_file(file_path: str) -> None:
         file.write(current_timestamp + "\n")
 
         for i, file_line in enumerate(file_data, 1):
-            file.write(f"{i} {file_line}")
+            file.write(f"{i} {file_line}\n"
 
         file.write("\n")
 
