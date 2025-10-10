@@ -33,7 +33,8 @@ def main() -> None:
     args = sys.argv[1:]
 
     if not args:
-        print("Enter this command: python create_file.py -d directory_path -f file_path")
+        print("Enter this command: "
+              "python create_file.py -d directory_path -f file_path")
         return
 
     directory_path = ""
