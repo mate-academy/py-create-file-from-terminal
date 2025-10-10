@@ -48,7 +48,10 @@ def main() -> None:
         else:
             directory_parts = args[d_index:]
 
-        directory_path = create_directory(os.path.join(*directory_parts))
+        if directory_path is not None:
+            directory_path = create_directory(os.path.join(*directory_parts))
+        else:
+            print("Please enter a directory name")
 
     file_name = ""
 
@@ -58,7 +61,6 @@ def main() -> None:
 
         full_file_path = (
             os.path.join(directory_path, file_name)
-            if directory_path else file_name
         )
 
         create_file(full_file_path)
