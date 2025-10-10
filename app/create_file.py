@@ -24,7 +24,7 @@ def create_file(file_path: str) -> None:
         file.write(current_timestamp + "\n")
 
         for i, file_line in enumerate(file_data, 1):
-            file.write(f"{i} {file_line}\n"
+            file.write(f"{i} {file_line}\n")
 
         file.write("\n")
 
