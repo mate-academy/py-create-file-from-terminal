@@ -54,15 +54,15 @@ def making_file(
 
     # start appending into the file
     count = 1
-    with open(file_path, "a") as f:
+    with open(file_path, "a") as file_to_write:
         if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
-            f.write("\n")
-        f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+            file_to_write.write("\n")
+        file_to_write.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         while True:
-            user_input = input("Enter content line: ")
+            user_input = input("Enter content line:")
             if user_input == "stop":
                 break
-            f.write(f"{count} {user_input}\n")
+            file_to_write.write(f"{count} {user_input}\n")
             count += 1
 
 
