@@ -24,13 +24,11 @@ def making_directory(
             for _ in range(i + 1, command_len):
                 if command[_] == file_command:
                     break
-                else:
-                    directory_list.append(command[_])
 
-    directory_string = f"{os.sep}".join(directory_list)
+                directory_list.append(command[_])
 
     # create said dir
-    directory = os.path.join(os.getcwd(), directory_string)
+    directory = os.path.join(os.getcwd(), *directory_list)
     if not os.path.exists(directory):
         os.makedirs(directory)
 
@@ -55,23 +53,26 @@ def making_file(
     file_path = os.path.join(directory_string, file_name)
 
     # start appending into the file
+    count = 1
     with open(file_path, "a") as f:
+        if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
+            f.write("\n")
         f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         while True:
             user_input = input("Enter content line: ")
             if user_input == "stop":
                 break
-            f.write(f"{user_input}\n")
-        f.write("\n")
+            f.write(f"{count} {user_input}\n")
+            count += 1
 
 
 if __name__ == "__main__":
-    com = sys.argv[1:]
-    com_len = len(com)
+    args = sys.argv[1:]
+    args_len = len(args)
 
-    error_handling(com)
-    if "-d" in com and "-f" not in com:
-        dir_string = making_directory(com, com_len, "-d", "-f")
+    error_handling(args)
+    if "-d" in args and "-f" not in args:
+        dir_string = making_directory(args, args_len, "-d", "-f")
     else:
-        dir_string = making_directory(com, com_len, "-d", "-f")
-        making_file(com, com_len, "-f", dir_string)
+        dir_string = making_directory(args, args_len, "-d", "-f")
+        making_file(args, args_len, "-f", dir_string)
