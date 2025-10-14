@@ -57,7 +57,10 @@ def making_file(
     with open(file_path, "a") as file_to_write:
         if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
             file_to_write.write("\n")
-        file_to_write.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        file_to_write.write(
+            datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            + "\n"
+        )
         while True:
             user_input = input("Enter content line:")
             if user_input == "stop":
