@@ -8,34 +8,34 @@ def get_content():
     """Recebe linhas de conteúdo do usuário até 'stop'."""
     lines = []
     while True:
-        line = input("Enter content line:")  # prompt sem espaço extra
-        if line == "stop":  # case-sensitive conforme exigido
+        line = input("Enter content line:")  # prompt exato
+        if line == "stop":  # case-sensitive
             break
         lines.append(line)
     return lines
 
 
 def write_file(file_path, lines):
-    """Escreve linhas no arquivo com timestamp e numeração, garantindo uma linha em branco entre blocos."""
+    """Escreve linhas no arquivo com timestamp e numeração, garantindo exatamente uma linha em branco entre blocos."""
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     content_to_write = f"{timestamp}\n"
-    for i, line in enumerate(lines, start=1):
-        content_to_write += f"{i} {line}\n"
+    for line_number, line_text in enumerate(lines, start=1):
+        content_to_write += f"{line_number} {line_text}\n"
 
-    # Checa se o arquivo existe para adicionar o bloco corretamente
     if os.path.exists(file_path):
-        # Detecta se o arquivo termina com uma ou mais quebras de linha
-        with open(file_path, "rb") as f:
-            f.seek(-1, os.SEEK_END)
-            last_char = f.read(1)
-        # Se não termina com \n, adiciona duas quebras; se termina, apenas uma
-        separator = "\n" if last_char == b"\n" else "\n\n"
-        with open(file_path, "a", encoding="utf-8") as f:
-            f.write(separator + content_to_write)
+        # Lê o conteúdo existente e normaliza as quebras de linha
+        with open(file_path, "r", encoding="utf-8") as existing_file:
+            existing_content = existing_file.read()
+        # Remove múltiplas quebras no final
+        stripped_content = existing_content.rstrip("\n")
+        # Reabre para escrita e adiciona exatamente uma linha em branco
+        with open(file_path, "w", encoding="utf-8") as file_handle:
+            if stripped_content:
+                file_handle.write(stripped_content + "\n\n")  # garante uma linha em branco
+            file_handle.write(content_to_write)
     else:
-        with open(file_path, "w", encoding="utf-8") as f:
-            f.write(content_to_write)
-    # print de confirmação removido conforme checklist
+        with open(file_path, "w", encoding="utf-8") as file_handle:
+            file_handle.write(content_to_write)
 
 
 def main():
