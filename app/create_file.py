@@ -11,8 +11,7 @@ def make_file(path: str) -> None:
     with open(path_to_file, mode) as file_append:
         file_append.write(
             f"{indent}"
-            f"{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n"
-        )
+            f"{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
         while True:
             message = input("Enter content line: ")
             if message == "stop":
