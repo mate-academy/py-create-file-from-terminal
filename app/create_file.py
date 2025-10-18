@@ -4,8 +4,8 @@ import sys
 
 
 def create_directories(path: str) -> None:
-    if not os.path.exists(path) and path != "":
-        os.makedirs(path)
+    if path != "":
+        os.makedirs(path, exist_ok=True)
 
 
 def create_file(path: str) -> None:
@@ -27,8 +27,7 @@ def create_file(path: str) -> None:
 
 
 def create_file_or_directory() -> None:
-    sys.argv.remove(sys.argv[0])
-    path = sys.argv
+    path = sys.argv[1:]
     if not path:
         return
     if path[0] == "-d":
@@ -40,10 +39,25 @@ def create_file_or_directory() -> None:
             directories_path = os.path.join(directories_path, path[idx])
             idx += 1
         create_directories(directories_path)
-        if idx != len(path):
-            create_directories(directories_path)
+        if idx + 1 < len(path):
             if path[idx] == "-f":
                 file_path = os.path.join(directories_path, path[idx + 1])
                 create_file(file_path)
     elif path[0] == "-f":
-        create_file(path[1])
+        if len(path) < 2:
+            print("Please enter a file path")
+            return
+
+        directories_path = ""
+        if len(path) > 2:
+            if path[2] == "-d":
+                idx = 3
+                while idx < len(path):
+                    directories_path = os.path.join(
+                        directories_path,
+                        path[idx]
+                    )
+                    idx += 1
+                create_directories(directories_path)
+        directories_path = os.path.join(directories_path, path[1])
+        create_file(directories_path)
