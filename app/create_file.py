@@ -13,7 +13,10 @@ def create_file(path: str) -> None:
     if os.path.isfile(path):
         mode = "a"
     with open(path, mode) as f:
-        f.write(str(datetime.datetime.strftime(datetime.datetime.now(), "%Y-%m-%d %H:%M:%S")) + "\n")
+        f.write(str(datetime.datetime.strftime(
+            datetime.datetime.now(),
+            "%Y-%m-%d %H:%M:%S")) + "\n"
+        )
         line_num = 1
         input_text = input("Enter content line: ")
         while input_text != "stop":
@@ -44,5 +47,3 @@ def create_file_or_directory() -> None:
                 create_file(file_path)
     elif path[0] == "-f":
         create_file(path[1])
-
-create_file_or_directory()
