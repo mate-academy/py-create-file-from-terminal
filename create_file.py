@@ -70,17 +70,19 @@ def main() -> None:
         print("Usage:")
         print("  python create_file.py -d dir1 dir2")
         print("  python create_file.py -f file.txt")
-        print("  python create_file.py -d dir1 dir2 -f file.txt")
+        print("  python create_file.py -d dir1 dir2 "
+              "-f file.txt")
         return
 
     directories, file_name = parse_arguments(args)
     directory_path = create_directory_path(directories) if directories else ""
 
     if file_name:
-        full_file_path = (
-            os.path.join(directory_path, file_name)
-            if directory_path else file_name
-        )
+        if directory_path:
+            full_file_path = os.path.join(directory_path, file_name)
+        else:
+            full_file_path = file_name
+
         content = collect_content()
         write_to_file(full_file_path, content)
         print(f"✅ File created/updated at: {full_file_path}")
