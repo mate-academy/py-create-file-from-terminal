@@ -46,7 +46,10 @@ def parse_arguments(arguments: list[str]) -> tuple[list[str], str | None]:
     while index < len(arguments):
         if arguments[index] == "-d":
             index += 1
-            while index < len(arguments) and not arguments[index].startswith("-"):
+            while (
+                index < len(arguments)
+                and not arguments[index].startswith("-")
+            ):
                 dir_parts.append(arguments[index])
                 index += 1
         elif arguments[index] == "-f":
@@ -67,14 +70,19 @@ def main() -> None:
         print("Usage:")
         print("  python create_file.py -d dir1 dir2")
         print("  python create_file.py -f file.txt")
-        print("  python create_file.py -d dir1 dir2 -f file.txt")
+        print("  python create_file.py -d dir1 dir2 "
+              "-f file.txt")
         return
 
     directories, file_name = parse_arguments(args)
     directory_path = create_directory_path(directories) if directories else ""
 
     if file_name:
-        full_file_path = os.path.join(directory_path, file_name) if directory_path else file_name
+        if directory_path:
+            full_file_path = os.path.join(directory_path, file_name)
+        else:
+            full_file_path = file_name
+
         content = collect_content()
         write_to_file(full_file_path, content)
         print(f"✅ File created/updated at: {full_file_path}")
@@ -82,6 +90,7 @@ def main() -> None:
         print(f"✅ Directory created at: {directory_path}")
     else:
         print("⚠️ No valid flags provided.")
+
 
 if __name__ == "__main__":
     main()
