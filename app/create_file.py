@@ -30,6 +30,9 @@ def create_file(commands: list) -> None:
             dir_path = os.path.join(*folder_names)
             os.makedirs(dir_path, exist_ok=True)
 
+        if position >= len(commands):
+            continue
+
         if commands[position] == "-f":
             position += 1
 
@@ -50,18 +53,20 @@ def f_argument(file_name: str) -> None:
         raise ValueError("File name not provided")
 
     with open(file_name, "a") as file:
-        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        if os.path.exists(file_name) and os.path.getsize(file_name) > 0:
+            file.write(f"\n{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        else:
+            file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         line = 0
         while True:
             line += 1
-            input_data = input("Enter content line: ")
+            input_data = input("Enter content line:")
             if input_data == "stop":
                 break
             file.write(f"\n {line} {input_data}")
 
 
-if __name__ == "__main__":
-    if len(argv) > 1:
-        create_file(argv)
-    else:
-        print("No argument's provided")
+if len(argv) > 1:
+    create_file(argv)
+else:
+    print("No argument's provided")
