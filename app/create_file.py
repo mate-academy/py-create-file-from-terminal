@@ -12,6 +12,7 @@ def create_file(commands: list) -> None:
         raise ValueError(f"{commands[1]} not a flag!")
 
     dir_path = None
+    file_path = None
 
     position = 1
     while position < len(commands):
@@ -34,6 +35,10 @@ def create_file(commands: list) -> None:
             continue
 
         if commands[position] == "-f":
+
+            if "-d" in commands and not dir_path:
+                raise ValueError("Can't create a file before folder created")
+
             position += 1
 
             if position >= len(commands) or commands[position].startswith("-"):
@@ -54,7 +59,7 @@ def f_argument(file_name: str) -> None:
 
     with open(file_name, "a") as file:
         if os.path.exists(file_name) and os.path.getsize(file_name) > 0:
-            file.write(f"\n{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+            file.write(f"\n\n{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         else:
             file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         line = 0
@@ -63,7 +68,7 @@ def f_argument(file_name: str) -> None:
             input_data = input("Enter content line:")
             if input_data == "stop":
                 break
-            file.write(f"\n {line} {input_data}")
+            file.write(f"\n{line} {input_data}")
 
 
 if len(argv) > 1:
