@@ -12,7 +12,6 @@ def create_file(commands: list) -> None:
         raise ValueError(f"{commands[1]} not a flag!")
 
     dir_path = None
-    file_path = None
 
     position = 1
     while position < len(commands):
