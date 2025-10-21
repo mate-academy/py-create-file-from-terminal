@@ -50,14 +50,14 @@ def f_argument(file_name: str) -> None:
         raise ValueError("File name not provided")
 
     with open(file_name, "a") as file:
-        file.write(f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")} \n")
+        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         line = 0
         while True:
             line += 1
             input_data = input("Enter content line: ")
             if input_data == "stop":
                 break
-            file.write(f"{line} {input_data} \n")
+            file.write(f"\n {line} {input_data}")
 
 
 if __name__ == "__main__":
@@ -65,4 +65,3 @@ if __name__ == "__main__":
         create_file(argv)
     else:
         print("No argument's provided")
-# write your code here
