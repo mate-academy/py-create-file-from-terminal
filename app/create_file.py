@@ -36,7 +36,8 @@ def create_directory(dir_path: str) -> None:
 
 def write_to_file(file_name: str) -> None:
     date_today = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with open(file_name, "w") as file:
+    with open(file_name, "a") as file:
+        file.write("\n")
         file.write(f"{date_today}\n")
         counter = 1
         while True:
