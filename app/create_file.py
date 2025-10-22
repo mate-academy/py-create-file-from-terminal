@@ -12,8 +12,8 @@ def parse(args: list) -> Any:
         if args[i] == "-d":
             i += 1
             while i < len(args) and args[i] != "-f":
-                    dir_ls.append(args[i])
-                    i += 1
+                dir_ls.append(args[i])
+                i += 1
         elif args[i] == "-f":
             i += 1
             if i < len(args):
@@ -26,19 +26,19 @@ def parse(args: list) -> Any:
 
 def content_lines() -> Any:
     lines = []
-    c = 1
+    count = 1
     while True:
         line = input("Enter content line: ")
         if line.strip().lower() == "stop":
             break
-        lines.append(f"{c} {line}")
-        c += 1
+        lines.append(f"{count} {line}")
+        count += 1
     return lines
 
 
-def write(file: Any, lines: list) -> None:
+def write(file_path: Any, lines: list) -> None:
     time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with open(file, "a") as f:
+    with open(file_path, "a") as f:
         f.write(f"\n{time}\n")
         for line in lines:
             f.write(f"{line}\n")
