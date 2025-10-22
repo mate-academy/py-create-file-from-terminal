@@ -38,8 +38,11 @@ def content_lines() -> Any:
 
 def write(file_path: Any, lines: list) -> None:
     time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    file_exists = os.path.exists(file_path)
     with open(file_path, "a") as f:
-        f.write(f"\n{time}\n")
+        if file_exists:
+            f.write("\n")
+        f.write(f"{time}\n")
         for line in lines:
             f.write(f"{line}\n")
 
@@ -48,7 +51,7 @@ def main() -> Any:
     dir_ls, file_name = parse(sys.argv)
     if dir_ls:
         dir_path = os.path.join(*dir_ls)
-        os.makedirs(dir_path)
+        os.makedirs(dir_path, exist_ok=True)
     else:
         dir_path = ""
     if file_name:
