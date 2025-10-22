@@ -4,25 +4,25 @@ import sys
 from typing import Any
 
 
-def parse_arguments(args: sys.argv) -> Any:
+def parse_arguments(args: list[str]) -> Any:
     dir_path = "."
     file_name = None
 
     if "-d" in args:
         dir_index = args.index("-d") + 1
-        if "-f" in args:
-            file_index = args.index("-f")
-            if dir_index < file_index:
-                directories = args[dir_index:file_index]
-            else:
-                directories = args[dir_index:]
-        else:
-            directories = args[dir_index:]
-        dir_path = os.path.join(*directories)
+        directories = []
+
+        for i in range(dir_index, len(args)):
+            if args[i].startswith("-"):
+                break
+            directories.append(args[i])
+
+        if directories:
+            dir_path = os.path.join(*directories)
 
     if "-f" in args:
         file_index = args.index("-f") + 1
-        if file_index >= len(args):
+        if file_index >= len(args) or args[file_index].startswith("-"):
             print("Error: No file name provided after -f")
             sys.exit(1)
         file_name = args[file_index]
@@ -36,8 +36,15 @@ def create_directory(dir_path: str) -> None:
 
 def write_to_file(file_name: str) -> None:
     date_today = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    # Перевіряємо, чи файл вже існує і чи він непорожній
+    file_exists = os.path.exists(file_name)
+    is_empty = not file_exists or os.path.getsize(file_name) == 0
+
     with open(file_name, "a") as file:
-        file.write("\n")
+        if not is_empty:
+            file.write("\n")
+
         file.write(f"{date_today}\n")
         counter = 1
         while True:
