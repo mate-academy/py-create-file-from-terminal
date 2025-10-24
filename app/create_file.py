@@ -16,7 +16,6 @@ def make_directory(directory: list[str]) -> str:
     return path
 
 
-
 def write_file(path: str, file_name: str) -> None:
     date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     filepath = os.path.join(path, file_name)
