@@ -21,19 +21,19 @@ def write_file(path: str, file_name: str) -> None:
     filepath = os.path.join(path, file_name)
 
     exist = os.path.exists(filepath) and os.path.getsize(filepath) > 0
-    with open(filepath, "a", encoding="utf-8") as f:
+    with open(filepath, "a", encoding="utf-8") as source_file:
         if exist:
-            f.write("\n")
-        i = 1
-        f.write(date + "\n")
+            source_file.write("\n")
+        line_numeration = 1
+        source_file.write(date + "\n")
         while True:
             line = input("Enter content line: ").strip()
             if line == "":
                 continue
             if line.strip().lower() == "stop":
                 break
-            f.write(f"{i} {line}\n")
-            i += 1
+            source_file.write(f"{line_numeration} {line}\n")
+            line_numeration += 1
 
 
 def create_file() -> None:
