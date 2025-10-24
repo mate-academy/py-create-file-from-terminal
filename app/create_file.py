@@ -1,4 +1,4 @@
-import argparse
+import sys
 import os
 from datetime import datetime
 
@@ -37,30 +37,41 @@ def write_file(path: str, file_name: str) -> None:
 
 
 def create_file() -> None:
-    parser = argparse.ArgumentParser(
-        description="Create file from terminal",
-        formatter_class=argparse.RawTextHelpFormatter
-    )
+    args: list[str] = sys.argv[1:]
+    directory_segments = []
+    file_name = None
+    i = 0
+    while i < len(args):
+        arg = args[i]
 
-    parser.add_argument(
-        "-d",
-        "--directory",
-        nargs="+",
-        type=str,
-        help="directory names separated by spaces",
-    )
-    parser.add_argument(
-        "-f",
-        "--file",
-        type=str,
-        help="file name",
-        required=True,
-    )
+        if arg in ("-d", "--directory"):
+            i += 1
+            start_index = i
+            temp_segments = []
+            while i < len(args) and not args[i].startswith("-"):
+                temp_segments.append(args[i])
+                i += 1
 
-    args = parser.parse_args()
+            if temp_segments:
+                directory_segments = temp_segments
+            i -= 1
 
-    path = make_directory(args.directory)
-    write_file(path, args.file)
+        elif arg in ("-f", "--file"):
+            i += 1
+            if i >= len(args):
+                print("Błąd: Flaga -f wymaga podania nazwy pliku.")
+                sys.exit(1)
+            if args[i].startswith("-"):
+                print("Błąd: Flaga -f musi mieć przypisaną nazwę pliku, a nie kolejną flagę.")
+                sys.exit(1)
+    i += 1
+    if file_name is None:
+        print("\nBłąd: Argument -f/--file jest obowiązkowy dla tej operacji.")
+        print("Użycie: python skrypt.py [-d SEGMENTY...] -f NAZWA_PLIKU")
+        sys.exit(1)
+
+    path = make_directory(directory_segments)
+    write_file(path, file_name)
 
 
 if __name__ == "__main__":
