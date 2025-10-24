@@ -62,7 +62,7 @@ def create_file() -> None:
                 sys.exit(1)
             if args[i].startswith("-"):
                 print(
-                    f"Błąd: Flaga -f musi mieć przypisaną nazwę pliku,"
+                    "Błąd: Flaga -f musi mieć przypisaną nazwę pliku,"
                     "a nie kolejną flagę."
                 )
                 sys.exit(1)
