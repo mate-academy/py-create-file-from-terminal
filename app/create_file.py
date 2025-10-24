@@ -4,11 +4,15 @@ import sys
 
 
 def write_text(file_path: str) -> None:
+    file_exists = os.path.exists(file_path)
+    not_empty = file_exists and os.path.getsize(file_path) > 0
     with open(file_path, "a", encoding="utf-8") as file:
-        file.write(datetime.now().strftime("%d-%m-%Y %H:%M:%S") + "\n")
+        if not_empty:
+            file.write("\n")
+        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         all_text = []
         while True:
-            text = input("Enter content line:")
+            text = input("Enter content line: ")
             if text.lower() == "stop":
                 break
             all_text.append(text)
@@ -22,8 +26,12 @@ if "-d" in start and "-f" in start:
     d_index = start.index("-d")
     f_index = start.index("-f")
 
-    file_name = start[f_index + 1]
-    dirs = start[d_index + 1 : f_index]
+    if d_index < f_index:
+        dirs = start[d_index + 1: f_index]
+        file_name = start[f_index + 1]
+    else:
+        file_name = start[f_index + 1]
+        dirs = start[d_index + 1:]
 
     path = os.path.join(*dirs)
     os.makedirs(path, exist_ok=True)
