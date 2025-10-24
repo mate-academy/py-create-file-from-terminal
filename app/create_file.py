@@ -46,7 +46,6 @@ def create_file() -> None:
 
         if arg in ("-d", "--directory"):
             i += 1
-            start_index = i
             temp_segments = []
             while i < len(args) and not args[i].startswith("-"):
                 temp_segments.append(args[i])
@@ -62,7 +61,10 @@ def create_file() -> None:
                 print("Błąd: Flaga -f wymaga podania nazwy pliku.")
                 sys.exit(1)
             if args[i].startswith("-"):
-                print("Błąd: Flaga -f musi mieć przypisaną nazwę pliku, a nie kolejną flagę.")
+                print(
+                    f"Błąd: Flaga -f musi mieć przypisaną nazwę pliku,"
+                    "a nie kolejną flagę."
+                )
                 sys.exit(1)
     i += 1
     if file_name is None:
