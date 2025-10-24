@@ -66,14 +66,17 @@ def create_file() -> None:
                     "a nie kolejną flagę."
                 )
                 sys.exit(1)
+            file_name = args[i]
     i += 1
-    if file_name is None:
-        print("\nBłąd: Argument -f/--file jest obowiązkowy dla tej operacji.")
-        print("Użycie: python skrypt.py [-d SEGMENTY...] -f NAZWA_PLIKU")
-        sys.exit(1)
 
     path = make_directory(directory_segments)
-    write_file(path, file_name)
+    if file_name is not None:
+        write_file(path, file_name)
+    else:
+        print(
+            "\nArgument -f nie został podany."
+            "Zakończono tworzenie samej struktury katalogów."
+        )
 
 
 if __name__ == "__main__":
