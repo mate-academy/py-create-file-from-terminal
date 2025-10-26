@@ -11,15 +11,16 @@ def create_file(parts_directory: list[str],
         base = os.getcwd()
         dir_path = os.path.join(base, *parts_directory)
         os.makedirs(dir_path, exist_ok=True)
+        if not file_name:
+            return
         filepath = os.path.join(dir_path, file_name)
-    else:
+    elif file_name:
         filepath = file_name
+    else:
+        return
 
     file_exists = os.path.exists(filepath)
     file_has_content = file_exists and os.path.getsize(filepath) > 0
-
-    if not file_content:
-        return
 
     mode = "a"
     with (open(filepath, mode) as f):
@@ -36,7 +37,7 @@ if __name__ == "__main__":
     args = sys.argv[1:]
     directory = []
     filename = None
-    mode = None
+
     i = 0
 
     while i < len(args):
@@ -47,17 +48,28 @@ if __name__ == "__main__":
             while i < len(args) and not args[i].startswith("-"):
                 directory.append(args[i])
                 i += 1
+            if not directory:
+                sys.exit(1)
         elif arg == "-f":
-            mode = "file"
+
             i += 1
             if i >= len(args) or args[i].startswith("-"):
                 sys.exit(1)
+
+            if filename is not None:
+                sys.exit(1)
             filename = args[i]
             i += 1
-            if i < len(args):
-                sys.exit(1)
+
         else:
             sys.exit(1)
+
+    if directory and not filename:
+
+        create_file(parts_directory=directory,
+                    file_name="",
+                    file_content=[])
+        sys.exit(0)
 
     if not filename:
         sys.exit(1)
@@ -67,6 +79,7 @@ if __name__ == "__main__":
 
     content = []
     try:
+        print("Enter content line (type 'stop' to finish):")
         while True:
             line = input("Enter content line: ").strip()
             if line.lower() == "stop":
