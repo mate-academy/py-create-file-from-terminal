@@ -23,14 +23,14 @@ def create_file(parts_directory: list[str],
     file_has_content = file_exists and os.path.getsize(filepath) > 0
 
     mode = "a"
-    with (open(filepath, mode) as f):
+    with (open(filepath, mode) as file_handle):
         if file_has_content:
-            f.write("\n")
+            file_handle.write("\n")
         timestamp = datetime.datetime.now(
         ).strftime("%Y-%m-%d %H:%M:%S") + "\n"
-        f.write(timestamp)
-        for i, line in enumerate(file_content, 1):
-            f.write(f"{i} {line}\n")
+        file_handle.write(timestamp)
+        for line_number, line in enumerate(file_content, 1):
+            file_handle.write(f"{line_number} {line}\n")
 
 
 if __name__ == "__main__":
