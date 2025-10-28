@@ -30,23 +30,23 @@ def create_new_file_or_add_to_file() -> None:
         else:
             file_path = filename
 
-    list_line = []
-    while True:
-        line_user = input("Enter content line: ")
-        if line_user.lower() == "stop":
-            break
-        list_line.append(line_user)
+        list_line = []
+        while True:
+            line_user = input("Enter content line: ")
+            if line_user == "stop":
+                break
+            list_line.append(line_user)
 
-    if not list_line:
-        return
+        if not list_line:
+            return
 
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    if file_path:
-        with open(file_path, "a") as new_file:
-            new_file.write(f"\n{timestamp}\n")
-            for i, line in enumerate(list_line, start=1):
-                new_file.write(f"{i} {line}\n")
+        if file_path:
+            with open(file_path, "a") as new_file:
+                new_file.write(f"\n{timestamp}\n")
+                for i, line in enumerate(list_line, start=1):
+                    new_file.write(f"{i} {line}\n")
 
 
 if __name__ == "__main__":
