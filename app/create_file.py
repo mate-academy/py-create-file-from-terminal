@@ -21,7 +21,6 @@ def create_new_file_or_add_to_file() -> None:
         dir_path = os.path.join(*directories)
         os.makedirs(dir_path, exist_ok=True)
 
-    file_path = None
     if has_f:
         f_index = args.index("-f")
         filename = args[f_index + 1]
@@ -43,8 +42,13 @@ def create_new_file_or_add_to_file() -> None:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         if file_path:
+            add_newline = (
+                os.path.exists(file_path) and os.path.getsize(file_path) > 0
+            )
             with open(file_path, "a") as new_file:
-                new_file.write(f"\n{timestamp}\n")
+                if add_newline:
+                    new_file.write("\n")
+                new_file.write(f"{timestamp}\n")
                 for i, line in enumerate(list_line, start=1):
                     new_file.write(f"{i} {line}\n")
 
