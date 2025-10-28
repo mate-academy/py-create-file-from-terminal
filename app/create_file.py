@@ -6,7 +6,7 @@ from datetime import datetime
 def create_file() -> None:
     args = sys.argv[1:]
 
-    directory = []
+    directories = []
     file_name = None
     mode = None
 
@@ -17,18 +17,20 @@ def create_file() -> None:
             mode = "file"
         else:
             if mode == "dir":
-                directory.append(arg)
+                directories.append(arg)
             elif mode == "file" and file_name is None:
                 file_name = arg
-    if file_name:
-        if not directory:
-            full_path = file_name
-        else:
-            folder_path = os.path.join(*directory)
-            full_path = os.path.join(folder_path, file_name)
 
-        if directory:
-            os.makedirs(folder_path, exist_ok=True)
+    folder_path = None
+    if directories:
+        folder_path = os.path.join(*directories)
+        os.makedirs(folder_path, exist_ok=True)
+
+    if file_name:
+        if folder_path:
+            full_path = os.path.join(folder_path, file_name)
+        else:
+            full_path = file_name
 
         lines = []
         while True:
@@ -38,8 +40,8 @@ def create_file() -> None:
             lines.append(line)
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        with open(full_path, "a") as f:
-            f.write(timestamp + "\n")
-            for i, line in enumerate(lines, start=1):
-                f.write(f"{i}. {line}\n")
-            f.write("\n")
+        with open(full_path, "a") as output_file:
+            output_file.write(timestamp + "\n")
+            for line_number, content in enumerate(lines, start=1):
+                output_file.write(f"{line_number} {content}\n")
+            output_file.write("\n")
