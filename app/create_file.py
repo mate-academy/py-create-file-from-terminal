@@ -27,20 +27,20 @@ if dir_path:
 
 if f_index != -1:
     file_name = args[f_index + 1]
-file_path = os.path.join(dir_path, file_name) if dir_path else file_name
+    file_path = os.path.join(dir_path, file_name) if dir_path else file_name
 
 lines = []
 while True:
-    line = input("Enter content line:")
-    if line.lower() == "stop":
+    line = input("Enter content line: ")
+    if line == "stop":
         break
     lines.append(line)
 
 timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-content = f"\n {timestamp} \n"
-for i, line in enumerate(lines, start=1):
-    content += f"{i} {line} \n"
+content = f"{timestamp}\n"
+for line_number, line in enumerate(lines, start=1):
+    content += f"{line_number} {line} \n"
 
-with open(file_path, "a", encoding="utf-8") as f:
-    f.write(content)
+with open(file_path, "a", encoding="utf-8") as output_file:
+    output_file.write(content)
