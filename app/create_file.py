@@ -36,7 +36,8 @@ def content_input() -> list:
 
 def create_file() -> None:
     """
-       Create directories and file from command-line args and append user content.
+       Create directories and file from command-line
+       args and append user content.
 
        Command-line flags:
            -d <dir1 dir2 ...> : one or more directory names (creates full path)
