@@ -4,10 +4,13 @@ from datetime import datetime
 
 
 def create_file(file_name: str, path: str = os.getcwd()) -> None:
+
+    if os.path.exists(os.path.join(path, file_name)):
+        with open(os.path.join(path, file_name), "a") as file:
+            file.write("\n")
+
     with open(os.path.join(path, file_name), "a") as file:
         file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
-
-        print("input content lines until you input 'stop'")
 
         lines_count = 0
 
