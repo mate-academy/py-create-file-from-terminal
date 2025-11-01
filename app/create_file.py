@@ -30,8 +30,6 @@ if "-d" in input_list and "-f" not in input_list:
     path = os.path.join(*input_list[input_list.index("-d") + 1:])
     if not os.path.exists(path):
         os.makedirs(path)
-    else:
-        print("Path already exists")
 
 if "-f" in input_list and "-d" not in input_list:
     create_file(input_list[input_list.index("-f") + 1])
