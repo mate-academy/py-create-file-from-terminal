@@ -4,42 +4,44 @@ from datetime import datetime
 
 
 def create_dir() -> None:
+    start_index = sys.argv.index("-d") + 1
+
     if "-f" in sys.argv:
-        if sys.argv.index("-f") > sys.argv.index("-d"):
-            dir_path = os.path.join(*sys.argv[2:-2])
-        else:
-            dir_path = os.path.join(*sys.argv[sys.argv.index("-d") + 1:])
+        end_index = sys.argv.index("-f")
+        dir_path = os.path.join(*sys.argv[start_index:end_index])
     else:
-        dir_path = os.path.join(*sys.argv[2:])
+        dir_path = os.path.join(*sys.argv[start_index:])
+
     os.makedirs(dir_path, exist_ok=True)
 
 
 def create_file() -> None:
+    file_name = sys.argv[sys.argv.index("-f") + 1]
+
     if "-d" in sys.argv:
-        if sys.argv.index("-f") > sys.argv.index("-d"):
-            file_path = os.path.join(*sys.argv[2:-2], sys.argv[-1])
-        else:
-            file_path = os.path.join(
-                *sys.argv[sys.argv.index("-d") + 1:],
-                sys.argv[sys.argv.index("-f") + 1:sys.argv.index("-d")][0])
+        start_index = sys.argv.index("-d") + 1
+        end_index = sys.argv.index("-f")
+        dir_path = os.path.join(*sys.argv[start_index:end_index])
+        file_path = os.path.join(dir_path, file_name)
     else:
-        file_path = sys.argv[2]
+        file_path = file_name
 
     with open(file_path, "a") as file:
-        text = str(datetime.today().strftime("%Y-%m-%d %H:%M:%S"))
-        file.write(text + "\n")
+        current_time = str(datetime.today().strftime("%Y-%m-%d %H:%M:%S"))
+        file.write(current_time + "\n")
 
-        while text != "stop":
+        line_number = 1
+        while True:
             text = input("Enter content line: ")
-            if text != "stop":
-                file.write(text + "\n")
+            if text == "stop":
+                break
+            file.write(f"{line_number} {text}\n")
+            line_number += 1
         file.write("\n")
 
 
 if "-d" in sys.argv:
-
     create_dir()
 
 if "-f" in sys.argv:
-
     create_file()
