@@ -50,15 +50,15 @@ def create_dir(dir_path: str) -> None:
 
 
 def create_text_file(file_name: str) -> None:
-    lines = [datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M:%S")]
+    new_line = "\n" if path.exists(file_name) else ""
+    lines = [new_line + datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M:%S")]
     line = ""
     line_counter = 0
-    print("Enter file content (type \'stop\' to end the file):")
+    print("Enter file content (type \"stop\" to end the file):")
     while line != "stop":
         line_counter += 1
         line = input("Enter content line: ")
         lines.append(f"{line_counter} {line}") if line != "stop" else None
-    lines.append("")
     with open(file_name, "a") as text_file:
         for line in lines:
             text_file.write(f"{line}\n")
