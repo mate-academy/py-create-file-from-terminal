@@ -24,8 +24,14 @@ def get_content_lines() -> list[str]:
 def write_to_file(file_path: str, lines: list[str]) -> None:
     """Write timestamp and numbered lines to a file."""
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    # Check if file already exists and is not empty
+    file_exists = os.path.exists(file_path) and os.path.getsize(file_path) > 0
+
     with open(file_path, "a", encoding="utf-8") as file:
-        file.write(f"\n{timestamp}\n")
+        if file_exists:
+            file.write("\n")
+        file.write(f"{timestamp}\n")
         for idx, line in enumerate(lines, start=1):
             file.write(f"{idx} {line}\n")
 
