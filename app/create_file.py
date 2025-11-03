@@ -2,6 +2,7 @@ import sys
 import os
 from datetime import datetime
 
+
 def parse_arguments(args: list) -> tuple:
     directory_parts = []
     file_name = None
