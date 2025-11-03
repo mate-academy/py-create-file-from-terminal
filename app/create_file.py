@@ -41,11 +41,16 @@ def get_file_content() -> list[str]:
 def write_to_file(file_path: str, content: list[str]) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+    separator = ""
+    if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
+        separator = "\n"
+
     with open(file_path, "a") as file_obj:
+        file_obj.write(separator)
         file_obj.write(f"{timestamp}\n")
+
         for i, content_line in enumerate(content, 1):
             file_obj.write(f"{i} {content_line}\n")
-            file_obj.write("\n")
 
 
 def main() -> None:
