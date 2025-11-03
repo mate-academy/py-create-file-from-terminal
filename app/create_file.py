@@ -54,7 +54,6 @@ def create_text_file(file_name: str) -> None:
     lines = [new_line + datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M:%S")]
     line = ""
     line_counter = 0
-    print("Enter file content (type \"stop\" to end the file):")
     while line != "stop":
         line_counter += 1
         line = input("Enter content line: ")
