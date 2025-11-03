@@ -11,11 +11,11 @@ def create_path(directories: list[str]) -> str:
 
 
 def get_content_lines() -> list[str]:
-    """Read user input lines until 'stop' is entered."""
+    """Read user input lines until the exact word 'stop' is entered."""
     lines: list[str] = []
     while True:
         line = input("Enter content line: ")
-        if line.strip().lower() == "stop":
+        if line == "stop":  # exact match only
             break
         lines.append(line)
     return lines
