@@ -1,89 +1,105 @@
 import os
-import sys
 import datetime
+import argparse
+from typing import Any
 
 
 def content_input() -> list:
     """
-           Collect timestamped multiline user input.
+    Collect timestamped multiline user input.
 
-           Returns:
-               list: First element is a timestamp.
-                     Following elements are numbered lines entered by the user
-                     (input ends when the user types 'stop').
+    Returns:
+        list: First element is a timestamp.
+              Following elements are numbered lines entered by the user
+              (input ends when the user types 'stop').
     """
 
     content = []
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    content.append(timestamp)
 
-    time_stamp = (datetime.datetime.now().
-                  strftime("%Y-%m-%d %H:%M:%S"))
-
-    content.append(time_stamp)
-
-    print("Enter file content line by line, until write stop")
+    print("Enter file content line by line (type 'stop' to finish):")
     lines = []
     while True:
-        comment = input("Enter content line: ")
-        if comment.lower() == "stop":
+        line = input("Line: ")
+        if line.lower() == "stop":
             break
-        lines.append(comment)
+        lines.append(line)
 
-    for idx, line in enumerate(lines, start=1):
-        content.append(f"{idx} {line}")
+    for idx, text in enumerate(lines, start=1):
+        content.append(f"{idx} {text}")
 
     return content
 
 
-def create_file() -> None:
+def parse_args() -> Any:
     """
-       Create directories and file from command-line
-       args and append user content.
+    Parse command-line arguments using argparse.
 
-       Command-line flags:
-           -d <dir1 dir2 ...> : one or more directory names (creates full path)
-           -f <filename>      : file to create or append content to
+    Flags:
+        -d  One or more directory names
+        -f  File name
 
-       Behavior:
-           - creates directories if they don't exist
-           - creates file if missing, otherwise appends
-           - writes timestamp and user-input lines to the file
+    Returns:
+        argparse.Namespace: parsed args with .dirs and .file
     """
-    command_line = sys.argv[1:]
+    parser = argparse.ArgumentParser(description="Create dirs and file.")
 
-    dirs = []
-    file_name = None
+    parser.add_argument(
+        "-d", "--dirs",
+        nargs="+",
+        help="Directories to create"
+    )
 
-    # Get names of all dirs
-    if "-d" in command_line:
-        i = command_line.index("-d") + 1
-        while (i < len(command_line)
-               and not command_line[i].startswith("-")):
-            dirs.append(command_line[i])
-            i += 1
+    parser.add_argument(
+        "-f", "--file",
+        required=True,
+        help="File name to create or append to"
+    )
 
-    # Get file name
-    if "-f" in command_line:
-        i = command_line.index("-f") + 1
-        if i < len(command_line):
-            file_name = command_line[i]
+    return parser.parse_args()
 
-    # Create directories
+
+def create_directories(dirs: list) -> str:
+    """
+    Create directory chain if provided.
+
+    Args:
+        dirs (list): list of directories
+
+    Returns:
+        str: full directory path or empty string
+    """
     if dirs:
-        full_dir_path = os.path.join(*dirs)
-        os.makedirs(full_dir_path, exist_ok=True)
-    else:
-        full_dir_path = ""
+        full_path = os.path.join(*dirs)
+        os.makedirs(full_path, exist_ok=True)
+        return full_path
 
-    # If file name was given, create or append
-    if file_name:
-        full_file_path = os.path.join(full_dir_path, file_name)
+    return ""
 
-        # Check if file exists
-        file_exists = os.path.exists(full_file_path)
-        data = content_input()
 
-        with open(full_file_path, "a", encoding="utf-8") as f:
-            if file_exists:
-                f.write("\n")
-            for line in data:
-                f.write(line + "\n")
+def write_file(dir_path: str, file_name: str) -> None:
+    """
+    Create or append to file and write timestamp+content.
+
+    Args:
+        dir_path (str): directory path
+        file_name (str): target file name
+    """
+    file_path = os.path.join(dir_path, file_name)
+
+    data = content_input()
+    file_exists = os.path.exists(file_path)
+
+    with open(file_path, "a", encoding="utf-8") as f:
+        if file_exists:
+            f.write("\n")
+        for line in data:
+            f.write(line + "\n")
+
+
+def create_file() -> None:
+    args = parse_args()
+
+    dir_path = create_directories(args.dirs)
+    write_file(dir_path, args.file)
