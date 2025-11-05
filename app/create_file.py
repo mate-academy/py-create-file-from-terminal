@@ -45,7 +45,7 @@ def _fill_file(current_file: open) -> None:
         if data == "stop":
             break
 
-        current_file.write(f"Line{number_line} " + data + "\n")
+        current_file.write(f"{number_line} " + data + "\n")
         number_line += 1
 
 
