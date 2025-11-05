@@ -21,11 +21,11 @@ def file_creator(file_name: str) -> None:
         file_content.append(f"{i} {content_line}")
         i += 1
     if file_content:
-        with open(file_name, "a") as f:
+        with open(file_name, "a") as output_file:
             time_now = datetime.now()
-            f.write(time_now.strftime("%m-%d-%Y %H-%M-%S\n"))
+            output_file.write(time_now.strftime("2022-02-01 14:41:10 \n"))
             for line in file_content:
-                f.write(line + "\n")
+                output_file.write(line + "\n")
 
 
 def create_file() -> None:
@@ -34,15 +34,15 @@ def create_file() -> None:
         if args.index("-d") < args.index("-f"):
             directories = args[args.index("-d")
                                + 1: args.index("-f")]
-            file = args[args.index("-f") + 1]
+            filename = args[args.index("-f") + 1]
         else:
             directories = args[args.index("-d") + 1:]
-            file = args[args.index("-f") + 1]
-        file_name = os.path.join(create_directory(directories), file)
+            filename = args[args.index("-f") + 1]
+        file_name = os.path.join(create_directory(directories), filename)
         file_creator(file_name)
     elif "-f" in args:
-        file = args[args.index("-f") + 1]
-        file_creator(file)
+        filename = args[args.index("-f") + 1]
+        file_creator(filename)
     elif "-d" in args:
         directories = args[args.index("-d") + 1:]
         create_directory(directories)
