@@ -41,7 +41,7 @@ def _fill_file(current_file: open) -> None:
     current_file.write(time + "\n")
     number_line = 1
     while True:
-        data = input("Enter content line:")
+        data = input("Enter content line: ")
         if data == "stop":
             break
 
