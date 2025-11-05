@@ -20,12 +20,23 @@ def file_creator(file_name: str) -> None:
             break
         file_content.append(f"{i} {content_line}")
         i += 1
-    if file_content:
-        with open(file_name, "a") as output_file:
-            time_now = datetime.now()
-            output_file.write(time_now.strftime("2022-02-01 14:41:10 \n"))
-            for line in file_content:
-                output_file.write(line + "\n")
+    if not file_content:
+        print("No content entered. File not modified.")
+        return
+
+    file_exists_and_not_empty = (os.path.exists(file_name)
+                                 and os.path.getsize(file_name) > 0)
+
+    with open(file_name, "a", encoding="utf-8") as output_file:
+        if file_exists_and_not_empty:
+            output_file.write("\n")
+
+        time_now = datetime.now()
+        output_file.write(time_now.strftime("%Y-%m-%d %H:%M:%S \n"))
+        for line in file_content:
+            output_file.write(line + "\n")
+
+    print(f"File '{file_name}' updated successfully.")
 
 
 def create_file() -> None:
