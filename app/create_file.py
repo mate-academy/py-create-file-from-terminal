@@ -3,3 +3,4 @@
 
 def default_func() -> None:
     pass
+    pass
