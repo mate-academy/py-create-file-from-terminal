@@ -12,21 +12,20 @@ def create_directories(path_parts: list[str]) -> str:
 
 def write_to_file(file_path: str) -> None:
     """Ask user for content and write it with timestamp and line numbers."""
-    print("Enter content line (type 'stop' to finish):")
     lines = []
     while True:
-        line = input("Enter content line: ")
+        line = input("Enter content line (type 'stop' to finish): ")
         if line.strip().lower() == "stop":
             break
         lines.append(line)
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    with open(file_path, "a", encoding="utf-8") as file:
-        file.write(f"{timestamp}\n")
-        for i, line in enumerate(lines, start=1):
-            file.write(f"{i} {line}\n")
-        file.write("\n")
+    with open(file_path, "a", encoding="utf-8") as output_file:
+        output_file.write(f"{timestamp}\n")
+        for line_number, line in enumerate(lines, start=1):
+            output_file.write(f"{line_number} {line}\n")
+        output_file.write("\n")
 
     print(f"\n✅ File '{file_path}' updated successfully.")
 
@@ -39,7 +38,9 @@ def main() -> None:
         print("Usage examples:")
         print("  python create_file.py -d dir1 dir2")
         print("  python create_file.py -f file.txt")
-        print("  python create_file.py -d dir1 dir2 -f file.txt")
+        print(
+            "  python create_file.py -d dir1 dir2 -f file.txt"
+        )
         sys.exit(1)
 
     dir_parts: list[str] = []
@@ -69,8 +70,10 @@ def main() -> None:
         file_path = os.path.join(dir_path, file_name)
         write_to_file(file_path)
     else:
-        print("✅ Directory created:", dir_path)
-        print("(No file specified.)")
+        print(
+            f"✅ Directory '{dir_path}' created successfully "
+            "(no file specified)."
+        )
 
 
 if __name__ == "__main__":
