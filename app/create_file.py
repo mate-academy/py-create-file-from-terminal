@@ -14,18 +14,24 @@ def write_to_file(file_path: str) -> None:
     """Ask user for content and write it with timestamp and line numbers."""
     lines = []
     while True:
-        line = input("Enter content line (type 'stop' to finish): ")
+        line = input("Enter content line: ")
         if line.strip().lower() == "stop":
             break
         lines.append(line)
 
+    if not lines:
+        return
+
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    file_exists = os.path.exists(file_path)
+    has_content = file_exists and os.path.getsize(file_path) > 0
 
     with open(file_path, "a", encoding="utf-8") as output_file:
+        if has_content:
+            output_file.write("\n")  # порожній рядок перед новим блоком
         output_file.write(f"{timestamp}\n")
         for line_number, line in enumerate(lines, start=1):
             output_file.write(f"{line_number} {line}\n")
-        output_file.write("\n")
 
     print(f"\n✅ File '{file_path}' updated successfully.")
 
@@ -48,7 +54,6 @@ def main() -> None:
 
     if "-d" in args:
         d_index = args.index("-d") + 1
-        # Take directory parts until -f or end
         for i in range(d_index, len(args)):
             if args[i] == "-f":
                 break
