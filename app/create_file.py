@@ -70,7 +70,7 @@ def main() -> None:
             line_number = 1
             while True:
                 line = input("Enter content line: ")
-                if line.lower() == "stop":
+                if line == "stop":
                     break
                 file.write(f"{line_number} {line}\n")
                 line_number += 1
