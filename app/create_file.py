@@ -22,12 +22,12 @@ if "-f" in arguments:
         filepath = filename
     lines = []
     while True:
-        line = input()
+        line = input("Enter content line:")
         if line.strip().lower() == "stop":
             break
         lines.append(line)
     with open(filepath, "a") as output_file:
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        output_file.write(f"\n{timestamp}\n")
-        for i, line in enumerate(lines, start=1):
-            output_file.write(f"{i} {line}\n")
+        output_file.write(f"{timestamp}\n")
+        for line_number, line in enumerate(lines, start=1):
+            output_file.write(f"{line_number} {line}\n")
