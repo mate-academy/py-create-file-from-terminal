@@ -27,7 +27,6 @@ def create_directories(dir_list: list[str], file_name: str | None) -> str:
     if dir_list:
         path = os.path.join(*dir_list)
         os.makedirs(path, exist_ok=True)
-        print(f"Directories created: {path}")
     else:
         path = ""
 
@@ -42,7 +41,7 @@ def write_file(file_path: str) -> None:
     lines = []
     while True:
         line = input("Enter content line: ")
-        if line.lower() == "stop":
+        if line == "stop":
             break
         lines.append(line)
 
@@ -59,14 +58,9 @@ def write_file(file_path: str) -> None:
             file.write(f"{i} {line}\n")
         file.write("\n")
 
-    print(f"File '{file_path}' updated with {len(lines)} lines.")
-
 
 if __name__ == "__main__":
     dir_list, file_name = parse_arguments()
     file_path = create_directories(dir_list, file_name)
     if file_name:
         write_file(file_path)
-    else:
-        print("No file name was provided (-f). "
-              "Only directory(ies) were created.")
