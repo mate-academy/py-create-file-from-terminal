@@ -10,11 +10,10 @@ filename = None
 for i in range(len(sys.argv)):
     if sys.argv[i] == "-d":
         next_step = i + 1
-        while next_step < len(sys.argv) and not sys.argv[next_step] == "-f":
-            if not sys.argv[next_step].startswith("-"):
-                directories.append(sys.argv[next_step])
-            else:
+        while next_step < len(sys.argv) and sys.argv[next_step] != "-f":
+            if sys.argv[next_step].startswith("-"):
                 break
+            directories.append(sys.argv[next_step])
             next_step += 1
     if sys.argv[i] == "-f":
         filename = sys.argv[i + 1] if i + 1 < len(sys.argv) else None
@@ -43,14 +42,14 @@ def write_to_file(file_path: str, content: list[str]) -> None:
         return
 
     has_content = os.path.exists(file_path) and os.path.getsize(file_path) > 0
-    with open(file_path, "a") as file:
+    with open(file_path, "a") as source_file:
         if has_content:
-            file.write("\n")
-        file.write(f"{datetime.datetime.now().strftime(
+            source_file.write("\n")
+        source_file.write(f"{datetime.datetime.now().strftime(
             "%Y-%m-%d %H:%M:%S"
         )}\n")
         for index, line in enumerate(content, start=1):
-            file.write(f"{index} {line}\n")
+            source_file.write(f"{index} {line}\n")
 
 
 def create_file(filename: str) -> None:
@@ -67,6 +66,9 @@ def create_file(filename: str) -> None:
 if __name__ == "__main__":
     if filename:
         create_file(filename)
+    elif directories:
+        create_directories()
+        print("Directories created. No file specified.")
     else:
         print("No filename given")
         sys.exit(1)
