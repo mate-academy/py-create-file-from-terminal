@@ -5,20 +5,25 @@ from datetime import datetime
 
 def parse_arguments() -> tuple[list[str], str | None]:
     args = sys.argv[1:]
-    dir_list = []
-    file_name = None
+    dir_list: list[str] = []
+    file_name: str | None = None
 
-    if "-d" in args:
-        d_index = args.index("-d")
-        if "-f" in args:
-            f_index = args.index("-f")
-            dir_list = args[d_index + 1: f_index]
+    i = 0
+    while i < len(args):
+        if args[i] == "-d":
+            i += 1
+            while i < len(args) and args[i] not in ("-d", "-f"):
+                dir_list.append(args[i])
+                i += 1
+        elif args[i] == "-f":
+            i += 1
+            if i < len(args):
+                file_name = args[i]
+                i += 1
+            else:
+                sys.exit(1)
         else:
-            dir_list = args[d_index + 1:]
-
-    if "-f" in args:
-        f_index = args.index("-f")
-        file_name = args[f_index + 1]
+            i += 1
 
     return dir_list, file_name
 
@@ -46,7 +51,6 @@ def write_file(file_path: str) -> None:
         lines.append(line)
 
     if not lines:
-        print("There is no content. File was not changed.")
         return
 
     now = datetime.now()
