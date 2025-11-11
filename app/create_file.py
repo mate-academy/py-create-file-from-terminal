@@ -27,7 +27,7 @@ def get_content_lines() -> list[str]:
     lines: list[str] = []
     while True:
         line = input("Enter content line: ")
-        if line.strip().lower() == "stop":
+        if line == "stop":
             break
         lines.append(line)
     return lines
@@ -61,6 +61,13 @@ def main() -> None:
         return
 
     dir_parts, file_name = parse_args(args)
+
+    if dir_parts and not file_name:
+        dir_path = os.path.join(*dir_parts)
+        os.makedirs(dir_path, exist_ok=True)
+        print(f"Directory created at: {dir_path}")
+        return
+
     if not file_name:
         print("Missing -f filename argument.")
         return
