@@ -16,6 +16,7 @@ def create_file_in_terminal(path_of_file: str) -> None:
             else:
                 file.writelines("\n")
                 break
+            line_number += 1
 
 
 def create_dir_in_terminal(
@@ -31,18 +32,18 @@ def create_file_from_terminal() -> None:
         f_index = sys.argv.index("-f")
 
         # Аргументи між -d і -f → це директорії
-        folders = sys.argv[d_index : f_index - 1]
+        folders = sys.argv[d_index + 1 : f_index]
         dir_path = os.path.join(*folders)
         create_dir_in_terminal(dir_path)
 
-        file_name = sys.argv[f_index]
+        file_name = sys.argv[f_index + 1]
         file_path = os.path.join(dir_path, file_name)
         create_file_in_terminal(file_path)
 
-    if "-f" == current_params[1]:
+    elif "-f" == current_params[1]:
         create_file_in_terminal(current_params[2])
 
-    if "-d" == current_params[1]:
+    elif "-d" == current_params[1]:
         create_dir_in_terminal(os.path.join(
             *current_params[2:-1], current_params[-1])
         )
