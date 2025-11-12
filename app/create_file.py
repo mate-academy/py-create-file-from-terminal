@@ -13,7 +13,7 @@ def create_file(file_name: str) -> None:
         if os.path.exists(file_name) and os.path.getsize(file_name) > 0:
             file.write("\n")
 
-        file.write(f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
+        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         line_number = 1
         while True:
             user_prompt = input("Enter content line: ")
