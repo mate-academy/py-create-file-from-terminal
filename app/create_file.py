@@ -6,16 +6,15 @@ from typing import LiteralString
 
 def create_file_in_terminal(path_of_file: str) -> None:
     with open(path_of_file, "a") as file:
-        now = datetime.now()  # поточний час і дата
+        now = datetime.now()  # current time and date
         file.write(now.strftime("%Y-%m-%d %H:%M:%S") + "\n")
         line_number = 1
         while True:
             str_for_write = input("Enter content line:")
-            if str_for_write.lower() != "stop":
-                file.writelines(f"{line_number} {str_for_write}\n")
-            else:
+            if str_for_write.lower() == "stop":
                 file.writelines("\n")
                 break
+            file.write(f"{line_number} {str_for_write}\n")
             line_number += 1
 
 
@@ -31,7 +30,6 @@ def create_file_from_terminal() -> None:
         d_index = sys.argv.index("-d")
         f_index = sys.argv.index("-f")
 
-        # Аргументи між -d і -f → це директорії
         folders = sys.argv[d_index + 1 : f_index]
         dir_path = os.path.join(*folders)
         create_dir_in_terminal(dir_path)
@@ -45,7 +43,7 @@ def create_file_from_terminal() -> None:
 
     elif "-d" == current_params[1]:
         create_dir_in_terminal(os.path.join(
-            *current_params[2:-1], current_params[-1])
+            *current_params[2:], current_params[-1])
         )
 
 
