@@ -27,9 +27,14 @@ if list_dirs:
     path = os.path.join(*list_dirs)
     os.makedirs(path, exist_ok=True)
 else:
-    path = ""
+    path = "."
+
+if "filename" not in locals():
+    print("Directories created:", path)
+    sys.exit(0)
 
 full_path = os.path.join(path, filename)
+
 lines = []
 count = 1
 
@@ -51,5 +56,5 @@ else:
 
 final = prefix + header + "\n" + body + "\n"
 
-with open(full_path, "a", encoding="utf-8") as f:
-    f.write(final)
+with open(full_path, "a", encoding="utf-8") as target_file:
+    target_file.write(final)
