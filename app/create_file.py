@@ -15,8 +15,13 @@ def create_file(file_path: str) -> None:
             file.write("\n")
 
         file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
-        for i, line in enumerate(iter(lambda: input("Enter content line: "), "stop"), 1):
+        i = 1
+        while True:
+            line = input("Enter content line: ")
+            if line == "stop":
+                break
             file.write(f"{i} {line}\n")
+            i += 1
 
 
 def main() -> None:
