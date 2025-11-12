@@ -16,8 +16,12 @@ if "-d" in sys.argv:
 
 if "-f" in sys.argv:
     index_need = sys.argv.index("-f") + 1
-    with open(f"{directory}/{sys.argv[index_need]}", "a") as file:
-        file.write(f"{datetime.datetime.now()}\n")
+    file_name = sys.argv[index_need]
+    file_path = os.path.join(directory, file_name)
+
+    with open(file_path, "a") as file:
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(f"{timestamp}\n")
         line_number = 1
         while True:
             text = str(input("Enter content line: "))
