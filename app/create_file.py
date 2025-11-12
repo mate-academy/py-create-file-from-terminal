@@ -3,45 +3,41 @@ import os
 from datetime import datetime
 
 
-def create_directory(path: str) -> None:
-    if not os.path.exists(path):
-        os.makedirs(path)
+def create_directory(directories: list) -> str:
+    path = os.path.join(*directories)
+    os.makedirs(path, exist_ok=True)
+    return path
 
 
-def create_file(file_name: str) -> None:
-    with open(file_name, "a") as file:
-        if os.path.exists(file_name) and os.path.getsize(file_name) > 0:
+def create_file(file_path: str) -> None:
+    with open(file_path, "a", encoding="utf-8") as file:
+        if os.path.getsize(file_path) > 0:
             file.write("\n")
 
         file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
-        line_number = 1
-        while True:
-            user_prompt = input("Enter content line: ")
-            if user_prompt.strip().lower() == "stop":
-                break
-            file.write(f"{line_number} {user_prompt}\n")
-            line_number += 1
+        for i, line in enumerate(iter(lambda: input("Enter content line: "), "stop"), 1):
+            file.write(f"{i} {line}\n")
 
 
-args = sys.argv[1:]
+def main() -> None:
+    args = sys.argv[1:]
+    if not args:
+        return
 
-flag_d_index = args.index("-d") if "-d" in args else None
-flag_f_index = args.index("-f") if "-f" in args else None
-
-
-if flag_d_index is not None:
-    path_parts = []
-    for arg in args[flag_d_index + 1 :]:
-        if arg.startswith("-"):
-            break
-        path_parts.append(arg)
-
-    path = os.path.join(*path_parts)
-    create_directory(path)
-else:
     path = ""
 
-if flag_f_index is not None:
-    file_name = args[flag_f_index + 1]
-    full_path = os.path.join(path, file_name) if path else file_name
-    create_file(full_path)
+    if "-d" in args:
+        d_index = args.index("-d")
+        f_index = args.index("-f") if "-f" in args else len(args)
+        path_parts = args[d_index + 1: f_index]
+        path = create_directory(path_parts)
+
+    if "-f" in args:
+        f_index = args.index("-f")
+        file_name = args[f_index + 1]
+        file_path = os.path.join(path, file_name) if path else file_name
+        create_file(file_path)
+
+
+if __name__ == "__main__":
+    main()
