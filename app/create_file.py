@@ -26,7 +26,10 @@ def create_file(name: str) -> None:
 
 def check_args() -> None:
     if "-d" in arguments and "-f" in arguments:
-        dirs = arguments[arguments.index("-d") + 1: arguments.index("-f")]
+        if arguments[arguments.index("-d")] > arguments[arguments.index("-f")]:
+            dirs = arguments[arguments.index("-d") + 1: arguments.index("-f")]
+        else:
+            dirs = arguments[arguments.index("-d") + 1:]
         create_directory(dirs)
         path_to_file = os.path.join(
             *dirs,
@@ -37,7 +40,7 @@ def check_args() -> None:
         dirs = arguments[arguments.index("-d") + 1:]
         create_directory(dirs)
     elif "-f" in arguments:
-        create_file(arguments[-1])
+        create_file(arguments[arguments.index("-f") + 1])
 
 
 if __name__ == "__main__":
