@@ -4,7 +4,7 @@ import sys
 from datetime import datetime
 
 
-def create_path(directories) -> str:
+def create_path(directories: list[str]) -> str:
     if len(directories) == 0:
         return "."
     path = os.path.join(*directories)
@@ -39,7 +39,6 @@ def create_and_fulfill_file(directory_path: list["str"]) -> None:
 
 
 def create_file_main() -> None:
-    result = 1
     directory_path = sys.argv[1:]
     if len(directory_path) != 0:
         if "-d" in directory_path:
@@ -50,14 +49,3 @@ def create_file_main() -> None:
 
 
 create_file_main()
-
-
-
-
-
-
-
-
-
-
-
