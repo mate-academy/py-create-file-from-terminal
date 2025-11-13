@@ -5,7 +5,6 @@ from typing import List, Optional, Tuple
 
 
 def parse_args(argv: List[str]) -> Tuple[List[str], Optional[str]]:
-    """Parse command line args and return (dir_parts, filename)."""
     args = argv[:]
     dir_parts: List[str] = []
     filename: Optional[str] = None
@@ -37,19 +36,14 @@ def parse_args(argv: List[str]) -> Tuple[List[str], Optional[str]]:
 
 
 def ensure_directory(dir_parts: List[str]) -> str:
-    """Create and return the target directory path."""
     if not dir_parts:
         return "."
     target_path = os.path.join(*dir_parts)
     os.makedirs(target_path, exist_ok=True)
-    print(f"Diretório criado/assegurado: {target_path}")
     return target_path
 
 
 def write_content(full_path: str) -> None:
-    """Append timestamp and user lines to the file.
-    Adds a separating blank line only if the file already has content.
-    """
     file_exists = os.path.exists(full_path)
     non_empty = file_exists and os.path.getsize(full_path) > 0
 
@@ -60,7 +54,6 @@ def write_content(full_path: str) -> None:
             file_obj.write("\n")
         file_obj.write(f"{timestamp}\n")
 
-        print("Enter content line (type 'stop' to finish):")
         line_number = 1
         while True:
             try:
@@ -71,8 +64,6 @@ def write_content(full_path: str) -> None:
                 break
             file_obj.write(f"{line_number} {user_input}\n")
             line_number += 1
-
-    print(f"Conteúdo salvo com sucesso em: {full_path}")
 
 
 def main() -> None:
@@ -88,5 +79,4 @@ def main() -> None:
         return
 
     full_file_path = os.path.join(target_path, filename)
-    print(f"Abrindo arquivo: {full_file_path}")
     write_content(full_file_path)
