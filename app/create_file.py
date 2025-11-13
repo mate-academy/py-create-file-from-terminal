@@ -1,84 +1,76 @@
-#!/usr/bin/env python3
-import sys
+"""Utility for creating directories and writing content to files."""
+
 import os
 from datetime import datetime
+from pathlib import Path
 
 
-def create_directories(dir_parts):
-    """Create directories based on parts of the path."""
-    dir_path = os.path.join(*dir_parts)
+def create_directories(path_parts):
+    """
+    Create nested directories based on the given path parts.
+
+    Args:
+        path_parts (list[str]): List of path parts to join.
+
+    Returns:
+        Path: Path object representing the created directory.
+    """
+    dir_path = Path(path_parts[0])
+    for part in path_parts[1:]:
+        dir_path = dir_path / part
+
     os.makedirs(dir_path, exist_ok=True)
     return dir_path
 
 
+def write_to_file(file_path, lines):
+    """
+    Write lines to a file with timestamp and line numbering.
+
+    Args:
+        file_path (str | Path): Path to the file to write.
+        lines (list[str]): Lines to write.
+    """
+    file_path = Path(file_path)
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    with open(file_path, "w", encoding="utf-8") as file:
+        file.write(f"Created: {timestamp}\n\n")
+        for i, line in enumerate(lines, start=1):
+            file.write(f"{i}. {line}\n")
+
+
 def get_content_from_user():
-    """Prompt the user to input lines until 'stop' is entered."""
-    lines = []
+    """
+    Prompt user for lines of text until 'stop' is entered.
+
+    Returns:
+        list[str]: List of entered lines.
+    """
+    content = []
     while True:
-        line = input("Enter content line: ")
+        line = input("Введите строку (или 'stop' для завершения): ")
         if line.strip().lower() == "stop":
             break
-        lines.append(line)
-    return lines
-
-
-def write_to_file(file_path, lines):
-    """Write timestamp and numbered lines to the file."""
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with open(file_path, "a", encoding="utf-8") as file:
-        file.write(f"{timestamp}\n")
-        for i, line in enumerate(lines, start=1):
-            file.write(f"{i} {line}\n")
-        file.write("\n")
-    print(f"File created/updated at: {file_path}")
+        content.append(line)
+    return content
 
 
 def main():
-    """Main entry point of the script."""
-    args = sys.argv[1:]
+    """Command-line entry point for creating a file."""
+    print("=== Создание файла ===")
+    folder_path = input("Введите путь к папке: ").strip()
+    file_name = input("Введите имя файла (например example.txt): ").strip()
 
-    if not args:
-        print("Usage:")
-        print("  python create_file.py -d dir1 dir2 -f file.txt")
-        print("  python create_file.py -d dir1 dir2")
-        print("  python create_file.py -f file.txt")
-        sys.exit(1)
+    lines = get_content_from_user()
 
-    dir_parts = []
-    file_name = None
+    dir_path = create_directories([folder_path])
+    file_path = Path(dir_path) / file_name
 
-    if "-d" in args:
-        d_index = args.index("-d")
-        for item in args[d_index + 1:]:
-            if item == "-f":
-                break
-            dir_parts.append(item)
-
-    if "-f" in args:
-        f_index = args.index("-f")
-        if f_index + 1 < len(args):
-            file_name = args[f_index + 1]
-        else:
-            print("Error: Missing file name after -f flag.")
-            sys.exit(1)
-
-    if dir_parts and file_name:
-        dir_path = create_directories(dir_parts)
-        file_path = os.path.join(dir_path, file_name)
-        lines = get_content_from_user()
-        write_to_file(file_path, lines)
-
-    elif dir_parts and not file_name:
-        create_directories(dir_parts)
-        print(f"Directory created: {os.path.join(*dir_parts)}")
-
-    elif file_name and not dir_parts:
-        lines = get_content_from_user()
-        write_to_file(file_name, lines)
-
-    else:
-        print("Error: Invalid usage. Please provide -d or -f flag.")
-        sys.exit(1)
+    write_to_file(file_path, lines)
+    print(f"\nФайл успешно создан: {file_path.absolute()}")
 
 
 if __name__ == "__main__":
