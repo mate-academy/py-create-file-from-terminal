@@ -65,7 +65,3 @@ def main():
             line_number += 1
 
     print(f"Conteúdo salvo com sucesso em: {full_file_path}")
-
-
-if __name__ == "__main__":
-    main()
