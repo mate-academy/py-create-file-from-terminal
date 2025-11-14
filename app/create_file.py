@@ -9,15 +9,15 @@ def create_path(directories: list) -> str:
 
 def create_file() -> None:
     args = sys.argv
-    base = os.path.dirname(args[0])
-
-    path_dict = []
+    base = os.getcwd()
+    print(base)
+    directories = []
     if "-d" in args:
         d_index = args.index("-d") + 1
         while d_index < len(args) and args[d_index] != "-f":
-            path_dict.append(args[d_index])
+            directories.append(args[d_index])
             d_index += 1
-        path_to_work_directory = create_path([base, *path_dict])
+        path_to_work_directory = create_path([base, *directories])
         os.makedirs(path_to_work_directory, exist_ok=True)
         base = path_to_work_directory
 
@@ -34,7 +34,7 @@ def create_file() -> None:
             file.write(f"{time}\n")
             count = 1
             while True:
-                line = input("Enter line: ")
+                line = input("Enter content line: ")
                 if line.lower() == "stop":
                     break
                 file.write(f"{count} {line}\n")
