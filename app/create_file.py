@@ -66,10 +66,11 @@ def main() -> None:
     directory_path = create_directory_path(directories)
     ensure_directory_exists(directory_path)
 
-    if not file_name:
+    if "-f" in sys.argv and not file_name:
         print("No file name provided with -f flag.")
         return
-
+    if "-f" not in sys.argv:
+        return
     file_path = os.path.join(directory_path, file_name)
     lines = collect_user_input()
     write_to_file(file_path, lines)
