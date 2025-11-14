@@ -43,14 +43,13 @@ def main() -> None:
             while i < len(args) and args[i] not in ("-f", "-d"):
                 dir_parts.append(args[i])
                 i += 1
-            continue
-
-        if args[i] == "-f":
+        elif args[i] == "-f":
             i += 1
             if i < len(args):
                 file_name = args[i]
                 i += 1
-            continue
+        else:
+            return
 
     directory = ""
     if dir_parts:
