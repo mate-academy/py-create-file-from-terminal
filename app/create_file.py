@@ -16,7 +16,7 @@ def current_date() -> str:
 
 def process_file(args_list: list) -> None:
 
-    if args_list[0] == "-b":
+    if args_list[0] == "-d":
         i = 1
         path_parts = []
         while args_list[i] != "-f":
@@ -31,7 +31,7 @@ def process_file(args_list: list) -> None:
     if directory:
         os.makedirs(directory, exist_ok=True)
 
-    with open(path_to_file, "w") as file:
+    with open(path_to_file, "a") as file:
         line_counter = 1
         file.write(current_date() + "\n")
         while True:
