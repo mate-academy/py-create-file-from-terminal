@@ -65,20 +65,25 @@ def main() -> None:
     directories = extract_directories(args)
     file_name = extract_filename(args)
 
-    if file_name is None:
-        print("Error: file name is missing after -f flag.")
-        return
-
+    # Создаём каталоги, если они указаны
     if directories:
         directory_path = os.path.join(*directories)
         os.makedirs(directory_path, exist_ok=True)
+        print(f"Directories created at: {directory_path}")
+
+    # Если файла нет — программа завершает работу
+    if file_name is None:
+        return
+
+    # Определяем путь к файлу
+    if directories:
         file_path = os.path.join(directory_path, file_name)
     else:
         file_path = file_name
 
+    # Сбор контента и запись
     content_lines = collect_content()
     write_content(file_path, content_lines)
-
     print(f"File created/updated at: {file_path}")
 
 
