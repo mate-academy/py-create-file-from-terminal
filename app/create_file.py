@@ -7,7 +7,7 @@ def create_path(directories: list) -> str:
     return os.path.join(*directories)
 
 
-def create_file():
+def create_file() -> None:
     args = sys.argv
     base = os.path.dirname(args[0])
 
@@ -20,7 +20,6 @@ def create_file():
         path_to_work_directory = create_path([base, *path_dict])
         os.makedirs(path_to_work_directory, exist_ok=True)
         base = path_to_work_directory
-
 
     if "-f" in args:
         f_index = args.index("-f")
@@ -40,5 +39,6 @@ def create_file():
                     break
                 file.write(f"{count} {line}\n")
                 count += 1
+
 
 create_file()
