@@ -17,12 +17,14 @@ def read_content_from_terminal() -> list[str]:
 
 def write_content_to_file(path: str, lines: list[str]) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    needs_separator = os.path.exists(path) and os.path.getsize(path) > 0
 
     with open(path, "a", encoding="utf-8") as f:
+        if needs_separator:
+            f.write("\n")
         f.write(f"{timestamp}\n")
         for line in lines:
             f.write(f"{line}\n")
-        f.write("\n")
 
 
 def main() -> None:
