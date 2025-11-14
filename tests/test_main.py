@@ -50,7 +50,7 @@ class TestCreateFileLogic(unittest.TestCase):
                 return_value=mock_time_value)
     def test_03_format_new_block(self, mock_time):
         input_lines = ["Line one", "Line two"]
-        expected = f"\n{mock_time_value}\n1 Line one\n2 Line two\n"
+        expected = f"{mock_time_value}\n1 Line one\n2 Line two\n"
         result = create_file.format_new_block(input_lines)
         self.assertEqual(result, expected)
 
@@ -62,8 +62,7 @@ class TestCreateFileLogic(unittest.TestCase):
         create_file.sys.argv = ["create_file.py", create_file.file_flag,
                                 file_name]
         create_file.main()
-
-        expected_content = f"\n{mock_time_value}\n1 Content A\n"
+        expected_content = f"{mock_time_value}\n1 Content A\n"
         self.assertTrue(os.path.exists(file_name))
         self.assertEqual(self.read_file_content(file_name), expected_content)
 
@@ -75,18 +74,15 @@ class TestCreateFileLogic(unittest.TestCase):
                              "2025-01-01 12:05:00"])
     def test_05_main_append_content(self, mock_time, mock_input):
         file_name = "test_append.txt"
-
         create_file.sys.argv = ["create_file.py", create_file.file_flag,
                                 file_name]
         create_file.main()
-
         create_file.sys.argv = ["create_file.py", create_file.file_flag,
                                 file_name]
         create_file.main()
 
         full_content = self.read_file_content(file_name)
-
-        expected_part_1 = "\n2025-01-01 12:00:00\n1 Initial content\n"
+        expected_part_1 = "2025-01-01 12:00:00\n1 Initial content\n"
         expected_part_2 = "\n2025-01-01 12:05:00\n1 New line B\n"
 
         self.assertIn(expected_part_1, full_content)
@@ -105,7 +101,7 @@ class TestCreateFileLogic(unittest.TestCase):
                                 file_name]
         create_file.main()
 
-        expected_content = f"\n{mock_time_value}\n1 Content in dir\n"
+        expected_content = f"{mock_time_value}\n1 Content in dir\n"
 
         self.assertTrue(os.path.exists(dir_path_expected))
         self.assertTrue(os.path.exists(full_path))
@@ -114,6 +110,7 @@ class TestCreateFileLogic(unittest.TestCase):
 
     def test_07_main_create_only_dir(self):
         dir_path_expected = os.path.join("only_dir1", "only_dir2")
+
         if os.path.exists(dir_path_expected):
             shutil.rmtree(dir_path_expected)
 
@@ -121,8 +118,5 @@ class TestCreateFileLogic(unittest.TestCase):
                                 "only_dir1", "only_dir2"]
 
         create_file.main()
+
         self.assertTrue(os.path.exists(dir_path_expected))
-
-
-if __name__ == "__main__":
-    unittest.main()

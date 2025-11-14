@@ -50,7 +50,7 @@ def get_user_content() -> list[str]:
 
 def format_new_block(lines: list[str]) -> str:
     timestamp = get_timestamp()
-    formatted_block = f"\n{timestamp}\n"
+    formatted_block = f"{timestamp}\n"
     for i, line in enumerate(lines, 1):
         formatted_block += f"{i} {line}\n"
     return formatted_block
@@ -87,10 +87,15 @@ def main() -> None:
         return
 
     formatted_content = format_new_block(new_content_lines)
+    needs_separator = False
+    if os.path.exists(full_file_path) and os.path.getsize(full_file_path) > 0:
+        needs_separator = True
+
+    final_write_content = ("\n" if needs_separator else "") + formatted_content
 
     try:
         with open(full_file_path, "a", encoding="utf-8") as f:
-            f.write(formatted_content)
+            f.write(final_write_content)
         print(f"Content successfully appended to file: {full_file_path}")
     except IOError as e:
         print(f"Error writing to file ({full_file_path}): {e}")
