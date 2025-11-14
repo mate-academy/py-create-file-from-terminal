@@ -31,89 +31,93 @@ def format_content(content_lines: list) -> str:
     return "\n".join(formatted_content) + "\n"
 
 
-def get_file_app() -> None:
-    """Główna funkcja aplikacji do tworzenia plików i katalogów."""
-
-    # Sprawdzenie minimalnej liczby argumentów
-    if len(sys.argv) < 3:
-        return
-
-    # --- 1. Parsowanie flag i argumentów ---
-
+def parse_arguments(args: list) -> any:
     dir_parts = []
     file_name = None
 
-    # Flagi to: -d (katalogi), -f (nazwa pliku)
-
-    # Szukanie flag -d i -f
-    if "-d" in sys.argv:
+    # Uproszczone parsowanie flag -d
+    if "-d" in args:
         try:
-            d_index = sys.argv.index("-d")
-            for i in range(d_index + 1, len(sys.argv)):
-                if sys.argv[i].startswith("-"):
+            d_index = args.index("-d")
+            # Zbiera argumenty po -d
+            for i in range(d_index + 1, len(args)):
+                if args[i].startswith("-"):
                     break
-                dir_parts.append(sys.argv[i])
+                dir_parts.append(args[i])
         except ValueError:
             pass
 
-    if "-f" in sys.argv:
+    # Uproszczone parsowanie flag -f
+    if "-f" in args:
         try:
-            f_index = sys.argv.index("-f")
-            # Następny argument po -f to nazwa pliku
-            if (f_index + 1 < len(sys.argv) and not
-                    sys.argv[f_index + 1].startswith("-")):
-                file_name = sys.argv[f_index + 1]
+            f_index = args.index("-f")
+            if (f_index + 1 < len(args) and not
+                    args[f_index + 1].startswith("-")):
+                file_name = args[f_index + 1]
             else:
-                print("Błąd: Flaga -f wymaga podania nazwy pliku.")
-                return
+                return None, None
         except ValueError:
-            pass  # Jeśli -f nie znaleziono
+            pass
 
-    # Sprawdzenie, czy nazwa pliku została podana, jeśli użyto flagi -f
-    if "-f" in sys.argv and file_name is None:
-        return
+    return dir_parts, file_name
 
-    # --- 2. Tworzenie ścieżki i katalogów ---
 
-    # Zbudowanie ścieżki do katalogu
+def create_directories(dir_parts: str) -> str:
     if dir_parts:
         target_dir = os.path.join(*dir_parts)
     else:
-        target_dir = "."  # Bieżący katalog
+        return "."  # Bieżący katalog
 
-    # Jeśli podano katalogi, utwórz je (zagnieżdżone)
-    if target_dir != ".":
-        try:
-            # os.makedirs tworzy katalogi rekursywnie (jak `mkdir -p`)
-            os.makedirs(target_dir, exist_ok=True)
-            print(f"Utworzono katalog: {target_dir}")
-        except OSError as e:
-            print(f"Błąd podczas tworzenia katalogu {target_dir}: {e}")
-            return
+    try:
+        os.makedirs(target_dir, exist_ok=True)
+        print(f"Utworzono katalog: {target_dir}")
+        return target_dir
+    except OSError as e:
+        print(f"Błąd podczas tworzenia katalogu {target_dir}: {e}")
+        return None
 
-    # --- 3. Tworzenie i zapisywanie pliku ---
 
+def write_content_to_file(file_path: str) -> None:
+    content_lines = get_user_content()
+
+    if not content_lines:
+        return
+
+    formatted_content = format_content(content_lines)
+
+    try:
+        with open(file_path, "a") as f:
+            f.write(formatted_content)
+        print(f"\nSukces: Zawartość zapisana do pliku {file_path}")
+
+    except IOError as e:
+        print(f"Błąd podczas zapisu do pliku {file_path}: {e}")
+
+
+def create_file_app() -> None:
+    """Główna funkcja aplikacji, koordynująca mniejsze funkcje."""
+
+    if len(sys.argv) < 3:
+        return
+
+    # 1. Parsowanie argumentów
+    dir_parts, file_name = parse_arguments(sys.argv)
+
+    if "-f" in sys.argv and file_name is None:
+        return
+
+    # 2. Tworzenie katalogów
+    target_dir = create_directories(dir_parts)
+
+    if target_dir is None:
+        return
+
+    # 3. Zapisywanie pliku
     if file_name:
-        # Pełna ścieżka do pliku
         file_path = os.path.join(target_dir, file_name)
-
-        # Pobranie sformatowanej zawartości od użytkownika
-        content_lines = get_user_content()
-        if not content_lines:
-            return
-
-        formatted_content = format_content(content_lines)
-
-        # Otwarcie pliku w trybie dopisywania ('a')
-        # Jeśli plik istnieje, zawartość zostanie dopisana na końcu.
-        # Jeśli plik nie istnieje, zostanie utworzony (analogicznie do 'w').
-        try:
-            with open(file_path, "a") as f:
-                f.write(formatted_content)
-            print(f"\nSukces: Zawartość zapisana do pliku {file_path}")
-
-        except IOError as e:
-            print(f"Błąd podczas zapisu do pliku {file_path}: {e}")
-
-    else:
+        write_content_to_file(file_path)
+    elif dir_parts:
         print("Nie podano flagi -f. Utworzono tylko katalog.")
+    else:
+        # Ten przypadek jest rzadki, bo jest kontrolowany na początku
+        print("Nie podano wystarczających argumentów.")
