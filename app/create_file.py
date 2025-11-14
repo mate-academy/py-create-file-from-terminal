@@ -3,11 +3,14 @@ import os
 from datetime import datetime
 
 
-def parse_arguments():
+def parse_arguments() -> tuple[list[str], str | None]:
     args = sys.argv[1:]
 
     if not args:
-        print("Error: No arguments provided. Use -d for directory and/or -f for file.")
+        print(
+            "Error: No arguments provided. "
+            "Use -d for directory and/or -f for file."
+        )
         sys.exit(1)
 
     dir_parts = []
@@ -15,12 +18,12 @@ def parse_arguments():
 
     i = 0
     while i < len(args):
-        if args[i] == '-d':
+        if args[i] == "-d":
             i += 1
-            while i < len(args) and args[i] != '-f':
+            while i < len(args) and args[i] != "-f":
                 dir_parts.append(args[i])
                 i += 1
-        elif args[i] == '-f':
+        elif args[i] == "-f":
             i += 1
             if i < len(args):
                 file_name = args[i]
@@ -34,7 +37,7 @@ def parse_arguments():
     return dir_parts, file_name
 
 
-def get_file_content():
+def get_file_content() -> list[str]:
     print()
     lines = []
     line_number = 1
@@ -49,12 +52,14 @@ def get_file_content():
     return lines
 
 
-def create_file_with_content(file_path, content_lines):
+def create_file_with_content(
+        file_path: str, content_lines: list[str]
+) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     file_exists = os.path.exists(file_path)
 
-    with open(file_path, 'a') as f:
+    with open(file_path, "a") as f:
         if file_exists:
             f.write("\n")
 
@@ -68,7 +73,7 @@ def create_file_with_content(file_path, content_lines):
     print(f"\nFile created/updated successfully: {file_path}")
 
 
-def main():
+def main() -> None:
     dir_parts, file_name = parse_arguments()
 
     if dir_parts:
