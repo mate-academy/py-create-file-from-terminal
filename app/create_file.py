@@ -51,7 +51,7 @@ def main() -> None:
     if file_name:
         full_path = os.path.join(full_path, file_name)
         lines = get_content_lines()
-        write_to_file(full_path, linesl)
+        write_to_file(full_path, lines)
 
 
 if __name__ == "__main__":
