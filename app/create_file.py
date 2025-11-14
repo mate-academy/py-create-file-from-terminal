@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 def get_timestamp() -> str:
-    return datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    return datetime.now().strftime("%Y-%m-%d %H-%M-%S")
 
 
 def get_content_lines() -> list[str]:
@@ -20,7 +20,7 @@ def get_content_lines() -> list[str]:
 
 
 def write_to_file(path: str, lines: list[str]) -> None:
-    with open(path, "w") as f:
+    with open(path, "a") as f:
         f.write(get_timestamp() + "\n")
         for line in lines:
             f.write(line + "\n")
@@ -35,7 +35,7 @@ def main() -> None:
     if "-d" in args:
         d_index = args.index("-d")
         for i in range(d_index + 1, len(args)):
-            if args[i] == "-f0":
+            if args[i] == "-f":
                 break
             dir_parts.append(args[i])
 
