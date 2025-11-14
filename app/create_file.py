@@ -54,10 +54,11 @@ def get_file_content() -> list[str]:
 
 def create_file_with_content(file_path: str, content_lines: list[str]) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    file_exists = os.path.exists(file_path)
+    file_has_content = (os.path.exists(file_path)
+                        and os.path.getsize(file_path) > 0)
 
     with open(file_path, "a") as f:
-        if file_exists:
+        if file_has_content:
             f.write("\n")
 
         f.write(f"{timestamp}\n")
