@@ -52,11 +52,8 @@ def get_file_content() -> list[str]:
     return lines
 
 
-def create_file_with_content(
-        file_path: str, content_lines: list[str]
-) -> None:
+def create_file_with_content(file_path: str, content_lines: list[str]) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
     file_exists = os.path.exists(file_path)
 
     with open(file_path, "a") as f:
@@ -64,11 +61,8 @@ def create_file_with_content(
             f.write("\n")
 
         f.write(f"{timestamp}\n")
-
         for line in content_lines:
             f.write(f"{line}\n")
-
-        f.write("\n")
 
     print(f"\nFile created/updated successfully: {file_path}")
 
