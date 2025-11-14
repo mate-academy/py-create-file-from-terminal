@@ -75,13 +75,17 @@ class TestCreateFileLogic(unittest.TestCase):
                              "2025-01-01 12:05:00"])
     def test_05_main_append_content(self, mock_time, mock_input):
         file_name = "test_append.txt"
+
         create_file.sys.argv = ["create_file.py", create_file.file_flag,
                                 file_name]
         create_file.main()
+
         create_file.sys.argv = ["create_file.py", create_file.file_flag,
                                 file_name]
         create_file.main()
+
         full_content = self.read_file_content(file_name)
+
         expected_part_1 = "\n2025-01-01 12:00:00\n1 Initial content\n"
         expected_part_2 = "\n2025-01-01 12:05:00\n1 New line B\n"
 
@@ -107,6 +111,17 @@ class TestCreateFileLogic(unittest.TestCase):
         self.assertTrue(os.path.exists(full_path))
         self.assertEqual(self.read_file_content(full_path),
                          expected_content)
+
+    def test_07_main_create_only_dir(self):
+        dir_path_expected = os.path.join("only_dir1", "only_dir2")
+        if os.path.exists(dir_path_expected):
+            shutil.rmtree(dir_path_expected)
+
+        create_file.sys.argv = ["create_file.py", create_file.dir_flag,
+                                "only_dir1", "only_dir2"]
+
+        create_file.main()
+        self.assertTrue(os.path.exists(dir_path_expected))
 
 
 if __name__ == "__main__":
