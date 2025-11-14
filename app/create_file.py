@@ -60,9 +60,13 @@ def write_content(file_name: str) -> None:
 
 def main() -> None:
     dirs, file_name = parse_args(sys.argv[1:])
+    full_dir_path = ensure_dirs(dirs)
 
     if not file_name:
-        print("You need to write file name")
+        if dirs:
+            print(f"Directories created successfully: {full_dir_path}")
+        else:
+            pass
         return
 
     full_file_path = os.path.join(ensure_dirs(dirs), file_name)
