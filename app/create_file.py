@@ -31,7 +31,6 @@ def parse_arguments(args: list[str]) -> tuple[list[str], str | None]:
 def create_directory(directory_parts: list[str]) -> str:
     if not directory_parts:
         return ""
-
     directory_path = os.path.join(*directory_parts)
     os.makedirs(directory_path, exist_ok=True)
     return directory_path
@@ -54,9 +53,7 @@ def write_content_to_file(full_path: str, content_lines: list[str]) -> None:
     with open(full_path, file_mode, encoding="utf-8") as output_file:
         if file_mode == "a":
             output_file.write("\n")
-
         output_file.write(f"{timestamp}\n")
-
         for line_number, line in enumerate(content_lines, start=1):
             output_file.write(f"{line_number} {line}\n")
 
@@ -67,14 +64,14 @@ def main() -> None:
         return
 
     directory_parts, output_file = parse_arguments(args)
+    directory_path = create_directory(directory_parts)
+
     if not output_file:
         return
 
-    directory_path = create_directory(directory_parts)
     full_path = (
         os.path.join(directory_path, output_file)
-        if directory_path
-        else output_file
+        if directory_path else output_file
     )
 
     content_lines = get_content_from_user()
