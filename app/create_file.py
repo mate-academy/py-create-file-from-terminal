@@ -3,41 +3,71 @@ import os
 from datetime import datetime
 
 
-def main() -> None:
+def parse_arguments() -> tuple[list[str], str | None]:
     args = sys.argv[1:]
-    dirs = []
+    directories = []
     file_name = None
+
     if "-d" in args:
-        d_index = args.index("-d") + 1
-        while d_index < len(args) and args[d_index] != "-f":
-            dirs.append(args[d_index])
-            d_index += 1
+        index = args.index("-d") + 1
+        while index < len(args) and args[index] != "-f":
+            directories.append(args[index])
+            index += 1
+
     if "-f" in args:
-        f_index = args.index("-f") + 1
-        if f_index < len(args):
-            file_name = args[f_index]
-    if dirs:
-        dir_path = os.path.join(*dirs)
-        os.makedirs(dir_path, exist_ok=True)
-    else:
-        dir_path = "."
-    if file_name:
-        file_path = os.path.join(dir_path, file_name)
-        print("Enter content line (type stop to finish):")
-        lines = []
-        while True:
-            line = input("Enter content line: ")
-            if line.lower() == "stop":
-                break
-            lines.append(line)
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        numbered_lines = [f"{i + 1} {text}" for i, text in enumerate(lines)]
-        content = [timestamp] + numbered_lines
-        with open(file_path, "a", encoding="utf-8") as f:
-            f.write("\n".join(content) + "\n")
-            print(f"File created or updated: {file_path}")
-    else:
+        index = args.index("-f") + 1
+        if index < len(args):
+            file_name = args[index]
+
+    return directories, file_name
+
+
+def create_directory_path(directories: list[str]) -> str:
+    if not directories:
+        return "."
+    return os.path.join(*directories)
+
+
+def ensure_directory_exists(path: str) -> None:
+    os.makedirs(path, exist_ok=True)
+
+
+def collect_user_input() -> list[str]:
+    print("Enter content line (type 'stop' to finish):")
+    lines = []
+
+    while True:
+        line = input("Enter content line: ")
+        if line.lower() == "stop":
+            break
+        lines.append(line)
+
+    return lines
+
+
+def write_to_file(file_path: str, lines: list[str]) -> None:
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    numbered_lines = [f"{i + 1} {text}" for i, text in enumerate(lines)]
+    content = [timestamp] + numbered_lines
+
+    with open(file_path, "a", encoding="utf-8") as source_file:
+        source_file.write("\n".join(content) + "\n")
+
+    print(f"File created or updated: {file_path}")
+
+
+def main() -> None:
+    directories, file_name = parse_arguments()
+    directory_path = create_directory_path(directories)
+    ensure_directory_exists(directory_path)
+
+    if not file_name:
         print("No file name provided with -f flag.")
+        return
+
+    file_path = os.path.join(directory_path, file_name)
+    lines = collect_user_input()
+    write_to_file(file_path, lines)
 
 
 if __name__ == "__main__":
