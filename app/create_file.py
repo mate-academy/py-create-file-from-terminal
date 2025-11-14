@@ -49,17 +49,19 @@ def write_to_file(file_name: str, directory_path: str) -> None:
             source_file.write(
                 f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n'
             )
-            i = 1
+            line_number = 1
             while True:
                 line = input("Enter content line: ")
                 if line == "stop":
+                    source_file.write("\n")
                     break
-                source_file.write(f"{i} {line}\n")
-                i += 1
+                source_file.write(f"{line_number} {line}\n")
+                line_number += 1
 
 
 #
 if __name__ == "__main__":
     directory_parts_, file_name_ = parse_command_arguments()
     directory_path_ = create_directory(directory_parts_)
-    write_to_file(file_name_, directory_path_)
+    if file_name_:
+        write_to_file(file_name_, directory_path_)
