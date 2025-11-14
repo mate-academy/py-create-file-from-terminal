@@ -50,7 +50,12 @@ def write_to_file(file_path: str, lines: list[str]) -> None:
     numbered_lines = [f"{i + 1} {text}" for i, text in enumerate(lines)]
     content = [timestamp] + numbered_lines
 
+    needs_separator = (os.path.exists(file_path)
+                       and os.path.getsize(file_path) > 0)
+
     with open(file_path, "a", encoding="utf-8") as source_file:
+        if needs_separator:
+            source_file.write("\n")
         source_file.write("\n".join(content) + "\n")
 
     print(f"File created or updated: {file_path}")
