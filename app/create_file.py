@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 
-def get_user_content() -> list:
+def get_user_content() -> list[str]:
     """Pobiera zawartość od użytkownika, dopóki nie wpisze 'stop'."""
     print("\n(wpisz 'stop' i Enter, aby zakończyć):")
     content_lines = []
@@ -15,8 +15,12 @@ def get_user_content() -> list:
     return content_lines
 
 
-def format_content(content_lines: list) -> str:
-    """Formatuje zawartość, dodając timestamp i numerację linii."""
+def format_content(content_lines: list[str]) -> str:
+    """
+    Formatuje zawartość, dodając timestamp i numerację linii.
+    Usunięto końcowy '\\n' (odpowiedzialność za separację przeniesiono
+    do funkcji write_content_to_file).
+    """
 
     # Formatowanie timestampa
     timestamp_format = "%Y-%m-%d %H:%M:%S"
@@ -28,10 +32,12 @@ def format_content(content_lines: list) -> str:
     # Dodanie numeracji do linii wprowadzonych przez użytkownika
     for i, line in enumerate(content_lines, 1):
         formatted_content.append(f"{i} {line}")
-    return "\n".join(formatted_content) + "\n"
+
+    # Zwrócenie sformatowanego bloku BEZ końcowej nowej linii
+    return "\n".join(formatted_content)
 
 
-def parse_arguments(args: list) -> any:
+def parse_arguments(args: list[str]) -> tuple[list[str], str | None]:
     dir_parts = []
     file_name = None
 
@@ -55,20 +61,23 @@ def parse_arguments(args: list) -> any:
                     args[f_index + 1].startswith("-")):
                 file_name = args[f_index + 1]
             else:
-                return None, None
+                # W przypadku błędu parsowania flagi -f
+                print("Błąd: Flaga -f wymaga podania nazwy pliku.")
+                return [], None
         except ValueError:
             pass
 
     return dir_parts, file_name
 
 
-def create_directories(dir_parts: str) -> str:
+def create_directories(dir_parts: list[str]) -> str | None:
     if dir_parts:
         target_dir = os.path.join(*dir_parts)
     else:
         return "."  # Bieżący katalog
 
     try:
+        # os.makedirs tworzy katalogi rekursywnie
         os.makedirs(target_dir, exist_ok=True)
         print(f"Utworzono katalog: {target_dir}")
         return target_dir
@@ -78,6 +87,11 @@ def create_directories(dir_parts: str) -> str:
 
 
 def write_content_to_file(file_path: str) -> None:
+    """
+    Pobiera zawartość od użytkownika, formatuje ją i zapisuje do pliku.
+    Warunkowo dodaje nową linię jako separator przed dopisywaną zawartością,
+    jeśli plik już istnieje i nie jest pusty.
+    """
     content_lines = get_user_content()
 
     if not content_lines:
@@ -85,11 +99,19 @@ def write_content_to_file(file_path: str) -> None:
 
     formatted_content = format_content(content_lines)
 
-    try:
-        with open(file_path, "a") as f:
-            f.write(formatted_content)
-        print(f"\nSukces: Zawartość zapisana do pliku {file_path}")
+    should_add_separator = (os.path.exists(file_path)
+                            and os.path.getsize(file_path) > 0)
 
+    try:
+        # Otwarcie pliku w trybie dopisywania ('a')
+        with open(file_path, "a") as f:
+
+            # Dodanie nowej linii jako separatora, jeśli plik jest już używany
+            if should_add_separator:
+                # Wymagane jest, aby nowy blok zaczynał się w nowej linii
+                f.write("\n")
+
+            f.write(formatted_content + "\n")
     except IOError as e:
         print(f"Błąd podczas zapisu do pliku {file_path}: {e}")
 
@@ -118,6 +140,7 @@ def create_file_app() -> None:
         write_content_to_file(file_path)
     elif dir_parts:
         print("Nie podano flagi -f. Utworzono tylko katalog.")
-    else:
-        # Ten przypadek jest rzadki, bo jest kontrolowany na początku
-        print("Nie podano wystarczających argumentów.")
+
+
+if __name__ == "__main__":
+    create_file_app()
