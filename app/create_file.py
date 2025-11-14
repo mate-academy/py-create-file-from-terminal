@@ -65,7 +65,7 @@ def parse_args(args: list) -> tuple:
     return dir_parts, file_name
 
 
-def main():
+def main() -> None:
     dir_parts, file_name = parse_args(sys.argv)
 
     if file_name is None:
