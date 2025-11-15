@@ -3,14 +3,14 @@ import os
 from datetime import datetime
 
 
-def build_directory_path(directory_list: list) -> str:
+def build_directory_path(directory_list: list[str]) -> str:
     if not directory_list:
         return ""
     return os.path.join(*directory_list)
 
 
-def collect_content_lines() -> list:
-    lines = []
+def collect_content_lines() -> list[str]:
+    lines: list[str] = []
     counter = 1
 
     while True:
@@ -30,18 +30,23 @@ def append_to_file(filepath: str) -> None:
     with open(filepath, "a", encoding="utf-8") as file:
         file.write(f"\n{timestamp}\n")
         for line in content_lines:
-            file.write(line + "\n")
+            file.write(f"{line}\n")
 
 
-def parse_arguments(arguments: list) -> tuple[list, str | None]:
-    directory_parts = []
-    filename = None
+def parse_arguments(
+    arguments: list[str],
+) -> tuple[list[str], str | None]:
+    directory_parts: list[str] = []
+    filename: str | None = None
 
     i = 0
     while i < len(arguments):
         if arguments[i] == "-d":
             i += 1
-            while i < len(arguments) and not arguments[i].startswith("-"):
+            while (
+                i < len(arguments)
+                and not arguments[i].startswith("-")
+            ):
                 directory_parts.append(arguments[i])
                 i += 1
             continue
@@ -58,7 +63,7 @@ def parse_arguments(arguments: list) -> tuple[list, str | None]:
     return directory_parts, filename
 
 
-def main():
+def main() -> None:
     args = sys.argv[1:]
 
     if not args:
