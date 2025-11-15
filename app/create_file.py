@@ -54,11 +54,16 @@ def create_flow(dirs_list: list, file_name: Optional[str]) -> None:
         file.write("\n")
 
         line_text = input("Enter content line: ")
-        i = 0
+        line_number = 0
         while line_text != "stop":
-            i += 1
-            line_text_number = f"{i} {line_text}"
+            line_number += 1
+            line_text_number = f"{line_number} {line_text}"
             lines.append(line_text_number)
             line_text = input("Enter content line: ")
 
         file.write("\n".join(lines))
+
+
+if __name__ == "__main__":
+    cmd = take_command()
+    create_flow(*cmd)
