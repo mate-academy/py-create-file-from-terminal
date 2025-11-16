@@ -27,8 +27,15 @@ def append_to_file(filepath: str) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     content_lines = collect_content_lines()
 
+    file_exists = os.path.exists(filepath)
+    file_not_empty = file_exists and os.path.getsize(filepath) > 0
+
     with open(filepath, "a", encoding="utf-8") as file:
-        file.write(f"\n{timestamp}\n")
+        if file_not_empty:
+            file.write("\n")
+
+        file.write(f"{timestamp}\n")
+
         for line in content_lines:
             file.write(f"{line}\n")
 
