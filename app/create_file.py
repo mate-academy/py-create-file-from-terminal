@@ -17,15 +17,14 @@ def create_file() -> None:
     if "-f" in args:
         f_index = args.index("-f")
         filename = args[f_index + 1]
-    else:
-        dir_path = os.path.join(*directory)
-        os.makedirs(dir_path, exist_ok=True)
-        return
 
     dir_path = ""
     if directory:
         dir_path = os.path.join(*directory)
         os.makedirs(dir_path, exist_ok=True)
+
+    if not filename:
+        return
 
     filepath = os.path.join(dir_path, filename)
 
@@ -39,10 +38,10 @@ def create_file() -> None:
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    with open(filepath, "a") as file:
-        file.write(f"\n{timestamp}\n")
+    with open(filepath, "a") as output_file:
+        output_file.write(f"\n{timestamp}\n")
         for index, text in enumerate(lines, start=1):
-            file.write(f"{index} {text}\n")
+            output_file.write(f"{index} {text}\n")
 
 
 if __name__ == "__main__":
