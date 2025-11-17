@@ -32,9 +32,7 @@ def create_file() -> None:
         inputed.append(line)
 
     with open(file_name, "a") as created:
-        created.write(
-            f"\n{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n"
-        )
+        created.write(f"\n{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
         for idx, text in enumerate(inputed, start=1):
             created.write(f"{idx} {text}\n")
 
