@@ -18,6 +18,8 @@ def create_file() -> None:
         f_index = args.index("-f")
         filename = args[f_index + 1]
     else:
+        dir_path = os.path.join(*directory)
+        os.makedirs(dir_path, exist_ok=True)
         return
 
     dir_path = ""
