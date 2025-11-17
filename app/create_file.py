@@ -40,7 +40,7 @@ def write_block(file_path: str, lines: list[str]) -> None:
 
     with open(file_path, "a", encoding="utf-8") as f:
         if has_content:
-            f.write("\n\n")
+            f.write("\n")
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         f.write(f"{timestamp}\n")
@@ -70,9 +70,6 @@ def main() -> None:
         if dir_parts:
             print(f"Directory created (or already existed): {target_dir}")
             return
-        else:
-            print("Error: no file name or directory specified.")
-            sys.exit(1)
 
     file_path = os.path.join(target_dir, file_name)
 
