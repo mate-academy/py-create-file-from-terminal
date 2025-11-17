@@ -1,8 +1,10 @@
 import sys
 import os
 import datetime
+from typing import Any
 
-def parse_arguments(args):
+
+def parse_arguments(args: str) -> tuple[list[Any], Any | None]:
     dir_parts = []
     file_name = None
     mode = None
@@ -20,7 +22,8 @@ def parse_arguments(args):
 
     return dir_parts, file_name
 
-def get_file_content():
+
+def get_file_content() -> str:
     lines = []
     while True:
         line = input("Enter content line: ")
@@ -36,7 +39,7 @@ def get_file_content():
     return "\n".join(content)
 
 
-def main():
+def main() -> None:
     args = sys.argv[1:]
     dir_parts, file_name = parse_arguments(args)
 
