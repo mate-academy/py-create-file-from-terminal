@@ -60,6 +60,13 @@ def main() -> None:
 
     dir_parts, file_name = parse_args(argv)
 
+    if not dir_parts and file_name is None:
+        print("Usage:")
+        print("  python create_file.py -f file.txt")
+        print("  python create_file.py -d dir1 dir2")
+        print("  python create_file.py -d dir1 dir2 -f file.txt")
+        sys.exit(1)
+
     if dir_parts:
         target_dir = os.path.join(os.getcwd(), *dir_parts)
         os.makedirs(target_dir, exist_ok=True)
