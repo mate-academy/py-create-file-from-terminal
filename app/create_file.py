@@ -2,7 +2,8 @@ import sys
 import os
 from datetime import datetime
 
-def createFile():
+
+def create_file() -> None:
     args = sys.argv
     directory = []
     filename = ""
@@ -32,7 +33,7 @@ def createFile():
             break
         lines.append(line)
 
-    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     with open(filepath, "a") as f:
         f.write(f"\n{timestamp}\n")
