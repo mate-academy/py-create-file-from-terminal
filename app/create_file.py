@@ -2,11 +2,13 @@ import os
 from sys import argv
 from datetime import datetime
 
-def create_file() -> None:
-    parts = argv[1:]
-    dirs = []
-    file_name = ""
 
+file_name = ""
+
+
+def find_flags(parts: list[str]) -> None | str:
+    global file_name
+    dirs = []
     if "-d" in parts:
         for word in parts[parts.index("-d") + 1:]:
             if word.startswith("-"):
@@ -24,18 +26,21 @@ def create_file() -> None:
         else:
             return
 
-    inputed = []
+
+def create_file() -> None:
+    find_flags(argv[1:])
+    received = []
     while True:
         line = input("Enter content line: ")
         if line.lower() == "stop":
             break
-        inputed.append(line)
+        received.append(line)
 
     with open(file_name, "a") as created:
         created.write(
             f"\n{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
 
-        for idx, text in enumerate(inputed, start=1):
+        for idx, text in enumerate(received, start=1):
             created.write(f"{idx} {text}\n")
 
 
