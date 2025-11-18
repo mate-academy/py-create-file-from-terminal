@@ -1,3 +1,4 @@
+import datetime
 import os
 import sys
 
@@ -15,7 +16,8 @@ def create_file(dirs: list[str], filename: str) -> None:
     counter = 1
 
     print(f"Writing to: {full_path}")
-
+    with open(full_path, "w") as f:
+        f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
     # Основний цикл
     while True:
         content = input("Enter content line: ")
@@ -52,6 +54,4 @@ if __name__ == "__main__":
             # якщо щось невідоме, пропускаємо
             i += 1
 
-    print("Directories:", dirs)
-    print("Files:", files[0])
     create_file(dirs, files[0])
