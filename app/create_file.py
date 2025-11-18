@@ -19,15 +19,16 @@ def create_file(dirs: list[str], filename: str) -> None:
     with open(full_path, "w") as f:
         f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
     # Основний цикл
-    while True:
-        content = input("Enter content line: ")
-        if content == "stop":
-            break
+    if filename:
+        while True:
+            content = input("Enter content line: ")
+            if content == "stop":
+                break
 
-        with open(full_path, "a") as f:  # "a" — append
-            f.write(f"{counter} {content}\n")
+            with open(full_path, "a") as f:  # "a" — append
+                f.write(f"{counter} {content}\n")
 
-        counter += 1
+            counter += 1
 
 
 if __name__ == "__main__":
