@@ -4,7 +4,7 @@ import datetime
 from typing import Any
 
 
-def parse_arguments(args: str) -> tuple[list[Any], Any | None]:
+def parse_arguments(args: list[str]) -> tuple[list[Any], Any | None]:
     dir_parts = []
     file_name = None
     mode = None
@@ -56,10 +56,10 @@ def main() -> None:
 
     content = get_file_content()
 
-    mode = "a" if os.path.exists(file_path) else "w"
+    file_exists = os.path.exists(file_path)
 
-    with open(file_path, mode, encoding="utf-8") as f:
-        if mode == "a":
+    with open(file_path, "a", encoding="utf-8") as f:
+        if file_exists:
             f.write("\n\n")
         f.write(content)
 
