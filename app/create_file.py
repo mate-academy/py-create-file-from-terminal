@@ -8,7 +8,7 @@ def collect_content() -> list[str]:
 
     while True:
         line = input("Enter content line: ")
-        if line == "stop":
+        if line.lower() == "stop":
             break
         lines.append(line)
 
@@ -17,9 +17,13 @@ def collect_content() -> list[str]:
 
 def write_content(filepath: str, lines: list[str]) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    file_exists = os.path.exists(filepath)
+    file_not_empty = file_exists and os.path.getsize(filepath) > 0
+    prefix = "\n" if file_not_empty else ""
+    mode = "a" if file_exists else "w"
 
-    with open(filepath, "a", encoding="utf-8") as file:
-        file.write(f"\n{timestamp}\n")
+    with open(filepath, mode, encoding="utf-8") as file:
+        file.write(f"{prefix}{timestamp}\n")
         for number, line in enumerate(lines, start=1):
             file.write(f"{number} {line}\n")
 
@@ -48,7 +52,7 @@ def main() -> None:
             directories.append(item)
 
         if directories:
-            dir_path = os.path.join(*directories)
+            dir_path = os.path.join(os.getcwd(), *directories)
             os.makedirs(dir_path, exist_ok=True)
 
     if "-f" in args:
@@ -61,7 +65,7 @@ def main() -> None:
         filename = args[f_index]
 
     if filename:
-        filepath = os.path.join(dir_path, filename) if dir_path else filename
+        filepath = os.path.join(dir_path, filename)
         lines = collect_content()
         write_content(filepath, lines)
 
