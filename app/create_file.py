@@ -16,7 +16,7 @@ def create_file(dirs: list[str], filename: str) -> None:
     counter = 1
 
     print(f"Writing to: {full_path}")
-    with open(full_path, "w") as f:
+    with open(full_path, "a") as f:
         f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
     # Основний цикл
     if filename:
