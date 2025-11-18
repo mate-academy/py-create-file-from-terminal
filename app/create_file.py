@@ -37,7 +37,8 @@ def create_file() -> None:
         received.append(line)
 
     with open(file_name, "a") as created:
-        created.write(f"\n{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        created.write(f"\n{timestamp}\n")
 
         for idx, text in enumerate(received, start=1):
             created.write(f"{idx} {text}\n")
