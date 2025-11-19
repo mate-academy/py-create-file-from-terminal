@@ -29,6 +29,8 @@ def find_flags(parts: list[str]) -> None | str:
 
 def create_file() -> None:
     find_flags(argv[1:])
+    if not file_name:
+        return
     received = []
     while True:
         line = input("Enter content line: ")
@@ -38,7 +40,9 @@ def create_file() -> None:
 
     with open(file_name, "a") as created:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        created.write(f"\n{timestamp}\n")
+        if os.path.exists(file_name):
+            created.write("\n")
+        created.write(f"{timestamp}\n")
 
         for idx, text in enumerate(received, start=1):
             created.write(f"{idx} {text}\n")
