@@ -19,30 +19,30 @@ if "-f" in sys.argv:
 path = ""
 
 if dirs:
-    path = "/".join(dirs)
+    path = os.path.join(*dirs)
     os.makedirs(path, exist_ok=True)
 
 if file_name:
     if path:
-        file_path = f"{path}/{file_name}"
+        file_path = os.path.join(path, file_name)
     else:
         file_path = f"{file_name}"
 
-lines = []
-while True:
-    user = input("Enter content line:")
-    if user == "stop":
-        break
-    lines.append(user)
+    lines = []
+    while True:
+        user = input("Enter content line: ")
+        if user == "stop":
+            break
+        lines.append(user)
 
-timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-new_line = []
-for index, word in enumerate(lines, start=1):
-    new_line.append(f"{index} {word}")
+    new_line = []
+    for index, line in enumerate(lines, start=1):
+        new_line.append(f"{index} {line}")
 
-block = timestamp + "\n" + "\n".join(new_line) + "\n"
+    block = timestamp + "\n" + "\n".join(new_line) + "\n"
 
-with open(file_path, "a") as f:
-    f.write(block)
-    f.write("\n")
+    with open(file_path, "a") as f:
+        f.write(block)
+        f.write("\n")
