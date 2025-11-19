@@ -1,1 +1,26 @@
-# write your code here
+import sys
+import os
+import datetime
+
+if "-d" in sys.argv:
+    index_d = sys.argv.index("-d")
+    if "-f" in sys.argv:
+        index_f = sys.argv.index("-f")
+        folder = sys.argv[index_d + 1: index_f]
+if "-f" in sys.argv:
+    index_f = sys.argv.index("-f")
+    file_path = sys.argv[index_f + 1]
+
+if folder:
+    directory = os.path.join(*folder)
+    os.makedirs(directory, exist_ok=True)
+if file_path:
+    if directory:
+        full_file = os.path.join(directory, file_path)
+    with open(full_file, "w") as f:
+        f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        while True:
+            content = input("Enter content line: ")
+            if content == "stop":
+                break
+            f.write(content + "\n")
