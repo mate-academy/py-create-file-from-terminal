@@ -2,6 +2,9 @@ import sys
 import os
 import datetime
 
+folder = None
+file_path = None
+directory = None
 if "-d" in sys.argv:
     index_d = sys.argv.index("-d")
     if "-f" in sys.argv:
@@ -22,11 +25,19 @@ if file_path:
     else:
         full_file = file_path
     with open(full_file, "a") as f:
-        f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        if os.path.exists(full_file):
+            f.write(
+                "\n"
+                + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
+            )
+        else:
+            f.write(
+                datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
+            )
         count = 1
         while True:
             content = input("Enter content line: ")
             if content == "stop":
                 break
-            f.write(str(count) + " " + content + "\n")
+            f.write(f"{str(count)} {content}\n")
             count += 1
