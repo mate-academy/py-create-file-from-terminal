@@ -3,11 +3,8 @@ from sys import argv
 from datetime import datetime
 
 
-file_name = ""
-
-
 def find_flags(parts: list[str]) -> None | str:
-    global file_name
+    file_name = None
     dirs = []
     if "-d" in parts:
         for word in parts[parts.index("-d") + 1:]:
@@ -23,14 +20,15 @@ def find_flags(parts: list[str]) -> None | str:
         os.makedirs(path, exist_ok=True)
         if file_name:
             file_name = os.path.join(path, file_name)
-        else:
-            return
+
+    return file_name
 
 
 def create_file() -> None:
-    find_flags(argv[1:])
+    file_name = find_flags(argv[1:])
     if not file_name:
         return
+
     received = []
     while True:
         line = input("Enter content line: ")
@@ -38,10 +36,11 @@ def create_file() -> None:
             break
         received.append(line)
 
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    if os.path.exists(file_name):
+        timestamp = "\n" + timestamp
+
     with open(file_name, "a") as created:
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        if os.path.exists(file_name):
-            created.write("\n")
         created.write(f"{timestamp}\n")
 
         for idx, text in enumerate(received, start=1):
