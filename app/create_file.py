@@ -4,48 +4,73 @@ import datetime
 
 
 def time_without_microsecond() -> str:
-    return f"{datetime.datetime.now().replace(microsecond=0)}"
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
-def create_dirs() -> str:
-    path = "/".join(
-        sys.argv[
-            sys.argv.index("-d") + 1: len(sys.argv)
-            if "-f" not in sys.argv else sys.argv.index("-f")
-        ]
-    )
-    if not os.path.exists(path):
-        os.makedirs(path)
-    return path + "\\"
+def parse_args():
+    """Парсимо -d і -f незалежно від порядку."""
+    args = sys.argv[1:]
+    dir_path_parts = []
+    file_name = None
+
+    if "-d" in args:
+        d_index = args.index("-d") + 1
+        # беремо все, поки не зустрінемо -f або кінець
+        while d_index < len(args) and args[d_index] != "-f":
+            dir_path_parts.append(args[d_index])
+            d_index += 1
+
+    if "-f" in args:
+        f_index = args.index("-f") + 1
+        if f_index < len(args):
+            file_name = args[f_index]
+
+    return dir_path_parts, file_name
 
 
-def create_file(path: str = "") -> None:
-    path = path + sys.argv[sys.argv.index("-f") + 1]
-    with open(path, "a" if os.path.exists(path) else "w") as f:
-        i = 1
-        f.seek(0)
-        f.write(
+def create_dirs(dir_parts: list[str]) -> str:
+    """Створює директорію з частин шляху, кросплатформно."""
+    if not dir_parts:
+        return ""
+
+    path = os.path.join(*dir_parts)
+    os.makedirs(path, exist_ok=True)
+    return path
+
+
+def create_file(dir_path: str, filename: str) -> None:
+    """Створює та заповнює файл."""
+    file_path = os.path.join(dir_path, filename) if dir_path else filename
+
+    mode = "a" if os.path.exists(file_path) else "w"
+    with open(file_path, mode, encoding="utf-8") as output_file:
+        line_counter = 1
+
+        output_file.write(
             f"{time_without_microsecond()}\n"
-            if not os.stat(path).st_size > 0
+            if os.stat(file_path).st_size == 0
             else f"\n{time_without_microsecond()}\n"
         )
+
         while True:
             text = input("Enter content line: ")
             if text.lower() == "stop":
                 break
-            f.write(f"{i} {text}\n")
-            i += 1
+            output_file.write(f"{line_counter} {text}\n")
+            line_counter += 1
 
 
-def act_command() -> None:
-    if len(sys.argv) > 1:
-        if not ("-f" in sys.argv and "-d" in sys.argv):
-            if sys.argv[1] == "-f":
-                create_file()
-            elif sys.argv[1] == "-d":
-                create_dirs()
-        else:
-            create_file(create_dirs())
+def act_command():
+    dir_parts, filename = parse_args()
+
+    dir_path = create_dirs(dir_parts) if dir_parts else ""
+
+    if filename:
+        create_file(dir_path, filename)
+    elif dir_parts:
+        print(f"Directory created: {dir_path}")
+    else:
+        print("No valid command provided.")
 
 
 if __name__ == "__main__":
