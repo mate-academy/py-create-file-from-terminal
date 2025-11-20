@@ -9,7 +9,6 @@ def make_directory_and_open(directory_list: list[str]) -> None:
     os.chdir(directory_full)
 
 
-
 def write_file(file_name: str) -> None:
     file_lines = []
     with open(file_name, "a") as file:
