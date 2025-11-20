@@ -3,10 +3,11 @@ import os
 from datetime import datetime
 
 
-def make_directory_and_open(directory: list[str]) -> None:
-    directory = os.path.join(os.getcwd(), *directory)
-    os.makedirs(directory, exist_ok=True)
-    os.chdir(directory)
+def make_directory_and_open(directory_list: list[str]) -> None:
+    directory_full = os.path.join(os.getcwd(), *directory_list)
+    os.makedirs(directory_full, exist_ok=True)
+    os.chdir(directory_full)
+
 
 
 def write_file(file_name: str) -> None:
@@ -27,10 +28,7 @@ def write_file(file_name: str) -> None:
 
 command_line = sys.argv
 if "-d" in command_line and "-f" in command_line:
-    f_position = 0
-    for num in range(len(command_line)):
-        if command_line[num] == "-f":
-            f_position = num
+    f_position = command_line.index("-f")
     make_directory_and_open(command_line[2:f_position])
     write_file(command_line[f_position + 1])
 
