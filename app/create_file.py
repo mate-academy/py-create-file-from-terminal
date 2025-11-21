@@ -1,33 +1,52 @@
 from datetime import datetime
+from typing import Tuple
 import os
 import sys
 
 
-flags = sys.argv
-new_arq = "file.txt"
-new_dir = ""
+def parse_arguments(argv: list) -> Tuple[str, str]:
+    new_directory = ""
+    new_file_name = "file.txt"
 
-if "-f" in flags:
-    index = flags.index("-f")
-    new_arq = flags[index + 1]
-    flags.remove(flags[index])
-    flags.remove(flags[index])
+    if "-f" in argv:
+        index = argv.index("-f")
+        new_file_name = argv[index + 1]
+        argv.remove(argv[index])
+        argv.remove(argv[index])
 
-if "-d" in flags:
-    index = flags.index("-d")
-    dire = flags[index + 1:]
-    for path in dire:
-        new_dir = os.path.join(new_dir, path)
-    os.makedirs(new_dir, exist_ok=True)
-    new_dir = os.path.join(new_dir, new_arq)
+    if "-d" in argv:
+        index = argv.index("-d")
+        directory_parts = argv[index + 1:]
+        for path in directory_parts:
+            new_directory = os.path.join(new_directory, path)
 
-with open(new_dir, "a") as file:
-    time_now = datetime.now()
-    file.write(time_now.strftime("%Y-%m-%d %H:%M:%S") + "\n")
-    lines = 1
-    while True:
-        content_line = input("Enter new line of content: ")
-        if content_line == "stop":
-            break
-        file.write(f"{lines} {content_line}\n")
-        lines += 1
+        os.makedirs(new_directory, exist_ok=True)
+
+    file_path = os.path.join(new_directory, new_file_name)
+    return new_directory, file_path
+
+
+def write_user_input(file_path: str) -> None:
+    with open(file_path, "a") as file:
+        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+
+        line_number = 1
+        while True:
+            content = input("Enter content line: ")
+
+            if content.lower() == "stop":
+                break
+
+            file.write(f"{line_number} {content}\n")
+            line_number += 1
+
+        file.write("\n")
+
+
+def main() -> None:
+    _, file_path = parse_arguments(sys.argv)
+    write_user_input(file_path)
+
+
+if __name__ == "__main__":
+    main()
