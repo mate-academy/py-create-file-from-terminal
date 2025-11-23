@@ -60,7 +60,6 @@ def main() -> None:
         for number, line in get_file_content():
             f.write(f"{number} {line}\n")
 
-
     print(f"Content written to {file_path}")
 
 
