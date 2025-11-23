@@ -53,11 +53,14 @@ if file_name:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     # запис у файл (append)
-    with open(full_path, "a", encoding="utf-8") as f:
-        f.write(timestamp + "\n")
+    file_exists = os.path.exists(full_path) and os.path.getsize(full_path) > 0
+
+    with open(full_path, "a", encoding="utf-8") as output_file:
+        if file_exists:
+            output_file.write("\n")  # separator before new block
+        output_file.write(timestamp + "\n")
         for line in lines:
-            f.write(line + "\n")
-        f.write("\n")
+            output_file.write(line + "\n")
 
 # --- якщо нічого не передано ---
 if "-d" not in command_line and "-f" not in command_line:

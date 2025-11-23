@@ -77,3 +77,31 @@ def test_create_dirs_and_file(tmp_path):
     content = file_path.read_text()
     for line in ["1 Hello", "2 World"]:
         assert line in content
+
+
+def test_append_file_content(tmp_path):
+    script_path = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "..", "app", "create_file.py")
+    )
+    file_name = "append_test.txt"
+
+    # first run
+    inputs1 = ["First line", "stop"]
+    os.chdir(tmp_path)
+    with mock.patch("builtins.input", side_effect=inputs1):
+        with mock.patch("sys.argv", ["create_file.py", "-f", file_name]):
+            import_script(script_path)
+
+    # second run
+    inputs2 = ["Second line", "stop"]
+    with mock.patch("builtins.input", side_effect=inputs2):
+        with mock.patch("sys.argv", ["create_file.py", "-f", file_name]):
+            import_script(script_path)
+
+    # verify content
+    file_path = tmp_path / file_name
+    content = file_path.read_text()
+    # should contain both blocks separated by a single blank line
+    assert "1 First line" in content
+    assert "1 Second line" in content
+    assert content.count("\n\n") == 1  # only one blank line separator
