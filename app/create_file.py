@@ -1,7 +1,7 @@
 import sys
 import os
 import datetime
-from typing import Any
+from typing import Any, Generator
 
 
 def parse_arguments(args: list[str]) -> tuple[list[Any], Any | None]:
@@ -23,20 +23,14 @@ def parse_arguments(args: list[str]) -> tuple[list[Any], Any | None]:
     return dir_parts, file_name
 
 
-def get_file_content() -> str:
-    lines = []
+def get_file_content() -> Generator[tuple[int, str], Any, None]:
+    line_count = 1
     while True:
         line = input("Enter content line: ")
         if line.lower() == "stop":
             break
-        lines.append(line)
-
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-    content = [timestamp]
-    content += [f"{i} {line}" for i, line in enumerate(lines, 1)]
-
-    return "\n".join(content)
+        yield line_count, line
+        line_count += 1
 
 
 def main() -> None:
@@ -54,14 +48,18 @@ def main() -> None:
 
     file_path = os.path.join(target_directory, file_name)
 
-    content = get_file_content()
-
     file_exists = os.path.exists(file_path)
 
     with open(file_path, "a", encoding="utf-8") as f:
         if file_exists:
             f.write("\n\n")
-        f.write(content)
+
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        f.write(timestamp + "\n")
+
+        for number, line in get_file_content():
+            f.write(f"{number} {line}\n")
+
 
     print(f"Content written to {file_path}")
 
