@@ -63,7 +63,7 @@ def create_file() -> None:
         return
 
     else:
-        print("Usage: python create.py -d <dir> -f <file>")
+        print("Usage: python create_file.py -d <dir> -f <file>")
         return
 
     if not os.path.exists(full_path):
