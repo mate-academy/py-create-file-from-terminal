@@ -3,7 +3,7 @@ import sys
 from datetime import datetime
 
 
-def create_file():
+def create_file() -> None:
     args = sys.argv
 
     directory = None
