@@ -16,11 +16,20 @@ def create_file_from_terminal() -> None:
             if part.startswith("-"):
                 break
             dir_path_parts.append(part)
-        directory_path = os.sep.join(dir_path_parts)
+
+        if dir_path_parts:
+            directory_path = os.path.join(
+                *(str(part) for part in dir_path_parts)
+            )
+        else:
+            directory_path = None
 
     if "-f" in command_string:
         f_index = command_string.index("-f")
-        file_name = command_string[f_index + 1]
+        if f_index + 1 < len(command_string):
+            file_name = command_string[f_index + 1]
+        else:
+            file_name = None
 
     if directory_path:
         os.makedirs(directory_path, exist_ok=True)
@@ -31,6 +40,11 @@ def create_file_from_terminal() -> None:
         else:
             full_file_path = file_name
 
+        if (os.path.exists(full_file_path)
+                and os.path.getsize(full_file_path) > 0):
+            with open(full_file_path, "a") as file:
+                file.write("\n")
+
         page_number = 1
         with open(full_file_path, "a") as file:
             current_date = datetime.datetime.now()
@@ -38,7 +52,6 @@ def create_file_from_terminal() -> None:
             while True:
                 text = input("Enter content line: ")
                 if text == "stop":
-                    file.write("\n")
                     break
                 file.write(f"{page_number}. {text}\n")
                 page_number += 1
