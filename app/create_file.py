@@ -57,5 +57,9 @@ elif user_input[0] == "-d":
 
 
 elif user_input[0] == "-f":
-    file_name = user_input[-1]
-    write_file(file_name)
+    f_index = user_input.index("-f")
+    try:
+        file_name = user_input[f_index + 1]
+        write_file(file_name)
+    except IndexError:
+        print("No file specified")
