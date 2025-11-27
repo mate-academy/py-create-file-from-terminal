@@ -22,10 +22,10 @@ def write_file(filename: str) -> None:
         with open(filename, "a") as file:
             file.write("\n")
 
-    with open(filename, "a") as f:
-        f.write(header + "\n")
+    with open(filename, "a") as source_file:
+        source_file.write(header + "\n")
         for number, line in enumerate(lines, 1):
-            f.write(f"{number} {line}\n")
+            source_file.write(f"{number} {line}\n")
 
 
 if len(user_input) == 0:
@@ -51,9 +51,13 @@ elif "-d" in user_input and "-f" in user_input:
 
 
 elif user_input[0] == "-d":
-    path = user_input[1:]
-    string_path = os.path.join(*path)
-    os.makedirs(string_path, exist_ok=True)
+    d_index = user_input.index("-d")
+    try:
+        path = user_input[1:]
+        string_path = os.path.join(*path)
+        os.makedirs(string_path, exist_ok=True)
+    except IndexError:
+        print("No directory specified after -d")
 
 
 elif user_input[0] == "-f":
