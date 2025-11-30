@@ -1,8 +1,10 @@
 import os
 import sys
 from datetime import datetime
+from typing import Any
 
-def patse_args(args):
+
+def patse_args(args: list[str]) -> tuple[bool, bool, list[Any], str | None]:
     d_flag = False
     f_flag = False
     dirs = []
@@ -27,7 +29,7 @@ def patse_args(args):
     return d_flag, f_flag, dirs, filename
 
 
-def ask_for_content():
+def ask_for_content() -> list[Any]:
     lines = []
     while True:
         line = input("Enter content line: ")
@@ -36,15 +38,16 @@ def ask_for_content():
         lines.append(line)
     return lines
 
-def format_entry(lines):
+
+def format_entry(lines: list[Any]) -> str:
     timestamp = datetime.today().strftime("%Y-%m-%d %H:%M:%S")
-    numbered = [f"{i+1} {line}" for i, line in enumerate(lines)]
+    numbered = [f"{i + 1} {line}" for i, line in enumerate(lines)]
     return timestamp + "\n" + "\n".join(numbered) + "\n"
 
 
-def main():
+def main() -> str | None:
     if len(sys.argv) < 2:
-        print("Użycie:")
+        print("Uzycie:")
         print("python create_file.py -d dir1 dir2 -f file.txt")
         print("python create_file.py -f file.txt")
         print("python create_file.py -d dir1 dir2")
@@ -75,8 +78,6 @@ def main():
         file.write(entry)
     print(f"\nZapisano do pliku: {filepath}")
 
+
 if __name__ == "__main__":
     main()
-
-
-
