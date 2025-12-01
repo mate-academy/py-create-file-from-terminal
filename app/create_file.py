@@ -20,7 +20,7 @@ def create_file(file_path: str) -> None:
             with open(file_path, "rb") as f_check:
                 f_check.seek(-1, os.SEEK_END)
                 last_char = f_check.read(1)
-                if last_char != b'\n':
+                if last_char != b"\n":
                     file.write("\n")
             file.write("\n")
         file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
