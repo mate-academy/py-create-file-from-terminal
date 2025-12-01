@@ -36,7 +36,7 @@ def read_lines() -> None:
     if filename is None:
         target_dirs = os.path.join(*dirs)
         os.makedirs(target_dirs, exist_ok=True)
-        raise ValueError
+        sys.exit()
     if dirs:
         target_dirs = os.path.join(*dirs)
         os.makedirs(target_dirs, exist_ok=True)
@@ -44,7 +44,12 @@ def read_lines() -> None:
     else:
         filepath = os.path.join(".", filename)
     line_number = 1
+    existing_file = 0
+    if os.path.exists(filepath):
+        existing_file = 1
     with open(filepath, "a") as file:
+        if existing_file == 1:
+            file.write("\n")
         now = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         file.write(now + "\n")
         print("Enter content line:")
