@@ -3,7 +3,9 @@ import datetime
 import os
 
 
-def parse_args(argv: str = sys.argv[1:]) -> tuple:
+def parse_args(argv: list = None) -> tuple:
+    if argv is None:
+        argv = sys.argv[1:]
     dirs = []
     i = 0
 
@@ -29,26 +31,30 @@ def parse_args(argv: str = sys.argv[1:]) -> tuple:
 
 def read_lines() -> None:
     arguments = parse_args()
+    dirs = arguments[0]
     filename = arguments[1]
-    if not arguments[0]:
-        target_dirs = os.path.join(*arguments[0])
-    else:
-        target_dirs = ""
-    if target_dirs != "":
+    if filename is None:
+        target_dirs = os.path.join(*dirs)
         os.makedirs(target_dirs, exist_ok=True)
-    filepath = os.path.join(str(target_dirs), filename)
+        raise ValueError
+    if dirs:
+        target_dirs = os.path.join(*dirs)
+        os.makedirs(target_dirs, exist_ok=True)
+        filepath = os.path.join(target_dirs, filename)
+    else:
+        filepath = os.path.join(".", filename)
     line_number = 1
-
     with open(filepath, "a") as file:
-        if os.path.exists(filepath):
-            file.write("\n")
         now = str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         file.write(now + "\n")
-        print("Enter content line: (type stop to finish")
-
+        print("Enter content line:")
         while True:
             line = input()
             if line == "stop":
                 break
             file.write(f"{line_number}. {line}\n")
             line_number += 1
+
+
+if __name__ == "__main__":
+    read_lines()
