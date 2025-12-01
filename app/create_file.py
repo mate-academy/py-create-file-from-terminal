@@ -3,40 +3,37 @@ import os
 from datetime import datetime
 
 
-def create_file(file_name: str) -> None:
-    with open(file_name, "a") as file:
-        file.write(str(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n")))
+def create_file(file_path: str) -> None:
+    with open(file_path, "a", encoding="utf-8") as file:
+        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
         number_of_line = 1
         while True:
-            input_line = input("Enter content line:")
-            if input_line == "stop":
+            input_line = input("Enter content line: ")
+            if input_line.lower() == "stop":
                 file.write("\n")
                 break
-
             file.write(f"{number_of_line} {input_line}\n")
             number_of_line += 1
 
 
 def find_path_from_terminal() -> None:
-    command_line = sys.argv
-
-    if "-d" in command_line:
-        index_d = command_line.index("-d")
-        if "-f" in command_line:
-            index_f = command_line.index("-f")
-            dir_path = command_line[index_d + 1:index_f]
-        else:
-            dir_path = command_line[index_d + 1:]
-
-        dir_path = os.path.join(*dir_path)
-
+    args = sys.argv[1:]
+    dirs = []
+    if "-d" in args:
+        index_d = args.index("-d") + 1
+        while index_d < len(args) and not args[index_d].startswith("-"):
+            dirs.append(args[index_d])
+            index_d += 1
+        dir_path = os.path.join(*dirs)
         os.makedirs(dir_path, exist_ok=True)
-
-    if "-f" in command_line:
-        file_name = command_line[command_line.index("-f") + 1]
-        if "-d" in command_line:
-            file_name = os.path.join(dir_path, file_name)
-        create_file(file_name)
+    else:
+        dir_path = ""
+    if "-f" in args:
+        index_f = args.index("-f") + 1
+        if index_f < len(args):
+            filename = args[index_f]
+            file_path = os.path.join(dir_path, filename)
+            create_file(file_path)
 
 
 if __name__ == "__main__":
