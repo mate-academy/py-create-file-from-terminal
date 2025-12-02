@@ -11,19 +11,18 @@ def receive_file_name(list_of_data: list) -> tuple:
     path_dir = None
     name_of_file = None
     if "-f" in list_of_data:
-        if len(list_of_data[list_of_data.index("-f") + 1:]) != 0:
-            name_of_file = list_of_data[-1]
-            list_of_data.pop(list_of_data.index("-f")+1)
-        list_of_data.pop(list_of_data.index("-f"))
-    else:
-        name_of_file = None
-
-        list_of_data.pop(-1)
-        list_of_data.pop(-1)
-    if "-d" in list_of_data:
-        list_of_data.pop(0)
-        path_dir = os.path.join(*list_of_data) \
-            if len(list_of_data) != 0 else None
+        f_index = list_of_data.index("-f")
+        file_name_index = f_index + 1
+        if f_index == -1:
+            name_of_file = None
+        elif list_of_data[f_index + 1] != "-d":
+            name_of_file = list_of_data[file_name_index]
+            list_of_data.pop(file_name_index)
+            list_of_data.remove("-f")
+    if "-d" in list_of_data and list_of_data.index("-d") != -1:
+        d_index = list_of_data.index("-d")
+        list_of_data.pop(d_index)
+        path_dir = os.path.join(*list_of_data)
     return path_dir, name_of_file
 
 
