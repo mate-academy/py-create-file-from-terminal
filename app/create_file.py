@@ -19,7 +19,8 @@ if file_name:
     if path:
         os.chdir(path)
     with open(file_name, "a", newline="", encoding="utf-8") as file:
-        file.write(datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S') + "\n")
+        file.write(
+            datetime.datetime.today().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         content_line = input("Enter content line:")
         iteration = 0
         while content_line != "stop":
