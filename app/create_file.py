@@ -49,8 +49,8 @@ def main() -> None:
         full_path = file_name
 
     if os.path.exists(full_path) and os.path.getsize(full_path) > 0:
-        with open(full_path, "a", encoding="utf-8") as f:
-            f.write("\n")
+        with open(full_path, "a", encoding="utf-8") as output_file:
+            output_file.write("\n")
 
     lines = []
 
@@ -62,15 +62,15 @@ def main() -> None:
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    with open(full_path, "a", encoding="utf-8") as f:
-        f.write(timestamp + "\n")
+    with open(full_path, "a", encoding="utf-8") as output_file:
+        output_file.write(timestamp + "\n")
 
         line_number = 1
         for text in lines:
-            f.write(f"{line_number} {text}\n")
+            output_file.write(f"{line_number} {text}\n")
             line_number += 1
 
-        f.write("\n")
+        output_file.write("\n")
 
 
 if __name__ == "__main__":
