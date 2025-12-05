@@ -32,43 +32,45 @@ def main() -> None:
     args = sys.argv[1:]
     directory_path, file_name = parse_args(args)
 
-    if file_name is None:
+    if directory_path is not None:
+        os.makedirs(directory_path, exist_ok=True)
+
+    if file_name is None and directory_path is None:
         print("Error: you need to transfer the file using the "
               "-f filename flag.")
         return
 
-    if directory_path is not None:
-        os.makedirs(directory_path, exist_ok=True)
+    if file_name is None:
+        return
 
-    full_path = (
-        os.path.join(directory_path, file_name)
-        if directory_path
-        else file_name
-    )
+    if directory_path:
+        full_path = os.path.join(directory_path, file_name)
+    else:
+        full_path = file_name
 
     if os.path.exists(full_path) and os.path.getsize(full_path) > 0:
-        with open(full_path, "a", encoding="utf-8") as source_file:
-            source_file.write("\n")
+        with open(full_path, "a", encoding="utf-8") as f:
+            f.write("\n")
 
     lines = []
 
     while True:
-        line = input("Enter content line: ")
-        if line == "stop":
+        text = input("Enter content line: ")
+        if text == "stop":
             break
-        lines.append(line)
+        lines.append(text)
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    with open(full_path, "a", encoding="utf-8") as source_file:
-        source_file.write(timestamp + "\n")
+    with open(full_path, "a", encoding="utf-8") as f:
+        f.write(timestamp + "\n")
 
         line_number = 1
-        for line in lines:
-            source_file.write(f"{line_number} {line}\n")
+        for text in lines:
+            f.write(f"{line_number} {text}\n")
             line_number += 1
 
-        source_file.write("\n")
+        f.write("\n")
 
 
 if __name__ == "__main__":
