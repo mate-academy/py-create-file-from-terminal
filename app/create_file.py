@@ -3,9 +3,11 @@ import sys
 import datetime
 from typing import TextIO
 
+
 terminal = sys.argv
 if "-d" not in terminal and "-f" not in terminal:
     sys.exit("No terminal provided")
+
 
 def write(open_file: TextIO) -> None:
     input_user = None
