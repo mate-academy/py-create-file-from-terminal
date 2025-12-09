@@ -10,16 +10,14 @@ if "-d" not in terminal and "-f" not in terminal:
 
 
 def write(open_file: TextIO) -> None:
-    input_user = None
     line = 1
-    open_file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S \n"))
-    while input_user != "stop\n":
+    open_file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
+    while True:
         input_user = input("Enter content line: ")
+        if input_user == "stop":
+            return
         input_user = f"{line} {input_user}\n"
-
-        open_file.write(input_user if input_user != f"{line} stop\n" else "")
-
-        input_user = input_user.strip(f"{line} ")
+        open_file.write(input_user)
         line += 1
 
 
@@ -30,10 +28,8 @@ def creating_a_directory(name_directory: list) -> None:
 
 def creating_a_file(filename: str) -> None:
     if os.path.isfile(filename):
-        with open(filename, "r") as file:
-            data = file.read()
-        with open(filename, "w") as file:
-            file.write(f"{data}\n")
+        with open(filename, "a") as file:
+            file.write("\n")
             write(file)
     else:
         with open(filename, "w") as file:
