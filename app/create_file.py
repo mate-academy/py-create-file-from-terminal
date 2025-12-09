@@ -4,6 +4,7 @@ from datetime import datetime
 
 
 args = argv
+given_path = []
 
 if "-d" in args:
     d_index = args.index("-d")
@@ -23,6 +24,7 @@ if "-f" in args:
     file_name = args[f_index + 1]
     final_path = path.join(*given_path, file_name)
 
+    file_exist = False
     if path.exists(final_path):
         file_exist = True
 
