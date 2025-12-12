@@ -45,18 +45,21 @@ def main() -> None:
             else:
                 print("Error: -f must be followed by file name")
                 return
-
         flags += 1
-
-    if not file_name:
-        print("Error: no file name provided. Use -f <file>")
-        return
 
     if directory:
         dir_path = os.path.join(*directory)
         os.makedirs(dir_path, exist_ok=True)
     else:
         dir_path = ""
+
+    if not file_name:
+        if directory:
+            print(f"Directories created at: {dir_path}")
+            return
+        else:
+            print("Error: no file name provided. Use -f <file>")
+            return
 
     full_path = os.path.join(dir_path, file_name)
 
