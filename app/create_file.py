@@ -5,18 +5,18 @@ import sys
 
 
 def create_app(command: list) -> None:
-    directories, file_name = get_files_and_directories(command)
+    directories_path, file_name = get_files_and_directories(command)
 
     if "-d" in command:
-        create_directories(directories)
+        create_directories(directories_path)
 
     if "-f" in command:
-        destination_path = os.path.join(directories, file_name)
+        destination_path = os.path.join(directories_path, file_name)
         create_file(destination_path)
 
 
 def get_files_and_directories(command: list) -> tuple:
-    dirs = ""
+    dirs = []
     file_name = None
 
     current = None
@@ -27,10 +27,12 @@ def get_files_and_directories(command: list) -> tuple:
             current = "-f"
         else:
             if current == "-d":
-                dirs += f"{token}/"
-            if current == "-f":
+                dirs.append(token)
+            if current == "-f" and command[len(command) - 1] == token:
                 file_name = token
-    return dirs, file_name
+
+    dirs_path = os.path.join(*dirs) if dirs else ""
+    return dirs_path, file_name
 
 
 def create_directories(directories: str) -> None:
