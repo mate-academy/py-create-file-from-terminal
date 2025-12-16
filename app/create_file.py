@@ -28,7 +28,7 @@ def get_files_and_directories(command: list) -> tuple:
         else:
             if current == "-d":
                 dirs.append(token)
-            if current == "-f" and command[len(command) - 1] == token:
+            if current == "-f" and file_name is None:
                 file_name = token
 
     dirs_path = os.path.join(*dirs) if dirs else ""
