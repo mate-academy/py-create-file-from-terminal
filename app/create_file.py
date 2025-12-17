@@ -6,7 +6,6 @@ from datetime import datetime
 class CreateFile:
     def __init__(self) -> None:
         self.file_name = ""
-        self.file_content = ""
         self.path_list = []
 
         args = sys.argv
@@ -45,12 +44,12 @@ class CreateFile:
 
             index = 1
             while True:
-                index += 1
                 line_content = input("Enter content line: ")
                 if line_content == "stop":
                     break
 
                 file.write(str(index) + " " + line_content + "\n")
+                index += 1
 
     def process_all(self) -> None:
         path = self.create_directory()
