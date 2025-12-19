@@ -80,3 +80,4 @@ def main() -> None:
     content = get_user_content()
     write_to_file(folder_path, file_name, content)
 
+
