@@ -13,8 +13,12 @@ while i < len(arguments):
             directories.append(arguments[i])
             i += 1
     elif arguments[i] == "-f":
+        if i + 1 >= len(arguments) or arguments[i + 1] in ("-d", "-f"):
+            print("Error: -f flag requires a filename, e.g. -f file.txt")
+            sys.exit(2)
         files = arguments[i + 1]
         i += 2
+
 
 path = os.path.join(*directories) if directories else ""
 if path:
@@ -29,9 +33,9 @@ if not lines:
     exit()
 
 files_path = os.path.join(path, files) if path else files
-with open(files_path, "a") as f:
+with open(files_path, "a") as file_name:
     if os.path.exists(files_path) and os.path.getsize(files_path) > 0:
-        f.write("\n")
-    f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        file_name.write("\n")
+    file_name.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
     for i, file_line in enumerate(lines, 1):
-        f.write(f"{i} {file_line}\n")
+        file_name.write(f"{i} {file_line}\n")
