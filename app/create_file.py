@@ -1,10 +1,10 @@
 import sys
 import os
 from datetime import datetime
-from typing import List
+from typing import List, Tuple
 
 
-def parse_arguments(args: List[str]) -> tuple:
+def parse_arguments(args: List[str]) -> Tuple[List[str], str]:
     dirs = []
     filename = None
 
@@ -50,16 +50,16 @@ def create_file() -> None:
         return
 
     file_path = os.path.join(base_path, filename)
-
     lines = get_content_lines()
+
     if not lines:
         return
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     with open(file_path, "a", encoding="utf-8") as file:
-        if os.path.getsize(file_path) > 0:
-            file.write("\n\n")
+        if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
+            file.write("\n")  # ← ВИПРАВЛЕНО: лише один перенос рядка
 
         file.write(timestamp + "\n")
         for index, line in enumerate(lines, start=1):
