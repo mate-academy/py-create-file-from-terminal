@@ -7,19 +7,25 @@ args = sys.argv[1:]
 new_dir = []
 new_file = ""
 
-if "-d" in args and "-f" in args:
-    d_index = args.index("-d")
-    f_index = args.index("-f")
-    new_dir = args[d_index + 1:f_index]
-    if f_index + 1 < len(args):
-        new_file = args[f_index + 1]
-elif "-d" in args:
-    d_index = args.index("-d")
-    new_dir = args[d_index + 1:]
-elif "-f" in args:
-    f_index = args.index("-f")
-    if f_index + 1 < len(args):
-        new_file = args[f_index + 1]
+ind = 0
+while ind < len(args):
+    if args[ind] == "-d":
+        ind += 1
+        parts = []
+        while ind < len(args) and not args[ind].startswith("-"):
+            parts.append(args[ind])
+            ind += 1
+        new_dir = parts
+        continue
+    if args[ind] == "-f":
+        ind += 1
+        if ind < len(args):
+            new_file = args[ind]
+            ind += 1
+        else:
+            raise TypeError("Invalid file name")
+        continue
+    ind += 1
 
 if new_dir:
     new_dir_path = os.path.join(*new_dir)
@@ -28,6 +34,8 @@ if new_dir:
 
 if new_file:
     with open(new_file, "a") as file:
+        if os.path.exists(new_file) and os.path.getsize(new_file) > 0:
+            file.write("\n")
         current_date = datetime.datetime.now()
         file.write(current_date.strftime("%Y-%m-%d %H:%M:%S") + "\n")
         message = input("Enter content line: ")
