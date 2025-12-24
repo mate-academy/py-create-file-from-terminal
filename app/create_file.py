@@ -3,7 +3,7 @@ import os
 import datetime
 
 
-def create_path(argv: list[str]) -> str:
+def create_folders(argv: list[str]) -> str:
     if "-d" not in argv:
         return ""
 
@@ -14,7 +14,7 @@ def create_path(argv: list[str]) -> str:
     path = os.path.join(*parts)
 
     os.makedirs(path, exist_ok=True)
-    return str(path) + "/"
+    return str(path)
 
 
 def get_user_data() -> list:
@@ -36,8 +36,10 @@ def write_to_file(file_out: str, data: list) -> None:
 
 
 if __name__ == "__main__":
-    file_name = create_path(sys.argv) + sys.argv[-1]
+    folders = create_folders(sys.argv)
 
     if "-f" in sys.argv:
+        file_name = sys.argv[sys.argv.index("-f") + 1]
+        file_path = os.path.join(folders, file_name)
         user_data = get_user_data()
-        write_to_file(file_name, user_data)
+        write_to_file(file_path, user_data)
