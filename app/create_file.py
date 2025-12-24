@@ -14,7 +14,7 @@ def create_path(argv: list[str]) -> str:
     path = os.path.join(*parts)
 
     os.makedirs(path, exist_ok=True)
-    return str(path)
+    return str(path) + "/"
 
 
 def get_user_data() -> list:
@@ -28,6 +28,8 @@ def get_user_data() -> list:
 def write_to_file(file_out: str, data: list) -> None:
     now = datetime.datetime.now()
     with open(file_out, "a") as f_out:
+        if f_out.tell() != 0:
+            f_out.write("\n")
         f_out.write(now.strftime("%Y-%m-%d %H:%M:%S") + "\n")
         for index, line in enumerate(data):
             f_out.write(f"{index + 1} {line}\n")
