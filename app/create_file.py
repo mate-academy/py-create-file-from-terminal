@@ -25,11 +25,15 @@ def create_file(
 ):
     os.makedirs(path)
     os.chdir(path)
-    with open(file_name, "w") as file:
-        file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    with (open(file_name, "w") as file):
+        creation_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(f"{creation_date}\n")
         i = 1
-        content = input("Enter content line: ")
-        while content != "stop":
-            file.write(f"{i} {content}")
+        while True:
+            content = input("Enter content line: ")
+            if content == "stop":
+                break
+            file.write(f"{i} {content}\n")
+            i += 1
 
 main()
