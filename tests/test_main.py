@@ -2,6 +2,30 @@ from app.create_file import main
 import pytest
 from pytest import MonkeyPatch
 import os
+import copy
+
+
+class CleanUpFile:
+    def __init__(self, filename: str):
+        self.filename = filename
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        path_components = self.filename.split("/")
+        for _ in range(len(path_components)):
+            remaining_path = os.path.join(*path_components)
+            if not os.path.exists(remaining_path):
+                break
+
+            if os.path.isfile(remaining_path):
+                os.remove(remaining_path)
+
+            if os.path.isdir(remaining_path):
+                os.rmdir(remaining_path)
+
+            path_components.pop(-1)
 
 @pytest.mark.parametrize(
     "terminal_arguments, file_path, content",
