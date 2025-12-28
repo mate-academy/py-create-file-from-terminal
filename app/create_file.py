@@ -14,6 +14,10 @@ def create_directories(dirs: list) -> str:
 
 
 def create_and_write_text_to_file(file_path: str) -> None:
+    if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
+        with open(file_path, "a") as file:
+            file.write("\n")
+
     with open(f"{file_path}", "a") as file:
         file.write(f"{return_datetime()}\n")
         sum_lines = 0
@@ -21,27 +25,27 @@ def create_and_write_text_to_file(file_path: str) -> None:
             client_input = str(input("Enter content line: "))
             if client_input.strip().lower() == "stop":
                 break
-            else:
-                sum_lines += 1
-                file.write(f"{sum_lines} {client_input}\n")
+            sum_lines += 1
+            file.write(f"{sum_lines} {client_input}\n")
 
 
 def main() -> None:
     arguments = sys.argv[1:]
     dirs = []
-    d_index = 0
     file_name = None
     if "-d" in arguments:
-        d_index += arguments.index("-d")
+        d_index = arguments.index("-d")
         for i in range(d_index + 1, len(arguments)):
-            if arguments[i + 1] == "-f":
+            if arguments[i] == "-f":
                 break
-            else:
-                dirs.append(arguments[i])
+            dirs.append(arguments[i])
     if "-f" in arguments:
         f_index = arguments.index("-f")
-        if f_index < len(arguments):
+        if f_index + 1 < len(arguments):
             file_name = arguments[f_index + 1]
+        else:
+            print("Error: -f requires a filename")
+            return
 
     if dirs and file_name:
         dir_path = create_directories(dirs)
