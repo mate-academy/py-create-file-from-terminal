@@ -1,9 +1,10 @@
-import app.create_file as create_file
-import pytest
-from pytest import MonkeyPatch
 import os
 import copy
 
+import pytest
+from pytest import MonkeyPatch
+
+import app.create_file as create_file
 
 
 class CleanUpFile:
@@ -27,6 +28,7 @@ class CleanUpFile:
                 os.rmdir(remaining_path)
 
             path_components.pop(-1)
+
 
 @pytest.mark.parametrize(
     "terminal_arguments, file_path, content",
