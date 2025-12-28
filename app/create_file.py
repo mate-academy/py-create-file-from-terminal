@@ -45,4 +45,5 @@ def main() -> None:
     create_file(params["file_name"], params["path"])
 
 
-main()
+if __name__ == "__main__":
+    main()
