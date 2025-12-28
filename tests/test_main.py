@@ -31,14 +31,14 @@ class CleanUpFile:
     "terminal_arguments, file_path, content",
     [
         (
-                ["-d", "hello", "there", "-f", "test_file"],
-                "hello/hello/test_file",
-                ["1 HI", "2 There"]
+                ["-d", "dir1", "dir2", "-f", "test_file"],
+                "dir1/dir2/test_file",
+                ["HI", "There", "stop"]
         ),
         (
-                ["-f", "test_file", "-d", "hello", "there"],
-                "hello/hello/test_file",
-                ["1 HI", "2 There"]
+                ["-f", "test_file", "-d", "dir3", "dir4"],
+                "dir3/dir4/test_file",
+                ["HI", "There", "stop"]
         ),
     ],
     ids=[
@@ -46,28 +46,28 @@ class CleanUpFile:
         "-d flag after -f flag"
     ]
 )
-def test_create_file(monkeypatch: MonkeyPatch, terminal_arguments: list, file_path: str, content: list[str]):
-    inputs = [*content]
+def test_create_file(
+    monkeypatch: MonkeyPatch,
+    terminal_arguments: list,
+    file_path: str,
+    content: list[str]
+):
+    inputs = copy.copy(content)
     input_messages = []
-
-    def mock_parsed_arguments():
-        return terminal_arguments
 
     def mock_input_content(text):
         input_messages.append(text)
-        yield inputs.pop(0)
+        return inputs.pop(0)
 
-        if os.path.exists(file_path):
-            os.remove(file_path)
-
-    monkeypatch.setattr("sys.argv", mock_parsed_arguments)
+    monkeypatch.setattr("sys.argv", terminal_arguments)
     monkeypatch.setattr("builtins.input", mock_input_content)
 
-    main()
+    with CleanUpFile(file_path):
+        main()
 
-    assert input_messages == ["Enter content line: "] * (len(content) + 1)
+        assert input_messages == (["Enter content line: "] * len(content))
 
-    assert os.path.exists(file_path)
+        assert os.path.exists(file_path)
 
-    with open(file_path, "r") as f:
-        assert f.read().splitlines() == content
+        with open(file_path, "r") as f:
+            assert f.read().splitlines() == content

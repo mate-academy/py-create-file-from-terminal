@@ -27,8 +27,8 @@ def create_file(
     path: str
 ) -> None:
     os.makedirs(path)
-    os.chdir(path)
-    with (open(file_name, "w") as file):
+    file_path = os.path.join(path, file_name)
+    with open(file_path, "w") as file:
         creation_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         file.write(f"{creation_date}\n")
         line_number = 1
