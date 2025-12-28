@@ -1,6 +1,6 @@
 import sys
 import os
-import datetime
+from datetime import datetime
 
 
 def parse_arguments() -> dict:
@@ -29,7 +29,7 @@ def create_file(
     os.makedirs(path)
     file_path = os.path.join(path, file_name)
     with open(file_path, "w") as file:
-        creation_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        creation_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         file.write(f"{creation_date}\n")
         line_number = 1
         while True:

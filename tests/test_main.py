@@ -1,8 +1,9 @@
-from app.create_file import main
+import app.create_file as create_file
 import pytest
 from pytest import MonkeyPatch
 import os
 import copy
+
 
 
 class CleanUpFile:
@@ -54,6 +55,7 @@ def test_create_file(
 ):
     inputs = copy.copy(content)
     input_messages = []
+    current_time = create_file.datetime.now()
 
     def mock_input_content(text):
         input_messages.append(text)
@@ -61,13 +63,18 @@ def test_create_file(
 
     monkeypatch.setattr("sys.argv", terminal_arguments)
     monkeypatch.setattr("builtins.input", mock_input_content)
+    monkeypatch.setattr("app.create_file.datetime", current_time)
 
     with CleanUpFile(file_path):
-        main()
+        create_file.main()
 
         assert input_messages == (["Enter content line: "] * len(content))
 
         assert os.path.exists(file_path)
 
         with open(file_path, "r") as f:
-            assert f.read().splitlines() == content
+            for i in range(len(content) - 1):
+                content[i] = f"{i + 1} {content[i]}"
+            generated_content = f.read().splitlines()
+            assert generated_content[0] == current_time.strftime("%Y-%m-%d %H:%M:%S")
+            assert generated_content[1:] == content[:-1]
