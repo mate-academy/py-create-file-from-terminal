@@ -47,6 +47,8 @@ def create_file(
                 file.write("\n")
 
         with open(file_path, "a+") as file:
+            if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
+                file.write("\n")
             creation_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             file.write(f"{creation_date}\n")
             line_number = 1
