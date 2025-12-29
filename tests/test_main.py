@@ -126,11 +126,10 @@ def test_folder():
 
 
 @pytest.mark.parametrize(
-    "terminal_arguments, file_path, content",
+    "terminal_arguments, content",
     [
         (
                 ["-d", "append", "test", "-f", "test_file"],
-                ["append", "test", "test_file"],
                 ["HI", "There", "stop"]
         )
     ],
@@ -142,13 +141,11 @@ def test_append_functionality(
     test_folder,
     monkeypatch: MonkeyPatch,
     terminal_arguments: list,
-    file_path: list[str],
     content: list[str]
 ):
     inputs = copy.copy(content)
     input_messages = []
     current_time = create_file.datetime.now()
-    file_path = test_folder
 
     def mock_input_content(text):
         input_messages.append(text)
@@ -158,16 +155,16 @@ def test_append_functionality(
     monkeypatch.setattr("builtins.input", mock_input_content)
     monkeypatch.setattr("app.create_file.datetime", current_time)
 
-    with open(file_path, "r") as f:
+    with open(test_folder, "r") as f:
         length_before_append = len(f.readlines())
 
     create_file.main()
 
     assert input_messages == (["Enter content line: "] * len(content))
-    assert os.path.exists(file_path)
+    assert os.path.exists(test_folder)
 
-    with CleanUpFile(file_path):
-        with open(file_path, "r") as f:
+    with CleanUpFile(test_folder):
+        with open(test_folder, "r") as f:
             all_lines = f.readlines()
             assert len(all_lines) > length_before_append
 
