@@ -42,9 +42,11 @@ def create_file(
 
     if file_name:
         file_path = os.path.join(current_dir, file_name)
-        with open(file_path, "a+") as file:
-            if len([file.readlines]) > 1:
+        if os.path.exists(file_path):
+            with open(file_path, "a+") as file:
                 file.write("\n")
+
+        with open(file_path, "a+") as file:
             creation_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             file.write(f"{creation_date}\n")
             line_number = 1
