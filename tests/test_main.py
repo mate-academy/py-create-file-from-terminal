@@ -114,3 +114,71 @@ def test_create_folder_with_only_d_flag(
         create_file.main()
 
         assert os.path.exists(file_path)
+
+
+@pytest.fixture()
+def test_folder():
+    lines = ["2025-12-29 15:56:11\n", "1 hi\n", "2 there\n"]
+    os.makedirs("append/test")
+    with open("append/test/test_file", "w") as f:
+        f.writelines(lines)
+    return os.path.relpath("append/test/test_file")
+
+@pytest.mark.parametrize(
+    "terminal_arguments, file_path, content",
+    [
+        (
+                ["-d", "append", "test", "-f", "test_file"],
+                ["append", "test", "test_file"],
+                ["HI", "There", "stop"]
+        )
+    ],
+    ids=[
+        "append"
+    ]
+)
+def test_append_functionality(
+    test_folder,
+    monkeypatch: MonkeyPatch,
+    terminal_arguments: list,
+    file_path: list[str],
+    content: list[str]
+):
+    inputs = copy.copy(content)
+    input_messages = []
+    current_time = create_file.datetime.now()
+    file_path = test_folder
+
+    def mock_input_content(text):
+        input_messages.append(text)
+        return inputs.pop(0)
+
+    monkeypatch.setattr("sys.argv", terminal_arguments)
+    monkeypatch.setattr("builtins.input", mock_input_content)
+    monkeypatch.setattr("app.create_file.datetime", current_time)
+
+    with open(file_path, "r") as f:
+        length_before_append = len(f.readlines())
+
+    create_file.main()
+
+    assert input_messages == (["Enter content line: "] * len(content))
+    assert os.path.exists(file_path)
+
+    with CleanUpFile(file_path):
+        with open(file_path, "r") as f:
+            all_lines = f.readlines()
+            assert len(all_lines) > length_before_append
+
+            for i in range(len(content) - 1):
+                content[i] = f"{i + 1} {content[i]}"
+
+            new_content_start = length_before_append
+            assert all_lines[new_content_start].strip() == ""
+            assert (
+                all_lines[new_content_start + 1].strip() == current_time.strftime("%Y-%m-%d %H:%M:%S")
+            )
+
+            for i, expected_line in enumerate(content[:-1]):
+                actual_line = all_lines[new_content_start + 2 + i].strip()
+                assert actual_line == expected_line
