@@ -2,13 +2,12 @@ import sys
 import os
 from os import PathLike
 from datetime import datetime
-from typing import Union
 
 
 def parse_arguments() -> dict:
     parsed_args = {
-        "file_name": Union[None, str],
-        "path": Union[None, PathLike]
+        "file_name": "",
+        "path": ""
     }
     arguments = sys.argv
 
@@ -30,16 +29,16 @@ def parse_arguments() -> dict:
 
 
 def create_file(
-    file_name: Union[None, str],
-    path: Union[None, PathLike]
+    file_name: str,
+    path: str | PathLike
 ) -> None:
     current_dir = os.getcwd()
 
-    if path is not None:
+    if path:
         os.makedirs(path, exist_ok=True)
         current_dir = path
 
-    if file_name is not None:
+    if file_name:
         file_path = os.path.join(current_dir, file_name)
         with open(file_path, "a") as file:
             creation_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
