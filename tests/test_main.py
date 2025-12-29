@@ -80,3 +80,28 @@ def test_create_file(
             generated_content = f.read().splitlines()
             assert generated_content[0] == current_time.strftime("%Y-%m-%d %H:%M:%S")
             assert generated_content[1:] == content[:-1]
+
+
+@pytest.mark.parametrize(
+    "terminal_arguments, file_path",
+    [
+        (
+                ["-d", "dir5", "dir6"],
+                "dir5/dir6/"
+        ),
+    ],
+    ids=[
+        "only -d flag"
+    ]
+)
+def test_create_folder_with_only_d_flag(
+    monkeypatch: MonkeyPatch,
+    terminal_arguments: list,
+    file_path: str
+):
+    monkeypatch.setattr("sys.argv", terminal_arguments)
+
+    with CleanUpFile(file_path):
+        create_file.main()
+
+        assert os.path.exists(file_path)
