@@ -1,24 +1,31 @@
 import sys
 import os
+from os import PathLike
 from datetime import datetime
+from typing import Union
 
 
 def parse_arguments() -> dict:
     parsed_args = {
-        "file_name": "",
-        "path": ""
+        "file_name": Union[None, str],
+        "path": Union[None, PathLike]
     }
     arguments = sys.argv
-    f_flag_index = arguments.index("-f")
-    d_flag_index = arguments.index("-d")
-    parsed_args["file_name"] = arguments[f_flag_index + 1]
 
-    if d_flag_index > f_flag_index + 1:
-        path_list = arguments[d_flag_index + 1:]
-    else:
-        path_list = arguments[d_flag_index + 1:f_flag_index]
+    if "-f" in arguments:
+        f_flag_index = arguments.index("-f")
+        parsed_args["file_name"] = arguments[f_flag_index + 1]
 
-    parsed_args["path"] = os.path.join(*path_list)
+    if "-d" in arguments:
+        d_flag_index = arguments.index("-d")
+        if not f_flag_index or d_flag_index > f_flag_index + 1:
+            parsed_args["path"] = os.path.join(
+                *arguments[d_flag_index + 1:]
+            )
+        else:
+            parsed_args["path"] = os.path.join(
+                *arguments[d_flag_index + 1:f_flag_index]
+            )
     return parsed_args
 
 
