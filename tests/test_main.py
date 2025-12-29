@@ -43,13 +43,19 @@ class CleanUpFile:
                 "dir3/dir4/test_file",
                 ["HI", "There", "stop"]
         ),
+        (
+                ["-f", "test_file"],
+                "test_file",
+                ["HI", "There", "stop"]
+        )
     ],
     ids=[
         "-d flag before -f flag",
-        "-d flag after -f flag"
+        "-d flag after -f flag",
+        "only -f flag"
     ]
 )
-def test_create_file(
+def test_create_file_with_flags(
     monkeypatch: MonkeyPatch,
     terminal_arguments: list,
     file_path: str,
