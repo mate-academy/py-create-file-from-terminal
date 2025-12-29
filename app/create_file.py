@@ -36,7 +36,7 @@ def create_file(
     current_dir = os.getcwd()
 
     if path is not None:
-        os.makedirs(path)
+        os.makedirs(path, exist_ok=True)
         current_dir = path
 
     if file_name is not None:
