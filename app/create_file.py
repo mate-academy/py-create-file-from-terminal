@@ -42,9 +42,6 @@ def create_file(
 
     if file_name:
         file_path = os.path.join(current_dir, file_name)
-        if os.path.exists(file_path):
-            with open(file_path, "a+") as file:
-                file.write("\n")
 
         with open(file_path, "a+") as file:
             if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
