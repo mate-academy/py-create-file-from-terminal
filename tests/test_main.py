@@ -124,6 +124,7 @@ def test_folder():
         f.writelines(lines)
     return os.path.relpath("append/test/test_file")
 
+
 @pytest.mark.parametrize(
     "terminal_arguments, file_path, content",
     [
