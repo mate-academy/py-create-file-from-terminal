@@ -8,14 +8,14 @@ import app.create_file as create_file
 
 
 class CleanUpFile:
-    def __init__(self, filename: str):
+    def __init__(self, filename: str | bytes):
         self.filename = filename
 
     def __enter__(self):
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        path_components = self.filename.split("/")
+        path_components = self.filename.split(os.path.sep)
         for _ in range(len(path_components)):
             remaining_path = os.path.join(*path_components)
             if not os.path.exists(remaining_path):
@@ -35,17 +35,17 @@ class CleanUpFile:
     [
         (
                 ["-d", "dir1", "dir2", "-f", "test_file"],
-                "dir1/dir2/test_file",
+                ["dir1", "dir2", "test_file"],
                 ["HI", "There", "stop"]
         ),
         (
                 ["-f", "test_file", "-d", "dir3", "dir4"],
-                "dir3/dir4/test_file",
+                ["dir3", "dir4", "test_file"],
                 ["HI", "There", "stop"]
         ),
         (
                 ["-f", "test_file"],
-                "test_file",
+                ["test_file"],
                 ["HI", "There", "stop"]
         )
     ],
@@ -58,12 +58,13 @@ class CleanUpFile:
 def test_create_file_with_flags(
     monkeypatch: MonkeyPatch,
     terminal_arguments: list,
-    file_path: str,
+    file_path: list[str],
     content: list[str]
 ):
     inputs = copy.copy(content)
     input_messages = []
     current_time = create_file.datetime.now()
+    file_path = os.path.join(*file_path)
 
     def mock_input_content(text):
         input_messages.append(text)
@@ -93,7 +94,7 @@ def test_create_file_with_flags(
     [
         (
                 ["-d", "dir5", "dir6"],
-                "dir5/dir6/"
+                ["dir5", "dir6"]
         ),
     ],
     ids=[
@@ -103,8 +104,10 @@ def test_create_file_with_flags(
 def test_create_folder_with_only_d_flag(
     monkeypatch: MonkeyPatch,
     terminal_arguments: list,
-    file_path: str
+    file_path: list[str]
 ):
+    assert file_path, "file_path must not be empty"
+    file_path = os.path.join(*file_path)
     monkeypatch.setattr("sys.argv", terminal_arguments)
 
     with CleanUpFile(file_path):
