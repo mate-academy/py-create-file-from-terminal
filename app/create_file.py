@@ -10,6 +10,8 @@ def parse_arguments() -> dict:
         "path": ""
     }
     arguments = sys.argv
+    f_flag_index = None
+    d_flag_index = None
 
     if "-f" in arguments:
         f_flag_index = arguments.index("-f")
