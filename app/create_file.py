@@ -33,19 +33,22 @@ def main() -> None:
     arguments = sys.argv[1:]
     dirs = []
     file_name = None
-    if "-d" in arguments:
-        d_index = arguments.index("-d")
-        for i in range(d_index + 1, len(arguments)):
-            if arguments[i] == "-f":
-                break
-            dirs.append(arguments[i])
-    if "-f" in arguments:
-        f_index = arguments.index("-f")
-        if f_index + 1 < len(arguments):
-            file_name = arguments[f_index + 1]
+    i = 0
+    while i < len(arguments):
+        argument = arguments[i]
+        if argument == "-d":
+            i += 1
+            while i < len(arguments) and i != "-f":
+                dirs.append(argument)
+                i += 1
+        elif argument == "-f":
+            i += 1
+            if i < len(arguments):
+                file_name = argument
+            else:
+                print("The name of file should be written in")
         else:
-            print("Error: -f requires a filename")
-            return
+            i += 1
 
     if dirs and file_name:
         dir_path = create_directories(dirs)
