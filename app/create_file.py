@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 
-def main():
+def main() -> None:
     args = sys.argv[1:]
 
     dir_parts = []
@@ -14,7 +14,7 @@ def main():
     while i < len(args):
         if args[i] == "-d":
             i += 1
-            # Coleta todos os itens após -d até encontrar outra flag ou acabar a lista
+            # Coleta itens após -d até encontrar outra flag ou acabar
             while i < len(args) and not args[i].startswith("-"):
                 dir_parts.append(args[i])
                 i += 1
@@ -34,7 +34,7 @@ def main():
         target_dir = os.path.join(*dir_parts)
         os.makedirs(target_dir, exist_ok=True)
 
-    # 3. Se não houver nome de arquivo, apenas encerra após criar os diretórios
+    # 3. Se não houver nome de arquivo, apenas encerra
     if not file_name:
         return
 
@@ -59,10 +59,10 @@ def main():
     file_path = os.path.join(target_dir, file_name)
     file_exists = os.path.exists(file_path)
 
-    # 'a' (append) cria o arquivo se não existir ou adiciona ao final
+    # 'a' (append) cria o arquivo ou adiciona ao final
     with open(file_path, "a", encoding="utf-8") as f:
         if file_exists:
-            # Se já existir, adiciona uma linha em branco antes do novo bloco de timestamp
+            # Adiciona linha em branco antes do bloco se o arquivo já existir
             f.write("\n\n")
         f.write(full_content)
 
