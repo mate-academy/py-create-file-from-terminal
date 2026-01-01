@@ -9,12 +9,11 @@ def main() -> None:
     dir_parts = []
     file_name = None
 
-    # 1. Parsing dos argumentos (sys.argv)
     i = 0
     while i < len(args):
         if args[i] == "-d":
             i += 1
-            # Coleta itens após -d até encontrar outra flag ou acabar
+            # Collect directory parts until the next flag or end of args
             while i < len(args) and not args[i].startswith("-"):
                 dir_parts.append(args[i])
                 i += 1
@@ -28,17 +27,14 @@ def main() -> None:
         else:
             i += 1
 
-    # 2. Criar diretórios (os.makedirs)
     target_dir = "."
     if dir_parts:
         target_dir = os.path.join(*dir_parts)
         os.makedirs(target_dir, exist_ok=True)
 
-    # 3. Se não houver nome de arquivo, apenas encerra
     if not file_name:
         return
 
-    # 4. Ler entrada de conteúdo do usuário
     content_lines = []
     while True:
         line = input("Enter content line: ")
@@ -46,7 +42,6 @@ def main() -> None:
             break
         content_lines.append(line)
 
-    # 5. Preparar o bloco de texto
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     formatted_block = [timestamp]
 
@@ -55,16 +50,13 @@ def main() -> None:
 
     full_content = "\n".join(formatted_block)
 
-    # 6. Escrever no arquivo (os.path.join)
     file_path = os.path.join(target_dir, file_name)
     file_exists = os.path.exists(file_path)
 
-    # 'a' (append) cria o arquivo ou adiciona ao final
-    with open(file_path, "a", encoding="utf-8") as f:
+    with open(file_path, "a", encoding="utf-8") as output_file:
         if file_exists:
-            # Adiciona linha em branco antes do bloco se o arquivo já existir
-            f.write("\n\n")
-        f.write(full_content)
+            output_file.write("\n\n")
+        output_file.write(full_content)
 
 
 if __name__ == "__main__":
