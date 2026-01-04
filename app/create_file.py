@@ -9,22 +9,22 @@ def parse_arguments(input_string: list) -> tuple:
     file_name = ""
     file_name_exist = False
 
-    for i in input_string:
-        if (i == "-d"):
+    for arg in input_string:
+        if (arg == "-d"):
             dir_exist = True
-        if (i == "-f"):
+        if (arg == "-f"):
             dir_exist = False
             file_name_exist = True
-        if (dir_exist and i != "-d"):
-            dirs.append(i)
-        if (file_name_exist and i != "-f"):
-            file_name = i
+        if (dir_exist and arg != "-d"):
+            dirs.append(arg)
+        if (file_name_exist and arg != "-f"):
+            file_name = arg
             file_name_exist = False
 
     return dirs, file_name
 
 
-def building_directory(actual_directory: str, dirs: list) -> None:
+def building_directory(actual_directory: str, dirs: list) -> str:
     for dir_part in dirs:
         actual_directory = os.path.join(actual_directory, dir_part)
     if (not os.path.exists(actual_directory)):
@@ -43,13 +43,13 @@ def building_file(new_file: str) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     number = 1
-    with (open(new_file, "a") as f):
+    with (open(new_file, "a") as output_file):
         if os.path.exists(new_file) and os.path.getsize(new_file) > 0:
-            f.write("\n")
-        f.write(timestamp + "\n")
+            output_file.write("\n")
+        output_file.write(timestamp + "\n")
         for line in lines:
-            f.write(str(number) + " ")
-            f.write(line + "\n")
+            output_file.write(str(number) + " ")
+            output_file.write(line + "\n")
             number += 1
 
 
