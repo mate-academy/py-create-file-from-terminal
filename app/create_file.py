@@ -53,7 +53,7 @@ def write_to_file(target_path: str, lines: list[str]) -> None:
 
             f.write(f"{timestamp}\n")
             for idx, line in enumerate(lines, 1):
-                f.write(f"{idx}. {line}\n")
+                f.write(f"{idx} {line}\n")
     except IOError:
         pass
 
