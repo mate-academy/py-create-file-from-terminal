@@ -19,7 +19,6 @@ def parse_arguments(args: list[str]) -> tuple[list[str], str]:
                 filename = args[i + 1]
                 i += 2
             else:
-                print("Error: -f requires a filename.")
                 sys.exit(1)
         else:
             i += 1
@@ -29,16 +28,14 @@ def parse_arguments(args: list[str]) -> tuple[list[str], str]:
 def make_directories(path: str) -> None:
     try:
         os.makedirs(path, exist_ok=True)
-    except OSError as e:
-        print(f"Error creating directories: {e}")
+    except OSError:
         sys.exit(1)
 
 
 def get_user_content() -> list[str]:
     lines: list[str] = []
-    print("Enter content (type 'stop' to finish):")
     while True:
-        line = input("> ")
+        line = input("Enter content line: ")
         if line.strip().lower() == "stop":
             break
         lines.append(line)
@@ -54,42 +51,36 @@ def write_to_file(target_path: str, lines: list[str]) -> None:
             if file_exists:
                 f.write("\n")
 
-            f.write(f"[{timestamp}]\n")
+            f.write(f"{timestamp}\n")
             for idx, line in enumerate(lines, 1):
                 f.write(f"{idx}. {line}\n")
-    except IOError as e:
-        print(f"Error writing to file: {e}")
+    except IOError:
+        pass
 
 
 def main() -> None:
     raw_args: list[str] = sys.argv[1:]
 
     if not raw_args:
-        print("Usage: python script.py -d dir1 dir2 -f file.txt")
         return
 
     dirs, name = parse_arguments(raw_args)
 
-    if not name:
-        print("Error: Filename (-f) is required.")
-        return
-
     if dirs:
         path = os.path.join(dirs[0], *dirs[1:])
+        make_directories(path)
     else:
         path = "."
 
-    if path != ".":
-        make_directories(path)
+    if not name:
+        return
 
     content = get_user_content()
     if not content:
-        print("No content provided. Exiting.")
         return
 
     full_path = os.path.join(path, name)
     write_to_file(full_path, content)
-    print(f"Success: {full_path}")
 
 
 if __name__ == "__main__":
