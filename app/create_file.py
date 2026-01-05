@@ -18,7 +18,10 @@ def parse_arguments(arguments: list) -> tuple:
 
     if index_f is not None:
         if index_f + 1 < len(arguments):
-            filename = arguments[index_f + 1]
+            next_argument = arguments[index_f + 1]
+            if next_argument.startswith("-"):
+                raise ValueError("'-f' flag requires a valid filename, not another flag")
+            filename = next_argument
         else:
             raise ValueError("'-f' flag requires a filename")
 
@@ -43,7 +46,7 @@ def collect_lines() -> list:
     return lines
 
 
-def write_to_file(directories: tuple, filename: str, lines: list) -> None:
+def write_to_file(directories: list, filename: str, lines: list) -> None:
     if filename is None:
         raise ValueError("Filename must be provided")
     current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
