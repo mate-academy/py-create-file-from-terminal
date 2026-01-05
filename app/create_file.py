@@ -7,6 +7,7 @@ def parse_arguments(args: list[str]) -> tuple[list[str], str]:
     directories: list[str] = []
     filename: str = ""
     i = 0
+
     while i < len(args):
         if args[i] == "-d":
             i += 1
