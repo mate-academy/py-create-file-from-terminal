@@ -20,7 +20,9 @@ def parse_arguments(arguments: list) -> tuple:
         if index_f + 1 < len(arguments):
             next_argument = arguments[index_f + 1]
             if next_argument.startswith("-"):
-                raise ValueError("'-f' flag requires a valid filename, not another flag")
+                raise ValueError(
+                    "'-f' flag requires a valid filename, not another flag"
+                )
             filename = next_argument
         else:
             raise ValueError("'-f' flag requires a filename")
