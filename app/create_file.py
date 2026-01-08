@@ -17,10 +17,8 @@ def get_directory_path() -> str:
 
 
 def create_directories(path: str) -> None:
-    try:
+    if path:
         os.makedirs(path, exist_ok=True)
-    except FileNotFoundError:
-        return
 
 
 def get_file_name() -> str:
@@ -47,7 +45,8 @@ def create_file(path: str) -> None:
             file_content += str(line_counter) + " " + input_text + "\n"
             line_counter += 1
         if file_content:
-            if is_file_exist:
+            has_content = os.path.getsize(full_file_path) > 0
+            if is_file_exist and has_content:
                 file.write("\n\n")
             current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             file_content = current_time + "\n" + file_content
