@@ -13,8 +13,7 @@ if "-f" in args:
 
 if "-d" in args:
     start = args.index("-d")
-
-    if "-f" in args and args.index("-f") > start:
+    if filename:
         dirs = args[start + 1:args.index("-f")]
     else:
         dirs = args[args.index("-d") + 1:]
@@ -28,6 +27,9 @@ if filename:
         full_path = filename
 
     with open(full_path, "a", encoding="utf-8") as f:
+        if os.path.getsize(full_path) > 0:
+            f.write("\n")
+
         now = datetime.now()
         f.write(now.strftime("%Y-%m-%d %H:%M:%S") + "\n")
 
