@@ -1,9 +1,8 @@
-import sys
 import os
 from datetime import datetime
 
 
-def parse_arguments(args):
+def parse_arguments(args: list) -> tuple | list:
     filename = None
     dirs = []
 
@@ -21,7 +20,7 @@ def parse_arguments(args):
     return filename, dirs
 
 
-def create_file_structure(filename, dirs):
+def create_file_structure(filename: str, dirs: list) -> None:
     if filename:
         if dirs:
             os.makedirs(os.path.join(*dirs), exist_ok=True)
