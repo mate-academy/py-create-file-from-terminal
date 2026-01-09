@@ -34,5 +34,8 @@ def main() -> None:
             text_to_write = f"{timestamp}\n"
             for i, line in enumerate(content_lines, 1):
                 text_to_write += f"{i} {line}\n"
-            with open(full_file_path, "a", encoding="utf-8") as f:
-                f.write(text_to_write)
+            if (os.path.exists(full_file_path)
+                    and os.path.getsize(full_file_path) > 0):
+                text_to_write = "\n" + text_to_write
+            with open(full_file_path, "a", encoding="utf-8") as target_file:
+                target_file.write(text_to_write)
