@@ -45,10 +45,3 @@ else:
     if dirs:
         full_path = os.path.join(*dirs)
         os.makedirs(full_path, exist_ok=True)
-
-
-
-
-
-
-
