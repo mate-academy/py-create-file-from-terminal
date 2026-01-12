@@ -3,6 +3,9 @@ import datetime
 from os import makedirs, path, getcwd
 from sys import argv
 
+class InvalidArguments(Exception):
+    def __init__(self, message) -> None:
+        super().__init__(message)
 
 def get_directories() -> list:
     directories = []
@@ -15,14 +18,14 @@ def get_directories() -> list:
         directories.append(argv[i])
 
     if not directories:
-        raise KeyError("Arguments after -d option are missing!")
+        raise InvalidArguments("Arguments after -d option are missing!")
     return directories
 
 def get_file_name() -> str:
     index_of_option = argv.index("-f")
 
     if index_of_option == len(argv) - 1 or argv[index_of_option + 1] == "-d":
-        raise KeyError("Argument after -f option is missing!")
+        raise InvalidArguments("Argument after -f option is missing!")
     return argv[index_of_option + 1]
 
 def create_file():
@@ -39,7 +42,7 @@ def create_file():
         absolute_path = path.join(getcwd(), get_file_name())
         write_file(absolute_path)
     else:
-        raise KeyError("No option is specified!")
+        raise InvalidArguments("No option is specified!")
 
 def write_file(path_to_the_file: str) -> None:
     with open(path_to_the_file, "a") as f:
