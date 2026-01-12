@@ -3,9 +3,11 @@ import datetime
 from os import makedirs, path, getcwd
 from sys import argv
 
+
 class InvalidArguments(Exception):
-    def __init__(self, message) -> None:
+    def __init__(self, message: str) -> None:
         super().__init__(message)
+
 
 def get_directories() -> list:
     directories = []
@@ -21,6 +23,7 @@ def get_directories() -> list:
         raise InvalidArguments("Arguments after -d option are missing!")
     return directories
 
+
 def get_file_name() -> str:
     index_of_option = argv.index("-f")
 
@@ -28,7 +31,8 @@ def get_file_name() -> str:
         raise InvalidArguments("Argument after -f option is missing!")
     return argv[index_of_option + 1]
 
-def create_file():
+
+def create_file() -> None:
     if "-d" in argv:
         directories_path = path.join(getcwd(), *get_directories())
 
@@ -44,11 +48,13 @@ def create_file():
     else:
         raise InvalidArguments("No option is specified!")
 
+
 def write_file(path_to_the_file: str) -> None:
     with open(path_to_the_file, "a") as output_file:
         if path.exists(path_to_the_file):
             output_file.write("\n")
-        output_file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        output_file.write(datetime.datetime.now()
+                          .strftime("%Y-%m-%d %H:%M:%S"))
         output_file.write("\n")
 
         line_count = 1
@@ -59,6 +65,7 @@ def write_file(path_to_the_file: str) -> None:
 
             output_file.write(f"{line_count} {input_text}\n")
             line_count += 1
+
 
 if __name__ == "__main__":
     create_file()
