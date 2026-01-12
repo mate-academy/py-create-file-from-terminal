@@ -51,7 +51,7 @@ def create_file() -> None:
 
 def write_file(path_to_the_file: str) -> None:
     with open(path_to_the_file, "a") as output_file:
-        if path.exists(path_to_the_file):
+        if path.getsize(path_to_the_file) > 0:
             output_file.write("\n")
         output_file.write(datetime.datetime.now()
                           .strftime("%Y-%m-%d %H:%M:%S"))
