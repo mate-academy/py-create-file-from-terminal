@@ -45,19 +45,19 @@ def create_file():
         raise InvalidArguments("No option is specified!")
 
 def write_file(path_to_the_file: str) -> None:
-    with open(path_to_the_file, "a") as f:
-        f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-        f.write("\n")
+    with open(path_to_the_file, "a") as output_file:
+        if path.exists(path_to_the_file):
+            output_file.write("\n")
+        output_file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        output_file.write("\n")
 
         line_count = 1
         while True:
-            input_text = ""
             input_text = input("Enter content line: ")
             if input_text == "stop":
-                f.write("\n")
                 break
 
-            f.write(f"{line_count} {input_text}\n")
+            output_file.write(f"{line_count} {input_text}\n")
             line_count += 1
 
 if __name__ == "__main__":
