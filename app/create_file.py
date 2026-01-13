@@ -33,7 +33,7 @@ if len(folder_info) > 0:
     folder_mode = True
 
 if folder_mode:
-    full_path = os.path.join(os.getcwd(), "\\".join(folder_info))
+    full_path = os.path.join(os.getcwd(), *folder_info)
     os.makedirs(full_path)
 
 if file_mode:
@@ -44,9 +44,11 @@ if file_mode:
         stop = False
         current_date = str(datetime.now())[:19]
         file.write(f"{current_date}\r\n")
+        current_line = 1
         while not stop:
             answer = input("Enter content line: ")
             if answer == "stop":
                 stop = True
                 continue
-            file.write(f"{answer}\r\n")
+            file.write(f"{current_line} {answer}\r\n")
+            current_line += 1
