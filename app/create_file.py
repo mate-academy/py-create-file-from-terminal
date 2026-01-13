@@ -21,11 +21,9 @@ for arg in sys.argv[1:]:
         continue
 
     if folder_mode:
-        print(f"folder_info += {arg}")
         folder_info.append(arg)
 
     if file_mode:
-        print(f"file_info = {arg}")
         file_info = arg
 
 if len(file_info) > 0:
