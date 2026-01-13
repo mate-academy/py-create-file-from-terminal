@@ -24,16 +24,13 @@ def create_file() -> None:
 
 
 def content_creating(file_name: str) -> None:
-    with open(file_name, "a") as f:
-        f.write(datetime.now().strftime("%Y-%m-%d, %H:%M:%S") + "\n")
+    with open(file_name, "a") as file:
+        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         count = 1
         while True:
             content = input("Enter content line: ")
             if content.lower() == "stop":
                 break
-            f.write(str(count) + " " + content + "\n")
+            file.write(str(count) + " " + content + "\n")
             count += 1
-        f.write("\n")
-
-
-create_file()
+        file.write("\n")
