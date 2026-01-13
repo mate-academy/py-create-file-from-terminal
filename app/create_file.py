@@ -45,7 +45,7 @@ if file_mode:
 
         with open(file=file_name, mode="a") as file:
             stop = False
-            current_date = str(datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
+            current_date = datetime.now().strftime("%Y-%m-%d, %H:%M:%S")
             file.write(f"{current_date}\r\n")
             current_line = 1
             while not stop:
