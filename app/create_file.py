@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 file_mode = False
-file_info = ""
+file_info = []
 folder_mode = False
 folder_info = []
 full_path = ""
@@ -24,7 +24,7 @@ for arg in sys.argv[1:]:
         folder_info.append(arg)
 
     if file_mode:
-        file_info = arg
+        file_info.append(arg)
 
 if len(file_info) > 0:
     file_mode = True
@@ -37,18 +37,21 @@ if folder_mode:
     os.makedirs(full_path)
 
 if file_mode:
-    if folder_mode:
-        os.chdir(full_path)
+    for file_name in file_info:
+        file_path = file_name
 
-    with open(file=file_info, mode="a") as file:
-        stop = False
-        current_date = str(datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
-        file.write(f"{current_date}\r\n")
-        current_line = 1
-        while not stop:
-            answer = input("Enter content line: ")
-            if answer == "stop":
-                stop = True
-                continue
-            file.write(f"{current_line} {answer}\r\n")
-            current_line += 1
+        if folder_mode:
+            file_name = os.path.join(full_path, file_name)
+
+        with open(file=file_name, mode="a") as file:
+            stop = False
+            current_date = str(datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
+            file.write(f"{current_date}\r\n")
+            current_line = 1
+            while not stop:
+                answer = input("Enter content line: ")
+                if answer == "stop":
+                    stop = True
+                    continue
+                file.write(f"{current_line} {answer}\r\n")
+                current_line += 1
