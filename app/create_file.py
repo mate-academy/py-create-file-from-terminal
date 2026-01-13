@@ -42,7 +42,7 @@ if file_mode:
     if folder_mode:
         os.chdir(full_path)
 
-    with open(file=file_info, mode="w") as file:
+    with open(file=file_info, mode="a") as file:
         stop = False
         current_date = str(datetime.now())[:19]
         file.write(f"{current_date}\r\n")
