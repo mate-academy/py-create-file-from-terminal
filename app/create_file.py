@@ -52,6 +52,7 @@ if file_mode:
                 answer = input("Enter content line: ")
                 if answer == "stop":
                     stop = True
+                    file.write("\r\n")
                     continue
                 file.write(f"{current_line} {answer}\r\n")
                 current_line += 1
