@@ -2,7 +2,6 @@ import sys
 import os
 from datetime import datetime
 
-print(sys.argv)
 
 def create_file() -> None:
     command = sys.argv
@@ -35,5 +34,6 @@ def content_creating(file_name: str) -> None:
             f.write(str(count) + " " + content + "\n")
             count += 1
         f.write("\n")
-create_file()
 
+
+create_file()
