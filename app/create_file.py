@@ -34,3 +34,6 @@ def content_creating(file_name: str) -> None:
             file.write(str(count) + " " + content + "\n")
             count += 1
         file.write("\n")
+
+
+create_file()
