@@ -9,7 +9,8 @@ def parse_arguments(arguments: list[str]) -> tuple[list[str], str | None]:
 
     if "-d" in arguments:
         directory_index = arguments.index("-d") + 1
-        while directory_index < len(arguments) and arguments[directory_index] not in ("-f",):
+        while (directory_index < len(arguments) and
+               arguments[directory_index] not in ("-f",)):
             directory_parts.append(arguments[directory_index])
             directory_index += 1
 
