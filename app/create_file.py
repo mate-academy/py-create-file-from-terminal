@@ -68,15 +68,15 @@ def main() -> None:
         print("Error: you must use -d, -f, or both.")
         return
 
-    content_lines = get_content_lines()
-    formatted_content = format_content(content_lines)
-
     base_path = os.getcwd()
 
     if directory_parts:
         base_path = create_directories(directory_parts)
 
     if file_name:
+        content_lines = get_content_lines()
+        formatted_content = format_content(content_lines)
+
         file_path = os.path.join(base_path, file_name)
         write_to_file(file_path, formatted_content)
         print(f"File created or updated: {file_path}")
