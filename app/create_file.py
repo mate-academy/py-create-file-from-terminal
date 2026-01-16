@@ -25,14 +25,18 @@ def create_file(input_list: list, dir_path: str = "") -> None:
         raise TypeError("input_list cannot be None")
 
     dt = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    txt_file_name = "".join([element
-                             for element in input_list
-                             if ".txt" in element])
+
+    try:
+        f_index = input_list.index("-f") + 1
+        txt_file_name = input_list[f_index]
+    except (ValueError, IndexError):
+        txt_file_name = ""
+
     full_path = os.path.join(dir_path, txt_file_name)
 
     with open(full_path, "a") as f:
         if os.path.getsize(full_path) != 0:
-            f.write("\n\n")
+            f.write("\n")
         f.write(f"{dt}\n")
         counter = 1
         while True:

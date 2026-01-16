@@ -43,7 +43,7 @@ def test_create_file_append_block(tmp_path, monkeypatch):
     monkeypatch.setattr("builtins.input", lambda _: next(inputs2))
     create_file(["-f", file_name], str(tmp_path))
     content = open(full_path).read().splitlines()
-    assert content[0] != "" and content[3] == ""
+    assert content[0] != "" and content[2] == ""
     assert "1 Second1" in content
     assert "2 Second2" in content
 
