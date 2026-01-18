@@ -14,21 +14,19 @@ def create_file(*args) -> None:
         f_args = []
 
         for index in range(len(arguments)):
-            if arguments[index] == ["-d"]:
-                d_args = arguments[index + 1]
-            if arguments[index] == ["-f"]:
-                f_args = arguments[index + 1]
+            if index + 1 < len(arguments):
+                if arguments[index] == ["-d"]:
+                    d_args = arguments[index + 1]
+                if arguments[index] == ["-f"]:
+                    f_args = arguments[index + 1]
 
         return d_args, f_args
 
     d_args, f_args = parse_args(args)
 
-    full_file_path = ""
-
     if d_args != []:
-        print(d_args)
         directory_path = os.path.join(*d_args)
-        os.makedirs(directory_path)
+        os.makedirs(directory_path, exist_ok=True)
 
     if f_args != []:
         if d_args != []:
@@ -38,7 +36,7 @@ def create_file(*args) -> None:
         with open(full_file_path, "a") as file:
             loop_continues = True
             line_number = 1
-            file.write(f"{datetime.now().strftime('%Y_%m_%d %H:%M:%S')}\n")
+            file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
             while loop_continues:
                 user_input = input("Enter content line: ")
                 if user_input == "stop":
