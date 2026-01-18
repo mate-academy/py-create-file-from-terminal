@@ -18,7 +18,10 @@ if "-d" in arguments:
         os.makedirs(current_dir)
 
 if file_name:
-    with open(os.path.join(current_dir, file_name), "a") as source_file:
+    file_path = os.path.join(current_dir, file_name)
+    with open(file_path, "a") as source_file:
+        if os.path.getsize(file_path) != 0:
+            source_file.write("\n")
         source_file.write(
             datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
         )
@@ -26,8 +29,6 @@ if file_name:
         while True:
             new_line = input("Enter content line: ")
             if new_line.lower() == "stop":
-                if line_number > 1:
-                    source_file.write("\n")
                 break
             source_file.write(f"{line_number} {new_line}\n")
             line_number += 1
