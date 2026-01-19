@@ -3,7 +3,7 @@ import os
 import sys
 
 
-def create_file(file_name: str, directories: str) -> None:
+def create_file(file_name: str, directories: dict) -> None:
     # Criar diretórios se necessário
     if directories is not None and directories != []:
         path = os.path.join(*directories)
@@ -12,7 +12,6 @@ def create_file(file_name: str, directories: str) -> None:
     else:
         full_path = file_name
     # Verificar se arquivo existe para saber quantas linhas já tem
-    existing_lines = 0
     if os.path.exists(full_path):
         with open(full_path, "r") as file_handle:
             # Contar linhas numeradas existentes
