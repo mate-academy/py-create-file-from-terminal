@@ -18,8 +18,7 @@ def create_file(file_name: str, directories: dict) -> None:
             for line in file_handle:
                 if line.strip() and line[0].isdigit():
                     try:
-                        line_num = int(line.split()[0])
-                        existing_lines = max(existing_lines, line_num)
+                        int(line.split()[0])
                     except (ValueError, IndexError):
                         pass
     # Coletar conteúdo do usuário
