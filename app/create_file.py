@@ -14,9 +14,9 @@ def create_file(file_name: str, directories: str) -> None:
     # Verificar se arquivo existe para saber quantas linhas já tem
     existing_lines = 0
     if os.path.exists(full_path):
-        with open(full_path, "r") as f:
+        with open(full_path, "r") as file_handle:
             # Contar linhas numeradas existentes
-            for line in f:
+            for line in file_handle:
                 if line.strip() and line[0].isdigit():
                     try:
                         line_num = int(line.split()[0])
@@ -31,15 +31,15 @@ def create_file(file_name: str, directories: str) -> None:
             break
         lines.append(line)
     # Escrever no arquivo
-    with open(full_path, "a") as f:
+    with open(full_path, "a") as file_handle:
         # Adicionar timestamp
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        f.write(f"{timestamp}\n")
-        # Adicionar linhas numeradas
-        for i, line in enumerate(lines, start=existing_lines + 1):
-            f.write(f"{i} {line}\n")
+        file_handle.write(f"{timestamp}\n")
+        # Adicionar linhas numeradas (FIXED: now starts from 1)
+        for line_num, line in enumerate(lines, start=1):
+            file_handle.write(f"{line_num} {line}\n")
         # Adicionar linha em branco no final
-        f.write("\n")
+        file_handle.write("\n")
 
 
 def main() -> None:
@@ -49,22 +49,30 @@ def main() -> None:
     directories = []
     file_name = None
     # Parsear argumentos
-    i = 1
-    while i < len(sys.argv):
-        if sys.argv[i] == "-d":
+    arg_index = 1
+    while arg_index < len(sys.argv):
+        if sys.argv[arg_index] == "-d":
             # Coletar todos os diretórios até encontrar -f ou fim
-            i += 1
-            while i < len(sys.argv) and sys.argv[i] != "-f":
-                directories.append(sys.argv[i])
-                i += 1
-        elif sys.argv[i] == "-f":
+            arg_index += 1
+            while arg_index < len(sys.argv) and sys.argv[arg_index] != "-f":
+                directories.append(sys.argv[arg_index])
+                arg_index += 1
+        elif sys.argv[arg_index] == "-f":
             # Próximo argumento é o nome do arquivo
-            i += 1
-            if i < len(sys.argv):
-                file_name = sys.argv[i]
-                i += 1
+            arg_index += 1
+            if arg_index < len(sys.argv):
+                file_name = sys.argv[arg_index]
+                arg_index += 1
         else:
-            i += 1
+            arg_index += 1
+
+    # If only directories are provided, create them and exit
+    if file_name is None and directories:
+        path = os.path.join(*directories)
+        os.makedirs(path, exist_ok=True)
+        print(f"Directory created: {path}")
+        return
+
     # Validar que temos pelo menos um filename se -f foi usado
     if file_name is None or file_name == "":
         print("Error: File name is required with -f flag")
