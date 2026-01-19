@@ -1,5 +1,6 @@
 # write your code here
 import sys
+import os
 import os.path
 from datetime import datetime
 
@@ -20,6 +21,7 @@ def write_to_file(file_path: str) -> None:
 def read_terminal_args() -> str | None:
     _, *arguments = sys.argv
     is_f_flag_exists = False
+    is_d_flag_exists = False
     try:
         idx_filename = arguments.index("-f") + 1
         is_f_flag_exists = True
@@ -30,6 +32,7 @@ def read_terminal_args() -> str | None:
 
     try:
         idx_start = arguments.index("-d") + 1
+        is_d_flag_exists = True
     except ValueError:
         folders = []
     else:
@@ -39,9 +42,10 @@ def read_terminal_args() -> str | None:
             idx_end = len(arguments)
         finally:
             folders = arguments[idx_start:idx_end]
-    if not is_f_flag_exists:
+    if is_d_flag_exists:
         if not os.path.exists(os.path.join(*folders)):
             os.makedirs(os.path.join(*folders))
+    if not is_f_flag_exists:
         return
     return write_to_file(os.path.join(*folders, filename))
 
