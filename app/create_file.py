@@ -22,9 +22,10 @@ def create_file(directorys: str, file_name: str) -> None:
         os.mkdir(current_directory)
     if file_name:
         path = os.path.join(current_directory, file_name)
-        with open(path, "w"):
-            with open(path, "a") as current_file:
-                fill_the_file(current_file)
+        if not os.path.exists(path):
+            open(path, "x").close()
+        with open(path, "a") as current_file:
+            fill_the_file(current_file)
 
 
 def main() -> None:
@@ -35,7 +36,8 @@ def main() -> None:
     if "-f" in args:
         i = args.index("-f")
         file_name = args[i + 1]
-        args = args[:i]
+        args.pop(i)
+        args.pop(i)
 
     if "-d" in args:
         i = args.index("-d")
