@@ -3,56 +3,75 @@ import sys
 from datetime import datetime
 
 
-def create_file() -> None:
+def get_arguments() -> tuple[str, str]:
     args = sys.argv[1:]
     dir_path = ""
     file_name = ""
 
-    # Lógica para extrair diretórios e nome do arquivo dos argumentos
     if "-d" in args:
-        d_index = args.index("-d")
-        # Encontra onde termina a lista de diretórios (próxima flag ou fim da lista)
-        f_index = args.index("-f") if "-f" in args else len(args)
+        d_idx = args.index("-d")
+        # Encontra o fim dos argumentos de diretório (próxima flag ou fim da lista)
+        f_idx = args.index("-f") if "-f" in args else len(args)
         
-        # Se -f vier antes de -d, ajustamos a lógica de fatiamento
-        if "-f" in args and args.index("-f") < d_index:
-            path_parts = args[d_index + 1:]
+        # Define o intervalo correto dependendo da ordem das flags
+        if "-f" in args and args.index("-f") < d_idx:
+            path_parts = args[d_idx + 1:]
         else:
-            path_parts = args[d_index + 1:f_index]
+            path_parts = args[d_idx + 1:f_idx]
             
         dir_path = os.path.join(*path_parts) if path_parts else ""
 
     if "-f" in args:
-        f_index = args.index("-f")
-        file_name = args[f_index + 1]
+        f_idx = args.index("-f")
+        # Correção 1: Verifica se existe um nome de arquivo após a flag -f
+        if f_idx + 1 < len(args):
+            file_name = args[f_idx + 1]
 
-    # Criação do diretório se necessário
+    return dir_path, file_name
+
+
+def get_content_from_user() -> str:
+    content_lines = []
+    line_num = 1
+    
+    while True:
+        line = input("Enter content line: ")
+        if line.lower() == "stop":
+            break
+        content_lines.append(f"{line_num} {line}")
+        line_num += 1
+
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    # Formatação conforme o exemplo: timestamp + conteúdo numerado
+    return timestamp + "\n" + "\n".join(content_lines) + "\n"
+
+
+def write_to_file(dir_path: str, file_name: str, content: str) -> None:
     if dir_path:
         os.makedirs(dir_path, exist_ok=True)
 
-    # Caminho completo do arquivo
-    full_path = os.path.join(dir_path, file_name) if file_name else ""
+    full_path = os.path.join(dir_path, file_name)
+    
+    # Correção 3: Adiciona linha em branco apenas se o arquivo já existir
+    file_exists = os.path.exists(full_path)
+    
+    with open(full_path, "a") as f:
+        if file_exists:
+            f.write("\n")
+        f.write(content)
 
-    if full_path:
-        content_lines = []
-        line_num = 1
-        
-        # Coleta de conteúdo do terminal
-        while True:
-            line = input("Enter content line: ")
-            if line.lower() == "stop":
-                break
-            content_lines.append(f"{line_num} {line}")
-            line_num += 1
 
-        # Preparação do timestamp e bloco de conteúdo
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        new_content = timestamp + "\n" + "\n".join(content_lines) + "\n\n"
+def main() -> None:
+    dir_path, file_name = get_arguments()
 
-        # Escrita no arquivo (modo 'a' para anexar se já existir)
-        with open(full_path, "a") as f:
-            f.write(new_content)
+    # Correção 2: A lógica de conteúdo só roda se um NOME de arquivo foi passado
+    if file_name:
+        content = get_content_from_user()
+        write_to_file(dir_path, file_name, content)
+    elif dir_path:
+        # Se apenas -d for passado, apenas cria os diretórios
+        os.makedirs(dir_path, exist_ok=True)
 
 
 if __name__ == "__main__":
-    create_file()
+    main()
