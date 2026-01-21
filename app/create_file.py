@@ -6,31 +6,35 @@ from typing import TextIO
 def fill_the_file(current_file: TextIO) -> None:
     import datetime
     current_file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    del datetime
+    i = 0
     while True:
+        i += 1
         current_input = input("Enter content line: ")
         if current_input == "stop":
             break
-        current_file.write("\n" + current_input)
+        current_file.write(f"\n{i} {current_input}")
 
 
-def create_file(directorys: str, file_name: str) -> None:
-    current_directory = ""
-    for directory in directorys.split(os.sep):
-        current_directory = os.path.join(current_directory, directory)
-        if os.path.exists(current_directory):
-            continue
-        os.mkdir(current_directory)
+def create_file(current_directory: str, file_name: str) -> None:
+    os.makedirs(current_directory, exist_ok=True)
     if file_name:
+        is_file_empty = True
         path = os.path.join(current_directory, file_name)
         if not os.path.exists(path):
             open(path, "x").close()
+        else:
+            with open(path, "r") as current_file:
+                is_file_empty = current_file.read() == ""
         with open(path, "a") as current_file:
+            if not is_file_empty:
+                current_file.write("\n" * 2)
             fill_the_file(current_file)
 
 
 def main() -> None:
     args = sys.argv[1:]
-    directorys = [""]
+    dir_path = ""
     file_name = ""
 
     if "-f" in args:
@@ -41,11 +45,9 @@ def main() -> None:
 
     if "-d" in args:
         i = args.index("-d")
-        for directory_name in args[i + 1:]:
-            directorys.append(directory_name)
-    directorys = os.path.join(*directorys)
+        dir_path = os.path.join(*args[i + 1:])
 
-    create_file(directorys, file_name)
+    create_file(dir_path, file_name)
 
 
 if __name__ == "__main__":
