@@ -13,9 +13,9 @@ def parse_arguments(arguments: List[str]) -> Tuple[List[str], str | None]:
         if arguments[index] == "-d":
             index += 1
             while (
-    index < len(arguments)
-    and not arguments[index].startswith("-")
-):
+                index < len(arguments)
+                and not arguments[index].startswith("-")
+            ):
                 directories.append(arguments[index])
                 index += 1
         elif arguments[index] == "-f":
