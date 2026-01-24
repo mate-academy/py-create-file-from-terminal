@@ -1,11 +1,12 @@
 import sys
 import os
 from datetime import datetime
+from typing import List, Tuple
 
 
-def parse_arguments(arguments):
-    directories = []
-    file_name = None
+def parse_arguments(arguments: List[str]) -> Tuple[List[str], str | None]:
+    directories: List[str] = []
+    file_name: str | None = None
 
     index = 1
     while index < len(arguments):
@@ -25,20 +26,20 @@ def parse_arguments(arguments):
     return directories, file_name
 
 
-def read_file_content():
-    lines = []
+def read_file_content() -> List[str]:
+    lines: List[str] = []
     while True:
-        line = input("Enter content line: ")
+        line: str = input("Enter content line: ")
         if line == "stop":
             break
         lines.append(line)
     return lines
 
 
-def write_content_to_file(file_path, lines):
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+def write_content_to_file(file_path: str, lines: List[str]) -> None:
+    timestamp: str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    file_exists_and_not_empty = (
+    file_exists_and_not_empty: bool = (
         os.path.exists(file_path)
         and os.path.getsize(file_path) > 0
     )
@@ -52,16 +53,16 @@ def write_content_to_file(file_path, lines):
             output_file.write(f"{index} {line}\n")
 
 
-def main():
+def main() -> None:
     directories, file_name = parse_arguments(sys.argv)
 
-    base_path = os.getcwd()
+    base_path: str = os.getcwd()
 
     if directories:
         base_path = os.path.join(base_path, *directories)
         os.makedirs(base_path, exist_ok=True)
 
     if file_name:
-        file_path = os.path.join(base_path, file_name)
-        lines = read_file_content()
+        file_path: str = os.path.join(base_path, file_name)
+        lines: List[str] = read_file_content()
         write_content_to_file(file_path, lines)
