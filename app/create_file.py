@@ -12,7 +12,10 @@ def parse_arguments(arguments: List[str]) -> Tuple[List[str], str | None]:
     while index < len(arguments):
         if arguments[index] == "-d":
             index += 1
-            while index < len(arguments) and not arguments[index].startswith("-"):
+            while (
+    index < len(arguments)
+    and not arguments[index].startswith("-")
+):
                 directories.append(arguments[index])
                 index += 1
         elif arguments[index] == "-f":
@@ -46,7 +49,7 @@ def write_content_to_file(file_path: str, lines: List[str]) -> None:
 
     with open(file_path, "a", encoding="utf-8") as output_file:
         if file_exists_and_not_empty:
-            output_file.write("\n\n")
+            output_file.write("\n")
 
         output_file.write(f"{timestamp}\n")
         for index, line in enumerate(lines, start=1):
