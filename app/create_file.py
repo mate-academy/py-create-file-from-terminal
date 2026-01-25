@@ -1,61 +1,53 @@
-import sys
 import os
-from datetime import datetime
+import sys
+from typing import TextIO
+
+
+def fill_the_file(current_file: TextIO) -> None:
+    import datetime
+    current_file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    del datetime
+    i = 0
+    while True:
+        i += 1
+        current_input = input("Enter content line: ")
+        if current_input == "stop":
+            break
+        current_file.write(f"\n{i} {current_input}")
+
+
+def create_file(current_directory: str, file_name: str) -> None:
+    os.makedirs(current_directory, exist_ok=True)
+    if file_name:
+        is_file_empty = True
+        path = os.path.join(current_directory, file_name)
+        if not os.path.exists(path):
+            open(path, "x").close()
+        else:
+            with open(path, "r") as current_file:
+                is_file_empty = current_file.read() == ""
+        with open(path, "a") as current_file:
+            if not is_file_empty:
+                current_file.write("\n" * 2)
+            fill_the_file(current_file)
 
 
 def main() -> None:
     args = sys.argv[1:]
-
-    if not args:
-        print("Please provide arguments. "
-              "Use -d for directories and/or -f for "
-              "filename.")
-        return
-
-    dir_parts = []
-    filename = None
-
-    if "-d" in args:
-        d_idx = args.index("-d")
-        if "-f" in args:
-            f_idx = args.index("-f")
-            if d_idx < f_idx:
-                dir_parts = args[d_idx + 1:f_idx]
-            else:
-                dir_parts = args[d_idx + 1:]
-        else:
-            dir_parts = args[d_idx + 1:]
+    dir_path = ""
+    file_name = ""
 
     if "-f" in args:
-        f_idx = args.index("-f")
-        if f_idx + 1 < len(args):
-            filename = args[f_idx + 1]
+        i = args.index("-f")
+        file_name = args[i + 1]
+        args.pop(i)
+        args.pop(i)
 
-    target_dir = ""
-    if dir_parts:
-        target_dir = os.path.join(*dir_parts)
-        os.makedirs(target_dir, exist_ok=True)
-        print(f"Directory created/verified: {target_dir}")
+    if "-d" in args:
+        i = args.index("-d")
+        dir_path = os.path.join(*args[i + 1:])
 
-    if filename:
-        full_path = os.path.join(target_dir, filename) \
-            if target_dir else filename
-
-        lines = []
-        while True:
-            line = input("Enter content line: ")
-            if line.lower() == "stop":
-                break
-            lines.append(line)
-
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        with open(full_path, "a", encoding="utf-8") as file:
-            file.write(f"{timestamp}\n")
-            for i, line in enumerate(lines, 1):
-                file.write(f"{i} {line}\n")
-
-        print(f"\nSuccessfully written to {full_path}")
+    create_file(dir_path, file_name)
 
 
 if __name__ == "__main__":
