@@ -3,20 +3,22 @@ import os
 from datetime import datetime
 
 
-def main():
+def main() -> None:
     args = sys.argv[1:]
 
     if not args:
-        print("Please provide arguments. Use -d for directories and/or -f for filename.")
+        print("Please provide arguments. "
+              "Use -d for directories and/or -f for "
+              "filename.")
         return
 
     dir_parts = []
     filename = None
 
-    if '-d' in args:
-        d_idx = args.index('-d')
-        if '-f' in args:
-            f_idx = args.index('-f')
+    if "-d" in args:
+        d_idx = args.index("-d")
+        if "-f" in args:
+            f_idx = args.index("-f")
             if d_idx < f_idx:
                 dir_parts = args[d_idx + 1:f_idx]
             else:
@@ -24,8 +26,8 @@ def main():
         else:
             dir_parts = args[d_idx + 1:]
 
-    if '-f' in args:
-        f_idx = args.index('-f')
+    if "-f" in args:
+        f_idx = args.index("-f")
         if f_idx + 1 < len(args):
             filename = args[f_idx + 1]
 
@@ -36,7 +38,8 @@ def main():
         print(f"Directory created/verified: {target_dir}")
 
     if filename:
-        full_path = os.path.join(target_dir, filename) if target_dir else filename
+        full_path = os.path.join(target_dir, filename) \
+            if target_dir else filename
 
         lines = []
         while True:
@@ -57,4 +60,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
