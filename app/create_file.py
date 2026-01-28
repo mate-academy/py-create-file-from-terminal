@@ -1,5 +1,4 @@
 import sys
-from pathlib import Path
 from datetime import datetime
 import os
 
@@ -39,7 +38,7 @@ def create_folders(
     arguments: list,
     index_d: int,
     index_f: int | bool,
-) -> Path:
+) -> str:
     if not index_f or index_f < index_d:
         end_for = len(arguments)
     else:
@@ -50,10 +49,6 @@ def create_folders(
             os.mkdir(path)
 
     return path
-
-
-def color_text(text: str, color_code: str) -> str:
-    return f"\033[{color_code}m{text}\033[0m"
 
 
 def get_date() -> str:
