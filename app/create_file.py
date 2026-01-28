@@ -45,8 +45,8 @@ def create_folders(
         end_for = index_f
     for i in range(index_d + 1, end_for):
         path = os.path.join(path, arguments[i])
-        if not os.path.exists(path):
-            os.mkdir(path)
+    if not os.path.exists(path):
+        os.makedirs(path, exist_ok=True)
 
     return path
 
@@ -79,11 +79,17 @@ def main() -> None:
         path = create_folders(path, arguments, index_d, index_f)
     if index_f:
         text = input_lines()
+        output_text = ""
         if text:
             path = os.path.join(path, arguments[index_f + 1])
             now = get_date()
-            output_text = f"{now} \n"
-            output_text += f"{text}\n"
+            if os.path.exists(path):
+                with open(path, "r") as file:
+                    content = file.read()
+                if content:
+                    output_text = "\n"
+            output_text += f"{now}\n"
+            output_text += f"{text}"
             try:
                 with open(path, "a") as file:
                     file.write(output_text)
