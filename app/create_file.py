@@ -1,35 +1,54 @@
 import sys
-
-# import os
 from pathlib import Path
 from datetime import datetime
+import os
 
 
-def validation(arguments: list) -> None:
-    if "-f" not in arguments:
-        raise ValueError("-f parameter expected")
-    if arguments[-1] == "-f":
-        raise ValueError("Name of file expected")
-    if arguments.count("-f") > 1:
-        raise ValueError("So many -f arguments")
+def validation(arguments: list) -> tuple:
+    if len(arguments) == 1:
+        raise ValueError("-d or -f expected")
 
     if arguments[1] not in ["-f", "-d"]:
         raise ValueError("first parameter should be -f or -d")
 
-    if "-d" in arguments:
-        if arguments[1] != "-d":
-            raise ValueError("expected argument -d out of range")
-        if arguments[2] == "-f":
+    if arguments[-1] in ["-f", "-d"]:
+        raise ValueError(f"Must introducing parameters for {arguments[-1]}")
+
+    if arguments.count("-d") > 1:
+        raise ValueError("So many -d arguments")
+
+    if arguments.count("-f") > 1:
+        raise ValueError("So many -f arguments")
+
+    index_f = arguments.index("-f") if "-f" in arguments else False
+    index_d = arguments.index("-d") if "-d" in arguments else False
+
+    if index_f:
+        if index_d == index_f + 1:
+            raise ValueError("Expected file name name after -f")
+
+    if index_d:
+        if index_f == index_d + 1:
             raise ValueError("Expected directory name after -d")
-        if arguments.count("-d") > 1:
-            raise ValueError("So many -d arguments")
+
+    return (index_f, index_d)
 
 
-def create_folders(arguments: list) -> Path:
-    path = Path()
-    for i in range(arguments.index("-d") + 1, arguments.index("-f")):
-        path = path / arguments[i]
-        path.mkdir(exist_ok=True)
+def create_folders(
+    path: str,
+    arguments: list,
+    index_d: int,
+    index_f: int | bool,
+) -> Path:
+    if not index_f or index_f < index_d:
+        end_for = len(arguments)
+    else:
+        end_for = index_f
+    for i in range(index_d + 1, end_for):
+        path = os.path.join(path, arguments[i])
+        if not os.path.exists(path):
+            os.mkdir(path)
+
     return path
 
 
@@ -39,7 +58,6 @@ def color_text(text: str, color_code: str) -> str:
 
 def get_date() -> str:
     now = datetime.now()
-    # format to 2022-02-01 14:41:10
     return now.strftime("%Y-%m-%d %H:%M:%S")
 
 
@@ -47,30 +65,40 @@ def input_lines() -> str:
     text = ""
     count = 1
     while True:
-        new_line = input(f"{color_text('Enter', '33')} content line:")
+        new_line = input("Enter content line:")
         if new_line.lower() == "stop":
             break
-        text += f"{color_text(str(count), '34')} "
-        text += f"{color_text("Line" + str(count), '33')} {new_line}\n"
-        count += 1
+        new_line = new_line.strip()
+        if new_line:
+            text += f"{str(count)} "
+            text += f"{new_line}\n"
+            count += 1
     return text
 
 
 def main() -> None:
-    validation(sys.argv)
-    text = input_lines()
+    index_f, index_d = validation(sys.argv)
     arguments = sys.argv
-    path = Path()
-    if "-d" in arguments:
-        path = create_folders(arguments)
-    path = path / arguments[-1]
-    now = color_text(get_date(), "34")
-    output_text = f"{now} \n"
-    output_text += f"{text}\n"
-    print(output_text)
-    output_file = open(path, "a")
-    output_file.write(output_text)
-    output_file.close()
+    path = os.getcwd()
+    if index_d:
+        path = create_folders(path, arguments, index_d, index_f)
+    if index_f:
+        text = input_lines()
+        if text:
+            path = os.path.join(path, arguments[index_f + 1])
+            now = get_date()
+            output_text = f"{now} \n"
+            output_text += f"{text}\n"
+            try:
+                with open(path, "a") as file:
+                    file.write(output_text)
+            except Exception as e:
+                print(e)
+        else:
+            error = "There is no text to "
+            error += f"create or add to {arguments[index_f + 1]}"
+            raise ValueError(error)
+    return
 
 
 if __name__ == "__main__":
