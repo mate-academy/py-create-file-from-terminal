@@ -47,7 +47,7 @@ def get_user_content() -> List[str]:
     print("Enter content line by line. Type 'stop' to finish:")
     while True:
         try:
-            line: str = input(f"Enter content line {line_number}: ").strip()
+            line: str = input(f"Enter content line: ").strip()
             if line.lower() == "stop":
                 break
             content_lines.append(line)
@@ -77,7 +77,7 @@ def write_content_to_file(
 
     with open(filepath, mode, encoding="utf-8") as file:
         if mode == "a":
-            file.write("\n\n")  # Add separation for new content block
+            file.write("\n")  # Add separation for new content block
         file.write(f"{timestamp}\n")
 
         for i, line in enumerate(content_lines, 1):
