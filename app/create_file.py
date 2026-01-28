@@ -33,14 +33,14 @@ def main() -> None:
     if "-f" in base and "-d" in base:
         if base.index("-d") < base.index("-f"):
             directories = base[base.index("-d") + 1:base.index("-f")]
-            file_name = base[base.index("-f") + 1]
+            file_name = base[base.index("-f") + 1:base.index("-f") + 2]
         else:
-            file_name = base[base.index("-f") + 1]
+            file_name = base[base.index("-f") + 1:base.index("-f") + 2]
             directories = base[base.index("-d") + 1:]
     elif "-d" in base and "-f" not in base:
         directories = base[base.index("-d") + 1:]
     elif "-d" not in base and "-f" in base:
-        file_name = base[base.index("-f") + 1]
+        file_name = base[base.index("-f") + 1:base.index("-f") + 2]
 
     if len(directories) != 0:
         create_path(directories)
