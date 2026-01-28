@@ -7,16 +7,16 @@ def create_path(directories: list) -> None:
     os.makedirs(os.path.join(*directories), exist_ok=True)
 
 
-def write_to_file(file_name: list) -> None:
+def write_to_file(file_path_and_name: str) -> None:
     page_number = 1
 
-    with open(file_name[0], "a") as source_file:
+    with open(file_path_and_name, "a") as source_file:
         source_file.write(
             datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n")
         )
 
         while True:
-            input_line = input("INPUT CONTENT LINE or 'stop' to terminate: ")
+            input_line = input("Enter content line: ")
             if input_line.lower() == "stop":
                 source_file.write("\n")
                 break
@@ -41,7 +41,7 @@ def main() -> None:
     if len(directories) != 0:
         create_path(directories)
     if len(file_name) != 0:
-        write_to_file(file_name)
+        write_to_file(os.path.join(*directories + file_name))
 
 
 if __name__ == "__main__":
