@@ -20,17 +20,16 @@ def create_directory() -> None:
 def create_and_write_to_file(path: str) -> None:
     path = os.path.join(path, command[-1])
     with open(path, "a") as f:
-        f.write(str(datetime.datetime.now()))
+        f.write(str(datetime.datetime.now()) + "\n")
         while True:
             text = input("Enter content line: ")
             if text != "stop":
-                f.write(text)
+                f.write(text + "\n")
             else:
                 break
 
 
-for element_command in command[1]:
-    if element_command == "-d":
-        create_directory()
-    elif element_command == "-f":
-        create_and_write_to_file(path)
+if command[1] == "-d":
+    create_directory()
+elif command[1] == "-f":
+    create_and_write_to_file(path)
