@@ -1,5 +1,5 @@
-import os
 import sys
+import os
 from datetime import datetime
 
 
@@ -22,6 +22,7 @@ def main() -> None:
     if not args:
         print("Usage: python create_file.py [-d dir1 dir2 ...] [-f filename]")
         return
+
     dirs = []
     filename = None
     i = 0
@@ -38,24 +39,25 @@ def main() -> None:
                 i += 1
         else:
             i += 1
+
     dir_path = os.path.join(*dirs) if dirs else ""
     if dir_path:
         os.makedirs(dir_path, exist_ok=True)
-    if not filename:
-        print("Error: file name is required (-f)")
+    if filename is None:
         return
 
     file_path = os.path.join(dir_path, filename)
     content_lines = read_content()
     timestamp = get_timestamp()
-    output = [timestamp]
+    block_lines = [timestamp]
     for idx, line in enumerate(content_lines, start=1):
-        output.append(f"{idx} {line}")
-
-    text_to_write = "\n".join(output) + "\n\n"
-    mode = "a" if os.path.exists(file_path) else "w"
-    with open(file_path, mode, encoding="utf-8") as f:
-        f.write(text_to_write)
+        block_lines.append(f"{idx} {line}")
+    block_text = "\n".join(block_lines)
+    file_exists = os.path.exists(file_path)
+    with open(file_path, "a" if file_exists else "w", encoding="utf-8") as f:
+        if file_exists and os.path.getsize(file_path) > 0:
+            f.write("\n\n")
+        f.write(block_text)
 
 
 if __name__ == "__main__":
