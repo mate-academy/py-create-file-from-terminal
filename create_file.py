@@ -16,11 +16,11 @@ def get_content() -> list:
 def write_to_file(full_path: str, lines: list) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    with open(full_path, "a") as file:
-        file.write(f"{timestamp}\n")
+    with open(full_path, "a") as output_file:
+        output_file.write(f"{timestamp}\n")
         for index, line in enumerate(lines, start=1):
-            file.write(f"{index} {line}\n")
-        file.write("\n")
+            output_file.write(f"{index} {line}\n")
+        output_file.write("\n")
 
 
 def main() -> None:
@@ -36,8 +36,9 @@ def main() -> None:
                 break
             dir_parts.append(arg)
 
-        directory_path = os.path.join(*dir_parts)
-        os.makedirs(directory_path, exist_ok=True)
+        if dir_parts:
+            directory_path = os.path.join(*dir_parts)
+            os.makedirs(directory_path, exist_ok=True)
 
     if "-f" in args:
         f_index = args.index("-f")
