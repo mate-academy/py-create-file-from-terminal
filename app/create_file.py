@@ -37,7 +37,6 @@ def create_directory_file():
         directory = os.getcwd()
 
     if filename is None:
-        print("Provide filename after -f")
         return
 
     file_path = os.path.join(directory, filename)
@@ -59,3 +58,7 @@ def create_directory_file():
         for ind, line in enumerate(lines, 1):
             f.write(f"{ind} {line}\n")
         f.write("\n")
+
+
+if __name__ == "__main__":
+    create_directory_file()
