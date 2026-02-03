@@ -25,7 +25,8 @@ class CreateFile:
             if mode == "dir":
                 self.destination.append(arg)
             elif mode == "file":
-                self.file_name = arg
+                if not self.file_name:
+                    self.file_name = arg
 
     def create_dir(self) -> None:
         path_dir = os.path.join(*self.destination)
@@ -35,22 +36,22 @@ class CreateFile:
         path_to_file = os.path.join(*self.destination, self.file_name)
 
         with open(path_to_file, "a") as file:
+            if os.path.getsize(path_to_file) > 0:
+                file.write("\n")
+
             file.write(
                 datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
             )
 
-        line_counter = 1
-        while True:
-            content = input("Enter content line: ")
+            line_counter = 1
+            while True:
+                content = input("Enter content line: ")
 
-            if content.lower() == "stop":
-                with open(path_to_file, "a") as file:
-                    file.write("\n")
-                break
+                if content.lower() == "stop":
+                    break
 
-            with open(path_to_file, "a") as file:
                 file.write(f"{line_counter} {content}\n")
-            line_counter += 1
+                line_counter += 1
 
     def run(self) -> None:
         if self.destination:
