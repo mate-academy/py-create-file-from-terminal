@@ -3,8 +3,7 @@ import os
 from datetime import datetime
 
 
-def create_directory_file():
-
+def create_directory_file() -> None:
     directory_parts = []
     filename = None
 
@@ -58,6 +57,8 @@ def create_directory_file():
         for ind, line in enumerate(lines, 1):
             f.write(f"{ind} {line}\n")
         f.write("\n")
+
+    return
 
 
 if __name__ == "__main__":
