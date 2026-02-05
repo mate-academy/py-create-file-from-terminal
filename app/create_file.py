@@ -48,5 +48,4 @@ with open(file_path, "a", encoding="utf-8") as f:
     f.write(timestamp + "\n")
     for idx, content in enumerate(lines, start=1):
         f.write(f"{idx} {content}\n")
-    f.write("\n")
 print("Arquivo criado/atualizado com sucesso", file_path)
