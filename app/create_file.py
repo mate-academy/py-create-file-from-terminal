@@ -45,7 +45,7 @@ while True:
 timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 file_exists_and_not_empty = (
-    os.path.exists(file_path) 
+    os.path.exists(file_path)
     and os.path.getsize(file_path) > 0
 )
 
