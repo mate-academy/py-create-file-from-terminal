@@ -11,7 +11,7 @@ def red_content_file() -> None:
         line = input("Enter content line: ")
         if line.strip().lower() == "stop":
             break
-        lines.append(f"{line} {counter}")
+        lines.append(f"{counter} {line}")
         counter += 1
 
     return lines
@@ -39,6 +39,11 @@ def main() -> None:
                 i += 1
             continue
 
+        if args[i] == "-f":
+            if i + 1 < len(args):
+                filename = args[i + 1]
+                continue
+
         i += 1
 
     dir_path = ""
@@ -54,7 +59,7 @@ def main() -> None:
         if dir_path:
             full_path = os.path.join(dir_path, filename)
         else:
-            filename
+            full_path = filename
 
         print(f"Creating file: {full_path}")
 
