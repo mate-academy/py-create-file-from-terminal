@@ -43,13 +43,17 @@ while True:
     lines.append(line)
 
 timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-file_exists_and_not_empty = os.path.exists(file_path) and os.path.getsize(file_path) > 0
+
+file_exists_and_not_empty = (
+    os.path.exists(file_path) 
+    and os.path.getsize(file_path) > 0
+)
 
 with open(file_path, "a", encoding="utf-8") as f:
-    if file_exists_and_not_empty:
+    if file_exts_and_n_emt:
         f.write("\n")
     f.write(timestamp + "\n")
     for idx, content in enumerate(lines, start=1):
         f.write(f"{idx} {content}\n")
-        
+
 print("Arquivo criado/atualizado com sucesso", file_path)
