@@ -50,7 +50,7 @@ file_exists_and_not_empty = (
 )
 
 with open(file_path, "a", encoding="utf-8") as f:
-    if file_exts_and_n_emt:
+    if file_exists_and_not_empty:
         f.write("\n")
     f.write(timestamp + "\n")
     for idx, content in enumerate(lines, start=1):
