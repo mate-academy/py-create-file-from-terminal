@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 
-def red_content_file() -> None:
+def red_content_file() -> list:
     lines = []
     counter = 1
 
@@ -42,6 +42,7 @@ def main() -> None:
         if args[i] == "-f":
             if i + 1 < len(args):
                 filename = args[i + 1]
+                i += 2
                 continue
 
         i += 1
