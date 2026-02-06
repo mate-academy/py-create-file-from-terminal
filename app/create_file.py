@@ -41,6 +41,7 @@ def text_input_from_user() -> list[str]:
 
     return text_input
 
+
 def main() -> None:
     if "-d" in sys.argv and "-f" not in sys.argv:
         dir_index = sys.argv.index("-d")
