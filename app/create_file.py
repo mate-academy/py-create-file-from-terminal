@@ -45,12 +45,12 @@ def text_input_from_user() -> list[str]:
 def main() -> None:
     if "-d" in sys.argv and "-f" not in sys.argv:
         dir_index = sys.argv.index("-d")
-        if dir_index + 1 > len(sys.argv):
+        if dir_index + 1 >= len(sys.argv):
             raise ValueError("Directory path empty")
         create_directory(sys.argv[dir_index + 1:])
     elif "-f" in sys.argv and "-d" not in sys.argv:
         file_index = sys.argv.index("-f")
-        if file_index + 1 > len(sys.argv):
+        if file_index + 1 >= len(sys.argv):
             raise ValueError("File name empty")
         file_path = sys.argv[file_index + 1]
         text_data = text_input_from_user()
@@ -58,14 +58,33 @@ def main() -> None:
     else:
         dir_index = sys.argv.index("-d")
         file_index = sys.argv.index("-f")
-        if dir_index > file_index:
-            raise ValueError("Enter the commands in the correct order")
-        in_dir_path = sys.argv[dir_index + 1:file_index]
-        out_dir_path = create_directory(in_dir_path)
-        file_name = sys.argv[file_index + 1]
-        file_path = os.path.join(out_dir_path, file_name)
-        text_data = text_input_from_user()
-        create_file(file_path, text_data)
+
+        # Validate file name existence
+        if file_index + 1 >= len(sys.argv):
+            raise ValueError("File name empty")
+
+        # Validate directory path existence
+        if dir_index + 1 >= len(sys.argv):
+            raise ValueError("Directory path empty")
+
+        if dir_index < file_index:
+            in_dir_path = sys.argv[dir_index + 1:file_index]
+            if not in_dir_path:
+                raise ValueError("Directory path empty")
+            out_dir_path = create_directory(in_dir_path)
+            file_name = sys.argv[file_index + 1]
+            file_path = os.path.join(out_dir_path, file_name)
+            text_data = text_input_from_user()
+            create_file(file_path, text_data)
+        elif file_index < dir_index:
+            file_name = sys.argv[file_index + 1]
+            in_dir_path = sys.argv[dir_index + 1:]
+            if not in_dir_path:
+                raise ValueError("Directory path empty")
+            out_dir_path = create_directory(in_dir_path)
+            file_path = os.path.join(out_dir_path, file_name)
+            text_data = text_input_from_user()
+            create_file(file_path, text_data)
 
 
 if __name__ == "__main__":
