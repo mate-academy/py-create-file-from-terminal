@@ -52,6 +52,9 @@ def create_file() -> None:
     elif not dir_path and file_name:
         file_path = file_name
 
+    else:
+        return
+
     with open(file_path, "a") as file:
         write_user_lines(file)
 
