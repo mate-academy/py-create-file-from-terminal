@@ -2,12 +2,11 @@ import sys
 import os
 import datetime
 
-current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
 command = sys.argv
 
 
 def make_file(path_or_file: str) -> None:
+    current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open(path_or_file, "a") as f:
         f.write(f"{current_time}\n")
         counter = 1
@@ -34,10 +33,13 @@ if "-f" in command and "-d" not in command:
 
 if "-f" in command and "-d" in command:
     f_index = command.index("-f")
-    file_name = "".join(command[f_index + 1])
+    file_name = command[f_index + 1]
     d_index = command.index("-d")
-    parts = command[d_index + 1 : f_index]
-    dir_path = os.path.join(*parts)
+    if d_index > f_index:
+        p_dir = command[d_index + 1 :]
+    else:
+        p_dir = command[d_index + 1 : f_index]
+    dir_path = os.path.join(*p_dir)
     dir_path_with_file = os.path.join(dir_path, file_name)
     os.makedirs(dir_path, exist_ok=True)
     make_file(dir_path_with_file)
