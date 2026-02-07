@@ -9,16 +9,15 @@ def create_file() -> None:
     args_index = 1
     dir_path = "."
 
-    if args_index < len(args) - 1 and args[args_index] == "-d":
+    if args_index < len(args) and args[args_index] == "-d":
 
         args_index += 1
 
-        while args_index < len(args) - 1 and args[args_index] != "-f":
+        while args_index < len(args) and args[args_index] != "-f":
             dir_path = os.path.join(dir_path, args[args_index])
             args_index += 1
 
-        print(dir_path)
-        os.makedirs(dir_path)
+        os.makedirs(dir_path, exist_ok=True)
 
     if args_index < len(args) - 1 and args[args_index] == "-f":
 
@@ -38,3 +37,7 @@ def create_file() -> None:
                 line_num += 1
     else:
         print("No file argument found")
+
+
+if __name__ == "__main__":
+    create_file()
