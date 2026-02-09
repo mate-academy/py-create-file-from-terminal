@@ -9,7 +9,7 @@ def file_creation(
         name: str
 ) -> None:
     os.makedirs(path, exist_ok=True)
-    assert name,(
+    assert name, (
         "File name not found"
     )
 
@@ -28,7 +28,7 @@ def file_creation(
 
 
 def separate_argv(args: list) -> None:
-    assert args.count("-d") == 1 and args.count("-f") == 1,(
+    assert args.count("-d") == 1 and args.count("-f") == 1, (
         "Too many arguments"
     )
 
@@ -48,6 +48,5 @@ def separate_argv(args: list) -> None:
             path = os.path.join(path, arg)
         if d_flag == "-f":
             name = arg
-
 
     file_creation(path, name)
