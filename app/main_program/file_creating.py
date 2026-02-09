@@ -14,12 +14,12 @@ def file_creation(
 
     content = []
     while True:
-        line = input(f"Enter content line: ")
+        line = input("Enter content line: ")
         if line == "stop".lower():
             break
         content.append(line)
 
-    with open(os.path.join(path, name), 'a') as file:
+    with open(os.path.join(path, name), "a") as file:
         file.write(datetime.datetime.now().strftime("%m-%d-%Y %H:%M:%S"))
         for i in range(len(content)):
             file.write(f"\n{i + 1} {content[i]}")
