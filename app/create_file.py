@@ -1,5 +1,6 @@
 import argparse
 import os
+import sys
 from datetime import datetime
 
 
@@ -17,35 +18,29 @@ def create_file() -> None:
         help="Nome do arquivo a ser criado"
     )
 
-    args = parser.parse_args()
+    # Passagem explícita de sys.argv (exigência do enunciado)
+    args = parser.parse_args(sys.argv[1:])
 
     dir_path = None
     file_path = None
 
-    # 1) -d foi passado → monta o caminho do diretório
     if args.d:
         dir_path = os.path.join(*args.d)
         os.makedirs(dir_path, exist_ok=True)
 
-    # 2) -f foi passado → define onde o arquivo será criado
     if args.f:
         file_name = args.f
+        file_path = os.path.join(dir_path, file_name) if dir_path else file_name
 
-        # -f sozinho → arquivo no diretório atual
-        if dir_path is None:
-            file_path = file_name
-        # -d e -f juntos → arquivo dentro do diretório
-        else:
-            file_path = os.path.join(dir_path, file_name)
-
-    # 3) Se não há arquivo para escrever, encerra
     if file_path is None:
         return
 
     timestamp_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    # 4) Escrita controlada no arquivo
-    file_exists_and_not_empty = os.path.exists(file_path) and os.path.getsize(file_path) > 0
+    # Linha longa dividida em duas partes
+    file_exists_and_not_empty = (
+        os.path.exists(file_path) and os.path.getsize(file_path) > 0
+    )
 
     with open(file_path, "a") as f:
         if file_exists_and_not_empty:
