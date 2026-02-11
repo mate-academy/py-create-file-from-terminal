@@ -31,7 +31,6 @@ def create_file_structure() -> None:
             print("Error: provide a filename after -f")
             sys.exit(1)
         file_name = args[f_index + 1]
-
         full_file_path = os.path.join(current_dir, file_name)
 
         with open(full_file_path, "a") as file:
