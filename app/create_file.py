@@ -28,7 +28,8 @@ def create_file_structure() -> None:
     if "-f" in args:
         f_index = args.index("-f")
         if f_index + 1 >= len(args):
-            raise IndexError("You must provide a file name after -f")
+            print("Error: provide a filename after -f")
+            sys.exit(1)
         file_name = args[f_index + 1]
 
         full_file_path = os.path.join(current_dir, file_name)
@@ -40,7 +41,7 @@ def create_file_structure() -> None:
             file.write(f"{current_time}\n")
             page_count = 1
             while True:
-                message = input("Enter content line: ")
+                message = input("Enter content line:")
                 if message == "stop":
                     break
                 file.write(f"{page_count} {message}\n")
