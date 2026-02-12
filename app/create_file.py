@@ -47,3 +47,7 @@ def create_file() -> None:
         for i, ln in enumerate(lines, 1):
             f.write(f"{i} {ln}\n")
         f.write("\n")
+
+
+if __name__ == "__main__":
+    create_file()
