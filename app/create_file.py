@@ -11,9 +11,9 @@ def get_directory_and_file_from_args(args: str) -> tuple:
         d_index = args.index("-d")
         if "-f" in args:
             f_index = args.index("-f")
-            dir_parts = args[:d_index + 1: f_index]
+            dir_parts = args[d_index + 1: f_index]
         else:
-            dir_parts = args[d_index:]
+            dir_parts = args[d_index + 1:]
 
     if "-f" in args:
         f_index = args.index("-f")
@@ -39,22 +39,22 @@ def get_content_from_user() -> list:
         line = input("Enter content line: ")
         if line.lower() == "stop":
             break
-        lines.append(f"{counter}. {line}")
+        lines.append(f"{counter} {line}")
         counter += 1
 
     return lines
 
 
 def write_to_file(file_path: str, lines: list) -> None:
-    timestamp = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     content_block = timestamp + "\n"
-    content_block += "".join(lines)
+    content_block += "\n".join(lines)
     content_block += "\n"
 
     if os.path.exists(file_path):
         content_block = "\n" + content_block
 
-    with open(file_path, "w", encoding="utf-8") as file:
+    with open(file_path, "a", encoding="utf-8") as file:
         file.write(content_block)
 
 
@@ -71,7 +71,7 @@ def main() -> None:
         if dir_path:
             file_path = os.path.join(dir_path, file_name)
         else:
-            file_path = dir_path
+            file_path = file_name
         write_to_file(file_path, lines=get_content_from_user())
 
     elif dir_path:
