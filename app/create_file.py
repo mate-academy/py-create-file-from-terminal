@@ -3,10 +3,8 @@ import os
 import datetime
 
 
-args = sys.argv[1:]
-
-
 def create_file() -> None:
+    args = sys.argv[1:]
     try:
         d_index = args.index("-d")
     except ValueError:
