@@ -2,8 +2,11 @@ import sys
 import os
 import datetime
 
+
 args = sys.argv[1:]
-def create_file():
+
+
+def create_file() -> None:
     try:
         d_index = args.index("-d")
     except ValueError:
@@ -38,7 +41,7 @@ def create_file():
             break
         elif line != "":
             lines.append(line)
-    timestamp= datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open(full_path, "a", encoding="utf-8") as f:
         f.write(f"{timestamp}\n")
         for i, ln in enumerate(lines, 1):
