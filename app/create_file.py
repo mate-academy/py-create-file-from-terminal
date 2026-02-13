@@ -4,17 +4,16 @@ import argparse
 import io
 
 
-def write_message(file_to_create: io) -> None:
+def write_message(file_to_create: io.TextIOBase) -> None:
     file_to_create.write(
         datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
     )
     counter = 1
     while True:
-        message = input("Enter content line:")
+        message = input("Enter content line: ")
         if message == "stop":
-            file_to_create.write("\n")
             break
-        file_to_create.write(f"{counter} {message} \n")
+        file_to_create.write(f"{counter} {message}\n")
         counter += 1
 
 
@@ -33,6 +32,8 @@ def create_file() -> None:
         file_path = os.path.join(dir_path, file_name) \
             if dir_path else file_name
         with open(file_path, "a") as file:
+            if os.path.getsize(file_path):
+                file.write(f"{file_name}\n")
             write_message(file)
     elif not args.d:
         print("Error: You must provide at least -d or -f flag.")
