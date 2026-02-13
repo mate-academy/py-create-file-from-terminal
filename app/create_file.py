@@ -1,7 +1,9 @@
 import os
 import datetime
-import argparse
+import sys
 import io
+
+ARGS = sys.argv
 
 
 def write_message(file_to_create: io.TextIOBase) -> None:
@@ -17,26 +19,21 @@ def write_message(file_to_create: io.TextIOBase) -> None:
         counter += 1
 
 
-def create_file() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-d", nargs="*", default=[])
-    parser.add_argument("-f", nargs=1)
-    args = parser.parse_args()
-
-    dir_path = os.path.join(*args.d) if args.d else ""
-    if dir_path:
-        os.makedirs(dir_path, exist_ok=True)
-
-    if args.f:
-        file_name = args.f[0]
-        file_path = os.path.join(dir_path, file_name) \
-            if dir_path else file_name
-        with open(file_path, "a") as file:
-            if os.path.getsize(file_path):
-                file.write(f"{file_name}\n")
+def create_file(args: list | tuple = ARGS) -> None:
+    if "-f" in args:
+        try:
+            paths = os.path.join(*args[2:args.index("-f")])
+            os.makedirs(paths, exist_ok=True)
+        except Exception:
+            paths = ""
+        file_name = os.path.join(paths, args[-1])
+        with open(file_name, "a") as file:
+            if os.path.getsize(file_name):
+                file.write(f"\n")
             write_message(file)
-    elif not args.d:
-        print("Error: You must provide at least -d or -f flag.")
+    else:
+        paths = os.path.join(*args[2:])
+        os.makedirs(paths, exist_ok=True)
 
 
 if __name__ == "__main__":
