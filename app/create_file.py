@@ -10,15 +10,21 @@ if "-d" in args:
     for arg in args[position + 1:]:
         if arg != "-f":
             path.append(arg)
-
-    caminho = os.path.join(*path)
-    os.makedirs(caminho, exist_ok=True)
+    if path:
+        dir_path = os.path.join(*path)
+        os.makedirs(dir_path, exist_ok=True)
+    else:
+        print("Error: -d flag requires at least one directory name")
+        sys.exit(1)
 
 if "-f" in args and len(args) > 2:
     i = args.index("-f")
+    if i + 1 >= len(args):  # ← Verificar se existe próximo argumento
+        print("Error: -f flag requires a filename")
+        sys.exit(1)
     archive_name = args[i + 1]
     if path:
-        archive_name = os.path.join(caminho, archive_name)
+        archive_name = os.path.join(dir_path, archive_name)
     lines = []
     while True:
         line = input("Enter content line: ")
