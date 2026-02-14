@@ -10,20 +10,18 @@ if "-d" in args:
     for arg in args[position + 1:]:
         if arg != "-f":
             path.append(arg)
-        else:
-            break
 
     caminho = os.path.join(*path)
     os.makedirs(caminho, exist_ok=True)
 
-if "-f" in args:
+if "-f" in args and len(args) > 2:
     i = args.index("-f")
     archive_name = args[i + 1]
     if path:
         archive_name = os.path.join(caminho, archive_name)
     lines = []
     while True:
-        line = input("Enter content line:")
+        line = input("Enter content line: ")
         if line == "stop":
             break
         lines.append(line)
