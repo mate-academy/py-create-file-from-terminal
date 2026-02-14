@@ -20,7 +20,7 @@ if "-f" in args:
     i = args.index("-f")
     archive_name = args[i + 1]
     if path:
-         archive_name = os.path.join(caminho, archive_name)
+        archive_name = os.path.join(caminho, archive_name)
     lines = []
     while True:
         line = input("Enter content line:")
