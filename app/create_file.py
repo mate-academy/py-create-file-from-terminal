@@ -5,7 +5,7 @@ from typing import Union
 
 
 def create_dir(*parts) -> str:
-    if no *parts:
+    if not parts:
         raise TypeError("No path was given")
     for part in parts:
         if not isinstance(part, str):
@@ -25,7 +25,7 @@ def write_to_file(file_name: str, writing_type: str) -> None:
         while True:
             line_count += 1
             user_input = input("Enter content line: ")
-            if user_input.lower() == "stop":
+            if user_input == "stop":
                 break
             file.write(f"{line_count} {user_input}\n")
 
@@ -45,10 +45,13 @@ def create_file_dir(arguments: list) -> Union[None, str]:
             dirs = arguments[2:end_index]
         else:
             dirs = arguments[2:]
-        dir_path = create_dir(*dirs)
-        return dir_path
+        if not dirs:
+            print("Not enough arguments")
+        else:
+            dir_path = create_dir(*dirs)
+            return dir_path
     except IndexError:
-        print("Not enough arguments")
+        print("Not enough arguments for -d")
         return None
 
 
@@ -56,9 +59,14 @@ def create_file_and_dir(arguments: list) -> None:
     dir_path = create_file_dir(arguments)
     if dir_path is None:
         return None
-    file_name = arguments[-1]
-    file_path = os.path.join(dir_path, file_name)
-    create_file_no_dir(file_path)
+    f_index = arguments.index("-f")
+    file_name = ""
+    if f_index + 1 >= len(arguments):
+        file_name = arguments[-1]
+        file_path = os.path.join(dir_path, file_name)
+        create_file_no_dir(file_path)
+    else:
+        print("Not enough arguments were given for -f and -d")
 
 
 def creation(file_creation_input: list) -> None:
@@ -67,8 +75,11 @@ def creation(file_creation_input: list) -> None:
     if file_creation_input[1] == "-d" and "-f" in file_creation_input:
         create_file_and_dir(file_creation_input)
     elif file_creation_input[1] == "-f":
-        file_name = file_creation_input[2]
-        create_file_no_dir(file_name)
+        if len(file_creation_input) < 2:
+            print("Not enough arguments for -f (missing file_name)")
+        else:
+            file_name = file_creation_input[2]
+            create_file_no_dir(file_name)
     elif file_creation_input[1] == "-d":
         create_file_dir(file_creation_input)
 
