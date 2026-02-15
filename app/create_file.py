@@ -5,6 +5,8 @@ from typing import Union
 
 
 def create_dir(*parts) -> str:
+    if no *parts:
+        raise TypeError("No path was given")
     for part in parts:
         if not isinstance(part, str):
             raise ValueError("path parts must be str")
@@ -17,7 +19,7 @@ def write_to_file(file_name: str, writing_type: str) -> None:
     line_count = 0
     with open(file_name, writing_type) as file:
         if writing_type == "a":
-            file.write("\n\n")
+            file.write("\n")
         file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                    + "\n")
         while True:
@@ -25,7 +27,7 @@ def write_to_file(file_name: str, writing_type: str) -> None:
             user_input = input("Enter content line: ")
             if user_input.lower() == "stop":
                 break
-            file.write(f"{line_count} {user_input} \n")
+            file.write(f"{line_count} {user_input}\n")
 
 
 def create_file_no_dir(file_path: str) -> None:
@@ -60,6 +62,8 @@ def create_file_and_dir(arguments: list) -> None:
 
 
 def creation(file_creation_input: list) -> None:
+    if len(file_creation_input) < 2:
+        raise IndexError("Not enough arguments")
     if file_creation_input[1] == "-d" and "-f" in file_creation_input:
         create_file_and_dir(file_creation_input)
     elif file_creation_input[1] == "-f":
