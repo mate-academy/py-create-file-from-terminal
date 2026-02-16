@@ -25,7 +25,7 @@ def write_file(arguments: list, path_file: str = "") -> None:
     with open(file_dir, "a+") as file:
         if file.tell() > 0:
             file.write("\n")
-        file.write(f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n")
+        file.write(f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n')
         line_number = 1
         while True:
             usr_input = input("Enter content line: ")
