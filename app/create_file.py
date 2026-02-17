@@ -31,7 +31,7 @@ def get_stdin_input() -> list[str]:
     lines = []
     while True:
         line = input("Enter content line: ")
-        if line.strip() == "stop":
+        if line == "stop":
             break
         lines.append(line)
     return lines
@@ -42,7 +42,13 @@ def write_stdin_input_to_file(
         input_lines: list[str]
 ) -> None:
     page_number = 1
+    file_exists = os.path.exists(file_path)
+    file_not_empty = file_exists and os.path.getsize(file_path) > 0
+
     with open(file_path, "a") as source_file:
+        if file_not_empty:
+            source_file.write("\n")
+
         source_file.write(
             datetime.datetime.now().strftime(
                 "%Y-%m-%d %H:%M:%S"
@@ -51,7 +57,6 @@ def write_stdin_input_to_file(
         for line in input_lines:
             source_file.write(f"{page_number} {line}\n")
             page_number += 1
-        source_file.write("\n")
 
 
 if __name__ == "__main__":
