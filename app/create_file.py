@@ -31,7 +31,7 @@ def get_stdin_input() -> list[str]:
     lines = []
     while True:
         line = input("Enter content line: ")
-        if line.strip().lower() == "stop":
+        if line.strip() == "stop":
             break
         lines.append(line)
     return lines
