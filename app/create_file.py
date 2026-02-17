@@ -24,6 +24,7 @@ def parse_args() -> None:
             write_to_file(
                 os.path.join(*directory_path, argument), collect_content()
             )
+            f_argument = False
 
 
 def make_dir(directory_path: list) -> None:
