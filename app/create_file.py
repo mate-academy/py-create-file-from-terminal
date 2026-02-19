@@ -42,15 +42,24 @@ def make_file() -> None:
         return
 
     file_path = os.path.join(dir_path, file_name)
+    needs_separator = (
+        os.path.exists(file_path) and os.path.getsize(file_path) > 0
+    )
 
     with open(file_path, "a") as f:
+        if needs_separator:
+            f.seek(-1, 2)
+            last_byte = f.read(1)
+            if last_byte == "\n":
+                f.write("\n")
+            else:
+                f.write("\n\n")
         f.write(f"{time_stamp}\n")
         i = 1
         while True:
             value = input("Enter content line: ")
 
             if value == STOP_COMMAND:
-                f.write("\n")
                 break
 
             f.write(f"{i} {value}\n")
