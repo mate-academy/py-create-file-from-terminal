@@ -8,6 +8,7 @@ file_name: List[str] = []
 dir_path: str = ""
 content: List[str] = []
 
+
 def parse_arguments(args: List[str]) -> None:
     global directories, file_name
     directories = []
@@ -29,6 +30,7 @@ def parse_arguments(args: List[str]) -> None:
         if checker_f:
             file_name.append(arg)
 
+
 def create_directories() -> None:
     global dir_path
     if directories:
@@ -36,6 +38,7 @@ def create_directories() -> None:
         os.makedirs(dir_path, exist_ok=True)
     else:
         dir_path = "."
+
 
 def collect_content() -> None:
     global content
@@ -45,6 +48,7 @@ def collect_content() -> None:
         if line.lower() == "stop":
             break
         content.append(line)
+
 
 def write_content() -> None:
     file_path = os.path.join(dir_path, file_name[0])
@@ -58,6 +62,7 @@ def write_content() -> None:
         for i, line in enumerate(content, start=1):
             f.write(f"{i} {line}\n")
 
+
 def main() -> None:
     args: List[str] = sys.argv[1:]
     parse_arguments(args)
@@ -65,6 +70,7 @@ def main() -> None:
     if file_name:
         collect_content()
         write_content()
+
 
 if __name__ == "__main__":
     main()
