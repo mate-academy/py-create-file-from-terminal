@@ -41,7 +41,7 @@ def make_file() -> None:
     print(file_path)
 
     with open(file_path, "a") as f:
-        f.write(time_stamp + "\n")
+        f.write(f"{time_stamp}\n")
         i = 1
         while True:
             value = input("Enter content line: ")
