@@ -7,10 +7,10 @@ STOP_COMMAND = "stop"
 TIMESTAMP_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 
-def parse_argv(args: list) -> list[Path, str]:
+def parse_argv(args: list) -> tuple[Path, str]:
     dir_path = []
     file_name = ""
-    mode = False
+    mode = None
 
     for arg in args:
         if arg == "-d":
@@ -33,8 +33,7 @@ def parse_argv(args: list) -> list[Path, str]:
 
 def make_file() -> None:
     time_stamp = datetime.now().strftime(TIMESTAMP_FORMAT)
-    dir_path, file_name = parse_argv(sys.argv)
-
+    dir_path, file_name = parse_argv(sys.argv[1:])
     dir_path.mkdir(parents=True, exist_ok=True)
 
     file_path = Path(dir_path, file_name)
@@ -50,7 +49,8 @@ def make_file() -> None:
                 f.write("\n")
                 break
 
-            f.write(f"{i} {value} \n")
+            f.write(f"{i} {value}\n")
+            i += 1
 
 
 if __name__ == "__main__":
