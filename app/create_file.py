@@ -1,13 +1,13 @@
 # write your code here
 import sys
 from datetime import datetime
-from pathlib import Path
+import os
 
 STOP_COMMAND = "stop"
 TIMESTAMP_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 
-def parse_argv(args: list) -> tuple[Path, str]:
+def parse_argv(args: list) -> tuple[str, str]:
     dir_path = []
     file_name = ""
     mode = None
@@ -27,17 +27,21 @@ def parse_argv(args: list) -> tuple[Path, str]:
         if mode == "-f":
             file_name = arg
 
-    dir_path = Path(*dir_path)
+    dir_path = os.path.join(*dir_path) if dir_path else ""
     return dir_path, file_name
 
 
 def make_file() -> None:
     time_stamp = datetime.now().strftime(TIMESTAMP_FORMAT)
     dir_path, file_name = parse_argv(sys.argv[1:])
-    dir_path.mkdir(parents=True, exist_ok=True)
 
-    file_path = Path(dir_path, file_name)
-    print(file_path)
+    if dir_path:
+        os.makedirs(dir_path, exist_ok=True)
+
+    if not file_name:
+        return
+
+    file_path = os.path.join(dir_path, file_name)
 
     with open(file_path, "a") as f:
         f.write(f"{time_stamp}\n")
