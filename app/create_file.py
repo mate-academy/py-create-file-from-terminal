@@ -19,10 +19,7 @@ def create_file() -> None:
             filename = args[f_index]
         else:
             print("Error: filename must be provided after -f")
-            exit(1)  # или sys.exit(1)
-        f_index = args.index("-f") + 1
-        if f_index < len(args):
-            filename = args[f_index]
+            exit(1)
     if dirs:
         path = os.path.join(*dirs)
         os.makedirs(path, exist_ok=True)
@@ -43,7 +40,7 @@ def create_file() -> None:
 
         with open(full_path, "a") as f:
             if prepend_newline:
-                f.write("\n")  # разделяем старый и новый блок
+                f.write("\n")
             f.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
             for i, line in enumerate(lines, start=1):
                 f.write(f"{i} {line}\n")
