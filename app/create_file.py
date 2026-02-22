@@ -1,31 +1,32 @@
+import argparse
 import os
-import sys
 from datetime import datetime
 
 
-def parse_args(args: list) -> list | str | None:
-    directories: list[str] = []
-    filename: str | None = None
+def parse_arguments() -> tuple[list[str], str | None]:
+    parser = argparse.ArgumentParser(
+        description="Create directories and files with content."
+    )
 
-    if "-d" in args:
-        d_index = args.index("-d")
+    parser.add_argument(
+        "-d",
+        "--directories",
+        nargs="+",
+        help="Directory path parts",
+    )
 
-        if "-f" in args:
-            f_index = args.index("-f")
-            directories = args[d_index + 1:f_index]
-        else:
-            directories = args[d_index + 1:]
+    parser.add_argument(
+        "-f",
+        "--file",
+        help="File name",
+    )
 
-    if "-f" in args:
-        f_index = args.index("-f")
+    args = parser.parse_args()
 
-        if f_index + 1 < len(args):
-            filename = args[f_index + 1]
-
-    return directories, filename
+    return args.directories or [], args.file
 
 
-def create_directory(path_parts: list) -> str:
+def create_directory(path_parts: list[str]) -> str:
     if not path_parts:
         return ""
 
@@ -36,8 +37,9 @@ def create_directory(path_parts: list) -> str:
     return path
 
 
-def get_content() -> list:
+def get_content() -> list[str]:
     lines: list[str] = []
+
     counter = 1
 
     while True:
@@ -53,14 +55,14 @@ def get_content() -> list:
     return lines
 
 
-def timestamp() -> str:
+def get_timestamp() -> str:
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 def write_file(
     directory: str,
     filename: str,
-    lines: list,
+    lines: list[str],
 ) -> None:
 
     filepath = filename
@@ -75,16 +77,18 @@ def write_file(
         if file_exists:
             file.write("\n")
 
-        file.write(timestamp() + "\n")
+        file.write(get_timestamp() + "\n")
 
         for line in lines:
             file.write(line + "\n")
 
 
 def main() -> None:
-    args = sys.argv[1:]
+    directories, filename = parse_arguments()
 
-    directories, filename = parse_args(args)
+    if not filename and not directories:
+        print("You must provide -d and/or -f")
+        raise SystemExit(1)
 
     directory_path = create_directory(directories)
 
