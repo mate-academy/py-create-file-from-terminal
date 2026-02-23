@@ -25,7 +25,7 @@ def main() -> None:
         dir_parts = [p for p in dir_parts if not p.startswith("-")]
 
     if f_idx is not None:
-        if f_idx + 1 < len(args):
+        if f_idx + 1 < len(args) and not args[f_idx + 1].startswith("-"):
             filename = args[f_idx + 1]
         else:
             print("Error: missing filename after -f")
@@ -58,13 +58,13 @@ def create_file(file_path: str) -> None:
         lines.append(line)
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    with open(file_path, "a", encoding="utf-8") as f:
-        f.write(timestamp + "\n")
+    with open(file_path, "a", encoding="utf-8") as output_file:
+        output_file.write(timestamp + "\n")
 
-        for i, text in enumerate(lines, start=1):
-            f.write(f"{i} {text}\n")
-        f.write("\n")
+        for line_number, text in enumerate(lines, start=1):
+            output_file.write(f"{line_number} {text}\n")
+        output_file.write("\n")
 
 
-if __name__ == "main":
+if __name__ == "__main__":
     main()
