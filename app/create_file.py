@@ -1,3 +1,26 @@
+import sys
+import os
+from datetime import datetime
+
+
+def get_timestamp() -> str:
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
+def get_content_lines() -> list[str]:
+    lines = []
+    counter = 1
+
+    while True:
+        line = input("Enter content line: ")
+        if line == "stop":
+            break
+        lines.append(f"{counter} {line}")
+        counter += 1
+
+    return lines
+
+
 def main() -> None:
     args = sys.argv[1:]
 
@@ -44,3 +67,7 @@ def main() -> None:
         file.write(f"{timestamp}\n")
         for line in content_lines:
             file.write(f"{line}\n")
+
+
+if __name__ == "__main__":
+    main()
