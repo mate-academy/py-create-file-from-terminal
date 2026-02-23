@@ -3,7 +3,7 @@ import sys
 from datetime import datetime
 
 
-def build_path(parts: list) -> None:
+def build_path(parts: list) -> str:
     if not parts:
         return os.getcwd()
     return os.path.join(os.getcwd(), *parts)
@@ -11,33 +11,33 @@ def build_path(parts: list) -> None:
 
 def main() -> None:
     args = sys.argv[1:]
+    d_idx = args.index("-d") if "-d" in args else None
+    f_idx = args.index("-f") if "-f" in args else None
 
-    if not args:
-        print("Usage: create_file.py [-d dir1 dir2 ...] [-f filename]")
-        return
     dir_parts = []
     filename = None
 
-    if "-d" in args:
-        d_idx = args.index("-d")
-        # everything after -d until -f or end
-        f_idx = args.index("-f") if "-f" in args else None
-        end = f_idx if f_idx is not None else len(args)
-        dir_parts = args[d_idx + 1:end]
+    if d_idx is not None:
+        if f_idx is not None and d_idx < f_idx:
+            dir_parts = args[d_idx + 1:f_idx]
+        else:
+            dir_parts = args[d_idx + 1:]
+        dir_parts = [p for p in dir_parts if not p.startswith("-")]
 
-    if "-f" in args:
-        f_idx = args.index("-f")
+    if f_idx is not None:
         if f_idx + 1 < len(args):
             filename = args[f_idx + 1]
-
         else:
             print("Error: missing filename after -f")
             return
+
     target_dir = create_dir(dir_parts) if dir_parts else os.getcwd()
 
-    if filename:
-        target_file = os.path.join(target_dir, filename)
-        create_file(target_file)
+    if not filename:
+        return
+    target_file = os.path.join(target_dir, filename)
+
+    create_file(target_file)
 
 
 def create_dir(dir_parts: list) -> str:
@@ -64,3 +64,7 @@ def create_file(file_path: str) -> None:
         for i, text in enumerate(lines, start=1):
             f.write(f"{i} {text}\n")
         f.write("\n")
+
+
+if __name__ == "main":
+    main()
