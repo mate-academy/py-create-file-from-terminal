@@ -32,37 +32,41 @@ if has_d:
 
     path = os.path.join(*dirs)
     os.makedirs(path, exist_ok=True)
+    print("Created directory:", path)
+
+if has_d and not has_f:
+    sys.exit(0)
 
 if path and file_name:
     full_path = os.path.join(path, file_name)
 elif file_name:
     full_path = file_name
 
-if full_path:
-    lines = []
-
-    while True:
-        line = input("Enter content line: ")
-        if line == "stop":
-            break
-        lines.append(line)
-
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-    with open(full_path, "a+") as f:
-        f.seek(0)
-        content = f.read()
-
-        if content:
-            f.write("\n\n")
-
-        f.write(timestamp + "\n")
-
-        numbered_lines = "\n".join(
-            f"{i}. {line}" for i, line in enumerate(lines, start=1)
-        )
-
-        f.write(numbered_lines + "\n")
-
-else:
+if not full_path:
     print("Error: No file specified. Use -f to specify a file.")
+    sys.exit(1)
+
+lines = []
+while True:
+    line = input("Enter content line: ")
+    if line == "stop":
+        break
+    lines.append(line)
+
+timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+file_exists = os.path.exists(full_path)
+
+with open(full_path, "a+") as file:
+    if file_exists and os.path.getsize(full_path) > 0:
+        file.write("\n")
+
+    file.write(timestamp + "\n")
+
+    numbered_lines = "\n".join(
+        f"{i}. {line}" for i, line in enumerate(lines, start=1)
+    )
+
+    file.write(numbered_lines + "\n")
+
+print("Written to", full_path)
