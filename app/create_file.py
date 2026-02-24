@@ -3,6 +3,21 @@ import sys
 import datetime
 
 
+def write_file(filename: str) -> None:
+    with open(filename, "a", encoding="utf-8") as user_file:
+        user_file.write(
+            datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n")
+        )
+        line_counter = 1
+        while True:
+            user_input = input("Enter content line: ")
+            if user_input == "stop":
+                user_file.write("\n")
+                return
+            user_file.write(f"{line_counter} {user_input}\n")
+            line_counter += 1
+
+
 def create_file() -> None:
     if "-d" in sys.argv and "-f" in sys.argv:
         d_index = sys.argv.index("-d")
@@ -13,28 +28,14 @@ def create_file() -> None:
         file_path = sys.argv[f_index + 1]
         directory_path.append(file_path)
         full_file_path = os.path.join(*directory_path)
-        with open(full_file_path, "a", encoding="utf-8") as f:
-            f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
-            while True:
-                line = input("Enter content line: ")
-                if line == "stop":
-                    f.write("\n")
-                    return
-                f.write(line + "\n")
+        write_file(full_file_path)
     elif "-d" in sys.argv and "-f" not in sys.argv:
         directory = sys.argv[2:]
         directory_path = os.path.join(*directory)
         os.makedirs(directory_path, exist_ok=True)
     elif "-f" in sys.argv and "-d" not in sys.argv:
         file_name = sys.argv[2]
-        with open(file_name, "a", encoding="utf-8") as f:
-            f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
-            while True:
-                line = input("Enter content line: ")
-                if line == "stop":
-                    f.write("\n")
-                    return
-                f.write(line + "\n")
+        write_file(file_name)
 
 
 if __name__ == "__main__":
