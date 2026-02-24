@@ -30,11 +30,13 @@ def create_file() -> None:
         full_file_path = os.path.join(*directory_path)
         write_file(full_file_path)
     elif "-d" in sys.argv and "-f" not in sys.argv:
-        directory = sys.argv[2:]
+        d_index = sys.argv.index("-d")
+        directory = sys.argv[d_index + 1:]
         directory_path = os.path.join(*directory)
         os.makedirs(directory_path, exist_ok=True)
     elif "-f" in sys.argv and "-d" not in sys.argv:
-        file_name = sys.argv[2]
+        f_index = sys.argv.index("-f")
+        file_name = sys.argv[f_index + 1]
         write_file(file_name)
 
 
