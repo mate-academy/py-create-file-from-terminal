@@ -10,7 +10,6 @@ def create_file() -> None:
 
     if "-d" in args:
         d_index = args.index("-d")
-        # Szukamy końca listy katalogów (do flagi -f lub końca argumentów)
         end_index = args.index("-f") if "-f" in args else len(args)
         dirs = args[d_index + 1:end_index]
         dir_path = os.path.join(*dirs)
@@ -32,7 +31,13 @@ def create_file() -> None:
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+        file_exists_and_not_empty = (
+            os.path.exists(full_path) and os.path.getsize(full_path) > 0
+        )
+
         with open(full_path, "a") as f:
+            if file_exists_and_not_empty:
+                f.write("\n")
             f.write(f"{timestamp}\n")
             for i, line in enumerate(content_lines, 1):
                 f.write(f"{i} {line}\n")
