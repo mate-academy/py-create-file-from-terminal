@@ -21,6 +21,30 @@ def read_content() -> list[str]:
     return lines
 
 
+def parse_arguments(arguments: list[str]) -> tuple[list[str], str | None]:
+    directory_parts = []
+    file_name = None
+
+    if "-d" in arguments:
+        d_index = arguments.index("-d")
+
+        # directory arguments end at next flag or end of list
+        next_flag_index = len(arguments)
+        if "-f" in arguments:
+            f_index = arguments.index("-f")
+            if f_index > d_index:
+                next_flag_index = f_index
+
+        directory_parts = arguments[d_index + 1:next_flag_index]
+
+    if "-f" in arguments:
+        f_index = arguments.index("-f")
+        if f_index + 1 < len(arguments):
+            file_name = arguments[f_index + 1]
+
+    return directory_parts, file_name
+
+
 def main() -> None:
     args = sys.argv[1:]
 
@@ -28,43 +52,25 @@ def main() -> None:
         print("No arguments provided")
         return
 
-    directory_parts = []
-    file_name = None
+    directory_parts, file_name = parse_arguments(args)
 
-    if "-d" in args:
-        d_index = args.index("-d")
-        if "-f" in args:
-            f_index = args.index("-f")
-            directory_parts = args[d_index + 1:f_index]
-        else:
-            directory_parts = args[d_index + 1:]
-
-    if "-f" in args:
-        f_index = args.index("-f")
-        if f_index + 1 < len(args):
-            file_name = args[f_index + 1]
-        else:
-            print("File name not provided")
-            return
-
-    # Create directories if needed
+    # Create directories if provided
+    dir_path = ""
     if directory_parts:
         dir_path = os.path.join(*directory_parts)
         os.makedirs(dir_path, exist_ok=True)
-    else:
-        dir_path = ""
 
-    # If only -d passed → just create directories
+    # If only -d was passed
     if "-d" in args and "-f" not in args:
         return
 
     if not file_name:
+        print("File name not provided")
         return
 
     file_path = os.path.join(dir_path, file_name)
 
     content_lines = read_content()
-
     timestamp = get_timestamp()
 
     mode = "a" if os.path.exists(file_path) else "w"
