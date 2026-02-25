@@ -1,46 +1,71 @@
-import os
 import sys
+import os
 
 from datetime import datetime
 
 
-directory_path = "."
-file_name = "file.txt"
+def parse_arguments(args_list: list) -> tuple:
+    directory_path = "."
+    file_name = "file.txt"
 
-args = sys.argv
+    if "-f" in args_list:
+        f_idx = args_list.index("-f")
+        if f_idx + 1 < len(args_list):
+            file_name = args_list[f_idx + 1]
 
-for i in range(len(args)):
-    if args[i] == "-d":
-        j_arg = i + 1
-
+    if "-d" in args_list:
+        d_idx = args_list.index("-d")
         parts = []
-        while j_arg < len(args) and not args[i].startswith("-"):
-            parts.append(args[j_arg])
-            j_arg += 1
+        for arg in args_list[d_idx + 1:]:
+            if arg == "-f":
+                break
+            parts.append(arg)
 
         if parts:
             directory_path = os.path.join(*parts)
 
-    if args[i] == "-f":
-        file_name = args[i + 1]
+    return directory_path, file_name
 
-if directory_path:
-    os.makedirs(directory_path, exist_ok=True)
 
-full_path = os.path.join(str(directory_path), file_name)
+def get_user_content() -> list:
+    lines = []
+    while True:
+        user_input = input("Enter content line: ")
+        if user_input.lower() == "stop":
+            break
+        lines.append(user_input)
+    return lines
 
-lines = []
-while True:
-    line = input("Enter content line: ")
-    if line == "stop":
-        break
-    lines.append(line)
 
-with open(full_path, "a") as f:
-    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    f.write("\n" + current_time + "\n")
+def write_to_file(full_path: str, lines: list) -> None:
+    is_new_file = (not os.path.exists(full_path)
+                   or os.path.getsize(full_path) == 0)
 
-    number = 1
-    for text in lines:
-        f.write(f"{number} {text}\n")
-        number += 1
+    with open(full_path, "a", encoding="utf-8") as output_file:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        if is_new_file:
+            output_file.write(f"{timestamp}\n")
+        else:
+            output_file.write(f"\n{timestamp}\n")
+
+        for idx, text in enumerate(lines, 1):
+            output_file.write(f"{idx} {text}\n")
+
+
+def main() -> None:
+    directory_path, file_name = parse_arguments(sys.argv)
+
+    if directory_path != ".":
+        os.makedirs(directory_path, exist_ok=True)
+
+    full_path = os.path.join(str(directory_path), str(file_name))
+
+    lines = get_user_content()
+
+    if lines:
+        write_to_file(full_path, lines)
+
+
+if __name__ == "__main__":
+    main()
