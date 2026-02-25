@@ -27,9 +27,8 @@ def parse_arguments(arguments: list[str]) -> tuple[list[str], str | None]:
 
     if "-d" in arguments:
         d_index = arguments.index("-d")
-
-        # directory arguments end at next flag or end of list
         next_flag_index = len(arguments)
+
         if "-f" in arguments:
             f_index = arguments.index("-f")
             if f_index > d_index:
@@ -54,13 +53,11 @@ def main() -> None:
 
     directory_parts, file_name = parse_arguments(args)
 
-    # Create directories if provided
     dir_path = ""
     if directory_parts:
         dir_path = os.path.join(*directory_parts)
         os.makedirs(dir_path, exist_ok=True)
 
-    # If only -d was passed
     if "-d" in args and "-f" not in args:
         return
 
