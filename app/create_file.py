@@ -1,14 +1,17 @@
 import sys
 import os
-
 from datetime import datetime
 
 
-def parse_arguments(args_list: list) -> tuple:
+def parse_arguments(
+        args_list: list[str]
+) -> tuple[str, str, bool]:
     directory_path = "."
     file_name = "file.txt"
+    has_f_flag = False
 
     if "-f" in args_list:
+        has_f_flag = True
         f_idx = args_list.index("-f")
         if f_idx + 1 < len(args_list):
             file_name = args_list[f_idx + 1]
@@ -24,10 +27,10 @@ def parse_arguments(args_list: list) -> tuple:
         if parts:
             directory_path = os.path.join(*parts)
 
-    return directory_path, file_name
+    return directory_path, file_name, has_f_flag
 
 
-def get_user_content() -> list:
+def get_user_content() -> list[str]:
     lines = []
     while True:
         user_input = input("Enter content line: ")
@@ -37,7 +40,7 @@ def get_user_content() -> list:
     return lines
 
 
-def write_to_file(full_path: str, lines: list) -> None:
+def write_to_file(full_path: str, lines: list[str]) -> None:
     is_new_file = (not os.path.exists(full_path)
                    or os.path.getsize(full_path) == 0)
 
@@ -54,17 +57,17 @@ def write_to_file(full_path: str, lines: list) -> None:
 
 
 def main() -> None:
-    directory_path, file_name = parse_arguments(sys.argv)
+    directory_path, file_name, has_f_flag = parse_arguments(sys.argv)
 
     if directory_path != ".":
         os.makedirs(directory_path, exist_ok=True)
 
-    full_path = os.path.join(str(directory_path), str(file_name))
+    if has_f_flag:
+        full_path = os.path.join(directory_path, file_name)
+        lines = get_user_content()
 
-    lines = get_user_content()
-
-    if lines:
-        write_to_file(full_path, lines)
+        if lines:
+            write_to_file(full_path, lines)
 
 
 if __name__ == "__main__":
