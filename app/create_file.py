@@ -85,5 +85,6 @@ def main() -> None:
         content_lines = get_content_from_user()
         write_to_file(path, filename, content_lines)
 
+
 if __name__ == "__main__":
     main()
