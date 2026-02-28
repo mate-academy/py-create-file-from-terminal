@@ -13,21 +13,23 @@ def parse_arguments() -> tuple:
     directories = []
     filename = None
 
-    if "-d" in args:
-        d_index = args.index("-d")
-        if "-f" in args:
-            f_index = args.index("-f")
-            directories = args[d_index + 1:f_index]
-        else:
-            directories = args[d_index + 1:]
+    i = 0
+    while i < len(args):
+        if args[i] == "-d":
+            i += 1
+            while i < len(args) and not args[i].startswith("-"):
+                directories.append(args[i])
+                i += 1
 
-    if "-f" in args:
-        f_index = args.index("-f")
-        if f_index + 1 < len(args):
-            filename = args[f_index + 1]
+        elif args[i] == "-f":
+            if i + 1 < len(args):
+                filename = args[i + 1]
+                i += 2
+            else:
+                print("Error: File name not provided.")
+                sys.exit(1)
         else:
-            print("Error: File name not provided.")
-            sys.exit(1)
+            i += 1
 
     return directories, filename
 
@@ -40,7 +42,7 @@ def create_directories(directories: list) -> str:
     return ""
 
 
-def det_content_from_user() -> list:
+def get_content_from_user() -> list:
     lines = []
     counter = 1
 
@@ -80,8 +82,8 @@ def main() -> None:
     path = create_directories(directories)
 
     if filename:
-        content_lines = det_content_from_user()
+        content_lines = get_content_from_user()
         write_to_file(path, filename, content_lines)
 
-    if __name__ == "__main__":
-        main()
+if __name__ == "__main__":
+    main()
