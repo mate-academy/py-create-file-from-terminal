@@ -10,20 +10,24 @@ def get_arguments() -> Tuple[List[str], Optional[str]]:
     directories: List[str] = []
     filename: Optional[str] = None
 
-    if "-d" in args:
-        d_index = args.index("-d")
-        if "-f" in args:
-            f_index = args.index("-f")
-            directories = args[d_index + 1:f_index]
+    i = 0
+    while i < len(args):
+        if args[i] == "-d":
+            i += 1
+            # Collect directory names until next flag or end
+            while i < len(args) and not args[i].startswith("-"):
+                directories.append(args[i])
+                i += 1
+        elif args[i] == "-f":
+            i += 1
+            if i < len(args) and not args[i].startswith("-"):
+                filename = args[i]
+                i += 1
+            else:
+                print("Error: No filename provided after -f flag.")
+                sys.exit(1)
         else:
-            directories = args[d_index + 1:]
-
-    if "-f" in args:
-        f_index = args.index("-f")
-        if f_index + 1 < len(args):
-            filename = args[f_index + 1]
-        else:
-            print("Error: No filename provided after -f flag.")
+            print(f"Error: Unknown argument {args[i]}")
             sys.exit(1)
 
     return directories, filename
@@ -76,6 +80,10 @@ def write_to_file(
 def main() -> None:
     directories, filename = get_arguments()
 
+    if not directories and not filename:
+        print("Error: You must provide at least -d or -f flag.")
+        sys.exit(1)
+
     if directories and not filename:
         create_directories(directories)
         print("Directories created successfully.")
@@ -85,5 +93,3 @@ def main() -> None:
         path: str = create_directories(directories)
         content_lines: List[str] = get_content_from_user()
         write_to_file(path, filename, content_lines)
-    else:
-        print("Error: You must provide at least -d or -f flag.")
