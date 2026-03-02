@@ -2,6 +2,7 @@ import sys
 import os
 from datetime import datetime
 
+
 def parse_arguments(args: list) -> tuple:
     dir_path = ""
     file_name = ""
@@ -22,6 +23,7 @@ def parse_arguments(args: list) -> tuple:
 
     return dir_path, file_name
 
+
 def get_content_from_user() -> list:
     content_lines = []
     while True:
@@ -31,6 +33,7 @@ def get_content_from_user() -> list:
         content_lines.append(line)
     return content_lines
 
+
 def write_to_file(full_path: str, content: list) -> None:
     file_exists = os.path.exists(full_path)
     file_is_not_empty = file_exists and os.path.getsize(full_path) > 0
@@ -38,12 +41,11 @@ def write_to_file(full_path: str, content: list) -> None:
     with open(full_path, "a") as output_file:
         if file_is_not_empty:
             output_file.write("\n")
-        
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         output_file.write(f"{timestamp}\n")
-        
         for index, line in enumerate(content, start=1):
             output_file.write(f"{index} {line}\n")
+
 
 def main() -> None:
     dir_path, file_name = parse_arguments(sys.argv[1:])
