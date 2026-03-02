@@ -59,5 +59,6 @@ def main() -> None:
         if content:
             write_to_file(full_path, content)
 
+
 if __name__ == "__main__":
     main()
