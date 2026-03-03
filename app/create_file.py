@@ -1,4 +1,5 @@
 import os
+import sys
 import datetime
 
 
@@ -21,14 +22,19 @@ def create_file(args: list[str]) -> None:
 
     if file_name:
         file_path = os.path.join(*dirs, file_name)
-
-        with open(file_path, "a", newline="\n") as f:
+        if os.path.exists(file_name):
+            open(file_path, "a").write("\n")
+        with open(file_path, "a", newline="\n") as file:
             line_number = 1
-            f.write(f"{str(datetime.datetime.today())[:19]}\n")
+            now = datetime.datetime.now()
+            file.write(f"{now.strftime("%Y-%m-%d %H:%M:%S")}\n")
             while True:
                 text = input("Enter content line: ")
                 if text == "stop":
-                    f.write("\n")
                     break
-                f.write(f"{line_number} {text}\n")
+                file.write(f"{line_number} {text}\n")
                 line_number += 1
+
+
+if __name__ == "__main__":
+    create_file(sys.argv[1:])
