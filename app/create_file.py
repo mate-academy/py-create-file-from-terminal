@@ -27,7 +27,7 @@ def create_file(args: list[str]) -> None:
         with open(file_path, "a", newline="\n") as file:
             line_number = 1
             now = datetime.datetime.now()
-            file.write(f"{now.strftime("%Y-%m-%d %H:%M:%S")}\n")
+            file.write(f"{now.strftime('%Y-%m-%d %H:%M:%S')}\n")
             while True:
                 text = input("Enter content line: ")
                 if text == "stop":
