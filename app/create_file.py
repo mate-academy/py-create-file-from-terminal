@@ -40,6 +40,8 @@ def get_filename(args: list) -> str | None:
 
 def write_to_file(file_path: str, lines: list) -> None:
     with open(file_path, "a") as file_assertion:
+        if os.path.exists(file_path) and os.path.getsize(file_path):
+            file_assertion.write("\n")
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         file_assertion.write(timestamp + "\n")
         for index, line in enumerate(lines, 1):
