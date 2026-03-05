@@ -1,12 +1,13 @@
 import os
 import sys
 from datetime import datetime
+from typing import List, Tuple
 
 
-def get_arguments():
+def get_arguments() -> Tuple[List[str], str | None]:
     args = sys.argv[1:]
-    directories = []
-    filename = None
+    directories: List[str] = []
+    filename: str | None = None
     i = 0
 
     while i < len(args):
@@ -26,8 +27,8 @@ def get_arguments():
     return directories, filename
 
 
-def get_content_lines():
-    lines = []
+def get_content_lines() -> List[str]:
+    lines: List[str] = []
 
     while True:
         line = input("Enter content line: ")
@@ -40,7 +41,7 @@ def get_content_lines():
     return lines
 
 
-def format_content(lines):
+def format_content(lines: List[str]) -> str:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     formatted_lines = [timestamp]
 
@@ -50,7 +51,7 @@ def format_content(lines):
     return "\n".join(formatted_lines) + "\n"
 
 
-def main():
+def main() -> None:
     directories, filename = get_arguments()
 
     if directories:
@@ -78,4 +79,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
