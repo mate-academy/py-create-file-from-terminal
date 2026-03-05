@@ -3,7 +3,7 @@ import os
 import sys
 
 
-def main():
+def main() -> None:
     args = sys.argv[1:]
     if "-d" in args and "-f" in args:
         directories_name = get_directories(args)
@@ -19,8 +19,7 @@ def main():
         write_to_file(filename, lines)
 
 
-
-def get_directories(args):
+def get_directories(args: list) -> str | None:
     if "-d" in args:
         if "-f" in args:
             only_d = sys.argv[sys.argv.index("-d") + 1: sys.argv.index("-f")]
@@ -31,25 +30,30 @@ def get_directories(args):
         return path
     return None
 
-def get_filename(args):
+
+def get_filename(args: list) -> str | None:
     if "-f" in args:
         only_f = sys.argv[sys.argv.index("-f") + 1]
         return only_f
     return None
 
-def write_to_file(file_path, lines):
+
+def write_to_file(file_path: str, lines: list) -> None:
     with open(file_path, "a") as file_assertion:
-        file_assertion.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file_assertion.write(timestamp + "\n")
         for index, line in enumerate(lines, 1):
             file_assertion.write(f"{index} {line}\n")
 
-def get_content():
+
+def get_content() -> list:
     lines = []
     line = input("Enter content line: ")
     while line != "stop":
         lines.append(line)
         line = input("Enter content line: ")
     return lines
+
 
 if __name__ == "__main__":
     main()
