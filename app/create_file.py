@@ -49,7 +49,10 @@ def parse_arguments(args: list[str]) -> tuple[list[str], str | None]:
     if "-f" in args:
         f_index = args.index("-f")
 
-        if f_index + 1 < len(args):
+        if (
+                f_index + 1 < len(args)
+                and not args[f_index + 1].startswith("-")
+        ):
             file_name = args[f_index + 1]
 
     return dirs, file_name
