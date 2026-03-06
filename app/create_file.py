@@ -1,50 +1,64 @@
-import os
 import sys
-import datetime
+import os
+from datetime import datetime
 
-args = sys.argv
-dirs = []
+# Збираємо аргументи
+args = sys.argv[1:]  # без назви скрипта
+
+directories = []
 file_name = None
 
+# Шукаємо прапорці і визначаємо їх значення
 if "-d" in args:
     d_index = args.index("-d")
-
-    if "-f" in args:
-        f_index = args.index("-f")
-        dirs = args[d_index + 1:f_index]
+    # Папки йдуть до наступного прапорця або до кінця
+    next_flags = [i for i, arg in enumerate(args) if arg.startswith("-") and i != d_index]
+    if next_flags:
+        end_index = min([i for i in next_flags if i > d_index])
+        directories = args[d_index + 1:end_index]
     else:
-        dirs = args[d_index + 1:]
+        directories = args[d_index + 1:]
 
 if "-f" in args:
     f_index = args.index("-f")
+    if f_index + 1 >= len(args):
+        print("Помилка: після -f не вказано назву файлу.")
+        sys.exit(1)
     file_name = args[f_index + 1]
 
+# Створюємо шлях до директорій
 dir_path = ""
-
-if dirs:
-    dir_path = os.path.join(*dirs)
+if directories:
+    dir_path = os.path.join(*directories)
     os.makedirs(dir_path, exist_ok=True)
 
+# Якщо вказано файл
 if file_name:
-    if dir_path:
-        file_path = os.path.join(dir_path, file_name)
-    else:
-        file_path = file_name
+    file_path = os.path.join(dir_path, file_name) if dir_path else file_name
 
-    lines = []
-
+    # Зчитуємо рядки контенту від користувача
+    content_lines = []
     while True:
         line = input("Enter content line: ")
-        if line == "stop":
+        if line.lower() == "stop":
             break
+        content_lines.append(line)
 
-        lines.append(line)
+    if not content_lines:
+        print("Немає рядків для запису.")
+        sys.exit(0)
 
-    timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-    content = (timestamp + "\n")
-    for i, lime in enumerate(lines):
-        content += f"{i} {line}\n"
-    content += "\n"
+    # Додаємо timestamp
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    with open(file_path, "a", encoding="utf-8") as f:
-        f.write(content)
+    # Формуємо текст для запису
+    output_text = timestamp + "\n"
+    for line_number, text_line in enumerate(content_lines, start=1):
+        output_text += f"{line_number} {text_line}\n"
+    output_text += "\n"
+
+    # Записуємо у файл, додаючи новий контент в кінець
+    with open(file_path, "a", encoding="utf-8") as file_obj:
+        file_obj.write(output_text)
+
+    print(f"Контент записано у файл: {file_path}")
