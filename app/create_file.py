@@ -2,63 +2,74 @@ import sys
 import os
 from datetime import datetime
 
-# Збираємо аргументи
-args = sys.argv[1:]  # без назви скрипта
+def parse_arguments(args):
+    """
+    Парсинг аргументів командного рядка:
+    -d <directories> - список директорій
+    -f <file_name> - назва файлу
+    """
+    directories = []
+    file_name = None
 
-directories = []
-file_name = None
+    i = 0
+    while i < len(args):
+        if args[i] == "-d":
+            i += 1
+            # збираємо всі аргументи до наступного прапорця або кінця
+            while i < len(args) and not args[i].startswith("-"):
+                directories.append(args[i])
+                i += 1
+        elif args[i] == "-f":
+            i += 1
+            if i >= len(args):
+                print("Помилка: після -f не вказано назву файлу.")
+                sys.exit(1)
+            file_name = args[i]
+            i += 1
+        else:
+            i += 1
+    return directories, file_name
 
-# Шукаємо прапорці і визначаємо їх значення
-if "-d" in args:
-    d_index = args.index("-d")
-    # Папки йдуть до наступного прапорця або до кінця
-    next_flags = [i for i, arg in enumerate(args) if arg.startswith("-") and i != d_index]
-    if next_flags:
-        end_index = min([i for i in next_flags if i > d_index])
-        directories = args[d_index + 1:end_index]
-    else:
-        directories = args[d_index + 1:]
+def main():
+    args = sys.argv[1:]
+    directories, file_name = parse_arguments(args)
 
-if "-f" in args:
-    f_index = args.index("-f")
-    if f_index + 1 >= len(args):
-        print("Помилка: після -f не вказано назву файлу.")
+    # Створюємо шлях до директорій
+    dir_path = ""
+    if directories:
+        dir_path = os.path.join(*directories)
+        os.makedirs(dir_path, exist_ok=True)
+
+    if not file_name:
+        print("Помилка: не вказано файл для запису.")
         sys.exit(1)
-    file_name = args[f_index + 1]
 
-# Створюємо шлях до директорій
-dir_path = ""
-if directories:
-    dir_path = os.path.join(*directories)
-    os.makedirs(dir_path, exist_ok=True)
-
-# Якщо вказано файл
-if file_name:
     file_path = os.path.join(dir_path, file_name) if dir_path else file_name
 
     # Зчитуємо рядки контенту від користувача
     content_lines = []
+    print("Вводьте рядки контенту. Напишіть 'stop', щоб завершити.")
     while True:
-        line = input("Enter content line: ")
-        if line.lower() == "stop":
+        user_input = input("> ")
+        if user_input.lower() == "stop":
             break
-        content_lines.append(line)
+        content_lines.append(user_input)
 
     if not content_lines:
         print("Немає рядків для запису.")
         sys.exit(0)
 
-    # Додаємо timestamp
+    # Формуємо текст для запису з timestamp і нумерацією рядків
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    output_lines = [timestamp]
+    for index, line in enumerate(content_lines, start=1):
+        output_lines.append(f"{index} {line}")
+    output_lines.append("")  # пустий рядок після всього контенту
 
-    # Формуємо текст для запису
-    output_text = timestamp + "\n"
-    for line_number, text_line in enumerate(content_lines, start=1):
-        output_text += f"{line_number} {text_line}\n"
-    output_text += "\n"
-
-    # Записуємо у файл, додаючи новий контент в кінець
     with open(file_path, "a", encoding="utf-8") as file_obj:
-        file_obj.write(output_text)
+        file_obj.write("\n".join(output_lines) + "\n")
 
-    print(f"Контент записано у файл: {file_path}")
+    print(f"Контент успішно записано у файл: {file_path}")
+
+if __name__ == "__main__":
+    main()
