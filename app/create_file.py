@@ -30,24 +30,37 @@ def write_to_file(file_path: str, lines: list[str]) -> None:
             file.write(f"{i} {line}\n")
 
 
-def main() -> None:
-    args = sys.argv[1:]
-
-    dir_path = ""
-    file_name = ""
+def parse_arguments(args: list[str]) -> tuple[list[str], str | None]:
+    dirs = []
+    file_name = None
 
     if "-d" in args:
         d_index = args.index("-d")
-        f_index = args.index("-f") if "-f" in args else len(args)
-        dirs = args[d_index + 1:f_index]
 
-        if dirs:
-            dir_path = os.path.join(*dirs)
-            os.makedirs(dir_path, exist_ok=True)
+        for arg in args[d_index + 1:]:
+            if arg.startswith("-"):
+                break
+            dirs.append(arg)
 
     if "-f" in args:
         f_index = args.index("-f")
-        file_name = args[f_index + 1]
+
+        if f_index + 1 < len(args):
+            file_name = args[f_index + 1]
+
+    return dirs, file_name
+
+
+def main() -> None:
+    args = sys.argv[1:]
+
+    dirs, file_name = parse_arguments(args)
+
+    dir_path = ""
+
+    if dirs:
+        dir_path = os.path.join(*dirs)
+        os.makedirs(dir_path, exist_ok=True)
 
     if not file_name:
         return
