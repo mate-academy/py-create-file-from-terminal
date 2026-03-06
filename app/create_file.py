@@ -32,7 +32,7 @@ def write_to_file(file_path: str, lines: list[str]) -> None:
 
 def parse_arguments(args: list[str]) -> tuple[list[str], str | None]:
     dirs = []
-    file_name = None
+    file_name = ""
 
     if "-d" in args:
         d_index = args.index("-d")
@@ -41,6 +41,10 @@ def parse_arguments(args: list[str]) -> tuple[list[str], str | None]:
             if arg.startswith("-"):
                 break
             dirs.append(arg)
+
+        if dirs:
+            dir_path = os.path.join(*dirs)
+            os.makedirs(dir_path, exist_ok=True)
 
     if "-f" in args:
         f_index = args.index("-f")
