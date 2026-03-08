@@ -7,6 +7,8 @@ from typing import List, Optional, Tuple
 def parse_arguments(
     arguments: List[str],
 ) -> Tuple[Optional[str], Optional[str]]:
+    directory_path = None
+    file_name = None
 
     if "-d" in arguments and "-f" in arguments:
         d_index = arguments.index("-d")
@@ -68,13 +70,13 @@ def create_directory(directory_path: str) -> None:
 
 def write_file(file_path: str, content_lines: List[str]) -> None:
     new_content = build_file_content(content_lines)
+    content_to_write = new_content
 
     if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
-        with open(file_path, "a", encoding="utf-8") as file:
-            file.write("\n\n" + new_content)
-    else:
-        with open(file_path, "a", encoding="utf-8") as file:
-            file.write(new_content)
+        content_to_write = "\n\n" + new_content
+
+    with open(file_path, "a", encoding="utf-8") as file:
+        file.write(content_to_write)
 
 
 def main() -> None:
