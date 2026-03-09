@@ -3,8 +3,24 @@ import datetime
 import os
 
 
-def main():
-    parser = argparse.ArgumentParser(description='Create file')
+def create_file(path: str) -> None:
+    current_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    exist = os.path.exists(path) and os.path.getsize(path) > 0
+    with open(path, "a") as current_file:
+        if exist:
+            current_file.write("\n")
+        current_file.write(current_date + "\n")
+        line_number = 1
+        while True:
+            content = input("Enter content line: ")
+            if content == "stop":
+                break
+            current_file.write(f"{line_number} {content}\n")
+            line_number += 1
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Create file")
 
     parser.add_argument("-d", nargs="+")
     parser.add_argument("-f")
@@ -15,36 +31,14 @@ def main():
         os.makedirs(build_dir, exist_ok=True)
 
     elif args.f and not args.d:
-        current_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        exist = os.path.exists(args.f) and os.path.getsize(args.f) > 0
-        with open(args.f, "a") as file:
-            if exist:
-                file.write("\n")
-            file.write(current_date+ "\n")
-            i = 1
-            while True:
-                    content = input("Enter content line: ")
-                    if content == "stop":
-                        break
-                    file.write(f"{i} {content}\n")
-                    i += 1
+        path = args.f
+        create_file(path)
+
     elif args.d and args.f:
         build_dir = os.path.join(*args.d)
         os.makedirs(build_dir, exist_ok=True)
         path = os.path.join(build_dir, args.f)
-        current_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        exist = os.path.exists(path) and os.path.getsize(path) > 0
-        with open(path, "a") as file:
-            if exist:
-                file.write("\n")
-            file.write(current_date + "\n")
-            i = 1
-            while True:
-                content = input("Enter content line: ")
-                if content == "stop":
-                    break
-                file.write(f"{i} {content}\n")
-                i += 1
+        create_file(path)
     else:
         parser.error("Please provide -d or -f")
 
