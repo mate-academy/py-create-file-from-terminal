@@ -19,8 +19,9 @@ def create_file() -> None:
             if current_flag == "-d":
                 list_dirs.append(arg)
             if current_flag == "-f":
-                filename = arg
-                break
+                if filename is None:
+                    filename = arg
+
 
     if list_dirs:
         os.makedirs(os.path.join(*list_dirs), exist_ok=True)
