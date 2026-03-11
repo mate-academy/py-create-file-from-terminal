@@ -20,6 +20,8 @@ def create_file() -> None:
                 list_dirs.append(arg)
             if current_flag == "-f":
                 filename = arg
+                break
+
     if list_dirs:
         os.makedirs(os.path.join(*list_dirs), exist_ok=True)
 
@@ -39,6 +41,6 @@ def create_file() -> None:
 
                 if line == "stop":
                     break
-                else:
-                    count += 1
-                    file.write(f"{count} {line}\n")
+
+                count += 1
+                file.write(f"{count} {line}\n")
