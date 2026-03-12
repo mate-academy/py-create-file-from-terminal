@@ -27,11 +27,13 @@ def main() -> None:
     args = sys.argv[1:]
     dir_path, filename = parse_args(args)
 
+    if dir_path is not None:
+        os.makedirs(dir_path, exist_ok=True)
+
     if filename is None:
         return
 
     if dir_path is not None:
-        os.makedirs(dir_path, exist_ok=True)
         target_path = os.path.join(dir_path, filename)
     else:
         target_path = filename
