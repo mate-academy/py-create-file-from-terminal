@@ -11,7 +11,9 @@ file_name = None
 if "-d" in args:
     d_index = args.index("-d")
 
-    next_flags = [i for i, arg in enumerate(args) if arg == "-f" and i > d_index]
+    next_flags = [
+        i for i, arg in enumerate(args) if arg == "-f" and i > d_index
+    ]
 
     if next_flags:
         directories = args[d_index + 1:next_flags[0]]
