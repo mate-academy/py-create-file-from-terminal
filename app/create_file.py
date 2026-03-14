@@ -34,15 +34,24 @@ def main() -> None:
     directory_parts = []
     file_name = None
 
-    if "-d" in args:
-        d_index = args.index("-d")
-        next_flag_index = args.index("-f") if "-f" in args else len(args)
-        directory_parts = args[d_index + 1 : next_flag_index]
-
-    if "-f" in args:
-        f_index = args.index("-f")
-        if f_index + 1 < len(args):
-            file_name = args[f_index + 1]
+    i = 0
+    while i < len(args):
+        if args[i] == "-d":
+            i += 1
+            while i < len(args) and not args[i].startswith("-"):
+                directory_parts.append(args[i])
+                i += 1
+            continue
+        elif args[i] == "-f":
+            i += 1
+            if i < len(args) and not args[i].startswith("-"):
+                file_name = args[i]
+                i += 1
+            else:
+                print("Error: -f requires a valid filename.")
+                sys.exit(1)
+        else:
+            i += 1
 
     target_path = os.path.join(*directory_parts) if directory_parts else "."
 
@@ -51,10 +60,8 @@ def main() -> None:
 
     if file_name:
         full_file_path = os.path.join(target_path, file_name)
-        content_lines = get_user_lines()
-        write_to_file(full_file_path, content_lines)
-    else:
-        print("No file specified, directory created (if applicable).")
+        lines = get_user_lines()
+        write_to_file(full_file_path, lines)
 
 
 if __name__ == "__main__":
