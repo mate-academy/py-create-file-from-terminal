@@ -1,10 +1,13 @@
 import os
-import argparse
+import sys
 from datetime import datetime
 
 
 def get_user_lines() -> list:
     lines = []
+    print(
+        "Enter content line (type 'stop' to finish):"
+    )
     while True:
         line = input("Enter content line: ")
         if line.lower() == "stop":
@@ -27,22 +30,31 @@ def write_to_file(file_path: str, lines: list) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Create/update files with numbered lines."
-    )
-    parser.add_argument("-d", "--dir", nargs="+", help="Directory path parts")
-    parser.add_argument("-f", "--file", required=True, help="Filename")
+    args = sys.argv[1:]
+    directory_parts = []
+    file_name = None
 
-    args = parser.parse_args()
+    if "-d" in args:
+        d_index = args.index("-d")
+        next_flag_index = args.index("-f") if "-f" in args else len(args)
+        directory_parts = args[d_index + 1 : next_flag_index]
 
-    target_path = os.path.join(*args.dir) if args.dir else "."
-    if args.dir:
+    if "-f" in args:
+        f_index = args.index("-f")
+        if f_index + 1 < len(args):
+            file_name = args[f_index + 1]
+
+    target_path = os.path.join(*directory_parts) if directory_parts else "."
+
+    if directory_parts:
         os.makedirs(target_path, exist_ok=True)
 
-    full_file_path = os.path.join(target_path, args.file)
-    content_lines = get_user_lines()
-
-    write_to_file(full_file_path, content_lines)
+    if file_name:
+        full_file_path = os.path.join(target_path, file_name)
+        content_lines = get_user_lines()
+        write_to_file(full_file_path, content_lines)
+    else:
+        print("No file specified, directory created (if applicable).")
 
 
 if __name__ == "__main__":
