@@ -5,7 +5,7 @@ from datetime import datetime
 from pathlib import Path
 
 
-def file_consist(name: str) -> None:
+def file_consist(file_name: str) -> None:
     with open(file_name, "a") as file:
         file.write("\n" + current_timestamp + "\n")
         for counter, line in enumerate(
@@ -17,7 +17,7 @@ def file_consist(name: str) -> None:
             file.write(f"{counter} {line}\n")
 
 
-def file_not_consist(name: str) -> None:
+def file_not_consist(file_name: str) -> None:
     with open(file_name, "w") as file:
         file.write(current_timestamp + "\n")
         for counter, line in enumerate(
@@ -40,8 +40,6 @@ elif "-f" in sys.argv and "-d" not in sys.argv:
     path = Path(os.getcwd(), file_name)
     if path.is_file():
         file_consist(file_name)
-        file_not_consist(file_name)
-
     else:
         file_not_consist(file_name)
 
