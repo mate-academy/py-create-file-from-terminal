@@ -22,7 +22,8 @@ def create_file(path: str, file_name: str) -> None:
         next_text = "\n"
     with open(file_name, "a") as source_file:
         source_file.write(next_text)
-        source_file.write(f"{time_now.strftime("%Y-%m-%d %H:%M:%S")} \n")
+        time_now = time_now.strftime("%Y-%m-%d %H:%M:%S")
+        source_file.write(f"{time_now} \n")
         while True:
             text = input("Enter content line: ")
             page_number += 1
