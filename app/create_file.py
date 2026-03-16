@@ -39,7 +39,6 @@ if len(list_argv) > 2:
         path = create_path(list_argv[2:len(list_argv) - 2])
         create_directory(path)
         create_file(path, list_argv[-1])
-        pass
     elif "-d" in list_argv:
         create_directory(create_path(list_argv[2:len(list_argv)]))
     elif "-f" in list_argv:
