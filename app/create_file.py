@@ -5,7 +5,6 @@ import os
 import datetime
 
 
-print(sys.argv)
 path = ""
 
 if "-d" in sys.argv:
@@ -23,12 +22,13 @@ if "-f" in sys.argv:
     filename = sys.argv[index + 1]
 
     full_path = os.path.join(path, filename) if path else filename
-    with open(full_path, "a") as f:
-        f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+    with open(full_path, "a") as output_file:
+        output_file.write(datetime.datetime.now().strftime("\n"
+                                                           + "%Y-%m-%d %H:%M:%S") + "\n")
         line_num = 0
         while True:
             line = input("Enter content line: ")
             if line == "stop":
                 break
             line_num += 1
-            f.write(str(line_num) + " " + line + "\n")
+            output_file.write(str(line_num) + " " + line + "\n")
