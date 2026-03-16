@@ -23,8 +23,10 @@ if "-f" in sys.argv:
 
     full_path = os.path.join(path, filename) if path else filename
     with open(full_path, "a") as output_file:
-        output_file.write(datetime.datetime.now().strftime("\n"
-                                                           + "%Y-%m-%d %H:%M:%S") + "\n")
+        if os.path.exists(full_path) and os.path.getsize(full_path) > 0:
+            output_file.write("\n")
+        output_file.write(datetime.datetime.now().strftime(
+            "%Y-%m-%d %H:%M:%S") + "\n")
         line_num = 0
         while True:
             line = input("Enter content line: ")
