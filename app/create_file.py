@@ -51,11 +51,7 @@ def build_content(lines: list[str]) -> str:
 
 
 def write_to_file(file_path: str, content: str) -> None:
-    file_exists = os.path.exists(file_path)
-    file_is_not_empty = file_exists and os.path.getsize(file_path) > 0
     with open(file_path, "a", encoding="utf-8") as file:
-        if file_is_not_empty:
-            file.write("\n\n")
         file.write(content)
         file.write("\n")
 
