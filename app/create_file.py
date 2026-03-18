@@ -23,7 +23,7 @@ def create_file(path: str, file_name: str) -> None:
     with open(file_name, "a") as source_file:
         source_file.write(next_text)
         time_now = time_now.strftime("%Y-%m-%d %H:%M:%S")
-        source_file.write(f"{time_now} \n")
+        source_file.write(f"{time_now}\n")
         while True:
             text = input("Enter content line: ")
             page_number += 1
@@ -36,9 +36,14 @@ list_argv = sys.argv
 
 if len(list_argv) > 2:
     if "-d" in list_argv and "-f" in list_argv:
-        path = create_path(list_argv[2:len(list_argv) - 2])
-        create_directory(path)
-        create_file(path, list_argv[-1])
+        if list_argv.index("-d") < list_argv.index("-f"):
+            path = create_path(list_argv[2:len(list_argv) - 2])
+            create_directory(path)
+            create_file(path, list_argv[-1])
+        else:
+            path = create_path(list_argv[list_argv.index("-d") + 1:])
+            create_directory(path)
+            create_file(path, list_argv[list_argv.index("-f") + 1])
     elif "-d" in list_argv:
         create_directory(create_path(list_argv[2:len(list_argv)]))
     elif "-f" in list_argv:
