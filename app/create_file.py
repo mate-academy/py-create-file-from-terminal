@@ -28,9 +28,11 @@ if path_file:
         file.write(
             datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
         )
-        file.write(sys.argv[0] + "\n")
         while True:
             content = input("Enter content line: ")
             if content == "stop":
+                file.write("\n")
                 break
-            file.write(content + "\n")
+            i = 1
+            file.write(f"{i} content\n")
+            i += 1
