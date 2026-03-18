@@ -26,13 +26,12 @@ else:
 if path_file:
     with open(path_file, "a") as file:
         file.write(
-            datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
+            "\n" + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
         )
+        i = 1
         while True:
             content = input("Enter content line: ")
             if content == "stop":
-                file.write("\n")
                 break
-            i = 1
-            file.write(f"{i} content\n")
+            file.write(f"{i} {content}\n")
             i += 1
