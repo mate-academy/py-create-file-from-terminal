@@ -24,9 +24,12 @@ else:
     path_file = file_str
 
 if path_file:
-    with open(path_file, "a") as file:
+    with open(path_file, "a+") as file:
+        file.seek(0)
+        if file.read():
+            file.write("\n")
         file.write(
-            "\n" + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
+            datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
         )
         i = 1
         while True:
