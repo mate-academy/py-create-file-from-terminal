@@ -24,20 +24,25 @@ def pseudocode():
        close the file after the user input is "stop"
 
     """
+
+
 pass
+
 
 # Check if flags are correct
 def flags_in_arg() -> bool:
     has_any_flag = "-d" in sys.argv[1:] or "-f" in sys.argv[1:]
     both_flags = "-d" in sys.argv[1:] and "-f" in sys.argv[1:]
-    flags_order_correct = both_flags and (
-        sys.argv.index("-d") < sys.argv.index("-f")
-        )
+    flags_order_correct = both_flags and (sys.argv.index("-d") < sys.argv.index("-f"))
     has_no_duplicates = sys.argv.count("-d") <= 1 and sys.argv.count("-f") <= 1
-    return has_any_flag and (not both_flags or flags_order_correct) and has_no_duplicates
+    return (
+        has_any_flag and (not both_flags or flags_order_correct) and has_no_duplicates
+    )
+
 
 f_index = sys.argv.index("-f") if "-f" in sys.argv else None
 d_index = sys.argv.index("-d") if "-d" in sys.argv else None
+
 
 # Get file name
 def get_filename() -> str | None:
@@ -54,6 +59,7 @@ def get_filename() -> str | None:
 
     return filename
 
+
 # Get path
 def get_path() -> str | None:
     if d_index is None:
@@ -66,21 +72,21 @@ def get_path() -> str | None:
         return None
 
     if f_index is not None:
-        return os.path.join(*sys.argv[d_index + 1:f_index])
+        return os.path.join(*sys.argv[d_index + 1 : f_index])
 
-    return os.path.join(*sys.argv[d_index + 1:])
+    return os.path.join(*sys.argv[d_index + 1 :])
+
 
 # Create directories
 def create_path() -> str | None:
     if not flags_in_arg():
-        raise ValueError(
-            "Pass -d flag to create path and -f flag to create file"
-        )
+        raise ValueError("Pass -d flag to create path and -f flag to create file")
 
     path = get_path()
 
     if path is not None:
         return os.makedirs(path, exist_ok=True)
+
 
 # Main logic
 def file_editor() -> None:
@@ -94,21 +100,16 @@ def file_editor() -> None:
     file_exists = os.path.exists(file_path)
 
     with open(file_path, "a") as file:
-            if file_exists:
-                file.write("\n")
-            file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
-            row_number = 1
-            while True:
-                content = input()
-                if content == "stop":
-                    break
-                file.write(f"{row_number} {content.strip()}\n")
-                row_number += 1
+        if file_exists:
+            file.write("\n")
+        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+        row_number = 1
+        while True:
+            content = input()
+            if content == "stop":
+                break
+            file.write(f"{row_number} {content.strip()}\n")
+            row_number += 1
+
 
 file_editor()
-
-
-
-
-
-
