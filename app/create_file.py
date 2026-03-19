@@ -45,16 +45,19 @@ def main() -> None:
         except IndexError:
             print("Error: Missing filename after -f")
             return
+
+        file_path: str = os.path.join(base_path, filename)
+
+        add_separator: bool = os.path.exists(file_path) and os.path.getsize(file_path) > 0
+
+        with open(file_path, "a", encoding="utf-8") as file:
+            if add_separator:
+                file.write("\n")
+            file.write(f"{get_timestamp()}\n")
+            for line in collect_content():
+                file.write(f"{line}\n")
     else:
-        print("Error: No -f flag provided")
-        return
-
-    file_path: str = os.path.join(base_path, filename)
-
-    with open(file_path, "a", encoding="utf-8") as file:
-        file.write(f"\n{get_timestamp()}\n")
-        for line in collect_content():
-            file.write(f"{line}\n")
+        print(f"Directory created at: {base_path}")
 
 
 if __name__ == "__main__":
