@@ -31,7 +31,7 @@ def create_file() -> None:
                 file.write("\n")
                 break
 
-            file.write(f"{line_number} {content}" +"\n")
+            file.write(f"{line_number} {content}" + "\n")
             line_number += 1
 
 
