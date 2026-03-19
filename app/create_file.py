@@ -52,11 +52,12 @@ def get_path() -> str | None:
 
 
 # Create directories
+path = get_path()
+
+
 def create_path() -> str | None:
     if not flags_in_arg():
         raise ValueError("Pass -d flag to create path and -f flag to create file")
-
-    path = get_path()
 
     if path is not None:
         return os.makedirs(path, exist_ok=True)
@@ -64,11 +65,13 @@ def create_path() -> str | None:
 
 # Main logic
 def file_editor() -> None:
-    if get_path() is not None:
+    if path is not None:
         create_path()
 
     file_name = get_filename()
-    path = get_path()
+    if file_name is None:
+        return
+
     file_path = os.path.join(path, file_name) if path else file_name
 
     file_exists = os.path.exists(file_path)
@@ -79,7 +82,7 @@ def file_editor() -> None:
         file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         row_number = 1
         while True:
-            content = input()
+            content = input("Enter content line: ")
             if content == "stop":
                 break
             file.write(f"{row_number} {content.strip()}\n")
