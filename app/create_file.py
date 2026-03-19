@@ -3,32 +3,6 @@ import os
 from datetime import datetime
 
 
-def pseudocode():
-    """
-     1. get STRING from terminal
-        string must start with python create_file.py, otherwise raise error
-
-     2. extract the list of arguments from the terminal input via sys.argv
-        if the list doesn't include -d of -f, raise an error
-
-     3. if the list contains only -d, all elements next to it are the path
-        create a directory with the path
-
-    4. if the list contains -f, all elements next to it are the path to file
-       4.1. if the last element doesn't include a dot, raise an error
-       4.2. if the last element includes a dot, create a file with the path
-            and write the current date and time in the file
-       4.3. if the file already exists, add the blank line and write the current date and time in the file
-
-    5. in the opened file, add new line from the user input from terminal until the user input is "stop"
-       close the file after the user input is "stop"
-
-    """
-
-
-pass
-
-
 # Check if flags are correct
 def flags_in_arg() -> bool:
     has_any_flag = "-d" in sys.argv[1:] or "-f" in sys.argv[1:]
