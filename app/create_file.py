@@ -11,6 +11,9 @@ def create_file() -> None:
         stop_index = args.index("-f") if "-f" in args else len(args)
         dir_names = args[d_index + 1 : stop_index]
         directory_path = os.path.join(*dir_names)
+        if dir_names:
+            directory_path = os.path.join(*dir_names)
+            os.makedirs(directory_path, exist_ok=True)
 
     if "-f" in args:
         f_index = args.index("-f")
@@ -19,20 +22,20 @@ def create_file() -> None:
         if directory_path.strip():
             os.makedirs(directory_path, exist_ok=True)
 
-    with open(full_path, "a") as file:
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        file.write(timestamp + "\n")
+        with open(full_path, "a") as file:
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            file.write(timestamp + "\n")
 
-        line_number = 1
-        while True:
-            content = input("Enter content line: ")
+            line_number = 1
+            while True:
+                content = input("Enter content line: ")
 
-            if content == "stop":
-                file.write("\n")
-                break
+                if content == "stop":
+                    file.write("\n")
+                    break
 
-            file.write(f"{line_number} {content}" + "\n")
-            line_number += 1
+                file.write(f"{line_number} {content}" + "\n")
+                line_number += 1
 
 
 if __name__ == "__main__":
