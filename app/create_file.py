@@ -48,7 +48,10 @@ def main() -> None:
 
         file_path: str = os.path.join(base_path, filename)
 
-        add_separator: bool = os.path.exists(file_path) and os.path.getsize(file_path) > 0
+        add_separator: bool = (
+            os.path.exists(file_path)
+            and os.path.getsize(file_path) > 0
+        )
 
         with open(file_path, "a", encoding="utf-8") as file:
             if add_separator:
