@@ -55,9 +55,9 @@ def get_path() -> str | None:
 path = get_path()
 
 
-def create_path() -> str | None:
+def create_path() -> None:
     if not flags_in_arg():
-        raise ValueError("Pass -d flag to create path and -f flag to create file")
+        raise ValueError("Pass -d flag to create path and/or -f flag to create file")
 
     if path is not None:
         return os.makedirs(path, exist_ok=True)
@@ -65,9 +65,7 @@ def create_path() -> str | None:
 
 # Main logic
 def file_editor() -> None:
-    if path is not None:
-        create_path()
-
+    create_path()
     file_name = get_filename()
     if file_name is None:
         return
