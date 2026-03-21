@@ -30,14 +30,15 @@ def main() -> None:
 
     if "-d" in args:
         d_index = args.index("-d")
-        for arg in args[d_index + 1:]:
-            if arg.startswith("-"):
+        for i in range(d_index + 1, len(args)):
+            if args[i].startswith("-"):
                 break
-            directories.append(arg)
+            directories.append(args[i])
 
     if "-f" in args:
         f_index = args.index("-f")
-        filename = args[f_index + 1]
+        if f_index + 1 < len(args):
+            filename = args[f_index + 1]
 
     current_path = os.getcwd()
     if directories:
