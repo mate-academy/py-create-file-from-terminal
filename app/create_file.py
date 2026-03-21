@@ -19,7 +19,7 @@ def create_file_from_console(command: str) -> None:
         f_index = command.find("-f")
 
         dirs = command[d_index + 3: f_index].replace(" ", "/")
-        file_name = command[f_index + 3: ].split()[0]
+        file_name = command[f_index + 3:].split()[0]
 
         os.makedirs(dirs, exist_ok=True)
 
