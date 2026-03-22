@@ -14,7 +14,9 @@ def create_directory(directories: list) -> str:
 
 def create_file(filename: str) -> None:
     with open(filename, "a") as file:
-        current_date = str(datetime.now().replace(microsecond=0))
+        if os.path.getsize(filename) > 0:
+            file.write("\n")
+        current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         page_number = 1
         file.write(f"{current_date}\n")
         while True:
