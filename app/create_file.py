@@ -29,7 +29,7 @@ def main() -> None:
         content_lines = []
         while True:
             line = input("Enter content line: ")
-            if line.lower() == "stop":
+            if line == "stop":
                 break
             content_lines.append(line)
 
