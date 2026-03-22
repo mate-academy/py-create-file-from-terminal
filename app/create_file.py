@@ -11,11 +11,11 @@ if "-d" in args:
     d_index = args.index("-d")
     if "-f" in args:
         f_index = args.index("-f")
-        directories = args[d_index + 1: f_index]
+        directories = args[d_index + 1:f_index]
     else:
         directories = args[d_index + 1:]
     # Создаём папки
-    os.makedirs("/".join(directories), exist_ok=True)
+    os.makedirs(os.path.join(*directories), exist_ok=True)
 
 # Извлекаем имя файла и работаем с контентом
 if "-f" in args:
@@ -38,10 +38,10 @@ if "-f" in args:
 
     # Определяем путь
     if directories:
-        file_path = "/".join(directories) + "/" + file_name
+        file_path = os.path.join(*directories, file_name)
     else:
         file_path = file_name
 
     # Записываем файл
-    with open(file_path, "a") as f:
-        f.write(content + "\n")
+    with open(file_path, "a") as output_file:
+        output_file.write(content + "\n")
