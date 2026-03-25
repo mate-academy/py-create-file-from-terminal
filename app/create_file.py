@@ -22,12 +22,12 @@ def create_file(file_path: str) -> str:
     full_path = os.path.join(file_path, filename)
     with open(full_path, "a") as f:
         f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
-        count = 0
+        count = 1
         string = input("Enter content line: ")
         while string != "stop":
-            count += 1
             f.write(f"{count} " + string + "\n")
             string = input("Enter content line: ")
+            count += 1
         f.write("\n")
     return filename
 
