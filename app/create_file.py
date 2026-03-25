@@ -4,8 +4,9 @@ import datetime
 
 
 def create_path() -> str:
-    path = os.path.join(os.getcwd(), args[args.index("-d") + 1],
-                 args[args.index("-d") + 2])
+    path = os.path.join(os.getcwd(),
+                        args[args.index("-d") + 1],
+                        args[args.index("-d") + 2])
     os.makedirs(path, exist_ok=True)
     return path
 
@@ -33,4 +34,3 @@ elif "-d" in args:
     create_path()
 else:
     create_file(os.getcwd())
-
