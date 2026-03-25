@@ -19,6 +19,8 @@ def create_file(file_path: str, args: list) -> str:
     filename = args[args.index("-f") + 1]
     full_path = os.path.join(file_path, filename)
     with open(full_path, "a") as f:
+        if os.path.exists(full_path) and os.path.getsize(full_path) > 0:
+            f.write("\n")
         f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         count = 1
         string = input("Enter content line: ")
@@ -26,7 +28,6 @@ def create_file(file_path: str, args: list) -> str:
             f.write(f"{count} " + string + "\n")
             string = input("Enter content line: ")
             count += 1
-        f.write("\n")
     return filename
 
 
