@@ -4,9 +4,15 @@ import datetime
 
 
 def create_path() -> str:
-    path = os.path.join(os.getcwd(),
-                        args[args.index("-d") + 1],
-                        args[args.index("-d") + 2])
+    args = sys.argv
+
+    index_of_dir = args.index("-d") + 1
+    path_parts = []
+
+    while index_of_dir < len(args) and not args[index_of_dir].startswith("-"):
+        path_parts.append(args[index_of_dir])
+        index_of_dir += 1
+    path = os.path.join(os.getcwd(), *path_parts)
     os.makedirs(path, exist_ok=True)
     return path
 
@@ -14,14 +20,15 @@ def create_path() -> str:
 def create_file(file_path: str) -> str:
     filename = args[args.index("-f") + 1]
     full_path = os.path.join(file_path, filename)
-    with open(full_path, "w") as f:
-        f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    with open(full_path, "a") as f:
+        f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
         count = 0
         string = ""
         while string != "stop":
-            f.write(f"{count} " + string + "\n")
             count += 1
-            string = input("Enter file name: ")
+            string = input("Enter content line: ")
+            f.write(f"{count} " + string + "\n")
+        f.write("\n")
     return filename
 
 
@@ -32,5 +39,5 @@ if "-d" in args and "-f" in args:
     create_file(path)
 elif "-d" in args:
     create_path()
-else:
+elif "-f" in args:
     create_file(os.getcwd())
