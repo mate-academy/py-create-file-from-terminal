@@ -3,9 +3,7 @@ import sys
 import datetime
 
 
-def create_path() -> str:
-    args = sys.argv
-
+def create_path(args: list) -> str:
     index_of_dir = args.index("-d") + 1
     path_parts = []
 
@@ -17,7 +15,7 @@ def create_path() -> str:
     return path
 
 
-def create_file(file_path: str) -> str:
+def create_file(file_path: str, args: list) -> str:
     filename = args[args.index("-f") + 1]
     full_path = os.path.join(file_path, filename)
     with open(full_path, "a") as f:
@@ -35,9 +33,9 @@ def create_file(file_path: str) -> str:
 args = sys.argv
 
 if "-d" in args and "-f" in args:
-    path = create_path()
-    create_file(path)
+    path = create_path(args)
+    create_file(path, args)
 elif "-d" in args:
-    create_path()
+    create_path(args)
 elif "-f" in args:
-    create_file(os.getcwd())
+    create_file(os.getcwd(), args)
