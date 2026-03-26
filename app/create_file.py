@@ -1,42 +1,50 @@
 import sys
 import os
 from datetime import datetime
-from typing import List
+from typing import List, Tuple, Optional
 
 
-def main() -> None:
-    args: List[str] = sys.argv[1:]
-
-    has_d = "-d" in args
-    has_f = "-f" in args
-    if not has_f:
-        return
-    f_index = args.index("-f")
-    file_name: str = args[f_index + 1]
+def parse_args(args: List[str]) -> Tuple[List[str], Optional[str]]:
     dirs: List[str] = []
-    if has_d:
+    file_name: Optional[str] = None
+
+    if "-d" in args:
         d_index = args.index("-d")
         for item in args[d_index + 1:]:
             if item == "-f":
                 break
             dirs.append(item)
-    path: str = ""
-    if dirs:
-        path = os.path.join(*dirs)
-        os.makedirs(path, exist_ok=True)
+
+    if "-f" in args:
+        f_index = args.index("-f")
+        file_name = args[f_index + 1]
+
+    return dirs, file_name
+
+
+def create_dirs(dirs: List[str]) -> str:
+    if not dirs:
+        return ""
+
+    path = os.path.join(*dirs)
+    os.makedirs(path, exist_ok=True)
+    return path
+
+
+def get_user_input() -> List[str]:
     lines: List[str] = []
+
     while True:
         line = input("Enter content line: ")
         if line == "stop":
             break
         lines.append(line)
+
+    return lines
+
+
+def write_to_file(full_path: str, lines: List[str]) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    formatted_lines = [
-        f"{i + 1} {line}" for i, line in enumerate(lines)
-    ]
-    full_path: str = (
-        os.path.join(path, file_name) if path else file_name
-    )
     file_exists = os.path.exists(full_path)
 
     with open(full_path, "a") as f:
@@ -45,8 +53,23 @@ def main() -> None:
 
         f.write(timestamp + "\n")
 
-        for line in formatted_lines:
-            f.write(line + "\n")
+        for i, line in enumerate(lines):
+            f.write(f"{i + 1} {line}\n")
+
+
+def main() -> None:
+    args = sys.argv[1:]
+
+    dirs, file_name = parse_args(args)
+    path = create_dirs(dirs)
+
+    if not file_name:
+        return
+
+    full_path = os.path.join(path, file_name) if path else file_name
+
+    lines = get_user_input()
+    write_to_file(full_path, lines)
 
 
 if __name__ == "__main__":
