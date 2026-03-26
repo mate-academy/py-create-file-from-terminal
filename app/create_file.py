@@ -21,13 +21,13 @@ def get_directory_and_file_name(arguments: list[str]) -> tuple[list[str], str]:
     else:
         file_index = -1
 
-    if file_index == -1 or file_index + 1 >= len(arguments):
-        raise ValueError("File name is missing.")
-
-    file_name = arguments[file_index + 1]
-
-    if dir_index != -1:
+    if dir_index != -1 and file_index != -1:
         directory_parts = arguments[dir_index + 1:file_index]
+    elif dir_index != -1:
+        directory_parts = arguments[dir_index + 1:]
+
+    if file_index != -1 and file_index + 1 < len(arguments):
+        file_name = arguments[file_index + 1]
 
     return directory_parts, file_name
 
@@ -60,7 +60,7 @@ def write_to_file(file_path: str, content: str) -> None:
 
     with open(file_path, "a", encoding="utf-8") as file:
         if has_content:
-            file.write("\n\n")
+            file.write("\n")
         file.write(content)
         file.write("\n")
 
@@ -72,6 +72,13 @@ def main() -> None:
     if directory_parts:
         directory_path = os.path.join(*directory_parts)
         os.makedirs(directory_path, exist_ok=True)
+    else:
+        directory_path = ""
+
+    if not file_name:
+        return
+
+    if directory_path:
         file_path = os.path.join(directory_path, file_name)
     else:
         file_path = file_name
