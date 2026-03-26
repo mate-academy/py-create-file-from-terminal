@@ -75,10 +75,10 @@ def write_block(
 
 def create_file() -> None:
     dirs, file_name = parse_args(sys.argv[1:])
+    dir_path = ensure_dirs(dirs)
     if file_name is None:
         print("No filename provided")
         return
-    dir_path = ensure_dirs(dirs)
     lines = collect_lines()
     if not lines:
         return
