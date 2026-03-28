@@ -37,7 +37,7 @@ def write_to_file(file_path: str, content: list[str]) -> None:
             f.write(f"{line}\n")
 
 
-def main():
+def main() -> None:
     args = sys.argv[1:]
 
     dirs = []
@@ -63,7 +63,12 @@ def main():
 
     # если указан файл
     if file_name:
-        file_path = os.path.join(base_path, file_name) if base_path else file_name
+        file_path = (
+            os.path.join(base_path, file_name)
+            if base_path
+            else file_name
+        )
+
         content = get_content()
         write_to_file(file_path, content)
 
