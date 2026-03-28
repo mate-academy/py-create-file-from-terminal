@@ -46,12 +46,12 @@ def main() -> None:
     if "-d" in args:
         d_index = args.index("-d")
         # берем все аргументы после -d до -f (если есть)
-        if "-f" in args:
-            f_index = args.index("-f")
-            dirs = args[d_index + 1:f_index]
-        else:
-            dirs = args[d_index + 1:]
-
+        dirs = []
+        for arg in args[d_index + 1:]:
+            if arg.startswith("-"):
+                break
+        dirs.append(arg)
+        
     if "-f" in args:
         f_index = args.index("-f")
         file_name = args[f_index + 1]
