@@ -51,7 +51,7 @@ def main() -> None:
             if arg.startswith("-"):
                 break
         dirs.append(arg)
-        
+
     if "-f" in args:
         f_index = args.index("-f")
         file_name = args[f_index + 1]
