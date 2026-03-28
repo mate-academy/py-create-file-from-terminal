@@ -25,9 +25,6 @@ def create_file() -> None:
         else:
             i += 1
 
-    if not file_name:
-        return
-
     if dirs:
         dir_path = os.path.join(*dirs)
         os.makedirs(dir_path, exist_ok=True)
@@ -35,6 +32,9 @@ def create_file() -> None:
         file_path = os.path.join(dir_path, file_name)
     else:
         file_path = file_name
+
+    if not file_name:
+        return
 
     lines = []
 
