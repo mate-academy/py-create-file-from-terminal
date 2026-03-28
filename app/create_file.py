@@ -25,6 +25,9 @@ def create_file() -> None:
         else:
             i += 1
 
+    if not file_name:
+        return
+
     if dirs:
         dir_path = os.path.join(*dirs)
         os.makedirs(dir_path, exist_ok=True)
@@ -34,6 +37,7 @@ def create_file() -> None:
         file_path = file_name
 
     lines = []
+
     while True:
         line = input("Enter content line: ")
         if line == "stop":
