@@ -1,0 +1,5 @@
+
+2025-07-17 15:22:58
+1 python app/create_file.py -d dir1 dir2 -f file.txt
+2 hello
+3 poka
