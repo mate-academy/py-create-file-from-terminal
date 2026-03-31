@@ -2,57 +2,82 @@ import sys
 import os
 from datetime import datetime
 
-args = sys.argv[1:]
 
-if not args:
-    print("Usage: python create_file.py -d dir1 dir2 -f filename.txt")
-    sys.exit()
+def parse_args(args):
+    dirs = []
+    filename = None
 
-dirs = []
-filename = None
+    if "-d" in args:
+        d_index = args.index("-d")
+        if "-f" in args:
+            f_index = args.index("-f")
+            dirs = args[d_index + 1:f_index]
+        else:
+            dirs = args[d_index + 1:]
 
-if "-d" in args:
-    d_index = args.index("-d")
     if "-f" in args:
         f_index = args.index("-f")
-        dirs = args[d_index + 1:f_index]
-    else:
-        dirs = args[d_index + 1:]
+        if f_index + 1 < len(args):
+            filename = args[f_index + 1]
+        else:
+            print("Error: filename not provided")
+            sys.exit()
 
-if "-f" in args:
-    f_index = args.index("-f")
-    if f_index + 1 < len(args):
-        filename = args[f_index + 1]
-    else:
-        print("Error: filename not provided")
-        sys.exit()
+    return dirs, filename
 
-path = ""
-if dirs:
+
+def create_dirs(dirs):
+    if not dirs:
+        return ""
+
     path = os.path.join(*dirs)
     os.makedirs(path, exist_ok=True)
+    return path
 
-if not filename:
-    print(f"Directories created: {path}")
-    sys.exit()
 
-lines = []
-while True:
-    line = input("Enter content line (type 'stop' to finish): ")
-    if line.lower() == "stop":
-        break
-    lines.append(line)
+def get_user_input():
+    lines = []
+    while True:
+        line = input("Enter content line: ")
+        if line.lower() == "stop":
+            break
+        lines.append(line)
+    return lines
 
-content = datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
 
-for i, line in enumerate(lines, 1):
-    content += f"{i}. {line}\n"
+def write_file(path, filename, lines):
+    file_path = os.path.join(path, filename) if path else filename
 
-content += "\n"
+    content = datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
 
-file_path = os.path.join(path, filename) if path else filename
+    for i, line in enumerate(lines, 1):
+        content += f"{i} {line}\n"  # ❗ без точки
 
-with open(file_path, "a", encoding="utf-8") as f:
-    f.write(content)
+    content += "\n"
 
-print(f"File created/updated: {file_path}")
+    with open(file_path, "a", encoding="utf-8") as f:
+        f.write(content)
+
+    print(f"File created/updated: {file_path}")
+
+
+def main():
+    args = sys.argv[1:]
+
+    if not args:
+        print("Usage: python create_file.py -d dir1 dir2 -f filename.txt")
+        return
+
+    dirs, filename = parse_args(args)
+    path = create_dirs(dirs)
+
+    if not filename:
+        print(f"Directories created: {path}")
+        return
+
+    lines = get_user_input()
+    write_file(path, filename, lines)
+
+
+if __name__ == "__main__":
+    main()
