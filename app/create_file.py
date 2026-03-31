@@ -38,9 +38,8 @@ def create_file_from_terminal() -> None:
                 string_input = input("Enter content line: ")
                 if string_input.lower() == "stop":
                     break
-                else:
-                    f.write(f"{number_of_line} {string_input}\n")
-                    number_of_line += 1
+                f.write(f"{number_of_line} {string_input}\n")
+                number_of_line += 1
 
 
 if __name__ == "__main__":
