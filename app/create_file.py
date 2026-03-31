@@ -7,21 +7,23 @@ def parse_args(args):
     dirs = []
     filename = None
 
-    if "-d" in args:
-        d_index = args.index("-d")
-        if "-f" in args:
-            f_index = args.index("-f")
-            dirs = args[d_index + 1:f_index]
-        else:
-            dirs = args[d_index + 1:]
+    i = 0
+    while i < len(args):
+        if args[i] == "-d":
+            i += 1
+            while i < len(args) and args[i] not in ["-d", "-f"]:
+                dirs.append(args[i])
+                i += 1
 
-    if "-f" in args:
-        f_index = args.index("-f")
-        if f_index + 1 < len(args):
-            filename = args[f_index + 1]
+        elif args[i] == "-f":
+            if i + 1 < len(args):
+                filename = args[i + 1]
+                i += 2
+            else:
+                print("Error: filename not provided")
+                sys.exit()
         else:
-            print("Error: filename not provided")
-            sys.exit()
+            i += 1
 
     return dirs, filename
 
@@ -51,7 +53,7 @@ def write_file(path, filename, lines):
     content = datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
 
     for i, line in enumerate(lines, 1):
-        content += f"{i} {line}\n"  # ❗ без точки
+        content += f"{i} {line}\n"
 
     content += "\n"
 
