@@ -1,14 +1,14 @@
 import sys
 import os
 import datetime
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 
-def get_args() -> Tuple[List[str], str | None]:
+def get_args() -> Tuple[List[str], Optional[str]]:
     args: List[str] = sys.argv[1:]
 
     dirs: List[str] = []
-    file_name: str | None = None
+    file_name: Optional[str] = None
 
     i = 0
     while i < len(args):
@@ -40,7 +40,7 @@ def get_content() -> List[str]:
     lines: List[str] = []
     while True:
         line: str = input("Enter content line: ")
-        if line == "stop":
+        if line.lower() == "stop":
             break
         lines.append(line)
     return lines
@@ -48,8 +48,8 @@ def get_content() -> List[str]:
 
 def format_content(lines: List[str]) -> str:
     timestamp: str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
     result: List[str] = [timestamp]
+
     for i, line in enumerate(lines, start=1):
         result.append(f"{i} {line}")
 
@@ -57,26 +57,24 @@ def format_content(lines: List[str]) -> str:
 
 
 def write_file(path: str, file_name: str, content: str) -> None:
-    full_path = os.path.join(path, file_name) if path else file_name
+    full_path: str = os.path.join(path, file_name) if path else file_name
     file_exists: bool = os.path.exists(full_path)
 
-    with open(full_path, "a", encoding="utf-8") as f:
+    with open(full_path, "a", encoding="utf-8") as output_file:
         if file_exists:
-            f.write("\n")
-        f.write(content)
+            output_file.write("\n")  # відступ між блоками
+        output_file.write(content)
 
 
 def main() -> None:
     dirs, file_name = get_args()
 
-    path = create_dirs(dirs)
+    path: str = create_dirs(dirs)
 
     if file_name:
-        lines = get_content()
-        content = format_content(lines)
+        lines: List[str] = get_content()
+        content: str = format_content(lines)
         write_file(path, file_name, content)
-    else:
-        print("No file specified (-f)")
 
 
 if __name__ == "__main__":
