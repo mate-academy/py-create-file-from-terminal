@@ -1,13 +1,14 @@
 import sys
 import os
 import datetime
+from typing import List, Tuple
 
 
-def get_args():
-    args = sys.argv[1:]
+def get_args() -> Tuple[List[str], str | None]:
+    args: List[str] = sys.argv[1:]
 
-    dirs = []
-    file_name = None
+    dirs: List[str] = []
+    file_name: str | None = None
 
     i = 0
     while i < len(args):
@@ -17,7 +18,7 @@ def get_args():
                 dirs.append(args[i])
                 i += 1
         elif args[i] == "-f":
-            i +=1
+            i += 1
             if i < len(args):
                 file_name = args[i]
                 i += 1
@@ -27,7 +28,7 @@ def get_args():
     return dirs, file_name
 
 
-def create_dirs(dirs):
+def create_dirs(dirs: List[str]) -> str:
     if dirs:
         path = os.path.join(*dirs)
         os.makedirs(path, exist_ok=True)
@@ -35,38 +36,37 @@ def create_dirs(dirs):
     return ""
 
 
-def get_content():
-    lines = []
+def get_content() -> List[str]:
+    lines: List[str] = []
     while True:
-        line = input("Enter content line: ")
+        line: str = input("Enter content line: ")
         if line == "stop":
             break
         lines.append(line)
     return lines
 
 
-def format_content(lines):
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+def format_content(lines: List[str]) -> str:
+    timestamp: str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    result = [timestamp]
+    result: List[str] = [timestamp]
     for i, line in enumerate(lines, start=1):
         result.append(f"{i} {line}")
 
     return "\n".join(result) + "\n"
 
 
-def write_file(path, file_name, content):
+def write_file(path: str, file_name: str, content: str) -> None:
     full_path = os.path.join(path, file_name) if path else file_name
-
-    file_exists = os.path.exists(full_path)
+    file_exists: bool = os.path.exists(full_path)
 
     with open(full_path, "a", encoding="utf-8") as f:
         if file_exists:
-            f.write("\n")  # відступ між блоками
+            f.write("\n")
         f.write(content)
 
 
-def main():
+def main() -> None:
     dirs, file_name = get_args()
 
     path = create_dirs(dirs)
@@ -77,6 +77,7 @@ def main():
         write_file(path, file_name, content)
     else:
         print("No file specified (-f)")
+
 
 if __name__ == "__main__":
     main()
