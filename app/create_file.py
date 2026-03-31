@@ -15,18 +15,19 @@ def main() -> None:
     dir_parts = []
     file_name = ""
 
-    if has_d:
-        d_index = args.index("-d")
-
     if has_f:
         f_index = args.index("-f")
         file_name = args[f_index + 1]
 
-    if has_d and has_f:
-        dir_parts = args[d_index + 1: f_index]
+    dir_parts = []
 
-    elif has_d:
-        dir_parts = args[d_index + 1:]
+    if has_d:
+        d_index = args.index("-d")
+
+        for arg in args[d_index + 1:]:
+            if arg == "-f":
+                break
+            dir_parts.append(arg)
 
     if dir_parts:
         path = os.path.join(*dir_parts)
@@ -41,8 +42,7 @@ def main() -> None:
             if line == "stop":
                 break
 
-            else:
-                lines.append(line)
+            lines.append(line)
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         numbered = []
