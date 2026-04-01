@@ -12,12 +12,12 @@ def main() -> None:
     if "-f" in args:
         has_f = True
 
-    dir_parts = []
     file_name = ""
 
     if has_f:
         f_index = args.index("-f")
-        file_name = args[f_index + 1]
+        if f_index + 1 < len(args) and args[f_index + 1] not in ["-d", "-f"]:
+            file_name = args[f_index + 1]
 
     dir_parts = []
 
@@ -25,7 +25,7 @@ def main() -> None:
         d_index = args.index("-d")
 
         for arg in args[d_index + 1:]:
-            if arg == "-f":
+            if arg in ["-f", "-d"]:
                 break
             dir_parts.append(arg)
 
@@ -33,7 +33,7 @@ def main() -> None:
         path = os.path.join(*dir_parts)
         os.makedirs(path, exist_ok=True)
 
-    if has_f:
+    if has_f and file_name:
         lines = []
 
         while True:
