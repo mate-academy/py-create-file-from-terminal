@@ -2,6 +2,8 @@ import sys
 import os
 import datetime
 
+dir_path = ""
+file_name = None
 
 if "-f" in sys.argv:
     file_index = sys.argv.index("-f") + 1
@@ -12,14 +14,14 @@ if "-d" in sys.argv:
         end_index = sys.argv.index("-f")
     else:
         end_index = len(sys.argv)
-folders = sys.argv[dir_index:end_index]
-dir_path = os.path.join(*folders)
-os.makedirs(dir_path, exist_ok=True)
+    folders = sys.argv[dir_index:end_index]
+    dir_path = os.path.join(*folders)
 
 if dir_path:
+    os.makedirs(dir_path, exist_ok=True)
+
+if file_name:
     full_path = os.path.join(dir_path, file_name)
-else:
-    full_path = file_name
 
 with open(full_path, "a") as f:
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
