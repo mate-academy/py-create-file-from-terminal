@@ -23,14 +23,14 @@ if dir_path:
 if file_name:
     full_path = os.path.join(dir_path, file_name)
 
-with open(full_path, "a") as f:
+with open(full_path, "a") as file:
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    f.write(now + "\n")
+    file.write(now + "\n")
     line_number = 1
 
     while True:
         content = input("Enter content line: ")
         if content == "stop":
             break
-        f.write(f"{line_number} {content}\n")
+        file.write(f"{line_number} {content}\n")
         line_number += 1
