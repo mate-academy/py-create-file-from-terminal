@@ -12,6 +12,7 @@ directory_path = ""
 file_name = None
 dirs = []
 
+
 i = 0
 while i < len(args):
     if args[i] == "-d":
@@ -23,44 +24,40 @@ while i < len(args):
         i += 1
         if i < len(args):
             file_name = args[i]
+            i += 1
         else:
-            print("File name not provided.")
+            print("File name not provided after -f.")
             sys.exit(1)
     else:
         i += 1
+
 
 if dirs:
     directory_path = os.path.join(*dirs)
     os.makedirs(directory_path, exist_ok=True)
 
-if not file_name:
-    print("File name not provided.")
-    sys.exit(1)
 
-lines = []
-while True:
-    line = input("Enter content line: ").strip()
-    if line.lower() == "stop":
-        break
-    if line:
-        lines.append(line)
+if file_name:
+    lines = []
+    while True:
+        line = input("Enter content line: ").strip()
+        if line.lower() == "stop":
+            break
+        if line:
+            lines.append(line)
 
-if not lines:
-    sys.exit(0)
+    if lines:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        numbered_lines = [f"{i} {line}" for i, line in enumerate(lines, start=1)]
+        block = timestamp + "\n" + "\n".join(numbered_lines) + "\n"
 
-timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        full_path = os.path.join(directory_path, file_name) if directory_path else file_name
+        file_exists = os.path.exists(full_path)
+        mode = "a" if file_exists else "w"
 
-numbered_lines = [f"{i} {line}" for i, line in enumerate(lines, start=1)]
-block = timestamp + "\n" + "\n".join(numbered_lines) + "\n"
+        with open(full_path, mode, encoding="utf-8") as output_file:
+            if file_exists:
+                output_file.write("\n")
+            output_file.write(block)
 
-full_path = os.path.join(directory_path,
-                         file_name) if directory_path else file_name
-file_exists = os.path.exists(full_path)
-mode = "a" if file_exists else "w"
-
-with open(full_path, mode, encoding="utf-8") as output_file:
-    if file_exists:
-        output_file.write("\n")
-    output_file.write(block)
-
-print(f"Content written to {full_path}")
+        print(f"Content written to {full_path}")
