@@ -1,63 +1,65 @@
-import sys
 import os
+import sys
 from datetime import datetime
 
 args = sys.argv[1:]
-
-if not args:
-    print("No arguments provided.")
-    sys.exit(1)
-
-directory_path = ""
 file_name = None
 dirs = []
-
 
 i = 0
 while i < len(args):
     if args[i] == "-d":
         i += 1
-        while i < len(args) and not args[i].startswith("-"):
-            dirs.append(args[i])
-            i += 1
-    elif args[i] == "-f":
-        i += 1
         if i < len(args):
             file_name = args[i]
             i += 1
         else:
-            print("File name not provided after -f.")
+            print("Error: File name not provided after -d.")
             sys.exit(1)
     else:
         i += 1
 
+if not file_name:
+    print("Error: File name not provided. Use -d <filename>")
+    sys.exit(1)
 
-if dirs:
-    directory_path = os.path.join(*dirs)
+directory_path = os.path.join(*dirs) if dirs else ""
+if directory_path:
     os.makedirs(directory_path, exist_ok=True)
 
+print(f"Target file: {file_name}")
+print("Enter content lines (type 'stop' to finish):")
+lines = []
 
-if file_name:
-    lines = []
-    while True:
-        line = input("Enter content line: ").strip()
+while True:
+    try:
+        line = input("> ").strip()
         if line.lower() == "stop":
             break
         if line:
             lines.append(line)
+    except EOFError:
+        break
 
-    if lines:
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        numbered_lines = [f"{i} {line}" for i, line in enumerate(lines, start=1)]
-        block = timestamp + "\n" + "\n".join(numbered_lines) + "\n"
+if not lines:
+    print("No content entered. Exiting.")
+    sys.exit(0)
 
-        full_path = os.path.join(directory_path, file_name) if directory_path else file_name
-        file_exists = os.path.exists(full_path)
-        mode = "a" if file_exists else "w"
+timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+numbered_lines = [f"{idx} {text}" for idx, text in enumerate(lines, start=1)]
+block = timestamp + "\n" + "\n".join(numbered_lines) + "\n"
 
-        with open(full_path, mode, encoding="utf-8") as output_file:
-            if file_exists:
-                output_file.write("\n")
-            output_file.write(block)
+full_path = os.path.join(directory_path, file_name)\
+    if directory_path else file_name
+file_exists = os.path.exists(full_path)
 
-        print(f"Content written to {full_path}")
+mode = "a" if file_exists else "w"
+
+try:
+    with open(full_path, mode, encoding="utf-8") as output_file:
+        if file_exists:
+            output_file.write("\n")
+        output_file.write(block)
+    print(f"Successfully written to {full_path}")
+except Exception as e:
+    print(f"An error occurred while writing the file: {e}")
