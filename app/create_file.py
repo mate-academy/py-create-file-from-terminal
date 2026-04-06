@@ -84,7 +84,7 @@ def write_to_file(file_path: str, content_block: str) -> None:
             file.write(content_block)
 
 
-def main():
+def main() -> None:
     arguments = sys.argv[1:]
     directories, file_name = parse_arguments(arguments)
 
