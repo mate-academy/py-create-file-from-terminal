@@ -16,8 +16,6 @@ def create_file(file_name: str) -> None:
             text = input("Enter content line: ")
             if text == "stop":
                 content_file.write("\n")
-                # can change to condition before the loop,
-                # but this variant is shorter
                 break
             content_file.write(str(line_number) + " " + text + "\n")
             line_number += 1
@@ -38,9 +36,11 @@ def create_content() -> None:
     elif command[0] == "-f":
         try:
             d_index = command.index("-d")
+            create_dir(command[d_index + 1:])
+            os.chdir(os.path.join(*command[d_index + 1:]))
             for file_name in command[1: d_index]:
                 create_file(file_name)
-            create_dir(command[d_index + 1:])
+
         except ValueError:
             for file_name in command[1:]:
                 create_file(file_name)
