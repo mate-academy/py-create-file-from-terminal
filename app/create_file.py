@@ -48,7 +48,6 @@ def write_content(filepath: str) -> None:
         file.write(f"{timestamp}\n")
         for i, line in enumerate(lines, 1):
             file.write(f"{i} {line}\n")
-        file.write("\n")
 
 
 def main() -> None:
