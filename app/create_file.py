@@ -1,9 +1,10 @@
 import sys
 import os
 from datetime import datetime
+from typing import List, Optional, Tuple
 
 
-def parse_args():
+def parse_args() -> Tuple[List[str], Optional[str]]:
     folders = []
     filename = None
     for i, arg in enumerate(sys.argv):
@@ -17,7 +18,7 @@ def parse_args():
     return folders, filename
 
 
-def create_dirs(folders):
+def create_dirs(folders: List[str]) -> Optional[str]:
     if folders:
         path = os.path.join(*folders)
         os.makedirs(path, exist_ok=True)
@@ -25,8 +26,8 @@ def create_dirs(folders):
     return None
 
 
-def write_content(filepath):
-    lines = []
+def write_content(filepath: str) -> None:
+    lines: List[str] = []
     while True:
         content = input("Enter content line: ")
         if content == "stop":
@@ -50,7 +51,7 @@ def write_content(filepath):
         file.write("\n")
 
 
-def main():
+def main() -> None:
     folders, filename = parse_args()
     path = create_dirs(folders)
 
