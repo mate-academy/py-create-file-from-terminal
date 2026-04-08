@@ -3,57 +3,47 @@ from datetime import datetime
 import os
 
 
-def create_file_from_console(command: str) -> None:
-    if "-d" in command and "-f" not in command:
-        dirs = command[command.find("-d") + 3:].replace(" ", "/")
-        os.makedirs(dirs, exist_ok=True)
+def create_file_from_console() -> None:
+    arguments = sys.argv
+    folder_parts = []
+    file_name = ""
+    target_path = os.getcwd()
 
-    elif "-f" in command and "-d" not in command:
-        file_name = command[command.find("-f") + 3:].split()[0]
-
-        content = file_exists(file_name)
-        file_content_write(file_name, content)
-
-    elif "-d" in command and "-f" in command:
-        d_index = command.find("-d")
-        f_index = command.find("-f")
-
-        dirs = command[d_index + 3: f_index].replace(" ", "/")
-        file_name = command[f_index + 3:].split()[0]
-
-        os.makedirs(dirs, exist_ok=True)
-
-        content = file_exists(file_name)
-
-        path = f"{dirs}{file_name}"
-        file_content_write(path, content)
-
-
-def file_exists(file_name: str) -> str:
-    content = ""
-    if os.path.exists(file_name):
-        with open(file_name, "r") as f:
-            content = f.read()
-    return content
-
-
-def file_content_write(path: str, content: str) -> None:
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-    with open(path, "w") as f:
-        if content:
-            f.write(content)
-
-        f.write(timestamp)
-        count = 1
-        while True:
-            conn_line = input("Enter content line: ")
-            if conn_line == "stop":
+    if "-d" in arguments:
+        for item in arguments[arguments.index("-d") + 1:]:
+            if item.startswith("-"):
                 break
-            f.write(f"{count} {conn_line}")
-            count += 1
+            folder_parts.append(item)
+
+    if "-f" in arguments:
+        file_name = arguments[arguments.index("-f") + 1]
+
+    if folder_parts:
+        target_path = os.path.join(target_path, *folder_parts)
+        os.makedirs(target_path, exist_ok=True)
+
+    if file_name:
+        file_path = os.path.join(target_path, file_name)
+
+        content_lines = []
+        while True:
+            line = input("Enter content line: ")
+            if line == "stop":
+                break
+            content_lines.append(line)
+
+        needs_separator = (os.path.exists(file_path)
+                           and os.path.getsize(file_path) > 0)
+
+        with open(file_path, "a") as f:
+            if needs_separator:
+                f.write("\n")
+
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            f.write(f"{timestamp}\n")
+            for index, line in enumerate(content_lines, start=1):
+                f.write(f"{index} {line}\n")
 
 
 if __name__ == "__main__":
-    command_args = " ".join(sys.argv[1:])
-    create_file_from_console(command_args)
+    create_file_from_console()
