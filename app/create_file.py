@@ -3,52 +3,83 @@ import os
 from datetime import datetime
 
 
-has_d = "-d" in sys.argv
-has_f = "-f" in sys.argv
+def parse_arguments() -> tuple[list[str], str | None]:
+    has_d = "-d" in sys.argv
+    has_f = "-f" in sys.argv
 
-dirs = []
-file_name = None
+    dirs = []
+    file_name = None
 
-if has_d:
-    d_index = sys.argv.index("-d")
+    if has_d:
+        d_index = sys.argv.index("-d")
+
+        if has_f:
+            f_index = sys.argv.index("-f")
+            dirs = sys.argv[d_index + 1:f_index]
+        else:
+            dirs = sys.argv[d_index + 1:]
 
     if has_f:
         f_index = sys.argv.index("-f")
-        dirs = sys.argv[d_index + 1:f_index]
-    else:
-        dirs = sys.argv[d_index + 1:]
+        file_name = sys.argv[f_index + 1]
 
-if has_f:
-    f_index = sys.argv.index("-f")
-    file_name = sys.argv[f_index + 1]
+    return dirs, file_name
 
-if dirs:
+
+def create_directories(dirs: list[str]) -> str | None:
+    if not dirs:
+        return None
+
     path = os.path.join(*dirs)
     os.makedirs(path, exist_ok=True)
-    full_path = os.path.join(path, file_name)
+    return path
 
-if not file_name:
-    sys.exit(0)
 
-lines = []
-while True:
-    line = input("Enter content line: ")
-    if line == "stop":
-        break
-    lines.append(line)
+def get_content_from_user() -> list[str]:
+    lines = []
 
-numbered_lines = []
-for i, line in enumerate(lines, start=1):
-    numbered_lines.append(f"{i} {line}")
-timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-content = []
-content.append(timestamp)
-content.extend(numbered_lines)
+    while True:
+        line = input("Enter content line: ")
+        if line == "stop":
+            break
+        lines.append(line)
 
-file_exists = os.path.exists(full_path)
-file_not_empty = file_exists and os.path.getsize(full_path) > 0
+    numbered_lines = [
+        f"{i} {line}" for i, line in enumerate(lines, start=1)
+    ]
 
-with open(full_path, "a") as f:
-    if file_not_empty:
-        f.write("\n")
-    f.write("\n".join(content) + "\n")
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    return [timestamp] + numbered_lines
+
+
+def write_file_with_content(full_path: str, content: list[str]) -> None:
+    file_exists = os.path.exists(full_path)
+    file_not_empty = file_exists and os.path.getsize(full_path) > 0
+
+    with open(full_path, "a") as f:
+        if file_not_empty:
+            f.write("\n")
+        f.write("\n".join(content) + "\n")
+
+
+def main() -> None:
+    dirs, file_name = parse_arguments()
+
+    path = create_directories(dirs)
+
+    if not file_name:
+        return
+
+    if path:
+        full_path = os.path.join(path, file_name)
+    else:
+        full_path = file_name
+
+    content = get_content_from_user()
+
+    write_file_with_content(full_path, content)
+
+
+if __name__ == "__main__":
+    main()
