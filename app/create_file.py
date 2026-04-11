@@ -11,21 +11,26 @@ while i < len(args):
     if args[i] == "-d":
         i += 1
         if i < len(args):
-            file_name = args[i]
+            dirs.append(args[i])
             i += 1
         else:
-            print("Error: File name not provided after -d.")
+            print("Error: Directory name not provided after -d.")
             sys.exit(1)
     else:
+        file_name = args[i]
         i += 1
-
-if not file_name:
-    print("Error: File name not provided. Use -d <filename>")
-    sys.exit(1)
 
 directory_path = os.path.join(*dirs) if dirs else ""
 if directory_path:
     os.makedirs(directory_path, exist_ok=True)
+    if not file_name:
+        print(f"Directory '{directory_path}' created successfully.")
+        sys.exit(0)
+
+if not file_name:
+    print("Error: File name not provided."
+          " Usage: python script.py [-d directory] <filename>")
+    sys.exit(1)
 
 print(f"Target file: {file_name}")
 print("Enter content lines (type 'stop' to finish):")
@@ -52,7 +57,6 @@ block = timestamp + "\n" + "\n".join(numbered_lines) + "\n"
 full_path = os.path.join(directory_path, file_name)\
     if directory_path else file_name
 file_exists = os.path.exists(full_path)
-
 mode = "a" if file_exists else "w"
 
 try:
@@ -63,3 +67,4 @@ try:
     print(f"Successfully written to {full_path}")
 except Exception as e:
     print(f"An error occurred while writing the file: {e}")
+    sys.exit(1)
