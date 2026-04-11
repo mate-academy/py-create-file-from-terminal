@@ -6,7 +6,7 @@ from datetime import datetime
 # Функція створюе директорію за вказанним path
 def create_dir(path: str) -> None:
     if isinstance(path, str):
-        os.makedirs(path)
+        os.makedirs(path, exist_ok=True)
 
 
 def create_file(
@@ -15,10 +15,12 @@ def create_file(
     directory: str = ""
 ) -> None:
     curent_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    str_to_file = curent_date + "\n" + file_content
+    lines = file_content.splitlines()
+    numbered_lines = [f"{i} {line}" for i, line in enumerate(lines, start=1)]
+    str_to_file = curent_date + "\n" + "\n".join(numbered_lines)
     if directory:
-        directory = directory + "/"
-    with open(f"{directory}{file_name}", "w") as file:
+        directory = os.path.join(directory, file_name)
+    with open(f"{directory}", "a") as file:
         file.write(str_to_file)
 
 
@@ -38,8 +40,10 @@ if "-d" in sys.argv:
         dirs_list = after_d
 
     # 3. В str
-    dir_path = "/".join(dirs_list)
+    dir_path = os.path.join(*dirs_list)
     create_dir(dir_path)
+else:
+    dir_path = ""
 
 # Перевіряємо чи вказаний аргумент -f
 if "-f" in sys.argv:
