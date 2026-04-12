@@ -1,8 +1,8 @@
 import os
+import runpy
 import shutil
 from datetime import datetime
 from unittest.mock import patch
-import runpy
 
 
 def cleanup() -> None:
