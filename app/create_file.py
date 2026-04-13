@@ -4,7 +4,7 @@ import datetime
 
 
 def create_directories(term_entry: list) -> str:
-    new_dirs = os.path.join("", *term_entry)
+    new_dirs = os.path.join(*term_entry)
     os.makedirs(new_dirs, exist_ok=True)
     return new_dirs
 
@@ -31,11 +31,15 @@ def create_file_from_terminal() -> None:
     ) if "-f" in terminal_entry else None
     file_name = terminal_entry[-1]
 
-    if dir_entry_index is not None and file_entry_index is not None:
+    if dir_entry_index is not None:
         path_entry = terminal_entry[dir_entry_index + 1:file_entry_index]
-        file_name = f"{create_directories(path_entry)}/{file_name}"
+        path_to_file = create_directories(path_entry)
+        if file_entry_index is not None:
+            file_name = f"{os.path.join(path_to_file, file_name)}"
+            create_write_file(file_name)
 
-    create_write_file(file_name)
+    if file_entry_index is not None and dir_entry_index is None:
+        create_write_file(file_name)
 
 
 if __name__ == "__main__":
