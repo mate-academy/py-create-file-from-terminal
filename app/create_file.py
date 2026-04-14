@@ -1,1 +1,56 @@
-# write your code here
+import sys
+import os
+from datetime import datetime
+
+
+def main() -> None:
+
+    args = sys.argv[1:]
+
+    dir_parts = []
+    file_name = None
+
+    current_flag = None
+    for arg in args:
+        if arg == "-d":
+            current_flag = "-d"
+        elif arg == "-f":
+            current_flag = "-f"
+        else:
+            if current_flag == "-d":
+                dir_parts.append(arg)
+            elif current_flag == "-f":
+                file_name = arg
+                current_flag = None
+
+    dir_path = ""
+    if dir_parts:
+
+        dir_path = os.path.join(*dir_parts)
+        os.makedirs(dir_path, exist_ok=True)
+
+    if file_name:
+
+        if dir_path:
+            file_path = os.path.join(dir_path, file_name)
+        else:
+            file_path = file_name
+
+        lines = []
+        while True:
+            line = input("Enter content line: ")
+            if line.strip() == "stop":
+                break
+            lines.append(line)
+
+        with open(file_path, "a") as file:
+
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            file.write(f"{timestamp}\n")
+
+            for index, text in enumerate(lines, 1):
+                file.write(f"{index} {text}\n")
+
+
+if __name__ == "__main__":
+    main()
