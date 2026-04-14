@@ -43,13 +43,19 @@ def main() -> None:
                 break
             lines.append(line)
 
-        with open(file_path, "a") as file:
+        file_exists = os.path.exists(file_path)
+        needs_newline = file_exists and os.path.getsize(file_path) > 0
+
+        with open(file_path, "a") as target_file:
+
+            if needs_newline:
+                target_file.write("\n")
 
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            file.write(f"{timestamp}\n")
+            target_file.write(f"{timestamp}\n")
 
             for index, text in enumerate(lines, 1):
-                file.write(f"{index} {text}\n")
+                target_file.write(f"{index} {text}\n")
 
 
 if __name__ == "__main__":
