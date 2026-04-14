@@ -43,13 +43,23 @@ def main() -> None:
                 break
             lines.append(line)
 
-        file_exists = os.path.exists(file_path)
-        needs_newline = file_exists and os.path.getsize(file_path) > 0
+        prefix = ""
+        if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
+
+            with open(file_path, "rb") as f:
+
+                f.seek(-1, os.SEEK_END)
+                last_char = f.read(1)
+
+                if last_char == b"\n":
+                    prefix = "\n"
+                else:
+                    prefix = "\n\n"
 
         with open(file_path, "a") as target_file:
 
-            if needs_newline:
-                target_file.write("\n")
+            if prefix:
+                target_file.write(prefix)
 
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             target_file.write(f"{timestamp}\n")
