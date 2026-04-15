@@ -51,5 +51,6 @@ def create_file() -> None:
     with open(path, mode) as file:
         file.write(content)
 
+
 if __name__ == "__main__":
     create_file()
