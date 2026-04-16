@@ -19,6 +19,8 @@ def create_file(
     numbered_lines = [f"{i} {line}" for i, line in enumerate(lines, start=1)]
     str_to_file = curent_date + "\n" + "\n".join(numbered_lines)
     file_path = os.path.join(directory, file_name) if directory else file_name
+    if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
+        str_to_file = "\n\n" +  str_to_file 
     with open(f"{file_path}", "a") as file:
         file.write(str_to_file)
 
@@ -40,7 +42,7 @@ if "-d" in sys.argv:
 
     # 3. В str
     dir_path = os.path.join(*dirs_list)
-    create_dir(dir_path)
+    create_dir(dir_path, exist_ok=True)
 else:
     dir_path = ""
 
