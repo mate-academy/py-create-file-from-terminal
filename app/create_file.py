@@ -20,7 +20,7 @@ def create_file(
     str_to_file = curent_date + "\n" + "\n".join(numbered_lines)
     file_path = os.path.join(directory, file_name) if directory else file_name
     if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
-        str_to_file = "\n\n" +  str_to_file 
+        str_to_file = "\n\n" + str_to_file
     with open(f"{file_path}", "a") as file:
         file.write(str_to_file)
 
