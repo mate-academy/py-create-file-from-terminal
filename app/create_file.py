@@ -41,14 +41,18 @@ if "-d" in sys.argv:
         dirs_list = after_d
 
     # 3. В str
-    dir_path = os.path.join(*dirs_list)
-    create_dir(dir_path, exist_ok=True)
+    if dirs_list:
+        dir_path = os.path.join(*dirs_list)
+        create_dir(dir_path)
 else:
     dir_path = ""
 
 # Перевіряємо чи вказаний аргумент -f
 if "-f" in sys.argv:
-    file_name = sys.argv[sys.argv.index("-f") + 1]
+    if sys.argv.index("-f") + 1 < len(sys.argv):
+        file_name = sys.argv[sys.argv.index("-f") + 1]
+    else:
+        raise ValueError("filename cannot be empty")
     if file_name:
         text_lines = ""
         while True:
