@@ -18,9 +18,8 @@ def create_file(
     lines = file_content.splitlines()
     numbered_lines = [f"{i} {line}" for i, line in enumerate(lines, start=1)]
     str_to_file = curent_date + "\n" + "\n".join(numbered_lines)
-    if directory:
-        directory = os.path.join(directory, file_name)
-    with open(f"{directory}", "a") as file:
+    file_path = os.path.join(directory, file_name) if directory else file_name
+    with open(f"{file_path}", "a") as file:
         file.write(str_to_file)
 
 
