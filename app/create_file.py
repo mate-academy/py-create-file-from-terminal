@@ -2,12 +2,12 @@ import os
 import sys
 import argparse
 from datetime import datetime
-from typing import List, Optional, Union
+from typing import List, Optional, Union, Tuple
 from pathlib import Path
 
 
-def parse_args(argv: List[str]) -> argparse.Namespace:
-    """Parse argv, return (dirs: list, file_name: str or None)."""
+def parse_args(argv: List[str]) -> Tuple[List[str], Optional[str]]:
+    """Parse argv and return a tuple (dirs: list[str], file_name: Optional[str])."""
     dirs = []
     file_name = None
     arg_index = 1
@@ -36,8 +36,8 @@ def parse_args(argv: List[str]) -> argparse.Namespace:
     return dirs, file_name
 
 
-def make_dirs(dirs: Union[str, Path]) -> None:
-    """Create dirs if provided and return dir_path or empty string."""
+def make_dirs(dirs: List[str]) -> str:
+    """Create dirs if provided and return dir_path (or empty string)."""
     if dirs:
         dir_path = os.path.join(*dirs)
         os.makedirs(dir_path, exist_ok=True)
@@ -45,10 +45,10 @@ def make_dirs(dirs: Union[str, Path]) -> None:
     return ""
 
 
-def collect_content() -> None:
-    """Collect lines from input until 'stop' (case-insensitive)."""
+def collect_content() -> List[str]:
+    """Collect lines from input until 'stop' (case-insensitive) and return them as a list."""
     lines = []
-    print("Enter content lines (type 'stop' to finish):")
+    print("Enter content lines (type "stop" to finish):")
     while True:
         line = input("Enter content line: ")
         if line.lower() == "stop":
@@ -93,6 +93,13 @@ def main(argv: Optional[List[str]] = None) -> None:
         argv = sys.argv
     dirs, file_name = parse_args(argv)
     dir_path = make_dirs(dirs)
+    # Якщо файл не передано — лише створюємо директорії й виходимо успішно
+    if file_name is None:
+        if dirs:
+            print(f"Directory created: {os.path.abspath(dir_path)}")
+        else:
+            print("Nothing to do: provide -d <dirs> or -f <filename>")
+        return
     content = collect_content()
     write_content(dir_path, file_name, content)
 
