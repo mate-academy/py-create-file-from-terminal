@@ -64,16 +64,23 @@ def write_to_file(full_path: str, lines: List[str]) -> None:
 def main() -> None:
     dirs, file_name = parse_args()
 
-    if not file_name:
-        print("Error: -f (file name) is required")
+    if not dirs and not file_name:
+        print("Error: you must provide -d and/or -f")
         sys.exit(1)
 
     path = create_directory(dirs)
 
-    if path:
-        full_path = os.path.join(path, file_name)
-    else:
+    if dirs and not file_name:
+        return
+
+    if file_name and not path:
         full_path = file_name
+
+    elif file_name and path:
+        full_path = os.path.join(path, file_name)
+
+    else:
+        return
 
     lines = get_lines()
     write_to_file(full_path, lines)
