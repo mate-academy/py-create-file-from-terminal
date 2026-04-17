@@ -1,9 +1,10 @@
 import sys
 import os
 import datetime
+from typing import List, Optional
 
 
-def parse_args():
+def parse_args() -> tuple:
     args = sys.argv
 
     dirs = []
@@ -27,7 +28,7 @@ def parse_args():
     return dirs, file_name
 
 
-def create_directory(dirs):
+def create_directory(dirs: List[str]) -> Optional[str]:
     if dirs:
         path = os.path.join(*dirs)
         os.makedirs(path, exist_ok=True)
@@ -35,7 +36,7 @@ def create_directory(dirs):
     return None
 
 
-def get_lines():
+def get_lines() -> List[str]:
     lines = []
 
     while True:
@@ -47,7 +48,7 @@ def get_lines():
     return lines
 
 
-def write_to_file(full_path, lines):
+def write_to_file(full_path: str, lines: List[str]) -> None:
     file_exists = os.path.exists(full_path) and os.path.getsize(full_path) > 0
 
     with open(full_path, "a") as f:
@@ -60,7 +61,7 @@ def write_to_file(full_path, lines):
             f.write(f"{i} {line}\n")
 
 
-def main():
+def main() -> None:
     dirs, file_name = parse_args()
 
     if not file_name:
