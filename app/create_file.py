@@ -1,9 +1,12 @@
 import os
 import sys
+import argparse
 from datetime import datetime
+from typing import List, Optional, Union
+from pathlib import Path
 
 
-def parse_args(argv):
+def parse_args(argv: List[str]) -> argparse.Namespace:
     """Parse argv, return (dirs: list, file_name: str or None)."""
     dirs = []
     file_name = None
@@ -15,7 +18,10 @@ def parse_args(argv):
         arg = argv[arg_index]
         if arg == "-d":
             arg_index += 1
-            while arg_index < len(argv) and not argv[arg_index].startswith("-"):
+            while (
+                    arg_index < len(argv) and not
+                    argv[arg_index].startswith("-")
+            ):
                 dirs.append(argv[arg_index])
                 arg_index += 1
         elif arg == "-f":
@@ -30,7 +36,7 @@ def parse_args(argv):
     return dirs, file_name
 
 
-def make_dirs(dirs):
+def make_dirs(dirs: Union[str, Path]) -> None:
     """Create dirs if provided and return dir_path or empty string."""
     if dirs:
         dir_path = os.path.join(*dirs)
@@ -39,7 +45,7 @@ def make_dirs(dirs):
     return ""
 
 
-def collect_content():
+def collect_content() -> None:
     """Collect lines from input until 'stop' (case-insensitive)."""
     lines = []
     print("Enter content lines (type 'stop' to finish):")
@@ -51,7 +57,11 @@ def collect_content():
     return lines
 
 
-def write_content(dir_path, file_name, content_lines):
+def write_content(
+        dir_path: str,
+        file_name: str,
+        content_lines: List[str]
+) -> None:
     """Write timestamp and numbered lines to file (append if exists)."""
     if not file_name:
         print("Error: filename is required (-f)")
@@ -78,7 +88,7 @@ def write_content(dir_path, file_name, content_lines):
     print(f"\nFile saved to: {os.path.abspath(full_path)}")
 
 
-def main(argv=None):
+def main(argv: Optional[List[str]] = None) -> None:
     if argv is None:
         argv = sys.argv
     dirs, file_name = parse_args(argv)
