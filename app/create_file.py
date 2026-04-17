@@ -1,13 +1,12 @@
 import os
 import sys
-import argparse
 from datetime import datetime
-from typing import List, Optional, Union, Tuple
-from pathlib import Path
+from typing import List, Optional, Tuple
 
 
 def parse_args(argv: List[str]) -> Tuple[List[str], Optional[str]]:
-    """Parse argv and return a tuple (dirs: list[str], file_name: Optional[str])."""
+    """Parse argv and return a tuple (dirs: list[str],
+    file_name: Optional[str])."""
     dirs = []
     file_name = None
     arg_index = 1
@@ -46,9 +45,10 @@ def make_dirs(dirs: List[str]) -> str:
 
 
 def collect_content() -> List[str]:
-    """Collect lines from input until 'stop' (case-insensitive) and return them as a list."""
+    """Collect lines from input until 'stop' (case-insensitive)
+    and return them as a list."""
     lines = []
-    print("Enter content lines (type "stop" to finish):")
+    print("Enter content lines (type 'stop' to finish):")
     while True:
         line = input("Enter content line: ")
         if line.lower() == "stop":
