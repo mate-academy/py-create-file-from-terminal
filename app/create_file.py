@@ -6,25 +6,26 @@ from datetime import datetime
 def create_app() -> None:
     args = sys.argv[1:]
 
-    try:
-        d_idx = args.index("-d") if "-d" in args else None
-        f_idx = args.index("-f") if "-f" in args else None
-    except ValueError:
-        print("Error: Invalid arguments.")
-        return
-
     path_parts = []
-    file_name = ""
+    file_name = None
 
-    if d_idx is not None:
-        end_d = f_idx if f_idx is not None and f_idx > d_idx else len(args)
-        path_parts = args[d_idx + 1:end_d]
+    current_flag = None
+    for arg in args:
+        if arg == "-d":
+            current_flag = "-d"
+            continue
+        elif arg == "-f":
+            current_flag = "-f"
+            continue
 
-    if f_idx is not None:
-        file_name = args[f_idx + 1]
+        if current_flag == "-d":
+            path_parts.append(arg)
+        elif current_flag == "-f":
+            file_name = arg
+
+            current_flag = None
 
     full_path = os.path.join(*path_parts) if path_parts else "."
-
     if path_parts:
         os.makedirs(full_path, exist_ok=True)
 
@@ -44,6 +45,7 @@ def create_app() -> None:
             f.write(f"{timestamp}\n")
             for i, line in enumerate(content_lines, 1):
                 f.write(f"{i} {line}\n")
+            f.write("\n")
 
 
 if __name__ == "__main__":
