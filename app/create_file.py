@@ -9,6 +9,8 @@ def create_app() -> None:
     path_parts = []
     file_name = None
 
+    f_flag_present = "-f" in args
+
     current_flag = None
     for arg in args:
         if arg == "-d":
@@ -22,10 +24,14 @@ def create_app() -> None:
             path_parts.append(arg)
         elif current_flag == "-f":
             file_name = arg
-
             current_flag = None
 
+    if f_flag_present and file_name is None:
+        print("Error: '-f' flag provided but no filename given.")
+        sys.exit(1)
+
     full_path = os.path.join(*path_parts) if path_parts else "."
+
     if path_parts:
         os.makedirs(full_path, exist_ok=True)
 
