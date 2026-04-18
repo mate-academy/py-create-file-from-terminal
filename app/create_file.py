@@ -59,5 +59,6 @@ def create_file_app() -> None:
         for idx, content in enumerate(lines, 1):
             f.write(f"{idx} {content}\n")
 
+
 if __name__ == "__main__":
     create_file_app()
