@@ -48,7 +48,7 @@ def create_file_app() -> None:
     lines = []
     while True:
         line = input("Enter content line: ")
-        if line.lower() == "stop":
+        if line == "stop":
             break
         lines.append(line)
 
