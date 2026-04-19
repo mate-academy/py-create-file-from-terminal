@@ -4,8 +4,14 @@ import datetime
 
 
 def create_file() -> None:
-    parser = argparse.ArgumentParser(description='Create file')
-    parser.add_argument("-d", "--directory", nargs="*", default=".", help="Directory to create")
+    parser = argparse.ArgumentParser(description="Create file")
+    parser.add_argument(
+        "-d",
+        "--directory",
+        nargs="*",
+        default=".",
+        help="Directory to create"
+    )
     parser.add_argument("-f", "--file", required=True, help="File to create")
     args = parser.parse_args()
 
@@ -30,6 +36,7 @@ def create_file() -> None:
     final_text = "\n".join(content) + "\n\n"
     with open(full_path, "a") as f:
         f.write(final_text)
+
 
 if __name__ == "__main__":
     create_file()
