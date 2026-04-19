@@ -9,33 +9,35 @@ def create_file() -> None:
         "-d",
         "--directory",
         nargs="*",
-        default=".",
+        default=[],
         help="Directory to create"
     )
-    parser.add_argument("-f", "--file", required=True, help="File to create")
+    parser.add_argument("-f", "--file", help="File to create")
     args = parser.parse_args()
 
     folder_path = Path(*args.directory)
+
     full_path = folder_path / args.file
 
     full_path.parent.mkdir(parents=True, exist_ok=True)
 
-    formated_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    content = [formated_time]
-    count = 1
-    while True:
+    if args.file:
+        formatted_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        content = [formatted_time]
+        count = 1
+        while True:
 
-        user_input = input("> ")
+            user_input = input("Enter content line: ")
 
-        if user_input.strip().lower() == "stop":
-            break
+            if user_input.strippy().lower() == "stop":
+                break
 
-        content.append(f"{count} {user_input}")
-        count += 1
+            content.append(f"{count} {user_input}")
+            count += 1
 
-    final_text = "\n".join(content) + "\n\n"
-    with open(full_path, "a") as f:
-        f.write(final_text)
+        final_text = "\n".join(content) + "\n\n"
+        with open(full_path, "a") as file:
+            file.write(final_text)
 
 
 if __name__ == "__main__":
