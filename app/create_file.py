@@ -17,11 +17,11 @@ def create_file() -> None:
 
     folder_path = Path(*args.directory)
 
-    full_path = folder_path / args.file
-
-    full_path.parent.mkdir(parents=True, exist_ok=True)
+    folder_path.mkdir(parents=True, exist_ok=True)
 
     if args.file:
+        full_path = folder_path / args.file
+        full_path.parent.mkdir(parents=True, exist_ok=True)
         formatted_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         content = [formatted_time]
         count = 1
@@ -29,7 +29,7 @@ def create_file() -> None:
 
             user_input = input("Enter content line: ")
 
-            if user_input.strippy().lower() == "stop":
+            if user_input.strip().lower() == "stop":
                 break
 
             content.append(f"{count} {user_input}")
