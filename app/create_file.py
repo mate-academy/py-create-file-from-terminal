@@ -47,8 +47,8 @@ def main() -> None:
             content += f"{index} {text}\n"
 
         file_exists = (
-                full_filepath.exists() and
-                full_filepath.stat().st_size > 0
+            full_filepath.exists()
+            and full_filepath.stat().st_size > 0
         )
 
         with open(full_filepath, "a", encoding="utf-8") as file_object:
