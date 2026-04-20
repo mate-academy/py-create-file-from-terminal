@@ -5,6 +5,11 @@ from pathlib import Path
 
 def main() -> None:
     args = sys.argv[1:]
+
+    if not args:
+        print("Usage: python create_file.py [-d DIR1 DIR2 ...] [-f FILENAME]")
+        return
+
     dirs = []
     filename = ""
     current_flag = ""
@@ -19,6 +24,7 @@ def main() -> None:
                 dirs.append(arg)
             elif current_flag == "-f":
                 filename = arg
+                current_flag = ""
 
     full_path = Path(".")
     if dirs:
@@ -35,16 +41,16 @@ def main() -> None:
                 break
             lines.append(user_input)
 
-        if lines:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            content = current_time + "\n"
-            for index, text in enumerate(lines, start=1):
-                content += f"{index} {text}\n"
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        content = current_time + "\n"
+        for index, text in enumerate(lines, start=1):
+            content += f"{index} {text}\n"
 
-            with open(full_filepath, "a", encoding="utf-8") as file_object:
-                file_object.write(content)
-
-            print(f"File created/updated at: {full_filepath}")
+        file_exists = full_filepath.exists() and full_filepath.stat().st_size > 0
+        with open(full_filepath, "a", encoding="utf-8") as file_object:
+            if file_exists:
+                file_object.write("\n")
+            file_object.write(content)
 
 
 if __name__ == "__main__":
