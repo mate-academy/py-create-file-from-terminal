@@ -5,7 +5,7 @@ from datetime import datetime, timezone, timedelta
 TIME_ZONE_OFFSET = timezone(timedelta(hours=3))
 
 
-def get_arguments() -> tuple:
+def get_arguments() -> tuple[list[str], str]:
     arguments = sys.argv
     directory_names = []
     file_name = ""
