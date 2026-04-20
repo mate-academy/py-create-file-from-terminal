@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 def create_path(directories: list) -> str:
-    dirs_path = os.path.join("", *directories) if directories else ""
+    dirs_path = os.path.join(*directories) if directories else ""
     os.makedirs(dirs_path, exist_ok=True)
     return dirs_path
 
@@ -18,10 +18,13 @@ def return_filename(args: list) -> str:
     elif "-d" in args:
         dirs = args[args.index("-d") + 1:]
     elif "-f" in args:
-        return args[args.index("-f") + 1]
+        if args.index("-f") + 1 < len(args):
+            return args[args.index("-f") + 1]
+        raise ValueError("No file name specified")
 
     path_dirs = create_path(dirs)
-    return os.path.join(path_dirs, filename)
+    if filename:
+        return os.path.join(path_dirs, filename)
 
 
 def create_file(filename: str) -> None:
