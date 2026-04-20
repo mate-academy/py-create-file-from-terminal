@@ -46,7 +46,3 @@ def main() -> None:
                 file_object.write(content)
 
             print(f"File created/updated at: {full_filepath}")
-
-
-if __name__ == "__main__":
-    main()
