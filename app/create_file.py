@@ -2,6 +2,8 @@ import os
 import sys
 from datetime import datetime, timezone, timedelta
 
+# GMT+3 UA time
+TIME_ZONE_OFFSET = timezone(timedelta(hours=3))
 
 def get_arguments():
     arguments = sys.argv
@@ -44,7 +46,7 @@ def save_to_file(directory_names, file_name, content_lines):
     target_file = os.path.join(full_path, file_name)
 
     with open(target_file, "a") as output_file:
-        now = datetime.now()
+        now = datetime.now(TIME_ZONE_OFFSET)
         timestamp = now.strftime("%Y-%m-%d %H:%M:%S")
 
         output_file.write(f"{timestamp}\n")
