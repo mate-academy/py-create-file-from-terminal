@@ -1,7 +1,6 @@
 import sys
 import os
 from datetime import datetime
-from fileinput import filename
 
 
 def create_path(directories: list) -> str:
