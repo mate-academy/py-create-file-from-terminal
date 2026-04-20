@@ -1,6 +1,7 @@
 import sys
 import os
 from datetime import datetime
+from fileinput import filename
 
 
 def create_path(directories: list) -> str:
@@ -51,4 +52,5 @@ if __name__ == "__main__":
     parse_argv = sys.argv
 
     filepath = return_filename(parse_argv)
-    create_file(filepath)
+    if filepath:
+        create_file(filepath)
