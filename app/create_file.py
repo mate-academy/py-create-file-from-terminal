@@ -2,7 +2,6 @@ import os
 import sys
 from datetime import datetime, timezone, timedelta
 
-# GMT+3 UA time
 TIME_ZONE_OFFSET = timezone(timedelta(hours=3))
 
 
@@ -14,7 +13,7 @@ def get_arguments() -> tuple:
     if "-d" in arguments:
         d_index = arguments.index("-d")
         for arg in arguments[d_index + 1:]:
-            if arg == "-f":
+            if arg.startswith("-"):
                 break
             directory_names.append(arg)
 
@@ -28,13 +27,11 @@ def get_arguments() -> tuple:
 
 def get_content() -> list:
     content_lines = []
-    counter = 1
     while True:
-        line = input(f"Line N:{counter} - Enter line: ")
+        line = input("Enter content line: ")
         if line == "stop":
             break
         content_lines.append(line)
-        counter += 1
     return content_lines
 
 
@@ -45,6 +42,9 @@ def save_to_file(directory_names: list, file_name: str, content_lines: list) \
         full_path = os.path.join(*directory_names)
         os.makedirs(full_path, exist_ok=True)
 
+    if not file_name:
+        return
+
     target_file = os.path.join(full_path, file_name)
 
     with open(target_file, "a") as output_file:
@@ -53,10 +53,8 @@ def save_to_file(directory_names: list, file_name: str, content_lines: list) \
 
         output_file.write(f"{timestamp}\n")
 
-        line_number = 1
-        for line in content_lines:
-            output_file.write(f"{line_number} {line}\n")
-            line_number = line_number + 1
+        for i, line in enumerate(content_lines, 1):
+            output_file.write(f"{i} {line}\n")
 
         output_file.write("\n")
 
@@ -64,9 +62,11 @@ def save_to_file(directory_names: list, file_name: str, content_lines: list) \
 def main() -> None:
     folder_parts, name = get_arguments()
 
-    if not name:
-        print("No arguments (-f 'filename', "
-              "-d 'dir1' 'dir2' -> dir1/dir2/filename')")
+    if not folder_parts and not name:
+        return
+
+    if folder_parts and not name:
+        os.makedirs(os.path.join(*folder_parts), exist_ok=True)
         return
 
     lines = get_content()
