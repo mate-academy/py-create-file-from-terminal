@@ -19,7 +19,6 @@ def main() -> None:
                 dirs.append(arg)
             elif current_flag == "-f":
                 filename = arg
-                current_flag = ""
 
     full_path = Path(".")
     if dirs:
@@ -46,3 +45,7 @@ def main() -> None:
                 file_object.write(content)
 
             print(f"File created/updated at: {full_filepath}")
+
+
+if __name__ == "__main__":
+    main()
