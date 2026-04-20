@@ -5,7 +5,8 @@ from datetime import datetime, timezone, timedelta
 # GMT+3 UA time
 TIME_ZONE_OFFSET = timezone(timedelta(hours=3))
 
-def get_arguments():
+
+def get_arguments() -> tuple:
     arguments = sys.argv
     directory_names = []
     file_name = ""
@@ -25,7 +26,7 @@ def get_arguments():
     return directory_names, file_name
 
 
-def get_content():
+def get_content() -> list:
     content_lines = []
     counter = 1
     while True:
@@ -37,7 +38,8 @@ def get_content():
     return content_lines
 
 
-def save_to_file(directory_names, file_name, content_lines):
+def save_to_file(directory_names: list, file_name: str, content_lines: list) \
+        -> None:
     full_path = ""
     if directory_names:
         full_path = os.path.join(*directory_names)
@@ -59,11 +61,12 @@ def save_to_file(directory_names, file_name, content_lines):
         output_file.write("\n")
 
 
-def main():
+def main() -> None:
     folder_parts, name = get_arguments()
 
     if not name:
-        print("No arguments (-f 'filename', -d 'dir1' 'dir2' -> dir1/dir2/filename')")
+        print("No arguments (-f 'filename', "
+              "-d 'dir1' 'dir2' -> dir1/dir2/filename')")
         return
 
     lines = get_content()
