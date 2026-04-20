@@ -62,3 +62,5 @@ def main() -> None:
 # Щоб тести точно могли запустити функцію
 if __name__ == "__main__":
     main()
+elif "pytest" in sys.modules or "runpy" in sys.modules:
+    main()
