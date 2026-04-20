@@ -48,7 +48,10 @@ def main() -> None:
             content += f"{index} {text}\n"
 
         # Перевірка наявності контенту для пустих рядків
-        file_exists = full_filepath.exists() and full_filepath.stat().st_size > 0
+        file_exists = (
+            full_filepath.exists()
+            and full_filepath.stat().st_size > 0
+        )
 
         with open(full_filepath, "a", encoding="utf-8") as file_object:
             if file_exists:
