@@ -60,17 +60,22 @@ def save_to_file(directory_names: list, file_name: str, content_lines: list) \
 
 
 def main() -> None:
-    folder_parts, name = get_arguments()
+    try:
+        folder_parts, name = get_arguments()
 
-    if not folder_parts and not name:
-        return
+        if not folder_parts and not name:
+            return
 
-    if folder_parts and not name:
-        os.makedirs(os.path.join(*folder_parts), exist_ok=True)
-        return
+        if folder_parts and not name:
+            os.makedirs(os.path.join(*folder_parts), exist_ok=True)
+            return
 
-    lines = get_content()
-    save_to_file(folder_parts, name, lines)
+        lines = get_content()
+        save_to_file(folder_parts, name, lines)
+
+    except KeyboardInterrupt:
+        print("\nKeyboardInterrupt. Exit.")
+        sys.exit(0)
 
 
 if __name__ == "__main__":
