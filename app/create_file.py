@@ -50,7 +50,7 @@ if file_name:
 
     if os.path.exists(full_path):
         with open(full_path, "a", encoding="utf-8") as f:
-            f.write("\n" + content_block)
+            f.write(content_block)
     else:
         with open(full_path, "w", encoding="utf-8") as f:
             f.write("\n" + content_block)
