@@ -9,9 +9,11 @@ dir_names = []
 file_names = []
 
 if "-d" in args:
-    d_index = args.index("-d")
-    dir_names.append(args[d_index + 1])
-    dir_names.append(args[d_index + 2])
+    d_index = args.index("-d") + 1
+    for arg in args[d_index:]:
+        if arg.startswith("-"):
+            break
+        dir_names.append(arg)
 
 if "-f" in args:
     f_index = args.index("-f")
@@ -23,7 +25,7 @@ if dir_names:
     os.makedirs(path, exist_ok=True)
 
 if dir_names and not file_names:
-    exit()
+    pass
 
 if file_names:
     path_to_files = os.path.join(path, file_names) if path else file_names
@@ -37,11 +39,11 @@ if file_names:
 
     date_text = datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
     for index, line in enumerate(lines):
-        date_text += f"{index + 1}. {line}\n"
+        date_text += f"{index + 1} {line}\n"
 
     mode = "a" if os.path.exists(path_to_files) else "w"
 
     with open(path_to_files, mode) as f:
-        if mode == "w":
+        if mode == "a":
             f.write("\n")
         f.write(date_text)
