@@ -74,7 +74,9 @@ def main() -> None:
     if file_name is None:
         return
 
-    file_path = os.path.join(directory_path, file_name) if directory_path else file_name
+    file_path = (os.path.join(directory_path, file_name) 
+                 if directory_path 
+                 else file_name)
     content_lines = read_content_lines()
     write_file_content(file_path, content_lines)
 
