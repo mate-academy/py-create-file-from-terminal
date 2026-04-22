@@ -85,5 +85,4 @@ def main() -> None:
     write_block(path, file_name, content)
 
 
-if __name__ == "__main__":
-    main()
+main()
