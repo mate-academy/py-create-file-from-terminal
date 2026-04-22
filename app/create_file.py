@@ -3,49 +3,72 @@ import sys
 from datetime import datetime
 
 
-def main() -> None:
-    directory_parts = []
-    file_name = None
+def parse_args(args: list[str]) -> tuple[list[str], str | None]:
+    directories: list[str] = []
+    filename: str | None = None
+    index = 0
 
-    arg_index = 0
-    while arg_index < len(sys.argv):
-        if sys.argv[arg_index] == "-d":
-            arg_index += 1
-            while (arg_index < len(sys.argv)
-                   and not sys.argv[arg_index].startswith("-")):
-                directory_parts.append(sys.argv[arg_index])
-                arg_index += 1
+    while index < len(args):
+        token = args[index]
+
+        if token == "-d":
+            index += 1
+            while index < len(args) and not args[index].startswith("-"):
+                directories.append(args[index])
+                index += 1
             continue
 
-        if sys.argv[arg_index] == "-f":
-            if arg_index + 1 < len(sys.argv):
-                file_name = sys.argv[arg_index + 1]
-                arg_index += 2
-                continue
+        if token == "-f":
+            index += 1
+            if index < len(args):
+                filename = args[index]
+                index += 1
+            continue
 
-        arg_index += 1
+        index += 1
 
-    target_directory = os.path.join(*directory_parts)\
-        if directory_parts else "."
+    return directories, filename
 
-    if directory_parts:
-        os.makedirs(target_directory, exist_ok=True)
 
-    if file_name:
-        content_lines = []
-        while True:
-            user_input = input("Enter content line: ")
-            if user_input == "stop":
-                break
-            content_lines.append(user_input)
+def get_content_lines() -> list[str]:
+    lines: list[str] = []
+    while True:
+        content_line = input("Enter content line: ")
+        if content_line == "stop":
+            break
+        lines.append(content_line)
+    return lines
 
-        full_path = os.path.join(target_directory, file_name)
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        with open(full_path, "a", encoding="utf-8") as output_file:
-            output_file.write(f"{timestamp}\n")
-            for line_number, text in enumerate(content_lines, start=1):
-                output_file.write(f"{line_number} {text}\n")
+def write_content(file_path: str, lines: list[str]) -> None:
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    numbered_lines = [
+        f"{index} {line}"
+        for index, line in enumerate(lines, start=1)
+    ]
+    content_block = "\n".join([timestamp, *numbered_lines])
+
+    if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
+        with open(file_path, "a", encoding="utf-8") as file:
+            file.write("\n\n" + content_block)
+    else:
+        with open(file_path, "w", encoding="utf-8") as file:
+            file.write(content_block)
+
+
+def main() -> None:
+    directories, filename = parse_args(sys.argv[1:])
+
+    target_dir = os.path.join(*directories) if directories else "."
+    if directories:
+        os.makedirs(target_dir, exist_ok=True)
+
+    if filename is None:
+        return
+
+    file_path = os.path.join(target_dir, filename)
+    content_lines = get_content_lines()
+    write_content(file_path, content_lines)
 
 
 if __name__ == "__main__":
