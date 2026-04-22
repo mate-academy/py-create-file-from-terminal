@@ -4,6 +4,8 @@ import shutil
 from datetime import datetime
 from unittest.mock import patch
 
+from app.create_file import create_app
+
 
 def cleanup() -> None:
     for item in ["dir1", "file.txt"]:
@@ -19,7 +21,7 @@ def test_create_dir_and_file() -> None:
     test_input = ["Line1 content", "Line2 content", "stop"]
 
     with patch("sys.argv", test_args), patch("builtins.input", side_effect=test_input):
-        runpy.run_path("app/create_file.py")
+        create_app()
 
     path = os.path.join("dir1", "dir2", "file.txt")
     assert os.path.exists(path), (
@@ -61,7 +63,7 @@ def test_create_file_and_dirs_reversed() -> None:
     test_input = ["Line1", "stop"]
 
     with patch("sys.argv", test_args), patch("builtins.input", side_effect=test_input):
-        runpy.run_path("app/create_file.py")
+        create_app()
 
     path = os.path.join("dir1", "dir2", "dir3", "dir4", "file.txt")
     assert os.path.exists(path), (
@@ -76,7 +78,7 @@ def test_create_only_file() -> None:
     test_input = ["Content line", "stop"]
 
     with patch("sys.argv", test_args), patch("builtins.input", side_effect=test_input):
-        runpy.run_path("app/create_file.py")
+        create_app()
 
     assert os.path.exists("file.txt"), (
         "File 'file.txt' should be created in the current directory "
@@ -90,7 +92,7 @@ def test_create_only_dirs() -> None:
     test_args = ["app/create_file.py", "-d", "dir1", "dir2", "dir3", "dir4"]
 
     with patch("sys.argv", test_args):
-        runpy.run_path("app/create_file.py")
+        create_app()
 
     path = os.path.join("dir1", "dir2", "dir3", "dir4")
     assert os.path.isdir(path), (
@@ -106,14 +108,14 @@ def test_append_with_blank_line() -> None:
         patch("sys.argv", ["app/create_file.py", "-f", "file.txt"]),
         patch("builtins.input", side_effect=["Line 1", "stop"]),
     ):
-        runpy.run_path("app/create_file.py")
+        create_app()
 
     # Second entry
     with (
         patch("sys.argv", ["app/create_file.py", "-f", "file.txt"]),
         patch("builtins.input", side_effect=["Line 2", "stop"]),
     ):
-        runpy.run_path("app/create_file.py")
+        create_app()
 
     with open("file.txt", "r") as source_file:
         content = source_file.read()
@@ -145,7 +147,7 @@ def test_stop_word() -> None:
     test_input = ["line", "stop", "extra"]
 
     with patch("sys.argv", test_args), patch("builtins.input", side_effect=test_input):
-        runpy.run_path("app/create_file.py")
+        create_app()
 
     with open("file.txt", "r") as source_file:
         lines = source_file.readlines()
@@ -169,7 +171,7 @@ def test_input_prompt() -> None:
         patch("sys.argv", test_args),
         patch("builtins.input", side_effect=test_input) as mock_input,
     ):
-        runpy.run_path("app/create_file.py")
+        create_app()
 
         assert mock_input.call_args_list[0][0][0] == "Enter content line: ", (
             f"Expected prompt 'Enter content line: ', but got '{mock_input.call_args_list[0][0][0]}'"
