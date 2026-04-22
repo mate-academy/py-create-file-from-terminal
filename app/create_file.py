@@ -3,12 +3,13 @@ import os
 from datetime import datetime
 
 
-# Функція створюе директорію за вказанним path
+# Function create directory by given path
 def create_dir(path: str) -> None:
     if isinstance(path, str):
         os.makedirs(path, exist_ok=True)
 
 
+# Function create file with given name and content
 def create_file(
     file_name: str,
     file_content: str,
@@ -25,19 +26,19 @@ def create_file(
         file.write(str_to_file)
 
 
-# Перевіряємо чи вказаний аргумент -d
+# Chck if argument -d is present
 if "-d" in sys.argv:
     start = sys.argv.index("-d") + 1
 
-    # 2. Шукаєм -f, але тільки ЯКЩО він іде ПІСЛЯ -d
-    # Створюємо окремий список всього що іде після -d
+    # 2. Finding -f, but only IF it goes AFTER -d
+    # Create different list of all what going after -d
     after_d = sys.argv[start:]
 
     if "-f" in after_d:
         end_relative = after_d.index("-f")
         dirs_list = after_d[:end_relative]
     else:
-        # Якщо -f немає (або він був раніше), берем все до кінця
+        # If -f is not present (or if it was earle), take all to the end
         dirs_list = after_d
 
     # 3. В str
@@ -47,7 +48,7 @@ if "-d" in sys.argv:
 else:
     dir_path = ""
 
-# Перевіряємо чи вказаний аргумент -f
+# Check if argument -f is present
 if "-f" in sys.argv:
     if sys.argv.index("-f") + 1 < len(sys.argv):
         file_name = sys.argv[sys.argv.index("-f") + 1]
