@@ -15,11 +15,17 @@ def parse_args() -> tuple[list[str], str | None]:
             if arg.startswith("-"):
                 break
             dirs.append(arg)
+        if not dirs:
+            print("No directories provided after -d.")
+            sys.exit(1)
 
     if "-f" in args:
         f_index = args.index("-f") + 1
-        if f_index < len(args):
+        if f_index < len(args) and not args[f_index].startswith("-"):
             file_name = args[f_index]
+        else:
+            print("No file name provided after -f.")
+            sys.exit(1)
 
     return dirs, file_name
 
