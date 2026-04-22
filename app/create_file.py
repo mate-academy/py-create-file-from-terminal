@@ -48,4 +48,5 @@ def create_file() -> None:
             for i, content in enumerate(lines, 1):
                 f.write(f"{i} {content}\n")
 
+
 create_file()
