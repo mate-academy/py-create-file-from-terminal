@@ -3,75 +3,73 @@ import sys
 from datetime import datetime
 
 
-def create_app() -> None:
-    args = sys.argv[1:]
-    path_parts: list[str] = []
-    file_name = ""
-
-    file_name = parse_arguments(args, file_name, path_parts)
-    directory_path = form_path(path_parts)
-
-    if file_name:
-        full_file_path = os.path.join(directory_path, file_name)
-        content_lines = input_reader()
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        write_into_file(content_lines, full_file_path, timestamp)
-
-
 def input_reader() -> list[str]:
-    content_lines = []
+    lines_ac = []
     while True:
         user_line = input("Enter content line: ")
         if user_line == "stop":
             break
-        content_lines.append(user_line)
-    return content_lines
+        lines_ac.append(user_line)
+    return lines_ac
 
 
-def form_path(path_parts: list[str]) -> str:
-    directory_path = "."
-    if path_parts:
-        directory_path = os.path.join(*path_parts)
-        os.makedirs(directory_path, exist_ok=True)
-    return directory_path
+def form_path(parts_to_join: list[str]) -> str:
+    final_dir = "."
+    if parts_to_join:
+        final_dir = os.path.join(*parts_to_join)
+        os.makedirs(final_dir, exist_ok=True)
+    return final_dir
 
 
 def parse_arguments(
-        args: list[str],
-        file_name: str,
-        path_parts: list[str]
+        raw_args: list[str],
+        base_file_name: str,
+        collected_path: list[str]
 ) -> str:
-    i = 0
-    while i < len(args):
-        if args[i] == "-d":
-            i += 1
-            while i < len(args) and not args[i].startswith("-"):
-                path_parts.append(args[i])
-                i += 1
-        elif args[i] == "-f":
-            if i + 1 < len(args):
-                file_name = args[i + 1]
-            i += 2
+    idx = 0
+    result_name = base_file_name
+    while idx < len(raw_args):
+        if raw_args[idx] == "-d":
+            idx += 1
+            while idx < len(raw_args) and not raw_args[idx].startswith("-"):
+                collected_path.append(raw_args[idx])
+                idx += 1
+        elif raw_args[idx] == "-f":
+            if idx + 1 < len(raw_args):
+                result_name = raw_args[idx + 1]
+            idx += 2
         else:
-            i += 1
-    return file_name
+            idx += 1
+    return result_name
 
 
 def write_into_file(
-        content_lines: list[str],
-        full_path: str,
-        timestamp: str
+        text_lines: list[str],
+        target_path: str,
+        time_str: str
 ) -> None:
-    file_exists = os.path.exists(full_path) and os.path.getsize(full_path) > 0
+    has_content = (
+        os.path.exists(target_path) and os.path.getsize(target_path) > 0
+    )
 
-    with open(full_path, "a") as f:
-        if file_exists:
-            f.write("\n")
+    with open(target_path, "a") as file_handle:
+        if has_content:
+            file_handle.write("\n")
 
-        f.write(timestamp + "\n")
-        for idx, text in enumerate(content_lines, 1):
-            f.write(f"{idx} {text}\n")
+        file_handle.write(time_str + "\n")
+        for i, content_line in enumerate(text_lines, 1):
+            file_handle.write(f"{i} {content_line}\n")
 
 
-if __name__ == "__main__":
-    create_app()
+terminal_args = sys.argv[1:]
+path_parts: list[str] = []
+file_name = ""
+
+file_name = parse_arguments(terminal_args, file_name, path_parts)
+directory_path = form_path(path_parts)
+
+if file_name:
+    full_file_path = os.path.join(directory_path, file_name)
+    content_lines = input_reader()
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    write_into_file(content_lines, full_file_path, timestamp)
