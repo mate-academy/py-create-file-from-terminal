@@ -25,7 +25,8 @@ def main() -> None:
 
         arg_index += 1
 
-    target_directory = os.path.join(*directory_parts) if directory_parts else "."
+    target_directory = os.path.join(*directory_parts)\
+        if directory_parts else "."
 
     if directory_parts:
         os.makedirs(target_directory, exist_ok=True)
