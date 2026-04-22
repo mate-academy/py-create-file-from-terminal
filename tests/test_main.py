@@ -5,6 +5,8 @@ from datetime import datetime
 from unittest.mock import patch
 
 
+
+
 def cleanup() -> None:
     for item in ["dir1", "file.txt"]:
         if os.path.isdir(item):
