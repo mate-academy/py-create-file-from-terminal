@@ -3,7 +3,7 @@ import sys
 from datetime import datetime
 
 
-def parse_args():
+def parse_args() -> tuple[list[str], str | None]:
     args = sys.argv
 
     dirs = []
@@ -66,7 +66,7 @@ def write_block(path: str, file_name: str, content: str) -> None:
         f.write(content)
 
 
-def main():
+def main() -> None:
     dirs, file_name = parse_args()
 
     if not dirs and not file_name:
