@@ -39,7 +39,8 @@ def main() -> None:
     while arg_index < len(command_args):
         if command_args[arg_index] == "-d":
             arg_index += 1
-            while arg_index < len(command_args) and not command_args[arg_index].startswith("-"):
+            while (arg_index < len(command_args)
+                   and not command_args[arg_index].startswith("-")):
                 directory_parts.append(command_args[arg_index])
                 arg_index += 1
             continue
@@ -52,7 +53,8 @@ def main() -> None:
 
         arg_index += 1
 
-    target_directory = os.path.join(*directory_parts) if directory_parts else "."
+    target_directory = os.path.join(*directory_parts)\
+        if directory_parts else "."
 
     if directory_parts:
         os.makedirs(target_directory, exist_ok=True)
