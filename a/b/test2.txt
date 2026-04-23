@@ -1,0 +1,4 @@
+2026-04-01 12:04:14
+1 clear
+2 
+3 cd ~/PycharmProjects/py-create-file-from-terminal
