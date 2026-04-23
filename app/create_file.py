@@ -51,5 +51,4 @@ def create_file() -> None:
             f.write(content_block)
 
 
-if __name__ == "__main__":
-    create_file()
+create_file()
