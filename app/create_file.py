@@ -23,7 +23,7 @@ def create_file() -> None:
 
     if dir_parts:
         path = os.path.join(*dir_parts)
-        os.makedirs(path, exist_ok = True)
+        os.makedirs(path, exist_ok=True)
 
     if file_name:
         lines = []
