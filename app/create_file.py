@@ -22,12 +22,12 @@ def main() -> None:
         for directory in dirs:
             dirpath = f"{dirpath}{directory}/"
             if not os.path.exists(dirpath):
-                os.mkdir(dirpath)
+                os.makedirs(dirpath)
 
     if not filename:
         return
 
-    filepath = f"{dirpath}{filename}"
+    filepath = os.path.join(dirpath, filename)
     with open(filepath, "a+") as file:
         has_content = os.path.getsize(filepath) > 0
         if has_content:
