@@ -17,12 +17,9 @@ def main() -> None:
         elif current_flag == "-f":
             filename = arg
 
-    dirpath = ""
-    if dirs:
-        for directory in dirs:
-            dirpath = f"{dirpath}{directory}/"
-            if not os.path.exists(dirpath):
-                os.makedirs(dirpath)
+    dirpath = os.path.join(*dirs) if dirs else ""
+    if dirpath:
+        os.makedirs(dirpath, exist_ok=True)
 
     if not filename:
         return
