@@ -46,7 +46,6 @@ if len(sys_argv) == 1:
 # and get the directory and filename
 directory_list, file_list = parse_arguments(sys_argv[1:])
 
-
 # if there are directories in directory list,
 # then create the full path and create the directory if not exist
 fullpath = ""
