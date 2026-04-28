@@ -46,9 +46,6 @@ if len(sys_argv) == 1:
 # and get the directory and filename
 directory_list, file_list = parse_arguments(sys_argv[1:])
 
-# if there is no file in file list, then exit
-if len(file_list) == 0:
-    sys.exit(0)
 
 # if there are directories in directory list,
 # then create the full path and create the directory if not exist
@@ -58,8 +55,9 @@ if len(directory_list) > 0:
     if not os.path.exists(fullpath):
         os.makedirs(fullpath)
 
-# if there is no file then exit
+# if there is no file in file list, then exit
 if len(file_list) == 0:
-    sys.exit(0) 
+    sys.exit(0)
+
 file_name = os.path.join(fullpath, file_list[0])
 write_to_file(file_name)
