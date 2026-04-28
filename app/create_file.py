@@ -58,5 +58,8 @@ if len(directory_list) > 0:
     if not os.path.exists(fullpath):
         os.makedirs(fullpath)
 
+# if there is no file then exit
+if len(file_list) == 0:
+    sys.exit(0) 
 file_name = os.path.join(fullpath, file_list[0])
 write_to_file(file_name)
