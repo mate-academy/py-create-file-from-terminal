@@ -7,29 +7,44 @@ data = sys.argv
 
 
 def write_file(filepath: str) -> None:
-    with open(filepath, "a") as file:
-        file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                   + "\n")
-        while True:
-            text = input("Enter content line:")
-            if text == "stop":
-                break
-            file.write(text + "\n")
+    if os.path.exists(filepath):
+        with open(filepath, "a") as file:
+            file.write("\n")
+            file.write(datetime.datetime.now().strftime("%Y-%m-%d "
+                                                        "%H:%M:%S") + "\n")
+            line_number = 1
+            while True:
+                text = input("Enter content line: ")
+                if text == "stop":
+                    break
+                file.write(f"{line_number} {text}\n")
+                line_number += 1
+    else:
+        with open(filepath, "w") as file:
+            file.write(datetime.datetime.now().strftime("%Y-%m-%d "
+                                                        "%H:%M:%S") + "\n")
+            line_number = 1
+            while True:
+                text = input("Enter content line: ")
+                if text == "stop":
+                    break
+                file.write(f"{line_number} {text}\n")
+                line_number += 1
 
 
 if "-d" in data:
-    analyzed_data = []
-    for item in data:
-        if item == "-f":
+    dirs = []
+    for item in data[data.index("-d") + 1:]:
+        if item in "-f":
             break
-        analyzed_data.append(item)
-    if "-f" in data:
-        path = os.path.join(*analyzed_data[2:])
-        os.makedirs(path)
-        current_filepath = os.path.join(path, data[-1] + ".txt")
-        write_file(str(current_filepath))
-    else:
-        os.makedirs(os.path.join(*analyzed_data[2:]), exist_ok=True)
+        dirs.append(item)
 
-if "-f" in data and "-d" not in data:
-    write_file(data[-1] + ".txt")
+    path = os.path.join(*dirs) if dirs else "."
+    os.makedirs(path, exist_ok=True)
+
+    if "-f" in data:
+        filename = str(data[data.index("-f") + 1])
+        write_file(os.path.join(path, filename))
+
+elif "-f" in data:
+    write_file(str(data[data.index("-f") + 1]))
