@@ -9,10 +9,8 @@ def create_path(directories: list) -> Any:
 
 
 def create_dirs(directories: list) -> Any:
-    for index in range(len(directories)):
-        path = create_path(directories[:index + 1])
-        if not os.path.exists(path):
-            os.makedirs(path)
+    path = create_path(directories)
+    os.makedirs(path, exist_ok=True)
 
 
 def input_lines() -> None:
@@ -44,8 +42,8 @@ def append_file_content(directories: list,
 
 flags = ("-f", "-d")
 current_flag = None
-directories_list = []
 file_name = None
+directories_list = []
 content_lines = []
 
 if len(sys.argv) > 2:
@@ -60,6 +58,7 @@ if len(sys.argv) > 2:
 
         if current_flag == "-d":
             directories_list.append(arg)
+            continue
 
     create_dirs(directories_list)
     if file_name:
