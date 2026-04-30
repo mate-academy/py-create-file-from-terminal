@@ -7,8 +7,9 @@ data = sys.argv
 
 
 def write_file(filepath: str) -> None:
-    with open(filepath, "w") as file:
-        file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
+    with open(filepath, "a") as file:
+        file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                   + "\n")
         while True:
             text = input("Enter content line:")
             if text == "stop":
