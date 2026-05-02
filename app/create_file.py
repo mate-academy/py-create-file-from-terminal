@@ -12,7 +12,7 @@ def create_directories(directories: list) -> str:
     return dir_path
 
 
-if len(sys.argv) < 3:
+if "-f" not in sys.argv and "-d" not in sys.argv:
     print("Usage: python create_file.py -f <filename> or -d <directory>")
     sys.exit(1)
 
@@ -24,14 +24,11 @@ f_flag_index = sys.argv.index("-f") if "-f" in sys.argv else None
 if d_flag_index is not None:
     last_dir_index = len(sys.argv) - 1
 
-    if d_flag_index + 1 >= len(sys.argv):
+    if (
+        d_flag_index + 1 >= len(sys.argv) or
+        sys.argv[d_flag_index + 1].startswith("-")
+    ):
         print("Error: '-d' flag provided but no directory specified.")
-        sys.exit(1)
-    elif d_flag_index + 1 == f_flag_index:
-        print(
-            "Error: '-d' flag provided but no directory specified "
-            "(next argument is '-f')."
-        )
         sys.exit(1)
 
     if f_flag_index is not None and f_flag_index > d_flag_index:
