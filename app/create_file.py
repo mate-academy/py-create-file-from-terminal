@@ -25,8 +25,8 @@ if d_flag_index is not None:
     last_dir_index = len(sys.argv) - 1
 
     if (
-        d_flag_index + 1 >= len(sys.argv) or
-        sys.argv[d_flag_index + 1].startswith("-")
+        d_flag_index + 1 >= len(sys.argv)
+        or sys.argv[d_flag_index + 1].startswith("-")
     ):
         print("Error: '-d' flag provided but no directory specified.")
         sys.exit(1)
