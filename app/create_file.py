@@ -17,6 +17,7 @@ if "-f" not in sys.argv and "-d" not in sys.argv:
     sys.exit(1)
 
 file_path = ""
+directories = []
 
 d_flag_index = sys.argv.index("-d") if "-d" in sys.argv else None
 f_flag_index = sys.argv.index("-f") if "-f" in sys.argv else None
@@ -24,17 +25,15 @@ f_flag_index = sys.argv.index("-f") if "-f" in sys.argv else None
 if d_flag_index is not None:
     last_dir_index = len(sys.argv) - 1
 
-    if (
-        d_flag_index + 1 >= len(sys.argv)
-        or sys.argv[d_flag_index + 1].startswith("-")
-    ):
+    if d_flag_index + 1 >= len(sys.argv):
         print("Error: '-d' flag provided but no directory specified.")
         sys.exit(1)
 
-    if f_flag_index is not None and f_flag_index > d_flag_index:
-        last_dir_index = min(f_flag_index - 1, last_dir_index)
+    for directory in sys.argv[d_flag_index + 1:]:
+        if directory.startswith("-"):
+            break
+        directories.append(directory)
 
-    directories = sys.argv[d_flag_index + 1:last_dir_index + 1]
     file_path = create_directories(directories)
 
 if f_flag_index is not None:
