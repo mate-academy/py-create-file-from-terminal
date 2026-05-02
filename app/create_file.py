@@ -2,40 +2,40 @@ import os
 import sys
 from datetime import datetime
 
+
 args = sys.argv[1:]
 file_name = None
 dirs = []
-
 i = 0
 while i < len(args):
     if args[i] == "-d":
         i += 1
-        if i < len(args):
+        while i < len(args) and not args[i].startswith("-"):
             dirs.append(args[i])
             i += 1
+    elif args[i] == "-f":
+        i += 1
+        if i < len(args):
+            file_name = args[i]
+            i += 1
         else:
-            print("Error: Directory name not provided after -d.")
+            print("Error: File name not provided after -f.")
             sys.exit(1)
     else:
         file_name = args[i]
         i += 1
-
 directory_path = os.path.join(*dirs) if dirs else ""
 if directory_path:
     os.makedirs(directory_path, exist_ok=True)
     if not file_name:
         print(f"Directory '{directory_path}' created successfully.")
         sys.exit(0)
-
 if not file_name:
-    print("Error: File name not provided."
-          " Usage: python script.py [-d directory] <filename>")
+    print("Error: File name not provided. "
+          "Usage: python script.py [-d dir1 dir2] -f ")
     sys.exit(1)
-
-print(f"Target file: {file_name}")
 print("Enter content lines (type 'stop' to finish):")
 lines = []
-
 while True:
     try:
         line = input("> ").strip()
@@ -45,20 +45,16 @@ while True:
             lines.append(line)
     except EOFError:
         break
-
 if not lines:
     print("No content entered. Exiting.")
     sys.exit(0)
-
 timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 numbered_lines = [f"{idx} {text}" for idx, text in enumerate(lines, start=1)]
 block = timestamp + "\n" + "\n".join(numbered_lines) + "\n"
-
-full_path = os.path.join(directory_path, file_name)\
+full_path = os.path.join(directory_path, file_name) \
     if directory_path else file_name
 file_exists = os.path.exists(full_path)
 mode = "a" if file_exists else "w"
-
 try:
     with open(full_path, mode, encoding="utf-8") as output_file:
         if file_exists:
