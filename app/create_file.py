@@ -50,10 +50,12 @@ def write_content(full_path: str) -> None:
             file.write(f"{line_number}. {user_input}\n")
             line_number += 1
 
-        line_number += 1
-
 
 def create_file() -> None:
     dirs, filename = parse_arguments(sys.argv)
     full_path = build_path(dirs, filename)
     write_content(full_path)
+
+
+if __name__ == "__create_file__":
+    create_file()
