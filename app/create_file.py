@@ -40,6 +40,31 @@ def parse_arguments(arg_list: list) -> dict:
     return parsed_dict
 
 
+def get_content() -> list:
+    content = []
+    stop = False
+    line_number = 1
+
+    while not stop:
+        line = input("Enter content line: ")
+        if line.lower() == "stop":
+            stop = True
+        else:
+            content.append(f"\n{line_number} {line}")
+            line_number += 1
+
+    return content
+
+
+def wright_content(content: list, file_path: str) -> None:
+    new_line = "\n\n" if path.isfile(file_path) else ""
+
+    with open(file_path, "a") as f:
+        f.write(new_line + datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        for line in content:
+            f.write(line)
+
+
 def create_file() -> Any:
 
     arguments = parse_arguments([arg.strip() for arg in argv[1:]])
@@ -53,21 +78,8 @@ def create_file() -> Any:
     if arguments["flag_f"]:
         full_path = path.join(*arguments["directory"], arguments["filename"])
 
-        stop = False
-        line_number = 1
-
-        new_line = "\n\n" if path.isfile(full_path) else ""
-
-        with open(full_path, "a") as f:
-            f.write(new_line + datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-
-            while not stop:
-                line = input("Enter content line: ")
-                if line.lower() == "stop":
-                    stop = True
-                else:
-                    f.write(f"\n{line_number} {line}")
-                    line_number += 1
+        content = get_content()
+        wright_content(content, full_path)
 
 
 create_file()
