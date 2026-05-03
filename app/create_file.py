@@ -1,8 +1,8 @@
 from sys import argv, exit
-from os import makedirs, path, getcwd
+from os import makedirs, path  # , getcwd
 from datetime import datetime
 
-#argv = ["app/create_file.py", "-f   ", " file.txt"]
+# argv = ["app/create_file.py", "-f   ", " file.txt"]
 
 if len(argv) <= 2 :
     print("Usage: -f <filename> or/and -d <directory>")
@@ -17,8 +17,7 @@ line_number = 1
 del argv[0]
 
 for index in range(len(argv)):
-    n = argv[index]
-    if n.strip() == "-f":
+    if argv[index] == "-f":
         try:
             filename = argv[index + 1].strip().lower()
             del argv[index: index + 2]
@@ -41,7 +40,7 @@ if directory != []:
     makedirs(path.join(*directory), exist_ok=True)
 
 if filename != "":
-    full_path = path.join(*directory,filename)
+    full_path = path.join(*directory, filename)
 
     while not stop:
         line = input("Enter content line: ")
@@ -50,7 +49,7 @@ if filename != "":
         else:
             content.append(f"\n{line_number} {line}")
             line_number += 1
-    #content.append("\n")
+    # content.append("\n")
 
     # current_dir = getcwd()
     # print(current_dir)
@@ -60,4 +59,4 @@ if filename != "":
         for line in content:
             f.write(line)
 
-#print("Finish")
+# print("Finish")
