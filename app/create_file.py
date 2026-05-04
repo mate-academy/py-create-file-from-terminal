@@ -57,5 +57,5 @@ def create_file() -> None:
     write_content(full_path)
 
 
-if __name__ == "__create_file__":
+if __name__ == "__main__":
     create_file()
