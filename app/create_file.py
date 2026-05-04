@@ -1,32 +1,37 @@
 import sys
 import os
 from datetime import datetime
+from typing import List, Optional
 
 
-def create_directory(dirs: str) -> str:
+def create_directory(dirs: List[str]) -> str:
     if not dirs:
         return ""
 
-    path = os.path.join(*dirs)
+    path: str = os.path.join(*dirs)
     os.makedirs(path, exist_ok=True)
-    print(f"Created directory: {path}")
     return path
 
 
 def create_file(file_path: str) -> None:
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    content = f"{timestamp}\n"
+    timestamp: str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    content_lines: List[str] = []
 
-    line_number = 1
+    line_number: int = 1
 
     while True:
-        line = input("Enter content line: ")
+        line: str = input("Enter content line: ")
         if line.lower() == "stop":
             break
-        content += f"{line_number} {line}\n"
+        content_lines.append(f"{line_number} {line}")
         line_number += 1
 
-    file_exists = os.path.exists(file_path)
+    if not content_lines:
+        return
+
+    content: str = timestamp + "\n" + "\n".join(content_lines)
+
+    file_exists: bool = os.path.exists(file_path)
 
     with open(file_path, "a") as f:
         if file_exists:
@@ -35,35 +40,31 @@ def create_file(file_path: str) -> None:
 
 
 def main() -> None:
-    args = sys.argv[1:]
+    args: List[str] = sys.argv[1:]
 
-    dirs = []
-    filename = None
+    dirs: List[str] = []
+    filename: Optional[str] = None
 
     if "-d" in args:
-        d_index = args.index("-d")
+        d_index: int = args.index("-d")
 
         if "-f" in args:
-            f_index = args.index("-f")
+            f_index: int = args.index("-f")
             dirs = args[d_index + 1:f_index]
         else:
             dirs = args[d_index + 1:]
 
     if "-f" in args:
-        f_index = args.index("-f")
+        f_index: int = args.index("-f")
         try:
             filename = args[f_index + 1]
         except IndexError:
-            print("Error: No filename provided after -f")
             return
 
-    path = create_directory(dirs)
-
-    if dirs and not filename:
-        return
+    path: str = create_directory(dirs)
 
     if filename:
-        file_path = os.path.join(path, filename) if path else filename
+        file_path: str = os.path.join(path, filename) if path else filename
         create_file(file_path)
 
 
