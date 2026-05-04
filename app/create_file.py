@@ -39,7 +39,7 @@ def write_content(full_path: str) -> None:
             file.write("\n")
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        file.write(f"[{timestamp}]\n")
+        file.write(f"{timestamp}\n")
 
         while True:
             user_input = input("Enter content line: ")
