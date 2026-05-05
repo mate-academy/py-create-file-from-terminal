@@ -6,11 +6,13 @@ from datetime import datetime
 def parse_arguments(
     args: list[str]
 ) -> tuple[list, str]:
+    filename = None
     directories = []
     add_dir = False
     for index, element in enumerate(args):
         if element == "-f":
-            filename = args[index + 1]
+            if index + 1 < len(args):
+                filename = args[index + 1]
             add_dir = False
         elif element == "-d":
             add_dir = True
@@ -53,13 +55,21 @@ def write_to_file(
     filepath: str,
     content: str
 ) -> None:
-    with open(filepath, "a") as f:
-        f.write(content)
+    if not content.endswith("\n"):
+        content += "\n"
+
+    if os.path.exists(filepath) and os.path.getsize(filepath) > 0:
+        content = "\n" + content
+
+    with open(filepath, "a") as output_file:
+        output_file.write(content)
 
 
 def main(
 ) -> None:
     directories, filename = parse_arguments(sys.argv)
+    if filename is None:
+        filename = "file.txt"
     if any(directories):
         path = create_directories(directories)
         filepath = os.path.join(path, filename)
