@@ -68,13 +68,14 @@ def write_to_file(
 def main(
 ) -> None:
     directories, filename = parse_arguments(sys.argv)
-    if filename is None:
-        filename = "file.txt"
     if any(directories):
         path = create_directories(directories)
-        filepath = os.path.join(path, filename)
-    else:
+    if filename is None:
+        return
+    if path is None:
         filepath = filename
+    else:
+        filepath = os.path.join(path, filename)
     lines = get_content_from_user()
     content = format_content(lines)
     write_to_file(filepath, content)
