@@ -45,8 +45,7 @@ def format_content(
 ) -> str:
     current_date = datetime.now()
     format_lines = [current_date.strftime("%Y-%m-%d %H:%M:%S")]
-    for line_no, line in enumerate(lines):
-        format_lines.append(" ".join([str(line_no + 1), line]))
+    format_lines.extend(f"{i + 1} {line}" for i, line in enumerate(lines))
     content = "\n".join(format_lines)
     return content
 
@@ -55,10 +54,7 @@ def write_to_file(
     filepath: str,
     content: str
 ) -> None:
-    if not content.endswith("\n"):
-        content += "\n"
-
-    if os.path.exists(filepath) and os.path.getsize(filepath) > 0:
+    if os.path.exists(filepath):
         content = "\n" + content
 
     with open(filepath, "a") as output_file:
@@ -68,6 +64,7 @@ def write_to_file(
 def main(
 ) -> None:
     directories, filename = parse_arguments(sys.argv)
+    path = None
     if any(directories):
         path = create_directories(directories)
     if filename is None:
