@@ -55,7 +55,7 @@ def write_to_file(
     content: str
 ) -> None:
     if os.path.exists(filepath):
-        content = "\n" + content
+        content = "\n\n" + content
 
     with open(filepath, "a") as output_file:
         output_file.write(content)
@@ -78,5 +78,4 @@ def main(
     write_to_file(filepath, content)
 
 
-if __name__ == "__main__":
-    main()
+main()
