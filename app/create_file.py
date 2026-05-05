@@ -5,7 +5,7 @@ from datetime import datetime
 
 def parse_arguments(
     args: list[str]
-) -> tuple[list, str]:
+) -> tuple[list[str], str]:
     filename = None
     directories = []
     add_dir = False
