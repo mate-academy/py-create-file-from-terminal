@@ -22,8 +22,6 @@ def parse_arguments(
 def create_directories(
     directories: list[str]
 ) -> str:
-    # Use os.path.join to create path
-    # Use os.makedirs with exist_ok=True
     path = os.path.join(*directories)
     os.makedirs(path, exist_ok=True)
     return path
