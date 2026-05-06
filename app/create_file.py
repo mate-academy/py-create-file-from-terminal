@@ -24,36 +24,36 @@ def create_app() -> None:
         else:
             i += 1
 
-        full_path = ""
-        if dirs:
-            full_path = os.path.join(*dirs)
-            os.makedirs(full_path, exist_ok=True)
-        if filename:
-            if full_path:
-                final_path = os.path.join(full_path, filename)
-            else:
-                final_path = filename
+    full_path = ""
+    if dirs:
+        full_path = os.path.join(*dirs)
+        os.makedirs(full_path, exist_ok=True)
+    if filename:
+        if full_path:
+            final_path = os.path.join(full_path, filename)
+        else:
+            final_path = filename
 
-            lines = []
-            while True:
-                try:
-                    line_content = input("Enter content line: ")
-                    if line_content.strip() == "stop":
-                        break
-                    lines.append(line_content)
-                except StopIteration:
+        lines = []
+        while True:
+            try:
+                line_content = input("Enter content line: ")
+                if line_content.strip() == "stop":
                     break
+                lines.append(line_content)
+            except StopIteration:
+                break
 
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-            if os.path.exists(final_path):
-                with open(final_path, "a") as f:
-                    f.write("\n")
-
+        if os.path.exists(final_path):
             with open(final_path, "a") as f:
-                f.write(f"{current_time}\n")
-                for num, line in enumerate(lines, start=1):
-                    f.write(f"{num} {line}\n")
+                f.write("\n")
+
+        with open(final_path, "a") as f:
+            f.write(f"{current_time}\n")
+            for num, line in enumerate(lines, start=1):
+                f.write(f"{num} {line}\n")
 
 
 create_app()
