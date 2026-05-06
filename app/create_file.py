@@ -4,6 +4,31 @@ from datetime import datetime
 from typing import List, Optional
 
 
+def parse_dirs(args: List[str]) -> List[str]:
+    if "-d" not in args:
+        return []
+
+    d_index = args.index("-d")
+    dirs: List[str] = []
+
+    for arg in args[d_index + 1:]:
+        if arg.startswith("-"):
+            break
+        dirs.append(arg)
+
+    return dirs
+
+def parse_filename(args: List[str]) -> Optional[str]:
+    if "-f" not in args:
+        return None
+
+    f_index = args.index("-f")
+
+    if f_index + 1 < len(args):
+        return args[f_index + 1]
+
+    return None
+
 def create_directory(dirs: List[str]) -> str:
     if not dirs:
         return ""
@@ -37,29 +62,12 @@ def create_file(file_path: str) -> None:
         if file_exists:
             f.write("\n\n")
         f.write(content)
-
-
+        
 def main() -> None:
     args: List[str] = sys.argv[1:]
 
-    dirs: List[str] = []
-    filename: Optional[str] = None
-
-    if "-d" in args:
-        d_index: int = args.index("-d")
-
-        if "-f" in args:
-            f_index: int = args.index("-f")
-            dirs = args[d_index + 1:f_index]
-        else:
-            dirs = args[d_index + 1:]
-
-    if "-f" in args:
-        f_index: int = args.index("-f")
-        try:
-            filename = args[f_index + 1]
-        except IndexError:
-            return
+    dirs: List[str] = parse_dirs(args)
+    filename: Optional[str] = parse_filename(args)
 
     path: str = create_directory(dirs)
 
