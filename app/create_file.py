@@ -47,10 +47,10 @@ def create_app() -> None:
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         if os.path.exists(final_path):
-            with open(final_path, "a") as f:
+            with open(final_path, "a", encoding="utf-8") as f:
                 f.write("\n")
 
-        with open(final_path, "a") as f:
+        with open(final_path, "a", encoding="utf-8") as f:
             f.write(f"{current_time}\n")
             for num, line in enumerate(lines, start=1):
                 f.write(f"{num} {line}\n")
