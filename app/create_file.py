@@ -1,39 +1,68 @@
-import datetime
-import sys
 import os
-
-incoming_command = sys.argv[1:]
-
-
-def create_file(start_position, pwd):
-    if incoming_command[0] == "-f":
-        filename = incoming_command[start_position + 1]
-        os.chdir(pwd)
-        new_file = open(filename, "a")
-        input_list = []
-        while True:
-            user_input = input("Enter content line: ")
-            if user_input == "stop":
-                new_file.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
-                new_file.close()
-                for number, line in enumerate(input_list, start=1):
-                    new_file.write(f"{number} {line}\n")
-                break
-            input_list.append(user_input)
+import sys
+from datetime import datetime
 
 
-if __name__ == "__main__":
-    if "-d"in incoming_command and "-f" in incoming_command:
-        d_index = incoming_command.index("-d")
-        f_index = incoming_command.index("-f")
+PROMPT = "Enter content line: "
+STOP_WORD = "stop"
+TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
-        path_parts = incoming_command[d_index: f_index]
-        directory_path = os.path.join(*path_parts)
-        os.makedirs(directory_path)
-        create_file(f_index, directory_path)
 
-        print(incoming_command)
-        print(d_index)
-        print(f_index)
-        print(directory_path)
+def read_content_lines() -> list[str]:
+    lines: list[str] = []
+    while True:
+        user_input = input(PROMPT)
+        if user_input == STOP_WORD:
+            break
+        lines.append(user_input)
+    return lines
 
+
+def append_content_block(file_path: str, lines: list[str]) -> None:
+    should_add_blank_line = (os.path.exists(file_path)
+                             and os.path.getsize(file_path) > 0)
+
+    with open(file_path, "a", encoding="utf-8") as source_file:
+        if should_add_blank_line:
+            source_file.write("\n")
+
+        source_file.write(f"{datetime.now().strftime(TIME_FORMAT)}\n")
+        for index, line in enumerate(lines, start=1):
+            source_file.write(f"{index} {line}\n")
+
+
+def parse_arguments(args: list[str]) -> tuple[list[str], str | None]:
+    directories: list[str] = []
+    filename: str | None = None
+
+    if "-d" in args:
+        d_index = args.index("-d")
+        d_end = len(args)
+        if "-f" in args and args.index("-f") > d_index:
+            d_end = args.index("-f")
+        directories = args[d_index + 1:d_end]
+
+    if "-f" in args:
+        f_index = args.index("-f")
+        if f_index + 1 < len(args):
+            filename = args[f_index + 1]
+
+    return directories, filename
+
+
+def main() -> None:
+    args = sys.argv[1:]
+    directories, filename = parse_arguments(args)
+
+    target_directory = os.getcwd()
+    if directories:
+        target_directory = os.path.join(os.getcwd(), *directories)
+        os.makedirs(target_directory, exist_ok=True)
+
+    if filename:
+        file_path = os.path.join(target_directory, filename)
+        content_lines = read_content_lines()
+        append_content_block(file_path, content_lines)
+
+
+main()
