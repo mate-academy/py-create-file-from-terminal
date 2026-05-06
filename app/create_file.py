@@ -23,7 +23,7 @@ def create_file(start_position, pwd):
 
 
 if __name__ == "__main__":
-    if "-d" and "-f" in incoming_command:
+    if "-d"in incoming_command and "-f" in incoming_command:
         d_index = incoming_command.index("-d")
         f_index = incoming_command.index("-f")
 
