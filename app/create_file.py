@@ -78,4 +78,7 @@ def main(
     write_to_file(filepath, content)
 
 
+if __name__ == "__main__":
+    main()
+
 main()
