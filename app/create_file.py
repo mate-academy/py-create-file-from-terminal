@@ -63,8 +63,8 @@ def write_to_file(
 
 def main(
 ) -> None:
-    directories, filename = parse_arguments(sys.argv)
     path = None
+    directories, filename = parse_arguments(sys.argv)
     if any(directories):
         path = create_directories(directories)
     if filename is None:
@@ -80,5 +80,3 @@ def main(
 
 if __name__ == "__main__":
     main()
-
-main()
