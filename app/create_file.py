@@ -39,7 +39,6 @@ if file_name:
 
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         archive.write(f"{current_time}\n")
-        archive.flush()
 
         count = 1
         while True:
@@ -47,5 +46,4 @@ if file_name:
             if line.lower() == "stop":
                 break
             archive.write(f"{count} {line}\n")
-            archive.flush()
             count += 1
