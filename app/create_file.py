@@ -56,7 +56,7 @@ def create_file(file_path: str) -> None:
 
         line_number = 1
         while True:
-            line = input("Enter content line: ")
+            line = input("Enter content line:")
             if line == "stop":
                 break
             f.write(f"{line_number} {line}\n")
