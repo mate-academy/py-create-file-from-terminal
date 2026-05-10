@@ -41,7 +41,9 @@ def create_directory(dirs: List[str]) -> str:
 
 
 def create_file(file_path: str) -> None:
-    os.makedirs(os.path.dirname(file_path), exist_ok=True) if os.path.dirname(file_path) else None
+    dir_name = os.path.dirname(file_path)
+    if dir_name:
+        os.makedirs(dir_name, exist_ok=True)
 
     file_exists = os.path.exists(file_path)
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
