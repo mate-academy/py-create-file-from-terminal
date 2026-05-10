@@ -18,6 +18,7 @@ def parse_dirs(args: List[str]) -> List[str]:
 
     return dirs
 
+
 def parse_filename(args: List[str]) -> Optional[str]:
     if "-f" not in args:
         return None
@@ -28,6 +29,7 @@ def parse_filename(args: List[str]) -> Optional[str]:
         return args[f_index + 1]
 
     return None
+
 
 def create_directory(dirs: List[str]) -> str:
     if not dirs:
@@ -62,7 +64,8 @@ def create_file(file_path: str) -> None:
         if file_exists:
             f.write("\n\n")
         f.write(content)
-        
+
+
 def main() -> None:
     args: List[str] = sys.argv[1:]
 
