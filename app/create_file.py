@@ -41,9 +41,10 @@ def create_directory(dirs: List[str]) -> str:
 
 
 def create_file(file_path: str) -> None:
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    os.makedirs(os.path.dirname(file_path), exist_ok=True) if os.path.dirname(file_path) else None
 
     file_exists = os.path.exists(file_path)
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     with open(file_path, "a") as f:
         if file_exists:
@@ -61,7 +62,7 @@ def create_file(file_path: str) -> None:
 
 
 def main() -> None:
-    args: List[str] = sys.argv[1:]
+    args = sys.argv[1:]
 
     dirs = parse_dirs(args)
     filename = parse_filename(args)
@@ -71,7 +72,3 @@ def main() -> None:
     if filename:
         file_path = os.path.join(path, filename) if path else filename
         create_file(file_path)
-
-
-if __name__ == "__main__":
-    main()
