@@ -35,47 +35,45 @@ def create_directory(dirs: List[str]) -> str:
     if not dirs:
         return ""
 
-    path: str = os.path.join(*dirs)
+    path = os.path.join(*dirs)
     os.makedirs(path, exist_ok=True)
     return path
 
 
 def create_file(file_path: str) -> None:
-    timestamp: str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    content_lines: List[str] = []
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    line_number: int = 1
+    lines: List[str] = []
+    line_number = 1
 
     while True:
-        line: str = input("Enter content line: ")
-        if line.lower() == "stop":
+        line = input("Enter content line: ")
+        if line == "stop":
             break
-        content_lines.append(f"{line_number} {line}")
+        lines.append(f"{line_number} {line}")
         line_number += 1
 
-    if not content_lines:
-        return
-
-    content: str = timestamp + "\n" + "\n".join(content_lines)
-
-    file_exists: bool = os.path.exists(file_path)
+    file_exists = os.path.exists(file_path)
 
     with open(file_path, "a") as f:
         if file_exists:
             f.write("\n\n")
-        f.write(content)
+
+        f.write(timestamp + "\n")
+        for line in lines:
+            f.write(line + "\n")
 
 
 def main() -> None:
     args: List[str] = sys.argv[1:]
 
-    dirs: List[str] = parse_dirs(args)
-    filename: Optional[str] = parse_filename(args)
+    dirs = parse_dirs(args)
+    filename = parse_filename(args)
 
-    path: str = create_directory(dirs)
+    path = create_directory(dirs)
 
     if filename:
-        file_path: str = os.path.join(path, filename) if path else filename
+        file_path = os.path.join(path, filename) if path else filename
         create_file(file_path)
 
 
