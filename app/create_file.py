@@ -43,16 +43,6 @@ def create_directory(dirs: List[str]) -> str:
 def create_file(file_path: str) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    lines: List[str] = []
-    line_number = 1
-
-    while True:
-        line = input("Enter content line: ")
-        if line == "stop":
-            break
-        lines.append(f"{line_number} {line}")
-        line_number += 1
-
     file_exists = os.path.exists(file_path)
 
     with open(file_path, "a") as f:
@@ -60,8 +50,14 @@ def create_file(file_path: str) -> None:
             f.write("\n\n")
 
         f.write(timestamp + "\n")
-        for line in lines:
-            f.write(line + "\n")
+
+        line_number = 1
+        while True:
+            line = input("Enter content line: ")
+            if line == "stop":
+                break
+            f.write(f"{line_number} {line}\n")
+            line_number += 1
 
 
 def main() -> None:
