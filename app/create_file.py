@@ -16,45 +16,53 @@ def create_file(file_path: str) -> None:
                     break
 
     with open(file_path, "a", encoding="utf-8") as file:
-        if file_exists and os.path.getsize(file_path) > 0:
-            with open(file_path, "rb") as f_check:
-                f_check.seek(-1, os.SEEK_END)
-                last_char = f_check.read(1)
-                if last_char != b"\n":
-                    file.write("\n")
-            file.write("\n")
+        file.write("\n")
+        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n")
 
-        file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
+        i = start_line
 
-        number_of_line = start_line
         while True:
-            input_line = input("Enter content line: ")
-            if input_line.lower() == "stop":
+            line = input("Enter content line: ")
+
+            if line.lower() == "stop":
                 break
-            file.write(f"{number_of_line} {input_line}\n")
-            number_of_line += 1
+
+            file.write(f"{i} {line}\n")
+            i += 1
 
 
-def find_path_from_terminal() -> None:
+def main() -> None:
     args = sys.argv[1:]
-    dir_path = ""
 
-    if "-d" in args:
-        index_d = args.index("-d") + 1
-        dirs = []
-        while index_d < len(args) and not args[index_d].startswith("-"):
-            dirs.append(args[index_d])
-            index_d += 1
-        dir_path = os.path.join(*dirs)
+    dirs = []
+    filename = "file.txt"
+
+    i = 0
+    while i < len(args):
+        if args[i] == "-d":
+            i += 1
+            while i < len(args) and not args[i].startswith("-"):
+                dirs.append(args[i])
+                i += 1
+            continue
+
+        if args[i] == "-f":
+            if i + 1 < len(args):
+                filename = args[i + 1]
+            i += 2
+            continue
+
+        i += 1
+
+    dir_path = os.path.join(*dirs) if dirs else ""
+
+    if dir_path:
         os.makedirs(dir_path, exist_ok=True)
 
-    if "-f" in args:
-        index_f = args.index("-f") + 1
-        if index_f < len(args):
-            filename = args[index_f]
-            file_path = os.path.join(dir_path, filename)
-            create_file(file_path)
+    file_path = os.path.join(dir_path, filename) if dir_path else filename
+
+    create_file(file_path)
 
 
 if __name__ == "__main__":
-    find_path_from_terminal()
+    main()
