@@ -14,8 +14,8 @@ if "-d" in args:
 
     # якщо є -f, обрізаємо директорії до -f
     if "-f" in dirs:
-        j = dirs.index("-f")
-        dirs = dirs[:j]
+        flag_index = dirs.index("-f")
+        dirs = dirs[:flag_index]
 
 if "-f" in args:
     i = args.index("-f")
@@ -58,12 +58,12 @@ for line in lines:
 
 # запис у файл
 if os.path.exists(file_path):
-    f = open(file_path, "a", encoding="utf-8")
-    f.write("\n" + content)
-    f.close()
+    file_handle = open(file_path, "a", encoding="utf-8")
+    file_handle.write("\n" + content)
+    file_handle.close()
 else:
-    f = open(file_path, "w", encoding="utf-8")
-    f.write(content)
-    f.close()
+    file_handle = open(file_path, "w", encoding="utf-8")
+    file_handle.write(content)
+    file_handle.close()
 
 print("Done:", file_path)
