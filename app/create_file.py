@@ -28,7 +28,7 @@ def write_content(file_path_name: str) -> None:
     for index, line in enumerate(lines_to_append, start=1):
         final_lines.append(f"{index} {line}\n")
 
-    with open(file_path, "a") as file:
+    with open(file_path_name, "a") as file:
         file.writelines(final_lines)
 
 
