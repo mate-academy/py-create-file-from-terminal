@@ -69,4 +69,5 @@ def main() -> None:
         user_lines = get_user_content()
         write_to_file(final_path, user_lines)
 
+
 main()
