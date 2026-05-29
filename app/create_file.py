@@ -63,4 +63,5 @@ def main() -> None:
             f.write(f"{current_time}\n")
             f.writelines(user_lines)
 
+
 main()
