@@ -7,48 +7,28 @@ from datetime import datetime
 def parse_arguments(args: Any) -> Any:
     dirs = []
     file_name = None
-    mode = None
 
-    for arg in args[1:]:
-        if arg == "-d":
-            mode = "dir"
-        elif arg == "-f":
-            mode = "file"
+    has_d = "-d" in args
+    has_f = "-f" in args
+
+    if has_d:
+        d_idx = args.index("-d")
+        if has_f and args.index("-f") > d_idx:
+            dirs = args[d_idx + 1: args.index("-f")]
         else:
-            if mode == "dir":
-                dirs.append(arg)
-            elif mode == "file":
-                file_name = arg
+            dirs = args[d_idx + 1:]
+
+    if has_f:
+        f_idx = args.index("-f")
+        if has_d and args.index("-d") > f_idx:
+            f_slice = args[f_idx + 1: args.index("-d")]
+        else:
+            f_slice = args[f_idx + 1:]
+
+        if f_slice:
+            file_name = f_slice[0]
 
     return dirs, file_name
-
-
-def get_user_content() -> Any:
-    lines = []
-    while True:
-        line = input("Enter content line: ")
-        if line == "stop":
-            break
-        lines.append(line)
-    return lines
-
-
-def write_to_file(final_path: Any, lines: Any) -> None:
-    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-    need_blank_line = False
-    if os.path.exists(final_path):
-        if os.path.getsize(final_path) > 0:
-            need_blank_line = True
-
-    with open(final_path, "a") as f:
-        if need_blank_line:
-            f.write("\n")
-
-        f.write(current_time + "\n")
-
-        for index, content in enumerate(lines, start=1):
-            f.write(f"{index} {content}\n")
 
 
 def main() -> None:
@@ -66,8 +46,21 @@ def main() -> None:
         else:
             final_path = file_name
 
-        user_lines = get_user_content()
-        write_to_file(final_path, user_lines)
+        user_lines = []
+        line_num = 1
+        while True:
+            line = input("Enter content line: ")
+            if line == "stop":
+                break
+            user_lines.append(f"{line_num} {line}\n")
+            line_num += 1
 
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        with open(final_path, "a") as f:
+            if os.path.exists(final_path) and os.path.getsize(final_path) > 0:
+                f.write("\n")
+
+            f.write(f"{current_time}\n")
+            f.writelines(user_lines)
 
 main()
