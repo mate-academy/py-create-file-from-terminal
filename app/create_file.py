@@ -1,50 +1,82 @@
+from typing import Optional
 import sys
 import os
 from datetime import datetime
 
 
-args = sys.argv[1:]
-folder = "."
-file_name = None
+def parse_args(args: list[str]) -> tuple[str, Optional[str]]:
+    folder_parts = []
+    file_name = None
 
-if "-d" in args:
-    i = args.index("-d")
-    parts = args[i + 1:]
+    i = 0
+    while i < len(args):
+        if args[i] == "-d":
+            i += 1
+            while i < len(args) and args[i] not in ("-d", "-f"):
+                folder_parts.append(args[i])
+                i += 1
+            continue
 
-    dir_parts = []
-    for char in parts:
-        if char == "-f":
-            break
-        dir_parts.append(char)
+        if args[i] == "-f":
+            if i + 1 < len(args):
+                file_name = args[i + 1]
+            i += 2
+            continue
 
-    folder = os.path.join(*dir_parts)
-    os.makedirs(folder, exist_ok=True)
+        i += 1
+
+    folder = os.path.join(*folder_parts) if folder_parts else "."
+    return folder, file_name
 
 
-if "-f" in args:
-    i = args.index("-f")
-    file_name = args[i + 1]
-
-    file_path = os.path.join(folder, file_name)
-
+def get_content() -> list[str]:
     lines = []
+
     while True:
         text = input("Enter content line: ")
         if text == "stop":
             break
         lines.append(text)
 
+    return lines
+
+
+def format_content(lines: list[str]) -> str:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     block = [timestamp]
-    for i, line in enumerate(lines, 1):
+
+    for i, line in enumerate(lines, start=1):
         block.append(f"{i} {line}")
 
-    text = "\n".join(block)
+    return "\n".join(block)
 
+
+def write_file(file_path: str, content: str) -> None:
     if os.path.exists(file_path):
         with open(file_path, "a", encoding="utf-8") as f:
-            f.write("\n\n" + text)
+            f.write("\n\n" + content)
     else:
         with open(file_path, "w", encoding="utf-8") as f:
-            f.write(text)
+            f.write(content)
+
+
+def main() -> None:
+    args = sys.argv[1:]
+
+    folder, file_name = parse_args(args)
+
+    os.makedirs(folder, exist_ok=True)
+
+    if file_name is None:
+        return
+
+    file_path = os.path.join(folder, file_name)
+
+    lines = get_content()
+    content = format_content(lines)
+
+    write_file(file_path, content)
+
+
+main()
