@@ -8,7 +8,7 @@ f_name = None
 if "-f" in sys.argv:
     f_index = sys.argv.index("-f")
     f_name = sys.argv[f_index + 1]
-    print (f_name)
+    print(f_name)
 
 if "-d" in sys.argv:
     d_index = sys.argv.index("-d")
@@ -16,7 +16,7 @@ if "-d" in sys.argv:
         d_name = sys.argv[d_index + 1: sys.argv.index("-f")]
     else:
         d_name = sys.argv[d_index + 1:]
-    print (d_name)
+    print(d_name)
 
 if f_name:
     if d_name:
