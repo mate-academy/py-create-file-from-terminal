@@ -23,8 +23,9 @@ def create_file_and_content(file_path: str) -> None:
     file_exists = os.path.exists(file_path)
     with open(file_path, "a") as file:
         if file_exists:
-            file.write("\n")
-        file.write(f"{timestamp}\n")
+            file.write(f"\n\n{timestamp}\n")
+        else:
+            file.write(f"{timestamp}\n")
         line_number = 1
         while True:
             user_input = input("Enter content line: ")
