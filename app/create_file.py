@@ -47,7 +47,3 @@ def main() -> None:
     else:
         if f_name:
             create_file_and_content(f_name)
-
-
-if __name__ == "__main__":
-    main()
