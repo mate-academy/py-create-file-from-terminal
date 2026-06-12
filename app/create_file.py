@@ -2,32 +2,24 @@ import datetime
 import os
 import sys
 
-d_name = []
-f_name = None
 
-if "-f" in sys.argv:
-    f_index = sys.argv.index("-f")
-    f_name = sys.argv[f_index + 1]
-    print(f_name)
+def parse_arguments() -> tuple[list[str], str | None]:
+    d_name = []
+    f_name = None
+    if "-f" in sys.argv:
+        f_index = sys.argv.index("-f")
+        f_name = sys.argv[f_index + 1]
+    if "-d" in sys.argv:
+        d_index = sys.argv.index("-d")
+        if "-f" in sys.argv and sys.argv.index("-f") > d_index:
+            d_name = sys.argv[d_index + 1 : sys.argv.index("-f")]
+        else:
+            d_name = sys.argv[d_index + 1 :]
+    return d_name, f_name
 
-if "-d" in sys.argv:
-    d_index = sys.argv.index("-d")
-    if "-f" in sys.argv and sys.argv.index("-f") > d_index:
-        d_name = sys.argv[d_index + 1: sys.argv.index("-f")]
-    else:
-        d_name = sys.argv[d_index + 1:]
-    print(d_name)
-
-if f_name:
-    if d_name:
-        way_folders = os.path.join(*d_name)
-        os.makedirs(way_folders, exist_ok=True)
-        full_path = os.path.join(way_folders, f_name)
-    else:
-        full_path = f_name
-    print("Final file path:", full_path)
+def create_file_and_content(file_path: str) -> None:
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with open(full_path, "a") as file:
+    with open(file_path, "a") as file:
         file.write(f"{timestamp}\n")
         line_number = 1
         while True:
@@ -36,5 +28,18 @@ if f_name:
                 break
             file.write(f"{line_number} {user_input}\n")
             line_number += 1
-else:
-    print("Error: No file name specified due to flag -f")
+
+def main() -> None:
+    d_name, f_name = parse_arguments()
+    if d_name:
+        way_folders = os.path.join(*d_name)
+        os.makedirs(way_folders, exist_ok=True)
+        if f_name:
+            full_path = os.path.join(way_folders, f_name)
+            create_file_and_content(full_path)
+    else:
+        if f_name:
+            create_file_and_content(f_name)
+
+if __name__ == "__main__":
+    main()
