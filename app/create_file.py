@@ -20,15 +20,18 @@ if f_index is not None and f_index + 1 < len(args):
 directory = []
 
 if d_index is not None:
+    end_index = len(args)
+
     if f_index is not None and f_index > d_index:
-        directory = args[d_index + 1:f_index]
-    else:
-        directory = args[d_index + 1:]
+        end_index = f_index
+
+    directory = args[d_index + 1:end_index]
 
 dir_path = os.path.join(*directory) if directory else "."
 
 # create directory if needed
-os.makedirs(dir_path, exist_ok=True)
+if directory:
+    os.makedirs(dir_path, exist_ok=True)
 
 # read input lines
 if file_name is not None:
@@ -43,9 +46,10 @@ if file_name is not None:
 
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    formatted_lines = []
-    for i, line in enumerate(lines, start=1):
-        formatted_lines.append(f"{i} {line}")
+    formatted_lines = [
+        f"{number} {line}"
+        for number, line in enumerate(lines, start=1)
+    ]
 
     new_block = timestamp + "\n" + "\n".join(formatted_lines)
 
