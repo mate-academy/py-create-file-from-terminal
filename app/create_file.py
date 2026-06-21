@@ -30,7 +30,6 @@ def command_exe() -> None:
                 archive_file = sys.argv[term]
                 term += 1
         else:
-            print(f"Unknown argument: {sys.argv[term]}")
             term += 1
 
     dir_file = path_creater(path_dir, archive_file, with_file, with_dir)
