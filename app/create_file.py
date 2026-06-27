@@ -33,8 +33,6 @@ if filename:
             break
         user_input_info.append(user_input)
 
-    file_exist = os.path.isfile(file_path)
-
     current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     is_existing_file = os.path.isfile(file_path)
     with open(file_path, "a") as file:
