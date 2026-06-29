@@ -1,47 +1,86 @@
-from datetime import datetime
 import os
 import sys
-args = sys.argv
+from datetime import datetime
 
-if "-d" in args:
 
-    d_index = sys.argv.index("-d")
+def get_directory(args: list[str]) -> str:
+    if "-d" not in args:
+        return ""
+
+    start = args.index("-d") + 1
     directories = []
 
-    for arg in args[d_index + 1:]:
+    for arg in args[start:]:
         if arg.startswith("-"):
             break
         directories.append(arg)
 
-    path = os.path.join(*directories)
-    os.makedirs(path)
+    if not directories:
+        return ""
 
-if "-f" in args:
+    return os.path.join(*directories)
+
+
+def get_filename(args: list[str]) -> str | None:
+    if "-f" not in args:
+        return None
+
+    index = args.index("-f") + 1
+
+    if index >= len(args):
+        return None
+
+    return args[index]
+
+
+def get_content() -> list[str]:
     lines = []
 
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    f_index = args.index("-f")
-    name = args[f_index + 1]
-
     while True:
+        line = input("Enter content line: ")
 
-        user = input("Enter content line: ")
-
-        if user == "stop":
+        if line == "stop":
             break
-        lines.append(user)
 
-    if "-d" in args:
-        filepath = os.path.join(path, name)
-    else:
-        filepath = name
+        lines.append(line)
 
-    file_exists = os.path.exists(filepath)
+    return lines
 
-    with open(filepath, "a") as file:
+
+def write_file(file_path: str, lines: list[str]) -> None:
+    file_exists = os.path.exists(file_path)
+
+    with open(file_path, "a", encoding="utf-8") as source_file:
         if file_exists:
-            file.write("\n")
-        file.write(timestamp + "\n")
+            source_file.write("\n")
 
-        for index, line in enumerate(lines, 1):
-            file.write(f"{index} {line}\n")
+        source_file.write(
+            datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
+        )
+
+        for index, line in enumerate(lines, start=1):
+            source_file.write(f"{index} {line}\n")
+
+
+def main() -> None:
+    args = sys.argv[1:]
+
+    directory = get_directory(args)
+    filename = get_filename(args)
+
+    if directory:
+        os.makedirs(directory, exist_ok=True)
+
+    if filename is None:
+        return
+
+    if directory:
+        file_path = os.path.join(directory, filename)
+    else:
+        file_path = filename
+
+    lines = get_content()
+    write_file(file_path, lines)
+
+
+main()
