@@ -3,14 +3,14 @@ import sys
 from datetime import datetime
 
 
-def get_directory(args: list[str]) -> str:
-    if "-d" not in args:
+def get_directory(command_line_args: list[str]) -> str:
+    if "-d" not in command_line_args:
         return ""
 
-    start = args.index("-d") + 1
+    start = command_line_args.index("-d") + 1
     directories = []
 
-    for arg in args[start:]:
+    for arg in command_line_args[start:]:
         if arg.startswith("-"):
             break
         directories.append(arg)
@@ -21,16 +21,19 @@ def get_directory(args: list[str]) -> str:
     return os.path.join(*directories)
 
 
-def get_filename(args: list[str]) -> str | None:
-    if "-f" not in args:
+def get_filename(command_line_args: list[str]) -> str | None:
+    if "-f" not in command_line_args:
         return None
 
-    index = args.index("-f") + 1
+    index = command_line_args.index("-f") + 1
 
-    if index >= len(args):
+    if index >= len(command_line_args):
         return None
 
-    return args[index]
+    if command_line_args[index].startswith("-"):
+        return None
+
+    return command_line_args[index]
 
 
 def get_content() -> list[str]:
@@ -63,10 +66,18 @@ def write_file(file_path: str, lines: list[str]) -> None:
 
 
 def main() -> None:
-    args = sys.argv[1:]
+    command_line_args = sys.argv[1:]
 
-    directory = get_directory(args)
-    filename = get_filename(args)
+    directory = get_directory(command_line_args)
+    filename = get_filename(command_line_args)
+
+    if "-d" in command_line_args and directory == "":
+        print("Missing directories after -d")
+        return
+
+    if "-f" in command_line_args and filename is None:
+        print("Missing file name after -f")
+        return
 
     if directory:
         os.makedirs(directory, exist_ok=True)
