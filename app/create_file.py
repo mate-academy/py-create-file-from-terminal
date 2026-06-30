@@ -16,15 +16,17 @@ def parse_arguments() -> Tuple[List[str], Optional[str]]:
             if i + 1 >= len(args) or args[i + 1].startswith("-"):
                 sys.exit(1)
             current_flag = "-d"
+            continue
         elif arg == "-f":
             if i + 1 >= len(args) or args[i + 1].startswith("-"):
                 sys.exit(1)
             current_flag = "-f"
-        else:
-            if current_flag == "-d":
-                directories.append(arg)
-            elif current_flag == "-f":
-                filename = arg
+            continue
+
+        if current_flag == "-d":
+            directories.append(arg)
+        elif current_flag == "-f":
+            filename = arg
 
     return directories, filename
 
