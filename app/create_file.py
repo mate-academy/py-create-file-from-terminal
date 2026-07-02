@@ -1,62 +1,84 @@
-import argparse
-from datetime import datetime
 import os
 import sys
+from datetime import datetime
 from typing import List, Tuple, Optional
 
 
 def parse_arguments() -> Tuple[Optional[List[str]], Optional[str]]:
-    """Parses command-line arguments safely."""
-    parser = argparse.ArgumentParser(
-        description="Create directories and/or files with content."
-    )
-    parser.add_argument("-d", nargs="+", default=None, metavar="DIR")
-    parser.add_argument("-f", default=None, metavar="FILENAME")
-    return parser.parse_known_args()
+    args = sys.argv[1:]
+    if not args:
+        print("Error: No arguments provided.", file=sys.stderr)
+        sys.exit(1)
+
+    dir_components: Optional[List[str]] = None
+    filename: Optional[str] = None
+
+    i = 0
+    while i < len(args):
+        if args[i] == "-d":
+            # Gather all subsequent elements up to the next known flag
+            components = []
+            i += 1
+            while i < len(args) and not args[i].startswith("-"):
+                components.append(args[i])
+                i += 1
+            if not components:
+                print("Error: -d flag requires at least one directory name.",
+                      file=sys.stderr)
+                sys.exit(1)
+            dir_components = components
+            continue
+        elif args[i] == "-f":
+            if i + 1 >= len(args) or args[i + 1].startswith("-"):
+                print("Error: -f flag requires a filename argument.",
+                      file=sys.stderr)
+                sys.exit(1)
+            filename = args[i + 1]
+            i += 2
+        else:
+            # Trap any invalid, unexpected, or misspelled flags/arguments
+            print(f"Error: Unrecognized argument or flag '{args[i]}'.",
+                  file=sys.stderr)
+            sys.exit(1)
+
+    return dir_components, filename
 
 
 def build_paths(
         dir_components: Optional[List[str]],
         filename: Optional[str]
 ) -> Tuple[str, Optional[str]]:
-    """Constructs the directory path and the final target file path."""
-    # os.path.join(*dir_components) unfolds ['dir1', 'dir2'] into 'dir1/dir2'
+    """Constructs the directory path and the final target file path strings."""
     directory = os.path.join(*dir_components) if dir_components else ""
     file_path = os.path.join(directory, filename) if filename else None
     return directory, file_path
 
 
 def create_target_directory(directory: str) -> bool:
-    """Creates the target directory structure. Crucial to prevent Errno 2."""
+    """Creates the target directory structure silently."""
     if not directory:
         return True
     try:
-        # exist_ok=True prevents errors if the directory already exists
         os.makedirs(directory, exist_ok=True)
         return True
-    except Exception as e:
-        print(f"OS Error creating directory structure '{directory}': {e}")
+    except Exception:
         return False
 
 
 def collect_user_input() -> List[str]:
-    """Collects lines of input from the terminal until 'stop' is entered."""
     lines = []
     while True:
         try:
             line = input("Enter content line: ")
-            if line.strip().lower() == "stop":
+            if line.strip() == "stop":
                 break
             lines.append(line)
         except (KeyboardInterrupt, EOFError):
-            print("\nOperation cancelled by user.")
             sys.exit(1)
     return lines
 
 
 def format_file_content(lines: List[str]) -> str:
-    """Formats raw input lines with a current
-    timestamp header and line numbering."""
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     output_lines = [current_time]
 
@@ -67,9 +89,7 @@ def format_file_content(lines: List[str]) -> str:
 
 
 def write_to_file(file_path: str, content: str) -> None:
-    """Writes content safely, ensuring parent folders exist."""
     try:
-        # Double check: ensure the parent directory exists right before opening
         parent_dir = os.path.dirname(file_path)
         if parent_dir:
             os.makedirs(parent_dir, exist_ok=True)
@@ -78,36 +98,35 @@ def write_to_file(file_path: str, content: str) -> None:
 
         with open(file_path, "a", encoding="utf-8") as file:
             if file_exists:
-                file.write("\n")  # Blank line separator for new blocks
+                file.write("\n")
             file.write(content)
-
-        print(f"Successfully updated file: {file_path}")
     except Exception as e:
-        print(f"File Write Error: {e}")
+        print(f"File Write Error: {e}", file=sys.stderr)
+        sys.exit(1)
 
 
 def main() -> None:
-    # 1. Parse arguments
-    args, unknown = parse_arguments()
+    # 1. Strict manual parsing from sys.argv
+    dir_components, filename = parse_arguments()
+    directory, file_path = build_paths(dir_components, filename)
 
-    # 2. Build paths
-    directory, file_path = build_paths(args.d, args.f)
-
-    # 3. Create directory first (if -d was provided)
-    if args.d:
-        if not create_target_directory(directory):
-            print("Skipping file creation due to directory failure.")
+    # 2. Quietly create directories if -d was explicitly passed
+    if dir_components:
+        success = create_target_directory(directory)
+        if not success:
             sys.exit(1)
 
-    # 4. If -f wasn't provided, stop here (directory is already made!)
-    if not args.f:
-        print(f"Directory structure verified/created: "
-              f"{directory if directory else '.'}")
+    # 3. Guard clause: Exit silently without extra text if only -d was provided
+    if not filename or not file_path:
         return
 
-    # 5. Gather inputs, format, and safely write to file
+    # 4. Interactive user input session
     lines = collect_user_input()
+
+    # 5. Format layout payload
     formatted_content = format_file_content(lines)
+
+    # 6. Append block to target file path
     write_to_file(file_path, formatted_content)
 
 
