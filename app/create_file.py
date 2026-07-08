@@ -15,13 +15,15 @@ def reading_terminal_command() -> None:
             if item == "-f":
                 break
             path.append(item)
-    target_dir = "/".join(path) if path else ""
+    target_dir = os.path.join(os.getcwd(), *path) if path else ""
+
     file_name = ""
     if has_f:
         f_idx = terminal_command.index("-f")
         file_name = terminal_command[f_idx + 1]
     elif not has_d:
         file_name = terminal_command[-1]
+
     if target_dir:
         create_directory(target_dir)
     if file_name:
@@ -33,10 +35,14 @@ def create_directory(directory: str) -> None:
 
 
 def create_file_with_text(name: str, directory: str = "") -> None:
-    full_path = os.path.join(directory, name) if directory else name
+    full_path = os.path.join(directory, name) \
+        if directory \
+        else os.path.join(os.getcwd(), name)
+
     prefix = ""
     if os.path.exists(full_path) and os.path.getsize(full_path) > 0:
         prefix = "\n"
+
     with open(full_path, "a") as f:
         if prefix:
             f.write(prefix)
