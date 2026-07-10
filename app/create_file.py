@@ -1,34 +1,36 @@
-import argparse
 import os
+import sys
+from datetime import datetime
 
 
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description="Create directories and files from the terminal."
-    )
-    parser.add_argument(
-        "-d",
-        nargs="+",
-        metavar="DIR",
-        help="List of directory names that form a nested path "
-             "(e.g. -d dir1 dir2 -> dir1/dir2).",
-    )
-    parser.add_argument(
-        "-f",
-        metavar="FILENAME",
-        help="Name of the file to create.",
-    )
-    return parser.parse_args()
+def parse_arguments(argv: list[str]) -> tuple[list[str], str]:
+    directories: list[str] = []
+    file_name: str = ""
 
+    has_d = "-d" in argv
+    has_f = "-f" in argv
 
-def build_directory_path(dirs: list[str]) -> str:
-    path = os.path.join(*dirs)
-    os.makedirs(path, exist_ok=True)
-    return path
+    if has_d and has_f:
+        d_index = argv.index("-d")
+        f_index = argv.index("-f")
+        directories = argv[d_index + 1:f_index]
+        if f_index + 1 < len(argv):
+            file_name = argv[f_index + 1]
+    elif has_d:
+        d_index = argv.index("-d")
+        directories = argv[d_index + 1:]
+    elif has_f:
+        f_index = argv.index("-f")
+        if f_index + 1 < len(argv):
+            file_name = argv[f_index + 1]
+    else:
+        raise ValueError("You must pass at least -d or -f")
+
+    return directories, file_name
 
 
 def read_content_lines() -> list[str]:
-    lines = []
+    lines: list[str] = []
     while True:
         line = input("Enter content line: ")
         if line.strip().lower() == "stop":
@@ -37,33 +39,43 @@ def read_content_lines() -> list[str]:
     return lines
 
 
-def create_file(directory: str | None, filename: str) -> None:
-    full_path = os.path.join(directory, filename) if directory else filename
+def build_content_block(lines: list[str]) -> str:
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    numbered_lines = [
+        f"{index} {line}" for index, line in enumerate(lines, start=1)
+    ]
+    numbered_text = "\n".join(numbered_lines)
+    return f"{timestamp}\n{numbered_text}\n"
 
-    lines = read_content_lines()
 
-    with open(full_path, "w", encoding="utf-8") as file:
-        file.write("\n".join(lines))
+def write_file(path: str, lines: list[str]) -> None:
+    content_block = build_content_block(lines)
+    file_exists = os.path.exists(path)
+    mode = "a" if file_exists else "w"
 
-    print(f"File '{full_path}' created successfully.")
+    with open(path, mode, encoding="utf-8") as file:
+        if file_exists:
+            file.write("\n")
+        file.write(content_block)
 
 
 def main() -> None:
-    args = parse_args()
+    argv = sys.argv[1:]
+    directories, file_name = parse_arguments(argv)
 
-    if not args.d and not args.f:
-        print("You must provide at least one flag: -d or -f.")
-        return
+    dir_path = os.path.join(*directories) if directories else ""
+    if dir_path:
+        os.makedirs(dir_path, exist_ok=True)
 
-    directory = None
-
-    if args.d:
-        directory = build_directory_path(args.d)
-        if not args.f:
-            print(f"Directory '{directory}' created successfully.")
-
-    if args.f:
-        create_file(directory, args.f)
+    if file_name:
+        lines = read_content_lines()
+        full_path = (
+            os.path.join(dir_path, file_name) if dir_path else file_name
+        )
+        write_file(full_path, lines)
+        print(f"File '{full_path}' updated successfully.")
+    elif dir_path:
+        print(f"Directory '{dir_path}' created successfully.")
 
 
 if __name__ == "__main__":
