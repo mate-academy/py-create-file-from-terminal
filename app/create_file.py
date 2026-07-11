@@ -3,6 +3,10 @@ import os
 from datetime import datetime
 
 
+def create_path(directories: list) -> str:
+    return os.path.join(*directories)
+
+
 def create_file(args: list = None) -> None:
     if args is None:
         args = sys.argv[1:]
@@ -26,12 +30,12 @@ def create_file(args: list = None) -> None:
                 next_index += 1
 
     if directory:
-        os.makedirs(os.path.join(*directory), exist_ok=True)
+        os.makedirs(create_path(directory), exist_ok=True)
 
     if file_name == "":
         return
 
-    full_path = os.path.join(*directory, file_name)
+    full_path = create_path(directory + [file_name])
 
     file_exists_with_content = (
         os.path.exists(full_path) and os.path.getsize(full_path) > 0
