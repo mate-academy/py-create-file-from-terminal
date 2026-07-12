@@ -44,7 +44,6 @@ def read_content_lines() -> list[str]:
 
 
 def build_content_block(lines: list[str]) -> str:
-    """Build a content block with a timestamp and numbered lines."""
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     numbered_lines = [
         f"{index} {line}" for index, line in enumerate(lines, start=1)
@@ -54,7 +53,6 @@ def build_content_block(lines: list[str]) -> str:
 
 
 def write_file(path: str, lines: list[str]) -> None:
-    """Create or append a new content block to a file."""
     content_block = build_content_block(lines)
     file_exists = os.path.exists(path)
     mode = "a" if file_exists else "w"
@@ -66,7 +64,6 @@ def write_file(path: str, lines: list[str]) -> None:
 
 
 def main() -> None:
-    """Program entry point."""
     argv = sys.argv[1:]
     directories, file_name = parse_arguments(argv)
 
