@@ -27,7 +27,10 @@ def read_content() -> list[str]:
 
 
 def append_entry(file_path: str, lines: list[str]) -> None:
-    needs_separator = os.path.exists(file_path) and os.path.getsize(file_path) > 0
+    needs_separator = (
+        os.path.exists(file_path)
+        and os.path.getsize(file_path) > 0
+    )
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     numbered_lines = [
         f"{line_number} {line}"
