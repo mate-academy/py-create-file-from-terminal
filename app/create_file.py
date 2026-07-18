@@ -5,7 +5,7 @@ import datetime
 
 def create_file() -> None:
     if len(sys.argv) < 2:
-        return 
+        return
     flag = sys.argv[1]
     both_flags = sys.argv
     if "-f" in both_flags and "-d" in both_flags:
