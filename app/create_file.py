@@ -21,7 +21,7 @@ if dir_path:
     os.makedirs(dir_path, exist_ok=True)
 # Тільки директорія - виходимо
 if has_d and not has_f:
-    sys.exit(0)
+    pass
 # Формуємо шлях до файлу
 if has_f:
     file_name = args[f_index + 1]
