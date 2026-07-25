@@ -1,13 +1,13 @@
+import os
 import sys
 from datetime import datetime
-from pathlib import Path
 
 
 def parse_arguments(arguments: list[str]) -> tuple[list[str], str | None]:
     """Split terminal arguments into directories and file name."""
-    directories: list[str] = []
-    file_name: str | None = None
-    current_flag: str | None = None
+    directories = []
+    file_name = None
+    current_flag = None
 
     for argument in arguments:
         if argument in ("-d", "-f"):
@@ -20,43 +20,40 @@ def parse_arguments(arguments: list[str]) -> tuple[list[str], str | None]:
     return directories, file_name
 
 
-def read_content() -> list[str]:
-    """Read lines from the terminal until 'stop' is entered."""
-    content: list[str] = []
+def create_directory(directories: list[str]) -> str:
+    """Create nested directories and return the path to them."""
+    directory_path = os.path.join("", *directories)
+    os.makedirs(directory_path, exist_ok=True)
 
-    while True:
-        line = input("Enter content line: ")
-
-        if line == "stop":
-            break
-
-        content.append(line)
-
-    return content
+    return directory_path
 
 
-def write_to_file(file_path: Path, content: list[str]) -> None:
-    """Append timestamp and numbered lines to the file."""
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
+def create_file(file_path: str) -> None:
+    """Create (or append to) the file and fill it with numbered lines."""
     with open(file_path, "a") as file:
-        file.write(f"{timestamp}\n")
+        file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 
-        for number, line in enumerate(content, start=1):
-            file.write(f"{number} {line}\n")
+        line_number = 1
+
+        while True:
+            line = input("Enter content line: ")
+
+            if line == "stop":
+                break
+
+            file.write(f"{line_number} {line}\n")
+            line_number += 1
 
 
 def main() -> None:
     directories, file_name = parse_arguments(sys.argv[1:])
-    directory_path = Path(*directories)
+    directory_path = ""
 
     if directories:
-        directory_path.mkdir(parents=True, exist_ok=True)
+        directory_path = create_directory(directories)
 
-    if file_name is None:
-        return
-
-    write_to_file(directory_path / file_name, read_content())
+    if file_name:
+        create_file(os.path.join(directory_path, file_name))
 
 
 if __name__ == "__main__":
