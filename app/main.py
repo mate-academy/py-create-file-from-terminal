@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 def parse_arguments(arguments: list[str]) -> tuple[list[str], str | None]:
-    """Split terminal arguments into directories and file name."""
+    """Split terminal arguments into directories and a file name."""
     directories = []
     file_name = None
     current_flag = None
@@ -29,8 +29,15 @@ def create_directory(directories: list[str]) -> str:
 
 
 def create_file(file_path: str) -> None:
-    """Create (or append to) the file and fill it with numbered lines."""
+    """Create or append to the file and fill it with numbered lines."""
+    is_not_empty = (
+        os.path.exists(file_path) and os.path.getsize(file_path) > 0
+    )
+
     with open(file_path, "a") as file:
+        if is_not_empty:
+            file.write("\n")
+
         file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
 
         line_number = 1
@@ -46,7 +53,7 @@ def create_file(file_path: str) -> None:
 
 
 def main() -> None:
-    directories, file_name = parse_arguments(sys.argv[1:])
+    directories, file_name = parse_arguments(sys.argv)
     directory_path = ""
 
     if directories:
