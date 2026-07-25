@@ -53,7 +53,7 @@ def create_file(file_path: str) -> None:
 
 
 def main() -> None:
-    directories, file_name = parse_arguments(sys.argv)
+    directories, file_name = parse_arguments(sys.argv[1:])
     directory_path = ""
 
     if directories:
@@ -63,5 +63,4 @@ def main() -> None:
         create_file(os.path.join(directory_path, file_name))
 
 
-if __name__ == "__main__":
-    main()
+main()
