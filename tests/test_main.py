@@ -15,11 +15,11 @@ def cleanup() -> None:
 
 def test_create_dir_and_file() -> None:
     cleanup()
-    test_args = ["app/create_file.py", "-d", "dir1", "dir2", "-f", "file.txt"]
+    test_args = ["app/main.py", "-d", "dir1", "dir2", "-f", "file.txt"]
     test_input = ["Line1 content", "Line2 content", "stop"]
 
     with patch("sys.argv", test_args), patch("builtins.input", side_effect=test_input):
-        runpy.run_path("app/create_file.py")
+        runpy.run_path("app/main.py")
 
     path = os.path.join("dir1", "dir2", "file.txt")
     assert os.path.exists(path), (
@@ -49,7 +49,7 @@ def test_create_dir_and_file() -> None:
 def test_create_file_and_dirs_reversed() -> None:
     cleanup()
     test_args = [
-        "app/create_file.py",
+        "app/main.py",
         "-f",
         "file.txt",
         "-d",
@@ -61,7 +61,7 @@ def test_create_file_and_dirs_reversed() -> None:
     test_input = ["Line1", "stop"]
 
     with patch("sys.argv", test_args), patch("builtins.input", side_effect=test_input):
-        runpy.run_path("app/create_file.py")
+        runpy.run_path("app/main.py")
 
     path = os.path.join("dir1", "dir2", "dir3", "dir4", "file.txt")
     assert os.path.exists(path), (
@@ -72,11 +72,11 @@ def test_create_file_and_dirs_reversed() -> None:
 
 def test_create_only_file() -> None:
     cleanup()
-    test_args = ["app/create_file.py", "-f", "file.txt"]
+    test_args = ["app/main.py", "-f", "file.txt"]
     test_input = ["Content line", "stop"]
 
     with patch("sys.argv", test_args), patch("builtins.input", side_effect=test_input):
-        runpy.run_path("app/create_file.py")
+        runpy.run_path("app/main.py")
 
     assert os.path.exists("file.txt"), (
         "File 'file.txt' should be created in the current directory "
@@ -87,10 +87,10 @@ def test_create_only_file() -> None:
 
 def test_create_only_dirs() -> None:
     cleanup()
-    test_args = ["app/create_file.py", "-d", "dir1", "dir2", "dir3", "dir4"]
+    test_args = ["app/main.py", "-d", "dir1", "dir2", "dir3", "dir4"]
 
     with patch("sys.argv", test_args):
-        runpy.run_path("app/create_file.py")
+        runpy.run_path("app/main.py")
 
     path = os.path.join("dir1", "dir2", "dir3", "dir4")
     assert os.path.isdir(path), (
@@ -103,17 +103,17 @@ def test_append_with_blank_line() -> None:
     cleanup()
     # First entry
     with (
-        patch("sys.argv", ["app/create_file.py", "-f", "file.txt"]),
+        patch("sys.argv", ["app/main.py", "-f", "file.txt"]),
         patch("builtins.input", side_effect=["Line 1", "stop"]),
     ):
-        runpy.run_path("app/create_file.py")
+        runpy.run_path("app/main.py")
 
     # Second entry
     with (
-        patch("sys.argv", ["app/create_file.py", "-f", "file.txt"]),
+        patch("sys.argv", ["app/main.py", "-f", "file.txt"]),
         patch("builtins.input", side_effect=["Line 2", "stop"]),
     ):
-        runpy.run_path("app/create_file.py")
+        runpy.run_path("app/main.py")
 
     with open("file.txt", "r") as source_file:
         content = source_file.read()
@@ -141,11 +141,11 @@ def test_append_with_blank_line() -> None:
 def test_stop_word() -> None:
     cleanup()
     # Test that it stops exactly at "stop"
-    test_args = ["app/create_file.py", "-f", "file.txt"]
+    test_args = ["app/main.py", "-f", "file.txt"]
     test_input = ["line", "stop", "extra"]
 
     with patch("sys.argv", test_args), patch("builtins.input", side_effect=test_input):
-        runpy.run_path("app/create_file.py")
+        runpy.run_path("app/main.py")
 
     with open("file.txt", "r") as source_file:
         lines = source_file.readlines()
@@ -162,14 +162,14 @@ def test_stop_word() -> None:
 
 def test_input_prompt() -> None:
     cleanup()
-    test_args = ["app/create_file.py", "-f", "file.txt"]
+    test_args = ["app/main.py", "-f", "file.txt"]
     test_input = ["line 1", "stop"]
 
     with (
         patch("sys.argv", test_args),
         patch("builtins.input", side_effect=test_input) as mock_input,
     ):
-        runpy.run_path("app/create_file.py")
+        runpy.run_path("app/main.py")
 
         assert mock_input.call_args_list[0][0][0] == "Enter content line: ", (
             f"Expected prompt 'Enter content line: ', but got '{mock_input.call_args_list[0][0][0]}'"
