@@ -1,4 +1,4 @@
-# Сheck Your Code Against the Following Points
+git commit -am 'Solution'# Сheck Your Code Against the Following Points
 
 ## Code Efficiency
 
