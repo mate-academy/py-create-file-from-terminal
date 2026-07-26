@@ -1,7 +1,7 @@
 # Create file from terminal
 
 Read [the guideline](https://github.com/mate-academy/py-task-guideline/blob/main/README.md) before starting.
-
+#  C:/Users/Pavel/MateAcademy/py-create-file-from-terminal/app/create_file.py
 Create an app `create_file.py` that takes directory path, file name, file
 content from the terminal and creates file. There should be flags `-d` or `-f`:
 
