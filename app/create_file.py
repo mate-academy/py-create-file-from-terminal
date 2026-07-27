@@ -27,11 +27,11 @@ def create_file() -> None:
             timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             file.write(timestamp + "\n")
 
-            mark = 1
+            line_mark = 1
             line_input = input("Enter content line: ")
             while line_input != "stop":
-                file.write(f"{mark} {line_input}\n")
-                mark += 1
+                file.write(f"{line_mark} {line_input}\n")
+                line_mark += 1
                 line_input = input("Enter content line: ")
 
     elif "-d" in arguments:
@@ -45,14 +45,14 @@ def create_file() -> None:
             if os.path.getsize(file_name) > 0:
                 file.write("\n")
 
-            timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H%M%S")
+            timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             file.write(timestamp + "\n")
 
-            mark = 1
+            line_mark = 1
             line_input = input("Enter content line: ")
             while line_input != "stop":
-                file.write(f"{mark} {line_input}\n")
-                mark += 1
+                file.write(f"{line_mark} {line_input}\n")
+                line_mark += 1
                 line_input = input("Enter content line: ")
 
 
