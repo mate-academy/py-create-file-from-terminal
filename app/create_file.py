@@ -3,6 +3,22 @@ import sys
 import datetime
 
 
+def write_content_lines(file_path: str) -> None:
+    with open(file_path, "a", encoding="utf-8") as file:
+        if os.path.getsize(file_path) > 0:
+            file.write("\n")
+
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        file.write(timestamp + "\n")
+
+        line_mark = 1
+        line_input = input("Enter content line: ")
+        while line_input != "stop":
+            file.write(f"{line_mark} {line_input}\n")
+            line_mark += 1
+            line_input = input("Enter content line: ")
+
+
 def create_file() -> None:
     arguments = sys.argv[1:]
 
@@ -20,19 +36,8 @@ def create_file() -> None:
         os.makedirs(directory_path, exist_ok=True)
 
         file_path = os.path.join(directory_path, file_name)
-        with open(file_path, "a", encoding="utf-8") as file:
-            if os.path.getsize(file_path) > 0:
-                file.write("\n")
 
-            timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            file.write(timestamp + "\n")
-
-            line_mark = 1
-            line_input = input("Enter content line: ")
-            while line_input != "stop":
-                file.write(f"{line_mark} {line_input}\n")
-                line_mark += 1
-                line_input = input("Enter content line: ")
+        write_content_lines(file_path)
 
     elif "-d" in arguments:
         directories = arguments[arguments.index("-d") + 1:]
@@ -41,19 +46,8 @@ def create_file() -> None:
 
     elif "-f" in arguments:
         file_name = arguments[arguments.index("-f") + 1]
-        with open(file_name, "a", encoding="utf-8") as file:
-            if os.path.getsize(file_name) > 0:
-                file.write("\n")
 
-            timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            file.write(timestamp + "\n")
-
-            line_mark = 1
-            line_input = input("Enter content line: ")
-            while line_input != "stop":
-                file.write(f"{line_mark} {line_input}\n")
-                line_mark += 1
-                line_input = input("Enter content line: ")
+        write_content_lines(file_name)
 
 
 create_file()
