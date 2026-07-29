@@ -1,4 +1,3 @@
-import argparse
 import sys
 import os
 from datetime import datetime
@@ -7,16 +6,19 @@ def parse_arguments():
     directories = []
     filename = None
 
-    if '-d' in sys.argv:
-        d_index = sys.argv.index('-d')
-        for arg in sys.argv[d_index + 1:]:
-            if arg.startswith("-"):
-                break
-            directories.append(arg)
-
     if '-f' in sys.argv:
         f_index = sys.argv.index('-f')
-        filename = sys.argv[f_index + 1]
+        if f_index + 1 < len(sys.argv):
+            if not sys.argv[f_index + 1].startswith("-"):
+                filename = sys.argv[f_index + 1]
+    if '-d' in sys.argv:
+        d_index = sys.argv.index('-d')
+        if d_index + 1 < len(sys.argv):
+            for arg in sys.argv[d_index + 1:]:
+                if arg.startswith("-"):
+                    break
+                directories.append(arg)
+
 
     return directories, filename
 
