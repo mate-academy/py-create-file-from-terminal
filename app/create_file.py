@@ -3,26 +3,31 @@ import sys
 from datetime import datetime
 
 
-def parse_arguments(argv: str) -> str | None:
+def parse_arguments(
+        argv: list[str]
+) -> tuple[list[str], str | None]:
     i = 1
     dirs = []
     filename = None
-    while i < len(sys.argv):
-        if sys.argv[i] == "-d":
+    while i < len(argv):
+        if argv[i] == "-d":
             i += 1
-            while (i < len(sys.argv)) and not sys.argv[i].startswith("-"):
-                dirs.append(sys.argv[i])
+            while (i < len(argv)) and not argv[i].startswith("-"):
+                dirs.append(argv[i])
                 i += 1
             continue
-        elif sys.argv[i] == "-f":
-            filename = sys.argv[i + 1]
+        if argv[i] == "-f":
+            filename = argv[i + 1]
             i += 2
             continue
         i += 1
     return dirs, filename
 
 
-def build_path(dirs: list, filename: str) -> str | bytes:
+def build_path(
+        dirs: list[str],
+        filename: str,
+) -> str:
     path = os.path.join(*dirs) if dirs else ""
     if path:
         os.makedirs(path, exist_ok=True)
@@ -38,7 +43,9 @@ def write_content(full_path: str) -> None:
         if file_exists:
             file.write("\n")
 
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        timestamp = datetime.now().strftime(
+            "%Y-%m-%d %H:%M:%S"
+        )
         file.write(f"{timestamp}\n")
 
         while True:
