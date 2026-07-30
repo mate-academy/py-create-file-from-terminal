@@ -26,9 +26,11 @@ def parse_arguments(
 
 def build_path(
         dirs: list[str],
-        filename: str,
+        filename: str | None,
 ) -> str:
     path = os.path.join(*dirs) if dirs else ""
+    if filename is None:
+        return path
     if path:
         os.makedirs(path, exist_ok=True)
 
