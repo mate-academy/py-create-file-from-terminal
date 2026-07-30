@@ -23,17 +23,20 @@ if "-d" in args:
 
 if "-f" in args:
     f_index = args.index("-f")
-    filename = args[f_index + 1]
+
+    if f_index + 1 < len(args):
+        filename = args[f_index + 1]
 
 path = os.path.join(*directories) if directories else ""
 
 if path:
     os.makedirs(path, exist_ok=True)
 
-if filename is not None:
+if filename:
     file_path = os.path.join(path, filename)
 
-    lines = []
+    content = []
+    line_number = 1
 
     while True:
         line = input("Enter content line: ")
@@ -41,7 +44,8 @@ if filename is not None:
         if line == "stop":
             break
 
-        lines.append(line)
+        content.append(f"{line_number} {line}")
+        line_number += 1
 
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -52,6 +56,5 @@ if filename is not None:
             file.write("\n")
 
         file.write(f"{timestamp}\n")
-
-        for number, line in enumerate(lines, start=1):
-            file.write(f"{number} {line}\n")
+        file.write("\n".join(content))
+        file.write("\n")
