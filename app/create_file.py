@@ -7,18 +7,25 @@ def parse_arguments() -> tuple:
     directories = []
     filename = None
 
-    if "-f" in sys.argv:
-        f_index = sys.argv.index("-f")
-        if (f_index + 1 < len(sys.argv)
-                and not sys.argv[f_index + 1].startswith("-")):
-            filename = sys.argv[f_index + 1]
-    if "-d" in sys.argv:
-        d_index = sys.argv.index("-d")
-        if d_index + 1 < len(sys.argv):
-            for arg in sys.argv[d_index + 1:]:
-                if arg.startswith("-"):
-                    break
-                directories.append(arg)
+    args = sys.argv[1:]
+
+    i = 0
+    while i < len(args):
+        if args[i] == "-f":
+            if i + 1 < len(args):
+                filename = args[i + 1]
+                i += 2
+            else:
+                i += 1
+
+        elif args[i] == "-d":
+            i += 1
+            while i < len(args) and not args[i].startswith("-"):
+                directories.append(args[i])
+                i += 1
+
+        else:
+            i += 1
 
     return directories, filename
 
@@ -42,8 +49,6 @@ def get_file_content() -> list:
 
 
 def write_to_file(file_path: str, content_lines: list) -> None:
-    if not content_lines:
-        return
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     file_exist = os.path.exists(file_path) and os.path.getsize(file_path) > 0
     with open(file_path, "a") as f:
@@ -68,5 +73,4 @@ def main() -> None:
     write_to_file(file_path, lines)
 
 
-if __name__ == "__main__":
-    main()
+main()
