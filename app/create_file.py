@@ -39,7 +39,6 @@ def create_file() -> None:
     directory_path = ""
     if len(directories) != 0:
         directory_path = os.path.join(*directories)
-        print(directory_path)
         os.makedirs(directory_path, exist_ok=True)
     if file_name:
         write_file(os.path.join(directory_path, file_name))
