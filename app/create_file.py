@@ -1,64 +1,88 @@
-import sys
 import os
+import sys
 from datetime import datetime
 
 
-def main() -> None:
-    args = sys.argv[1:]
+def parse_arguments(arguments: list) -> tuple:
+    """Parse CLI arguments and return (directories, file_name).
 
-    if not args:
-        print("Usage: python create_file.py -d <dirs...> -f <filename>")
-        return
-
-    dir_path = None
+    Works regardless of whether -d or -f comes first.
+    """
+    directories = []
     file_name = None
 
-    if "-d" in args:
-        d_index = args.index("-d")
-        dir_parts = []
-        for i in range(d_index + 1, len(args)):
-            if args[i].startswith("-"):
+    if "-d" in arguments:
+        directory_flag_index = arguments.index("-d")
+        for argument in arguments[directory_flag_index + 1:]:
+            if argument == "-f":
                 break
-            dir_parts.append(args[i])
-        if dir_parts:
-            dir_path = os.path.join(*dir_parts)
-            os.makedirs(dir_path, exist_ok=True)
+            directories.append(argument)
 
-    if "-f" in args:
-        f_index = args.index("-f")
-        if f_index + 1 < len(args):
-            file_name = args[f_index + 1]
+    if "-f" in arguments:
+        file_flag_index = arguments.index("-f")
+        file_name = arguments[file_flag_index + 1]
 
-    if not file_name:
-        if dir_path:
-            print(f"Directory created: {dir_path}")
-        else:
-            print("No file or directory specified.")
-        return
+    return directories, file_name
 
-    if dir_path:
-        file_path = os.path.join(dir_path, file_name)
-    else:
-        file_path = file_name
 
-    lines = []
+def create_directories(directories: list) -> str:
+    """Create nested directories and return the resulting path."""
+    directory_path = os.path.join(*directories)
+    os.makedirs(directory_path, exist_ok=True)
+    return directory_path
+
+
+def read_content_lines() -> list:
+    """Read lines from the terminal until the user types 'stop'."""
+    content_lines = []
+
     while True:
         line = input("Enter content line: ")
-        if line.strip().lower() == "stop":
+        if line == "stop":
             break
-        lines.append(line)
+        content_lines.append(line)
 
+    return content_lines
+
+
+def write_content_to_file(file_path: str, content_lines: list) -> None:
+    """Append a timestamp and numbered content lines to the file.
+
+    A blank line is placed before a new entry when the file already
+    has content, so entries are separated but no trailing blank line
+    is left at the end of the file.
+    """
+    file_exists = os.path.exists(file_path)
+    file_has_content = file_exists and os.path.getsize(file_path) > 0
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    numbered_lines = [f"{i + 1} {line}" for i, line in enumerate(lines)]
-    block = "\n".join([timestamp] + numbered_lines)
 
-    with open(file_path, "a", encoding="utf-8") as f:
-        if os.path.getsize(file_path) > 0:
-            f.write("\n\n")
-        f.write(block)
-
-    print(f"File created/updated: {file_path}")
+    with open(file_path, "a") as target_file:
+        if file_has_content:
+            target_file.write("\n")
+        target_file.write(f"{timestamp}\n")
+        for line_number, line in enumerate(content_lines, start=1):
+            target_file.write(f"{line_number} {line}\n")
 
 
-if __name__ == "__main__":
-    main()
+def main() -> None:
+    arguments = sys.argv[1:]
+    directories, file_name = parse_arguments(arguments)
+
+    directory_path = ""
+    if directories:
+        directory_path = create_directories(directories)
+
+    if file_name:
+        file_path = (
+            os.path.join(directory_path, file_name)
+            if directory_path
+            else file_name
+        )
+        content_lines = read_content_lines()
+        write_content_to_file(file_path, content_lines)
+        print(f"File created at: {file_path}")
+    elif directories:
+        print(f"Directory created at: {directory_path}")
+
+
+main()
