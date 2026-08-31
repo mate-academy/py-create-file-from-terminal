@@ -19,6 +19,7 @@ def create_file() -> None:
 
 def write_lines(file_name: str) -> None:
     count = 0
+    lines = []
     with open(file_name, "a") as file:
         if file.tell() > 0:
             file.write("\n")
@@ -30,7 +31,8 @@ def write_lines(file_name: str) -> None:
             if line == "stop":
                 break
             count += 1
-            file.write(f"{count} {line}\n")
+            lines.append(f"{count} {line}\n")
+        file.writelines(lines)
 
 
 create_file()
