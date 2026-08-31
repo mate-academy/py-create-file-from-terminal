@@ -17,17 +17,19 @@ def create_file_from_terminal() -> None:
                 break
             d_flag_params.append(param)
 
-        path = "/".join(d_flag_params)
+        path = os.path.join(*d_flag_params)
         os.makedirs(path, exist_ok=True)
         path += "/"
 
     if "-f" in params:
         f_flag_index = params.index("-f")
         path += params[f_flag_index + 1]
-        if os.path.exists(path):
-            with open(path, "a+") as f:
-                f.write("\n")
+
+        file_exists = os.path.exists(path)
+
         with open(path, "a+") as f:
+            if file_exists:
+                f.write("\n")
             f.write(
                 datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
             )
