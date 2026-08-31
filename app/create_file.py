@@ -47,7 +47,7 @@ if file_name:
 
         current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         f.write(f"{current_time}\n")
-        #all is correct
+        # all is correct
         line_number = 1
         for text in content_lines:
             f.write(f"{line_number} {text}\n")
