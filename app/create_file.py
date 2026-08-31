@@ -2,6 +2,17 @@ import sys
 import os
 from datetime import datetime
 
+
+def get_content() -> list:
+    content_lines = []
+    while True:
+        line = input("Enter content line: ")
+        if line == "stop":
+            break
+        content_lines.append(line)
+    return content_lines
+
+
 file_name = None
 dirs = []
 args = sys.argv
@@ -12,7 +23,6 @@ if "-f" in args:
 
 if "-d" in args:
     d_index = args.index("-d")
-    # Якщо -f є і він стоїть ПІСЛЯ -d
     if "-f" in args and args.index("-f") > d_index:
         dirs = args[d_index + 1: args.index("-f")]
     else:
@@ -28,13 +38,7 @@ if file_name:
     else:
         full_file_path = file_name
 
-    content_lines = []
-
-    while True:
-        line = input("Enter content line: ")
-        if line == "stop":
-            break
-        content_lines.append(line)
+    content_lines = get_content()
 
     with open(full_file_path, "a") as f:
         if (os.path.exists(full_file_path)
