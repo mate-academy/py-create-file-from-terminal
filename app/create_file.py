@@ -23,7 +23,7 @@ def create_file() -> None:
         else:
             directory_path = os.path.join(*command[d_index + 1:f_index])
 
-    # Creating files if needed
+    # Creating directories if needed
     if directory_path:
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
