@@ -19,11 +19,15 @@ def create_file_from_terminal() -> None:
 
         path = os.path.join(*d_flag_params)
         os.makedirs(path, exist_ok=True)
-        path += "/"
 
     if "-f" in params:
         f_flag_index = params.index("-f")
-        path += params[f_flag_index + 1]
+        file_name = params[f_flag_index + 1]
+
+        if path:
+            path = os.path.join(path, file_name)
+        else:
+            path = file_name
 
         file_exists = os.path.exists(path)
 
