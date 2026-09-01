@@ -5,7 +5,6 @@ from datetime import datetime
 
 def create_app(path: str, file_name: str, file_content: str) -> None:
     full_path = os.path.join(path, file_name)
-    print(full_path)
     os.makedirs(path, exist_ok=True)
     with open(full_path, "a") as f:
         f.write(file_content)
