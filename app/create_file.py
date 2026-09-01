@@ -26,7 +26,7 @@ def create_file_from_terminal() -> None:
         os.makedirs(path, exist_ok=True)
     if f_index is not None:
         if d_index is None:
-            file_path = console_init[f_index + 1]
+            file_path = os.path.join(os.getcwd(), console_init[f_index + 1])
         if d_index is not None:
             file_path = os.path.join(path, console_init[f_index + 1])
 
