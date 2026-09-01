@@ -16,6 +16,7 @@ def find_flags(arguments: list[str]) -> None:
             index_d = i
     process_arguments(arguments, index_f, index_d)
 
+
 def process_arguments(
         command: list[str],
         index_f: None | int,
@@ -39,20 +40,18 @@ def process_arguments(
         write_to_file(file_name)
 
 
-def write_to_file(
-        file_name: str
-) -> None:
+def write_to_file(file_name: str) -> None:
+    with open(file_name, "a") as f:
+        if os.path.getsize(file_name) > 0:
+            f.write("\n")
+        f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
+        count = 0
+        while True:
+            line = input("Enter content line: ")
+            if line == "stop":
+                break
+            count += 1
+            f.write(f"{count} {line}\n")
 
-        with open(file_name, "a") as f:
-            if os.path.getsize(file_name) > 0:
-                f.write("\n")
-            f.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n"))
-            count = 0
-            while True:
-                line = input("Enter content line: ")
-                if line == "stop":
-                    break
-                count += 1
-                f.write(f"{count} {line}\n")
 
 find_flags(arguments)
