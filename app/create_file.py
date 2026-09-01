@@ -45,12 +45,14 @@ def get_content() -> list:
 def create_file(path: str, content: list) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     file_exists = os.path.exists(path)
+    lines = []
+    if file_exists:
+        lines.append("\n")
+    lines.append(f"{timestamp}\n")
+    for num, line in enumerate(content, start=1):
+        lines.append(f"{num} {line}\n")
     with open(path, "a") as file:
-        if file_exists:
-            file.write("\n")
-        file.write(f"{timestamp}\n")
-        for num, line in enumerate(content, start=1):
-            file.write(f"{num} {line}\n")
+        file.writelines(lines)
 
 
 def main() -> None:
