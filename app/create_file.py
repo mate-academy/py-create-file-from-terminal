@@ -3,20 +3,26 @@ import os
 import datetime
 
 
+file_path = None
+path = None
+
+if "-d" in sys.argv:
+    start = sys.argv.index("-d") + 1
+    if "-f" in sys.argv and sys.argv.index("-f") > sys.argv.index("-d"):
+        end = sys.argv.index("-f")
+        folders = sys.argv[start:end]
+    else:
+        folders = sys.argv[start:]
+    path = os.path.join(*folders)
+    os.makedirs(path, exist_ok=True)
+
 if "-f" in sys.argv:
     file_index = sys.argv.index("-f")
     file_path = sys.argv[file_index + 1]
 
-    if "-d" in sys.argv:
-        start = sys.argv.index("-d") + 1
-        if sys.argv.index("-f") > sys.argv.index("-d"):
-            end = sys.argv.index("-f")
-            folders = sys.argv[start:end]
-        else:
-            folders = sys.argv[start:]
-        path = os.path.join(*folders)
-        os.makedirs(path, exist_ok=True)
+    if path is not None:
         file_path = os.path.join(path, file_path)
+
     lines = []
     while True:
         line = input("Enter content line: ")
@@ -36,9 +42,3 @@ if "-f" in sys.argv:
             file_name.write("\n\n" + final)
         else:
             file_name.write(final)
-if "-d" in sys.argv and "-f" not in sys.argv:
-    start = sys.argv.index("-d") + 1
-    folders = sys.argv[start:]
-
-    path = os.path.join(*folders)
-    os.makedirs(path, exist_ok=True)
