@@ -1,8 +1,3 @@
-# sys.argv to read arguments from the terminal
-# os.makedirs to create directories
-# .strftime() method for datetime.now()
-
-
 import sys
 import os
 import datetime
@@ -15,10 +10,11 @@ def create_directories() -> str:
         if argument.startswith("-"):
             break
         directories_names.append(argument)
-    formated_directories_names = "\\".join(directories_names)
+    formated_directories_names = os.path.join(*directories_names)
     current_directory = os.getcwd()
-    result_path = f"{current_directory}\\{formated_directories_names}"
-    os.makedirs(result_path)
+    result_path = os.path.join(current_directory, formated_directories_names)
+    print(result_path)
+    os.makedirs(result_path, exist_ok=True)
     return result_path
 
 
@@ -27,7 +23,7 @@ def create_file(current_directory: None | str) -> None:
     file_name_list = sys.argv[index_of_f + 1:]
     if current_directory is None:
         current_directory = os.getcwd()
-    with open(f"{current_directory}\\{file_name_list[0]}", "a") as f:
+    with open(os.path.join(current_directory, file_name_list[0]), "a") as f:
         if f.tell() > 0:
             f.write("\n")
         line_count = 1
