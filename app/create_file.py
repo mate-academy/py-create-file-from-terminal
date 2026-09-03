@@ -1,23 +1,33 @@
-import argparse
+import sys
 import os
 from datetime import datetime
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-d", nargs="+")
-parser.add_argument("-f")
-args = parser.parse_args()
+argv = sys.argv[1:]
+
+args_d = []
+arg_f = None
+
+if "-d" in argv:
+    idx = argv.index("-d") + 1
+    while idx < len(argv) and not argv[idx].startswith("-"):
+        args_d.append(argv[idx])
+        idx += 1
+
+if "-f" in argv:
+    idx = argv.index("-f") + 1
+    if idx < len(argv):
+        arg_f = argv[idx]
 
 path_dir = None
-if args.d:
-    path_dir = os.path.join(*args.d)
+if args_d:
+    path_dir = os.path.join(*args_d)
     os.makedirs(path_dir, exist_ok=True)
 
-if args.f:
-    path_file = os.path.join(path_dir, args.f) if path_dir else args.f
+if arg_f:
+    path_file = os.path.join(path_dir, arg_f) if path_dir else arg_f
 
-    file_has_content = (
-        os.path.exists(path_file) and os.path.getsize(path_file) > 0
-    )
+    file_exists = os.path.exists(path_file)
+    file_has_content = file_exists and os.path.getsize(path_file) > 0
 
     with open(path_file, "a") as f:
         if file_has_content:
