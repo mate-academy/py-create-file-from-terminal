@@ -11,13 +11,22 @@ def get_arguments() -> tuple[list[str], str | None]:
 
     if "-d" in arguments:
         d_index = arguments.index("-d")
-        end_index = (
-            arguments.index("-f") if "-f" in arguments else len(arguments)
-        )
+
+        if "-f" in arguments:
+            f_index = arguments.index("-f")
+
+            if f_index > d_index:
+                end_index = f_index
+            else:
+                end_index = len(arguments)
+        else:
+            end_index = len(arguments)
+
         directories = arguments[d_index + 1:end_index]
 
     if "-f" in arguments:
         f_index = arguments.index("-f")
+
         if f_index + 1 < len(arguments):
             file_name = arguments[f_index + 1]
 
@@ -76,5 +85,4 @@ def main() -> None:
     write_to_file(file_path, content)
 
 
-if __name__ == "__main__":
-    main()
+main()
