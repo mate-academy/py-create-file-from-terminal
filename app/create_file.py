@@ -11,18 +11,11 @@ def get_arguments() -> tuple[list[str], str | None]:
 
     if "-d" in arguments:
         d_index = arguments.index("-d")
+        directories = arguments[d_index + 1:]
 
-        if "-f" in arguments:
-            f_index = arguments.index("-f")
-
-            if f_index > d_index:
-                end_index = f_index
-            else:
-                end_index = len(arguments)
-        else:
-            end_index = len(arguments)
-
-        directories = arguments[d_index + 1:end_index]
+        if "-f" in directories:
+            f_index = directories.index("-f")
+            directories = directories[:f_index]
 
     if "-f" in arguments:
         f_index = arguments.index("-f")
