@@ -32,16 +32,19 @@ if filename:
 
     content_lines = []
     while True:
-        line = input("Enter line content: ")
+        line = input("Enter content line: ")
         if line.lower() == "stop":
             break
         content_lines.append(line)
 
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    header = f"{now}\n"
 
-    with open(filepath, "a" if os.path.exists(filepath) else "w") as f:
-        f.write(header)
+    file_exists = os.path.exists(filepath) and os.path.getsize(filepath) > 0
+
+    with open(filepath, "a") as f:
+        if file_exists:
+            f.write("\n")
+
+        f.write(f"{now}\n")
         for index, line in enumerate(content_lines, start=1):
             f.write(f"{index} {line}\n")
-        f.write("\n")
