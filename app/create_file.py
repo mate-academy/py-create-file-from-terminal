@@ -4,51 +4,75 @@ from datetime import datetime
 
 
 def main() -> None:
-    if len(sys.argv) < 3:
+    args = sys.argv[1:]
+
+    if len(args) < 1:
         print("Error")
-        return None
+        return
+
+    create_dirs = "-d" in args
+    create_file = "-f" in args
+
     dir_list = []
-    for element in range(len(sys.argv)):
-        if sys.argv[element] == "-d":
-            for direct in range(element + 1, len(sys.argv)):
-                if sys.argv[direct] == "-f":
-                    break
-                dir_list.append(sys.argv[direct])
-    result_dir = "/".join(dir_list)
-    file_name = sys.argv[-1]
+
+    if "-d" in args:
+        d_index = args.index("-d")
+
+        for arg in args[d_index + 1:]:
+            if arg.startswith("-"):
+                continue
+
+            if create_file and arg == args[-1]:
+                break
+
+            dir_list.append(arg)
+
+    file_name = args[-1]
+
+    if dir_list:
+        result_dir = os.path.join(*dir_list)
+    else:
+        result_dir = ""
+
+    if create_dirs and result_dir:
+        os.makedirs(result_dir, exist_ok=True)
+        print("Folder created!")
+
+    if not create_file:
+        return
+
+    if result_dir:
+        file_path = os.path.join(result_dir, file_name)
+    else:
+        file_path = file_name
+
     now = datetime.now()
     timestamp = now.strftime("%d.%m.%Y %H:%M:%S")
-    if "-d" in sys.argv:
-        if not os.path.exists(result_dir):
-            os.makedirs(result_dir)
-            print("Folder created!")
-        else:
-            print("That folder already exists")
-    if "-f" in sys.argv:
-        parent_dir = os.path.dirname(result_dir)
-        if parent_dir and not os.path.exists(result_dir):
-            os.makedirs(result_dir)
-        if os.path.exists(result_dir):
-            with open(f"./{result_dir}/{file_name}.txt",
-                      "a", encoding="utf-8") as f:
-                line = 1
-                f.write(f"{timestamp}\n")
-                while True:
-                    content = input("Enter content line: ")
-                    if content.lower() == "stop":
-                        return None
-                    f.write(f"{line} {content}\n")
-                    line += 1
 
-        with open(f"./{result_dir}/{file_name}.txt",
-                  "w", encoding="utf-8") as f:
-            line = 1
-            f.write(f"{timestamp}\n")
-            while True:
-                content = input("Enter content line: ")
-                if content.lower() == "stop":
-                    break
-                f.write(f"{line} {content}\n")
-                line += 1
+    parent_dir = os.path.dirname(file_path)
+
+    if parent_dir and not os.path.exists(parent_dir):
+        os.makedirs(parent_dir, exist_ok=True)
+
+    if os.path.exists(file_path):
+        mode = "a"
     else:
-        print("Unexist command!")
+        mode = "w"
+
+    with open(file_path, mode, encoding="utf-8") as f:
+        f.write(f"{timestamp}\n")
+
+        line = 1
+
+        while True:
+            content = input("Enter content line: ")
+
+            if content.lower() == "stop":
+                break
+
+            f.write(f"{line} {content}\n")
+            line += 1
+
+
+if __name__ == "__main__":
+    main()
