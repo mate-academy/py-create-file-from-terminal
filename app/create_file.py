@@ -3,76 +3,51 @@ import os
 from datetime import datetime
 
 
-def main() -> None:
-    args = sys.argv[1:]
-
-    if len(args) < 1:
-        print("Error")
-        return
-
-    create_dirs = "-d" in args
-    create_file = "-f" in args
-
-    dir_list = []
-
-    if "-d" in args:
-        d_index = args.index("-d")
-
-        for arg in args[d_index + 1:]:
-            if arg.startswith("-"):
-                continue
-
-            if create_file and arg == args[-1]:
-                break
-
-            dir_list.append(arg)
-
-    file_name = args[-1]
-
-    if dir_list:
-        result_dir = os.path.join(*dir_list)
-    else:
-        result_dir = ""
-
-    if create_dirs and result_dir:
-        os.makedirs(result_dir, exist_ok=True)
-        print("Folder created!")
-
-    if not create_file:
-        return
-
-    if result_dir:
-        file_path = os.path.join(result_dir, file_name)
-    else:
-        file_path = file_name
-
-    now = datetime.now()
-    timestamp = now.strftime("%d.%m.%Y %H:%M:%S")
-
-    parent_dir = os.path.dirname(file_path)
-
-    if parent_dir and not os.path.exists(parent_dir):
-        os.makedirs(parent_dir, exist_ok=True)
-
-    if os.path.exists(file_path):
-        mode = "a"
-    else:
-        mode = "w"
-
-    with open(file_path, mode, encoding="utf-8") as f:
-        f.write(f"{timestamp}\n")
-
-        line = 1
-
-        while True:
-            content = input("Enter content line: ")
-
-            if content.lower() == "stop":
-                break
-
-            f.write(f"{line} {content}\n")
-            line += 1
+def parse_arguments(arguments: list[str]) -> tuple[list[str], str | None]:
+    directories = []
+    filename = None
+    if "-d" in arguments:
+        directory_start = arguments.index("-d") + 1
+        directory_end = len(arguments)
+        if "-f" in arguments and arguments.index("-f") > directory_start - 1:
+            directory_end = arguments.index("-f")
+        directories = arguments[directory_start:directory_end]
+    if "-f" in arguments:
+        filename_index = arguments.index("-f") + 1
+        if filename_index < len(arguments):
+            filename = arguments[filename_index]
+    return directories, filename
 
 
-if __name__ == "__main__":
-    main()
+def collect_content() -> list[str]:
+    content = []
+    while True:
+        line = input("Enter content line: ")
+        if line == "stop":
+            break
+        content.append(line)
+    return content
+
+
+def write_content(filepath: str, content: list[str]) -> None:
+    file_exists = os.path.exists(filepath)
+    file_mode = "a" if file_exists else "w"
+    with open(filepath, file_mode) as source_file:
+        if file_exists:
+            source_file.write("\n")
+        source_file.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        for line_number, line in enumerate(content, start=1):
+            source_file.write(f"{line_number} {line}\n")
+
+
+directories, filename = parse_arguments(sys.argv[1:])
+
+if directories:
+    directory_path = os.path.join(*directories)
+    os.makedirs(directory_path, exist_ok=True)
+else:
+    directory_path = ""
+
+if filename is not None:
+    filepath = os.path.join(directory_path, filename)
+    write_content(filepath, collect_content())
