@@ -4,12 +4,29 @@ import sys
 from datetime import datetime
 
 
-_, *content = sys.argv
+_, *commands = sys.argv
+content = " ".join(commands)
+
+correct_dir = os.getcwd()
+today_time = datetime.now()
 
 if "-d" in content and "-f" in content:
-    today_time = datetime.now()
-    file_name = content[-1]
-    directory_name = content[-3]
+    index_d = content.index("-d")
+    index_f = content.index("-f")
+
+    if index_d < index_f:
+        d_place, f_place = content.find("-d"), content.find("-f")
+        file_name = content[f_place + 2:].strip()
+
+        connect_dir_path = content[d_place + 2: f_place].split()
+        directory_name = os.path.join(correct_dir, *connect_dir_path)
+
+    else:
+        start, end = content.find("-f"), content.find("-d")
+        file_name = content[start + 2:end].strip()
+
+        connect_dir_path = content[end + 2:].split()
+        directory_name = os.path.join(correct_dir, *connect_dir_path)
 
     if not os.path.exists(directory_name):
         os.makedirs(directory_name)
@@ -35,14 +52,17 @@ if "-d" in content and "-f" in content:
             number += 1
 
 elif "-d" in content:
-    directory_name = content[-1]
+    d_place = content.find("-d")
+
+    connect_dir_path = content[d_place + 2:].split()
+    directory_name = os.path.join(correct_dir, *connect_dir_path)
 
     if not os.path.exists(directory_name):
         os.makedirs(directory_name)
 
 elif "-f" in content:
-    today_time = datetime.now()
-    file_name = content[-1]
+    f_place = content.find("-f")
+    file_name = content[f_place + 2:].strip()
     file_exist = os.path.isfile(file_name)
 
     with open(file_name, "a") as file:
