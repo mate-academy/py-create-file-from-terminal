@@ -22,10 +22,10 @@ if "-d" in content and "-f" in content:
         directory_name = os.path.join(correct_dir, *connect_dir_path)
 
     else:
-        start, end = content.find("-f"), content.find("-d")
-        file_name = content[start + 2:end].strip()
+        d_place, f_place = content.find("-f"), content.find("-d")
+        file_name = content[d_place + 2:f_place].strip()
 
-        connect_dir_path = content[end + 2:].split()
+        connect_dir_path = content[f_place + 2:].split()
         directory_name = os.path.join(correct_dir, *connect_dir_path)
 
     if not os.path.exists(directory_name):
