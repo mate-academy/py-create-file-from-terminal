@@ -19,14 +19,16 @@ def get_content() -> list[str]:
 
 def write_to_file(file_path: str, content: list[str]) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    file_exists = os.path.exists(file_path)
 
     with open(file_path, "a") as file:
+        if file_exists:
+            file.write("\n")
+
         file.write(f"{timestamp}\n")
 
-        for index, line in enumerate(content, start=1):
-            file.write(f"{index} {line}\n")
-
-        file.write("\n")
+        for number, line in enumerate(content, start=1):
+            file.write(f"{number} {line}\n")
 
 
 def main() -> None:
@@ -36,23 +38,26 @@ def main() -> None:
     file_name = None
 
     if "-d" in args:
-        d_index = args.index("-d") + 1
+        start = args.index("-d") + 1
 
-        if "-f" in args:
-            f_index = args.index("-f")
-            directory_parts = args[d_index:f_index]
-        else:
-            directory_parts = args[d_index:]
+        end = len(args)
+        for index in range(start, len(args)):
+            if args[index].startswith("-"):
+                end = index
+                break
+
+        directory_parts = args[start:end]
 
     if "-f" in args:
-        f_index = args.index("-f") + 1
+        file_index = args.index("-f") + 1
 
-        if f_index < len(args):
-            file_name = args[f_index]
+        if file_index < len(args):
+            file_name = args[file_index]
 
-    directory_path = os.path.join(*directory_parts) if directory_parts else ""
+    directory_path = ""
 
-    if directory_path:
+    if directory_parts:
+        directory_path = os.path.join(*directory_parts)
         os.makedirs(directory_path, exist_ok=True)
 
     if file_name is not None:
