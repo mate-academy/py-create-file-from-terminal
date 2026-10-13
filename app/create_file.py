@@ -8,19 +8,21 @@ def parse_arguments() -> tuple[list[str], str | None]:
     directories = []
     file_name = None
 
-    if "-d" in args:
-        d_idx = args.index("-d")
-        for arg in args[d_idx + 1:]:
-            if arg.startswith("-"):
-                break
-            directories.append(arg)
-
-    if "-f" in args:
-        f_idx = args.index("-f")
-        if f_idx + 1 < len(args):
-            next_arg = args[f_idx + 1]
-            if not next_arg.startswith("-"):
-                file_name = next_arg
+    i = 0
+    while i < len(args):
+        if args[i] == "-d":
+            i += 1
+            while i < len(args) and not args[i].startswith("-"):
+                directories.append(args[i])
+                i += 1
+            continue
+        elif args[i] == "-f":
+            i += 1
+            if i < len(args) and not args[i].startswith("-"):
+                file_name = args[i]
+                i += 1
+            continue
+        i += 1
 
     return directories, file_name
 
