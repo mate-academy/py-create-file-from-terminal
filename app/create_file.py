@@ -8,13 +8,15 @@ def get_directories(args: list[str]) -> listif "-d" not in args:
 
     d_index = args.index("-d")
 
-    if "-f" in args:
-        f_index = args.index("-f")
+    directory_args = []
 
-        if d_index < f_index:
-            return args[d_index + 1:f_index]
+    for argument in args[d_index + 1:]:
+        if argument == "-f":
+            break
 
-    return args[d_index + 1:]
+        directory_args.append(argument)
+
+    return directory_args
 
 
 def get_file_name(args: list[str]) -> str:
@@ -42,21 +44,21 @@ def get_content() -> listlines = []
 def write_content(file_path: str, lines: list[str]) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    content = [timestamp]
+    block = [timestamp]
 
     for index, line in enumerate(lines, start=1):
-        content.append(f"{index} {line}")
+        block.append(f"{index} {line}")
 
-    file_exists = (
+    has_content = (
         os.path.exists(file_path)
         and os.path.getsize(file_path) > 0
     )
 
     with open(file_path, "a") as file:
-        if file_exists:
+        if has_content:
             file.write("\n\n")
 
-        file.write("\n".join(content))
+        file.write("\n".join(block))
 
 
 def main() -> None:
@@ -64,11 +66,11 @@ def main() -> None:
 
     directories = get_directories(args)
 
+    directory_path = ""
+
     if directories:
         directory_path = os.path.join(*directories)
         os.makedirs(directory_path, exist_ok=True)
-    else:
-        directory_path = ""
 
     file_name = get_file_name(args)
 
@@ -81,6 +83,7 @@ def main() -> None:
         file_path = file_name
 
     lines = get_content()
+
     write_content(file_path, lines)
 
 
