@@ -68,8 +68,10 @@ def main() -> None:
 
     new_content = "\n".join(new_entry_parts) + "\n"
 
-    # Verifica se o arquivo já existe e não está vazio para adicionar a linha separadora
-    file_exists = os.path.exists(file_path) and os.path.getsize(file_path) > 0
+    # Quebrado em duas linhas para não estourar o limite de 79 caracteres
+    file_exists = (
+        os.path.exists(file_path) and os.path.getsize(file_path) > 0
+    )
     mode = "a" if file_exists else "w"
 
     with open(file_path, mode, encoding="utf-8") as file_obj:
