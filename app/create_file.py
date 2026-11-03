@@ -27,12 +27,6 @@ def parse_arguments(args: List[str]) -> Tuple[List[str], Optional[str]]:
                 i += 1
             continue
         else:
-            if filename is None and (
-                "." in arg or i == len(args) - 1 and len(dirs) > 0
-            ):
-                filename = arg
-            else:
-                dirs.append(arg)
             i += 1
 
     return dirs, filename
@@ -48,10 +42,6 @@ def main() -> None:
         os.makedirs(target_dir, exist_ok=True)
 
     if not filename:
-        if dirs:
-            print(f"Diretório '{target_dir}' criado com sucesso.")
-        else:
-            print("Nenhum diretório ou arquivo válido foi especificado.")
         return
 
     file_path = (
