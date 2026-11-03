@@ -27,8 +27,6 @@ def parse_arguments(args: List[str]) -> Tuple[List[str], Optional[str]]:
                 i += 1
             continue
         else:
-            if not filename and not arg.startswith("-"):
-                filename = arg
             i += 1
 
     return dirs, filename
