@@ -11,34 +11,27 @@ def parse_arguments(args: List[str]) -> Tuple[List[str], Optional[str]]:
     dirs: List[str] = []
     filename: Optional[str] = None
 
-    has_d = any(arg in ("-d", "--dir") for arg in args)
-    has_f = any(arg in ("-f", "--file") for arg in args)
-
-    if has_d or has_f:
-        i = 1
-        while i < len(args):
-            arg = args[i]
-            if arg in ("-d", "--dir"):
+    i = 1
+    while i < len(args):
+        arg = args[i]
+        if arg in ("-d", "--dir"):
+            i += 1
+            while i < len(args) and not args[i].startswith("-"):
+                dirs.append(args[i])
                 i += 1
-                while i < len(args) and not args[i].startswith("-"):
-                    dirs.append(args[i])
-                    i += 1
-                continue
-            elif arg in ("-f", "--file"):
+            continue
+        elif arg in ("-f", "--file"):
+            i += 1
+            if i < len(args):
+                filename = args[i]
                 i += 1
-                if i < len(args):
-                    filename = args[i]
-                    i += 1
-                continue
-            else:
-                i += 1
-    else:
-        positional = args[1:]
-        for arg in positional:
-            if "." in arg:
+            continue
+        else:
+            if not filename and ("." in arg or len(args) == 2):
                 filename = arg
             else:
                 dirs.append(arg)
+            i += 1
 
     return dirs, filename
 
@@ -53,10 +46,6 @@ def main() -> None:
         os.makedirs(target_dir, exist_ok=True)
 
     if not filename:
-        if dirs:
-            print(f"Diretório '{target_dir}' criado com sucesso.")
-        else:
-            print("Nenhum diretório ou arquivo válido foi especificado.")
         return
 
     file_path = (
