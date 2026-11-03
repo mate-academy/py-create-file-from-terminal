@@ -11,46 +11,34 @@ def parse_arguments(args: List[str]) -> Tuple[List[str], Optional[str]]:
     dirs: List[str] = []
     filename: Optional[str] = None
 
-    has_flags = any(
-        arg in ("-d", "--dir", "-f", "--file") for arg in args
-    )
+    has_d = any(arg in ("-d", "--dir") for arg in args)
+    has_f = any(arg in ("-f", "--file") for arg in args)
 
-    if not has_flags:
-        positional = args[1:]
-        if not positional:
-            return dirs, filename
-
-        file_indices = [
-            idx for idx, arg in enumerate(positional) if "." in arg
-        ]
-        if file_indices:
-            file_idx = file_indices[0]
-            dirs = positional[:file_idx]
-            filename = positional[file_idx]
-        else:
-            if len(positional) == 1:
-                filename = positional[0]
+    if has_d or has_f:
+        i = 1
+        while i < len(args):
+            arg = args[i]
+            if arg in ("-d", "--dir"):
+                i += 1
+                while i < len(args) and not args[i].startswith("-"):
+                    dirs.append(args[i])
+                    i += 1
+                continue
+            elif arg in ("-f", "--file"):
+                i += 1
+                if i < len(args):
+                    filename = args[i]
+                    i += 1
+                continue
             else:
-                dirs = positional
-        return dirs, filename
-
-    i = 1
-    while i < len(args):
-        arg = args[i]
-        if arg in ("-d", "--dir"):
-            i += 1
-            while i < len(args) and not args[i].startswith("-"):
-                dirs.append(args[i])
                 i += 1
-            continue
-        elif arg in ("-f", "--file"):
-            i += 1
-            if i < len(args):
-                filename = args[i]
-                i += 1
-            continue
-        else:
-            i += 1
+    else:
+        positional = args[1:]
+        for arg in positional:
+            if "." in arg:
+                filename = arg
+            else:
+                dirs.append(arg)
 
     return dirs, filename
 
@@ -71,7 +59,9 @@ def main() -> None:
             print("Nenhum diretório ou arquivo válido foi especificado.")
         return
 
-    file_path = os.path.join(target_dir, filename) if target_dir else filename
+    file_path = (
+        os.path.join(target_dir, filename) if target_dir else filename
+    )
 
     content_lines = []
     while True:
