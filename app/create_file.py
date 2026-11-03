@@ -11,6 +11,29 @@ def parse_arguments(args: List[str]) -> Tuple[List[str], Optional[str]]:
     dirs: List[str] = []
     filename: Optional[str] = None
 
+    has_flags = any(
+        arg in ("-d", "--dir", "-f", "--file") for arg in args
+    )
+
+    if not has_flags:
+        positional = args[1:]
+        if not positional:
+            return dirs, filename
+
+        file_indices = [
+            idx for idx, arg in enumerate(positional) if "." in arg
+        ]
+        if file_indices:
+            file_idx = file_indices[0]
+            dirs = positional[:file_idx]
+            filename = positional[file_idx]
+        else:
+            if len(positional) == 1:
+                filename = positional[0]
+            else:
+                dirs = positional
+        return dirs, filename
+
     i = 1
     while i < len(args):
         arg = args[i]
