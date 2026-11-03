@@ -68,8 +68,13 @@ def main() -> None:
 
     new_content = "\n".join(new_entry_parts) + "\n"
 
-    mode = "a" if os.path.exists(file_path) else "w"
+    # Verifica se o arquivo já existe e não está vazio para adicionar a linha separadora
+    file_exists = os.path.exists(file_path) and os.path.getsize(file_path) > 0
+    mode = "a" if file_exists else "w"
+
     with open(file_path, mode, encoding="utf-8") as file_obj:
+        if file_exists:
+            file_obj.write("\n")
         file_obj.write(new_content)
 
     print(f"Arquivo '{file_path}' atualizado com sucesso!")
