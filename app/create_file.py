@@ -46,6 +46,8 @@ def main() -> None:
         os.makedirs(target_dir, exist_ok=True)
 
     if not filename:
+        if dirs:
+            print(f"Diretório '{target_dir}' criado com sucesso.")
         return
 
     file_path = (
