@@ -37,6 +37,10 @@ def create_file() -> None:
         return
 
     path = ""
+    if directories:
+        path = os.path.join(*directories)
+        os.makedirs(path, exist_ok=True)
+
     if file_name:
         file_path = os.path.join(path, file_name)
         content = get_content()
