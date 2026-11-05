@@ -58,6 +58,5 @@ def create_file() -> None:
                 file.write(f"{number} {line}\n")
 
 
-if __name__ == "__main__":
-    create_file()
-    # write your code here
+create_file()
+# write your code here
