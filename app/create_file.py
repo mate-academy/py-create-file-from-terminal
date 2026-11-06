@@ -15,19 +15,24 @@ directories: list[str] = []
 if has_directory:
     directory_index: int = sys.argv.index("-d")
 
-    if has_file:
-        file_index: int = sys.argv.index("-f")
-        directories = sys.argv[directory_index + 1 : file_index]
-    else:
-        directories = sys.argv[directory_index + 1 :]
+    next_flag_index: int = len(sys.argv)
 
-if has_directory:
+    for index, argument in enumerate(
+        sys.argv[directory_index + 1 :], start=directory_index + 1
+    ):
+        if argument.startswith("-"):
+            next_flag_index = index
+            break
+
+    directories = sys.argv[directory_index + 1 : next_flag_index]
+
     if not directories:
         print("Please provide directory names")
         sys.exit(1)
 
     directory_path: str = os.path.join(*directories)
     os.makedirs(directory_path, exist_ok=True)
+
 else:
     directory_path = ""
 
@@ -40,35 +45,37 @@ if has_file:
         sys.exit(1)
 
     file_name: str = sys.argv[file_index + 1]
-else:
-    print("Please provide -f flag")
-    sys.exit(1)
 
+    if file_name.startswith("-"):
+        print("Please provide a valid file name")
+        sys.exit(1)
 
-file_path: str = os.path.join(directory_path, file_name)
+    file_path: str = os.path.join(directory_path, file_name)
 
+    content_lines: list[str] = []
 
-content_lines: list[str] = []
+    while True:
+        line: str = input("Enter content line: ")
 
-while True:
-    line: str = input("Enter content line: ")
+        if line == "stop":
+            break
 
-    if line == "stop":
-        break
+        content_lines.append(line)
 
-    content_lines.append(line)
+    current_time: datetime = datetime.now()
+    timestamp: str = current_time.strftime("%Y-%m-%d %H:%M:%S")
 
+    file_exists: bool = (
+        os.path.exists(file_path) and os.path.getsize(file_path) > 0
+    )
 
-current_time: datetime = datetime.now()
+    with open(file_path, "a", encoding="utf-8") as file:
+        if file_exists:
+            file.write("\n")
 
-timestamp: str = current_time.strftime("%Y-%m-%d %H:%M:%S")
+        file.write(timestamp + "\n")
 
+        for number, line in enumerate(content_lines, start=1):
+            file.write(f"{number} {line}\n")
 
-with open(file_path, "a", encoding="utf-8") as file:
-    file.write(timestamp + "\n")
-
-    for number, line in enumerate(content_lines, start=1):
-        file.write(f"{number} {line}\n")
-
-
-print(f"Content successfully saved to {file_path}")
+    print(f"Content successfully saved to {file_path}")
