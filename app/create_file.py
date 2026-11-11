@@ -20,7 +20,6 @@ if "-d" in args_list:
     elif directory_position > file_position:
         directory_list = args_list[directory_position + 1:]
 
-
     folder_path = "/".join(directory_list)
     os.makedirs(folder_path, exist_ok=True)
 
