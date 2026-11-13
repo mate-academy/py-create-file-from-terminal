@@ -38,12 +38,6 @@ def format_entry(content_lines: list) -> str:
     return "\n".join([timestamp] + numbered_lines) + "\n"
 
 
-def write_entry(file_path: str, entry: str) -> None:
-    separator = "\n" if os.path.exists(file_path) else ""
-    with open(file_path, "a", encoding="utf-8") as target_file:
-        target_file.write(separator + entry)
-
-
 def create_file() -> None:
     directories, file_name = parse_arguments(sys.argv[1:])
 
@@ -53,7 +47,10 @@ def create_file() -> None:
 
     if file_name:
         file_path = os.path.join(directory_path, file_name)
-        write_entry(file_path, format_entry(read_content_lines()))
+        separator = "\n" if os.path.exists(file_path) else ""
+
+        with open(file_path, "a", encoding="utf-8") as target_file:
+            target_file.write(separator + format_entry(read_content_lines()))
 
 
 create_file()
