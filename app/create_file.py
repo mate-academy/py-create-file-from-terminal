@@ -1,50 +1,26 @@
-import sys
 import os
+import sys
 from datetime import datetime
 
 
 def main() -> None:
     dirs = []
     file_name = None
+    current_flag = None
 
-    # Manual parsing of sys.argv to support -d and -f flags in any order
-    i = 1
-    while i < len(sys.argv):
-        arg = sys.argv[i]
-        if arg == "-d":
-            i += 1
-            while i < len(sys.argv) and not sys.argv[i].startswith("-"):
-                dirs.append(sys.argv[i])
-                i += 1
-            continue
-        elif arg == "-f":
-            i += 1
-            if i < len(sys.argv):
-                file_name = sys.argv[i]
-                i += 1
-            continue
-        else:
-            i += 1
+    for arg in sys.argv[1:]:
+        if arg in ("-d", "-f"):
+            current_flag = arg
+        elif current_flag == "-d":
+            dirs.append(arg)
+        elif current_flag == "-f" and file_name is None:
+            file_name = arg
 
-    # 1. Handle directory creation if -d is provided
-    dir_path = ""
-    if dirs:
-        dir_path = os.path.join(*dirs)
-        os.makedirs(dir_path, exist_ok=True)
+    path = os.path.join(*dirs) if dirs else ""
+    if path:
+        os.makedirs(path, exist_ok=True)
 
-    # 2. Handle file creation and content input if -f is provided
     if file_name:
-        if dir_path:
-            target_file = os.path.join(dir_path, file_name)
-        else:
-            target_file = file_name
-
-        # Ensure parent directories exist
-        parent_dir = os.path.dirname(target_file)
-        if parent_dir:
-            os.makedirs(parent_dir, exist_ok=True)
-
-        # Collect lines interactively until "stop"
         lines = []
         while True:
             line = input("Enter content line: ")
@@ -52,20 +28,16 @@ def main() -> None:
                 break
             lines.append(line)
 
-        # Generate timestamp and format content with numbered lines
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        entry = [timestamp] + [
+            f"{number} {line}" for number, line in enumerate(lines, 1)
+        ]
 
-        formatted_entry = [timestamp]
-        for idx, content_line in enumerate(lines, 1):
-            formatted_entry.append(f"{idx} {content_line}")
+        target = os.path.join(path, file_name)
+        separator = "\n" if os.path.exists(target) else ""
 
-        new_content = "\n".join(formatted_entry) + "\n"
-
-        # Append if file already exists, otherwise create new
-        mode = "a" if os.path.exists(target_file) else "w"
-        with open(target_file, mode, encoding="utf-8") as f:
-            f.write(new_content)
+        with open(target, "a", encoding="utf-8") as file:
+            file.write(separator + "\n".join(entry) + "\n")
 
 
-if __name__ == "__main__":
-    main()
+main()
