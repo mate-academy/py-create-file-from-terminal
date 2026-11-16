@@ -39,7 +39,7 @@ def create_file() -> None:
             file.write("\n")
 
         file.write(datetime.strftime(datetime.now(),
-                                  "%Y-%m-%d %H:%M:%S\n"))
+                                     "%Y-%m-%d %H:%M:%S\n"))
         while True:
             line_nr += 1
             user_input = input("Enter content line: ")
