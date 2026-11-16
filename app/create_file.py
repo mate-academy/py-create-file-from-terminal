@@ -1,6 +1,7 @@
 import os
 import sys
 from datetime import datetime
+from typing import TextIO
 
 DIRECTORY_FLAG = "-d"
 FILE_FLAG = "-f"
@@ -36,14 +37,16 @@ def read_content_lines() -> list[str]:
     return content_lines
 
 
-def write_content(file_path: str, content_lines: list[str]) -> None:
-    separator = "\n" if os.path.exists(file_path) else ""
+def write_content(
+    target_file: TextIO,
+    content_lines: list[str],
+    separator: str,
+) -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    with open(file_path, "a") as target_file:
-        target_file.write(f"{separator}{timestamp}\n")
-        for line_number, line in enumerate(content_lines, start=1):
-            target_file.write(f"{line_number} {line}\n")
+    target_file.write(f"{separator}{timestamp}\n")
+    for line_number, line in enumerate(content_lines, start=1):
+        target_file.write(f"{line_number} {line}\n")
 
 
 def create_file() -> None:
@@ -58,8 +61,11 @@ def create_file() -> None:
         return
 
     file_path = os.path.join(directory_path, file_name)
-    content_lines = read_content_lines()
-    write_content(file_path, content_lines)
+    separator = "\n" if os.path.exists(file_path) else ""
+
+    with open(file_path, "a") as target_file:
+        content_lines = read_content_lines()
+        write_content(target_file, content_lines, separator)
 
 
 create_file()
