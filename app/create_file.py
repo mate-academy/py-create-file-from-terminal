@@ -34,18 +34,18 @@ def create_file() -> None:
     if path:
         file_name = os.path.join(path, file_name)
 
-    with open(file_name, "a") as f:
+    with open(file_name, "a") as file:
         if open(file_name, "r").read():
-            f.write("\n")
+            file.write("\n")
 
-        f.write(datetime.strftime(datetime.now(),
+        file.write(datetime.strftime(datetime.now(),
                                   "%Y-%m-%d %H:%M:%S\n"))
         while True:
             line_nr += 1
             user_input = input("Enter content line: ")
             if user_input == "stop":
                 break
-            f.write(f"{line_nr} {user_input}\n")
+            file.write(f"{line_nr} {user_input}\n")
 
 
 if result_dict.get("-f"):
