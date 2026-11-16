@@ -17,17 +17,20 @@ for command in command_entered:
         result_dict[flag].append(command)
 
 
-path = ""
-if result_dict.get("-d", None):
-    for directory in result_dict["-d"] :
+def create_dir() -> str:
+    path = ""
+    for directory in result_dict.get("-d", ""):
         path = os.path.join(path, directory)
+    if not path:
+        return ""
     os.makedirs(path, exist_ok=True)
+    return path
 
 
-if result_dict.get("-f", None):
+def create_file() -> None:
     file_name = result_dict["-f"][0]
-    user_input = ""
-    i = 0
+    line_nr = 0
+    path = create_dir()
     if path:
         file_name = os.path.join(path, file_name)
 
@@ -38,8 +41,14 @@ if result_dict.get("-f", None):
         f.write(datetime.strftime(datetime.now(),
                                   "%Y-%m-%d %H:%M:%S\n"))
         while True:
-            i += 1
+            line_nr += 1
             user_input = input("Enter content line: ")
             if user_input == "stop":
                 break
-            f.write(f"{i} {user_input}\n")
+            f.write(f"{line_nr} {user_input}\n")
+
+
+if result_dict.get("-f"):
+    create_file()
+if result_dict.get("-d", None):
+    create_dir()
