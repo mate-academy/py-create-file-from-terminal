@@ -58,3 +58,7 @@ def main() -> None:
         file_path = os.path.join(dir_path, file_name)
         content = get_file_content()
         write_to_file(file_path, content)
+
+
+if __name__ == "__main__":
+    main()
