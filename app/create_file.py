@@ -33,24 +33,23 @@ def main() -> None:
 
     file_path = os.path.join(directory, filename)
 
-    lines: list[str] = []
-
-    while True:
-        line = input("Enter content line: ")
-
-        if line == "stop":
-            break
-
-        lines.append(line)
-
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-    file_exists = (
-        os.path.isfile(file_path)
-        and os.path.getsize(file_path) > 0
-    )
-
     with open(file_path, "a", encoding="utf-8") as file:
+        file_exists = os.path.getsize(file_path) > 0
+
+        lines: list[str] = []
+
+        while True:
+            line = input("Enter content line: ")
+
+            if line == "stop":
+                break
+
+            lines.append(line)
+
+        timestamp = datetime.now().strftime(
+            "%Y-%m-%d %H:%M:%S"
+        )
+
         if file_exists:
             file.write("\n")
 
