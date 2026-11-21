@@ -17,7 +17,7 @@ def main() -> None:
             current_flag = "-f"
         elif current_flag == "-d":
             directory_parts.append(arg)
-        elif current_flag == "-f":
+        elif current_flag == "-f" and filename is None:
             filename = arg
 
     directory = (
@@ -35,7 +35,6 @@ def main() -> None:
 
     with open(file_path, "a", encoding="utf-8") as file:
         file_exists = os.path.getsize(file_path) > 0
-
         lines: list[str] = []
 
         while True:
