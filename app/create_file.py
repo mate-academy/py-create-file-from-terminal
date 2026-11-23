@@ -35,16 +35,17 @@ def collect_content() -> list[str]:
 
 def create_file(path: str) -> None:
     """Append a timestamped, numbered content entry to a file."""
-    content = collect_content()
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    numbered_lines = [
-        f"{number} {line}" for number, line in enumerate(content, 1)
-    ]
-    entry = "\n".join([timestamp, *numbered_lines])
+    with open(path, "a+", encoding="utf-8") as destination:
+        has_content = os.path.getsize(path) > 0
+        content = collect_content()
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        numbered_lines = [
+            f"{number} {line}" for number, line in enumerate(content, 1)
+        ]
+        entry = "\n".join([timestamp, *numbered_lines])
 
-    with open(path, "a", encoding="utf-8") as destination:
-        if os.path.getsize(path) > 0:
-            destination.write("\n\n")
+        if has_content:
+            destination.write("\n")
         destination.write(entry + "\n")
 
 
@@ -60,5 +61,4 @@ def main() -> None:
         create_file(file_path)
 
 
-if __name__ == "__main__":
-    main()
+main()
