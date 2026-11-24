@@ -1,71 +1,89 @@
-
 import os
 import sys
 from datetime import datetime
 
 
-def create_file() -> None:
-    """Create directories and files with numbered content."""
-    args = sys.argv[1:]
+def parse_arguments(
+    args: list[str],
+) -> tuple[list[str], str | None]:
+    """Parse command-line arguments for directories and file name."""
+    dirs: list[str] = []
+    file_name: str | None = None
 
-    directories = []
-    filename = None
-    f_index = -1
+    i = 1 if args and not args[0].startswith("-") else 0
 
-    if "-f" in args:
-        f_index = args.index("-f")
-
-        if f_index + 1 < len(args):
-            filename = args[f_index + 1]
-
-    if "-d" in args:
-        d_index = args.index("-d")
-
-        if f_index != -1 and f_index < d_index:
-            directories = args[d_index + 1:]
-        elif f_index != -1:
-            directories = args[d_index + 1:f_index]
+    while i < len(args):
+        arg = args[i]
+        if arg == "-d":
+            i += 1
+            while i < len(args) and not args[i].startswith("-"):
+                dirs.append(args[i])
+                i += 1
+        elif arg == "-f":
+            i += 1
+            if i < len(args):
+                file_name = args[i]
+                i += 1
         else:
-            directories = args[d_index + 1:]
+            i += 1
 
-    directory_path = (
-        os.path.join(*directories) if directories else ""
-    )
+    return dirs, file_name
 
-    if directory_path:
-        os.makedirs(directory_path, exist_ok=True)
 
-    if filename is None:
+def collect_content() -> list[str]:
+    """Collect lines of content from terminal until 'stop' is entered."""
+    lines: list[str] = []
+    while True:
+        try:
+            line = input("Enter content line: ")
+            if line == "stop":
+                break
+            lines.append(line)
+        except (KeyboardInterrupt, EOFError):
+            break
+    return lines
+
+
+def main() -> None:
+    dirs, file_name = parse_arguments(sys.argv)
+
+    # 1. Criar diretórios
+    dir_path = ""
+    if dirs:
+        dir_path = os.path.join(*(str(d) for d in dirs))
+        os.makedirs(dir_path, exist_ok=True)
+
+    if not file_name:
         return
 
-    filepath = os.path.join(directory_path, filename)
+    # 2. Definir o caminho completo do ficheiro
+    target_path = (
+        os.path.join(dir_path, file_name)
+        if dir_path
+        else file_name
+    )
 
-    lines = []
-
-    while True:
-        content = input("Enter content line: ")
-
-        if content == "stop":
-            break
-
-        lines.append(content)
-
+    # 3. Recolher o conteúdo via input
+    lines = collect_content()
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    with open(filepath, "a+", encoding="utf-8") as file:
-        file.seek(0, os.SEEK_END)
-        is_new_file = file.tell() == 0
+    # 4. Formatar o conteúdo
+    formatted_lines = [timestamp]
+    for idx, line in enumerate(lines, start=1):
+        formatted_lines.append(f"{idx} {line}")
 
-        if is_new_file:
-            file.write(timestamp + "\n")
+    new_content = "\n".join(formatted_lines) + "\n"
+
+    # 5. Escrever ou fazer append no ficheiro
+    file_exists = os.path.exists(target_path)
+    mode = "a" if file_exists else "w"
+
+    with open(target_path, mode, encoding="utf-8") as f:
+        if file_exists:
+            f.write("\n" + new_content)
         else:
-            file.seek(0, os.SEEK_END)
-            file.seek(file.tell() - 1)
-            file.truncate()
-            file.write("\n\n")
-
-        for number, line in enumerate(lines, start=1):
-            file.write(f"{number} {line}\n")
+            f.write(new_content)
 
 
-create_file()
+if __name__ in ("__main__", "<run_path>"):
+    main()
