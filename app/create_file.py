@@ -53,17 +53,15 @@ def create_file() -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     with open(filepath, "a+", encoding="utf-8") as file:
-        file.seek(0)
-        existing_content = file.read()
+        file.seek(0, os.SEEK_END)
+        is_new_file = file.tell() == 0
 
-        if not existing_content:
+        if is_new_file:
             file.write(timestamp + "\n")
         else:
             file.seek(0, os.SEEK_END)
-            if existing_content.endswith("\n"):
-                file.seek(file.tell() - 1)
-                file.truncate()
-
+            file.seek(file.tell() - 1)
+            file.truncate()
             file.write("\n\n")
 
         for number, line in enumerate(lines, start=1):
