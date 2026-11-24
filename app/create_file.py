@@ -24,9 +24,10 @@ for word in range(len(sys.argv)):
         file_path = os.path.join(directory_path, filename)\
             if directory_path else filename
         if os.path.exists(file_path):
-            with open(file_path, "a") as source_file:
-                source_file.write("\n")
-                source_file.write("\n")
+            if os.path.getsize(file_path) > 0:
+                with open(file_path, "a") as source_file:
+                    source_file.write("\n")
+                    source_file.write("\n")
         with open(file_path, "a") as source_file:
             current_date = datetime.datetime.now()
             source_file.write(current_date.strftime("%Y-%m-%d %H:%M:%S"))
