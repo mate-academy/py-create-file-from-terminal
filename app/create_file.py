@@ -8,20 +8,25 @@ def create_file() -> None:
     """Create directories and files with numbered content."""
     args = sys.argv[1:]
 
-    filename = None
     directories = []
+    filename = None
+    f_index = -1
 
     if "-f" in args:
         f_index = args.index("-f")
+
         if f_index + 1 < len(args):
             filename = args[f_index + 1]
 
     if "-d" in args:
         d_index = args.index("-d")
-        directories = [
-            arg for arg in args[d_index + 1:]
-            if arg not in ("-f", filename)
-        ]
+
+        if f_index != -1 and f_index < d_index:
+            directories = args[d_index + 1:]
+        elif f_index != -1:
+            directories = args[d_index + 1:f_index]
+        else:
+            directories = args[d_index + 1:]
 
     directory_path = (
         os.path.join(*directories) if directories else ""
@@ -48,12 +53,17 @@ def create_file() -> None:
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     with open(filepath, "a+", encoding="utf-8") as file:
-        file.seek(0, os.SEEK_END)
-        is_new_file = file.tell() == 0
+        file.seek(0)
+        existing_content = file.read()
 
-        if is_new_file:
+        if not existing_content:
             file.write(timestamp + "\n")
         else:
+            file.seek(0, os.SEEK_END)
+            if existing_content.endswith("\n"):
+                file.seek(file.tell() - 1)
+                file.truncate()
+
             file.write("\n\n")
 
         for number, line in enumerate(lines, start=1):
